@@ -12,6 +12,10 @@ import {
  *  Mastery rises like the tide on the Zumarraga Channel.
  * ------------------------------------------------------------------ */
 
+// Build stamp, injected by build.sh via esbuild --define:__BUILD__. Falls back
+// to "dev" when bundled without the define (typeof on an undeclared name is safe).
+const BUILD_STAMP = typeof __BUILD__ !== "undefined" ? __BUILD__ : "dev";
+
 /* ---------- seed vocabulary (from the WarayLessons sheet + teacher docx) ---------- */
 /* a few obvious OCR typos in the sheet were corrected against the teacher's
    docx files: yama→yana(now), "mapaso him euro"→"mapaso hin duro",
@@ -876,6 +880,8 @@ function HomeView({ ctx }) {
       <SectionLabel icon={<Trophy size={14} />} text="Mastery shoreline" />
       <Distribution fresh={fresh} learning={learning} mastered={mastered} />
       <ConstellationGrid cards={cards} prog={prog} />
+
+      <div className="ws-build">build {BUILD_STAMP}</div>
 
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
@@ -1937,6 +1943,8 @@ function Styles() {
 .ws-cell-m{background:var(--jade)}
 
 /* bottom bar */
+.ws-build{text-align:center;font-size:10.5px;color:var(--sand-deep);letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;margin:18px 0 84px}
 .ws-bottombar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
   background:rgba(247,241,230,.92);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
   display:flex;padding:8px 0 10px;z-index:20}

@@ -10,7 +10,14 @@ TMP="$(mktemp -d)"
 BUNDLE="$TMP/bundle.js"
 
 echo "→ bundling $SRC"
-npx esbuild "$SRC" --bundle --jsx=automatic --format=iife --minify --outfile="$BUNDLE"
+# Build stamp shown in the UI so you can confirm a deploy at a glance:
+# UTC date/time + short git hash (with a "+" if the tree is dirty).
+STAMP_DATE="$(date -u '+%Y-%m-%d %H:%M UTC')"
+GIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo nogit)"
+git diff --quiet 2>/dev/null || GIT_HASH="${GIT_HASH}+"
+BUILD_STAMP="${STAMP_DATE} · ${GIT_HASH}"
+npx esbuild "$SRC" --bundle --jsx=automatic --format=iife --minify \
+  --define:__BUILD__="\"$BUILD_STAMP\"" --outfile="$BUNDLE"
 
 # Safety: the bundle must not contain a literal </script> (would break inlining)
 if grep -q '</script' "$BUNDLE"; then
