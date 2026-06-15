@@ -292,14 +292,12 @@ function checkAnswer(input, target) {
 const mem = {};
 const store = {
   async get(k) {
-    try {
-      if (window.storage) { const r = await window.storage.get(k); return r ? r.value : null; }
-    } catch (e) {}
+    try { const v = localStorage.getItem(k); if (v !== null) return v; } catch (e) {}
     return k in mem ? mem[k] : null;
   },
   async set(k, v) {
     mem[k] = v;
-    try { if (window.storage) await window.storage.set(k, v, false); } catch (e) {}
+    try { localStorage.setItem(k, v); } catch (e) {/* quota — sync still holds the canonical copy */}
   },
 };
 
@@ -2135,3 +2133,8 @@ function Styles() {
     `}</style>
   );
 }
+
+/* ---- standalone mount ---- */
+import { createRoot } from "react-dom/client";
+const _root = document.getElementById("root");
+if (_root) createRoot(_root).render(React.createElement(App));

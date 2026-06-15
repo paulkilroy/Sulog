@@ -12,18 +12,17 @@ materials. One self-contained page — open `index.html` or host it on GitHub Pa
 - Adjustable playback speed (and "speed up as I learn")
 - Cloud sync via a private GitHub gist (Backup & sync screen)
 
-## Run
-Open `index.html` in a browser. No build step — React is bundled in.
+## Develop
+Edit **`src/sulog.jsx`** (never `index.html` — it's generated), then:
+```bash
+npm install        # once
+npm run build      # regenerate index.html
+./push.sh "msg"    # commit + push (Pages auto-deploys)
+```
+New here? Read **HANDOFF.md** first.
 
 ## Deploy (GitHub Pages)
-Already wired: pushing to `main` redeploys the site.
-Settings → Pages → Deploy from a branch → `main` / root.
-
-## Updating
-Replace `index.html` with the new build, then run `./push.sh "your message"`.
-
-## Source
-`src/sulog-waray.jsx` is the readable source. `index.html` is the bundled, deployable
-build (React + lucide + app, minified into one file).
+Settings → Pages → Deploy from a branch → `main` / root. `.nojekyll` is included so files
+are served as-is. Live ~1 min after each push.
 
 Progress is stored in the browser (localStorage); the gist sync holds the canonical copy.
