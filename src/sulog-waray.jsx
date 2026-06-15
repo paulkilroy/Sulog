@@ -1,0 +1,2137 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
+  Plus, RotateCcw, ChevronRight, Star, Ear, Pencil, List, Home,
+  Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
+  Cloud, Download, Upload, FolderOpen,
+} from "lucide-react";
+
+/* ------------------------------------------------------------------ *
+ *  Aplikasyon han Waray  —  "Sulog"  (the tide)
+ *  A personal review app built from Paul's Preply lesson materials.
+ *  Mastery rises like the tide on the Zumarraga Channel.
+ * ------------------------------------------------------------------ */
+
+/* ---------- seed vocabulary (from the WarayLessons sheet + teacher docx) ---------- */
+/* a few obvious OCR typos in the sheet were corrected against the teacher's
+   docx files: yama→yana(now), "mapaso him euro"→"mapaso hin duro",
+   mahingin→mahangin, mapaSO→mapaso. Flagged in chat. */
+
+const SEED = [
+  // ---- Greetings & survival (from teacher dialogues + common usage) ----
+  ["greet", "Maupay nga aga", "Good morning", "", "mah-OO-pigh ngah AH-gah"],
+  ["greet", "Maupay nga kulop", "Good afternoon", "", "mah-OO-pigh ngah KOO-lop"],
+  ["greet", "Maupay nga gab-i", "Good evening / Good night", "the - in gab-i is a glottal stop", "mah-OO-pigh ngah gahb-EE"],
+  ["greet", "Kumusta ka?", "How are you?", "", "koo-moos-TAH kah"],
+  ["greet", "Maupay man", "I'm good / fine (so far)", "", "mah-OO-pigh mahn"],
+  ["greet", "Salamat", "Thank you", "", "sah-LAH-mat"],
+  ["greet", "Damo nga salamat", "Thank you very much", "", "DAH-mo ngah sah-LAH-mat"],
+  ["greet", "Oo", "Yes", "", "AW-aw"],
+  ["greet", "Diri", "No / not", "used for present & future answers", "DEE-ree"],
+  ["greet", "Waray", "None / nothing", "also 'no' for past-tense answers; and the language's name", "wah-RIGH"],
+  ["greet", "Waray pa", "Not yet", "", "wah-RIGH pah"],
+  ["greet", "Anay", "Wait / just a moment", "", "AH-nigh"],
+  ["greet", "Pasensya na", "Sorry / excuse me", "", "pah-SEN-syah nah"],
+  ["greet", "Sige", "Okay / go ahead", "", "SEE-geh"],
+  ["greet", "Adi", "Here it is", "", "AH-dee"],
+  ["greet", "Pwede", "Can / may (I)", "", "PWEH-deh"],
+  ["greet", "Naintindihan ko", "I understand", "", "nah-een-tin-dee-HAHN ko"],
+  ["greet", "Diri ako maaram", "I don't know", "", "DEE-ree ah-KAW mah-AH-ram"],
+  ["greet", "Karuyag ko / Gusto ko", "I want / I like", "", "kah-ROO-yag ko"],
+
+  // ---- Week 1 — foundations ----
+  ["week1", "Nakikit-an mo?", "Can you see it?", "", "nah-kee-KEET-an mo"],
+  ["week1", "Oo, nakikit-an ko", "Yes, I can see it", "", ""],
+  ["week1", "Klaro?", "Is it clear?", "", "KLAH-ro"],
+  ["week1", "Oo, klaro", "Yes, it's clear", "", ""],
+  ["week1", "Diri klaro", "No, it's not clear", "", ""],
+  ["week1", "Naintindihan nimo?", "Do you understand?", "", ""],
+  ["week1", "Oo, naintindihan ko", "Yes, I understand", "", ""],
+  ["week1", "Taga diin ka?", "Where are you from?", "", "TAH-gah dee-EEN kah"],
+  ["week1", "Hain ka?", "Where are you?", "", "HAH-een kah"],
+  ["week1", "ako", "I", "subject pronoun", "ah-KAW"],
+  ["week1", "ikaw / ka", "you", "ka is the short form", "ee-KOW"],
+  ["week1", "kita", "we (inclusive)", "includes the person you're talking to", "kee-TAH"],
+  ["week1", "kami", "we (exclusive)", "excludes the listener", "kah-MEE"],
+  ["week1", "hiya", "he / she", "no gender marking", "HEE-yah"],
+  ["week1", "kamo", "you / y'all", "plural you", "kah-MAW"],
+  ["week1", "hira", "they", "", "HEE-rah"],
+  ["week1", "Kaon kita", "Let's eat", "", "KAH-on kee-TAH"],
+  ["week1", "Kumaon kita", "We ate", "pangaon = food; kumaon = the act of eating", ""],
+  ["week1", "Mahusay ka", "You are beautiful", "", "mah-hoo-SIGH kah"],
+  ["week1", "Maraksot ka", "You are ugly", "", "mah-RAK-sot kah"],
+  ["week1", "Ano imo gin-hihimo?", "What are you doing?", "", ""],
+  ["week1", "Ano imo gin-kakaon?", "What are you eating?", "", ""],
+  ["week1", "tatay", "father", "", "TAH-tigh"],
+  ["week1", "nanay", "mother", "", "NAH-nigh"],
+  ["week1", "Amerikano", "American (male)", "", "ah-meh-ree-KAH-no"],
+  ["week1", "turista", "tourist", "", "too-REES-tah"],
+  ["week1", "babaye", "woman", "syllables: ba-ba-ye", "bah-BAH-yeh"],
+  ["week1", "malipay", "happy", "", "mah-LEE-pigh"],
+  ["week1", "buoton", "nice / kind / good", "also written bouton", "boo-OH-ton"],
+  ["week1", "makusog", "strong", "", "mah-KOO-sog"],
+  ["week1", "riko", "rich", "", "REE-ko"],
+  ["week1", "lalaki", "man", "", "lah-LAH-kee"],
+  ["week1", "asawa", "wife / spouse", "", "ah-SAH-wah"],
+  ["week1", "mapaso", "hot", "", "mah-PAH-so"],
+  ["week1", "bisita", "visitor", "", "bee-SEE-tah"],
+  ["week1", "Pilipino", "Filipino (male)", "", "pee-lee-PEE-no"],
+  ["week1", "gwapo", "handsome", "", "GWAH-po"],
+  ["week1", "sangkay", "friend", "", "sahng-KIGH"],
+  ["week1", "hataas", "tall / long", "", "hah-TAH-as"],
+  ["week1", "matambok", "fat", "", "mah-TAM-bok"],
+  ["week1", "estudyante", "student", "", "es-tood-YAHN-teh"],
+  ["week1", "maestro / maestra", "teacher (m / f)", "", "mah-ES-tro"],
+  ["week1", "Estudyante kami", "We (excl.) are students", "", ""],
+  ["week1", "Pilipino hira", "They are Filipinos", "", ""],
+  ["week1", "Babaye ka", "You are a woman", "", ""],
+  ["week1", "Amerikano ako", "I am American", "", ""],
+  ["week1", "Makusog ka", "You are strong", "", ""],
+  ["week1", "Turista hiya", "She is a tourist", "", ""],
+  ["week1", "Maestra kami", "We (excl.) are teachers", "", ""],
+  ["week1", "Makusog hiya", "He is strong", "", ""],
+  ["week1", "Bisita hira", "They are visitors", "", ""],
+  ["week1", "Nanay ako", "I am a mother", "", ""],
+  ["week1", "Hinay-hinay la", "Just slowly, please", "", "HEE-nigh HEE-nigh lah"],
+  ["week1", "Pakpak anay", "Clap first", "", ""],
+  ["week1", "Makarit ka", "You are excellent", "", "mah-KAH-rit kah"],
+  ["week1", "kay", "because", "", "kigh"],
+
+  // ---- Verbs, objects & time ----
+  ["verbs", "Mag-aano ka?", "What are you going to do?", "", "mahg-AH-ah-no kah"],
+  ["verbs", "baktas", "to walk", "magbaktas = to walk/go on foot", "BAK-tas"],
+  ["verbs", "karsada", "road", "", "kar-SAH-dah"],
+  ["verbs", "bukid", "mountain", "", "BOO-kid"],
+  ["verbs", "laba", "to wash (clothes)", "", "LAH-bah"],
+  ["verbs", "bado", "clothes", "", "BAH-do"],
+  ["verbs", "panyo", "handkerchief", "", "PAHN-yo"],
+  ["verbs", "mantel", "tablecloth", "", "man-TEL"],
+  ["verbs", "biray", "curtain", "", "bee-RIGH"],
+  ["verbs", "sapatos", "shoes", "", "sah-PAH-tos"],
+  ["verbs", "taklap", "blanket", "", "TAK-lap"],
+  ["verbs", "hugas", "to wash (dishes)", "", "HOO-gas"],
+  ["verbs", "tinidor", "fork", "", "tee-nee-DOR"],
+  ["verbs", "kutsara", "spoon", "", "koot-SAH-rah"],
+  ["verbs", "pinggan", "plate", "", "PING-gan"],
+  ["verbs", "baso", "glass", "", "BAH-so"],
+  ["verbs", "sarakyan", "vehicle", "", "sah-RAK-yan"],
+  ["verbs", "motor", "motorcycle", "", "mo-TOR"],
+  ["verbs", "limpyu", "to clean", "", "LIM-pyoo"],
+  ["verbs", "awto", "car / auto", "", "OW-to"],
+  ["verbs", "kwarto", "room", "", "KWAR-to"],
+  ["verbs", "banyo", "bathroom", "", "BAHN-yo"],
+  ["verbs", "balay", "house", "", "bah-LIGH"],
+  ["verbs", "kusina", "kitchen", "", "koo-SEE-nah"],
+  ["verbs", "luto", "to cook", "", "LOO-to"],
+  ["verbs", "isda", "fish", "", "ees-DAH"],
+  ["verbs", "manok", "chicken", "", "mah-NOK"],
+  ["verbs", "karne", "meat", "", "KAR-neh"],
+  ["verbs", "utan", "vegetable", "", "OO-tan"],
+  ["verbs", "saribo", "to water plants", "", ""],
+  ["verbs", "tanom", "plant", "", "TAH-nom"],
+  ["verbs", "lukot", "to fold (clothes)", "", "LOO-kot"],
+  ["verbs", "tago", "to hide", "", "TAH-go"],
+  ["verbs", "andam", "to get ready", "", "AN-dam"],
+  ["verbs", "basa", "to read", "", "BAH-sah"],
+  ["verbs", "sudlay", "to comb", "", "sood-LIGH"],
+  ["verbs", "sayaw", "to dance", "", "sah-YOW"],
+  ["verbs", "maneho", "to drive", "", "mah-NEH-ho"],
+  ["verbs", "Mag- + verb", "future tense (actor focus)", "e.g. magbabaktas = will walk", ""],
+  ["verbs", "Nag- + verb", "present / past tense", "naglalaba = washing; naglaba = washed", ""],
+  ["verbs", "Pag- + verb", "command form", "paglaba = wash!", ""],
+  ["verbs", "yana", "now", "", "YAH-nah"],
+  ["verbs", "niyan", "later", "", "nee-YAN"],
+  ["verbs", "buwas", "tomorrow", "", "BOO-was"],
+  ["verbs", "kakulop", "yesterday", "", "kah-KOO-lop"],
+  ["verbs", "kanina han aga", "earlier this morning", "", ""],
+  ["verbs", "yana nga aga", "this morning (now)", "", ""],
+  ["verbs", "kulop", "afternoon", "", "KOO-lop"],
+  ["verbs", "yana nga gab-i", "tonight", "", ""],
+  ["verbs", "kagab-i", "last night", "", "kah-gahb-EE"],
+  ["verbs", "kanina", "a little while ago", "", "kah-NEE-nah"],
+  ["verbs", "didi", "here", "", "DEE-dee"],
+  ["verbs", "dida", "there", "", "DEE-dah"],
+  ["verbs", "Ano it oras dida?", "What time is it there?", "", ""],
+  ["verbs", "Alas singko didi", "It's 5 o'clock here", "Spanish-style clock times", ""],
+  ["verbs", "uran / mauran", "rain / rainy", "", "OO-ran"],
+  ["verbs", "mapaso hin duro", "very hot", "", ""],
+  ["verbs", "matugnaw", "cold", "", "mah-TOOG-now"],
+  ["verbs", "sirak / masirak", "sun ray / sunny", "", "SEE-rak"],
+  ["verbs", "dampog / madampog", "clouds / cloudy", "", "DAM-pog"],
+  ["verbs", "hangin / mahangin", "wind / windy", "", "HAH-ngin"],
+  ["verbs", "may bagyo", "there is a storm", "", "migh BAHG-yo"],
+  ["verbs", "Kumusta it panahon?", "How is the weather?", "", ""],
+
+  // ---- Phrases — invitations (Sheet 3) ----
+  ["invite", "imbitasyon", "invitation", "", "im-bee-tah-SYON"],
+  ["invite", "may / mayda", "there is / I have", "", "migh / MIGH-dah"],
+  ["invite", "gin-iimbita", "being invited", "", ""],
+  ["invite", "May libre ka ba nga oras hit Sabado?", "Do you have free time on Saturday?", "", ""],
+  ["invite", "Ano it mayda?", "What's going on?", "", ""],
+  ["invite", "Nag-arog ako", "I prepared food", "", ""],
+  ["invite", "Mayda pangaon ha balay", "There is food at home", "", ""],
+  ["invite", "Ano nga oras?", "What time?", "", ""],
+  ["invite", "Alas sais ha gab-i", "At 6 in the evening", "", ""],
+  ["invite", "Poydi ko ba ig-upod hi Rey?", "Can I bring Rey along?", "", ""],
+  ["invite", "ig-upod", "to bring along", "", ""],
+  ["invite", "akon patod", "my cousin", "", "AH-kon PAH-tod"],
+  ["invite", "makadto", "will go to", "", "mah-KAD-to"],
+  ["invite", "Siyempre, poydi", "Of course, you can", "", ""],
+  ["invite", "Maghuhulat ako ha iyo", "I will wait for you all", "", ""],
+  ["invite", "hulat", "to wait", "", "HOO-lat"],
+  ["invite", "Sigurado, makadto kami", "Sure, we'll come", "", ""],
+  ["invite", "Sige, magkita kita hit Sabado", "Okay, let's meet on Saturday", "", ""],
+  ["invite", "magkita", "to meet", "", "mag-KEE-tah"],
+];
+
+const DECKS = {
+  greet: { name: "Greetings & Survival", short: "Greetings", hint: "The phrases you reach for every day" },
+  week1: { name: "Week 1 — Foundations", short: "Week 1", hint: "Pronouns and equational sentences" },
+  verbs: { name: "Verbs, Objects & Time", short: "Verbs & Time", hint: "Mag / Nag / Pag affixes and when things happen" },
+  invite: { name: "Phrases — Invitations", short: "Invitations", hint: "Asking someone over" },
+};
+
+// Cards that Paul's old tracker logged as "Forgotten" — start these a notch lower
+const FORGOTTEN = new Set([
+  "buoton", "riko", "kita", "makusog", "asawa", "Naintindihan nimo?",
+  "Mahusay ka", "sangkay", "ako", "nanay", "matambok", "hataas",
+  "babaye", "lalaki", "hira", "mapaso", "Nakikit-an mo?", "Maraksot ka",
+  "Ano imo gin-kakaon?", "kamo", "bisita", "Oo, nakikit-an ko",
+]);
+
+function buildCards() {
+  return SEED.map((r, i) => {
+    const [deck, waray, english, subtext, say] = r;
+    return {
+      id: `c${i}`,
+      deck, waray, english,
+      subtext: subtext || "",
+      say: say || "",
+      forgotten: FORGOTTEN.has(waray),
+    };
+  });
+}
+
+/* ---------------- spaced repetition (Leitner) ---------------- */
+const BOX_DAYS = [0, 1, 2, 4, 9, 18]; // interval after reaching each box
+const MS_DAY = 86400000;
+const now = () => Date.now();
+const today = () => new Date().toISOString().slice(0, 10);
+
+function freshStat(forgotten) {
+  return {
+    box: forgotten ? 0 : 0, seen: 0, right: 0, wrong: 0,
+    streak: 0, last: 0, due: 0, hasAudio: false, pinned: false,
+  };
+}
+function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
+function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
+// "needs work" = you pinned it, or your most recent attempt was a miss (box reset to 0).
+// A card you've answered correctly at least once (box >= 1) is progressing and drops off.
+function needsWorkCard(st) {
+  if (!st) return false;
+  if (st.pinned) return true;
+  return st.seen > 0 && st.box === 0;
+}
+
+function applyResult(st, correct) {
+  const s = { ...st };
+  s.seen += 1;
+  s.last = now();
+  if (correct) {
+    s.right += 1;
+    s.streak += 1;
+    s.box = Math.min(5, s.box + 1);
+  } else {
+    s.wrong += 1;
+    s.streak = 0;
+    s.box = 0;
+  }
+  s.due = now() + BOX_DAYS[s.box] * MS_DAY;
+  return s;
+}
+
+/* ---------------- text matching ---------------- */
+function norm(s) {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\(.*?\)/g, "")
+    .replace(/[.,!?;:"']/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+function alts(s) {
+  return s.split("/").map((x) => norm(x)).filter(Boolean);
+}
+function lev(a, b) {
+  const m = a.length, n = b.length;
+  const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      d[i][j] = Math.min(
+        d[i - 1][j] + 1, d[i][j - 1] + 1,
+        d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+  return d[m][n];
+}
+function checkAnswer(input, target) {
+  const got = norm(input);
+  if (!got) return false;
+  const targets = alts(target);
+  for (const t of targets) {
+    if (got === t) return true;
+    const tol = t.length <= 4 ? 0 : t.length <= 8 ? 1 : 2;
+    if (lev(got, t) <= tol) return true;
+  }
+  return false;
+}
+
+/* ---------------- persistent storage wrapper ---------------- */
+const mem = {};
+const store = {
+  async get(k) {
+    try {
+      if (window.storage) { const r = await window.storage.get(k); return r ? r.value : null; }
+    } catch (e) {}
+    return k in mem ? mem[k] : null;
+  },
+  async set(k, v) {
+    mem[k] = v;
+    try { if (window.storage) await window.storage.set(k, v, false); } catch (e) {}
+  },
+};
+
+/* ---------------- GitHub Gist cloud sync ----------------
+   Uses a personal access token (scope: gist) the user pastes in. GitHub's API
+   sends permissive CORS headers, so this can run from the browser directly.
+   One secret gist holds a single JSON file with progress + streak + recordings. */
+const GIST_FILE = "sulog-progress.json";
+const GIST_DESC = "Sulog — Waray review progress (autosync)";
+
+async function gistApi(token, path, method, body) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 15000);
+  let res;
+  try {
+    res = await fetch("https://api.github.com" + path, {
+      method: method || "GET",
+      signal: ctrl.signal,
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...(body ? { "Content-Type": "application/json" } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch (e) {
+    if (e.name === "AbortError") throw new Error("GitHub didn't respond in time. Check your connection.");
+    throw new Error("Couldn't reach GitHub from here — this frame may be blocking the request. The hosted version won't have this limit.");
+  } finally {
+    clearTimeout(timer);
+  }
+  if (!res.ok) {
+    if (res.status === 401) throw new Error("GitHub rejected the token (401). Check it has the 'gist' scope.");
+    if (res.status === 403) throw new Error("GitHub says forbidden (403) — rate limit or missing scope.");
+    if (res.status === 404) throw new Error("That gist wasn't found (404).");
+    const t = await res.text().catch(() => "");
+    throw new Error("GitHub error " + res.status + (t ? ": " + t.slice(0, 100) : ""));
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+async function gistReadContent(token, gistId) {
+  const g = await gistApi(token, "/gists/" + gistId);
+  const f = g.files && g.files[GIST_FILE];
+  if (!f) return null;
+  if (f.truncated && f.raw_url) {
+    // file too big for the inline payload — fetch the raw blob
+    const r = await fetch(f.raw_url);
+    if (!r.ok) throw new Error("Couldn't fetch the full backup blob (" + r.status + ").");
+    return r.text();
+  }
+  return f.content;
+}
+
+// merge two progress maps, keeping whichever record was touched most recently
+function mergeProg(local, cloud) {
+  const out = { ...(local || {}) };
+  for (const id in (cloud || {})) {
+    const l = local && local[id];
+    const c = cloud[id];
+    if (!l || (c && (c.last || 0) >= (l.last || 0))) out[id] = c;
+  }
+  return out;
+}
+function mergeStreak(l, c) {
+  if (!c) return l || { count: 0, last: "", days: {} };
+  if (!l) return c;
+  const days = { ...(l.days || {}), ...(c.days || {}) };
+  const base = (c.last || "") >= (l.last || "") ? c : l;
+  return { ...base, days, count: Math.max(l.count || 0, c.count || 0) };
+}
+
+/* ---------------- speech ----------------
+   The browser almost never ships a Waray voice, and usually not a Filipino
+   one either, so it silently falls back to an English voice. Two consequences
+   we handle here:
+   1. If a real Filipino/Tagalog voice exists, speak the raw Waray with it.
+      Otherwise speak the phonetic *respelling* (written for an English reader),
+      which actually approximates the sound instead of mangling the spelling.
+   2. Insert pauses between words (comma-joined) so phrases don't run together. */
+let _voices = [];
+let _filVoice = null;
+function loadVoices() {
+  try {
+    _voices = window.speechSynthesis.getVoices() || [];
+    _filVoice = _voices.find((v) =>
+      /(^|[^a-z])fil|tl[-_]|tagalog|pilipino|filipino/i.test((v.lang || "") + " " + (v.name || ""))
+    ) || null;
+  } catch (e) {}
+}
+if (typeof window !== "undefined" && window.speechSynthesis) {
+  loadVoices();
+  try { window.speechSynthesis.onvoiceschanged = loadVoices; } catch (e) {}
+}
+
+// turn "mah-OO-pigh ngah AH-gah" into "mah oo pigh, ngah, ah gah"
+// (lowercased so all-caps tokens aren't spelled out; hyphens -> small gaps;
+//  word breaks -> commas for a clear pause)
+function respellForTTS(say) {
+  return say
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.replace(/-/g, " ").toLowerCase())
+    .join(", ");
+}
+
+function speak(arg, rate = 0.78) {
+  try {
+    const synth = window.speechSynthesis;
+    if (!synth) return;
+    synth.cancel();
+    if (!_voices.length) loadVoices();
+
+    const card = typeof arg === "string" ? { waray: arg, say: "" } : (arg || {});
+    let text, voice = null, lang = "en-US";
+
+    if (_filVoice) {
+      // real Filipino voice: raw Waray reads well; just space the words out
+      text = (card.waray || "").split(/\s+/).filter(Boolean).join(", ");
+      voice = _filVoice;
+      lang = _filVoice.lang;
+    } else if (card.say) {
+      // no Filipino voice: speak the phonetic respelling via the default voice
+      text = respellForTTS(card.say);
+    } else {
+      // no respelling available: at least pause between the raw words
+      text = (card.waray || "").split(/\s+/).filter(Boolean).join(", ");
+    }
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = rate;
+    u.lang = lang;
+    if (voice) u.voice = voice;
+    synth.speak(u);
+  } catch (e) {}
+}
+
+/* =================================================================== */
+
+export default function App() {
+  const cards = useRef(buildCards()).current;
+  const [view, setView] = useState("home");
+  const [prog, setProg] = useState({});
+  const [audio, setAudio] = useState({});   // id -> base64 dataURL
+  const [streak, setStreak] = useState({ count: 0, last: "", days: {} });
+  const [loaded, setLoaded] = useState(false);
+  const [session, setSession] = useState(null);
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false });
+
+  // load on mount
+  useEffect(() => {
+    (async () => {
+      const p = await store.get("waray:prog");
+      const s = await store.get("waray:streak");
+      const aIdx = await store.get("waray:audioIndex");
+      const cfg = await store.get("waray:settings");
+      if (p) setProg(JSON.parse(p));
+      if (s) setStreak(JSON.parse(s));
+      if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
+      if (aIdx) {
+        const ids = JSON.parse(aIdx);
+        const a = {};
+        for (const id of ids) {
+          const d = await store.get("waray:audio:" + id);
+          if (d) a[id] = d;
+        }
+        setAudio(a);
+      }
+      setLoaded(true);
+    })();
+  }, []);
+
+  const saveProg = useCallback((np) => { setProg(np); store.set("waray:prog", JSON.stringify(np)); }, []);
+  const saveStreak = useCallback((ns) => { setStreak(ns); store.set("waray:streak", JSON.stringify(ns)); }, []);
+  const saveSettings = useCallback((ns) => { setSettings(ns); store.set("waray:settings", JSON.stringify(ns)); }, []);
+
+  const bumpStreak = useCallback(() => {
+    setStreak((prev) => {
+      const t = today();
+      if (prev.last === t) {
+        const ns = { ...prev, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
+        store.set("waray:streak", JSON.stringify(ns)); return ns;
+      }
+      const y = new Date(Date.now() - MS_DAY).toISOString().slice(0, 10);
+      const count = prev.last === y ? prev.count + 1 : 1;
+      const ns = { count, last: t, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
+      store.set("waray:streak", JSON.stringify(ns)); return ns;
+    });
+  }, []);
+
+  const recordCard = useCallback((id, correct) => {
+    setProg((prev) => {
+      const card = cards.find((c) => c.id === id);
+      const st = prev[id] || freshStat(card?.forgotten);
+      const np = { ...prev, [id]: { ...applyResult(st, correct), hasAudio: !!audio[id] } };
+      store.set("waray:prog", JSON.stringify(np));
+      return np;
+    });
+  }, [audio, cards]);
+
+  const saveAudio = useCallback(async (id, dataURL) => {
+    setAudio((prev) => ({ ...prev, [id]: dataURL }));
+    await store.set("waray:audio:" + id, dataURL);
+    const idx = await store.get("waray:audioIndex");
+    const ids = idx ? JSON.parse(idx) : [];
+    if (!ids.includes(id)) { ids.push(id); await store.set("waray:audioIndex", JSON.stringify(ids)); }
+    setProg((prev) => {
+      const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
+      const np = { ...prev, [id]: { ...st, hasAudio: true } };
+      store.set("waray:prog", JSON.stringify(np));
+      return np;
+    });
+  }, [cards]);
+
+  const togglePin = useCallback((id) => {
+    setProg((prev) => {
+      const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
+      const np = { ...prev, [id]: { ...st, pinned: !st.pinned } };
+      store.set("waray:prog", JSON.stringify(np));
+      return np;
+    });
+  }, [cards]);
+
+  const playCard = useCallback((card) => {
+    const a = audio[card.id];
+    if (a) { try { new Audio(a).play(); return; } catch (e) {} }
+    let rate = settings.rate;
+    if (settings.adaptive) {
+      // gradually speed up as a card is mastered: box 0 -> base, box 5 -> +0.35
+      const box = prog[card.id]?.box || 0;
+      rate = Math.min(1.25, (settings.rate - 0.1) + (box / 5) * 0.45);
+    }
+    speak(card, rate);
+  }, [audio, settings, prog]);
+
+  // ---- backup: export everything to a portable JSON object ----
+  const exportData = useCallback((includeAudio) => {
+    return {
+      app: "sulog-waray",
+      v: 1,
+      exportedAt: new Date().toISOString(),
+      prog,
+      streak,
+      audio: includeAudio ? audio : {},
+    };
+  }, [prog, streak, audio]);
+
+  // ---- backup: load a JSON object back in ----
+  const importData = useCallback(async (data, mode) => {
+    if (!data || data.app !== "sulog-waray") throw new Error("That doesn't look like a Sulog backup file.");
+    // progress + streak: replace
+    if (data.prog) { setProg(data.prog); await store.set("waray:prog", JSON.stringify(data.prog)); }
+    if (data.streak) { setStreak(data.streak); await store.set("waray:streak", JSON.stringify(data.streak)); }
+    // recordings: merge so we never lose voice you already saved
+    const incoming = data.audio || {};
+    if (Object.keys(incoming).length) {
+      const merged = mode === "replace" ? { ...incoming } : { ...audio, ...incoming };
+      setAudio(merged);
+      for (const id of Object.keys(incoming)) {
+        await store.set("waray:audio:" + id, incoming[id]);
+      }
+      await store.set("waray:audioIndex", JSON.stringify(Object.keys(merged)));
+    }
+    return true;
+  }, [audio]);
+
+  /* ---------------- cloud sync state & ops ---------------- */
+  const stateRef = useRef({});
+  stateRef.current = { prog, streak, audio, settings };
+  const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
+  const pushTimer = useRef(null);
+  const didInitialPull = useRef(false);
+
+  // merge a cloud snapshot into local (local wins on audio so fresh recordings survive)
+  const applyCloud = useCallback(async (cloud) => {
+    if (!cloud || cloud.app !== "sulog-waray") throw new Error("The gist didn't contain Sulog data.");
+    const cur = stateRef.current;
+    const np = mergeProg(cur.prog, cloud.prog || {});
+    const ns = mergeStreak(cur.streak, cloud.streak || {});
+    setProg(np); await store.set("waray:prog", JSON.stringify(np));
+    setStreak(ns); await store.set("waray:streak", JSON.stringify(ns));
+    const cloudAudio = cloud.audio || {};
+    if (Object.keys(cloudAudio).length) {
+      const merged = { ...cloudAudio, ...cur.audio }; // local wins
+      setAudio(merged);
+      for (const id in cloudAudio) if (!cur.audio[id]) await store.set("waray:audio:" + id, cloudAudio[id]);
+      await store.set("waray:audioIndex", JSON.stringify(Object.keys(merged)));
+    }
+  }, []);
+
+  const syncPull = useCallback(async () => {
+    const s = stateRef.current.settings.sync;
+    if (!s?.token || !s?.gistId) return;
+    setSyncState({ status: "syncing", at: "", error: "" });
+    try {
+      const txt = await gistReadContent(s.token, s.gistId);
+      if (txt) await applyCloud(JSON.parse(txt));
+      setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
+    } catch (e) {
+      setSyncState({ status: "error", at: "", error: e.message });
+    }
+  }, [applyCloud]);
+
+  const syncPush = useCallback(async () => {
+    const cur = stateRef.current;
+    const s = cur.settings.sync;
+    if (!s?.token || !s?.gistId) return;
+    setSyncState((p) => ({ ...p, status: "syncing", error: "" }));
+    try {
+      const payload = JSON.stringify({
+        app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
+        prog: cur.prog, streak: cur.streak, audio: cur.audio,
+      });
+      await gistApi(s.token, "/gists/" + s.gistId, "PATCH", { files: { [GIST_FILE]: { content: payload } } });
+      setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
+    } catch (e) {
+      setSyncState({ status: "error", at: "", error: e.message });
+    }
+  }, []);
+
+  // connect: validate token, find an existing Sulog gist or create one, then pull
+  const connectGist = useCallback(async (token) => {
+    token = (token || "").trim();
+    if (!token) throw new Error("Paste a token first.");
+    setSyncState({ status: "syncing", at: "", error: "" });
+    try {
+      const list = await gistApi(token, "/gists?per_page=100");
+      let gid = null;
+      for (const g of list || []) if (g.files && g.files[GIST_FILE]) { gid = g.id; break; }
+      if (!gid) {
+        const cur = stateRef.current;
+        const payload = JSON.stringify({
+          app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
+          prog: cur.prog, streak: cur.streak, audio: cur.audio,
+        });
+        const created = await gistApi(token, "/gists", "POST", {
+          description: GIST_DESC, public: false, files: { [GIST_FILE]: { content: payload } },
+        });
+        gid = created.id;
+      }
+      const ns = { ...stateRef.current.settings, sync: { provider: "gist", token, gistId: gid, enabled: true } };
+      saveSettings(ns);
+      // pull whatever is in the cloud now (covers the "found existing" case)
+      const txt = await gistReadContent(token, gid);
+      if (txt) await applyCloud(JSON.parse(txt));
+      setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
+      return gid;
+    } catch (e) {
+      setSyncState({ status: "error", at: "", error: e.message });
+      throw e;
+    }
+  }, [applyCloud, saveSettings]);
+
+  const disconnectGist = useCallback(() => {
+    const ns = { ...stateRef.current.settings, sync: { provider: "gist", token: "", gistId: "", enabled: false } };
+    saveSettings(ns);
+    setSyncState({ status: "idle", at: "", error: "" });
+  }, [saveSettings]);
+
+  // pull once when the app opens (if already connected)
+  useEffect(() => {
+    if (loaded && !didInitialPull.current && settings.sync?.enabled && settings.sync?.gistId) {
+      didInitialPull.current = true;
+      syncPull();
+    }
+  }, [loaded, settings.sync, syncPull]);
+
+  // auto-push on changes (debounced)
+  useEffect(() => {
+    if (!loaded) return;
+    if (!settings.sync?.enabled || !settings.sync?.gistId) return;
+    if (pushTimer.current) clearTimeout(pushTimer.current);
+    pushTimer.current = setTimeout(() => syncPush(), 2500);
+    return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
+  }, [prog, streak, audio, loaded, settings.sync, syncPush]);
+
+  if (!loaded) {
+    return (
+      <div className="ws-root ws-load">
+        <Styles />
+        <Waves size={40} />
+        <p>Loading your tide…</p>
+      </div>
+    );
+  }
+
+  const ctx = {
+    cards, prog, audio, streak, view, setView, session, setSession,
+    recordCard, saveAudio, togglePin, playCard, bumpStreak, saveProg,
+    exportData, importData, settings, saveSettings,
+    syncState, connectGist, disconnectGist, syncPull, syncPush,
+  };
+
+  return (
+    <div className="ws-root">
+      <Styles />
+      {view === "home" && <HomeView ctx={ctx} />}
+      {view === "setup" && <SetupView ctx={ctx} />}
+      {view === "session" && <SessionView ctx={ctx} />}
+      {view === "needswork" && <NeedsWorkView ctx={ctx} />}
+      {view === "browse" && <BrowseView ctx={ctx} />}
+      {view === "pronounce" && <PronounceView ctx={ctx} />}
+      {view === "backup" && <BackupView ctx={ctx} />}
+    </div>
+  );
+}
+
+/* ============================ HOME ============================ */
+function HomeView({ ctx }) {
+  const { cards, prog, streak, setView, setSession, audio } = ctx;
+  const total = cards.length;
+  let mastered = 0, learning = 0, fresh = 0, sumPct = 0, due = 0;
+  cards.forEach((c) => {
+    const st = prog[c.id];
+    sumPct += masteryPct(st);
+    if (!st || st.seen === 0) fresh++;
+    else if (st.box >= 4) mastered++;
+    else learning++;
+    if (isDue(st)) due++;
+  });
+  const overall = total ? sumPct / total : 0;
+  const needsWork = cards.filter((c) => needsWorkCard(prog[c.id])).length;
+  const voiced = Object.keys(audio).length;
+
+  const startReview = (deckKeys, dir, mode) => {
+    setSession({ deckKeys, dir, mode, limit: 15 });
+    setView("session");
+  };
+
+  return (
+    <div className="ws-page">
+      <header className="ws-head">
+        <div>
+          <div className="ws-eyebrow">Aplikasyon han Waray</div>
+          <h1 className="ws-title">Sulog</h1>
+          <div className="ws-sub">Your lessons, between lessons · Daram, Samar</div>
+        </div>
+        <div className="ws-head-btns">
+          <button className="ws-icon-btn" onClick={() => setView("backup")} title="Backup & sync">
+            <Cloud size={20} />
+          </button>
+          <button className="ws-icon-btn" onClick={() => setView("pronounce")} title="Pronunciation guide">
+            <Ear size={20} />
+          </button>
+        </div>
+      </header>
+
+      <TideHero pct={overall} mastered={mastered} total={total} />
+
+      <div className="ws-streakrow">
+        <div className="ws-chip ws-chip-flame">
+          <Flame size={16} />
+          <b>{streak.count}</b><span>day{streak.count === 1 ? "" : "s"}</span>
+        </div>
+        <div className="ws-chip">
+          <Target size={15} /><b>{due}</b><span>due now</span>
+        </div>
+        <div className="ws-chip">
+          <Mic size={15} /><b>{voiced}</b><span>in your voice</span>
+        </div>
+      </div>
+
+      <div className="ws-cta-grid">
+        <button className="ws-cta ws-cta-primary" onClick={() => setView("setup")}>
+          <div className="ws-cta-ic"><Play size={20} /></div>
+          <div>
+            <div className="ws-cta-t">Start a review</div>
+            <div className="ws-cta-d">Pick a deck, direction & mode</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        <button className="ws-cta" onClick={() => startReview(Object.keys(DECKS), "wte", "mc")}>
+          <div className="ws-cta-ic ws-ic-tide"><Sparkles size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Quick mix{due ? ` · ${due} due` : ""}</div>
+            <div className="ws-cta-d">Waray → English, multiple choice</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        <button className="ws-cta" onClick={() => setView("needswork")}>
+          <div className="ws-cta-ic ws-ic-coral"><AlertCircle size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Needs work {needsWork ? <span className="ws-badge">{needsWork}</span> : null}</div>
+            <div className="ws-cta-d">The words & phrases you keep missing</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+      </div>
+
+      <SectionLabel icon={<Layers size={14} />} text="Your decks" />
+      <div className="ws-decks">
+        {Object.keys(DECKS).map((k) => {
+          const dc = cards.filter((c) => c.deck === k);
+          const p = dc.reduce((a, c) => a + masteryPct(prog[c.id]), 0) / (dc.length || 1);
+          const dueN = dc.filter((c) => isDue(prog[c.id])).length;
+          return (
+            <button key={k} className="ws-deck" onClick={() => { setSession({ deckKeys: [k], dir: "wte", mode: "mc", limit: 15 }); setView("session"); }}>
+              <div className="ws-deck-top">
+                <span className="ws-deck-name">{DECKS[k].name}</span>
+                <span className="ws-deck-count">{dc.length}</span>
+              </div>
+              <div className="ws-deck-hint">{DECKS[k].hint}</div>
+              <Bar pct={p} />
+              <div className="ws-deck-foot">
+                <span>{Math.round(p * 100)}% mastered</span>
+                {dueN > 0 && <span className="ws-due-dot">{dueN} due</span>}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <SectionLabel icon={<Trophy size={14} />} text="Mastery shoreline" />
+      <Distribution fresh={fresh} learning={learning} mastered={mastered} />
+      <ConstellationGrid cards={cards} prog={prog} />
+
+      <div className="ws-bottombar">
+        <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
+        <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
+        <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
+      </div>
+    </div>
+  );
+}
+
+function TideHero({ pct, mastered, total }) {
+  const fill = 100 - Math.round(pct * 100);
+  return (
+    <div className="ws-tide">
+      <svg viewBox="0 0 400 200" className="ws-tide-svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#0a2e34" />
+            <stop offset="100%" stopColor="#0e4951" />
+          </linearGradient>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#16a3ab" />
+            <stop offset="100%" stopColor="#0c6b73" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="200" fill="url(#sky)" />
+        <circle cx="320" cy="52" r="26" fill="#f4a53a" opacity="0.95" />
+        <circle cx="320" cy="52" r="40" fill="#f4a53a" opacity="0.18" />
+        <g style={{ transform: `translateY(${fill}%)`, transition: "transform 1.1s cubic-bezier(.2,.8,.2,1)" }}>
+          <path className="ws-wave1" d="M0,30 C60,12 120,48 200,30 C280,12 340,48 400,30 L400,200 L0,200 Z" fill="url(#sea)" opacity="0.92" />
+          <path className="ws-wave2" d="M0,40 C80,22 140,58 200,40 C260,22 340,58 400,40 L400,200 L0,200 Z" fill="#0c6b73" opacity="0.55" />
+        </g>
+      </svg>
+      <div className="ws-tide-overlay">
+        <div className="ws-tide-pct">{Math.round(pct * 100)}<span>%</span></div>
+        <div className="ws-tide-label">mastered · {mastered}/{total} cards</div>
+      </div>
+    </div>
+  );
+}
+
+function Distribution({ fresh, learning, mastered }) {
+  const tot = fresh + learning + mastered || 1;
+  return (
+    <div className="ws-dist">
+      <div className="ws-dist-bar">
+        <div style={{ width: `${(mastered / tot) * 100}%` }} className="ws-seg ws-seg-m" />
+        <div style={{ width: `${(learning / tot) * 100}%` }} className="ws-seg ws-seg-l" />
+        <div style={{ width: `${(fresh / tot) * 100}%` }} className="ws-seg ws-seg-f" />
+      </div>
+      <div className="ws-dist-legend">
+        <span><i className="ws-dot ws-dot-m" />Mastered {mastered}</span>
+        <span><i className="ws-dot ws-dot-l" />Learning {learning}</span>
+        <span><i className="ws-dot ws-dot-f" />New {fresh}</span>
+      </div>
+    </div>
+  );
+}
+
+function ConstellationGrid({ cards, prog }) {
+  return (
+    <div className="ws-constel">
+      {cards.map((c) => {
+        const p = masteryPct(prog[c.id]);
+        const st = prog[c.id];
+        let cls = "ws-cell-f";
+        if (st && st.seen > 0) cls = p >= 0.8 ? "ws-cell-m" : p >= 0.4 ? "ws-cell-l3" : "ws-cell-l1";
+        return <div key={c.id} className={`ws-cell ${cls}`} title={`${c.waray} — ${c.english}`} />;
+      })}
+    </div>
+  );
+}
+
+/* ============================ SETUP ============================ */
+function SetupView({ ctx }) {
+  const { cards, prog, setView, setSession } = ctx;
+  const [decks, setDecks] = useState(Object.keys(DECKS));
+  const [dir, setDir] = useState("wte");
+  const [mode, setMode] = useState("mc");
+
+  const toggle = (k) => setDecks((d) => d.includes(k) ? d.filter((x) => x !== k) : [...d, k]);
+  const pool = cards.filter((c) => decks.includes(c.deck));
+  const dueN = pool.filter((c) => isDue(prog[c.id])).length;
+
+  const MODES = [
+    { k: "mc", icon: <Layers size={18} />, t: "Multiple choice", d: "Tap the right answer — easiest" },
+    { k: "type", icon: <Pencil size={18} />, t: "Type it", d: "Write the answer from memory" },
+    { k: "flash", icon: <RotateCcw size={18} />, t: "Flashcard", d: "Flip and grade yourself" },
+    { k: "listen", icon: <Ear size={18} />, t: "Listen & answer", d: "Hear it, then pick the meaning" },
+    { k: "speak", icon: <Mic size={18} />, t: "Speak it", d: "Say it aloud, compare to your voice" },
+  ];
+
+  return (
+    <div className="ws-page">
+      <TopBar title="Set up your review" onBack={() => setView("home")} />
+
+      <SectionLabel text="Decks" />
+      <div className="ws-pick-grid">
+        {Object.keys(DECKS).map((k) => (
+          <button key={k} className={`ws-pick ${decks.includes(k) ? "on" : ""}`} onClick={() => toggle(k)}>
+            <span className="ws-pick-check">{decks.includes(k) ? <Check size={14} /> : null}</span>
+            <span className="ws-pick-name">{DECKS[k].short}</span>
+            <span className="ws-pick-n">{cards.filter((c) => c.deck === k).length}</span>
+          </button>
+        ))}
+      </div>
+
+      <SectionLabel text="Direction" />
+      <div className="ws-seg-toggle">
+        <button className={dir === "wte" ? "on" : ""} onClick={() => setDir("wte")}>
+          Waray → English <em>easier</em>
+        </button>
+        <button className={dir === "etw" ? "on" : ""} onClick={() => setDir("etw")}>
+          English → Waray <em>harder</em>
+        </button>
+      </div>
+
+      <SectionLabel text="Mode" />
+      <div className="ws-mode-list">
+        {MODES.map((m) => (
+          <button key={m.k} className={`ws-mode ${mode === m.k ? "on" : ""}`} onClick={() => setMode(m.k)}>
+            <span className="ws-mode-ic">{m.icon}</span>
+            <span className="ws-mode-txt"><b>{m.t}</b><i>{m.d}</i></span>
+            <span className="ws-mode-radio">{mode === m.k ? <span className="ws-radio-on" /> : null}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="ws-setup-foot">
+        <div className="ws-setup-meta">{pool.length} cards · {dueN} due now</div>
+        <button
+          className="ws-start"
+          disabled={!decks.length}
+          onClick={() => { setSession({ deckKeys: decks, dir, mode, limit: 15 }); setView("session"); }}
+        >
+          Start <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ SESSION ============================ */
+function buildQueue(cards, prog, deckKeys, limit, only) {
+  const pool = only
+    ? cards.filter((c) => only.includes(c.id))
+    : cards.filter((c) => deckKeys.includes(c.deck));
+  const dueCards = pool.filter((c) => isDue(prog[c.id]));
+  const rest = pool.filter((c) => !isDue(prog[c.id]))
+    .sort((a, b) => (prog[a.id]?.last || 0) - (prog[b.id]?.last || 0));
+  const ordered = [...shuffle(dueCards), ...rest].slice(0, limit);
+  return shuffle(ordered);
+}
+function shuffle(a) {
+  const x = [...a];
+  for (let i = x.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0;[x[i], x[j]] = [x[j], x[i]]; }
+  return x;
+}
+
+function SessionView({ ctx }) {
+  const { cards, prog, session, setView, recordCard, bumpStreak } = ctx;
+  const queue = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
+  const [i, setI] = useState(0);
+  const [tally, setTally] = useState({ right: 0, wrong: 0 });
+  const [done, setDone] = useState(queue.length === 0);
+
+  const card = queue[i];
+
+  const onResult = (correct) => {
+    recordCard(card.id, correct);
+    bumpStreak();
+    setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
+    if (i + 1 >= queue.length) setDone(true);
+    else setI(i + 1);
+  };
+
+  if (done) return <SessionDone ctx={ctx} tally={tally} total={queue.length} />;
+  if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} />;
+
+  const distractors = pickDistractors(cards, card, session.dir);
+
+  return (
+    <div className="ws-page ws-session">
+      <div className="ws-session-top">
+        <button className="ws-icon-btn" onClick={() => setView("home")}><X size={20} /></button>
+        <div className="ws-progress-track">
+          <div className="ws-progress-fill" style={{ width: `${(i / queue.length) * 100}%` }} />
+        </div>
+        <div className="ws-session-count">{i + 1}/{queue.length}</div>
+      </div>
+
+      <CardReview
+        key={card.id}
+        card={card} dir={session.dir} mode={session.mode}
+        distractors={distractors} ctx={ctx} onResult={onResult}
+      />
+    </div>
+  );
+}
+
+function pickDistractors(cards, card, dir) {
+  const field = dir === "wte" ? "english" : "waray";
+  const same = cards.filter((c) => c.deck === card.deck && c.id !== card.id);
+  const pool = same.length >= 3 ? same : cards.filter((c) => c.id !== card.id);
+  return shuffle(pool).slice(0, 3).map((c) => c[field]);
+}
+
+function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
+  const { playCard, saveAudio, audio } = ctx;
+  const promptField = dir === "wte" ? "waray" : "english";
+  const answerField = dir === "wte" ? "english" : "waray";
+  const prompt = card[promptField];
+  const answer = card[answerField];
+  const promptIsWaray = promptField === "waray";
+
+  const [revealed, setRevealed] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [judged, setJudged] = useState(null); // 'right'|'wrong'|null
+  const [picked, setPicked] = useState(null);
+
+  const options = useRef(shuffle([answer, ...distractors])).current;
+
+  // auto-play for listen mode
+  useEffect(() => {
+    if (mode === "listen") setTimeout(() => playCard(card), 250);
+  }, []);
+
+  const judge = (correct) => { setJudged(correct ? "right" : "wrong"); };
+
+  /* ---- MULTIPLE CHOICE ---- */
+  if (mode === "mc" || mode === "listen") {
+    const listening = mode === "listen";
+    return (
+      <div className="ws-card">
+        <div className="ws-card-tag">{DECKS[card.deck].short} · {listening ? "Listen" : dir === "wte" ? "Waray → English" : "English → Waray"}</div>
+        {listening ? (
+          <button className="ws-listen-big" onClick={() => playCard(card)}>
+            <Volume2 size={30} /><span>Tap to hear</span>
+            {audio[card.id] && <em>your voice</em>}
+          </button>
+        ) : (
+          <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+            onPlay={() => playCard(card)} />
+        )}
+
+        <div className="ws-options">
+          {options.map((o, k) => {
+            let cls = "";
+            if (picked !== null) {
+              if (o === answer) cls = "correct";
+              else if (o === options[picked]) cls = "incorrect";
+            }
+            return (
+              <button key={k} className={`ws-opt ${cls}`} disabled={picked !== null}
+                onClick={() => { setPicked(k); judge(o === answer); }}>
+                {o}
+              </button>
+            );
+          })}
+        </div>
+
+        {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
+          showWaray onResult={onResult} />}
+      </div>
+    );
+  }
+
+  /* ---- TYPE IT ---- */
+  if (mode === "type") {
+    return (
+      <div className="ws-card">
+        <div className="ws-card-tag">{DECKS[card.deck].short} · Type the {dir === "wte" ? "English" : "Waray"}</div>
+        <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+          onPlay={() => playCard(card)} />
+        {!judged ? (
+          <>
+            <input className="ws-input" autoFocus value={typed} placeholder="Type your answer…"
+              onChange={(e) => setTyped(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter" && typed.trim()) judge(checkAnswer(typed, answer)); }} />
+            <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer))}>
+              Check
+            </button>
+          </>
+        ) : (
+          <>
+            <div className={`ws-yourans ${judged}`}>{typed || "—"}</div>
+            <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
+              showWaray={dir === "etw"} onResult={onResult} allowOverride />
+          </>
+        )}
+      </div>
+    );
+  }
+
+  /* ---- FLASHCARD ---- */
+  if (mode === "flash") {
+    return (
+      <div className="ws-card">
+        <div className="ws-card-tag">{DECKS[card.deck].short} · Flashcard</div>
+        <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+          onPlay={() => playCard(card)} />
+        {!revealed ? (
+          <button className="ws-reveal" onClick={() => setRevealed(true)}>Show answer</button>
+        ) : (
+          <>
+            <div className="ws-answer-reveal">
+              <span className="ws-answer-text">{answer}</span>
+              {answerField === "waray" && <button className="ws-mini-play" onClick={() => playCard(card)}><Volume2 size={16} /></button>}
+            </div>
+            {card.subtext && <div className="ws-subtext">{card.subtext}</div>}
+            <SelfGrade onResult={onResult} />
+          </>
+        )}
+      </div>
+    );
+  }
+
+  /* ---- SPEAK IT ---- */
+  if (mode === "speak") {
+    return (
+      <SpeakCard card={card} dir={dir} prompt={prompt} answer={answer}
+        promptIsWaray={promptIsWaray} ctx={ctx} onResult={onResult} />
+    );
+  }
+  return null;
+}
+
+function PromptBlock({ text, isWaray, say, onPlay }) {
+  return (
+    <div className="ws-prompt">
+      <div className={isWaray ? "ws-prompt-waray" : "ws-prompt-eng"}>{text}</div>
+      {isWaray && say && <div className="ws-say">/ {say} /</div>}
+      {isWaray && (
+        <button className="ws-mini-play" onClick={onPlay}><Volume2 size={16} /> hear it</button>
+      )}
+    </div>
+  );
+}
+
+function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride }) {
+  const { playCard } = ctx;
+  return (
+    <div className={`ws-verdict ${correct ? "ok" : "no"}`}>
+      <div className="ws-verdict-head">
+        {correct ? <><Check size={18} /> Tama! (correct)</> : <><X size={18} /> Not quite</>}
+      </div>
+      {!correct && (
+        <div className="ws-verdict-answer">
+          <span>{answer}</span>
+          {showWaray && <button className="ws-mini-play" onClick={() => playCard(card)}><Volume2 size={15} /></button>}
+        </div>
+      )}
+      {card.subtext && <div className="ws-subtext">{card.subtext}</div>}
+      <div className="ws-verdict-actions">
+        {allowOverride && (
+          <button className="ws-ghost-btn" onClick={() => onResult(!correct)}>
+            {correct ? "Mark wrong" : "I was right"}
+          </button>
+        )}
+        <button className="ws-next-btn" onClick={() => onResult(correct)}>
+          Continue <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function SelfGrade({ onResult }) {
+  return (
+    <div className="ws-selfgrade">
+      <button className="ws-sg ws-sg-no" onClick={() => onResult(false)}><X size={18} />Missed it</button>
+      <button className="ws-sg ws-sg-ok" onClick={() => onResult(true)}><Check size={18} />Got it</button>
+    </div>
+  );
+}
+
+/* ---------- speak mode with recording ---------- */
+function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) {
+  const { playCard, saveAudio, audio } = ctx;
+  const wantWaray = dir === "etw"; // produce Waray
+  const target = wantWaray ? answer : prompt;
+  const [rec, setRec] = useState(false);
+  const [blobURL, setBlobURL] = useState(null);
+  const [revealed, setRevealed] = useState(false);
+  const [err, setErr] = useState("");
+  const mr = useRef(null);
+  const chunks = useRef([]);
+  const dataURLRef = useRef(null);
+
+  const start = async () => {
+    setErr("");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const m = new MediaRecorder(stream);
+      chunks.current = [];
+      m.ondataavailable = (e) => chunks.current.push(e.data);
+      m.onstop = () => {
+        const blob = new Blob(chunks.current, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        setBlobURL(url);
+        const fr = new FileReader();
+        fr.onload = () => { dataURLRef.current = fr.result; };
+        fr.readAsDataURL(blob);
+        stream.getTracks().forEach((t) => t.stop());
+      };
+      mr.current = m;
+      m.start();
+      setRec(true);
+    } catch (e) {
+      setErr("Mic isn't available here. You can still say it aloud and self-grade.");
+    }
+  };
+  const stop = () => { try { mr.current && mr.current.stop(); } catch (e) {} setRec(false); };
+
+  const saveAsVoice = () => {
+    const dataURL = dataURLRef.current;
+    if (dataURL) saveAudio(card.id, dataURL);
+  };
+
+  return (
+    <div className="ws-card">
+      <div className="ws-card-tag">{DECKS[card.deck].short} · Speak it</div>
+      <div className="ws-speak-prompt">
+        <div className="ws-speak-instr">Say this in Waray:</div>
+        <div className="ws-prompt-eng">{wantWaray ? prompt : answer}</div>
+      </div>
+
+      <div className="ws-speak-controls">
+        {!rec ? (
+          <button className="ws-rec-btn" onClick={start}><Mic size={22} /> Record yourself</button>
+        ) : (
+          <button className="ws-rec-btn recording" onClick={stop}><Square size={18} /> Stop</button>
+        )}
+        {blobURL && (
+          <div className="ws-rec-playback">
+            <button className="ws-mini-play" onClick={() => new Audio(blobURL).play()}><Play size={15} /> your take</button>
+            <button className="ws-mini-play" onClick={saveAsVoice}><Star size={14} /> save as this card's voice</button>
+          </div>
+        )}
+      </div>
+      {err && <div className="ws-mic-err">{err}</div>}
+
+      {!revealed ? (
+        <button className="ws-reveal" onClick={() => { setRevealed(true); playCard(card); }}>
+          Reveal & compare
+        </button>
+      ) : (
+        <>
+          <div className="ws-answer-reveal">
+            <span className="ws-answer-text">{target}</span>
+            <button className="ws-mini-play" onClick={() => playCard(card)}>
+              <Volume2 size={16} />{audio[card.id] ? " your saved voice" : " reference"}
+            </button>
+          </div>
+          {card.say && <div className="ws-say">/ {card.say} /</div>}
+          <SelfGrade onResult={onResult} />
+        </>
+      )}
+    </div>
+  );
+}
+
+function SessionDone({ ctx, tally, total }) {
+  const { setView } = ctx;
+  const acc = total ? Math.round((tally.right / total) * 100) : 0;
+  return (
+    <div className="ws-page ws-done">
+      <div className="ws-done-card">
+        <div className="ws-done-ring" style={{ "--p": acc }}>
+          <span>{acc}<i>%</i></span>
+        </div>
+        <h2>Human na!</h2>
+        <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${tally.right} right · ${tally.wrong} to revisit`}</p>
+        <div className="ws-done-actions">
+          <button className="ws-start" onClick={() => setView("home")}><Home size={18} /> Home</button>
+          <button className="ws-ghost-btn" onClick={() => setView("setup")}>Another round</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ NEEDS WORK ============================ */
+function NeedsWorkView({ ctx }) {
+  const { cards, prog, setView, setSession, playCard, togglePin } = ctx;
+  const items = cards.filter((c) => needsWorkCard(prog[c.id]))
+    .sort((a, b) => (prog[b.id]?.wrong || 0) - (prog[a.id]?.wrong || 0));
+
+  return (
+    <div className="ws-page">
+      <TopBar title="Needs work" onBack={() => setView("home")} />
+      {items.length === 0 ? (
+        <div className="ws-empty">
+          <Sparkles size={28} />
+          <p>Nothing flagged yet. Words you miss — or pin with the star — collect here so you can hit them before your next lesson.</p>
+        </div>
+      ) : (
+        <>
+          <button className="ws-start ws-full" onClick={() => {
+            setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "mc", limit: items.length, only: items.map((c) => c.id) });
+            // simple: route a focused session via a temp deck filter
+            setView("session");
+          }}>
+            <Play size={18} /> Drill these {items.length}
+          </button>
+          <div className="ws-nw-list">
+            {items.map((c) => {
+              const st = prog[c.id];
+              return (
+                <div key={c.id} className="ws-nw">
+                  <button className="ws-mini-play sq" onClick={() => playCard(c)}><Volume2 size={16} /></button>
+                  <div className="ws-nw-body">
+                    <div className="ws-nw-waray">{c.waray}</div>
+                    <div className="ws-nw-eng">{c.english}</div>
+                  </div>
+                  <div className="ws-nw-meta">
+                    <span className="ws-nw-miss" title="times missed">×{st?.wrong || 0}</span>
+                    <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(c.id)}>
+                      <Star size={15} />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ============================ BROWSE ============================ */
+function BrowseView({ ctx }) {
+  const { cards, prog, setView, playCard, saveAudio, audio, togglePin } = ctx;
+  const [deck, setDeck] = useState("all");
+  const [q, setQ] = useState("");
+  const list = cards.filter((c) =>
+    (deck === "all" || c.deck === deck) &&
+    (!q || (c.waray + c.english).toLowerCase().includes(q.toLowerCase())));
+
+  return (
+    <div className="ws-page">
+      <TopBar title="All cards" onBack={() => setView("home")} />
+      <input className="ws-search" placeholder="Search Waray or English…" value={q} onChange={(e) => setQ(e.target.value)} />
+      <div className="ws-filter-row">
+        <button className={deck === "all" ? "on" : ""} onClick={() => setDeck("all")}>All</button>
+        {Object.keys(DECKS).map((k) => (
+          <button key={k} className={deck === k ? "on" : ""} onClick={() => setDeck(k)}>{DECKS[k].short}</button>
+        ))}
+      </div>
+      <div className="ws-browse-list">
+        {list.map((c) => (
+          <BrowseRow key={c.id} card={c} st={prog[c.id]} ctx={ctx} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function BrowseRow({ card, st, ctx }) {
+  const { playCard, saveAudio, audio, togglePin } = ctx;
+  const [rec, setRec] = useState(false);
+  const mr = useRef(null); const chunks = useRef([]);
+  const p = masteryPct(st);
+
+  const recordVoice = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const m = new MediaRecorder(stream);
+      chunks.current = [];
+      m.ondataavailable = (e) => chunks.current.push(e.data);
+      m.onstop = () => {
+        const blob = new Blob(chunks.current, { type: "audio/webm" });
+        const fr = new FileReader();
+        fr.onload = () => saveAudio(card.id, fr.result);
+        fr.readAsDataURL(blob);
+        stream.getTracks().forEach((t) => t.stop());
+      };
+      mr.current = m; m.start(); setRec(true);
+    } catch (e) { alert("Mic isn't available in this view."); }
+  };
+  const stop = () => { try { mr.current.stop(); } catch (e) {} setRec(false); };
+
+  return (
+    <div className="ws-brow">
+      <div className="ws-brow-dot" style={{ background: masteryColor(p, st) }} />
+      <div className="ws-brow-body">
+        <div className="ws-brow-waray">{card.waray}{audio[card.id] && <span className="ws-voiced">●</span>}</div>
+        <div className="ws-brow-eng">{card.english}</div>
+        {card.say && <div className="ws-brow-say">/ {card.say} /</div>}
+      </div>
+      <div className="ws-brow-actions">
+        <button className="ws-mini-play sq" onClick={() => playCard(card)}><Volume2 size={15} /></button>
+        {!rec ? (
+          <button className="ws-mini-play sq" onClick={recordVoice} title="Record your pronunciation"><Mic size={15} /></button>
+        ) : (
+          <button className="ws-mini-play sq rec" onClick={stop}><Square size={13} /></button>
+        )}
+        <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(card.id)}><Star size={14} /></button>
+      </div>
+    </div>
+  );
+}
+
+function masteryColor(p, st) {
+  if (!st || st.seen === 0) return "#cdbfa6";
+  if (p >= 0.8) return "#4fb286";
+  if (p >= 0.4) return "#3fa9b0";
+  return "#e2604a";
+}
+
+/* ============================ BACKUP & SYNC ============================ */
+function BackupView({ ctx }) {
+  const { setView, exportData, importData, prog, audio, settings, syncState, connectGist, disconnectGist, syncPull, syncPush } = ctx;
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
+  const [token, setToken] = useState("");
+  const [connecting, setConnecting] = useState(false);
+  const fileRef = useRef(null);
+
+  const sync = settings.sync || {};
+  const connected = sync.enabled && sync.gistId;
+
+  const doConnect = async () => {
+    setConnecting(true);
+    try { await connectGist(token); setToken(""); }
+    catch (e) { /* error shown via syncState */ }
+    finally { setConnecting(false); }
+  };
+
+  const cardsWithProgress = Object.values(prog).filter((s) => s && s.seen > 0).length;
+  const recordings = Object.keys(audio).length;
+
+  const download = (includeAudio) => {
+    try {
+      const data = exportData(includeAudio);
+      const json = JSON.stringify(data);
+      const blob = new Blob([json], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const stamp = new Date().toISOString().slice(0, 10);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `sulog-backup-${stamp}${includeAudio ? "-with-voice" : ""}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      const kb = Math.max(1, Math.round(json.length / 1024));
+      setMsg({ kind: "ok", text: `Saved sulog-backup-${stamp}.json (${kb} KB). Drop it in your Drive folder to keep it in the cloud.` });
+    } catch (e) {
+      setMsg({ kind: "err", text: "Couldn't create the file here. Try from your own browser tab." });
+    }
+  };
+
+  const onPick = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBusy(true); setMsg(null);
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      await importData(data, "merge");
+      const n = data.prog ? Object.keys(data.prog).length : 0;
+      const r = data.audio ? Object.keys(data.audio).length : 0;
+      setMsg({ kind: "ok", text: `Restored ${n} cards${r ? ` and ${r} recordings` : ""}. Your progress is back.` });
+    } catch (err) {
+      setMsg({ kind: "err", text: err.message || "That file couldn't be read." });
+    } finally {
+      setBusy(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="ws-page">
+      <TopBar title="Backup & sync" onBack={() => setView("home")} />
+
+      <div className="ws-pron-intro">
+        Your progress lives in this browser only. Export it to a file to keep a backup,
+        move it to another device, or park it in the cloud. Save that file to your
+        Google Drive and it's safe and reachable anywhere.
+      </div>
+
+      <div className="ws-backup-stat">
+        <div><b>{cardsWithProgress}</b><span>cards in progress</span></div>
+        <div><b>{recordings}</b><span>voice recordings</span></div>
+      </div>
+
+      <SectionLabel icon={<Download size={14} />} text="Export" />
+      <button className="ws-backup-row" onClick={() => download(false)}>
+        <div className="ws-backup-ic"><Download size={18} /></div>
+        <div className="ws-backup-txt">
+          <b>Progress only</b>
+          <i>Small file — mastery, streak, what needs work</i>
+        </div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+      <button className="ws-backup-row" onClick={() => download(true)}>
+        <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
+        <div className="ws-backup-txt">
+          <b>Everything, incl. your voice</b>
+          <i>Larger file — also bundles your recordings</i>
+        </div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+
+      <SectionLabel icon={<Upload size={14} />} text="Restore" />
+      <button className="ws-backup-row" onClick={() => fileRef.current?.click()} disabled={busy}>
+        <div className="ws-backup-ic ws-ic-coral"><Upload size={18} /></div>
+        <div className="ws-backup-txt">
+          <b>{busy ? "Restoring…" : "Import a backup file"}</b>
+          <i>Merges in — your current recordings are kept</i>
+        </div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+      <input ref={fileRef} type="file" accept="application/json,.json" onChange={onPick} style={{ display: "none" }} />
+
+      {msg && (
+        <div className={`ws-backup-msg ${msg.kind}`}>
+          {msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}
+          <span>{msg.text}</span>
+        </div>
+      )}
+
+      <SectionLabel icon={<Cloud size={14} />} text="Auto-sync — GitHub Gist" />
+      <div className="ws-gist">
+        {!connected && (
+          <div className="ws-drive-note" style={{ marginBottom: 12 }}>
+            Sync across devices automatically with a private GitHub gist — no hosting, no file shuffling.
+            Paste a token with the <b>gist</b> scope and Sulog will pull on open and save as you go.
+          </div>
+        )}
+
+        {!connected && (
+          <input
+            className="ws-search" type="password" placeholder="GitHub token (ghp_…)"
+            value={token} onChange={(e) => setToken(e.target.value)} style={{ marginBottom: 10 }}
+          />
+        )}
+
+        {/* the connect/disconnect toggle */}
+        <button
+          className={`ws-start ws-full ${connected ? "ws-connected" : ""}`}
+          disabled={connecting || (!connected && !token.trim())}
+          onClick={connected ? disconnectGist : doConnect}
+        >
+          {connecting
+            ? <><Cloud size={18} /> Connecting…</>
+            : connected
+              ? <><Check size={18} /> Connected — tap to disconnect</>
+              : <><Cloud size={18} /> Connect &amp; sync</>}
+        </button>
+
+        {/* status line — visible whether connected or not */}
+        {(connected || syncState.status === "syncing" || syncState.status === "error") && (
+          <div className={`ws-sync-status ${syncState.status}`} style={{ marginTop: 10, marginBottom: 0 }}>
+            <span className="ws-sync-dot" />
+            <span>
+              {syncState.status === "syncing" ? "Syncing…"
+                : syncState.status === "error" ? "Couldn't sync"
+                : syncState.at ? `Synced ${syncState.at}` : "Connected"}
+            </span>
+            {connected && sync.gistId && <code>{sync.gistId.slice(0, 8)}</code>}
+          </div>
+        )}
+        {syncState.status === "error" && (
+          <div className="ws-backup-msg err" style={{ marginTop: 8 }}>
+            <AlertCircle size={16} /><span>{syncState.error}</span>
+          </div>
+        )}
+
+        {connected && (
+          <div className="ws-sync-btns" style={{ marginTop: 10 }}>
+            <button className="ws-backup-row compact" onClick={() => syncPull()}>
+              <Download size={16} /> Pull now
+            </button>
+            <button className="ws-backup-row compact" onClick={() => syncPush()}>
+              <Upload size={16} /> Push now
+            </button>
+          </div>
+        )}
+
+        {!connected && (
+          <details className="ws-gist-help">
+            <summary>How to get a token (1 min)</summary>
+            <ol>
+              <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Tokens (classic)</b></li>
+              <li>Generate new token (classic). Note: "Sulog". Expiration: your call.</li>
+              <li>Tick the single <b>gist</b> scope — nothing else.</li>
+              <li>Generate, copy the <b>ghp_…</b> value, paste it above.</li>
+            </ol>
+            The token is stored only in this browser and used solely to read/write your one private gist. Revoke it on GitHub anytime.
+          </details>
+        )}
+
+        {connected && (
+          <div className="ws-pron-note" style={{ marginTop: 12 }}>
+            Auto-saves a few seconds after each change, and pulls when Sulog opens. Open it on another device, paste the same token, and it'll find this gist.
+          </div>
+        )}
+      </div>
+
+      <div className="ws-pron-note" style={{ marginTop: 18 }}>
+        Backups are plain JSON — you own the file and can read or keep it anywhere.
+      </div>
+    </div>
+  );
+}
+
+/* ============================ PRONOUNCE ============================ */
+function PronounceView({ ctx }) {
+  const { setView, settings, saveSettings } = ctx;
+  const SPEEDS = [
+    { k: "slow", label: "Slow", rate: 0.78 },
+    { k: "normal", label: "Normal", rate: 0.95 },
+    { k: "natural", label: "Natural", rate: 1.1 },
+  ];
+  const rules = [
+    ["Three vowels", "Waray has just a, i, u. In writing, o is the same sound as u, and e is the same as i — so luto and lutu, or babaye and babayi, are the same word."],
+    ["a → \u201cah\u201d", "Always the open ah of \u201cfather.\u201d Never the flat a of \u201ccat.\u201d  ako = ah-KAW."],
+    ["i → \u201ceh / ee\u201d", "Slides between the e of \u201cbet\u201d and the ee of \u201csee.\u201d  diri = DEE-ree."],
+    ["u → \u201coh / oo\u201d", "Slides between oh and oo.  kulop = KOO-lop, oo = AW-aw."],
+    ["The hyphen is a stop", "A hyphen marks a glottal stop — a clean catch in the throat, like the middle of \u201cuh-oh.\u201d  gab-i = gahb·EE, mag-aano = mag·AH·ah·no."],
+    ["-ay → \u201cigh\u201d", "The ending -ay sounds like the y in \u201csky.\u201d  maupay = mah-OO-pigh, balay = bah-LIGH, sangkay = sahng-KIGH."],
+    ["-aw → \u201cow\u201d", "The ending -aw sounds like \u201cnow.\u201d  ikaw = ee-KOW, sayaw = sah-YOW."],
+    ["ng is one sound", "ng is a single nasal, like the end of \u201csing\u201d — even at the start of a word.  hangin = HAH-ngin."],
+    ["d \u2194 r", "Between vowels, d often softens toward r. You'll hear both; don't worry about it."],
+    ["Stress moves", "Stress isn't fixed and it can change meaning. Lean on the CAPS in each card's respelling, and on your own recordings."],
+  ];
+  const examples = [
+    ["Maupay nga aga", "mah-OO-pigh ngah AH-gah", "Good morning"],
+    ["Kumusta ka?", "koo-moos-TAH kah", "How are you?"],
+    ["Salamat", "sah-LAH-mat", "Thank you"],
+    ["gab-i", "gahb-EE", "evening / night"],
+    ["Diri ako maaram", "DEE-ree ah-KAW mah-AH-ram", "I don't know"],
+  ];
+  return (
+    <div className="ws-page">
+      <TopBar title="How Waray sounds" onBack={() => setView("home")} />
+      <div className="ws-pron-intro">
+        Browser text-to-speech doesn't really speak Waray, so the spoken voice here is a rough Filipino stand-in.
+        Record your teacher or yourself on any card and that becomes the voice you'll hear from then on.
+      </div>
+
+      <SectionLabel icon={<Volume2 size={14} />} text="Playback speed" />
+      <div className="ws-speed">
+        <div className="ws-speed-seg">
+          {SPEEDS.map((s) => (
+            <button key={s.k} className={Math.abs(settings.rate - s.rate) < 0.02 ? "on" : ""}
+              onClick={() => { saveSettings({ ...settings, rate: s.rate }); speak({ waray: "Maupay nga aga", say: "mah-OO-pigh ngah AH-gah" }, settings.adaptive ? s.rate - 0.1 : s.rate); }}>
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <button className={`ws-speed-adapt ${settings.adaptive ? "on" : ""}`}
+          onClick={() => saveSettings({ ...settings, adaptive: !settings.adaptive })}>
+          <span className="ws-speed-adapt-box">{settings.adaptive ? <Check size={13} /> : null}</span>
+          <span>
+            <b>Speed up as I learn</b>
+            <i>New cards play slower; the better you know a card, the faster it speaks</i>
+          </span>
+        </button>
+      </div>
+
+      <SectionLabel text="The rules that matter" />
+      <div className="ws-rules">
+        {rules.map(([t, d], i) => (
+          <div key={i} className="ws-rule">
+            <div className="ws-rule-t">{t}</div>
+            <div className="ws-rule-d">{d}</div>
+          </div>
+        ))}
+      </div>
+      <SectionLabel text="Hear the pattern" />
+      <div className="ws-pron-ex">
+        {examples.map(([w, s, e], i) => (
+          <button key={i} className="ws-pron-row" onClick={() => speak({ waray: w, say: s })}>
+            <Volume2 size={16} />
+            <div>
+              <div className="ws-pron-w">{w}</div>
+              <div className="ws-pron-s">/ {s} /  ·  {e}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+      <div className="ws-pron-note">
+        Source: Waray phonology (3-vowel system, 16 consonants, stress-based) and the Wikivoyage Waray phrasebook respelling style.
+      </div>
+    </div>
+  );
+}
+
+/* ============================ shared bits ============================ */
+function TopBar({ title, onBack }) {
+  return (
+    <div className="ws-topbar">
+      <button className="ws-icon-btn" onClick={onBack}><ArrowLeft size={20} /></button>
+      <h2>{title}</h2>
+      <div style={{ width: 40 }} />
+    </div>
+  );
+}
+function SectionLabel({ icon, text }) {
+  return <div className="ws-seclabel">{icon}<span>{text}</span></div>;
+}
+function Bar({ pct }) {
+  return <div className="ws-bar"><div className="ws-bar-fill" style={{ width: `${Math.round(pct * 100)}%` }} /></div>;
+}
+
+/* ============================ styles ============================ */
+function Styles() {
+  return (
+    <style>{`
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --sea-ink:#0a2e34; --sea:#0c6b73; --tide:#16a3ab; --tide-soft:#3fa9b0;
+  --sun:#f4a53a; --sun-deep:#e0892a; --coral:#e2604a; --jade:#4fb286;
+  --shell:#f7f1e6; --sand:#ece2cf; --sand-deep:#ddcfb4;
+  --ink:#15282b; --ink-soft:#4a5d5f; --foam:#ffffff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.ws-root{font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
+  background:var(--shell);min-height:100%;max-width:480px;margin:0 auto;
+  position:relative;line-height:1.45}
+.ws-root *::selection{background:var(--tide);color:#fff}
+.ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;min-height:60vh;color:var(--sea)}
+.ws-page{padding:18px 16px 90px}
+
+/* header */
+.ws-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.ws-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--tide);font-weight:600}
+.ws-title{font-family:'Fraunces',serif;font-size:46px;line-height:.95;font-weight:600;
+  margin:2px 0 0;color:var(--sea-ink);letter-spacing:-.01em}
+.ws-sub{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
+  background:var(--foam);color:var(--sea);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.15s}
+.ws-icon-btn:active{transform:scale(.94)}
+
+/* tide hero */
+.ws-tide{position:relative;border-radius:22px;overflow:hidden;height:184px;
+  box-shadow:0 10px 30px -12px rgba(10,46,52,.5)}
+.ws-tide-svg{width:100%;height:100%;display:block}
+.ws-wave1{animation:wave 7s ease-in-out infinite alternate}
+.ws-wave2{animation:wave 9s ease-in-out infinite alternate-reverse}
+@keyframes wave{from{transform:translateX(-12px)}to{transform:translateX(12px)}}
+.ws-tide-overlay{position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;padding-left:24px}
+.ws-tide-pct{font-family:'Fraunces',serif;font-size:58px;font-weight:600;color:#fff;
+  line-height:.9;text-shadow:0 2px 14px rgba(0,0,0,.25)}
+.ws-tide-pct span{font-size:24px;opacity:.8}
+.ws-tide-label{color:#eaf7f7;font-size:13px;font-weight:500;margin-top:4px;
+  text-shadow:0 1px 8px rgba(0,0,0,.3)}
+
+/* streak chips */
+.ws-streakrow{display:flex;gap:8px;margin:14px 0 18px}
+.ws-chip{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;
+  padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-soft)}
+.ws-chip b{font-size:19px;color:var(--ink);font-weight:700;font-family:'Fraunces',serif}
+.ws-chip span{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+.ws-chip svg{color:var(--tide);margin-bottom:2px}
+.ws-chip-flame svg{color:var(--sun-deep)}
+
+/* CTAs */
+.ws-cta-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.ws-cta{display:flex;align-items:center;gap:13px;padding:15px 16px;border-radius:16px;
+  border:1px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;
+  transition:.15s;width:100%}
+.ws-cta:active{transform:scale(.99)}
+.ws-cta-primary{background:linear-gradient(135deg,var(--sea),var(--tide));border:none;color:#fff}
+.ws-cta-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;background:var(--sand);color:var(--sea);flex-shrink:0}
+.ws-cta-primary .ws-cta-ic{background:rgba(255,255,255,.2);color:#fff}
+.ws-ic-tide{background:#dcefef;color:var(--tide)}
+.ws-ic-coral{background:#fae3de;color:var(--coral)}
+.ws-cta-t{font-weight:600;font-size:15.5px}
+.ws-cta-d{font-size:12.5px;opacity:.78;margin-top:1px}
+.ws-cta-arrow{margin-left:auto;opacity:.5;flex-shrink:0}
+.ws-cta-primary .ws-cta-arrow{opacity:.85}
+.ws-badge{display:inline-block;background:var(--coral);color:#fff;font-size:11px;font-weight:700;
+  border-radius:9px;padding:1px 7px;margin-left:5px;vertical-align:middle}
+
+/* section label */
+.ws-seclabel{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--sea);margin:6px 0 11px}
+.ws-seclabel svg{color:var(--tide)}
+
+/* decks */
+.ws-decks{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.ws-deck{background:var(--foam);border:1px solid var(--sand-deep);border-radius:16px;
+  padding:14px 15px;cursor:pointer;text-align:left;transition:.15s}
+.ws-deck:active{transform:scale(.99)}
+.ws-deck-top{display:flex;justify-content:space-between;align-items:center}
+.ws-deck-name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--sea-ink)}
+.ws-deck-count{font-size:12px;color:var(--ink-soft);background:var(--sand);border-radius:20px;
+  padding:2px 9px;font-weight:600}
+.ws-deck-hint{font-size:12px;color:var(--ink-soft);margin:2px 0 9px}
+.ws-deck-foot{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft);
+  margin-top:7px;font-weight:500}
+.ws-due-dot{color:var(--sun-deep);font-weight:600}
+
+.ws-bar{height:7px;background:var(--sand);border-radius:20px;overflow:hidden}
+.ws-bar-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--jade));
+  border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+/* distribution */
+.ws-dist{margin-bottom:16px}
+.ws-dist-bar{display:flex;height:13px;border-radius:20px;overflow:hidden;background:var(--sand)}
+.ws-seg{transition:width .6s}
+.ws-seg-m{background:var(--jade)} .ws-seg-l{background:var(--tide-soft)} .ws-seg-f{background:var(--sand-deep)}
+.ws-dist-legend{display:flex;gap:14px;margin-top:9px;font-size:11.5px;color:var(--ink-soft);flex-wrap:wrap}
+.ws-dist-legend span{display:flex;align-items:center;gap:5px}
+.ws-dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+.ws-dot-m{background:var(--jade)} .ws-dot-l{background:var(--tide-soft)} .ws-dot-f{background:var(--sand-deep)}
+
+/* constellation */
+.ws-constel{display:grid;grid-template-columns:repeat(auto-fill,minmax(13px,1fr));gap:4px;margin-top:4px}
+.ws-cell{aspect-ratio:1;border-radius:3px;transition:.3s}
+.ws-cell-f{background:var(--sand-deep);opacity:.5}
+.ws-cell-l1{background:var(--coral);opacity:.65}
+.ws-cell-l3{background:var(--tide-soft)}
+.ws-cell-m{background:var(--jade)}
+
+/* bottom bar */
+.ws-bottombar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+  background:rgba(247,241,230,.92);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
+  display:flex;padding:8px 0 10px;z-index:20}
+.ws-bb{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10.5px;color:var(--ink-soft);cursor:pointer;font-weight:500;font-family:inherit}
+.ws-bb.active{color:var(--sea)}
+.ws-bb.active svg{color:var(--tide)}
+
+/* topbar */
+.ws-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--sea-ink)}
+
+/* setup */
+.ws-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
+.ws-pick{display:flex;align-items:center;gap:8px;padding:12px 12px;border-radius:13px;
+  border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;transition:.15s;text-align:left}
+.ws-pick.on{border-color:var(--tide);background:#eef8f8}
+.ws-pick-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--sand-deep);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.ws-pick.on .ws-pick-check{background:var(--tide);border-color:var(--tide)}
+.ws-pick-name{font-weight:600;font-size:13.5px;flex:1}
+.ws-pick-n{font-size:11px;color:var(--ink-soft)}
+
+.ws-seg-toggle{display:flex;gap:8px;margin-bottom:22px}
+.ws-seg-toggle button{flex:1;padding:13px 8px;border-radius:13px;border:1.5px solid var(--sand-deep);
+  background:var(--foam);cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;
+  color:var(--ink);transition:.15s;line-height:1.3}
+.ws-seg-toggle button em{display:block;font-style:normal;font-size:10.5px;font-weight:500;
+  color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+.ws-seg-toggle button.on{border-color:var(--sea);background:var(--sea);color:#fff}
+.ws-seg-toggle button.on em{color:rgba(255,255,255,.8)}
+
+.ws-mode-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.ws-mode{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;
+  border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;transition:.15s}
+.ws-mode.on{border-color:var(--tide);background:#eef8f8}
+.ws-mode-ic{width:36px;height:36px;border-radius:10px;background:var(--sand);color:var(--sea);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ws-mode.on .ws-mode-ic{background:var(--tide);color:#fff}
+.ws-mode-txt{flex:1}
+.ws-mode-txt b{display:block;font-size:14px;font-weight:600}
+.ws-mode-txt i{font-style:normal;font-size:12px;color:var(--ink-soft)}
+.ws-mode-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--sand-deep);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.ws-mode.on .ws-mode-radio{border-color:var(--tide)}
+.ws-radio-on{width:10px;height:10px;border-radius:50%;background:var(--tide)}
+
+.ws-setup-foot{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding-top:8px}
+.ws-setup-meta{font-size:12.5px;color:var(--ink-soft);font-weight:500}
+.ws-start{display:flex;align-items:center;gap:6px;padding:14px 26px;border-radius:14px;border:none;
+  background:linear-gradient(135deg,var(--sun),var(--sun-deep));color:#3a2410;font-weight:700;font-size:15px;
+  cursor:pointer;font-family:inherit;box-shadow:0 6px 18px -8px var(--sun-deep);transition:.15s}
+.ws-start:active{transform:scale(.97)}
+.ws-start:disabled{opacity:.4;box-shadow:none}
+.ws-full{width:100%;justify-content:center;margin-bottom:16px}
+
+/* session */
+.ws-session{padding-top:16px}
+.ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
+.ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
+  border-radius:20px;transition:width .4s}
+.ws-session-count{font-size:12.5px;font-weight:600;color:var(--ink-soft);min-width:38px;text-align:right}
+
+.ws-card{background:var(--foam);border:1px solid var(--sand-deep);border-radius:22px;
+  padding:22px 20px;box-shadow:0 8px 24px -16px rgba(10,46,52,.4);animation:rise .35s ease}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ws-card-tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tide);
+  font-weight:600;margin-bottom:18px}
+
+.ws-prompt{text-align:center;margin-bottom:22px}
+.ws-prompt-waray{font-family:'Fraunces',serif;font-size:33px;font-weight:600;color:var(--sea-ink);
+  line-height:1.15}
+.ws-prompt-eng{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--sea-ink);line-height:1.2}
+.ws-say{font-size:14px;color:var(--tide);font-weight:500;margin-top:7px;letter-spacing:.02em}
+.ws-mini-play{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:var(--sand);
+  border:none;border-radius:20px;padding:6px 13px;font-size:12.5px;color:var(--sea);font-weight:600;
+  cursor:pointer;font-family:inherit;transition:.15s}
+.ws-mini-play:active{transform:scale(.95)}
+.ws-mini-play.sq{padding:8px;border-radius:10px;margin:0}
+.ws-mini-play.rec{background:var(--coral);color:#fff;animation:pulse 1.1s infinite}
+
+.ws-options{display:flex;flex-direction:column;gap:9px}
+.ws-opt{padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);background:var(--shell);
+  font-size:15.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;transition:.15s;
+  font-family:inherit}
+.ws-opt:active{transform:scale(.99)}
+.ws-opt.correct{border-color:var(--jade);background:#e7f6ee;color:#1f6b46;font-weight:600}
+.ws-opt.incorrect{border-color:var(--coral);background:#fbe7e2;color:#a33422}
+
+.ws-listen-big{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px;
+  border-radius:16px;border:none;background:linear-gradient(135deg,var(--sea),var(--tide));color:#fff;
+  cursor:pointer;margin-bottom:20px;font-family:inherit;font-size:14px;font-weight:600}
+.ws-listen-big em{font-style:normal;font-size:11px;opacity:.85;background:rgba(255,255,255,.2);
+  padding:2px 9px;border-radius:12px}
+.ws-listen-big:active{transform:scale(.98)}
+
+.ws-input{width:100%;padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);
+  font-size:17px;font-family:'Fraunces',serif;color:var(--sea-ink);background:var(--shell);outline:none;
+  transition:.15s}
+.ws-input:focus{border-color:var(--tide);background:#fff}
+.ws-check{width:100%;margin-top:12px;padding:14px;border-radius:13px;border:none;background:var(--sea);
+  color:#fff;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;transition:.15s}
+.ws-check:active{transform:scale(.99)}
+.ws-check:disabled{opacity:.4}
+.ws-yourans{text-align:center;font-family:'Fraunces',serif;font-size:22px;padding:10px;border-radius:12px;
+  margin-bottom:14px}
+.ws-yourans.right{color:#1f6b46}.ws-yourans.wrong{color:#a33422;text-decoration:line-through;opacity:.7}
+
+.ws-reveal{width:100%;padding:15px;border-radius:13px;border:1.5px dashed var(--tide);
+  background:#eef8f8;color:var(--sea);font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit}
+.ws-answer-reveal{text-align:center;margin-bottom:6px;animation:rise .3s ease}
+.ws-answer-text{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--sea-ink)}
+.ws-subtext{text-align:center;font-size:13px;color:var(--ink-soft);font-style:italic;margin:8px 0;
+  background:var(--sand);padding:8px 12px;border-radius:10px}
+
+.ws-verdict{margin-top:18px;padding-top:16px;border-top:1px solid var(--sand);animation:rise .3s ease}
+.ws-verdict-head{display:flex;align-items:center;gap:7px;font-weight:700;font-size:15px}
+.ws-verdict.ok .ws-verdict-head{color:var(--jade)}
+.ws-verdict.no .ws-verdict-head{color:var(--coral)}
+.ws-verdict-answer{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;
+  font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
+.ws-verdict-actions{display:flex;gap:10px;margin-top:14px}
+.ws-next-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:13px;
+  border-radius:13px;border:none;background:var(--sea);color:#fff;font-weight:600;font-size:14.5px;
+  cursor:pointer;font-family:inherit}
+.ws-ghost-btn{padding:13px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);background:var(--foam);
+  color:var(--ink-soft);font-weight:600;font-size:13.5px;cursor:pointer;font-family:inherit}
+
+.ws-selfgrade{display:flex;gap:10px;margin-top:18px}
+.ws-sg{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:15px;border-radius:13px;
+  border:none;font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;transition:.15s}
+.ws-sg:active{transform:scale(.98)}
+.ws-sg-no{background:#fbe7e2;color:#a33422}
+.ws-sg-ok{background:#e7f6ee;color:#1f6b46}
+
+/* speak */
+.ws-speak-prompt{text-align:center;margin-bottom:20px}
+.ws-speak-instr{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:6px;font-weight:600}
+.ws-speak-controls{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:18px}
+.ws-rec-btn{display:flex;align-items:center;gap:9px;padding:14px 24px;border-radius:30px;border:none;
+  background:var(--coral);color:#fff;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;
+  box-shadow:0 6px 18px -8px var(--coral)}
+.ws-rec-btn.recording{animation:pulse 1.1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.ws-rec-playback{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ws-mic-err{text-align:center;font-size:12.5px;color:var(--ink-soft);background:var(--sand);
+  padding:10px;border-radius:10px;margin-bottom:14px}
+
+/* done */
+.ws-done{display:flex;align-items:center;justify-content:center;min-height:80vh}
+.ws-done-card{text-align:center;background:var(--foam);border:1px solid var(--sand-deep);border-radius:24px;
+  padding:34px 28px;width:100%;box-shadow:0 12px 30px -18px rgba(10,46,52,.5)}
+.ws-done-ring{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;display:flex;
+  align-items:center;justify-content:center;
+  background:conic-gradient(var(--jade) calc(var(--p)*1%),var(--sand) 0)}
+.ws-done-ring span{width:92px;height:92px;border-radius:50%;background:var(--foam);display:flex;
+  align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;
+  color:var(--sea-ink)}
+.ws-done-ring i{font-style:normal;font-size:16px;color:var(--ink-soft)}
+.ws-done-card h2{font-family:'Fraunces',serif;font-size:26px;color:var(--sea-ink);margin:0 0 4px}
+.ws-done-sub{font-size:13.5px;color:var(--ink-soft);margin-bottom:22px}
+.ws-done-actions{display:flex;gap:10px;justify-content:center}
+.ws-done-actions .ws-start{padding:13px 20px}
+
+/* needs work */
+.ws-empty{text-align:center;padding:50px 24px;color:var(--ink-soft)}
+.ws-empty svg{color:var(--tide);margin-bottom:14px}
+.ws-empty p{font-size:14px;line-height:1.6}
+.ws-nw-list{display:flex;flex-direction:column;gap:8px}
+.ws-nw{display:flex;align-items:center;gap:11px;background:var(--foam);border:1px solid var(--sand-deep);
+  border-radius:13px;padding:11px 13px}
+.ws-nw-body{flex:1;min-width:0}
+.ws-nw-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea-ink)}
+.ws-nw-eng{font-size:12.5px;color:var(--ink-soft)}
+.ws-nw-meta{display:flex;align-items:center;gap:8px}
+.ws-nw-miss{font-size:12px;color:var(--coral);font-weight:700;background:#fbe7e2;border-radius:8px;
+  padding:3px 7px}
+.ws-pin{width:32px;height:32px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--foam);
+  color:var(--sand-deep);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.ws-pin.on{color:var(--sun);border-color:var(--sun);background:#fef4e3}
+.ws-pin.on svg{fill:var(--sun)}
+
+/* browse */
+.ws-search{width:100%;padding:13px 15px;border-radius:13px;border:1.5px solid var(--sand-deep);
+  font-size:14.5px;font-family:inherit;background:var(--foam);outline:none;margin-bottom:12px;color:var(--ink)}
+.ws-search:focus{border-color:var(--tide)}
+.ws-filter-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.ws-filter-row button{flex-shrink:0;padding:8px 14px;border-radius:20px;border:1.5px solid var(--sand-deep);
+  background:var(--foam);font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.ws-filter-row button.on{background:var(--sea);color:#fff;border-color:var(--sea)}
+.ws-browse-list{display:flex;flex-direction:column;gap:7px}
+.ws-brow{display:flex;align-items:center;gap:11px;background:var(--foam);border:1px solid var(--sand-deep);
+  border-radius:13px;padding:11px 13px}
+.ws-brow-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ws-brow-body{flex:1;min-width:0}
+.ws-brow-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea-ink);
+  display:flex;align-items:center;gap:6px}
+.ws-voiced{color:var(--jade);font-size:9px}
+.ws-brow-eng{font-size:12.5px;color:var(--ink-soft)}
+.ws-brow-say{font-size:11px;color:var(--tide);margin-top:1px}
+.ws-brow-actions{display:flex;gap:5px;align-items:center}
+
+/* pronounce */
+.ws-pron-intro{font-size:13.5px;color:var(--ink-soft);line-height:1.55;background:var(--foam);
+  border:1px solid var(--sand-deep);border-left:3px solid var(--tide);border-radius:12px;padding:13px 15px;
+  margin-bottom:22px}
+.ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.ws-rule{background:var(--foam);border:1px solid var(--sand-deep);border-radius:13px;padding:13px 15px}
+.ws-rule-t{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--sea);margin-bottom:3px}
+.ws-rule-d{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.ws-pron-ex{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.ws-pron-row{display:flex;align-items:center;gap:13px;background:var(--foam);border:1px solid var(--sand-deep);
+  border-radius:13px;padding:13px 15px;cursor:pointer;text-align:left;font-family:inherit;transition:.15s}
+.ws-pron-row:active{transform:scale(.99)}
+.ws-pron-row svg{color:var(--tide);flex-shrink:0}
+.ws-pron-w{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--sea-ink)}
+.ws-pron-s{font-size:12.5px;color:var(--ink-soft)}
+.ws-pron-note{font-size:11px;color:var(--sand-deep);text-align:center;line-height:1.5;padding:0 10px}
+
+/* header buttons */
+.ws-head-btns{display:flex;gap:8px}
+
+/* speed control */
+.ws-speed{margin-bottom:24px}
+.ws-speed-seg{display:flex;gap:8px;margin-bottom:10px}
+.ws-speed-seg button{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid var(--sand-deep);
+  background:var(--foam);cursor:pointer;font-family:inherit;font-weight:600;font-size:13.5px;color:var(--ink);
+  transition:.15s}
+.ws-speed-seg button.on{border-color:var(--tide);background:var(--sea);color:#fff}
+.ws-speed-adapt{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;border-radius:13px;
+  border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;font-family:inherit;
+  transition:.15s}
+.ws-speed-adapt.on{border-color:var(--tide);background:#eef8f8}
+.ws-speed-adapt-box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--sand-deep);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;color:#fff;margin-top:1px}
+.ws-speed-adapt.on .ws-speed-adapt-box{background:var(--tide);border-color:var(--tide)}
+.ws-speed-adapt b{display:block;font-size:14px;font-weight:600;color:var(--ink)}
+.ws-speed-adapt i{font-style:normal;font-size:12px;color:var(--ink-soft)}
+
+/* backup view */
+.ws-backup-stat{display:flex;gap:10px;margin-bottom:20px}
+.ws-backup-stat>div{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;
+  padding:14px 10px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.ws-backup-stat b{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
+.ws-backup-stat span{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em}
+.ws-backup-row{display:flex;align-items:center;gap:13px;width:100%;padding:14px 15px;border-radius:14px;
+  border:1px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;transition:.15s;
+  margin-bottom:9px;font-family:inherit}
+.ws-backup-row:active{transform:scale(.99)}
+.ws-backup-row:disabled{opacity:.55}
+.ws-backup-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:var(--sand);color:var(--sea);flex-shrink:0}
+.ws-backup-txt{flex:1}
+.ws-backup-txt b{display:block;font-size:14.5px;font-weight:600;color:var(--ink)}
+.ws-backup-txt i{font-style:normal;font-size:12px;color:var(--ink-soft)}
+.ws-backup-msg{display:flex;align-items:flex-start;gap:8px;padding:12px 14px;border-radius:12px;font-size:13px;
+  line-height:1.45;margin:14px 0 4px;font-weight:500}
+.ws-backup-msg svg{flex-shrink:0;margin-top:1px}
+.ws-backup-msg.ok{background:#e7f6ee;color:#1f6b46}
+.ws-backup-msg.err{background:#fbe7e2;color:#a33422}
+.ws-drive-note{font-size:13px;color:var(--ink-soft);line-height:1.6;background:var(--foam);
+  border:1px solid var(--sand-deep);border-left:3px solid var(--sun);border-radius:12px;padding:13px 15px;}
+.ws-drive-note b{color:var(--sea-ink)}
+
+/* gist sync */
+.ws-gist-help{margin-top:12px;font-size:12.5px;color:var(--ink-soft);background:var(--foam);
+  border:1px solid var(--sand-deep);border-radius:12px;padding:11px 14px}
+.ws-gist-help summary{font-weight:600;color:var(--sea);cursor:pointer;font-size:13px}
+.ws-gist-help ol{margin:10px 0 8px;padding-left:18px;line-height:1.6}
+.ws-gist-help li{margin-bottom:4px}
+.ws-gist-help b{color:var(--sea-ink)}
+.ws-sync-status{display:flex;align-items:center;gap:9px;background:var(--foam);border:1px solid var(--sand-deep);
+  border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.ws-sync-status code{margin-left:auto;font-size:11px;color:var(--ink-soft);background:var(--sand);
+  padding:2px 7px;border-radius:7px;font-family:ui-monospace,monospace}
+.ws-sync-dot{width:9px;height:9px;border-radius:50%;background:var(--jade);flex-shrink:0}
+.ws-sync-status.syncing .ws-sync-dot{background:var(--sun);animation:pulse 1s infinite}
+.ws-sync-status.error .ws-sync-dot{background:var(--coral)}
+.ws-sync-btns{display:flex;gap:9px;margin-bottom:4px}
+.ws-backup-row.compact{margin-bottom:0;justify-content:center;gap:7px;font-weight:600;font-size:13.5px;
+  color:var(--sea);padding:12px}
+.ws-start.ws-connected{background:linear-gradient(135deg,var(--jade),#3d9b73);color:#fff;
+  box-shadow:0 6px 18px -8px var(--jade)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    `}</style>
+  );
+}
