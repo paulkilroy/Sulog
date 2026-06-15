@@ -395,17 +395,19 @@ if (typeof window !== "undefined" && window.speechSynthesis) {
   try { window.speechSynthesis.onvoiceschanged = loadVoices; } catch (e) {}
 }
 
-// turn "mah-OO-pigh ngah AH-gah" into "mahoopigh, ngah, ahgah"
+// turn "mah-OO-pigh ngah AH-gah" into "mahoopigh, nah, ahgah"
 // Hyphens mark syllable breaks *within* one word, so they're stripped (not
 // turned into spaces) — splitting a syllable like "OO" into its own token made
 // the voice read it as a separate word ("oo oo") instead of one long sound.
-// Lowercased so all-caps stress tokens aren't spelled out; word breaks -> commas
-// for a clear pause between words.
+// Word-initial "ng" is the velar nasal [ŋ], but English TTS can't start a word
+// with it and mangles it (reads "ngah" as "gah"), so spoken-only we approximate
+// it with a plain "n" ("ngah" -> "nah"). Lowercased so all-caps stress tokens
+// aren't spelled out; word breaks -> commas for a clear pause between words.
 function respellForTTS(say) {
   return say
     .split(/\s+/)
     .filter(Boolean)
-    .map((w) => w.replace(/-/g, "").toLowerCase())
+    .map((w) => w.replace(/-/g, "").toLowerCase().replace(/^ng/, "n"))
     .join(", ");
 }
 
