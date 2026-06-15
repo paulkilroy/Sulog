@@ -382,6 +382,10 @@ function mergeStreak(l, c) {
    2. Insert pauses between words (comma-joined) so phrases don't run together. */
 let _voices = [];
 let _filVoice = null;
+// Pause lengths (ms at 1.0× rate) added between respelling pieces; set from
+// settings by App. word = pause between words, syl = extra pause between
+// syllables of one word (on top of the engine's own small gap).
+let _pause = { word: 240, syl: 0 };
 function loadVoices() {
   try {
     _voices = window.speechSynthesis.getVoices() || [];
@@ -395,20 +399,40 @@ if (typeof window !== "undefined" && window.speechSynthesis) {
   try { window.speechSynthesis.onvoiceschanged = loadVoices; } catch (e) {}
 }
 
-// turn "mah-OO-pigh ngah AH-gah" into "mahoopigh, nah, ahgah"
-// Hyphens mark syllable breaks *within* one word, so they're stripped (not
-// turned into spaces) — splitting a syllable like "OO" into its own token made
-// the voice read it as a separate word ("oo oo") instead of one long sound.
-// Word-initial "ng" is the velar nasal [ŋ], but English TTS can't start a word
-// with it and mangles it (reads "ngah" as "gah"), so spoken-only we approximate
-// it with a plain "n" ("ngah" -> "nah"). Lowercased so all-caps stress tokens
-// aren't spelled out; word breaks -> commas for a clear pause between words.
-function respellForTTS(say) {
-  return say
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((w) => w.replace(/-/g, "").toLowerCase().replace(/^ng/, "n"))
-    .join(", ");
+// Split the respelling into words → pieces for the default (non-Filipino) voice.
+// The respelling is English-reader phonetics (Wikivoyage style): ALL CAPS marks
+// the *stressed* syllable, not a different vowel ("OO" is just the /u/ in "boo").
+// Each word becomes a list of pieces; a stressed syllable is its own piece (so
+// speak() can slow + raise its pitch — the API only sets prosody per utterance),
+// while runs of unstressed syllables merge into one piece to minimize gaps.
+//   - hyphens are syllable breaks; word-initial "ng" [ŋ] -> "n"; lowercased
+//   - a stressed bare-vowel piece spoken alone doubles ("oo oo"), so it's spelled
+//     as an interjection ("oo" -> "ooh") to read as one sustained sound
+// Returns an array of words, each an array of { text, stressed } pieces. speak()
+// queues a word's pieces back-to-back (tight) and adds a real pause between words.
+function respellWords(say) {
+  const isStressed = (s) => /[A-Za-z]/.test(s) && s === s.toUpperCase();
+  const norm = (s, wordStart) => {
+    const t = s.toLowerCase();
+    return wordStart ? t.replace(/^ng/, "n") : t;
+  };
+  return say.split(/\s+/).filter(Boolean).map((word) => {
+    const syls = word.split("-").filter(Boolean);
+    const pieces = [];
+    let buf = "";
+    syls.forEach((s, si) => {
+      let t = norm(s, si === 0);
+      if (isStressed(s)) {
+        if (buf) { pieces.push({ text: buf, stressed: false }); buf = ""; }
+        if (/^[aeiou]+$/.test(t)) t += "h";
+        pieces.push({ text: t, stressed: true });
+      } else {
+        buf += t;
+      }
+    });
+    if (buf) pieces.push({ text: buf, stressed: false });
+    return pieces;
+  });
 }
 
 function speak(arg, rate = 0.78) {
@@ -419,16 +443,43 @@ function speak(arg, rate = 0.78) {
     if (!_voices.length) loadVoices();
 
     const card = typeof arg === "string" ? { waray: arg, say: "" } : (arg || {});
-    let text, voice = null, lang = "en-US";
 
+    if (!_filVoice && card.say) {
+      // No Filipino voice: speak the respelling piece by piece, chaining each via
+      // onend so we control the gap after it: _pause.syl between syllables of a
+      // word, _pause.word between words (both scaled by rate so they tighten as
+      // playback speeds up). Stressed pieces are slightly slower and higher
+      // pitched so the emphasis is audible. Flatten words -> a sequence tagged
+      // with the gap that follows each piece.
+      const seq = [];
+      respellWords(card.say).forEach((pieces, wi, all) => {
+        pieces.forEach((p, pi) => {
+          let gapAfter = 0;
+          if (pi < pieces.length - 1) gapAfter = _pause.syl;
+          else if (wi < all.length - 1) gapAfter = _pause.word;
+          seq.push({ ...p, gapAfter: Math.round(gapAfter / rate) });
+        });
+      });
+      const sayPiece = (i) => {
+        if (i >= seq.length) return;
+        const p = seq[i];
+        const u = new SpeechSynthesisUtterance(p.text);
+        u.rate = p.stressed ? rate * 0.75 : rate;
+        u.pitch = p.stressed ? 1.25 : 1;
+        u.lang = "en-US";
+        u.onend = () => (p.gapAfter > 0 ? setTimeout(() => sayPiece(i + 1), p.gapAfter) : sayPiece(i + 1));
+        synth.speak(u);
+      };
+      sayPiece(0);
+      return;
+    }
+
+    let text, voice = null, lang = "en-US";
     if (_filVoice) {
       // real Filipino voice: raw Waray reads well; just space the words out
       text = (card.waray || "").split(/\s+/).filter(Boolean).join(", ");
       voice = _filVoice;
       lang = _filVoice.lang;
-    } else if (card.say) {
-      // no Filipino voice: speak the phonetic respelling via the default voice
-      text = respellForTTS(card.say);
     } else {
       // no respelling available: at least pause between the raw words
       text = (card.waray || "").split(/\s+/).filter(Boolean).join(", ");
@@ -452,7 +503,12 @@ export default function App() {
   const [streak, setStreak] = useState({ count: 0, last: "", days: {} });
   const [loaded, setLoaded] = useState(false);
   const [session, setSession] = useState(null);
-  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false });
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, wordGap: 180, sylGap: 0 });
+
+  // keep the module-level pause lengths that speak() reads in sync with settings
+  useEffect(() => {
+    _pause = { word: settings.wordGap ?? 180, syl: settings.sylGap ?? 0 };
+  }, [settings.wordGap, settings.sylGap]);
 
   // load on mount
   useEffect(() => {
@@ -1637,6 +1693,15 @@ function PronounceView({ ctx }) {
     { k: "normal", label: "Normal", rate: 0.95 },
     { k: "natural", label: "Natural", rate: 1.1 },
   ];
+  // preview the sample phrase at a given base rate (mirrors the adaptive offset)
+  const preview = (r) => speak({ waray: "Maupay nga aga", say: "mah-OO-pigh ngah AH-gah" }, settings.adaptive ? r - 0.1 : r);
+  // persist a pause setting AND apply it to _pause immediately, so the preview on
+  // release uses the new value without waiting for the settings effect to commit
+  const saveGap = (key, val) => {
+    const ns = { ...settings, [key]: val };
+    saveSettings(ns);
+    _pause = { word: ns.wordGap ?? 180, syl: ns.sylGap ?? 0 };
+  };
   const rules = [
     ["Three vowels", "Waray has just a, i, u. In writing, o is the same sound as u, and e is the same as i — so luto and lutu, or babaye and babayi, are the same word."],
     ["a → \u201cah\u201d", "Always the open ah of \u201cfather.\u201d Never the flat a of \u201ccat.\u201d  ako = ah-KAW."],
@@ -1669,10 +1734,35 @@ function PronounceView({ ctx }) {
         <div className="ws-speed-seg">
           {SPEEDS.map((s) => (
             <button key={s.k} className={Math.abs(settings.rate - s.rate) < 0.02 ? "on" : ""}
-              onClick={() => { saveSettings({ ...settings, rate: s.rate }); speak({ waray: "Maupay nga aga", say: "mah-OO-pigh ngah AH-gah" }, settings.adaptive ? s.rate - 0.1 : s.rate); }}>
+              onClick={() => { saveSettings({ ...settings, rate: s.rate }); preview(s.rate); }}>
               {s.label}
             </button>
           ))}
+        </div>
+        <div className="ws-speed-slider">
+          <label className="ws-speed-glabel">Speed</label>
+          <input type="range" min="0.6" max="1.4" step="0.05" value={settings.rate}
+            onChange={(e) => saveSettings({ ...settings, rate: parseFloat(e.target.value) })}
+            onMouseUp={(e) => preview(parseFloat(e.target.value))}
+            onTouchEnd={(e) => preview(parseFloat(e.target.value))}
+            aria-label="Playback speed" />
+          <span className="ws-speed-val">{settings.rate.toFixed(2)}×</span>
+        </div>
+        <div className="ws-speed-slider">
+          <label className="ws-speed-glabel">Word pause</label>
+          <input type="range" min="0" max="600" step="20" value={settings.wordGap ?? 180}
+            onChange={(e) => saveGap("wordGap", parseInt(e.target.value, 10))}
+            onMouseUp={() => preview(settings.rate)} onTouchEnd={() => preview(settings.rate)}
+            aria-label="Pause between words" />
+          <span className="ws-speed-val">{settings.wordGap ?? 180}ms</span>
+        </div>
+        <div className="ws-speed-slider">
+          <label className="ws-speed-glabel">Syllable pause</label>
+          <input type="range" min="0" max="100" step="5" value={settings.sylGap ?? 0}
+            onChange={(e) => saveGap("sylGap", parseInt(e.target.value, 10))}
+            onMouseUp={() => preview(settings.rate)} onTouchEnd={() => preview(settings.rate)}
+            aria-label="Pause between syllables" />
+          <span className="ws-speed-val">{settings.sylGap ?? 0}ms</span>
         </div>
         <button className={`ws-speed-adapt ${settings.adaptive ? "on" : ""}`}
           onClick={() => saveSettings({ ...settings, adaptive: !settings.adaptive })}>
@@ -2079,6 +2169,11 @@ function Styles() {
   background:var(--foam);cursor:pointer;font-family:inherit;font-weight:600;font-size:13.5px;color:var(--ink);
   transition:.15s}
 .ws-speed-seg button.on{border-color:var(--tide);background:var(--sea);color:#fff}
+.ws-speed-slider{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ws-speed-slider input[type=range]{flex:1;accent-color:var(--tide);height:24px;cursor:pointer}
+.ws-speed-glabel{font-size:12px;color:var(--ink-soft);min-width:88px}
+.ws-speed-val{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--tide);
+  min-width:52px;text-align:right}
 .ws-speed-adapt{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;border-radius:13px;
   border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;font-family:inherit;
   transition:.15s}
