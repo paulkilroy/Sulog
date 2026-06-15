@@ -395,14 +395,17 @@ if (typeof window !== "undefined" && window.speechSynthesis) {
   try { window.speechSynthesis.onvoiceschanged = loadVoices; } catch (e) {}
 }
 
-// turn "mah-OO-pigh ngah AH-gah" into "mah oo pigh, ngah, ah gah"
-// (lowercased so all-caps tokens aren't spelled out; hyphens -> small gaps;
-//  word breaks -> commas for a clear pause)
+// turn "mah-OO-pigh ngah AH-gah" into "mahoopigh, ngah, ahgah"
+// Hyphens mark syllable breaks *within* one word, so they're stripped (not
+// turned into spaces) — splitting a syllable like "OO" into its own token made
+// the voice read it as a separate word ("oo oo") instead of one long sound.
+// Lowercased so all-caps stress tokens aren't spelled out; word breaks -> commas
+// for a clear pause between words.
 function respellForTTS(say) {
   return say
     .split(/\s+/)
     .filter(Boolean)
-    .map((w) => w.replace(/-/g, " ").toLowerCase())
+    .map((w) => w.replace(/-/g, "").toLowerCase())
     .join(", ");
 }
 

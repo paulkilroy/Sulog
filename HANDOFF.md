@@ -43,7 +43,6 @@ source, then you rebuild.
 ├── src/
 │   └── sulog.jsx      # THE SOURCE. ~2100 lines, single React component tree. Edit here.
 ├── build.sh          # src/sulog.jsx -> index.html (esbuild bundle + HTML shell)
-├── push.sh           # commit + push to GitHub (handles first push & no-op pushes)
 ├── package.json      # deps (react, react-dom, lucide-react) + esbuild; `npm run build`
 ├── .nojekyll         # tells GitHub Pages to serve files as-is (skip Jekyll)
 ├── .gitignore        # ignores node_modules/, logs, etc.
@@ -58,7 +57,7 @@ source, then you rebuild.
 ```bash
 npm install          # once: pulls react, react-dom, lucide-react, esbuild
 npm run build        # regenerate index.html from src/sulog.jsx  (alias for: bash build.sh)
-./push.sh "message"  # commit everything + push to origin/main
+git commit -am "message" && git push   # commit + push to origin/main
 ```
 
 Deploy target is **GitHub Pages**, repo `paulkilroy/Sulog`, serving from `main` / root.
@@ -69,7 +68,7 @@ case-sensitive). Pages redeploys automatically ~1 min after each push — no Act
 inlined HTML). If you add a dependency that injects that string, switch to a non-inlined
 `<script src>` approach instead.
 
-**Typical loop:** edit `src/sulog.jsx` → `npm run build` → eyeball it → `./push.sh "what changed"`.
+**Typical loop:** edit `src/sulog.jsx` → `npm run build` → eyeball it → `git commit -am "what changed" && git push`.
 
 ---
 

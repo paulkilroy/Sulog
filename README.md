@@ -17,7 +17,7 @@ Edit **`src/sulog.jsx`** (never `index.html` — it's generated), then:
 ```bash
 npm install        # once
 npm run build      # regenerate index.html
-./push.sh "msg"    # commit + push (Pages auto-deploys)
+git commit -am msg && git push   # Pages auto-deploys
 ```
 New here? Read **HANDOFF.md** first.
 
