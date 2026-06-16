@@ -221,6 +221,19 @@ const BOX_DAYS = [0, 1, 2, 4, 9, 18]; // interval after reaching each box
 const MS_DAY = 86400000;
 const now = () => Date.now();
 const today = () => new Date().toISOString().slice(0, 10);
+// current day-streak from the per-day activity map (date -> review count).
+// Counts back from today; if today isn't done yet, the streak still stands
+// (grace) and we count from yesterday. Uncapped, and consistent with what the
+// 14-day strip shows.
+const currentStreak = (days) => {
+  const map = days || {};
+  const d = new Date();
+  const key = (x) => x.toISOString().slice(0, 10);
+  if (!map[key(d)]) d.setDate(d.getDate() - 1); // not studied yet today
+  let n = 0;
+  while (map[key(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+};
 
 function freshStat(forgotten) {
   return {
@@ -749,6 +762,7 @@ function HomeView({ ctx }) {
   const overall = total ? sumPct / total : 0;
   const needsWork = cards.filter((c) => needsWorkCard(prog[c.id])).length;
   const voiced = Object.keys(audio).length;
+  const streakDays = currentStreak(streak.days);
 
   const startReview = (deckKeys, dir, mode) => {
     setSession({ deckKeys, dir, mode, limit: 15 });
@@ -778,7 +792,7 @@ function HomeView({ ctx }) {
       <div className="ws-streakrow">
         <div className="ws-chip ws-chip-flame">
           <Flame size={16} />
-          <b>{streak.count}</b><span>day{streak.count === 1 ? "" : "s"}</span>
+          <b>{streakDays}</b><span>day{streakDays === 1 ? "" : "s"}</span>
         </div>
         <div className="ws-chip">
           <Target size={15} /><b>{due}</b><span>due now</span>
@@ -787,6 +801,8 @@ function HomeView({ ctx }) {
           <Mic size={15} /><b>{voiced}</b><span>in your voice</span>
         </div>
       </div>
+
+      <DayTracker streak={streak} />
 
       <div className="ws-cta-grid">
         <button className="ws-cta ws-cta-primary" onClick={() => setView("setup")}>
@@ -879,6 +895,42 @@ function TideHero({ pct, mastered, total }) {
       <div className="ws-tide-overlay">
         <div className="ws-tide-pct">{Math.round(pct * 100)}<span>%</span></div>
         <div className="ws-tide-label">mastered · {mastered}/{total} cards</div>
+      </div>
+    </div>
+  );
+}
+
+/* A strip of the last 14 days: a filled cell per day (intensity = how many
+   reviews that day) plus the current day-streak, both from streak.days. */
+function DayTracker({ streak }) {
+  const N = 14;
+  const map = streak.days || {};
+  const W = ["S", "M", "T", "W", "T", "F", "S"];
+  const base = new Date();
+  const days = [];
+  for (let i = N - 1; i >= 0; i--) {
+    const d = new Date(base);
+    d.setDate(base.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    days.push({ key, count: map[key] || 0, dow: d.getDay(), isToday: i === 0 });
+  }
+  const level = (c) => (c === 0 ? 0 : c <= 2 ? 1 : c <= 5 ? 2 : 3);
+  const run = currentStreak(map);
+
+  return (
+    <div className="ws-tracker">
+      <div className="ws-tracker-head">
+        <span className="ws-tracker-title">Last 14 days</span>
+        <span className="ws-tracker-streak"><Flame size={13} /> {run}-day streak</span>
+      </div>
+      <div className="ws-tracker-grid">
+        {days.map((d) => (
+          <div key={d.key} className={`ws-day ${d.isToday ? "today" : ""}`}
+            title={`${d.key} · ${d.count} review${d.count === 1 ? "" : "s"}`}>
+            <div className={`ws-day-cell lv${level(d.count)}`} />
+            <span className="ws-day-lbl">{W[d.dow]}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -1856,6 +1908,21 @@ function Styles() {
 .ws-chip span{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
 .ws-chip svg{color:var(--tide);margin-bottom:2px}
 .ws-chip-flame svg{color:var(--sun-deep)}
+
+/* 14-day tracker */
+.ws-tracker{background:var(--foam);border:1px solid var(--sand-deep);border-radius:16px;
+  padding:13px 14px 11px;margin-bottom:18px}
+.ws-tracker-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.ws-tracker-title{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);font-weight:600}
+.ws-tracker-streak{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:var(--sun-deep)}
+.ws-tracker-grid{display:flex;gap:4px}
+.ws-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.ws-day-cell{width:100%;aspect-ratio:1;border-radius:5px;background:var(--sand)}
+.ws-day-cell.lv1{background:#cdeae8}
+.ws-day-cell.lv2{background:var(--tide-soft)}
+.ws-day-cell.lv3{background:var(--tide)}
+.ws-day.today .ws-day-cell{box-shadow:0 0 0 2px var(--sun-deep)}
+.ws-day-lbl{font-size:9px;color:var(--sand-deep);font-weight:600}
 
 /* CTAs */
 .ws-cta-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
