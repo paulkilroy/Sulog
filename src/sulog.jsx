@@ -347,6 +347,53 @@ const SEED = [
   ["gram", "Magluluto it bata", "The child will cook", "future", "mag-loo-LOO-to eet BAH-tah"],
   ["gram", "Nagluluto it bata", "The child is cooking", "present", "nag-loo-LOO-to eet BAH-tah"],
   ["gram", "Nagluto an bata", "The child cooked", "past", "nag-LOO-to ahn BAH-tah"],
+
+  // ===== Numbers, Days & Colors (from Wikivoyage Waray phrasebook) =====
+  ["num", "usa", "one", "", "OO-sah"],
+  ["num", "duha", "two", "", "DOO-hah"],
+  ["num", "tolo", "three", "also tulo", "TOH-lo"],
+  ["num", "upat", "four", "", "OO-pat"],
+  ["num", "lima", "five", "", "LEE-mah"],
+  ["num", "unom", "six", "", "OO-nom"],
+  ["num", "pito", "seven", "", "PEE-to"],
+  ["num", "walo", "eight", "", "WAH-lo"],
+  ["num", "siam", "nine", "", "see-AHM"],
+  ["num", "napulo", "ten", "", "nah-POO-lo"],
+  ["num", "karuhaan", "twenty", "", "kah-roo-HAH-an"],
+  ["num", "usa ka gatos", "one hundred", "", "OO-sah kah GAH-tos"],
+
+  ["cal", "Lunes", "Monday", "", "LOO-nes"],
+  ["cal", "Martes", "Tuesday", "", "MAR-tes"],
+  ["cal", "Miyerkoles", "Wednesday", "", "mee-YER-ko-les"],
+  ["cal", "Huwebes", "Thursday", "", "hoo-WEH-bes"],
+  ["cal", "Biyernes", "Friday", "", "bee-YER-nes"],
+  ["cal", "Sabado", "Saturday", "", "SAH-bah-do"],
+  ["cal", "Dominggo", "Sunday", "", "do-MEENG-go"],
+  ["cal", "Enero", "January", "", "eh-NEH-ro"],
+  ["cal", "Pebrero", "February", "", "peb-REH-ro"],
+  ["cal", "Marso", "March", "", "MAR-so"],
+  ["cal", "Abril", "April", "", "ahb-REEL"],
+  ["cal", "Mayo", "May", "", "MAH-yo"],
+  ["cal", "Hunyo", "June", "", "HOON-yo"],
+  ["cal", "Hulyo", "July", "", "HOOL-yo"],
+  ["cal", "Agosto", "August", "", "ah-GOS-to"],
+  ["cal", "Setyembre", "September", "", "set-YEM-breh"],
+  ["cal", "Oktubre", "October", "", "ok-TOO-breh"],
+  ["cal", "Nobyembre", "November", "", "nob-YEM-breh"],
+  ["cal", "Disyembre", "December", "", "dis-YEM-breh"],
+
+  ["color", "itom", "black", "", "EE-tom"],
+  ["color", "busag", "white", "", "BOO-sag"],
+  ["color", "pula", "red", "", "POO-lah"],
+  ["color", "asul", "blue", "", "ah-SOOL"],
+  ["color", "darag", "yellow", "", "DAH-rag"],
+  ["color", "berde", "green", "", "BER-deh"],
+
+  ["essent", "Waray ako makabaro", "I don't understand", "", "wah-RIGH ah-KAW mah-kah-BAH-ro"],
+  ["essent", "Hain iton kasilyas?", "Where is the toilet?", "", "HAH-een EE-ton kah-SEEL-yas"],
+  ["essent", "Buligi daw ako", "Please help me", "", "boo-LEE-gee dow ah-KAW"],
+  ["essent", "Pasaylo-a ako", "Excuse me / sorry", "", "pah-sigh-LO-ah ah-KAW"],
+  ["essent", "Sige, sunod na la", "Goodbye (see you next time)", "", "SEE-geh SOO-nod nah lah"],
 ];
 
 const DECKS = {
@@ -362,6 +409,10 @@ const DECKS = {
   cook: { name: "Cooking", short: "Cooking", hint: "In the kitchen" },
   whentrav: { name: "When & travel", short: "When", hint: "Time spans & arriving" },
   gram: { name: "Grammar", short: "Grammar", hint: "Sentence patterns" },
+  num: { name: "Numbers", short: "Numbers", hint: "Counting" },
+  cal: { name: "Days & months", short: "Calendar", hint: "The week and the year" },
+  color: { name: "Colors", short: "Colors", hint: "Basic colors" },
+  essent: { name: "Handy phrases", short: "Handy", hint: "Useful everyday lines" },
 };
 
 /* ---------------- curriculum (scaffolded lesson path) ----------------
@@ -487,6 +538,21 @@ const CURRICULUM = [
   { id: "u20", name: "When & travel", hint: "Time spans and arriving", lessons: [
     { id: "u20l1", title: "Time & travel", items: ["biyahe", "semana", "adlaw", "maabot", "lumakat", "san-o", "kakan-o"] },
     { id: "u20l2", title: "Saying when", items: ["Mabiyahe ako ha Pilipinas", "Ano ka nga adlaw maabot?", "Kakan-o ka umabot?", "Hit maabot nga duha ka semana"] },
+  ] },
+  ] },
+  { id: "s5", name: "Numbers & Essentials", hint: "Counting, the calendar, colors and handy lines", units: [
+  { id: "u21", name: "Numbers", hint: "Counting 1–100", lessons: [
+    { id: "u21l1", title: "Numbers 1–100", items: ["usa", "duha", "tolo", "upat", "lima", "unom", "pito", "walo", "siam", "napulo", "karuhaan", "usa ka gatos"] },
+  ] },
+  { id: "u22", name: "Days & months", hint: "The week and the year", lessons: [
+    { id: "u22l1", title: "Days of the week", items: ["Lunes", "Martes", "Miyerkoles", "Huwebes", "Biyernes", "Sabado", "Dominggo"] },
+    { id: "u22l2", title: "Months", items: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Setyembre", "Oktubre", "Nobyembre", "Disyembre"] },
+  ] },
+  { id: "u23", name: "Colors", hint: "Basic colors", lessons: [
+    { id: "u23l1", title: "Colors", items: ["itom", "busag", "pula", "asul", "darag", "berde"] },
+  ] },
+  { id: "u24", name: "Handy phrases", hint: "Useful everyday lines", lessons: [
+    { id: "u24l1", title: "Handy phrases", items: ["Waray ako makabaro", "Hain iton kasilyas?", "Buligi daw ako", "Pasaylo-a ako", "Sige, sunod na la"] },
   ] },
   ] },
 ];
