@@ -985,8 +985,14 @@ function HomeView({ ctx }) {
       <div className="ws-units">
         {CURRICULUM.map((s) => {
           const sc = sectionCards(cards, s);
-          const mstd = sc.filter((c) => masteryPct(prog[c.id]) >= 0.8).length;
-          const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l) => lessonDone(lessons, l.id)).length;
+          let f = 0, l = 0, m = 0;
+          sc.forEach((c) => {
+            const st = prog[c.id];
+            if (!st || st.seen === 0) f++;
+            else if (st.box >= 4) m++;
+            else l++;
+          });
+          const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l2) => lessonDone(lessons, l2.id)).length;
           const lessonsTot = s.units.flatMap((u) => u.lessons).length;
           return (
             <button key={s.id} className="ws-unit-tile" onClick={() => openPath(s.id)}>
@@ -994,7 +1000,8 @@ function HomeView({ ctx }) {
                 <span className="ws-unit-tile-name">{s.name}</span>
                 <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
               </div>
-              <div className="ws-unit-tile-sub">{mstd}/{sc.length} words mastered · tap to review or re-learn</div>
+              <div className="ws-unit-tile-sub">tap to review or re-learn</div>
+              <Distribution fresh={f} learning={l} mastered={m} />
               <ConstellationGrid cards={sc} prog={prog} />
             </button>
           );
