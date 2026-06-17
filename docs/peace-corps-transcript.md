@@ -166,3 +166,38 @@ tapolan (lazy).
   mais (corn), oo (yes), pagbaya (leave/abandon), pagkanhi (come here),
   pagkurahab (scream/shout), pagtirok (gather/collect), pagtubo (grow),
   sakyanan (car), sari-sari (small store), tanum (plant), tsa (tea), utang (debt).
+
+## Lessons 17–28 (back half — verbs, modals, negation, questions)
+- **L17 (p.76)** double negator (answering negatively). New: opisina (office),
+  payag (hut), mag-uroma (farmer).
+- **L18 (p.80–84)** waray/diri negation cont. **Vocab box (p.84):** abugádo
+  (lawyer), bulád (dried fish), dalágan (run), Estados Unidos (USA), grúpo (group),
+  kéyk (cake), kanta (sing), mulay (play).
+- **L19 (p.88)** mag- + verbalized nouns (use a noun as a verb): Mag-computer ako
+  (I'll use the computer), Magkape kita (we'll drink coffee), Nagsyaket (wore a
+  jacket). New: paingon (going toward), syaket (jacket), umangkon (nephew/niece),
+  tambal (medicine), mangingisda (fisherman), baybayon (beach/shore).
+- **L20 (p.92)** negation rules: `waray` negates past/present, `diri` negates
+  future.
+- **L21–22 (p.96–100)** mag- verbs + negative command **`Ayaw`** (don't).
+  **Vocab box (p.100):** aligad (serve), antos (suffer), plite (rent),
+  buruhaton (work/activity), butang (thing), himo (do/make), karabaw (carabao),
+  kros (cross), mensahe (message), ninong (godfather), pasyente (patient),
+  patay (to kill), probinsya (province), serbisyo (service), sista (guitar),
+  tikang (start/begin), tanoman (garden), tukar (play music).
+- **L22–23 (p.104)** modals: **`kinahanglan`** (need to/have to/must),
+  **`pwede` / `mahimo`** (can/may/able to). New: trabaho (work), bantay
+  (watch/guard).
+- **L23–28 (p.105–111)** question words: ano (what), hin-o (who), hain/diin
+  (where), san-o (when), kay ano (why), mapira/tagpira (how many/much), + the
+  `man` particle and `o` (= or). [Built in Sulog "Building Blocks" u29.]
+  **Final vocab box (p.111):** mayor (boss/employer), paha (belt), bayani (hero),
+  buhat (do/make), hardinéro (gardener), kamátis (tomato), kapitán (captain),
+  kasilyas (restroom), kolehiyo (college), konsehal (councilman),
+  negosyante (businessman), lider (leader), sekretarya (secretary),
+  tag-iya (owner), ulitawo (single young man).
+
+---
+**EXTRACTION COMPLETE** — whole 114-page course transcribed (grammar in full;
+all vocab boxes captured). Total course = ~28 lessons. Ready to regroup and
+decide what to build.
