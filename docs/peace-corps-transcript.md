@@ -124,3 +124,20 @@ General pronouns / demonstratives (I / II / III):
 - over there:  adto / hadto / didto
 (III-class general = location: dinhi/didi "here", didto "there".)
 Note: II-class "your(pl)" is **niyo** (Sulog used "nyo" — verify).
+
+## Lesson 11 — descriptive word + nga + noun (pp.43–46)
+Adjective + `nga` + noun (+ I-Cl marker): Hataas nga babaye hi Ruth (Ruth is a
+tall woman); Malipayon nga tawo hi Paul (Paul is a happy person); Makusog hiya
+nga lalake (he's a strong man). New adj: malipayon (happy), daragita (young girl),
+bugto (sibling), hubya (lazy), kapoy (tired), padlas (crazy).
+
+## Lesson 12 — yes/no questions with ba in verbal sentences (pp.47–50)
+`First full word + ba + rest`. Maampo ba hi Bong? (Will Bong pray?). Contraction
+`ka ba` (Makadto ka ba ha eskwelahan? = Are you going to school?). New verbs:
+ampo (pray), sulod (enter), sudoy (roam), tan-aw (watch), mulay (game/play),
+hulam (borrow).
+
+## Lesson 13 — the na / pa particles (pp.51–?)
+`na` = now / already (action happening now or already done); `pa` = still / yet
+(still happening, or not yet begun). Placed after the first full word (except
+with ka); na/pa come first among particles. [Built in Sulog "Building Blocks".]
