@@ -289,6 +289,14 @@ function lessonCards(cards, lesson) {
   cards.forEach((c) => { byWaray[c.waray] = c; });
   return (lesson.items || []).map((w) => byWaray[w]).filter(Boolean);
 }
+// every (unique) card in a section, across its units' lessons
+function sectionCards(cards, section) {
+  const seen = new Set(), out = [];
+  section.units.forEach((u) => u.lessons.forEach((l) => lessonCards(cards, l).forEach((c) => {
+    if (!seen.has(c.id)) { seen.add(c.id); out.push(c); }
+  })));
+  return out;
+}
 // parts completed (0–4) for a lesson; a lesson is "done" at 4
 const lessonDone = (lessons, id) => (lessons[id] || 0) >= LESSON_PARTS.length;
 // a lesson is unlocked if it's the first or the previous lesson is done
@@ -963,14 +971,6 @@ function HomeView({ ctx }) {
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
-        <button className="ws-cta" onClick={() => setView("setup")}>
-          <div className="ws-cta-ic ws-ic-tide"><Play size={18} /></div>
-          <div>
-            <div className="ws-cta-t">Practice</div>
-            <div className="ws-cta-d">Pick a deck, direction & mode</div>
-          </div>
-          <ChevronRight size={18} className="ws-cta-arrow" />
-        </button>
         <button className="ws-cta" onClick={() => setView("needswork")}>
           <div className="ws-cta-ic ws-ic-coral"><AlertCircle size={18} /></div>
           <div>
@@ -981,35 +981,25 @@ function HomeView({ ctx }) {
         </button>
       </div>
 
-      {CURRICULUM.map((s) => (
-        <div key={s.id}>
-          <SectionLabel icon={<Layers size={14} />} text={s.name} />
-          <div className="ws-decks">
-            {s.units.map((u) => {
-              const doneN = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
-              const p = doneN / u.lessons.length;
-              return (
-                <button key={u.id} className="ws-deck" onClick={() => openPath(u.id)}>
-                  <div className="ws-deck-top">
-                    <span className="ws-deck-name">{u.name}</span>
-                    <span className="ws-deck-count">{u.lessons.length}</span>
-                  </div>
-                  <div className="ws-deck-hint">{u.hint}</div>
-                  <Bar pct={p} />
-                  <div className="ws-deck-foot">
-                    <span>{doneN}/{u.lessons.length} lessons</span>
-                    {doneN === u.lessons.length && u.lessons.length > 0 && <span className="ws-due-dot">done</span>}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-
-      <SectionLabel icon={<Trophy size={14} />} text="Mastery shoreline" />
-      <Distribution fresh={fresh} learning={learning} mastered={mastered} />
-      <ConstellationGrid cards={cards} prog={prog} />
+      <SectionLabel icon={<Layers size={14} />} text="Units" />
+      <div className="ws-units">
+        {CURRICULUM.map((s) => {
+          const sc = sectionCards(cards, s);
+          const mstd = sc.filter((c) => masteryPct(prog[c.id]) >= 0.8).length;
+          const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l) => lessonDone(lessons, l.id)).length;
+          const lessonsTot = s.units.flatMap((u) => u.lessons).length;
+          return (
+            <button key={s.id} className="ws-unit-tile" onClick={() => openPath(s.id)}>
+              <div className="ws-unit-tile-top">
+                <span className="ws-unit-tile-name">{s.name}</span>
+                <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
+              </div>
+              <div className="ws-unit-tile-sub">{mstd}/{sc.length} words mastered · tap to review or re-learn</div>
+              <ConstellationGrid cards={sc} prog={prog} />
+            </button>
+          );
+        })}
+      </div>
 
       <div className="ws-build">build {BUILD_STAMP}</div>
 
@@ -2215,6 +2205,17 @@ function Styles() {
 .ws-day-cell.lv3{background:var(--tide)}
 .ws-day.today .ws-day-cell{box-shadow:0 0 0 2px var(--sun-deep)}
 .ws-day-lbl{font-size:9px;color:var(--sand-deep);font-weight:600}
+
+/* home "Units" tiles (mastery boxes, tap to review) */
+.ws-units{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.ws-unit-tile{display:block;width:100%;text-align:left;padding:14px;border-radius:16px;
+  border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;font-family:inherit;transition:.15s}
+.ws-unit-tile:active{transform:scale(.99)}
+.ws-unit-tile-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.ws-unit-tile-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--sea)}
+.ws-unit-tile-meta{display:inline-flex;align-items:center;gap:2px;flex-shrink:0;font-size:12px;font-weight:700;
+  color:var(--tide);font-variant-numeric:tabular-nums}
+.ws-unit-tile-sub{font-size:11.5px;color:var(--ink-soft);margin:2px 0 2px}
 
 /* learn path */
 .ws-learn{padding-bottom:30px}
