@@ -144,3 +144,25 @@ hulam (borrow).
 `na` = now / already (action happening now or already done); `pa` = still / yet
 (still happening, or not yet begun). Placed after the first full word (except
 with ka); na/pa come first among particles. [Built in Sulog "Building Blocks".]
+
+**L11 vocab box (p.45):** maalsom (sour), ulitawo (young man), grabe (serious),
+urusahon (wonderful), makapoy (tired), kataposan (last), kinabuhi (life),
+klima (climate), lain (other/different), matidong (righteous), magasa (thin),
+panahon (time/season), haligot (narrow), matab-ang (tasteless), matam-is (sweet),
+bug-os (whole), baton (answer), tuna (land/ground), dalan (path), pula (red).
+**L12 vocab box (p.50):** abri (open), agi (pass by), ba (question word),
+baláod (law), balitâ (news), espiritú (spirit), Ginóo (Lord), Jesu Kristo,
+kanta (song), magturútdo (teacher), na (already), pa (still/yet),
+pasáylo (forgive), patáy (dead), salâ (sin), Satanás (Satan), suwáy (oppose),
+tinápay (bread), uli (return home), waray (no/none/negator). L13 (na/pa) adds
+tapolan (lazy).
+
+## Lessons 14–16
+- **L14 (p.58)** particle `liwat` / `gihapon` = also / too / again.
+- **L15 (p.62)** `hin duro` intensifier = very / so / extremely. New: nangka
+  (jackfruit), medyas (socks).
+- **L16 (p.68)** negation: `waray` / `diri` with ma- actor focus (both = no/not).
+  **L16 vocab box (p.72):** bayad (pay), langit (heaven), luhod (kneel/sponsor),
+  mais (corn), oo (yes), pagbaya (leave/abandon), pagkanhi (come here),
+  pagkurahab (scream/shout), pagtirok (gather/collect), pagtubo (grow),
+  sakyanan (car), sari-sari (small store), tanum (plant), tsa (tea), utang (debt).
