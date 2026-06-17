@@ -394,6 +394,82 @@ const SEED = [
   ["essent", "Buligi daw ako", "Please help me", "", "boo-LEE-gee dow ah-KAW"],
   ["essent", "Pasaylo-a ako", "Excuse me / sorry", "", "pah-sigh-LO-ah ah-KAW"],
   ["essent", "Sige, sunod na la", "Goodbye (see you next time)", "", "SEE-geh SOO-nod nah lah"],
+
+  // ===== Building Blocks — possessives II-class (Peace Corps L4) =====
+  ["poss", "nakon", "my", "short form: ko", "NAH-kon"],
+  ["poss", "ko", "my (short)", "", "ko"],
+  ["poss", "nimo", "your", "short form: mo", "NEE-mo"],
+  ["poss", "niya", "his / her", "", "nee-YAH"],
+  ["poss", "naton", "our (incl)", "", "NAH-ton"],
+  ["poss", "namon", "our (excl)", "", "NAH-mon"],
+  ["poss", "nyo", "your (pl)", "", "nyo"],
+  ["poss", "nira", "their", "", "NEE-rah"],
+  ["poss", "libro nakon", "my book", "", "LEE-bro NAH-kon"],
+  ["poss", "lapis nimo", "your pencil", "", "LAH-pees NEE-mo"],
+  ["poss", "uyab niya", "his / her sweetheart", "", "OO-yab nee-YAH"],
+  ["poss", "balay namon", "our house", "", "bah-LIGH NAH-mon"],
+  // ===== Building Blocks — possessives III-class (Peace Corps L8) =====
+  ["poss", "akon", "mine / my", "", "AH-kon"],
+  ["poss", "imo", "yours / your", "", "EE-mo"],
+  ["poss", "iya", "his / hers", "", "ee-YAH"],
+  ["poss", "aton", "ours (incl)", "", "AH-ton"],
+  ["poss", "amon", "ours (excl)", "", "AH-mon"],
+  ["poss", "iyo", "yours (pl)", "", "EE-yo"],
+  ["poss", "ira", "theirs", "", "EE-rah"],
+  ["poss", "Akon ini", "This is mine", "", "AH-kon ee-NEE"],
+  ["poss", "Akon ini nga balay", "This house is mine", "", "AH-kon ee-NEE ngah bah-LIGH"],
+  ["poss", "ha akon", "to / for me", "", "hah AH-kon"],
+  ["poss", "ha imo", "to / for you", "", "hah EE-mo"],
+  ["poss", "ha iya", "to / for him / her", "", "hah ee-YAH"],
+
+  // ===== Building Blocks — demonstratives (Peace Corps L3) =====
+  ["demo", "ini", "this (near)", "", "ee-NEE"],
+  ["demo", "iton", "that (near you)", "", "ee-TON"],
+  ["demo", "adto", "that (over there)", "", "AD-to"],
+  ["demo", "kahoy", "tree", "", "KAH-hoy"],
+  ["demo", "libro", "book", "", "LEE-bro"],
+  ["demo", "ini nga babaye", "this woman", "", "ee-NEE ngah bah-BAH-yeh"],
+  ["demo", "iton nga lalake", "that man", "", "ee-TON ngah lah-LAH-keh"],
+  ["demo", "adto nga bata", "that child over there", "", "AD-to ngah BAH-tah"],
+  ["demo", "Tubig ini", "This is water", "", "TOO-beeg ee-NEE"],
+  ["demo", "Kahoy adto", "That's a tree over there", "", "KAH-hoy AD-to"],
+  ["demo", "Mga libro ini", "These are books", "", "mah-NGAH LEE-bro ee-NEE"],
+
+  // ===== Building Blocks — markers (Peace Corps L2 / L6) =====
+  ["mark", "hi", "the (before a name)", "name marker", "hee"],
+  ["mark", "hin", "a / some (object)", "object marker", "heen"],
+  ["mark", "han", "of / the (past object)", "", "hahn"],
+  ["mark", "ha", "to / at / in", "", "hah"],
+  ["mark", "ngan", "and", "", "ngahn"],
+  ["mark", "saging", "banana", "", "SAH-geeng"],
+  ["mark", "Ako hi Peter", "I am Peter", "", "ah-KAW hee PEE-ter"],
+  ["mark", "Hira Perla ngan Tessie", "They are Perla and Tessie", "", "HEE-rah PER-lah ngahn TES-see"],
+  ["mark", "Mapalit ako hin saging", "I'll buy a banana", "", "mah-PAH-leet ah-KAW heen SAH-geeng"],
+  ["mark", "Makadto ako ha balay", "I'll go to the house", "", "mah-KAD-to ah-KAW hah bah-LIGH"],
+
+  // ===== Building Blocks — question words (Peace Corps L10-12 / L28) =====
+  ["qword", "hin-o", "who", "", "heen-O"],
+  ["qword", "ano", "what", "", "AH-no"],
+  ["qword", "hain", "where", "", "HAH-een"],
+  ["qword", "diin", "where (from / which)", "", "dee-EEN"],
+  ["qword", "kay ano", "why", "", "kigh AH-no"],
+  ["qword", "mapira", "how many", "", "mah-PEE-rah"],
+  ["qword", "tagpira", "how much", "", "tag-PEE-rah"],
+  ["qword", "ba", "makes a yes/no question", "particle", "bah"],
+  ["qword", "Hin-o hiya?", "Who is she?", "", "heen-O hee-YAH"],
+  ["qword", "Isda ba ini?", "Is this fish?", "", "ees-DAH bah ee-NEE"],
+  ["qword", "Kay ano?", "Why?", "", "kigh AH-no"],
+  ["qword", "Mapira?", "How many?", "", "mah-PEE-rah"],
+
+  // ===== Building Blocks — particles & negation (Peace Corps L16 / L20) =====
+  ["ptcl", "na", "already", "", "nah"],
+  ["ptcl", "pa", "still / yet", "", "pah"],
+  ["ptcl", "liwat", "also / too", "", "LEE-wat"],
+  ["ptcl", "hin duro", "very / a lot", "", "heen DOO-ro"],
+  ["ptcl", "Marasa hin duro", "Very delicious", "", "mah-RAH-sah heen DOO-ro"],
+  ["ptcl", "Namahaw na ako", "I've already had breakfast", "", "nah-MAH-how nah ah-KAW"],
+  ["ptcl", "Diri pa", "Not yet / still not", "", "DEE-ree pah"],
+  ["ptcl", "Makusog liwat", "Strong too", "", "mah-KOO-sog LEE-wat"],
 ];
 
 const DECKS = {
@@ -413,6 +489,11 @@ const DECKS = {
   cal: { name: "Days & months", short: "Calendar", hint: "The week and the year" },
   color: { name: "Colors", short: "Colors", hint: "Basic colors" },
   essent: { name: "Handy phrases", short: "Handy", hint: "Useful everyday lines" },
+  poss: { name: "Possessives", short: "Possess.", hint: "my / your / mine / yours" },
+  demo: { name: "Demonstratives", short: "This/That", hint: "this, that, over there" },
+  mark: { name: "Markers", short: "Markers", hint: "hi / hin / han / ha / ngan" },
+  qword: { name: "Question words", short: "Questions", hint: "who, what, where, why" },
+  ptcl: { name: "Particles", short: "Particles", hint: "already, still, also, very, not" },
 };
 
 /* ---------------- curriculum (scaffolded lesson path) ----------------
@@ -529,6 +610,32 @@ const CURRICULUM = [
   ] },
   { id: "u24", name: "Handy phrases", hint: "Useful everyday lines", lessons: [
     { id: "u24l1", title: "Handy phrases", items: ["Waray ako makabaro", "Hain iton kasilyas?", "Buligi daw ako", "Pasaylo-a ako", "Sige, sunod na la"] },
+  ] },
+  ] },
+  { id: "s6", name: "Building Blocks", hint: "The grammar glue — pronouns, markers, questions", units: [
+  { id: "u25", name: "My, your, our", hint: "Possessives (nakon/ko, nimo/mo…)", lessons: [
+    { id: "u25l1", title: "Possessive forms", items: ["nakon", "ko", "nimo", "niya", "naton", "namon", "nyo", "nira"] },
+    { id: "u25l2", title: "Whose is it?", items: ["libro nakon", "lapis nimo", "uyab niya", "balay namon"] },
+  ] },
+  { id: "u26", name: "Mine & yours", hint: "Possessives (akon/imo/iya…) and ha +", lessons: [
+    { id: "u26l1", title: "Mine, yours, theirs", items: ["akon", "imo", "iya", "aton", "amon", "iyo", "ira"] },
+    { id: "u26l2", title: "It's mine / to me", items: ["Akon ini", "Akon ini nga balay", "ha akon", "ha imo", "ha iya"] },
+  ] },
+  { id: "u27", name: "This & that", hint: "Demonstratives + the nga linker", lessons: [
+    { id: "u27l1", title: "This, that, over there", items: ["ini", "iton", "adto", "kahoy", "libro"] },
+    { id: "u27l2", title: "This / that + noun", items: ["ini nga babaye", "iton nga lalake", "adto nga bata", "Tubig ini", "Kahoy adto", "Mga libro ini"] },
+  ] },
+  { id: "u28", name: "Markers", hint: "hi / hin / han / ha / ngan", lessons: [
+    { id: "u28l1", title: "The little markers", items: ["hi", "hin", "han", "ha", "ngan", "saging"] },
+    { id: "u28l2", title: "Markers in sentences", items: ["Ako hi Peter", "Hira Perla ngan Tessie", "Mapalit ako hin saging", "Makadto ako ha balay"] },
+  ] },
+  { id: "u29", name: "Asking", hint: "Question words + ba", lessons: [
+    { id: "u29l1", title: "Question words", items: ["hin-o", "ano", "hain", "diin", "kay ano", "mapira", "tagpira", "ba"] },
+    { id: "u29l2", title: "Asking questions", items: ["Hin-o hiya?", "Isda ba ini?", "Kay ano?", "Mapira?", "Ano ini?", "Tagpira ini?"] },
+  ] },
+  { id: "u30", name: "Little words", hint: "na, pa, liwat, hin duro & negation", lessons: [
+    { id: "u30l1", title: "Particles & negation", items: ["na", "pa", "liwat", "hin duro", "Waray", "Diri"] },
+    { id: "u30l2", title: "Using the little words", items: ["Marasa hin duro", "Namahaw na ako", "Diri pa", "Makusog liwat", "Waray pa"] },
   ] },
   ] },
 ];
