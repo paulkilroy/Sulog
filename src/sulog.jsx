@@ -186,6 +186,12 @@ const SEED = [
   ["invite", "Sigurado, makadto kami", "Sure, we'll come", "", "see-goo-RAH-do mah-KAD-to kah-MEE"],
   ["invite", "Sige, magkita kita hit Sabado", "Okay, let's meet on Saturday", "", "SEE-geh mag-KEE-tah kee-TAH heet sah-BAH-do"],
   ["invite", "magkita", "to meet", "", "mag-KEE-tah"],
+
+  // ---- appended: standalone adjectives (kept at the end so existing card ids,
+  //      which are positional c{index}, don't shift and break saved progress) ----
+  ["week1", "mahusay", "beautiful", "", "mah-hoo-SIGH"],
+  ["week1", "maraksot", "ugly", "", "mah-RAK-sot"],
+  ["week1", "makarit", "excellent", "", "mah-KAH-rit"],
 ];
 
 const DECKS = {
@@ -194,6 +200,102 @@ const DECKS = {
   verbs: { name: "Verbs, Objects & Time", short: "Verbs & Time", hint: "Mag / Nag / Pag affixes and when things happen" },
   invite: { name: "Phrases — Invitations", short: "Invitations", hint: "Asking someone over" },
 };
+
+/* ---------------- curriculum (scaffolded lesson path) ----------------
+   Units → lessons, ordered so each lesson builds on earlier ones. Lessons list
+   their items by Waray text (resolved to existing cards at runtime; unknown
+   entries are skipped). Each lesson is cleared in 4 escalating parts. */
+const LESSON_PARTS = [
+  { dir: "wte", mode: "mc", label: "Recognize", hint: "Waray → English" },
+  { dir: "etw", mode: "mc", label: "Reverse", hint: "English → Waray" },
+  { dir: "wte", mode: "type", label: "Recall", hint: "Type the English" },
+  { dir: "etw", mode: "type", label: "Produce", hint: "Type the Waray — no hints" },
+];
+
+const CURRICULUM = [
+  { id: "u1", name: "Survival kit", hint: "What you reach for on day one", lessons: [
+    { id: "u1l1", title: "Greetings", items: ["Maupay nga aga", "Maupay nga kulop", "Maupay nga gab-i"] },
+    { id: "u1l2", title: "Hello & thanks", items: ["Kumusta ka?", "Maupay man", "Salamat", "Damo nga salamat"] },
+    { id: "u1l3", title: "Yes & no", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay"] },
+    { id: "u1l4", title: "Getting by", items: ["Pasensya na", "Sige", "Adi", "Pwede"] },
+  ] },
+  { id: "u2", name: "Pronouns", hint: "Who's doing what", lessons: [
+    { id: "u2l1", title: "I, you, he/she", items: ["ako", "ikaw / ka", "hiya"] },
+    { id: "u2l2", title: "We & they", items: ["kita", "kami", "kamo", "hira"] },
+  ] },
+  { id: "u3", name: "People", hint: "Family, roles, where from", lessons: [
+    { id: "u3l1", title: "Family & friends", items: ["tatay", "nanay", "asawa", "akon patod", "sangkay"] },
+    { id: "u3l2", title: "Who they are", items: ["lalaki", "babaye", "bisita", "turista", "estudyante", "maestro / maestra"] },
+    { id: "u3l3", title: "Where from", items: ["Amerikano", "Pilipino"] },
+  ] },
+  { id: "u4", name: "Describing", hint: "Words to describe people", lessons: [
+    { id: "u4l1", title: "Looks", items: ["mahusay", "maraksot", "gwapo", "hataas", "matambok"] },
+    { id: "u4l2", title: "Qualities", items: ["makusog", "malipay", "buoton", "riko", "makarit", "mapaso"] },
+  ] },
+  { id: "u5", name: "Saying “X is Y”", hint: "Putting pronouns + words together", lessons: [
+    { id: "u5l1", title: "I am / you are", items: ["Amerikano ako", "Nanay ako", "Babaye ka", "Makusog ka", "Mahusay ka", "Maraksot ka"] },
+    { id: "u5l2", title: "He / she / they are", items: ["Turista hiya", "Makusog hiya", "Pilipino hira", "Bisita hira"] },
+    { id: "u5l3", title: "We are", items: ["Estudyante kami", "Maestra kami"] },
+  ] },
+  { id: "u6", name: "Verbs & doing", hint: "Action words and tenses", lessons: [
+    { id: "u6l1", title: "Around the house", items: ["laba", "hugas", "luto", "limpyu", "lukot"] },
+    { id: "u6l2", title: "More verbs", items: ["basa", "sayaw", "sudlay", "maneho", "baktas"] },
+    { id: "u6l3", title: "Care & wait", items: ["tago", "andam", "saribo", "hulat"] },
+    { id: "u6l4", title: "Tenses (Mag/Nag/Pag)", items: ["Mag- + verb", "Nag- + verb", "Pag- + verb", "Mag-aano ka?"] },
+    { id: "u6l5", title: "Let's eat", items: ["Kaon kita", "Kumaon kita"] },
+  ] },
+  { id: "u7", name: "Time & when", hint: "Now, later, parts of the day", lessons: [
+    { id: "u7l1", title: "Now & later", items: ["yana", "niyan", "buwas", "kanina"] },
+    { id: "u7l2", title: "Earlier & past", items: ["kakulop", "kagab-i", "kanina han aga"] },
+    { id: "u7l3", title: "Parts of the day", items: ["kulop", "yana nga aga", "yana nga gab-i"] },
+    { id: "u7l4", title: "Here, there & time", items: ["didi", "dida", "Ano it oras dida?", "Alas singko didi", "Ano nga oras?"] },
+  ] },
+  { id: "u8", name: "Things & places", hint: "Nouns for the world around you", lessons: [
+    { id: "u8l1", title: "Rooms", items: ["balay", "kusina", "banyo", "kwarto"] },
+    { id: "u8l2", title: "Clothes & cloth", items: ["bado", "sapatos", "panyo", "mantel", "biray", "taklap"] },
+    { id: "u8l3", title: "At the table", items: ["tinidor", "kutsara", "pinggan", "baso"] },
+    { id: "u8l4", title: "Food", items: ["isda", "manok", "karne", "utan", "tanom"] },
+    { id: "u8l5", title: "Getting around", items: ["sarakyan", "motor", "awto", "karsada", "bukid"] },
+  ] },
+  { id: "u9", name: "Weather", hint: "Talking about the day", lessons: [
+    { id: "u9l1", title: "Weather words", items: ["uran / mauran", "sirak / masirak", "dampog / madampog", "hangin / mahangin"] },
+    { id: "u9l2", title: "How's the weather?", items: ["mapaso hin duro", "matugnaw", "may bagyo", "Kumusta it panahon?"] },
+  ] },
+  { id: "u10", name: "Questions", hint: "Asking and answering", lessons: [
+    { id: "u10l1", title: "Can you see it?", items: ["Nakikit-an mo?", "Oo, nakikit-an ko", "Klaro?", "Oo, klaro", "Diri klaro"] },
+    { id: "u10l2", title: "Do you understand?", items: ["Naintindihan nimo?", "Oo, naintindihan ko", "Naintindihan ko", "Diri ako maaram"] },
+    { id: "u10l3", title: "Where & doing what", items: ["Taga diin ka?", "Hain ka?", "Ano imo gin-hihimo?", "Ano imo gin-kakaon?"] },
+    { id: "u10l4", title: "Useful extras", items: ["Hinay-hinay la", "Pakpak anay", "Makarit ka", "kay", "Karuyag ko / Gusto ko"] },
+  ] },
+  { id: "u11", name: "Invitations", hint: "Asking someone over", lessons: [
+    { id: "u11l1", title: "What's going on?", items: ["imbitasyon", "may / mayda", "gin-iimbita", "Ano it mayda?"] },
+    { id: "u11l2", title: "Free on Saturday?", items: ["May libre ka ba nga oras hit Sabado?", "Ano nga oras?", "Alas sais ha gab-i"] },
+    { id: "u11l3", title: "Come over", items: ["Nag-arog ako", "Mayda pangaon ha balay", "makadto"] },
+    { id: "u11l4", title: "Bring someone", items: ["Poydi ko ba ig-upod hi Rey?", "ig-upod", "Siyempre, poydi"] },
+    { id: "u11l5", title: "See you Saturday", items: ["Maghuhulat ako ha iyo", "Sigurado, makadto kami", "Sige, magkita kita hit Sabado", "magkita"] },
+  ] },
+];
+
+// flat, ordered list of every lesson (with its unit) for unlock / "next" logic
+const LESSON_FLOW = CURRICULUM.flatMap((u) => u.lessons.map((l) => ({ ...l, unit: u })));
+// resolve a lesson's item words to real card objects (skip any that don't exist)
+function lessonCards(cards, lesson) {
+  const byWaray = {};
+  cards.forEach((c) => { byWaray[c.waray] = c; });
+  return (lesson.items || []).map((w) => byWaray[w]).filter(Boolean);
+}
+// parts completed (0–4) for a lesson; a lesson is "done" at 4
+const lessonDone = (lessons, id) => (lessons[id] || 0) >= LESSON_PARTS.length;
+// a lesson is unlocked if it's the first or the previous lesson is done
+function lessonUnlocked(lessons, id) {
+  const idx = LESSON_FLOW.findIndex((l) => l.id === id);
+  if (idx <= 0) return true;
+  return lessonDone(lessons, LESSON_FLOW[idx - 1].id);
+}
+// the first not-yet-finished unlocked lesson (what "Continue" jumps to)
+function nextLesson(lessons) {
+  return LESSON_FLOW.find((l) => !lessonDone(lessons, l.id)) || LESSON_FLOW[LESSON_FLOW.length - 1];
+}
 
 // Cards that Paul's old tracker logged as "Forgotten" — start these a notch lower
 const FORGOTTEN = new Set([
@@ -293,11 +395,16 @@ function lev(a, b) {
       );
   return d[m][n];
 }
-function checkAnswer(input, target) {
-  const got = norm(input);
+// fold Waray spelling equivalences: o=u and e=i are the same sound, so accept
+// either when grading a Waray answer
+const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i");
+function checkAnswer(input, target, waray) {
+  let got = norm(input);
   if (!got) return false;
   const targets = alts(target);
-  for (const t of targets) {
+  if (waray) got = warayFold(got);
+  for (let t of targets) {
+    if (waray) t = warayFold(t);
     if (got === t) return true;
     const tol = t.length <= 4 ? 0 : t.length <= 8 ? 1 : 2;
     if (lev(got, t) <= tol) return true;
@@ -481,6 +588,8 @@ export default function App() {
   const [streak, setStreak] = useState({ count: 0, last: "", days: {} });
   const [loaded, setLoaded] = useState(false);
   const [session, setSession] = useState(null);
+  const [lessons, setLessons] = useState({}); // lessonId -> parts completed (0–4)
+  const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
 
   // keep the module-level chosen voice that speak() reads in sync with settings
@@ -495,8 +604,10 @@ export default function App() {
       const s = await store.get("waray:streak");
       const aIdx = await store.get("waray:audioIndex");
       const cfg = await store.get("waray:settings");
+      const les = await store.get("waray:lessons");
       if (p) setProg(JSON.parse(p));
       if (s) setStreak(JSON.parse(s));
+      if (les) setLessons(JSON.parse(les));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
       if (aIdx) {
         const ids = JSON.parse(aIdx);
@@ -514,6 +625,21 @@ export default function App() {
   const saveProg = useCallback((np) => { setProg(np); store.set("waray:prog", JSON.stringify(np)); }, []);
   const saveStreak = useCallback((ns) => { setStreak(ns); store.set("waray:streak", JSON.stringify(ns)); }, []);
   const saveSettings = useCallback((ns) => { setSettings(ns); store.set("waray:settings", JSON.stringify(ns)); }, []);
+  // mark a lesson part complete (parts unlock in order, so keep the max reached)
+  const completeLessonPart = useCallback((id, partIdx) => {
+    setLessons((prev) => {
+      const ns = { ...prev, [id]: Math.max(prev[id] || 0, partIdx + 1) };
+      store.set("waray:lessons", JSON.stringify(ns));
+      return ns;
+    });
+  }, []);
+  // open a lesson part: build a session over its cards in that part's dir+mode
+  const startLessonPart = useCallback((lesson, partIdx) => {
+    const part = LESSON_PARTS[partIdx];
+    const ids = lessonCards(cards, lesson).map((c) => c.id);
+    setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx } });
+    setView("session");
+  }, [cards]);
 
   const bumpStreak = useCallback(() => {
     setStreak((prev) => {
@@ -730,12 +856,15 @@ export default function App() {
     recordCard, saveAudio, togglePin, playCard, bumpStreak, saveProg,
     exportData, importData, settings, saveSettings,
     syncState, connectGist, disconnectGist, syncPull, syncPush,
+    lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
   };
 
   return (
     <div className="ws-root">
       <Styles />
       {view === "home" && <HomeView ctx={ctx} />}
+      {view === "learn" && <LearnView ctx={ctx} />}
+      {view === "lesson" && <LessonView ctx={ctx} />}
       {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
@@ -748,7 +877,8 @@ export default function App() {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio } = ctx;
+  const { cards, prog, streak, setView, setSession, audio, lessons, setLessonId } = ctx;
+  const curLesson = nextLesson(lessons);
   const total = cards.length;
   let mastered = 0, learning = 0, fresh = 0, sumPct = 0, due = 0;
   cards.forEach((c) => {
@@ -805,11 +935,11 @@ function HomeView({ ctx }) {
       <DayTracker streak={streak} />
 
       <div className="ws-cta-grid">
-        <button className="ws-cta ws-cta-primary" onClick={() => setView("setup")}>
-          <div className="ws-cta-ic"><Play size={20} /></div>
+        <button className="ws-cta ws-cta-primary" onClick={() => { setLessonId(curLesson.id); setView("lesson"); }}>
+          <div className="ws-cta-ic"><BookOpen size={20} /></div>
           <div>
-            <div className="ws-cta-t">Start a review</div>
-            <div className="ws-cta-d">Pick a deck, direction & mode</div>
+            <div className="ws-cta-t">Continue learning</div>
+            <div className="ws-cta-d">{curLesson.unit.name} · {curLesson.title}</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -818,6 +948,14 @@ function HomeView({ ctx }) {
           <div>
             <div className="ws-cta-t">Quick mix{due ? ` · ${due} due` : ""}</div>
             <div className="ws-cta-d">Waray → English, multiple choice</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        <button className="ws-cta" onClick={() => setView("setup")}>
+          <div className="ws-cta-ic ws-ic-tide"><Play size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Practice</div>
+            <div className="ws-cta-d">Pick a deck, direction & mode</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -862,6 +1000,7 @@ function HomeView({ ctx }) {
 
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
+        <button className="ws-bb" onClick={() => setView("learn")}><BookOpen size={18} /><span>Learn</span></button>
         <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
         <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
       </div>
@@ -1055,7 +1194,7 @@ function shuffle(a) {
 }
 
 function SessionView({ ctx }) {
-  const { cards, prog, session, setView, recordCard, bumpStreak } = ctx;
+  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart } = ctx;
   const queue = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
@@ -1063,11 +1202,15 @@ function SessionView({ ctx }) {
 
   const card = queue[i];
 
+  const finish = () => {
+    setDone(true);
+    if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part);
+  };
   const onResult = (correct) => {
     recordCard(card.id, correct);
     bumpStreak();
     setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
-    if (i + 1 >= queue.length) setDone(true);
+    if (i + 1 >= queue.length) finish();
     else setI(i + 1);
   };
 
@@ -1173,8 +1316,8 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
           <>
             <input className="ws-input" autoFocus value={typed} placeholder="Type your answer…"
               onChange={(e) => setTyped(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter" && typed.trim()) judge(checkAnswer(typed, answer)); }} />
-            <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer))}>
+              onKeyDown={(e) => { if (e.key === "Enter" && typed.trim()) judge(checkAnswer(typed, answer, dir === "etw")); }} />
+            <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer, dir === "etw"))}>
               Check
             </button>
           </>
@@ -1358,8 +1501,9 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total }) {
-  const { setView } = ctx;
+  const { setView, session } = ctx;
   const acc = total ? Math.round((tally.right / total) * 100) : 0;
+  const inLesson = !!session?.lesson;
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
@@ -1369,9 +1513,115 @@ function SessionDone({ ctx, tally, total }) {
         <h2>Human na!</h2>
         <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${tally.right} right · ${tally.wrong} to revisit`}</p>
         <div className="ws-done-actions">
-          <button className="ws-start" onClick={() => setView("home")}><Home size={18} /> Home</button>
-          <button className="ws-ghost-btn" onClick={() => setView("setup")}>Another round</button>
+          {inLesson ? (
+            <>
+              <button className="ws-start" onClick={() => setView("lesson")}><ChevronRight size={18} /> Back to lesson</button>
+              <button className="ws-ghost-btn" onClick={() => setView("learn")}>Learn path</button>
+            </>
+          ) : (
+            <>
+              <button className="ws-start" onClick={() => setView("home")}><Home size={18} /> Home</button>
+              <button className="ws-ghost-btn" onClick={() => setView("setup")}>Another round</button>
+            </>
+          )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ LEARN PATH ============================ */
+function LearnView({ ctx }) {
+  const { cards, lessons, setView, setLessonId } = ctx;
+  const cur = nextLesson(lessons);
+  return (
+    <div className="ws-page">
+      <TopBar title="Learn" onBack={() => setView("home")} />
+      <div className="ws-learn">
+        {CURRICULUM.map((u) => {
+          const uDone = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
+          return (
+            <div key={u.id} className="ws-unit">
+              <div className="ws-unit-head">
+                <div>
+                  <div className="ws-unit-name">{u.name}</div>
+                  <div className="ws-unit-hint">{u.hint}</div>
+                </div>
+                <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
+              </div>
+              <div className="ws-lessons">
+                {u.lessons.map((l) => {
+                  const done = lessons[l.id] || 0;
+                  const unlocked = lessonUnlocked(lessons, l.id);
+                  const complete = lessonDone(lessons, l.id);
+                  const isCur = l.id === cur.id;
+                  const n = lessonCards(cards, l).length;
+                  return (
+                    <button key={l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
+                      disabled={!unlocked}
+                      onClick={() => { setLessonId(l.id); setView("lesson"); }}>
+                      <div className="ws-lnode-ring" style={{ "--p": (done / LESSON_PARTS.length) * 100 }}>
+                        {complete ? <Check size={16} /> : <span>{done}/{LESSON_PARTS.length}</span>}
+                      </div>
+                      <div className="ws-lnode-body">
+                        <div className="ws-lnode-title">{l.title}</div>
+                        <div className="ws-lnode-sub">
+                          {complete ? "Complete · tap to review" : unlocked ? (isCur ? "Continue" : "Start") : "Locked"} · {n} item{n === 1 ? "" : "s"}
+                        </div>
+                      </div>
+                      {unlocked && <ChevronRight size={16} className="ws-lnode-arr" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function LessonView({ ctx }) {
+  const { cards, lessons, lessonId, setView, startLessonPart, playCard } = ctx;
+  const lesson = LESSON_FLOW.find((l) => l.id === lessonId) || nextLesson(lessons);
+  const items = lessonCards(cards, lesson);
+  const done = lessons[lesson.id] || 0;
+  return (
+    <div className="ws-page">
+      <TopBar title={lesson.unit.name} onBack={() => setView("learn")} />
+      <h2 className="ws-lesson-title">{lesson.title}</h2>
+
+      <SectionLabel text="Words & phrases" />
+      <div className="ws-lwords">
+        {items.map((c) => (
+          <button key={c.id} className="ws-lword" onClick={() => playCard(c)}>
+            <div>
+              <div className="ws-lword-w">{c.waray}</div>
+              {c.say && <div className="ws-lword-say">/ {c.say} /</div>}
+            </div>
+            <div className="ws-lword-e">{c.english}</div>
+          </button>
+        ))}
+      </div>
+
+      <SectionLabel text="Clear all 4 to finish" />
+      <div className="ws-parts">
+        {LESSON_PARTS.map((p, k) => {
+          const completed = done > k;
+          const available = done >= k && items.length > 0;
+          return (
+            <button key={k} className={`ws-part ${completed ? "done" : ""} ${done === k ? "cur" : ""}`}
+              disabled={!available} onClick={() => startLessonPart(lesson, k)}>
+              <div className="ws-part-num">{completed ? <Check size={15} /> : k + 1}</div>
+              <div className="ws-part-body">
+                <div className="ws-part-label">{p.label}</div>
+                <div className="ws-part-hint">{p.hint}</div>
+              </div>
+              <span className="ws-part-cta">{completed ? "Review" : done === k ? "Start" : ""}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -1923,6 +2173,57 @@ function Styles() {
 .ws-day-cell.lv3{background:var(--tide)}
 .ws-day.today .ws-day-cell{box-shadow:0 0 0 2px var(--sun-deep)}
 .ws-day-lbl{font-size:9px;color:var(--sand-deep);font-weight:600}
+
+/* learn path */
+.ws-learn{padding-bottom:30px}
+.ws-unit{margin-bottom:22px}
+.ws-unit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.ws-unit-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink)}
+.ws-unit-hint{font-size:12px;color:var(--ink-soft);margin-top:1px}
+.ws-unit-prog{flex-shrink:0;font-size:11px;font-weight:700;color:var(--tide);background:#eef8f8;
+  border-radius:20px;padding:4px 9px;font-variant-numeric:tabular-nums}
+.ws-lessons{display:flex;flex-direction:column;gap:8px}
+.ws-lnode{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;
+  border-radius:14px;border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;
+  font-family:inherit;transition:.15s}
+.ws-lnode.cur{border-color:var(--tide);background:#eef8f8}
+.ws-lnode.done{border-color:var(--jade)}
+.ws-lnode.locked{opacity:.5;cursor:not-allowed}
+.ws-lnode-ring{flex-shrink:0;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:11px;font-weight:700;color:var(--sea);
+  background:conic-gradient(var(--tide) calc(var(--p)*1%), var(--sand) 0)}
+.ws-lnode-ring span{background:var(--foam);width:30px;height:30px;border-radius:50%;display:flex;
+  align-items:center;justify-content:center}
+.ws-lnode.done .ws-lnode-ring{background:var(--jade);color:#fff}
+.ws-lnode-body{flex:1;min-width:0}
+.ws-lnode-title{font-size:14.5px;font-weight:600;color:var(--ink)}
+.ws-lnode-sub{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+.ws-lnode-arr{color:var(--sand-deep);flex-shrink:0}
+
+/* lesson screen */
+.ws-lesson-title{font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:var(--ink);margin:4px 0 4px}
+.ws-lwords{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
+.ws-lword{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:10px 13px;border-radius:12px;border:1px solid var(--sand-deep);background:var(--foam);
+  cursor:pointer;font-family:inherit}
+.ws-lword-w{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea)}
+.ws-lword-say{font-size:11px;color:var(--tide);margin-top:1px}
+.ws-lword-e{font-size:13px;color:var(--ink-soft);text-align:right;flex-shrink:0}
+.ws-parts{display:flex;flex-direction:column;gap:8px;padding-bottom:30px}
+.ws-part{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 13px;
+  border-radius:14px;border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;
+  font-family:inherit;transition:.15s}
+.ws-part.cur{border-color:var(--tide);background:#eef8f8}
+.ws-part.done{border-color:var(--jade)}
+.ws-part:disabled{opacity:.45;cursor:not-allowed}
+.ws-part-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:700;font-size:14px;color:#fff;background:var(--sand-deep)}
+.ws-part.cur .ws-part-num{background:var(--tide)}
+.ws-part.done .ws-part-num{background:var(--jade)}
+.ws-part-body{flex:1;min-width:0}
+.ws-part-label{font-size:14.5px;font-weight:600;color:var(--ink)}
+.ws-part-hint{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+.ws-part-cta{flex-shrink:0;font-size:12px;font-weight:700;color:var(--tide)}
 
 /* CTAs */
 .ws-cta-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}

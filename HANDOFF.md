@@ -112,6 +112,12 @@ It's one file, organized top-to-bottom: data → helpers → root component → 
 **Component tree**
 - `App` — root: loads state, owns `prog/audio/streak/settings/session`, exposes everything via
   a `ctx` object passed to views. View routing is a simple `view` string switch.
+- **Lesson path** (scaffolded curriculum): `CURRICULUM` (units → lessons, items by Waray
+  text) + `LESSON_PARTS` (the 4 escalating steps: WE-mc, EW-mc, WE-type, EW-type). Progress
+  in `waray:lessons` (lessonId → parts done 0–4). Views `LearnView` (the path) and
+  `LessonView` (4-part stepper) reuse `SessionView` for each part. See `docs/lesson-plan.md`.
+  NOTE: card ids are positional (`c{index}`) — only **append** to `SEED`, never insert/reorder,
+  or you shift ids and corrupt saved `prog`/`audio`.
 - Views: `HomeView` (TideHero, streak chips, CTAs, decks, Distribution, ConstellationGrid),
   `SetupView`, `SessionView` (+ `buildQueue`, `CardReview`, `SpeakCard`, `Verdict`,
   `SelfGrade`, `SessionDone`), `NeedsWorkView`, `BrowseView` (+ `BrowseRow`),
