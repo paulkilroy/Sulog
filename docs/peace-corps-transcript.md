@@ -52,3 +52,36 @@ John (John went); Tinmawag kamo (you-pl called); Nabalhin hira Mike ngan Kristi.
 New verb roots: sakay (ride), palit (buy), hatag (give), kaon (eat), lakat (go),
 inom (drink), sunod (follow), kadto (go to), simba (worship), balhin (move),
 tindog (stand), tawag (call), yakan (speak), tawa (laugh).
+**L5 vocab box (p.19):** adto (go), balhin (move/transfer), basa (read),
+daop (approach/come near), tuok (cry), lingkod (sit), lakat (go/walk),
+inom (drink), mata (wake up), apóy (grandparent), doktor (doctor),
+opisyales (officer), kaharani (neighbor), palit (buy), simba (worship/go to
+church), sunod (follow), pasayda (roam around), túkdaw (stand), yawa (devil),
+yakan (tell/speak), tawa (laugh).
+
+## Lesson 6 — ma- Actor Focus + object & location (pp.20–23)
+Formula: `ma-Verb + I-Cl actor + II-Cl object + III-Cl L/D/B`.
+**II-Class general pronouns** (mark object/possession in ma- focus):
+`hini` = this (very near), `hiton` = that (near), `hadto` = that over there (far).
+(So demonstratives have I-class topic forms ini/iton/adto AND II-class object
+forms hini/hiton/hadto.) Object markers `hin` = "a", `han` = "the"; `ha` + a
+location word = preposition (in/on/at).
+Examples: Mapalit hi Ruth hiton libro ha Alemars (Ruth will buy that book at
+Alemars); Inminom hiya hini nga gatas ha kusina (she drank this milk in the
+kitchen); Mapalit hira hin mga isda ha merkado (they'll buy fish at the market);
+Natindog hira hiton lamesa ha sala (standing on that table in the living room).
+**L6 vocab box (p.23):** lanat (catch up with), Diyos-diyos (idol),
+hagdanan (ladder), hangyo (ask a favor), huram (borrow), kanto (corner),
+karsada (street/road), kabulig (helper), kudal (fence), kusina (kitchen),
+lakso (jump), tindahan (store), mangga (mango), merkado (market), nars (nurse),
+ospital (hospital), tinapay (bread), pabor (favor), prutas (fruit), saging
+(banana), saka (climb/ascend), sala (living room), sine (movie), lagas (old
+person), bangko (bench/chair).
+
+## Lesson 7 — ma- Actor Focus + location & beneficiary (pp.24–28)
+Adds III-Class general pronouns & markers for location/direction/beneficiary
+(han/hin/ha + the beneficiary). Formula extends L6 with the L/D/B slot.
+**L7 vocab box (p.28):** tsinelas (slippers), apó (grandchildren), bukád
+(flower), estórya (story), gátas (milk), kanta (to sing), dara (to bring),
+kapé (coffee), lutò (to cook), pamílya (family), pára (for/on behalf of),
+pinirito nga manok (fried chicken), labay (to pass by), bado (dress).
