@@ -102,6 +102,9 @@ siyudád (city), telebísyon (television), tútdo (teach), umá (farm).
 The `ha +` pronoun forms (ha akon = to/for/at me; ha imo, ha iya, ha aton,
 ha amon, ha iyo, ha ira) as beneficiary/direction in ma- focus sentences.
 [Built in Sulog "Building Blocks" u26.]
+**L9 vocab box (p.38):** abót (arrive), ámpo (pray), bendísyon (blessing),
+búgto (sibling), hátag (give), lugár (place), píli (choose), sárig (trust),
+surát (write), siríng (speak/talk), upod (accompany), wáli (preach).
 
 ## Lesson 10 — REVIEW + master summary table (pp.39–43)
 **SUMMARY OF PRONOUNS & MARKERS (the full paradigm):**
