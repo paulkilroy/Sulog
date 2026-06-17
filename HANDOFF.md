@@ -79,7 +79,10 @@ It's one file, organized top-to-bottom: data → helpers → root component → 
 **Data (top of file)**
 - `SEED` — array of `[deck, waray, english, subtext, say]` rows (~150 cards). `say` is the
   English-reader phonetic respelling (e.g. `mah-OO-pigh`).
-- `DECKS` — deck key → {name, short, hint}. Keys: `greet`, `week1`, `verbs`, `invite`.
+- `DECKS` — deck key → {name, short, hint}. Keys: `greet`, `week1`, `verbs`, `invite`, plus the
+  newer theme decks `direk`, `shop`, `airport`, `daytrip`, `meals`, `cook`, `whentrav`, `gram`.
+  (Deck = a card's source/topic tag + MC distractor pool; the lesson path groups cards by Waray
+  text into units, independent of deck.)
 - `FORGOTTEN` — a `Set` of Waray strings Paul historically missed; those cards start flagged.
 
 **Spaced repetition / stats**
