@@ -608,7 +608,8 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [lessons, setLessons] = useState({}); // lessonId -> parts completed (0–4)
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
-  const [learnTarget, setLearnTarget] = useState(null); // unit/lesson id to scroll to in LearnView
+  const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
+  const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
 
   // keep the module-level chosen voice that speak() reads in sync with settings
@@ -876,7 +877,7 @@ export default function App() {
     exportData, importData, settings, saveSettings,
     syncState, connectGist, disconnectGist, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
-    learnTarget, setLearnTarget,
+    learnTarget, setLearnTarget, learnSection, setLearnSection,
   };
 
   return (
@@ -897,9 +898,10 @@ export default function App() {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio, lessons, setLessonId, setLearnTarget } = ctx;
+  const { cards, prog, streak, setView, setSession, audio, lessons, setLearnTarget, setLearnSection } = ctx;
   const curLesson = nextLesson(lessons);
-  const openPath = (targetId) => { setLearnTarget(targetId); setView("learn"); };
+  // open a section's own page; optionally scroll to a lesson within it
+  const openSection = (sid, lessonId = null) => { setLearnSection(sid); setLearnTarget(lessonId); setView("learn"); };
   const total = cards.length;
   let mastered = 0, learning = 0, fresh = 0, sumPct = 0, due = 0;
   cards.forEach((c) => {
@@ -956,11 +958,11 @@ function HomeView({ ctx }) {
       <DayTracker streak={streak} />
 
       <div className="ws-cta-grid">
-        <button className="ws-cta ws-cta-primary" onClick={() => openPath(curLesson.id)}>
+        <button className="ws-cta ws-cta-primary" onClick={() => openSection(curLesson.section.id, curLesson.id)}>
           <div className="ws-cta-ic"><BookOpen size={20} /></div>
           <div>
             <div className="ws-cta-t">Continue learning</div>
-            <div className="ws-cta-d">{curLesson.unit.name}</div>
+            <div className="ws-cta-d">{curLesson.section.name} · {curLesson.unit.name}</div>
             <div className="ws-cta-sub">{curLesson.title}</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
@@ -997,7 +999,7 @@ function HomeView({ ctx }) {
           const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l2) => lessonDone(lessons, l2.id)).length;
           const lessonsTot = s.units.flatMap((u) => u.lessons).length;
           return (
-            <button key={s.id} className="ws-unit-tile" onClick={() => openPath(s.id)}>
+            <button key={s.id} className="ws-unit-tile" onClick={() => openSection(s.id)}>
               <div className="ws-unit-tile-top">
                 <span className="ws-unit-tile-name">{s.name}</span>
                 <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
@@ -1014,7 +1016,7 @@ function HomeView({ ctx }) {
 
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
-        <button className="ws-bb" onClick={() => { setLearnTarget(null); setView("learn"); }}><BookOpen size={18} /><span>Learn</span></button>
+        <button className="ws-bb" onClick={() => openSection(curLesson.section.id, curLesson.id)}><BookOpen size={18} /><span>Learn</span></button>
         <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
         <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
       </div>
@@ -1546,9 +1548,10 @@ function SessionDone({ ctx, tally, total }) {
 
 /* ============================ LEARN PATH ============================ */
 function LearnView({ ctx }) {
-  const { cards, lessons, setView, setLessonId, learnTarget } = ctx;
+  const { cards, lessons, setView, setLessonId, setLearnSection, learnTarget, learnSection } = ctx;
   const cur = nextLesson(lessons);
-  // scroll to the unit/lesson the user came in on (else the current lesson)
+  const s = CURRICULUM.find((x) => x.id === learnSection) || cur.section;
+  // scroll to the lesson the user came in on (else the current lesson, if here)
   useEffect(() => {
     const id = learnTarget || cur.id;
     const t = setTimeout(() => {
@@ -1557,75 +1560,70 @@ function LearnView({ ctx }) {
     }, 60);
     return () => clearTimeout(t);
   }, []);
+  const all = s.units.flatMap((u) => u.lessons);
+  const sDone = all.filter((l) => lessonDone(lessons, l.id)).length;
   return (
     <div className="ws-page">
-      <TopBar title="Learn" onBack={() => setView("home")} />
+      <TopBar title={s.name} onBack={() => setView("home")} />
       <div className="ws-learn">
-        {CURRICULUM.map((s) => {
-          const all = s.units.flatMap((u) => u.lessons);
-          const sDone = all.filter((l) => lessonDone(lessons, l.id)).length;
-          return (
-            <div key={s.id} id={"ln-" + s.id} className="ws-section">
-              <div className="ws-section-head">
-                <div className="ws-section-name">{s.name}</div>
-                <div className="ws-section-prog">{sDone}/{all.length}</div>
-              </div>
-              {s.hint && <div className="ws-section-hint">{s.hint}</div>}
-              {s.units.map((u) => {
-                const uDone = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
-                return (
-                  <div key={u.id} id={"ln-" + u.id} className="ws-unit">
-                    <div className="ws-unit-head">
-                      <div>
-                        <div className="ws-unit-name">{u.name}</div>
-                        <div className="ws-unit-hint">{u.hint}</div>
-                      </div>
-                      <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
-                    </div>
-                    <div className="ws-lessons">
-                      {u.lessons.map((l) => {
-                        const done = lessons[l.id] || 0;
-                        const unlocked = lessonUnlocked(lessons, l.id);
-                        const complete = lessonDone(lessons, l.id);
-                        const isCur = l.id === cur.id;
-                        const n = lessonCards(cards, l).length;
-                        return (
-                          <button key={l.id} id={"ln-" + l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
-                            disabled={!unlocked}
-                            onClick={() => { setLessonId(l.id); setView("lesson"); }}>
-                            <div className="ws-lnode-ring" style={{ "--p": (done / LESSON_PARTS.length) * 100 }}>
-                              {complete ? <Check size={16} /> : <span>{done}/{LESSON_PARTS.length}</span>}
-                            </div>
-                            <div className="ws-lnode-body">
-                              <div className="ws-lnode-title">{l.title}</div>
-                              <div className="ws-lnode-sub">
-                                {complete ? "Complete · tap to review" : unlocked ? (isCur ? "Continue" : "Start") : "Locked"} · {n} item{n === 1 ? "" : "s"}
-                              </div>
-                            </div>
-                            {unlocked && <ChevronRight size={16} className="ws-lnode-arr" />}
-                          </button>
-                        );
-                      })}
-                    </div>
+        <div className="ws-section">
+          <div className="ws-section-head">
+            <div className="ws-section-hint">{s.hint}</div>
+            <div className="ws-section-prog">{sDone}/{all.length}</div>
+          </div>
+          {s.units.map((u) => {
+            const uDone = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
+            return (
+              <div key={u.id} id={"ln-" + u.id} className="ws-unit">
+                <div className="ws-unit-head">
+                  <div>
+                    <div className="ws-unit-name">{u.name}</div>
+                    <div className="ws-unit-hint">{u.hint}</div>
                   </div>
-                );
-              })}
-            </div>
-          );
-        })}
+                  <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
+                </div>
+                <div className="ws-lessons">
+                  {u.lessons.map((l) => {
+                    const done = lessons[l.id] || 0;
+                    const unlocked = lessonUnlocked(lessons, l.id);
+                    const complete = lessonDone(lessons, l.id);
+                    const isCur = l.id === cur.id;
+                    const n = lessonCards(cards, l).length;
+                    return (
+                      <button key={l.id} id={"ln-" + l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
+                        disabled={!unlocked}
+                        onClick={() => { setLessonId(l.id); setLearnSection(s.id); setView("lesson"); }}>
+                        <div className="ws-lnode-ring" style={{ "--p": (done / LESSON_PARTS.length) * 100 }}>
+                          {complete ? <Check size={16} /> : <span>{done}/{LESSON_PARTS.length}</span>}
+                        </div>
+                        <div className="ws-lnode-body">
+                          <div className="ws-lnode-title">{l.title}</div>
+                          <div className="ws-lnode-sub">
+                            {complete ? "Complete · tap to review" : unlocked ? (isCur ? "Continue" : "Start") : "Locked"} · {n} item{n === 1 ? "" : "s"}
+                          </div>
+                        </div>
+                        {unlocked && <ChevronRight size={16} className="ws-lnode-arr" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 }
 
 function LessonView({ ctx }) {
-  const { cards, lessons, lessonId, setView, startLessonPart, playCard } = ctx;
+  const { cards, lessons, lessonId, setView, setLearnSection, startLessonPart, playCard } = ctx;
   const lesson = LESSON_FLOW.find((l) => l.id === lessonId) || nextLesson(lessons);
   const items = lessonCards(cards, lesson);
   const done = lessons[lesson.id] || 0;
   return (
     <div className="ws-page">
-      <TopBar title={lesson.unit.name} onBack={() => setView("learn")} />
+      <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }} />
       <h2 className="ws-lesson-title">{lesson.title}</h2>
 
       <SectionLabel text="Words & phrases" />
@@ -2230,10 +2228,10 @@ function Styles() {
 .ws-learn{padding-bottom:30px}
 .ws-section{margin-bottom:26px}
 .ws-section-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  border-bottom:2px solid var(--sand-deep);padding-bottom:6px;margin-bottom:3px}
+  border-bottom:2px solid var(--sand-deep);padding-bottom:6px;margin-bottom:14px}
 .ws-section-name{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--sea)}
 .ws-section-prog{flex-shrink:0;font-size:12px;font-weight:700;color:var(--tide);font-variant-numeric:tabular-nums}
-.ws-section-hint{font-size:12px;color:var(--ink-soft);margin-bottom:14px}
+.ws-section-hint{font-size:12px;color:var(--ink-soft)}
 .ws-unit{margin-bottom:22px}
 .ws-unit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
 .ws-unit-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink)}
