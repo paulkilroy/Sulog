@@ -102,3 +102,25 @@ siyudád (city), telebísyon (television), tútdo (teach), umá (farm).
 The `ha +` pronoun forms (ha akon = to/for/at me; ha imo, ha iya, ha aton,
 ha amon, ha iyo, ha ira) as beneficiary/direction in ma- focus sentences.
 [Built in Sulog "Building Blocks" u26.]
+
+## Lesson 10 — REVIEW + master summary table (pp.39–43)
+**SUMMARY OF PRONOUNS & MARKERS (the full paradigm):**
+Personal pronouns (I / II / III / ha+):
+- I (me):        ako  / nakon / akon / ha akon
+- you (sg):      ikaw/ka / nimo / imo / ha imo
+- he/she:        hiya / niya / iya / ha iya
+- we (incl):     kita / naton / aton / ha aton
+- we (excl):     kami / namon / amon / ha amon
+- you (pl):      kamo / niyo / iyo / ha iyo
+- they:          hira / nira / ira / ha ira
+Markers:
+- proper sg:  I `hi`  · II `ni`  · III `kan`
+- proper pl:  I `hira` · II `nira` · III `kan ngan kan`
+- common sg:  I `an`  · II `han/hin` · III `ha`
+- common pl:  I `an mga` · II `han mga / hin mga` · III `ha mga`
+General pronouns / demonstratives (I / II / III):
+- this:        ini / hini / dinhi (didi = here)
+- that:        iton / hiton / didto
+- over there:  adto / hadto / didto
+(III-class general = location: dinhi/didi "here", didto "there".)
+Note: II-class "your(pl)" is **niyo** (Sulog used "nyo" — verify).
