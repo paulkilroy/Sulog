@@ -345,13 +345,16 @@ function freshStat(forgotten) {
 }
 function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
 function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
-// "needs work" = you pinned it, or your most recent attempt was a miss (box reset to 0).
-// A card you've answered correctly at least once (box >= 1) is progressing and drops off.
+// "needs work" = you pinned it, or you've missed it at least once — the stuff to
+// redrill. Ranked elsewhere by how often it's been missed, so a word you keep
+// struggling with stays here even if you happened to get it right last time.
 function needsWorkCard(st) {
   if (!st) return false;
   if (st.pinned) return true;
-  return st.seen > 0 && st.box === 0;
+  return (st.wrong || 0) > 0;
 }
+// accuracy 0–1 (used to break ties when ranking struggle); unseen = perfect
+function accuracy(st) { return st && st.seen ? st.right / st.seen : 1; }
 
 function applyResult(st, correct) {
   const s = { ...st };
@@ -590,6 +593,7 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [lessons, setLessons] = useState({}); // lessonId -> parts completed (0–4)
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
+  const [learnTarget, setLearnTarget] = useState(null); // unit/lesson id to scroll to in LearnView
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
 
   // keep the module-level chosen voice that speak() reads in sync with settings
@@ -857,6 +861,7 @@ export default function App() {
     exportData, importData, settings, saveSettings,
     syncState, connectGist, disconnectGist, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
+    learnTarget, setLearnTarget,
   };
 
   return (
@@ -877,8 +882,9 @@ export default function App() {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio, lessons, setLessonId } = ctx;
+  const { cards, prog, streak, setView, setSession, audio, lessons, setLessonId, setLearnTarget } = ctx;
   const curLesson = nextLesson(lessons);
+  const openPath = (targetId) => { setLearnTarget(targetId); setView("learn"); };
   const total = cards.length;
   let mastered = 0, learning = 0, fresh = 0, sumPct = 0, due = 0;
   cards.forEach((c) => {
@@ -935,7 +941,7 @@ function HomeView({ ctx }) {
       <DayTracker streak={streak} />
 
       <div className="ws-cta-grid">
-        <button className="ws-cta ws-cta-primary" onClick={() => { setLessonId(curLesson.id); setView("lesson"); }}>
+        <button className="ws-cta ws-cta-primary" onClick={() => openPath(curLesson.id)}>
           <div className="ws-cta-ic"><BookOpen size={20} /></div>
           <div>
             <div className="ws-cta-t">Continue learning</div>
@@ -969,23 +975,22 @@ function HomeView({ ctx }) {
         </button>
       </div>
 
-      <SectionLabel icon={<Layers size={14} />} text="Your decks" />
+      <SectionLabel icon={<Layers size={14} />} text="Units" />
       <div className="ws-decks">
-        {Object.keys(DECKS).map((k) => {
-          const dc = cards.filter((c) => c.deck === k);
-          const p = dc.reduce((a, c) => a + masteryPct(prog[c.id]), 0) / (dc.length || 1);
-          const dueN = dc.filter((c) => isDue(prog[c.id])).length;
+        {CURRICULUM.map((u) => {
+          const doneN = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
+          const p = doneN / u.lessons.length;
           return (
-            <button key={k} className="ws-deck" onClick={() => { setSession({ deckKeys: [k], dir: "wte", mode: "mc", limit: 15 }); setView("session"); }}>
+            <button key={u.id} className="ws-deck" onClick={() => openPath(u.id)}>
               <div className="ws-deck-top">
-                <span className="ws-deck-name">{DECKS[k].name}</span>
-                <span className="ws-deck-count">{dc.length}</span>
+                <span className="ws-deck-name">{u.name}</span>
+                <span className="ws-deck-count">{u.lessons.length}</span>
               </div>
-              <div className="ws-deck-hint">{DECKS[k].hint}</div>
+              <div className="ws-deck-hint">{u.hint}</div>
               <Bar pct={p} />
               <div className="ws-deck-foot">
-                <span>{Math.round(p * 100)}% mastered</span>
-                {dueN > 0 && <span className="ws-due-dot">{dueN} due</span>}
+                <span>{doneN}/{u.lessons.length} lessons</span>
+                {doneN === u.lessons.length && u.lessons.length > 0 && <span className="ws-due-dot">done</span>}
               </div>
             </button>
           );
@@ -1000,7 +1005,7 @@ function HomeView({ ctx }) {
 
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
-        <button className="ws-bb" onClick={() => setView("learn")}><BookOpen size={18} /><span>Learn</span></button>
+        <button className="ws-bb" onClick={() => { setLearnTarget(null); setView("learn"); }}><BookOpen size={18} /><span>Learn</span></button>
         <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
         <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
       </div>
@@ -1532,8 +1537,17 @@ function SessionDone({ ctx, tally, total }) {
 
 /* ============================ LEARN PATH ============================ */
 function LearnView({ ctx }) {
-  const { cards, lessons, setView, setLessonId } = ctx;
+  const { cards, lessons, setView, setLessonId, learnTarget } = ctx;
   const cur = nextLesson(lessons);
+  // scroll to the unit/lesson the user came in on (else the current lesson)
+  useEffect(() => {
+    const id = learnTarget || cur.id;
+    const t = setTimeout(() => {
+      const el = document.getElementById("ln-" + id);
+      if (el) el.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 60);
+    return () => clearTimeout(t);
+  }, []);
   return (
     <div className="ws-page">
       <TopBar title="Learn" onBack={() => setView("home")} />
@@ -1541,7 +1555,7 @@ function LearnView({ ctx }) {
         {CURRICULUM.map((u) => {
           const uDone = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
           return (
-            <div key={u.id} className="ws-unit">
+            <div key={u.id} id={"ln-" + u.id} className="ws-unit">
               <div className="ws-unit-head">
                 <div>
                   <div className="ws-unit-name">{u.name}</div>
@@ -1557,7 +1571,7 @@ function LearnView({ ctx }) {
                   const isCur = l.id === cur.id;
                   const n = lessonCards(cards, l).length;
                   return (
-                    <button key={l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
+                    <button key={l.id} id={"ln-" + l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
                       disabled={!unlocked}
                       onClick={() => { setLessonId(l.id); setView("lesson"); }}>
                       <div className="ws-lnode-ring" style={{ "--p": (done / LESSON_PARTS.length) * 100 }}>
@@ -1630,8 +1644,14 @@ function LessonView({ ctx }) {
 /* ============================ NEEDS WORK ============================ */
 function NeedsWorkView({ ctx }) {
   const { cards, prog, setView, setSession, playCard, togglePin } = ctx;
+  // rank by how much you struggle: most-missed first, then lowest accuracy
   const items = cards.filter((c) => needsWorkCard(prog[c.id]))
-    .sort((a, b) => (prog[b.id]?.wrong || 0) - (prog[a.id]?.wrong || 0));
+    .sort((a, b) => {
+      const sa = prog[a.id], sb = prog[b.id];
+      const byWrong = (sb?.wrong || 0) - (sa?.wrong || 0);
+      return byWrong || accuracy(sa) - accuracy(sb);
+    });
+  const drill = items.slice(0, 20); // redrill the worst ~20 in one go
 
   return (
     <div className="ws-page">
@@ -1639,16 +1659,15 @@ function NeedsWorkView({ ctx }) {
       {items.length === 0 ? (
         <div className="ws-empty">
           <Sparkles size={28} />
-          <p>Nothing flagged yet. Words you miss — or pin with the star — collect here so you can hit them before your next lesson.</p>
+          <p>Nothing to redrill yet. Anything you miss — or pin with the star — collects here, worst first, so you can hammer the hard ones.</p>
         </div>
       ) : (
         <>
           <button className="ws-start ws-full" onClick={() => {
-            setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "mc", limit: items.length, only: items.map((c) => c.id) });
-            // simple: route a focused session via a temp deck filter
+            setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "mc", limit: drill.length, only: drill.map((c) => c.id) });
             setView("session");
           }}>
-            <Play size={18} /> Drill these {items.length}
+            <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
           </button>
           <div className="ws-nw-list">
             {items.map((c) => {
