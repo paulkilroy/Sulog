@@ -349,18 +349,18 @@ const SEED = [
   ["gram", "Nagluto an bata", "The child cooked", "past", "nag-LOO-to ahn BAH-tah"],
 
   // ===== Numbers, Days & Colors (from Wikivoyage Waray phrasebook) =====
-  ["num", "usa", "one", "", "OO-sah"],
-  ["num", "duha", "two", "", "DOO-hah"],
-  ["num", "tolo", "three", "also tulo", "TOH-lo"],
-  ["num", "upat", "four", "", "OO-pat"],
-  ["num", "lima", "five", "", "LEE-mah"],
-  ["num", "unom", "six", "", "OO-nom"],
-  ["num", "pito", "seven", "", "PEE-to"],
-  ["num", "walo", "eight", "", "WAH-lo"],
-  ["num", "siam", "nine", "", "see-AHM"],
-  ["num", "napulo", "ten", "", "nah-POO-lo"],
+  ["num", "usa", "one", "", "oo-SAH"],
+  ["num", "duha", "two", "", "doo-HAH"],
+  ["num", "tulo", "three", "", "too-LO"],
+  ["num", "upat", "four", "", "oo-PAT"],
+  ["num", "lima", "five", "", "lee-MAH"],
+  ["num", "unom", "six", "", "oo-NOM"],
+  ["num", "pito", "seven", "", "pee-TO"],
+  ["num", "walo", "eight", "", "wah-LO"],
+  ["num", "siyam", "nine", "", "see-YAM"],
+  ["num", "napulo", "ten", "", "nah-poo-LO"],
   ["num", "karuhaan", "twenty", "", "kah-roo-HAH-an"],
-  ["num", "usa ka gatos", "one hundred", "", "OO-sah kah GAH-tos"],
+  ["num", "usa kagatos", "one hundred", "", "oo-SAH kah-GAH-tos"],
 
   ["cal", "Lunes", "Monday", "", "LOO-nes"],
   ["cal", "Martes", "Tuesday", "", "MAR-tes"],
@@ -402,7 +402,7 @@ const SEED = [
   ["poss", "niya", "his / her", "", "nee-YAH"],
   ["poss", "naton", "our (incl)", "", "NAH-ton"],
   ["poss", "namon", "our (excl)", "", "NAH-mon"],
-  ["poss", "nyo", "your (pl)", "", "nyo"],
+  ["poss", "niyo", "your (pl)", "", "NEE-yo"],
   ["poss", "nira", "their", "", "NEE-rah"],
   ["poss", "libro nakon", "my book", "", "LEE-bro NAH-kon"],
   ["poss", "lapis nimo", "your pencil", "", "LAH-pees NEE-mo"],
@@ -599,7 +599,7 @@ const CURRICULUM = [
   ] },
   { id: "s5", name: "Numbers & Essentials", hint: "Counting, the calendar, colors and handy lines", units: [
   { id: "u21", name: "Numbers", hint: "Counting 1–100", lessons: [
-    { id: "u21l1", title: "Numbers 1–100", items: ["usa", "duha", "tolo", "upat", "lima", "unom", "pito", "walo", "siam", "napulo", "karuhaan", "usa ka gatos"] },
+    { id: "u21l1", title: "Numbers 1–100", items: ["usa", "duha", "tulo", "upat", "lima", "unom", "pito", "walo", "siyam", "napulo", "karuhaan", "usa kagatos"] },
   ] },
   { id: "u22", name: "Days & months", hint: "The week and the year", lessons: [
     { id: "u22l1", title: "Days of the week", items: ["Lunes", "Martes", "Miyerkoles", "Huwebes", "Biyernes", "Sabado", "Dominggo"] },
@@ -614,7 +614,7 @@ const CURRICULUM = [
   ] },
   { id: "s6", name: "Building Blocks", hint: "The grammar glue — pronouns, markers, questions", units: [
   { id: "u25", name: "My, your, our", hint: "Possessives (nakon/ko, nimo/mo…)", lessons: [
-    { id: "u25l1", title: "Possessive forms", items: ["nakon", "ko", "nimo", "niya", "naton", "namon", "nyo", "nira"] },
+    { id: "u25l1", title: "Possessive forms", items: ["nakon", "ko", "nimo", "niya", "naton", "namon", "niyo", "nira"] },
     { id: "u25l2", title: "Whose is it?", items: ["libro nakon", "lapis nimo", "uyab niya", "balay namon"] },
   ] },
   { id: "u26", name: "Mine & yours", hint: "Possessives (akon/imo/iya…) and ha +", lessons: [
