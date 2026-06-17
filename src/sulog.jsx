@@ -246,6 +246,8 @@ const CURRICULUM = [
     { id: "u6l4", title: "Tenses (Mag/Nag/Pag)", items: ["Mag- + verb", "Nag- + verb", "Pag- + verb", "Mag-aano ka?"] },
     { id: "u6l5", title: "Let's eat", items: ["Kaon kita", "Kumaon kita"] },
   ] },
+  ] },
+  { id: "s2", name: "Basics", hint: "Building on the survival kit", units: [
   { id: "u7", name: "Time & when", hint: "Now, later, parts of the day", lessons: [
     { id: "u7l1", title: "Now & later", items: ["yana", "niyan", "buwas", "kanina"] },
     { id: "u7l2", title: "Earlier & past", items: ["kakulop", "kagab-i", "kanina han aga"] },
