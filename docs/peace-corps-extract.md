@@ -84,9 +84,51 @@ sweetheart). [II-Class markers continue on following pages.]
   kapé (coffee), pamílya (family), pára (for/on behalf of), pinirito nga manok
   (fried chicken), labay (to pass by), bado (dress).
 
-<!-- SCAN PROGRESS: mapped lesson STARTS through L7 (p.24); L7 vocab p.28.
-     Lessons are ~4pp each (starts: 1,4,8,12,16,20,24,28...). Continue sampling
-     starts from ~p.32 (L8) to finish the course index, then design structure. -->
+## Full course arc (whole 114pp scanned by sampling)
+It's a **grammar-progression** course (very different from Sulog's theme-first
+decks). The backbone, in order:
+1. **L1–4** Pronoun system: I-class personal pronouns + equational sentences;
+   I-class markers (hi/hira, an/an mga, ngan); demonstratives (ini/iton/adto +
+   nga linker); II-class **possessive** pronouns (nakon/ko, nimo/mo, niya, naton,
+   namon, nyo, nira).
+2. **L8–9** III-class pronouns: standalone possessives (akon/imo/iya/aton/amon/
+   iyo/ira = "mine/yours…") and the **ha + pronoun** prepositional forms (ha akon
+   = to/at/with/from me).
+3. **~L10–12** Yes/no questions with **ba** (Isda ba ini? = Is this fish?).
+4. **L5–7 & ~L24** Verb **focuses**: ma- actor focus (+object/location/
+   beneficiary, III-cl markers han/hin/ha) and mag- verbs.
+5. **~L16** Intensifiers & particles: **hin duro** (very), **liwat** (also),
+   **na** (already), **pa** (still).
+6. **~L20** Negation: **waray** (didn't/none) + **diri** (not) with particles.
+7. **~L28** Question words: **hin-o** (who) + the **man** particle (and ano/hain…).
+Scattered thematic vocab to harvest: saging (banana), tindahan (store),
+eskwelahan (school), kahoy (tree), dagat (sea), libro (book), tubig (water),
+gatas (milk), kape (coffee), pamilya (family), tinapay (bread), mangga (mango),
+sabaw (soup), kahoy, balaod (law), Ginoo (Lord), uma (farm), kabulig (helper).
+
+## PROPOSED Sulog structure from this course
+Add a grammar-driven section (the app's biggest gap), vocab/forms-first then
+sentences, 8–10 items/lesson:
+**Section "Building Blocks"** (grammar):
+- Unit *My & your* — II-class possessives: nakon/ko, nimo/mo, niya, naton, namon,
+  nyo, nira; then phrases (libro nakon, lapis nimo…).
+- Unit *Mine & yours* — III-class: akon/imo/iya/aton/amon/iyo/ira; ha+pronoun
+  (ha akon…); then phrases (Akon ini, Akon ini nga balay…).
+- Unit *This & that* — ini/iton/adto, + nga linker (already partly in app's
+  "Describing sentences"; extend with demonstratives).
+- Unit *Markers* — hi/si, an/an mga, hin/han, ha, ngan; then tagged sentences.
+- Unit *Asking* — question words: hin-o (who), ano (what), hain/diin (where),
+  san-o (when), kay ano (why), mapira/tagpira (how many/much), + ba yes/no.
+- Unit *Little words* — particles: na (already), pa (still), liwat (also),
+  hin duro (very); negation waray/diri.
+- Unit *Verb focuses* — extend "Verbs in action": ma- / mag- / nag- with
+  actor+object+location examples.
+NOTE: phonetics for new grammar words are best-effort; the course's accent marks
+(p.3 key) give stress for many (use them). Teacher pass recommended.
+
+<!-- SCAN COMPLETE (sampled whole course). Next: build the "Building Blocks"
+     section above into CURRICULUM + SEED. -->
+
 
 
 
