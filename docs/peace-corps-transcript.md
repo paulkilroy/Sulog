@@ -85,3 +85,20 @@ Adds III-Class general pronouns & markers for location/direction/beneficiary
 (flower), estórya (story), gátas (milk), kanta (to sing), dara (to bring),
 kapé (coffee), lutò (to cook), pamílya (family), pára (for/on behalf of),
 pinirito nga manok (fried chicken), labay (to pass by), bado (dress).
+
+## Lesson 8 — III-Class possessives "mine/yours" (pp.29–34)
+III-Class pronouns precede the noun to show possession: akon (mine/my), imo, iya,
+aton (incl), amon (excl), iyo, ira. Akon ini nga balay (this house is mine);
+imo ngaran (your name); two ways "my pencil" = Ini an lapis nakon / Ini an akon
+lapis. [Built in Sulog "Building Blocks" — confirmed correct.]
+**L8 vocab box (p.34):** bisíta (visit/visitor), biyáhe (trip), Diyós (God),
+gúgma (love), hígda (lie down), iglésiya (church), Kaádlawan (birthday),
+kasingkásing (heart), kátre (bed), láwas (body), manók (chicken), násud (nation),
+nawóng (face), ngáran (name), upód (accompany), pagkáon (food), karáwat
+(accept/receive), súgat (meet), peligróso (dangerous), sinehán (cinema),
+siyudád (city), telebísyon (television), tútdo (teach), umá (farm).
+
+## Lesson 9 — III-Class pronouns in ma- Actor Focus (pp.35–39)
+The `ha +` pronoun forms (ha akon = to/for/at me; ha imo, ha iya, ha aton,
+ha amon, ha iyo, ha ira) as beneficiary/direction in ma- focus sentences.
+[Built in Sulog "Building Blocks" u26.]
