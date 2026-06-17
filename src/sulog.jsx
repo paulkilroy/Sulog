@@ -470,6 +470,30 @@ const SEED = [
   ["ptcl", "Namahaw na ako", "I've already had breakfast", "", "nah-MAH-how nah ah-KAW"],
   ["ptcl", "Diri pa", "Not yet / still not", "", "DEE-ree pah"],
   ["ptcl", "Makusog liwat", "Strong too", "", "mah-KOO-sog LEE-wat"],
+
+  // ===== Building Blocks — ma- verb tenses (Peace Corps L5 conjugation) =====
+  ["gram", "makaon", "will eat", "future: ma-", "mah-KAH-on"],
+  ["gram", "nakaon", "is eating", "present: na-", "nah-KAH-on"],
+  ["gram", "kinmaon", "ate", "past: -inm-", "kin-MAH-on"],
+  ["gram", "malakat", "will go", "future: ma-", "mah-LAH-kat"],
+  ["gram", "nalakat", "is going", "present: na-", "nah-LAH-kat"],
+  ["gram", "linmakat", "went", "past: -inm-", "lin-MAH-kat"],
+  ["gram", "mapalit", "will buy", "future: ma-", "mah-PAH-leet"],
+  ["gram", "napalit", "is buying", "present: na-", "nah-PAH-leet"],
+  ["gram", "pinmalit", "bought", "past: -inm-", "pin-MAH-leet"],
+  ["gram", "mainom", "will drink", "future: ma-", "mah-EE-nom"],
+  ["gram", "nainom", "is drinking", "present: na-", "nah-EE-nom"],
+  ["gram", "inminom", "drank", "past: -inm-", "een-MEE-nom"],
+
+  // ===== Building Blocks — modals (Peace Corps L22) =====
+  ["modal", "kinahanglan", "need to / must", "", "kee-nah-HANG-lan"],
+  ["modal", "mahimo", "can / able to", "same as pwede", "mah-HEE-mo"],
+  ["modal", "Ayaw", "don't (command)", "", "AH-yaw"],
+  ["modal", "trabaho", "work", "magtrabaho = to work", "trah-BAH-ho"],
+  ["modal", "Kinahanglan ako magtrabaho", "I need to work", "", "kee-nah-HANG-lan ah-KAW mag-trah-BAH-ho"],
+  ["modal", "Pwede ka ba magdara?", "Can you bring it?", "", "PWEH-deh kah bah mag-DAH-rah"],
+  ["modal", "Mahimo ako maupod", "I can come along", "", "mah-HEE-mo ah-KAW mah-OO-pod"],
+  ["modal", "Ayaw pagkaon", "Don't eat", "", "AH-yaw pag-KAH-on"],
 ];
 
 const DECKS = {
@@ -494,6 +518,7 @@ const DECKS = {
   mark: { name: "Markers", short: "Markers", hint: "hi / hin / han / ha / ngan" },
   qword: { name: "Question words", short: "Questions", hint: "who, what, where, why" },
   ptcl: { name: "Particles", short: "Particles", hint: "already, still, also, very, not" },
+  modal: { name: "Can & must", short: "Modals", hint: "can, need to, don't" },
 };
 
 /* ---------------- curriculum (scaffolded lesson path) ----------------
@@ -636,6 +661,14 @@ const CURRICULUM = [
   { id: "u30", name: "Little words", hint: "na, pa, liwat, hin duro & negation", lessons: [
     { id: "u30l1", title: "Particles & negation", items: ["na", "pa", "liwat", "hin duro", "Waray", "Diri"] },
     { id: "u30l2", title: "Using the little words", items: ["Marasa hin duro", "Namahaw na ako", "Diri pa", "Makusog liwat", "Waray pa"] },
+  ] },
+  { id: "u31", name: "Verb tenses", hint: "will / now / did (ma- / na- / -inm-)", lessons: [
+    { id: "u31l1", title: "Eat & go", items: ["makaon", "nakaon", "kinmaon", "malakat", "nalakat", "linmakat"] },
+    { id: "u31l2", title: "Buy & drink", items: ["mapalit", "napalit", "pinmalit", "mainom", "nainom", "inminom"] },
+  ] },
+  { id: "u32", name: "Can, must, don't", hint: "kinahanglan, pwede / mahimo, Ayaw", lessons: [
+    { id: "u32l1", title: "Can, must, don't", items: ["kinahanglan", "mahimo", "Ayaw", "Pwede", "trabaho"] },
+    { id: "u32l2", title: "Using them", items: ["Kinahanglan ako magtrabaho", "Pwede ka ba magdara?", "Mahimo ako maupod", "Ayaw pagkaon"] },
   ] },
   ] },
 ];
