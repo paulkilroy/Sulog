@@ -430,67 +430,48 @@ const LESSON_PARTS = [
 const CURRICULUM = [
   { id: "s1", name: "Survival Kit", hint: "The essentials to get started", units: [
   { id: "u1", name: "Greetings", hint: "What you reach for on day one", lessons: [
-    { id: "u1l1", title: "Times of day", items: ["Maupay nga aga", "Maupay nga kulop", "Maupay nga gab-i"] },
-    { id: "u1l2", title: "Hello & thanks", items: ["Kumusta ka?", "Maupay man", "Salamat", "Damo nga salamat"] },
-    { id: "u1l3", title: "Yes & no", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay"] },
-    { id: "u1l4", title: "Getting by", items: ["Pasensya na", "Sige", "Adi", "Pwede"] },
+    { id: "u1l1", title: "Greetings & thanks", items: ["Maupay nga aga", "Maupay nga kulop", "Maupay nga gab-i", "Kumusta ka?", "Maupay man", "Salamat", "Damo nga salamat"] },
+    { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Pasensya na", "Sige", "Adi", "Pwede"] },
   ] },
   { id: "u2", name: "Pronouns", hint: "Who's doing what", lessons: [
-    { id: "u2l1", title: "I, you, he/she", items: ["ako", "ikaw / ka", "hiya"] },
-    { id: "u2l2", title: "We & they", items: ["kita", "kami", "kamo", "hira"] },
+    { id: "u2l1", title: "Pronouns", items: ["ako", "ikaw / ka", "hiya", "kita", "kami", "kamo", "hira"] },
   ] },
   { id: "u3", name: "People", hint: "Family, roles, where from", lessons: [
-    { id: "u3l1", title: "Family & friends", items: ["tatay", "nanay", "asawa", "akon patod", "sangkay"] },
-    { id: "u3l2", title: "Who they are", items: ["lalaki", "babaye", "bisita", "turista", "estudyante", "maestro / maestra"] },
-    { id: "u3l3", title: "Where from", items: ["Amerikano", "Pilipino"] },
+    { id: "u3l1", title: "Family & friends", items: ["tatay", "nanay", "asawa", "akon patod", "sangkay", "lalaki", "babaye"] },
+    { id: "u3l2", title: "Roles & origins", items: ["bisita", "turista", "estudyante", "maestro / maestra", "Amerikano", "Pilipino"] },
   ] },
   { id: "u4", name: "Describing", hint: "Words to describe people", lessons: [
-    { id: "u4l1", title: "Looks", items: ["mahusay", "maraksot", "gwapo", "hataas", "matambok"] },
-    { id: "u4l2", title: "Qualities", items: ["makusog", "malipay", "buoton", "riko", "makarit", "mapaso"] },
+    { id: "u4l1", title: "Describing words", items: ["mahusay", "maraksot", "gwapo", "hataas", "matambok", "makusog", "malipay", "buoton", "riko", "makarit", "mapaso"] },
   ] },
   { id: "u5", name: "Saying “X is Y”", hint: "Putting pronouns + words together", lessons: [
     { id: "u5l1", title: "I am / you are", items: ["Amerikano ako", "Nanay ako", "Babaye ka", "Makusog ka", "Mahusay ka", "Maraksot ka"] },
-    { id: "u5l2", title: "He / she / they are", items: ["Turista hiya", "Makusog hiya", "Pilipino hira", "Bisita hira"] },
-    { id: "u5l3", title: "We are", items: ["Estudyante kami", "Maestra kami"] },
+    { id: "u5l2", title: "He / she / they / we are", items: ["Turista hiya", "Makusog hiya", "Pilipino hira", "Bisita hira", "Estudyante kami", "Maestra kami"] },
   ] },
   { id: "u6", name: "Verbs & doing", hint: "Action words and tenses", lessons: [
-    { id: "u6l1", title: "Around the house", items: ["laba", "hugas", "luto", "limpyu", "lukot"] },
-    { id: "u6l2", title: "More verbs", items: ["basa", "sayaw", "sudlay", "maneho", "baktas"] },
-    { id: "u6l3", title: "Care & wait", items: ["tago", "andam", "saribo", "hulat"] },
-    { id: "u6l4", title: "Tenses (Mag/Nag/Pag)", items: ["Mag- + verb", "Nag- + verb", "Pag- + verb", "Mag-aano ka?"] },
-    { id: "u6l5", title: "Let's eat", items: ["Kaon kita", "Kumaon kita"] },
+    { id: "u6l1", title: "Action words", items: ["laba", "hugas", "luto", "limpyu", "lukot", "basa", "sayaw", "sudlay", "maneho", "baktas"] },
+    { id: "u6l2", title: "Tenses & doing", items: ["tago", "andam", "saribo", "hulat", "Mag- + verb", "Nag- + verb", "Pag- + verb", "Mag-aano ka?", "Kaon kita", "Kumaon kita"] },
   ] },
   ] },
   { id: "s2", name: "Basics", hint: "Building on the survival kit", units: [
   { id: "u7", name: "Time & when", hint: "Now, later, parts of the day", lessons: [
-    { id: "u7l1", title: "Now & later", items: ["yana", "niyan", "buwas", "kanina"] },
-    { id: "u7l2", title: "Earlier & past", items: ["kakulop", "kagab-i", "kanina han aga"] },
-    { id: "u7l3", title: "Parts of the day", items: ["kulop", "yana nga aga", "yana nga gab-i"] },
-    { id: "u7l4", title: "Here, there & time", items: ["didi", "dida", "Ano it oras dida?", "Alas singko didi", "Ano nga oras?"] },
+    { id: "u7l1", title: "When", items: ["yana", "niyan", "buwas", "kanina", "kakulop", "kagab-i", "kanina han aga", "kulop", "yana nga aga", "yana nga gab-i"] },
+    { id: "u7l2", title: "Here, there & time", items: ["didi", "dida", "Ano it oras dida?", "Alas singko didi", "Ano nga oras?"] },
   ] },
   { id: "u8", name: "Things & places", hint: "Nouns for the world around you", lessons: [
-    { id: "u8l1", title: "Rooms", items: ["balay", "kusina", "banyo", "kwarto"] },
-    { id: "u8l2", title: "Clothes & cloth", items: ["bado", "sapatos", "panyo", "mantel", "biray", "taklap"] },
-    { id: "u8l3", title: "At the table", items: ["tinidor", "kutsara", "pinggan", "baso"] },
-    { id: "u8l4", title: "Food", items: ["isda", "manok", "karne", "utan", "tanom"] },
-    { id: "u8l5", title: "Getting around", items: ["sarakyan", "motor", "awto", "karsada", "bukid"] },
+    { id: "u8l1", title: "Home & clothes", items: ["balay", "kusina", "banyo", "kwarto", "bado", "sapatos", "panyo", "mantel", "biray", "taklap"] },
+    { id: "u8l2", title: "Table & food", items: ["tinidor", "kutsara", "pinggan", "baso", "isda", "manok", "karne", "utan", "tanom"] },
+    { id: "u8l3", title: "Getting around", items: ["sarakyan", "motor", "awto", "karsada", "bukid"] },
   ] },
   { id: "u9", name: "Weather", hint: "Talking about the day", lessons: [
-    { id: "u9l1", title: "Weather words", items: ["uran / mauran", "sirak / masirak", "dampog / madampog", "hangin / mahangin"] },
-    { id: "u9l2", title: "How's the weather?", items: ["mapaso hin duro", "matugnaw", "may bagyo", "Kumusta it panahon?"] },
+    { id: "u9l1", title: "Weather", items: ["uran / mauran", "sirak / masirak", "dampog / madampog", "hangin / mahangin", "mapaso hin duro", "matugnaw", "may bagyo", "Kumusta it panahon?"] },
   ] },
   { id: "u10", name: "Questions", hint: "Asking and answering", lessons: [
-    { id: "u10l1", title: "Can you see it?", items: ["Nakikit-an mo?", "Oo, nakikit-an ko", "Klaro?", "Oo, klaro", "Diri klaro"] },
-    { id: "u10l2", title: "Do you understand?", items: ["Naintindihan nimo?", "Oo, naintindihan ko", "Naintindihan ko", "Diri ako maaram"] },
-    { id: "u10l3", title: "Where & doing what", items: ["Taga diin ka?", "Hain ka?", "Ano imo gin-hihimo?", "Ano imo gin-kakaon?"] },
-    { id: "u10l4", title: "Useful extras", items: ["Hinay-hinay la", "Pakpak anay", "Makarit ka", "kay", "Karuyag ko / Gusto ko"] },
+    { id: "u10l1", title: "Can you see / understand?", items: ["Nakikit-an mo?", "Oo, nakikit-an ko", "Klaro?", "Oo, klaro", "Diri klaro", "Naintindihan nimo?", "Oo, naintindihan ko", "Naintindihan ko", "Diri ako maaram"] },
+    { id: "u10l2", title: "Where & extras", items: ["Taga diin ka?", "Hain ka?", "Ano imo gin-hihimo?", "Ano imo gin-kakaon?", "Hinay-hinay la", "Pakpak anay", "Makarit ka", "kay", "Karuyag ko / Gusto ko"] },
   ] },
   { id: "u11", name: "Invitations", hint: "Asking someone over", lessons: [
-    { id: "u11l1", title: "What's going on?", items: ["imbitasyon", "may / mayda", "gin-iimbita", "Ano it mayda?"] },
-    { id: "u11l2", title: "Free on Saturday?", items: ["May libre ka ba nga oras hit Sabado?", "Ano nga oras?", "Alas sais ha gab-i"] },
-    { id: "u11l3", title: "Come over", items: ["Nag-arog ako", "Mayda pangaon ha balay", "makadto"] },
-    { id: "u11l4", title: "Bring someone", items: ["Poydi ko ba ig-upod hi Rey?", "ig-upod", "Siyempre, poydi"] },
-    { id: "u11l5", title: "See you Saturday", items: ["Maghuhulat ako ha iyo", "Sigurado, makadto kami", "Sige, magkita kita hit Sabado", "magkita"] },
+    { id: "u11l1", title: "What's going on?", items: ["imbitasyon", "may / mayda", "gin-iimbita", "Ano it mayda?", "May libre ka ba nga oras hit Sabado?", "Ano nga oras?", "Alas sais ha gab-i", "Nag-arog ako", "Mayda pangaon ha balay", "makadto"] },
+    { id: "u11l2", title: "Bring someone & meet", items: ["Poydi ko ba ig-upod hi Rey?", "ig-upod", "Siyempre, poydi", "Maghuhulat ako ha iyo", "Sigurado, makadto kami", "Sige, magkita kita hit Sabado", "magkita"] },
   ] },
   { id: "u12", name: "Describing sentences", hint: "Saying 'the ___ is ___' with an / it", lessons: [
     { id: "u12l1", title: "The little words", items: ["it", "an", "bata", "uyab", "mabaho"] },
@@ -504,31 +485,26 @@ const CURRICULUM = [
   { id: "u14", name: "Directions", hint: "Finding your way around", lessons: [
     { id: "u14l1", title: "Places", items: ["bangko", "botika", "ospital", "istasyon hit pulis", "munisipyo", "paradahan", "eskina", "atbang"] },
     { id: "u14l2", title: "Getting there", items: ["dinhi", "harani", "harayo", "bus", "dyip", "taxi", "pedicab", "traysikol"] },
-    { id: "u14l3", title: "Asking the way", items: ["Pwede magpakiana?", "Hain it bangko?", "Harayo ba tikang dinhi?", "Waray sapayan"] },
-    { id: "u14l4", title: "The answer", items: ["Harani la", "Pwede baktason", "Ika-upat nga eskina tikang dinhi", "Pagbus nala"] },
+    { id: "u14l3", title: "Asking & answers", items: ["Pwede magpakiana?", "Hain it bangko?", "Harayo ba tikang dinhi?", "Waray sapayan", "Harani la", "Pwede baktason", "Ika-upat nga eskina tikang dinhi", "Pagbus nala"] },
   ] },
   { id: "u15", name: "Shopping", hint: "At the market", lessons: [
     { id: "u15l1", title: "At the market", items: ["tindahan", "tindera", "kahera", "kwarta", "sukli", "sinsilyo", "barato", "bulad", "tinapa"] },
-    { id: "u15l2", title: "Buying", items: ["palit", "ginbibiling", "karuyag", "baraydan", "bulig"] },
-    { id: "u15l3", title: "Asking", items: ["Ano ini?", "Tagpira ini?", "Hain tungod it kahera?", "May tinapa kamo dinhi?"] },
-    { id: "u15l4", title: "Choosing & paying", items: ["Ini it akon papaliton", "Pwede mo ako buligan?", "Hain it mas barato?", "Adi it imo sukli", "Pira it akon baraydan?"] },
+    { id: "u15l2", title: "Buying words", items: ["palit", "ginbibiling", "karuyag", "baraydan", "bulig"] },
+    { id: "u15l3", title: "Asking & paying", items: ["Ano ini?", "Tagpira ini?", "Hain tungod it kahera?", "May tinapa kamo dinhi?", "Ini it akon papaliton", "Pwede mo ako buligan?", "Hain it mas barato?", "Adi it imo sukli", "Pira it akon baraydan?"] },
   ] },
   { id: "u16", name: "At the airport", hint: "Travel & check-in", lessons: [
     { id: "u16l1", title: "Airport words", items: ["eroplano", "tiket", "bagahe", "gate", "kostums", "pasaporte", "pasahero"] },
     { id: "u16l2", title: "At the counter", items: ["Pakitaa ako hit imo tiket", "Pakitaa ako hit imo pasaporte", "Malupad it eroplano alas nuybe", "Deritso ha gate numero dos", "Enjoy hit imo biyahe"] },
   ] },
   { id: "u17", name: "A day trip", hint: "San Juanico & Sto. Niño", lessons: [
-    { id: "u17l1", title: "Places & travel", items: ["pamasyada", "tulay", "lugar", "isla", "museo", "pumpboat", "makaradlok"] },
-    { id: "u17l2", title: "Going out", items: ["mamasyada", "kumita", "maupod", "huram"] },
-    { id: "u17l3", title: "Making the plan", items: ["Pamasyada kita", "Mamamasyada ako buwas", "Karuyag ko kumita", "Maupod ka buwas?"] },
-    { id: "u17l4", title: "San Juanico & Sto. Niño", items: ["Karuyag ko kumita hit San Juanico", "Pwede kita magburubaktas", "Pagkita kita buwas", "Mahusay ngadto"] },
+    { id: "u17l1", title: "Places & going out", items: ["pamasyada", "tulay", "lugar", "isla", "museo", "pumpboat", "makaradlok", "mamasyada", "kumita", "maupod", "huram"] },
+    { id: "u17l2", title: "Making the plan", items: ["Pamasyada kita", "Mamamasyada ako buwas", "Karuyag ko kumita", "Maupod ka buwas?", "Karuyag ko kumita hit San Juanico", "Pwede kita magburubaktas", "Pagkita kita buwas", "Mahusay ngadto"] },
   ] },
   ] },
   { id: "s4", name: "Daily Life", hint: "Meals, cooking, and getting around the week", units: [
   { id: "u18", name: "Meals & eating", hint: "Breakfast to dinner", lessons: [
     { id: "u18l1", title: "Meals", items: ["pamahaw", "paniudto", "pangiklop", "isnak", "kan-on", "pagkaon", "marasa", "gutom"] },
-    { id: "u18l2", title: "Have you eaten?", items: ["Namahaw ka na?", "Naniudto ka na?", "Nangiklop ka na?", "Waray pa"] },
-    { id: "u18l3", title: "At the table", items: ["Pamahaw kita", "Ano it paniudtuhon?", "May pagkaon didi", "Kaon anay"] },
+    { id: "u18l2", title: "Eating phrases", items: ["Namahaw ka na?", "Naniudto ka na?", "Nangiklop ka na?", "Waray pa", "Pamahaw kita", "Ano it paniudtuhon?", "May pagkaon didi", "Kaon anay"] },
   ] },
   { id: "u19", name: "Cooking", hint: "In the kitchen", lessons: [
     { id: "u19l1", title: "Ingredients", items: ["lasona", "sibuyas", "suoy", "toyo", "tubig", "pamyenta", "asukar"] },
@@ -1671,6 +1647,12 @@ function PromptBlock({ text, isWaray, say, onPlay }) {
 
 function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride }) {
   const { playCard } = ctx;
+  // Enter (anywhere) advances — same as clicking Continue
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Enter") { e.preventDefault(); onResult(correct); } };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [correct, onResult]);
   return (
     <div className={`ws-verdict ${correct ? "ok" : "no"}`}>
       <div className="ws-verdict-head">
