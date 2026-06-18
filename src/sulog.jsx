@@ -893,7 +893,10 @@ function buildCards() {
 const BOX_DAYS = [0, 1, 2, 4, 9, 18]; // interval after reaching each box
 const MS_DAY = 86400000;
 const now = () => Date.now();
-const today = () => new Date().toISOString().slice(0, 10);
+// YYYY-MM-DD in the viewer's LOCAL time, so the day rolls over at local midnight
+const localDay = (d = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const today = () => localDay();
 // current day-streak from the per-day activity map (date -> review count).
 // Counts back from today; if today isn't done yet, the streak still stands
 // (grace) and we count from yesterday. Uncapped, and consistent with what the
@@ -901,7 +904,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 const currentStreak = (days) => {
   const map = days || {};
   const d = new Date();
-  const key = (x) => x.toISOString().slice(0, 10);
+  const key = (x) => localDay(x);
   if (!map[key(d)]) d.setDate(d.getDate() - 1); // not studied yet today
   let n = 0;
   while (map[key(d)]) { n++; d.setDate(d.getDate() - 1); }
@@ -1253,7 +1256,7 @@ export default function App() {
         const ns = { ...prev, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
         store.set("waray:streak", JSON.stringify(ns)); return ns;
       }
-      const y = new Date(Date.now() - MS_DAY).toISOString().slice(0, 10);
+      const y = localDay(new Date(Date.now() - MS_DAY));
       const count = prev.last === y ? prev.count + 1 : 1;
       const ns = { count, last: t, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
       store.set("waray:streak", JSON.stringify(ns)); return ns;
@@ -1663,7 +1666,7 @@ function DayTracker({ streak }) {
   for (let i = N - 1; i >= 0; i--) {
     const d = new Date(base);
     d.setDate(base.getDate() - i);
-    const key = d.toISOString().slice(0, 10);
+    const key = localDay(d);
     days.push({ key, count: map[key] || 0, dow: d.getDay(), isToday: i === 0 });
   }
   const level = (c) => (c === 0 ? 0 : c <= 2 ? 1 : c <= 5 ? 2 : 3);
@@ -2331,7 +2334,7 @@ function HistoryView({ ctx }) {
   const { history, setView, cards } = ctx;
   const days = {};
   for (const e of history) {
-    const d = new Date(e.ts).toISOString().slice(0, 10);
+    const d = localDay(new Date(e.ts));
     (days[d] = days[d] || []).push(e);
   }
   const dayKeys = Object.keys(days).sort().reverse();
@@ -2543,7 +2546,7 @@ function BackupView({ ctx }) {
       const json = JSON.stringify(data);
       const blob = new Blob([json], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      const stamp = new Date().toISOString().slice(0, 10);
+      const stamp = localDay();
       const a = document.createElement("a");
       a.href = url;
       a.download = `sulog-backup-${stamp}${includeAudio ? "-with-voice" : ""}.json`;
