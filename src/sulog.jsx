@@ -983,14 +983,18 @@ function checkAnswer(input, target, waray) {
 // When a typed/picked answer is wrong, see if it's actually a known word so we can
 // say what the learner *did* say. dir "etw" => they gave Waray (look it up);
 // "wte" => they gave English (find the Waray it maps to). Returns "X = Y" or null.
+const _stripLead = (s) => s.replace(/^(to |a |an |the )/, ""); // ignore "to walk" vs "walk"
 function explainGiven(cards, given, answer, dir) {
   const g = norm(given);
   if (!g || g === norm(answer)) return null;
   if (dir === "etw") {
-    const c = cards.find((x) => norm(x.waray) === g);
+    // they typed Waray — find the word and show its meaning
+    const c = cards.find((x) => norm(x.waray) === g) || cards.find((x) => warayFold(norm(x.waray)) === warayFold(g));
     return c ? `${c.waray} = ${c.english}` : null;
   }
-  const c = cards.find((x) => alts(x.english).includes(g));
+  // they typed English — find which Waray word it means (ignoring leading to/a/the)
+  const gs = _stripLead(g);
+  const c = cards.find((x) => alts(x.english).some((a) => a === g || _stripLead(a) === gs));
   return c ? `“${given.trim()}” = ${c.waray}` : null;
 }
 
