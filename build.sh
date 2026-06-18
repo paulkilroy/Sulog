@@ -10,12 +10,13 @@ TMP="$(mktemp -d)"
 BUNDLE="$TMP/bundle.js"
 
 echo "→ bundling $SRC"
-# Build stamp shown in the UI so you can confirm a deploy at a glance:
-# UTC date/time + short git hash (with a "+" if the tree is dirty).
-STAMP_DATE="$(date -u '+%Y-%m-%d %H:%M UTC')"
+# Build stamp shown in the UI so you can confirm a deploy at a glance.
+# Inject an ISO-8601 UTC timestamp + short git hash, "ISO|hash"; the app
+# formats the timestamp into the viewer's local time at render.
+STAMP_ISO="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 GIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo nogit)"
 git diff --quiet 2>/dev/null || GIT_HASH="${GIT_HASH}+"
-BUILD_STAMP="${STAMP_DATE} · ${GIT_HASH}"
+BUILD_STAMP="${STAMP_ISO}|${GIT_HASH}"
 npx esbuild "$SRC" --bundle --jsx=automatic --format=iife --minify \
   --define:__BUILD__="\"$BUILD_STAMP\"" --outfile="$BUNDLE"
 

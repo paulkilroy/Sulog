@@ -12,9 +12,16 @@ import {
  *  Mastery rises like the tide on the Zumarraga Channel.
  * ------------------------------------------------------------------ */
 
-// Build stamp, injected by build.sh via esbuild --define:__BUILD__. Falls back
-// to "dev" when bundled without the define (typeof on an undeclared name is safe).
+// Build stamp, injected by build.sh via esbuild --define:__BUILD__ as "ISO|hash".
+// Falls back to "dev" when bundled without the define (typeof on an undeclared
+// name is safe). buildLabel() renders the timestamp in the viewer's local time.
 const BUILD_STAMP = typeof __BUILD__ !== "undefined" ? __BUILD__ : "dev";
+function buildLabel() {
+  const [iso, hash] = String(BUILD_STAMP).split("|");
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return BUILD_STAMP;
+  return d.toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + (hash ? " · " + hash : "");
+}
 
 /* ---------- seed vocabulary (from the WarayLessons sheet + teacher docx) ---------- */
 /* a few obvious OCR typos in the sheet were corrected against the teacher's
@@ -1592,7 +1599,7 @@ function HomeView({ ctx }) {
         })}
       </div>
 
-      <div className="ws-build">build {BUILD_STAMP}</div>
+      <div className="ws-build">build {buildLabel()}</div>
 
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
