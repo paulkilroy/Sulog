@@ -61,7 +61,7 @@ const SEED = [
   ["week1", "Taga diin ka?", "Where are you from?", "", "TAH-gah dee-EEN kah"],
   ["week1", "Hain ka?", "Where are you?", "", "HAH-een kah"],
   ["week1", "ako", "I", "subject pronoun", "ah-KAW"],
-  ["week1", "ikaw / ka", "you", "ka is the short form", "ee-KOW"],
+  ["week1", "ikaw / ka", "you", "ka is the short form", "ee-KOW / kah"],
   ["week1", "kita", "we (inclusive)", "includes the person you're talking to", "kee-TAH"],
   ["week1", "kami", "we (exclusive)", "excludes the listener", "kah-MEE"],
   ["week1", "hiya", "he / she", "no gender marking", "HEE-yah"],
@@ -92,7 +92,7 @@ const SEED = [
   ["week1", "hataas", "tall / long", "", "hah-TAH-as"],
   ["week1", "matambok", "fat", "", "mah-TAM-bok"],
   ["week1", "estudyante", "student", "", "es-tood-YAHN-teh"],
-  ["week1", "maestro / maestra", "teacher (m / f)", "", "mah-ES-tro"],
+  ["week1", "maestro / maestra", "teacher (m / f)", "", "mah-ES-tro / mah-ES-trah"],
   ["week1", "Estudyante kami", "We (excl.) are students", "", "es-tood-YAHN-teh kah-MEE"],
   ["week1", "Pilipino hira", "They are Filipinos", "", "pee-lee-PEE-no HEE-rah"],
   ["week1", "Babaye ka", "You are a woman", "", "bah-BAH-yeh kah"],
@@ -164,12 +164,12 @@ const SEED = [
   ["verbs", "dida", "there", "", "DEE-dah"],
   ["verbs", "Ano it oras dida?", "What time is it there?", "", "AH-no eet OH-ras DEE-dah"],
   ["verbs", "Alas singko didi", "It's 5 o'clock here", "Spanish-style clock times", "AH-las SEENG-ko DEE-dee"],
-  ["verbs", "uran / mauran", "rain / rainy", "", "OO-ran"],
+  ["verbs", "uran / mauran", "rain / rainy", "", "OO-ran / mah-OO-ran"],
   ["verbs", "mapaso hin duro", "very hot", "", "mah-PAH-so heen DOO-ro"],
   ["verbs", "matugnaw", "cold", "", "mah-TOOG-now"],
-  ["verbs", "sirak / masirak", "sun ray / sunny", "", "SEE-rak"],
-  ["verbs", "dampog / madampog", "clouds / cloudy", "", "DAM-pog"],
-  ["verbs", "hangin / mahangin", "wind / windy", "", "HAH-ngin"],
+  ["verbs", "sirak / masirak", "sun ray / sunny", "", "SEE-rak / mah-SEE-rak"],
+  ["verbs", "dampog / madampog", "clouds / cloudy", "", "DAM-pog / mah-DAM-pog"],
+  ["verbs", "hangin / mahangin", "wind / windy", "", "HAH-ngin / mah-HAH-ngin"],
   ["verbs", "may bagyo", "there is a storm", "", "migh BAHG-yo"],
   ["verbs", "Kumusta it panahon?", "How is the weather?", "", "koo-moos-TAH eet pah-nah-HON"],
 
@@ -1139,7 +1139,7 @@ function chosenVoice() {
 function respellForTTS(say) {
   return say
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((w) => w && w !== "/") // "/" separates alternatives — a pause, not a spoken "slash"
     .map((w) => w.replace(/-/g, "").toLowerCase().replace(/^ng/, "n"))
     .join(", ");
 }
@@ -1155,7 +1155,7 @@ function speak(arg, rate = 0.78) {
     const voice = chosenVoice();
     const lang = voice ? voice.lang : "en-US";
     const english = /^en/i.test(lang);
-    const rawWaray = (card.waray || "").split(/\s+/).filter(Boolean).join(", ");
+    const rawWaray = (card.waray || "").split(/\s+/).filter((w) => w && w !== "/").join(", ");
 
     // A non-English (Filipino/Tagalog) voice reads the raw Waray accurately; an
     // English voice does better on the respelling. Either way: one utterance.
