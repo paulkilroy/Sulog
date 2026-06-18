@@ -2126,7 +2126,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total, results = [] }) {
-  const { setView, setSession, session } = ctx;
+  const { setView, setSession, session, cards } = ctx;
   const acc = total ? Math.round((tally.right / total) * 100) : 0;
   const inLesson = !!session?.lesson;
   const passed = acc >= PASS_PCT * 100;
@@ -2153,16 +2153,20 @@ function SessionDone({ ctx, tally, total, results = [] }) {
         {missed.length > 0 && (
           <div className="ws-missed">
             <div className="ws-missed-label">Missed ({missed.length})</div>
-            {missed.map((r, k) => (
-              <div key={k} className="ws-missed-row">
-                <div className="ws-missed-prompt">{r.prompt}</div>
-                <div className="ws-missed-ans">
-                  <span className="ws-missed-yours">{r.given || "—"}</span>
-                  <ArrowLeft size={12} className="ws-missed-arr" />
-                  <span className="ws-missed-correct">{r.answer}</span>
+            {missed.map((r, k) => {
+              const said = explainGiven(cards, r.given, r.answer, session.dir);
+              return (
+                <div key={k} className="ws-missed-row">
+                  <div className="ws-missed-prompt">{r.prompt}</div>
+                  <div className="ws-missed-ans">
+                    <span className="ws-missed-yours">{r.given || "—"}</span>
+                    <ArrowLeft size={12} className="ws-missed-arr" />
+                    <span className="ws-missed-correct">{r.answer}</span>
+                  </div>
+                  {said && <div className="ws-missed-said">you said: {said}</div>}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -2301,7 +2305,7 @@ function LessonView({ ctx }) {
 
 /* ============================ HISTORY ============================ */
 function HistoryView({ ctx }) {
-  const { history, setView } = ctx;
+  const { history, setView, cards } = ctx;
   const days = {};
   for (const e of history) {
     const d = new Date(e.ts).toISOString().slice(0, 10);
@@ -2333,14 +2337,18 @@ function HistoryView({ ctx }) {
                   <span className="ws-hist-date">{label}</span>
                   <span className="ws-hist-acc">{right}/{es.length} · {acc}%</span>
                 </div>
-                {misses.map((e, k) => (
-                  <div key={k} className="ws-hist-miss">
-                    <span className="ws-hist-prompt">{e.prompt}</span>
-                    <span className="ws-hist-yours">{e.given || "—"}</span>
-                    <ArrowLeft size={11} className="ws-missed-arr" />
-                    <span className="ws-hist-correct">{e.answer}</span>
-                  </div>
-                ))}
+                {misses.map((e, k) => {
+                  const said = explainGiven(cards, e.given, e.answer, e.dir);
+                  return (
+                    <div key={k} className="ws-hist-miss">
+                      <span className="ws-hist-prompt">{e.prompt}</span>
+                      <span className="ws-hist-yours">{e.given || "—"}</span>
+                      <ArrowLeft size={11} className="ws-missed-arr" />
+                      <span className="ws-hist-correct">{e.answer}</span>
+                      {said && <span className="ws-hist-said">({said})</span>}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}
@@ -3226,6 +3234,8 @@ function Styles() {
 .ws-missed-yours{color:var(--coral);text-decoration:line-through}
 .ws-missed-arr{color:var(--sand-deep);transform:rotate(180deg);flex-shrink:0}
 .ws-missed-correct{color:var(--jade);font-weight:600}
+.ws-missed-said{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.ws-hist-said{color:var(--ink-soft);font-style:italic}
 .ws-done-actions{display:flex;gap:10px;justify-content:center}
 .ws-done-actions .ws-start{padding:13px 20px}
 
