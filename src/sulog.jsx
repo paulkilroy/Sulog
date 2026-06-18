@@ -631,6 +631,10 @@ const SEED = [
   ["faith", "pasaylo", "to forgive", "", "pah-SIGH-lo"],
   ["faith", "wali", "to preach", "", "WAH-lee"],
   ["faith", "sala nga buhat", "sin", "lit. wrong deed", "SAH-lah ngah BOO-hat"],
+
+  // ===== simple survival words (swapped into Survival Kit) =====
+  ["greet", "maupay", "good", "", "mah-OO-pigh"],
+  ["greet", "tabang", "help", "as in “Tabang!”", "tah-BANG"],
 ];
 
 const DECKS = {
@@ -678,7 +682,7 @@ const CURRICULUM = [
   { id: "s1", name: "Survival Kit", hint: "Say something on day one", units: [
   { id: "u1", name: "Greetings & courtesy", hint: "Hellos, thanks, manners", lessons: [
     { id: "u1l1", title: "Hellos & thanks", items: ["Maupay nga aga", "Maupay nga udto", "Maupay nga kulop", "Maupay nga gab-i", "Kumusta ka?", "Maupay man", "Salamat", "Damo nga salamat", "Pasensya na", "Sige"] },
-    { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Adi", "Pwede", "Hinay-hinay la", "Pakpak anay", "Sige, sunod na la"] },
+    { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Adi", "Pwede", "maupay", "tabang", "Hinay-hinay la"] },
   ] },
   { id: "u2", name: "Survival phrases", hint: "When you're stuck", lessons: [
     { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain iton kasilyas?", "Waray sapayan", "Karuyag ko / Gusto ko", "Nakikit-an mo?", "Klaro?"] },
