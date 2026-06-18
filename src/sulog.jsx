@@ -1824,8 +1824,12 @@ function SessionView({ ctx }) {
     setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
     setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     if (i + 1 >= queue.length) {
+      // grade against the WHOLE lesson, not just a reviewed subset:
+      // session.base carries {total, priorRight} from the original full run
       const right = tally.right + (correct ? 1 : 0);
-      finish(queue.length > 0 && right / queue.length >= PASS_PCT);
+      const effTotal = session.base?.total || queue.length;
+      const effRight = (session.base?.priorRight || 0) + right;
+      finish(effTotal > 0 && effRight / effTotal >= PASS_PCT);
     } else setI(i + 1);
   };
 
@@ -2135,14 +2139,20 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 
 function SessionDone({ ctx, tally, total, results = [] }) {
   const { setView, setSession, session, cards } = ctx;
-  const acc = total ? Math.round((tally.right / total) * 100) : 0;
   const inLesson = !!session?.lesson;
-  const passed = acc >= PASS_PCT * 100;
   const missed = results.filter((r) => !r.correct);
   const allIds = results.map((r) => r.id);
   const missedIds = missed.map((r) => r.id);
 
-  const rerun = (ids) => { setSession({ ...session, only: ids, limit: ids.length, nonce: Date.now() }); setView("session"); };
+  // whole-lesson grade: fold in the cards already known before this (review) run
+  const effTotal = session?.base?.total || total;
+  const effRight = (session?.base?.priorRight || 0) + tally.right;
+  const acc = effTotal ? Math.round((effRight / effTotal) * 100) : 0;
+  const passed = acc >= PASS_PCT * 100;
+
+  // Review missed keeps the whole-lesson frame (base); Review all is a fresh full run.
+  const reviewMissed = () => { setSession({ ...session, only: missedIds, limit: missedIds.length, base: { total: effTotal, priorRight: effRight }, nonce: Date.now() }); setView("session"); };
+  const reviewAll = () => { const s = { ...session, only: allIds, limit: allIds.length, nonce: Date.now() }; delete s.base; setSession(s); setView("session"); };
 
   return (
     <div className="ws-page ws-done">
@@ -2156,7 +2166,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
             {passed ? <><Check size={14} /> Passed · part cleared</> : <><X size={14} /> Not passed — score {PASS_PCT * 100}% to clear it</>}
           </div>
         )}
-        <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${tally.right} right · ${tally.wrong} to revisit`}</p>
+        <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${effRight}/${effTotal} correct${effTotal - effRight > 0 ? ` · ${effTotal - effRight} to revisit` : ""}`}</p>
 
         {missed.length > 0 && (
           <div className="ws-missed">
@@ -2181,8 +2191,8 @@ function SessionDone({ ctx, tally, total, results = [] }) {
         <div className="ws-done-actions">
           {results.length > 0 && (
             <>
-              {missedIds.length > 0 && <button className="ws-start" onClick={() => rerun(missedIds)}><RotateCcw size={17} /> Review missed</button>}
-              <button className={missedIds.length > 0 ? "ws-ghost-btn" : "ws-start"} onClick={() => rerun(allIds)}><RotateCcw size={17} /> Review all</button>
+              {missedIds.length > 0 && <button className="ws-start" onClick={reviewMissed}><RotateCcw size={17} /> Review missed</button>}
+              <button className={missedIds.length > 0 ? "ws-ghost-btn" : "ws-start"} onClick={reviewAll}><RotateCcw size={17} /> Review all</button>
             </>
           )}
           {inLesson ? (
