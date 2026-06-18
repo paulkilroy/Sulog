@@ -48,7 +48,7 @@ const SEED = [
   ["greet", "Pwede", "Can / may (I)", "", "PWEH-deh"],
   ["greet", "Naintindihan ko", "I understand", "", "nah-een-tin-dee-HAHN ko"],
   ["greet", "Diri ako maaram", "I don't know", "", "DEE-ree ah-KAW mah-AH-ram"],
-  ["greet", "Karuyag ko / Gusto ko", "I want / I like", "", "kah-ROO-yag ko"],
+  ["greet", "Karuyag ko", "I want", "", "kah-ROO-yag ko"],
 
   // ---- Week 1 — foundations ----
   ["week1", "Nakikit-an mo?", "Can you see it?", "", "nah-kee-KEET-an mo"],
@@ -635,6 +635,7 @@ const SEED = [
   // ===== simple survival words (swapped into Survival Kit) =====
   ["greet", "maupay", "good", "", "mah-OO-pigh"],
   ["greet", "tabang", "help", "as in “Tabang!”", "tah-BANG"],
+  ["greet", "Gusto ko", "I like", "", "GOOS-to ko"],
 ];
 
 const DECKS = {
@@ -685,7 +686,7 @@ const CURRICULUM = [
     { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Adi", "Pwede", "maupay", "tabang", "Hinay-hinay la"] },
   ] },
   { id: "u2", name: "Survival phrases", hint: "When you're stuck", lessons: [
-    { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain iton kasilyas?", "Waray sapayan", "Karuyag ko / Gusto ko", "Nakikit-an mo?", "Klaro?"] },
+    { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain iton kasilyas?", "Karuyag ko", "Gusto ko", "Nakikit-an mo?", "Klaro?"] },
   ] },
   ] },
   { id: "s2", name: "People & Describing", hint: "Who, and what they're like", units: [
