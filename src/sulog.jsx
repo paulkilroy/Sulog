@@ -1430,7 +1430,7 @@ export default function App() {
       {view === "learn" && <LearnView ctx={ctx} />}
       {view === "lesson" && <LessonView ctx={ctx} />}
       {view === "setup" && <SetupView ctx={ctx} />}
-      {view === "session" && <SessionView ctx={ctx} />}
+      {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
@@ -1757,6 +1757,7 @@ function SessionView({ ctx }) {
   const queue = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
+  const [results, setResults] = useState([]); // {id, prompt, answer, given, correct}
   const [done, setDone] = useState(queue.length === 0);
 
   const card = queue[i];
@@ -1765,16 +1766,19 @@ function SessionView({ ctx }) {
     setDone(true);
     if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part);
   };
-  const onResult = (correct) => {
+  const onResult = (correct, given) => {
     recordCard(card.id, correct);
     bumpStreak();
     setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
+    const prompt = session.dir === "wte" ? card.waray : card.english;
+    const answer = session.dir === "wte" ? card.english : card.waray;
+    setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     if (i + 1 >= queue.length) finish();
     else setI(i + 1);
   };
 
-  if (done) return <SessionDone ctx={ctx} tally={tally} total={queue.length} />;
-  if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} />;
+  if (done) return <SessionDone ctx={ctx} tally={tally} total={queue.length} results={results} />;
+  if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} results={results} />;
 
   const distractors = pickDistractors(cards, card, session.dir);
 
@@ -1859,7 +1863,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
         </div>
 
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
-          showWaray onResult={onResult} />}
+          showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
       </div>
     );
   }
@@ -1884,7 +1888,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
           <>
             <div className={`ws-yourans ${judged}`}>{typed || "—"}</div>
             <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
-              showWaray={dir === "etw"} onResult={onResult} allowOverride />
+              showWaray={dir === "etw"} onResult={(corr) => onResult(corr, typed)} allowOverride />
           </>
         )}
       </div>
@@ -2065,10 +2069,16 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
   );
 }
 
-function SessionDone({ ctx, tally, total }) {
-  const { setView, session } = ctx;
+function SessionDone({ ctx, tally, total, results = [] }) {
+  const { setView, setSession, session } = ctx;
   const acc = total ? Math.round((tally.right / total) * 100) : 0;
   const inLesson = !!session?.lesson;
+  const missed = results.filter((r) => !r.correct);
+  const allIds = results.map((r) => r.id);
+  const missedIds = missed.map((r) => r.id);
+
+  const rerun = (ids) => { setSession({ ...session, only: ids, limit: ids.length, nonce: Date.now() }); setView("session"); };
+
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
@@ -2077,17 +2087,34 @@ function SessionDone({ ctx, tally, total }) {
         </div>
         <h2>Human na!</h2>
         <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${tally.right} right · ${tally.wrong} to revisit`}</p>
+
+        {missed.length > 0 && (
+          <div className="ws-missed">
+            <div className="ws-missed-label">Missed ({missed.length})</div>
+            {missed.map((r, k) => (
+              <div key={k} className="ws-missed-row">
+                <div className="ws-missed-prompt">{r.prompt}</div>
+                <div className="ws-missed-ans">
+                  <span className="ws-missed-yours">{r.given || "—"}</span>
+                  <ArrowLeft size={12} className="ws-missed-arr" />
+                  <span className="ws-missed-correct">{r.answer}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="ws-done-actions">
+          {results.length > 0 && (
+            <>
+              {missedIds.length > 0 && <button className="ws-start" onClick={() => rerun(missedIds)}><RotateCcw size={17} /> Review missed</button>}
+              <button className={missedIds.length > 0 ? "ws-ghost-btn" : "ws-start"} onClick={() => rerun(allIds)}><RotateCcw size={17} /> Review all</button>
+            </>
+          )}
           {inLesson ? (
-            <>
-              <button className="ws-start" onClick={() => setView("lesson")}><ChevronRight size={18} /> Back to lesson</button>
-              <button className="ws-ghost-btn" onClick={() => setView("learn")}>Learn path</button>
-            </>
+            <button className="ws-ghost-btn" onClick={() => setView("lesson")}>Back to lesson</button>
           ) : (
-            <>
-              <button className="ws-start" onClick={() => setView("home")}><Home size={18} /> Home</button>
-              <button className="ws-ghost-btn" onClick={() => setView("setup")}>Another round</button>
-            </>
+            <button className="ws-ghost-btn" onClick={() => setView("home")}><Home size={16} /> Home</button>
           )}
         </div>
       </div>
@@ -3058,6 +3085,17 @@ function Styles() {
 .ws-done-ring i{font-style:normal;font-size:16px;color:var(--ink-soft)}
 .ws-done-card h2{font-family:'Fraunces',serif;font-size:26px;color:var(--sea-ink);margin:0 0 4px}
 .ws-done-sub{font-size:13.5px;color:var(--ink-soft);margin-bottom:22px}
+.ws-missed{text-align:left;width:100%;background:var(--shell);border:1px solid var(--sand-deep);
+  border-radius:14px;padding:10px 12px;margin-bottom:18px;max-height:260px;overflow-y:auto}
+.ws-missed-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--coral);
+  font-weight:700;margin-bottom:8px}
+.ws-missed-row{padding:7px 0;border-top:1px solid var(--sand-deep)}
+.ws-missed-row:first-of-type{border-top:none}
+.ws-missed-prompt{font-family:'Fraunces',serif;font-size:14.5px;color:var(--ink)}
+.ws-missed-ans{display:flex;align-items:center;gap:6px;font-size:12.5px;margin-top:2px}
+.ws-missed-yours{color:var(--coral);text-decoration:line-through}
+.ws-missed-arr{color:var(--sand-deep);transform:rotate(180deg);flex-shrink:0}
+.ws-missed-correct{color:var(--jade);font-weight:600}
 .ws-done-actions{display:flex;gap:10px;justify-content:center}
 .ws-done-actions .ws-start{padding:13px 20px}
 
