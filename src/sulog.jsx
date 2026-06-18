@@ -1996,9 +1996,17 @@ function PromptBlock({ text, isWaray, say, onPlay }) {
 
 function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride, given, dir }) {
   const { playCard, cards } = ctx;
-  // Enter (anywhere) advances — same as clicking Continue
+  // Enter advances — same as clicking Continue. Ignore the keypress that opened
+  // this verdict (e.g. the Enter that submitted a typed answer) so one Enter =
+  // one step and you don't skip the result screen.
+  const shownAt = useRef(Date.now());
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Enter") { e.preventDefault(); onResult(correct); } };
+    const onKey = (e) => {
+      if (e.key === "Enter" && !e.repeat && Date.now() - shownAt.current > 250) {
+        e.preventDefault();
+        onResult(correct);
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [correct, onResult]);
