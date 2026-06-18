@@ -658,6 +658,7 @@ const DECKS = {
    Units → lessons, ordered so each lesson builds on earlier ones. Lessons list
    their items by Waray text (resolved to existing cards at runtime; unknown
    entries are skipped). Each lesson is cleared in 4 escalating parts. */
+const PASS_PCT = 0.8; // score needed to pass (clear) a lesson part
 const LESSON_PARTS = [
   { dir: "wte", mode: "mc", label: "Recognize", hint: "Waray → English" },
   { dir: "etw", mode: "mc", label: "Reverse", hint: "English → Waray" },
@@ -972,6 +973,19 @@ function checkAnswer(input, target, waray) {
   }
   return false;
 }
+// When a typed/picked answer is wrong, see if it's actually a known word so we can
+// say what the learner *did* say. dir "etw" => they gave Waray (look it up);
+// "wte" => they gave English (find the Waray it maps to). Returns "X = Y" or null.
+function explainGiven(cards, given, answer, dir) {
+  const g = norm(given);
+  if (!g || g === norm(answer)) return null;
+  if (dir === "etw") {
+    const c = cards.find((x) => norm(x.waray) === g);
+    return c ? `${c.waray} = ${c.english}` : null;
+  }
+  const c = cards.find((x) => alts(x.english).includes(g));
+  return c ? `“${given.trim()}” = ${c.waray}` : null;
+}
 
 /* ---------------- persistent storage wrapper ---------------- */
 const mem = {};
@@ -1154,6 +1168,7 @@ export default function App() {
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
+  const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
 
   // keep the module-level chosen voice that speak() reads in sync with settings
   useEffect(() => {
@@ -1168,9 +1183,11 @@ export default function App() {
       const aIdx = await store.get("waray:audioIndex");
       const cfg = await store.get("waray:settings");
       const les = await store.get("waray:lessons");
+      const hist = await store.get("waray:history");
       if (p) setProg(JSON.parse(p));
       if (s) setStreak(JSON.parse(s));
       if (les) setLessons(JSON.parse(les));
+      if (hist) setHistory(JSON.parse(hist));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
       if (aIdx) {
         const ids = JSON.parse(aIdx);
@@ -1188,6 +1205,15 @@ export default function App() {
   const saveProg = useCallback((np) => { setProg(np); store.set("waray:prog", JSON.stringify(np)); }, []);
   const saveStreak = useCallback((ns) => { setStreak(ns); store.set("waray:streak", JSON.stringify(ns)); }, []);
   const saveSettings = useCallback((ns) => { setSettings(ns); store.set("waray:settings", JSON.stringify(ns)); }, []);
+  // append one attempt to the full history log (capped so storage stays bounded)
+  const logAttempt = useCallback((e) => {
+    setHistory((prev) => {
+      const ns = [...prev, e];
+      if (ns.length > 6000) ns.splice(0, ns.length - 6000);
+      store.set("waray:history", JSON.stringify(ns));
+      return ns;
+    });
+  }, []);
   // mark a lesson part complete (parts unlock in order, so keep the max reached)
   const completeLessonPart = useCallback((id, partIdx) => {
     setLessons((prev) => {
@@ -1271,9 +1297,10 @@ export default function App() {
       exportedAt: new Date().toISOString(),
       prog,
       streak,
+      history,
       audio: includeAudio ? audio : {},
     };
-  }, [prog, streak, audio]);
+  }, [prog, streak, audio, history]);
 
   // ---- backup: load a JSON object back in ----
   const importData = useCallback(async (data, mode) => {
@@ -1281,6 +1308,7 @@ export default function App() {
     // progress + streak: replace
     if (data.prog) { setProg(data.prog); await store.set("waray:prog", JSON.stringify(data.prog)); }
     if (data.streak) { setStreak(data.streak); await store.set("waray:streak", JSON.stringify(data.streak)); }
+    if (data.history) { setHistory(data.history); await store.set("waray:history", JSON.stringify(data.history)); }
     // recordings: merge so we never lose voice you already saved
     const incoming = data.audio || {};
     if (Object.keys(incoming).length) {
@@ -1296,7 +1324,7 @@ export default function App() {
 
   /* ---------------- cloud sync state & ops ---------------- */
   const stateRef = useRef({});
-  stateRef.current = { prog, streak, audio, settings };
+  stateRef.current = { prog, streak, audio, settings, history };
   const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
   const pushTimer = useRef(null);
   const didInitialPull = useRef(false);
@@ -1309,6 +1337,13 @@ export default function App() {
     const ns = mergeStreak(cur.streak, cloud.streak || {});
     setProg(np); await store.set("waray:prog", JSON.stringify(np));
     setStreak(ns); await store.set("waray:streak", JSON.stringify(ns));
+    // history: union local + cloud by timestamp, keep chronological, cap
+    const seenTs = new Set();
+    const mh = [...(cur.history || []), ...(cloud.history || [])]
+      .filter((e) => { const k = e.ts + "|" + e.waray + "|" + e.given; if (seenTs.has(k)) return false; seenTs.add(k); return true; })
+      .sort((a, b) => a.ts - b.ts);
+    if (mh.length > 6000) mh.splice(0, mh.length - 6000);
+    setHistory(mh); await store.set("waray:history", JSON.stringify(mh));
     const cloudAudio = cloud.audio || {};
     if (Object.keys(cloudAudio).length) {
       const merged = { ...cloudAudio, ...cur.audio }; // local wins
@@ -1339,7 +1374,7 @@ export default function App() {
     try {
       const payload = JSON.stringify({
         app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
-        prog: cur.prog, streak: cur.streak, audio: cur.audio,
+        prog: cur.prog, streak: cur.streak, audio: cur.audio, history: cur.history,
       });
       await gistApi(s.token, "/gists/" + s.gistId, "PATCH", { files: { [GIST_FILE]: { content: payload } } });
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
@@ -1402,7 +1437,7 @@ export default function App() {
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => syncPush(), 2500);
     return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
-  }, [prog, streak, audio, loaded, settings.sync, syncPush]);
+  }, [prog, streak, audio, history, loaded, settings.sync, syncPush]);
 
   if (!loaded) {
     return (
@@ -1421,6 +1456,7 @@ export default function App() {
     syncState, connectGist, disconnectGist, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
+    history, logAttempt,
   };
 
   return (
@@ -1432,6 +1468,7 @@ export default function App() {
       {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
+      {view === "history" && <HistoryView ctx={ctx} />}
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
@@ -1560,6 +1597,7 @@ function HomeView({ ctx }) {
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
         <button className="ws-bb" onClick={() => openSection(curLesson.section.id, curLesson.id)}><BookOpen size={18} /><span>Learn</span></button>
+        <button className="ws-bb" onClick={() => setView("history")}><Trophy size={18} /><span>History</span></button>
         <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
         <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
       </div>
@@ -1753,7 +1791,7 @@ function shuffle(a) {
 }
 
 function SessionView({ ctx }) {
-  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart } = ctx;
+  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, logAttempt } = ctx;
   const queue = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
@@ -1762,19 +1800,22 @@ function SessionView({ ctx }) {
 
   const card = queue[i];
 
-  const finish = () => {
+  const finish = (passed) => {
     setDone(true);
-    if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part);
+    if (passed && session.lesson) completeLessonPart(session.lesson.id, session.lesson.part);
   };
   const onResult = (correct, given) => {
     recordCard(card.id, correct);
     bumpStreak();
-    setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
     const prompt = session.dir === "wte" ? card.waray : card.english;
     const answer = session.dir === "wte" ? card.english : card.waray;
+    logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode: session.mode });
+    setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
     setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
-    if (i + 1 >= queue.length) finish();
-    else setI(i + 1);
+    if (i + 1 >= queue.length) {
+      const right = tally.right + (correct ? 1 : 0);
+      finish(queue.length > 0 && right / queue.length >= PASS_PCT);
+    } else setI(i + 1);
   };
 
   if (done) return <SessionDone ctx={ctx} tally={tally} total={queue.length} results={results} />;
@@ -1863,6 +1904,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
         </div>
 
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
+          given={picked !== null ? options[picked] : ""} dir={dir}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
       </div>
     );
@@ -1888,6 +1930,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
           <>
             <div className={`ws-yourans ${judged}`}>{typed || "—"}</div>
             <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
+              given={typed} dir={dir}
               showWaray={dir === "etw"} onResult={(corr) => onResult(corr, typed)} allowOverride />
           </>
         )}
@@ -1940,14 +1983,15 @@ function PromptBlock({ text, isWaray, say, onPlay }) {
   );
 }
 
-function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride }) {
-  const { playCard } = ctx;
+function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride, given, dir }) {
+  const { playCard, cards } = ctx;
   // Enter (anywhere) advances — same as clicking Continue
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Enter") { e.preventDefault(); onResult(correct); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [correct, onResult]);
+  const youSaid = !correct ? explainGiven(cards, given, answer, dir) : null;
   return (
     <div className={`ws-verdict ${correct ? "ok" : "no"}`}>
       <div className="ws-verdict-head">
@@ -1959,6 +2003,7 @@ function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverrid
           {showWaray && <button className="ws-mini-play" onClick={() => playCard(card)}><Volume2 size={15} /></button>}
         </div>
       )}
+      {youSaid && <div className="ws-verdict-yousaid">you said: {youSaid}</div>}
       {card.subtext && <div className="ws-subtext">{card.subtext}</div>}
       <div className="ws-verdict-actions">
         {allowOverride && (
@@ -2073,6 +2118,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   const { setView, setSession, session } = ctx;
   const acc = total ? Math.round((tally.right / total) * 100) : 0;
   const inLesson = !!session?.lesson;
+  const passed = acc >= PASS_PCT * 100;
   const missed = results.filter((r) => !r.correct);
   const allIds = results.map((r) => r.id);
   const missedIds = missed.map((r) => r.id);
@@ -2082,10 +2128,15 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
-        <div className="ws-done-ring" style={{ "--p": acc }}>
+        <div className={`ws-done-ring ${inLesson && !passed ? "fail" : ""}`} style={{ "--p": acc }}>
           <span>{acc}<i>%</i></span>
         </div>
-        <h2>Human na!</h2>
+        <h2>{inLesson ? (passed ? "Pasado!" : "Liwat anay") : "Human na!"}</h2>
+        {inLesson && (
+          <div className={`ws-passpill ${passed ? "ok" : "no"}`}>
+            {passed ? <><Check size={14} /> Passed · part cleared</> : <><X size={14} /> Not passed — score {PASS_PCT * 100}% to clear it</>}
+          </div>
+        )}
         <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${tally.right} right · ${tally.wrong} to revisit`}</p>
 
         {missed.length > 0 && (
@@ -2233,6 +2284,57 @@ function LessonView({ ctx }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/* ============================ HISTORY ============================ */
+function HistoryView({ ctx }) {
+  const { history, setView } = ctx;
+  const days = {};
+  for (const e of history) {
+    const d = new Date(e.ts).toISOString().slice(0, 10);
+    (days[d] = days[d] || []).push(e);
+  }
+  const dayKeys = Object.keys(days).sort().reverse();
+  const totalRight = history.filter((e) => e.correct).length;
+  const overallAcc = history.length ? Math.round((totalRight / history.length) * 100) : 0;
+  return (
+    <div className="ws-page">
+      <TopBar title="History" onBack={() => setView("home")} />
+      {history.length === 0 ? (
+        <div className="ws-empty">
+          <Trophy size={28} />
+          <p>No attempts yet. Every answer — right and wrong — collects here by day so you can track your progress and revisit what you missed.</p>
+        </div>
+      ) : (
+        <>
+          <div className="ws-hist-overall">{history.length} answers · {overallAcc}% correct</div>
+          {dayKeys.map((d) => {
+            const es = days[d];
+            const right = es.filter((e) => e.correct).length;
+            const acc = Math.round((right / es.length) * 100);
+            const misses = es.filter((e) => !e.correct);
+            const label = new Date(d + "T00:00").toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+            return (
+              <div key={d} className="ws-hist-day">
+                <div className="ws-hist-dayhead">
+                  <span className="ws-hist-date">{label}</span>
+                  <span className="ws-hist-acc">{right}/{es.length} · {acc}%</span>
+                </div>
+                {misses.map((e, k) => (
+                  <div key={k} className="ws-hist-miss">
+                    <span className="ws-hist-prompt">{e.prompt}</span>
+                    <span className="ws-hist-yours">{e.given || "—"}</span>
+                    <ArrowLeft size={11} className="ws-missed-arr" />
+                    <span className="ws-hist-correct">{e.answer}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }
@@ -3044,6 +3146,18 @@ function Styles() {
 .ws-verdict.no .ws-verdict-head{color:var(--coral)}
 .ws-verdict-answer{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;
   font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
+.ws-verdict-yousaid{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:4px 0 2px}
+/* history */
+.ws-hist-overall{text-align:center;font-size:13px;font-weight:600;color:var(--tide);margin-bottom:16px}
+.ws-hist-day{margin-bottom:14px}
+.ws-hist-dayhead{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--sand-deep);padding-bottom:4px;margin-bottom:6px}
+.ws-hist-date{font-weight:600;font-size:13.5px;color:var(--ink)}
+.ws-hist-acc{font-size:12px;font-weight:700;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.ws-hist-miss{display:flex;align-items:center;gap:6px;font-size:12.5px;padding:3px 0}
+.ws-hist-prompt{font-family:'Fraunces',serif;color:var(--sea);min-width:90px}
+.ws-hist-yours{color:var(--coral);text-decoration:line-through}
+.ws-hist-correct{color:var(--jade);font-weight:600}
 .ws-verdict-actions{display:flex;gap:10px;margin-top:14px}
 .ws-next-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:13px;
   border-radius:13px;border:none;background:var(--sea);color:#fff;font-weight:600;font-size:14.5px;
@@ -3079,6 +3193,11 @@ function Styles() {
 .ws-done-ring{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;display:flex;
   align-items:center;justify-content:center;
   background:conic-gradient(var(--jade) calc(var(--p)*1%),var(--sand) 0)}
+.ws-done-ring.fail{background:conic-gradient(var(--coral) calc(var(--p)*1%),var(--sand) 0)}
+.ws-passpill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+  padding:5px 12px;border-radius:20px;margin-bottom:12px}
+.ws-passpill.ok{background:#e7f6ee;color:var(--jade)}
+.ws-passpill.no{background:#fae3de;color:var(--coral)}
 .ws-done-ring span{width:92px;height:92px;border-radius:50%;background:var(--foam);display:flex;
   align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;
   color:var(--sea-ink)}
