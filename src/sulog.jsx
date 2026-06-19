@@ -397,7 +397,7 @@ const SEED = [
   ["color", "berde", "green", "", "BER-deh"],
 
   ["essent", "Waray ako makabaro", "I don't understand", "", "wah-RIGH ah-KAW mah-kah-BAH-ro"],
-  ["essent", "Hain iton kasilyas?", "Where is the toilet?", "", "HAH-een EE-ton kah-SEEL-yas"],
+  ["essent", "Hain an CR?", "Where is the CR? (bathroom)", "an = the; ang is Tagalog", "HAH-een ahn see-AR"],
   ["essent", "Buligi daw ako", "Please help me", "", "boo-LEE-gee dow ah-KAW"],
   ["essent", "Pasaylo-a ako", "Excuse me / sorry", "", "pah-sigh-LO-ah ah-KAW"],
   ["essent", "Sige, sunod na la", "Goodbye (see you next time)", "", "SEE-geh SOO-nod nah lah"],
@@ -686,7 +686,7 @@ const CURRICULUM = [
     { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Adi", "Pwede", "maupay", "tabang", "Hinay-hinay la"] },
   ] },
   { id: "u2", name: "Survival phrases", hint: "When you're stuck", lessons: [
-    { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain iton kasilyas?", "Karuyag ko", "Gusto ko", "Nakikit-an mo?", "Klaro?"] },
+    { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain an CR?", "Karuyag ko", "Gusto ko", "Nakikit-an mo?", "Klaro?"] },
   ] },
   ] },
   { id: "s2", name: "People & Describing", hint: "Who, and what they're like", units: [
