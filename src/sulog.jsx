@@ -2214,7 +2214,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total, results = [] }) {
-  const { setView, setSession, session, cards, markUnitReview } = ctx;
+  const { setView, setSession, session, cards, markUnitReview, lessons, startLessonPart, setLessonId, setLearnSection } = ctx;
   const inLesson = !!session?.lesson;
   const isReview = !!session?.unitReview; // the one graded checkpoint
   const missed = results.filter((r) => !r.correct);
@@ -2233,6 +2233,35 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   // Review missed keeps the whole-set frame (base); Review all is a fresh full run.
   const reviewMissed = () => { setSession({ ...session, only: missedIds, limit: missedIds.length, base: { total: effTotal, priorRight: effRight }, nonce: Date.now() }); setView("session"); };
   const reviewAll = () => { const s = { ...session, only: allIds, limit: allIds.length, nonce: Date.now() }; delete s.base; setSession(s); setView("session"); };
+
+  // primary "keep going" action: the next part of this lesson, else the next
+  // lesson. The default — Enter triggers it (after a short guard so the Enter
+  // that finished the last card doesn't carry through and skip this screen).
+  let nextAction = null;
+  if (inLesson) {
+    const lesson = LESSON_FLOW.find((l) => l.id === session.lesson.id);
+    const pIdx = session.lesson.part;
+    if (lesson && pIdx + 1 < LESSON_PARTS.length) {
+      nextAction = { label: `Next: ${LESSON_PARTS[pIdx + 1].label}`, go: () => startLessonPart(lesson, pIdx + 1) };
+    } else {
+      const nl = nextLesson(lessons);
+      if (nl && nl.id !== session.lesson.id) {
+        nextAction = { label: `Next lesson: ${nl.title}`, go: () => { setLessonId(nl.id); setLearnSection(nl.section.id); setView("lesson"); } };
+      }
+    }
+  }
+  const shownAt = useRef(Date.now());
+  const goNextRef = useRef(null);
+  goNextRef.current = nextAction?.go || null;
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Enter" && !e.repeat && Date.now() - shownAt.current > 250 && goNextRef.current) {
+        e.preventDefault(); goNextRef.current();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const heading = isReview ? (passed ? "Mastered!" : "Liwat anay") : inLesson ? "Human na!" : "Human na!";
   return (
@@ -2270,10 +2299,13 @@ function SessionDone({ ctx, tally, total, results = [] }) {
         )}
 
         <div className="ws-done-actions">
+          {nextAction && (
+            <button className="ws-start" onClick={nextAction.go}>{nextAction.label} <ChevronRight size={17} /></button>
+          )}
           {results.length > 0 && (
             <>
-              {missedIds.length > 0 && <button className="ws-start" onClick={reviewMissed}><RotateCcw size={17} /> Review missed</button>}
-              <button className={missedIds.length > 0 ? "ws-ghost-btn" : "ws-start"} onClick={reviewAll}><RotateCcw size={17} /> Review all</button>
+              {missedIds.length > 0 && <button className={nextAction ? "ws-ghost-btn" : "ws-start"} onClick={reviewMissed}><RotateCcw size={17} /> Review missed</button>}
+              <button className={(nextAction || missedIds.length > 0) ? "ws-ghost-btn" : "ws-start"} onClick={reviewAll}><RotateCcw size={17} /> Review all</button>
             </>
           )}
           {inLesson ? (
