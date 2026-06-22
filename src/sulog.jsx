@@ -670,7 +670,7 @@ const DECKS = {
    Units → lessons, ordered so each lesson builds on earlier ones. Lessons list
    their items by Waray text (resolved to existing cards at runtime; unknown
    entries are skipped). Each lesson is cleared in 4 escalating parts. */
-const PASS_PCT = 0.8; // score needed to pass (clear) a lesson part
+const PASS_PCT = 0.8; // score needed to pass a unit review (lessons are ungraded practice)
 const LESSON_PARTS = [
   { dir: "wte", mode: "mc", label: "Recognize", hint: "Waray → English" },
   { dir: "etw", mode: "mc", label: "Reverse", hint: "English → Waray" },
@@ -854,6 +854,38 @@ function sectionCards(cards, section) {
     if (!seen.has(c.id)) { seen.add(c.id); out.push(c); }
   })));
   return out;
+}
+// every (unique) card in a single unit, across its lessons
+function unitCards(cards, unit) {
+  const seen = new Set(), out = [];
+  unit.lessons.forEach((l) => lessonCards(cards, l).forEach((c) => {
+    if (!seen.has(c.id)) { seen.add(c.id); out.push(c); }
+  }));
+  return out;
+}
+// the words to test in a unit review (up to n): your HARDEST in this unit first
+// (most-missed, then weakest box, then lowest accuracy, then longest word). If
+// the unit is small or you've barely missed anything, pad with the words you've
+// missed most ANYWHERE so the review still hits real struggle spots.
+function unitReviewCards(cards, prog, unit, n = 10) {
+  const rank = (c) => {
+    const st = prog[c.id];
+    return [-(st?.wrong || 0), masteryPct(st), accuracy(st), -(c.waray || "").length];
+  };
+  const cmp = (a, b) => {
+    const ra = rank(a), rb = rank(b);
+    for (let k = 0; k < ra.length; k++) if (ra[k] !== rb[k]) return ra[k] - rb[k];
+    return 0;
+  };
+  const picked = [], used = new Set();
+  const add = (c) => { if (c && !used.has(c.id)) { used.add(c.id); picked.push(c); } };
+  unitCards(cards, unit).slice().sort(cmp).forEach(add); // unit words, hardest first
+  if (picked.length < n) { // pad with the most-missed words from anywhere
+    cards.filter((c) => (prog[c.id]?.wrong || 0) > 0)
+      .sort((a, b) => (prog[b.id]?.wrong || 0) - (prog[a.id]?.wrong || 0))
+      .forEach(add);
+  }
+  return picked.slice(0, n);
 }
 // parts completed (0–4) for a lesson; a lesson is "done" at 4
 const lessonDone = (lessons, id) => (lessons[id] || 0) >= LESSON_PARTS.length;
@@ -1188,6 +1220,7 @@ export default function App() {
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
+  const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
 
   // keep the module-level chosen voice that speak() reads in sync with settings
   useEffect(() => {
@@ -1203,10 +1236,12 @@ export default function App() {
       const cfg = await store.get("waray:settings");
       const les = await store.get("waray:lessons");
       const hist = await store.get("waray:history");
+      const un = await store.get("waray:units");
       if (p) setProg(JSON.parse(p));
       if (s) setStreak(JSON.parse(s));
       if (les) setLessons(JSON.parse(les));
       if (hist) setHistory(JSON.parse(hist));
+      if (un) setUnits(JSON.parse(un));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
       if (aIdx) {
         const ids = JSON.parse(aIdx);
@@ -1241,13 +1276,30 @@ export default function App() {
       return ns;
     });
   }, []);
-  // open a lesson part: build a session over its cards in that part's dir+mode
+  // open a lesson part: build a session over its cards in that part's dir+mode.
+  // Written (type) parts turn on remediation — miss a word and it drops to MC
+  // then back to typing until you clear it, so the part always ends mastered.
   const startLessonPart = useCallback((lesson, partIdx) => {
     const part = LESSON_PARTS[partIdx];
     const ids = lessonCards(cards, lesson).map((c) => c.id);
-    setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx } });
+    setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx }, remediate: part.mode === "type" });
     setView("session");
   }, [cards]);
+  // the unit review — the one graded checkpoint: 10 of your hardest words in the
+  // unit, English→Waray typed, no remediation (it's a real test). Pass = 80%.
+  const startUnitReview = useCallback((unit) => {
+    const picks = unitReviewCards(cards, prog, unit, 10);
+    setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", limit: picks.length, only: picks.map((c) => c.id), unitReview: { id: unit.id, name: unit.name } });
+    setView("session");
+  }, [cards, prog]);
+  // record a unit-review result; "passed" is sticky (once mastered, stays so)
+  const markUnitReview = useCallback((id, pct, passed) => {
+    setUnits((prev) => {
+      const ns = { ...prev, [id]: { best: Math.max(prev[id]?.best || 0, pct), passed: !!(passed || prev[id]?.passed), last: pct, at: today() } };
+      store.set("waray:units", JSON.stringify(ns));
+      return ns;
+    });
+  }, []);
 
   const bumpStreak = useCallback(() => {
     setStreak((prev) => {
@@ -1475,7 +1527,7 @@ export default function App() {
     syncState, connectGist, disconnectGist, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
-    history, logAttempt,
+    history, logAttempt, units, startUnitReview, markUnitReview,
   };
 
   return (
@@ -1497,7 +1549,7 @@ export default function App() {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio, lessons, setLearnTarget, setLearnSection } = ctx;
+  const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection } = ctx;
   const curLesson = nextLesson(lessons);
   // open a section's own page; optionally scroll to a lesson within it
   const openSection = (sid, lessonId = null) => { setLearnSection(sid); setLearnTarget(lessonId); setView("learn"); };
@@ -1597,13 +1649,14 @@ function HomeView({ ctx }) {
           });
           const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l2) => lessonDone(lessons, l2.id)).length;
           const lessonsTot = s.units.flatMap((u) => u.lessons).length;
+          const mUnits = s.units.filter((u) => units[u.id]?.passed).length;
           return (
             <button key={s.id} className="ws-unit-tile" onClick={() => openSection(s.id)}>
               <div className="ws-unit-tile-top">
                 <span className="ws-unit-tile-name">{s.name}</span>
                 <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
               </div>
-              <div className="ws-unit-tile-sub">tap to review or re-learn</div>
+              <div className="ws-unit-tile-sub">{mUnits > 0 ? `${mUnits}/${s.units.length} units mastered` : "tap to review or re-learn"}</div>
               <Distribution fresh={f} learning={l} mastered={m} />
               <ConstellationGrid cards={sc} prog={prog} />
             </button>
@@ -1811,55 +1864,68 @@ function shuffle(a) {
 
 function SessionView({ ctx }) {
   const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, logAttempt } = ctx;
-  const queue = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
+  // base = the cards to study once (first attempt is what scores). Each becomes a
+  // "step"; a missed written step splices in extra (unscored) MC→type steps so
+  // you keep at it until you clear it.
+  const base = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
+  const [steps, setSteps] = useState(() => base.map((c) => ({ card: c, mode: session.mode, scored: true })));
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
-  const [results, setResults] = useState([]); // {id, prompt, answer, given, correct}
-  const [done, setDone] = useState(queue.length === 0);
+  const [results, setResults] = useState([]); // first-attempt results only {id, prompt, answer, given, correct}
+  const [done, setDone] = useState(base.length === 0);
 
-  const card = queue[i];
+  const step = steps[i];
+  const card = step?.card;
+  const mode = step?.mode || session.mode;
+  const exitTo = session.lesson ? "lesson" : session.unitReview ? "learn" : "home";
 
-  const finish = (passed) => {
-    setDone(true);
-    if (passed && session.lesson) completeLessonPart(session.lesson.id, session.lesson.part);
-  };
+  const advance = () => { if (i + 1 >= steps.length) { setDone(true); if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part); } else setI(i + 1); };
+
   const onResult = (correct, given) => {
-    recordCard(card.id, correct);
-    bumpStreak();
-    const prompt = session.dir === "wte" ? card.waray : card.english;
-    const answer = session.dir === "wte" ? card.english : card.waray;
-    logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode: session.mode });
-    setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
-    setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
-    if (i + 1 >= queue.length) {
-      // grade against the WHOLE lesson, not just a reviewed subset:
-      // session.base carries {total, priorRight} from the original full run
-      const right = tally.right + (correct ? 1 : 0);
-      const effTotal = session.base?.total || queue.length;
-      const effRight = (session.base?.priorRight || 0) + right;
-      finish(effTotal > 0 && effRight / effTotal >= PASS_PCT);
-    } else setI(i + 1);
+    if (step.scored) { // only the first encounter feeds the SRS, history and grade
+      recordCard(card.id, correct);
+      bumpStreak();
+      const prompt = session.dir === "wte" ? card.waray : card.english;
+      const answer = session.dir === "wte" ? card.english : card.waray;
+      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode: session.mode });
+      setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
+      setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
+    }
+    if (session.remediate && mode === "type" && !correct) { // drop to MC, then type again
+      setSteps((prev) => {
+        const ns = [...prev];
+        ns.splice(i + 1, 0, { card, mode: "mc", scored: false, remedial: true }, { card, mode: "type", scored: false, remedial: true });
+        return ns;
+      });
+      setI(i + 1);
+      return;
+    }
+    advance();
   };
 
-  if (done) return <SessionDone ctx={ctx} tally={tally} total={queue.length} results={results} />;
+  if (done) return <SessionDone ctx={ctx} tally={tally} total={base.length} results={results} />;
   if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} results={results} />;
 
   const distractors = pickDistractors(cards, card, session.dir);
-
+  const scoredDone = results.length;
   return (
     <div className="ws-page ws-session">
       <div className="ws-session-top">
-        <button className="ws-icon-btn" onClick={() => setView("home")}><X size={20} /></button>
+        <button className="ws-icon-btn" onClick={() => setView(exitTo)}><X size={20} /></button>
         <div className="ws-progress-track">
-          <div className="ws-progress-fill" style={{ width: `${(i / queue.length) * 100}%` }} />
+          <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
         </div>
-        <div className="ws-session-count">{i + 1}/{queue.length}</div>
+        <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
       </div>
 
+      {step.remedial && (
+        <div className="ws-remedy">{mode === "mc" ? "Let's try that one again — pick the right answer." : "Now type it from memory."}</div>
+      )}
       <CardReview
-        key={card.id}
-        card={card} dir={session.dir} mode={session.mode}
+        key={i + ":" + card.id}
+        card={card} dir={session.dir} mode={mode}
         distractors={distractors} ctx={ctx} onResult={onResult}
+        onSkip={step.remedial ? advance : null}
       />
     </div>
   );
@@ -1872,7 +1938,7 @@ function pickDistractors(cards, card, dir) {
   return shuffle(pool).slice(0, 3).map((c) => c[field]);
 }
 
-function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
+function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const { playCard, saveAudio, audio } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
   const answerField = dir === "wte" ? "english" : "waray";
@@ -1929,6 +1995,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
           given={picked !== null ? options[picked] : ""} dir={dir}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
+        {onSkip && picked === null && <button className="ws-skip" onClick={onSkip}>Skip this one</button>}
       </div>
     );
   }
@@ -1948,6 +2015,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult }) {
             <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer, dir === "etw"))}>
               Check
             </button>
+            {onSkip && <button className="ws-skip" onClick={onSkip}>Skip this one</button>}
           </>
         ) : (
           <>
@@ -2146,35 +2214,40 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total, results = [] }) {
-  const { setView, setSession, session, cards } = ctx;
+  const { setView, setSession, session, cards, markUnitReview } = ctx;
   const inLesson = !!session?.lesson;
+  const isReview = !!session?.unitReview; // the one graded checkpoint
   const missed = results.filter((r) => !r.correct);
   const allIds = results.map((r) => r.id);
   const missedIds = missed.map((r) => r.id);
 
-  // whole-lesson grade: fold in the cards already known before this (review) run
+  // whole-set grade: fold in cards already known before this (review-missed) run
   const effTotal = session?.base?.total || total;
   const effRight = (session?.base?.priorRight || 0) + tally.right;
   const acc = effTotal ? Math.round((effRight / effTotal) * 100) : 0;
   const passed = acc >= PASS_PCT * 100;
 
-  // Review missed keeps the whole-lesson frame (base); Review all is a fresh full run.
+  // record the unit-review result once (pass is sticky in markUnitReview)
+  useEffect(() => { if (isReview && effTotal > 0) markUnitReview(session.unitReview.id, acc, passed); }, []);
+
+  // Review missed keeps the whole-set frame (base); Review all is a fresh full run.
   const reviewMissed = () => { setSession({ ...session, only: missedIds, limit: missedIds.length, base: { total: effTotal, priorRight: effRight }, nonce: Date.now() }); setView("session"); };
   const reviewAll = () => { const s = { ...session, only: allIds, limit: allIds.length, nonce: Date.now() }; delete s.base; setSession(s); setView("session"); };
 
+  const heading = isReview ? (passed ? "Mastered!" : "Liwat anay") : inLesson ? "Human na!" : "Human na!";
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
-        <div className={`ws-done-ring ${inLesson && !passed ? "fail" : ""}`} style={{ "--p": acc }}>
+        <div className={`ws-done-ring ${isReview && !passed ? "fail" : ""}`} style={{ "--p": acc }}>
           <span>{acc}<i>%</i></span>
         </div>
-        <h2>{inLesson ? (passed ? "Pasado!" : "Liwat anay") : "Human na!"}</h2>
-        {inLesson && (
+        <h2>{heading}</h2>
+        {isReview && (
           <div className={`ws-passpill ${passed ? "ok" : "no"}`}>
-            {passed ? <><Check size={14} /> Passed · part cleared</> : <><X size={14} /> Not passed — score {PASS_PCT * 100}% to clear it</>}
+            {passed ? <><Check size={14} /> Passed · unit mastered</> : <><X size={14} /> Score {PASS_PCT * 100}% to master this unit</>}
           </div>
         )}
-        <p className="ws-done-sub">{total === 0 ? "Nothing was due — come back later." : `${effRight}/${effTotal} correct${effTotal - effRight > 0 ? ` · ${effTotal - effRight} to revisit` : ""}`}</p>
+        <p className="ws-done-sub">{total === 0 ? "Nothing here yet — come back later." : `${effRight}/${effTotal} correct${effTotal - effRight > 0 ? ` · ${effTotal - effRight} to revisit` : ""}`}</p>
 
         {missed.length > 0 && (
           <div className="ws-missed">
@@ -2205,6 +2278,8 @@ function SessionDone({ ctx, tally, total, results = [] }) {
           )}
           {inLesson ? (
             <button className="ws-ghost-btn" onClick={() => setView("lesson")}>Back to lesson</button>
+          ) : isReview ? (
+            <button className="ws-ghost-btn" onClick={() => setView("learn")}>Back to unit</button>
           ) : (
             <button className="ws-ghost-btn" onClick={() => setView("home")}><Home size={16} /> Home</button>
           )}
@@ -2216,7 +2291,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
 
 /* ============================ LEARN PATH ============================ */
 function LearnView({ ctx }) {
-  const { cards, lessons, setView, setLessonId, setLearnSection, learnTarget, learnSection } = ctx;
+  const { cards, lessons, units, startUnitReview, setView, setLessonId, setLearnSection, learnTarget, learnSection } = ctx;
   const cur = nextLesson(lessons);
   const s = CURRICULUM.find((x) => x.id === learnSection) || cur.section;
   // scroll to the lesson the user came in on (else the current lesson, if here)
@@ -2241,11 +2316,13 @@ function LearnView({ ctx }) {
           </div>
           {s.units.map((u) => {
             const uDone = u.lessons.filter((l) => lessonDone(lessons, l.id)).length;
+            const ur = units[u.id];
+            const hasCards = unitCards(cards, u).length > 0;
             return (
               <div key={u.id} id={"ln-" + u.id} className="ws-unit">
                 <div className="ws-unit-head">
                   <div>
-                    <div className="ws-unit-name">{u.name}</div>
+                    <div className="ws-unit-name">{u.name}{ur?.passed && <span className="ws-unit-mastered"><Check size={12} /> mastered</span>}</div>
                     <div className="ws-unit-hint">{u.hint}</div>
                   </div>
                   <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
@@ -2275,6 +2352,18 @@ function LearnView({ ctx }) {
                     );
                   })}
                 </div>
+                {hasCards && (
+                  <button className={`ws-lnode ws-review ${ur?.passed ? "done" : ""}`} onClick={() => startUnitReview(u)}>
+                    <div className="ws-lnode-ring">{ur?.passed ? <Check size={16} /> : <Trophy size={15} />}</div>
+                    <div className="ws-lnode-body">
+                      <div className="ws-lnode-title">Unit review</div>
+                      <div className="ws-lnode-sub">
+                        {ur?.passed ? `Mastered · best ${ur.best}%` : ur ? `Best ${ur.best}% · score 80% to master` : "10 questions · type the Waray · test out anytime"}
+                      </div>
+                    </div>
+                    <ChevronRight size={16} className="ws-lnode-arr" />
+                  </button>
+                )}
               </div>
             );
           })}
@@ -2978,6 +3067,12 @@ function Styles() {
 .ws-lnode-title{font-size:14.5px;font-weight:600;color:var(--ink)}
 .ws-lnode-sub{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
 .ws-lnode-arr{color:var(--sand-deep);flex-shrink:0}
+.ws-lnode.ws-review{margin-top:7px;border-style:dashed;border-color:var(--tide);background:#f3fbfb}
+.ws-lnode.ws-review .ws-lnode-ring{background:var(--sun);color:#fff}
+.ws-lnode.ws-review.done{border-style:solid}
+.ws-lnode.ws-review.done .ws-lnode-ring{background:var(--jade)}
+.ws-unit-mastered{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:10.5px;font-weight:700;
+  color:var(--jade);vertical-align:middle}
 
 /* lesson screen */
 .ws-lesson-title{font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:var(--ink);margin:4px 0 4px}
@@ -3127,6 +3222,10 @@ function Styles() {
 
 /* session */
 .ws-session{padding-top:16px}
+.ws-remedy{margin:-10px 0 16px;padding:9px 13px;border-radius:11px;background:#fff5e6;border:1px solid var(--sun);
+  color:#9a6300;font-size:12.5px;font-weight:600;text-align:center}
+.ws-skip{display:block;margin:10px auto 0;background:none;border:none;color:var(--ink-soft);font-family:inherit;
+  font-size:12.5px;text-decoration:underline;cursor:pointer}
 .ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));

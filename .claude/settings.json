@@ -3,11 +3,7 @@
     "allow": [
       "Skill(update-config)",
       "Skill(update-config:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(bash build.sh)",
-      "Bash(npm run build)"
+      "Bash(git commit -aqm 'Remediation loop in written parts + graded unit review *)"
     ]
   }
 }
