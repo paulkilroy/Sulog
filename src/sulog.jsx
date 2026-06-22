@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
-  Plus, RotateCcw, ChevronRight, Star, Ear, Pencil, List, Home,
+  Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen,
 } from "lucide-react";
@@ -1880,6 +1880,9 @@ function SessionView({ ctx }) {
   const exitTo = session.lesson ? "lesson" : session.unitReview ? "learn" : "home";
 
   const advance = () => { if (i + 1 >= steps.length) { setDone(true); if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part); } else setI(i + 1); };
+  // step back to re-see the previous card (e.g. if an auto-advance was too quick).
+  // Mark it unscored so re-answering it won't double-count the first attempt.
+  const back = () => { if (i <= 0) return; setSteps((prev) => prev.map((s, k) => (k === i - 1 ? { ...s, scored: false } : s))); setI(i - 1); };
 
   const onResult = (correct, given) => {
     if (step.scored) { // only the first encounter feeds the SRS, history and grade
@@ -1912,6 +1915,7 @@ function SessionView({ ctx }) {
     <div className="ws-page ws-session">
       <div className="ws-session-top">
         <button className="ws-icon-btn" onClick={() => setView(exitTo)}><X size={20} /></button>
+        <button className="ws-icon-btn" disabled={i <= 0} onClick={back} title="Previous card"><ChevronLeft size={20} /></button>
         <div className="ws-progress-track">
           <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
         </div>
@@ -1993,7 +1997,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
         </div>
 
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
-          given={picked !== null ? options[picked] : ""} dir={dir}
+          given={picked !== null ? options[picked] : ""} dir={dir} autoMs={1300}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
         {onSkip && picked === null && <button className="ws-skip" onClick={onSkip}>Skip this one</button>}
       </div>
@@ -2074,12 +2078,15 @@ function PromptBlock({ text, isWaray, say, onPlay }) {
   );
 }
 
-function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride, given, dir }) {
+function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride, given, dir, autoMs }) {
   const { playCard, cards } = ctx;
   // Enter advances — same as clicking Continue. Ignore the keypress that opened
   // this verdict (e.g. the Enter that submitted a typed answer) so one Enter =
   // one step and you don't skip the result screen.
+  // When autoMs is set and the answer is right, also auto-advance after that
+  // delay so a correct run flows without a click (Back is there if too quick).
   const shownAt = useRef(Date.now());
+  const autoAdvance = autoMs && correct;
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Enter" && !e.repeat && Date.now() - shownAt.current > 250) {
@@ -2088,8 +2095,9 @@ function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverrid
       }
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [correct, onResult]);
+    const t = autoAdvance ? setTimeout(() => onResult(correct), autoMs) : null;
+    return () => { window.removeEventListener("keydown", onKey); if (t) clearTimeout(t); };
+  }, [correct, onResult, autoAdvance, autoMs]);
   const youSaid = !correct ? explainGiven(cards, given, answer, dir) : null;
   return (
     <div className={`ws-verdict ${correct ? "ok" : "no"}`}>
@@ -2114,6 +2122,7 @@ function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverrid
           Continue <ChevronRight size={18} />
         </button>
       </div>
+      {autoAdvance && <div className="ws-auto-bar" style={{ animationDuration: `${autoMs}ms` }} />}
     </div>
   );
 }
@@ -3256,6 +3265,9 @@ function Styles() {
 .ws-session{padding-top:16px}
 .ws-remedy{margin:-10px 0 16px;padding:9px 13px;border-radius:11px;background:#fff5e6;border:1px solid var(--sun);
   color:#9a6300;font-size:12.5px;font-weight:600;text-align:center}
+.ws-auto-bar{height:3px;border-radius:3px;background:currentColor;opacity:.35;margin-top:11px;
+  transform-origin:left;animation:wsAuto linear forwards}
+@keyframes wsAuto{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .ws-skip{display:block;margin:10px auto 0;background:none;border:none;color:var(--ink-soft);font-family:inherit;
   font-size:12.5px;text-decoration:underline;cursor:pointer}
 .ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
