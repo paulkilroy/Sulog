@@ -1218,7 +1218,7 @@ export default function App() {
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
-  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "" });
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH" });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
 
@@ -1942,8 +1942,57 @@ function pickDistractors(cards, card, dir) {
   return shuffle(pool).slice(0, 3).map((c) => c[field]);
 }
 
+// Browser speech recognition (Web Speech API). There is no Waray locale, so for
+// Waray answers we use the closest the browser offers (Filipino/Tagalog, set in
+// settings). Cloud-backed in Chrome/Edge; absent in Firefox (button hides).
+const SpeechRec = typeof window !== "undefined" && (window.SpeechRecognition || window.webkitSpeechRecognition);
+// true if ANY recognition alternative passes the lenient check (STT is noisy, so
+// give credit if any of the hypotheses matches)
+function speechMatches(alts, answer, waray) {
+  return (alts || []).some((a) => checkAnswer(a, answer, waray));
+}
+
+// mic button that transcribes one spoken phrase; feeds interim text live and the
+// final alternatives back to the caller
+function MicButton({ lang, onInterim, onFinal }) {
+  const [listening, setListening] = useState(false);
+  const [err, setErr] = useState("");
+  const recRef = useRef(null);
+  if (!SpeechRec) return null;
+  const start = () => {
+    setErr("");
+    try {
+      const rec = new SpeechRec();
+      rec.lang = lang || "fil-PH";
+      rec.interimResults = true;
+      rec.maxAlternatives = 5;
+      rec.continuous = false;
+      rec.onresult = (e) => {
+        const res = e.results[e.results.length - 1];
+        const alts = Array.from(res).map((a) => a.transcript.trim()).filter(Boolean);
+        if (res.isFinal) onFinal(alts);
+        else if (onInterim) onInterim(alts[0] || "");
+      };
+      rec.onerror = (ev) => { setErr(ev.error === "not-allowed" ? "Mic blocked — allow it for this site." : ev.error === "no-speech" ? "Didn't catch that — try again." : "Recognition error."); setListening(false); };
+      rec.onend = () => setListening(false);
+      recRef.current = rec;
+      rec.start();
+      setListening(true);
+    } catch (e) { setErr("Speech recognition isn't available here."); }
+  };
+  const stop = () => { try { recRef.current && recRef.current.stop(); } catch (e) {} setListening(false); };
+  return (
+    <>
+      <button type="button" className={`ws-mic-stt ${listening ? "on" : ""}`} onClick={() => (listening ? stop() : start())}>
+        <Mic size={18} /> {listening ? "Listening… tap to stop" : "Speak the answer"}
+      </button>
+      {err && <div className="ws-mic-err">{err}</div>}
+    </>
+  );
+}
+
 function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
-  const { playCard, saveAudio, audio } = ctx;
+  const { playCard, saveAudio, audio, settings } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
   const answerField = dir === "wte" ? "english" : "waray";
   const prompt = card[promptField];
@@ -2024,9 +2073,13 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           onPlay={() => playCard(card)} />
         {!judged ? (
           <>
-            <input className="ws-input" autoFocus value={typed} placeholder="Type your answer…"
+            <input className="ws-input" autoFocus value={typed} placeholder="Type or speak your answer…"
               onChange={(e) => setTyped(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && typed.trim()) judge(checkAnswer(typed, answer, dir === "etw")); }} />
+            <MicButton
+              lang={dir === "etw" ? (settings.sttLang || "fil-PH") : "en-US"}
+              onInterim={(t) => setTyped(t)}
+              onFinal={(alts) => { setTyped(alts[0] || ""); judge(speechMatches(alts, answer, dir === "etw")); }} />
             <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer, dir === "etw"))}>
               Check
             </button>
@@ -2960,6 +3013,29 @@ function PronounceView({ ctx }) {
         </button>
       </div>
 
+      {SpeechRec && (
+        <>
+          <SectionLabel icon={<Mic size={14} />} text="Speak your answers (experimental)" />
+          <div className="ws-stt">
+            <div className="ws-stt-note">
+              In the typed parts you can tap <b>Speak the answer</b> instead of typing — handy hands-free.
+              Browsers have no Waray recognizer, so it listens in the closest language below and we grade
+              leniently. Filipino/Tagalog is the best starting point; try the others if it mishears you.
+            </div>
+            <div className="ws-speed-slider">
+              <label className="ws-speed-glabel">Listen as</label>
+              <select className="ws-voice-select" value={settings.sttLang || "fil-PH"}
+                onChange={(e) => saveSettings({ ...settings, sttLang: e.target.value })}
+                aria-label="Speech recognition language">
+                {[["fil-PH", "Filipino"], ["tl-PH", "Tagalog"], ["en-PH", "English (Philippines)"], ["id-ID", "Indonesian"], ["ms-MY", "Malay"]].map(([v, n]) => (
+                  <option key={v} value={v}>{n} ({v})</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </>
+      )}
+
       <SectionLabel text="The rules that matter" />
       <div className="ws-rules">
         {rules.map(([t, d], i) => (
@@ -3281,6 +3357,13 @@ function Styles() {
 @keyframes wsAuto{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .ws-skip{display:block;margin:10px auto 0;background:none;border:none;color:var(--ink-soft);font-family:inherit;
   font-size:12.5px;text-decoration:underline;cursor:pointer}
+.ws-mic-stt{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;
+  padding:12px 14px;border-radius:13px;border:1.5px solid var(--tide);background:var(--foam);color:var(--sea);
+  font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+.ws-mic-stt.on{background:var(--coral);border-color:var(--coral);color:#fff;animation:wsPulse 1.1s ease-in-out infinite}
+@keyframes wsPulse{0%,100%{opacity:1}50%{opacity:.6}}
+.ws-stt{display:flex;flex-direction:column;gap:11px;margin-bottom:8px}
+.ws-stt-note{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
 .ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
