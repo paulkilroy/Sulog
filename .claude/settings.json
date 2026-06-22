@@ -3,7 +3,8 @@
     "allow": [
       "Skill(update-config)",
       "Skill(update-config:*)",
-      "Bash(git commit -aqm 'Remediation loop in written parts + graded unit review *)"
+      "Bash(git commit -aqm 'Remediation loop in written parts + graded unit review *)",
+      "Bash(git commit -aqm 'Speech debug view + credit the matched guess \\(not the top one\\) *)"
     ]
   }
 }

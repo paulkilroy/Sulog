@@ -1020,6 +1020,20 @@ function checkAnswer(input, target, waray) {
   }
   return false;
 }
+// step-by-step of how one input is matched (for the speech debug view): raw →
+// normalized → (Waray-folded) → compared to each accepted target with its edit
+// distance and tolerance.
+function explainMatch(input, target, waray) {
+  const gotNorm = norm(input);
+  const gotFold = waray ? warayFold(gotNorm) : gotNorm;
+  const targets = alts(target).map((t) => {
+    const tFold = waray ? warayFold(t) : t;
+    const tol = tFold.length <= 4 ? 0 : tFold.length <= 8 ? 1 : 2;
+    const dist = lev(gotFold, tFold);
+    return { target: t, fold: tFold, dist, tol, ok: gotFold === tFold || dist <= tol };
+  });
+  return { raw: input, gotNorm, gotFold, targets, ok: targets.some((x) => x.ok) };
+}
 // When a typed/picked answer is wrong, see if it's actually a known word so we can
 // say what the learner *did* say. dir "etw" => they gave Waray (look it up);
 // "wte" => they gave English (find the Waray it maps to). Returns "X = Y" or null.
@@ -1218,7 +1232,7 @@ export default function App() {
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
-  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH" });
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
 
@@ -1954,13 +1968,14 @@ function speechMatches(alts, answer, waray) {
 
 // mic button that transcribes one spoken phrase; feeds interim text live and the
 // final alternatives back to the caller
-function MicButton({ lang, onInterim, onFinal }) {
+function MicButton({ lang, onInterim, onFinal, onStart }) {
   const [listening, setListening] = useState(false);
   const [err, setErr] = useState("");
   const recRef = useRef(null);
   if (!SpeechRec) return null;
   const start = () => {
     setErr("");
+    if (onStart) onStart();
     try {
       const rec = new SpeechRec();
       rec.lang = lang || "fil-PH";
@@ -1991,6 +2006,45 @@ function MicButton({ lang, onInterim, onFinal }) {
   );
 }
 
+// shows exactly what recognition heard and how each guess was matched, so a
+// surprising result (e.g. credited "Shanghai" for "sangkay") is inspectable and
+// copyable to share
+function SttDebug({ heard, alts, answer, waray, lang }) {
+  const [copied, setCopied] = useState(false);
+  const rows = (alts || []).map((a) => ({ a, m: explainMatch(a, answer, waray) }));
+  const expFold = waray ? warayFold(norm(answer)) : norm(answer);
+  const text = () => {
+    let s = `Waray STT debug\nexpected: ${answer}  →  ${expFold}  (listen: ${lang}, fold: ${waray ? "on" : "off"})\n`;
+    if (heard.length) s += `heard live: ${heard.join("  →  ")}\n`;
+    s += `final guesses:\n` + rows.map(({ a, m }, i) =>
+      `  ${i + 1}. "${a}" → "${m.gotFold}"  ${m.ok ? `✓ matches (dist ${Math.min(...m.targets.map((t) => t.dist))})` : "✗"}`).join("\n");
+    return s;
+  };
+  const copy = () => { try { navigator.clipboard.writeText(text()); setCopied(true); setTimeout(() => setCopied(false), 1200); } catch (e) {} };
+  return (
+    <div className="ws-sttdbg">
+      <div className="ws-sttdbg-head">
+        <span><Mic size={12} /> speech debug</span>
+        <button onClick={copy}>{copied ? "copied" : "copy"}</button>
+      </div>
+      {heard.length > 0 && <div className="ws-sttdbg-heard"><b>heard:</b> {heard.join("  →  ")}</div>}
+      {rows.length > 0 && <div className="ws-sttdbg-exp"><b>expected:</b> {answer}{waray && expFold !== norm(answer) ? ` → ${expFold}` : ""}</div>}
+      {rows.map(({ a, m }, i) => {
+        const best = Math.min(...m.targets.map((t) => t.dist));
+        return (
+          <div key={i} className={`ws-sttdbg-alt ${m.ok ? "ok" : ""}`}>
+            <span className="ws-sttdbg-n">{i + 1}</span>
+            <span className="ws-sttdbg-raw">"{a}"</span>
+            <span className="ws-sttdbg-arr">→</span>
+            <span className="ws-sttdbg-fold">{m.gotFold}</span>
+            <span className="ws-sttdbg-dist">{m.ok ? <Check size={12} /> : <X size={12} />} {best}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const { playCard, saveAudio, audio, settings } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
@@ -2003,6 +2057,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const [typed, setTyped] = useState("");
   const [judged, setJudged] = useState(null); // 'right'|'wrong'|null
   const [picked, setPicked] = useState(null);
+  const [heard, setHeard] = useState([]); // live interim transcripts (the "transforming")
+  const [sttAlts, setSttAlts] = useState(null); // final recognition alternatives
+  const sttLang = dir === "etw" ? (settings.sttLang || "fil-PH") : "en-US";
 
   const options = useRef(shuffle([answer, ...distractors])).current;
 
@@ -2077,9 +2134,17 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
               onChange={(e) => setTyped(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter" && typed.trim()) judge(checkAnswer(typed, answer, dir === "etw")); }} />
             <MicButton
-              lang={dir === "etw" ? (settings.sttLang || "fil-PH") : "en-US"}
-              onInterim={(t) => setTyped(t)}
-              onFinal={(alts) => { setTyped(alts[0] || ""); judge(speechMatches(alts, answer, dir === "etw")); }} />
+              lang={sttLang}
+              onStart={() => { setHeard([]); setSttAlts(null); }}
+              onInterim={(t) => { setTyped(t); setHeard((h) => (h[h.length - 1] === t ? h : [...h, t])); }}
+              onFinal={(altsList) => {
+                const waray = dir === "etw";
+                // show the alternative that actually got credited, not just the top guess
+                const matchAlt = altsList.find((a) => checkAnswer(a, answer, waray));
+                setSttAlts(altsList);
+                setTyped(matchAlt || altsList[0] || "");
+                judge(!!matchAlt);
+              }} />
             <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer, dir === "etw"))}>
               Check
             </button>
@@ -2092,6 +2157,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
               given={typed} dir={dir}
               showWaray={dir === "etw"} onResult={(corr) => onResult(corr, typed)} allowOverride />
           </>
+        )}
+        {settings.sttDebug && (heard.length > 0 || sttAlts) && (
+          <SttDebug heard={heard} alts={sttAlts} answer={answer} waray={dir === "etw"} lang={sttLang} />
         )}
       </div>
     );
@@ -3032,6 +3100,14 @@ function PronounceView({ ctx }) {
                 ))}
               </select>
             </div>
+            <button className={`ws-speed-adapt ${settings.sttDebug ? "on" : ""}`}
+              onClick={() => saveSettings({ ...settings, sttDebug: !settings.sttDebug })}>
+              <span className="ws-speed-adapt-box">{settings.sttDebug ? <Check size={13} /> : null}</span>
+              <span>
+                <b>Show what it heard (debug)</b>
+                <i>Under each spoken answer: every guess, how it folded, and which one matched — with a copy button</i>
+              </span>
+            </button>
           </div>
         </>
       )}
@@ -3364,6 +3440,22 @@ function Styles() {
 @keyframes wsPulse{0%,100%{opacity:1}50%{opacity:.6}}
 .ws-stt{display:flex;flex-direction:column;gap:11px;margin-bottom:8px}
 .ws-stt-note{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.ws-sttdbg{margin-top:12px;padding:10px 12px;border-radius:11px;background:#0a2e34;color:#cfe8e6;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.5}
+.ws-sttdbg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;
+  color:#7fc6c2;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:10px}
+.ws-sttdbg-head span{display:inline-flex;align-items:center;gap:5px}
+.ws-sttdbg-head button{background:#16545c;border:none;color:#dff3f1;font-family:inherit;font-size:10px;
+  padding:3px 9px;border-radius:6px;cursor:pointer;text-transform:none;letter-spacing:0}
+.ws-sttdbg-heard,.ws-sttdbg-exp{margin-bottom:5px;word-break:break-word}
+.ws-sttdbg-heard b,.ws-sttdbg-exp b{color:#7fc6c2;font-weight:700}
+.ws-sttdbg-alt{display:flex;align-items:center;gap:7px;padding:2px 0;opacity:.7}
+.ws-sttdbg-alt.ok{opacity:1;color:#a9e8c4}
+.ws-sttdbg-n{width:15px;height:15px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
+  background:#16545c;border-radius:4px;font-size:9.5px}
+.ws-sttdbg-raw{font-weight:600}
+.ws-sttdbg-arr{color:#5a9b97}
+.ws-sttdbg-dist{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
 .ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
