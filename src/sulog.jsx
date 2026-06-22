@@ -1964,6 +1964,17 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
 
   const judge = (correct) => { setJudged(correct ? "right" : "wrong"); };
 
+  // number hotkeys (1–4) pick an option — fast MC play on a keyboard
+  useEffect(() => {
+    if ((mode !== "mc" && mode !== "listen") || picked !== null) return;
+    const onKey = (e) => {
+      const n = parseInt(e.key, 10);
+      if (n >= 1 && n <= options.length) { e.preventDefault(); setPicked(n - 1); judge(options[n - 1] === answer); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [picked, mode]);
+
   /* ---- MULTIPLE CHOICE ---- */
   if (mode === "mc" || mode === "listen") {
     const listening = mode === "listen";
@@ -1990,7 +2001,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
             return (
               <button key={k} className={`ws-opt ${cls}`} disabled={picked !== null}
                 onClick={() => { setPicked(k); judge(o === answer); }}>
-                {o}
+                <span className="ws-opt-key">{k + 1}</span>{o}
               </button>
             );
           })}
@@ -3295,9 +3306,13 @@ function Styles() {
 .ws-mini-play.rec{background:var(--coral);color:#fff;animation:pulse 1.1s infinite}
 
 .ws-options{display:flex;flex-direction:column;gap:9px}
-.ws-opt{padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);background:var(--shell);
-  font-size:15.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;transition:.15s;
-  font-family:inherit}
+.ws-opt{display:flex;align-items:center;padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);
+  background:var(--shell);font-size:15.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;
+  transition:.15s;font-family:inherit}
+.ws-opt-key{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;margin-right:11px;
+  border-radius:5px;background:var(--sand);color:var(--ink-soft);font-size:11px;font-weight:700;flex-shrink:0}
+.ws-opt.correct .ws-opt-key{background:var(--jade);color:#fff}
+.ws-opt.incorrect .ws-opt-key{background:var(--coral);color:#fff}
 .ws-opt:active{transform:scale(.99)}
 .ws-opt.correct{border-color:var(--jade);background:#e7f6ee;color:#1f6b46;font-weight:600}
 .ws-opt.incorrect{border-color:var(--coral);background:#fbe7e2;color:#a33422}
