@@ -69,22 +69,41 @@ unlocking after ① is done. A unit with no ② just shows Words.
 
 ---
 
-## The one decision I need: the Apply drill (② step list)
+## Decisions (locked 2026-06-23)
 
-You said "go right into English → Waray" but weren't sure of the exact shape.
-Three options for what the Apply stepper does (Words ① always stays the full 4):
+1. **② Apply drill = ONE step:** type the Waray from the English (Produce). No
+   warm-up — the words were already learned in ①. A miss still triggers the
+   existing remediation loop (MC→type help) so it's "type right away," not
+   "no safety net." `APPLY_PARTS = [{ dir:"etw", mode:"type", label:"Produce" }]`.
+2. **① Words drill = unchanged** full 4-step ladder.
+3. **Unit review = phrases-only:** the graded review tests the ② Apply phrases
+   (the real mastery bar); ① words are proven by finishing the Words lessons.
+4. **Free navigation:** within a unit, lessons can be done in any order / skipped —
+   relax the "previous lesson must be done" gate so you can jump around before the
+   review.
+5. **Words-only units** keep ① only (no review needed / a light ① recap at most).
 
-- **A · Production-only (2 steps):** Build (E→W pick) → Produce (E→W type).
-  Fastest; pure output. Assumes ① already gave you comprehension.
-- **B · Understand-then-produce (2 steps):** Understand (W→E pick) → Produce (E→W type).
-  One comprehension check (the *phrase* is new even if the words aren't), then output.
-- **C · Fuller (3 steps):** Understand (W→E pick) → Build (E→W pick) → Produce (E→W type).
-  Most scaffolding; closest to the Words ladder.
+## Retooled sample — what it'll look like
 
-My lean: **B** — a single "do you get the whole sentence" check, then straight to
-typing it in Waray. Light, but doesn't throw you at production cold.
+### "Say who's who" (split a mixed lesson)
+**① Words — "The pronouns":** ako · ikaw / ka · hiya · kita · kami · kamo · hira
+**② Apply — "Saying who you are"** _(type the Waray):_ Amerikano ako (I am American) · Babaye ka (You are a woman) · Makusog hiya (He is strong) · Estudyante kami (We are students) · Pilipino hira (They are Filipinos) — all from PC L1
 
-## Other open questions
-- **Cap:** ~4–6 sentence cards per Apply lesson, one Apply lesson per theme unit?
-- **Unit review:** keep graded review at the unit level (covers both ① and ②), or
-  only test ② phrases in the review since ① is the easier half?
+### "Do it: now / will / did" (add Apply from the course)
+**① Words — "Eat & go" / "Buy & drink":** (the verb forms, unchanged)
+**② Apply — "Verbs in sentences"** _(type the Waray):_ Nakaon hiya (He's eating) · Matindog kita (We'll stand) · Nasimba kami (We're worshipping) · Mapalit hira hin isda ha merkado (They'll buy fish at the market) — all PC L5–6
+
+### "God & worship" (was Words-only → now gets Apply)
+**① Words:** Diyos · Ginoo · Jesu Kristo · espiritu · simba · ampo · wali · bendisyon · gugma · kasingkasing
+**② Apply — "Faith in sentences"** _(type the Waray):_ Nasimba kami (We worship) [PC] · Diyos-diyos (idol) [PC] · Ini nga uran, bendisyon ini han Ginoo (This rain is a blessing from the Lord) [CHED 📖]
+
+### "Name colors" (stays Words-only)
+**① Words:** itom · busag · pula · asul · darag · berde   _(no ②, no review — nothing to compose)_
+
+## Build order (once approved)
+1. **Engine:** add `kind` to lessons; `APPLY_PARTS` (1 step); render ①/② groups;
+   relax intra-unit lesson gating; make the unit review pull from ② only.
+2. **Content:** split mixed lessons into Words/Apply; append mined phrase cards to
+   the theme units that lack them (faith, cooking, travel, nature, …), each
+   source-tagged; pure-vocab units untouched.
+3. Regenerate `docs/frequency-curriculum-expanded.md` to show the full result.
