@@ -2139,10 +2139,12 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
               onInterim={(t) => { setTyped(t); setHeard((h) => (h[h.length - 1] === t ? h : [...h, t])); }}
               onFinal={(altsList) => {
                 const waray = dir === "etw";
-                // show the alternative that actually got credited, not just the top guess
                 const matchAlt = altsList.find((a) => checkAnswer(a, answer, waray));
                 setSttAlts(altsList);
-                setTyped(matchAlt || altsList[0] || "");
+                // if any guess matched you said it right — show the CORRECT word,
+                // not the recognizer's fuzzy/foreign spelling (still in the debug
+                // panel). Only on a miss do we show what it actually heard.
+                setTyped(matchAlt ? answer : (altsList[0] || ""));
                 judge(!!matchAlt);
               }} />
             <button className="ws-check" disabled={!typed.trim()} onClick={() => judge(checkAnswer(typed, answer, dir === "etw"))}>
