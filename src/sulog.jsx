@@ -95,12 +95,21 @@ const DECKS = {
    their items by Waray text (resolved to existing cards at runtime; unknown
    entries are skipped). Each lesson is cleared in 4 escalating parts. */
 const PASS_PCT = 0.8; // score needed to pass a unit review (lessons are ungraded practice)
+// ① Words — the full ladder for learning new vocabulary (recognize → produce).
 const LESSON_PARTS = [
   { dir: "wte", mode: "mc", label: "Recognize", hint: "Waray → English" },
   { dir: "etw", mode: "mc", label: "Reverse", hint: "English → Waray" },
   { dir: "wte", mode: "type", label: "Recall", hint: "Type the English" },
   { dir: "etw", mode: "type", label: "Produce", hint: "Type the Waray — no hints" },
 ];
+// ② Apply — phrase cards: words are already known, so just produce them (type the
+// Waray). One step; a miss still triggers SessionView's remediation loop.
+const APPLY_PARTS = [
+  { dir: "etw", mode: "type", label: "Produce", hint: "Type the Waray — no hints" },
+];
+// the step list for a lesson, by kind ("apply" = phrase lesson, else words)
+const partsFor = (lesson) => (lesson && lesson.kind === "apply" ? APPLY_PARTS : LESSON_PARTS);
+const partCountById = (id) => partsFor(LESSON_FLOW.find((l) => l.id === id)).length;
 
 // Top tier = sections; each section holds units; each unit holds lessons.
 const CURRICULUM = ACTIVE.curriculum;
@@ -130,6 +139,19 @@ function unitCards(cards, unit) {
   }));
   return out;
 }
+// the cards a unit review tests: the ② Apply (phrase) cards — the real mastery
+// bar. Units with no Apply lessons fall back to all their words.
+function unitReviewPool(cards, unit) {
+  const apply = (unit.lessons || []).filter((l) => l.kind === "apply");
+  if (!apply.length) return unitCards(cards, unit);
+  const seen = new Set(), out = [];
+  apply.forEach((l) => lessonCards(cards, l).forEach((c) => {
+    if (!seen.has(c.id)) { seen.add(c.id); out.push(c); }
+  }));
+  return out;
+}
+// does this unit have a graded review? (only if it has ② Apply phrases)
+const unitHasReview = (unit) => (unit.lessons || []).some((l) => l.kind === "apply");
 // the words to test in a unit review (up to n): your HARDEST in this unit first
 // (most-missed, then weakest box, then lowest accuracy, then longest word). If
 // the unit is small or you've barely missed anything, pad with the words you've
@@ -146,7 +168,7 @@ function unitReviewCards(cards, prog, unit, n = 10) {
   };
   const picked = [], used = new Set();
   const add = (c) => { if (c && !used.has(c.id)) { used.add(c.id); picked.push(c); } };
-  unitCards(cards, unit).slice().sort(cmp).forEach(add); // unit words, hardest first
+  unitReviewPool(cards, unit).slice().sort(cmp).forEach(add); // unit's phrases, hardest first
   if (picked.length < n) { // pad with the most-missed words from anywhere
     cards.filter((c) => (prog[c.id]?.wrong || 0) > 0)
       .sort((a, b) => (prog[b.id]?.wrong || 0) - (prog[a.id]?.wrong || 0))
@@ -154,14 +176,10 @@ function unitReviewCards(cards, prog, unit, n = 10) {
   }
   return picked.slice(0, n);
 }
-// parts completed (0–4) for a lesson; a lesson is "done" at 4
-const lessonDone = (lessons, id) => (lessons[id] || 0) >= LESSON_PARTS.length;
-// a lesson is unlocked if it's the first or the previous lesson is done
-function lessonUnlocked(lessons, id) {
-  const idx = LESSON_FLOW.findIndex((l) => l.id === id);
-  if (idx <= 0) return true;
-  return lessonDone(lessons, LESSON_FLOW[idx - 1].id);
-}
+// parts completed for a lesson; "done" when all its parts (kind-dependent) are cleared
+const lessonDone = (lessons, id) => (lessons[id] || 0) >= partCountById(id);
+// free navigation: every lesson is reachable — jump around / skip within a unit
+function lessonUnlocked() { return true; }
 // the first not-yet-finished unlocked lesson (what "Continue" jumps to)
 function nextLesson(lessons) {
   return LESSON_FLOW.find((l) => !lessonDone(lessons, l.id)) || LESSON_FLOW[LESSON_FLOW.length - 1];
@@ -575,7 +593,7 @@ export default function App() {
   // Written (type) parts turn on remediation — miss a word and it drops to MC
   // then back to typing until you clear it, so the part always ends mastered.
   const startLessonPart = useCallback((lesson, partIdx) => {
-    const part = LESSON_PARTS[partIdx];
+    const part = partsFor(lesson)[partIdx];
     const ids = lessonCards(cards, lesson).map((c) => c.id);
     setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx }, remediate: part.mode === "type" });
     setView("session");
@@ -1808,8 +1826,9 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   if (inLesson) {
     const lesson = LESSON_FLOW.find((l) => l.id === session.lesson.id);
     const pIdx = session.lesson.part;
-    if (lesson && pIdx + 1 < LESSON_PARTS.length) {
-      nextAction = { label: `Next: ${LESSON_PARTS[pIdx + 1].label}`, go: () => startLessonPart(lesson, pIdx + 1) };
+    const parts = partsFor(lesson);
+    if (lesson && pIdx + 1 < parts.length) {
+      nextAction = { label: `Next: ${parts[pIdx + 1].label}`, go: () => startLessonPart(lesson, pIdx + 1) };
     } else {
       const nl = nextLesson(lessons);
       if (nl && nl.id !== session.lesson.id) {
@@ -1927,37 +1946,49 @@ function LearnView({ ctx }) {
                   <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
                 </div>
                 <div className="ws-lessons">
-                  {u.lessons.map((l) => {
-                    const done = lessons[l.id] || 0;
-                    const unlocked = lessonUnlocked(lessons, l.id);
-                    const complete = lessonDone(lessons, l.id);
-                    const isCur = l.id === cur.id;
-                    const n = lessonCards(cards, l).length;
-                    return (
-                      <button key={l.id} id={"ln-" + l.id} className={`ws-lnode ${unlocked ? "" : "locked"} ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
-                        disabled={!unlocked}
-                        onClick={() => { setLessonId(l.id); setLearnSection(s.id); setView("lesson"); }}>
-                        <div className="ws-lnode-ring" style={{ "--p": (done / LESSON_PARTS.length) * 100 }}>
-                          {complete ? <Check size={16} /> : <span>{done}/{LESSON_PARTS.length}</span>}
-                        </div>
-                        <div className="ws-lnode-body">
-                          <div className="ws-lnode-title">{l.title}</div>
-                          <div className="ws-lnode-sub">
-                            {complete ? "Complete · tap to review" : unlocked ? (isCur ? "Continue" : "Start") : "Locked"} · {n} item{n === 1 ? "" : "s"}
+                  {(() => {
+                    const wl = u.lessons.filter((l) => l.kind !== "apply");
+                    const al = u.lessons.filter((l) => l.kind === "apply");
+                    const split = wl.length > 0 && al.length > 0;
+                    const node = (l) => {
+                      const done = lessons[l.id] || 0;
+                      const total = partCountById(l.id);
+                      const complete = lessonDone(lessons, l.id);
+                      const isCur = l.id === cur.id;
+                      const n = lessonCards(cards, l).length;
+                      return (
+                        <button key={l.id} id={"ln-" + l.id} className={`ws-lnode ${complete ? "done" : ""} ${isCur ? "cur" : ""}`}
+                          onClick={() => { setLessonId(l.id); setLearnSection(s.id); setView("lesson"); }}>
+                          <div className="ws-lnode-ring" style={{ "--p": (done / total) * 100 }}>
+                            {complete ? <Check size={16} /> : <span>{done}/{total}</span>}
                           </div>
-                        </div>
-                        {unlocked && <ChevronRight size={16} className="ws-lnode-arr" />}
-                      </button>
+                          <div className="ws-lnode-body">
+                            <div className="ws-lnode-title">{l.title}</div>
+                            <div className="ws-lnode-sub">
+                              {complete ? "Complete · tap to review" : isCur ? "Continue" : "Start"} · {n} item{n === 1 ? "" : "s"}
+                            </div>
+                          </div>
+                          <ChevronRight size={16} className="ws-lnode-arr" />
+                        </button>
+                      );
+                    };
+                    return (
+                      <>
+                        {split && <div className="ws-lblock">① Words</div>}
+                        {wl.map(node)}
+                        {split && <div className="ws-lblock">② Apply · type the Waray</div>}
+                        {al.map(node)}
+                      </>
                     );
-                  })}
+                  })()}
                 </div>
-                {hasCards && (
+                {unitHasReview(u) && hasCards && (
                   <button className={`ws-lnode ws-review ${ur?.passed ? "done" : ""}`} onClick={() => startUnitReview(u)}>
                     <div className="ws-lnode-ring">{ur?.passed ? <Check size={16} /> : <Trophy size={15} />}</div>
                     <div className="ws-lnode-body">
                       <div className="ws-lnode-title">Unit review</div>
                       <div className="ws-lnode-sub">
-                        {ur?.passed ? `Mastered · best ${ur.best}%` : ur ? `Best ${ur.best}% · score 80% to master` : "10 questions · type the Waray · test out anytime"}
+                        {ur?.passed ? `Mastered · best ${ur.best}%` : ur ? `Best ${ur.best}% · score 80% to master` : "Type the phrases · test out anytime"}
                       </div>
                     </div>
                     <ChevronRight size={16} className="ws-lnode-arr" />
@@ -1977,12 +2008,14 @@ function LessonView({ ctx }) {
   const lesson = LESSON_FLOW.find((l) => l.id === lessonId) || nextLesson(lessons);
   const items = lessonCards(cards, lesson);
   const done = lessons[lesson.id] || 0;
+  const parts = partsFor(lesson);
+  const isApply = lesson.kind === "apply";
   return (
     <div className="ws-page">
       <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }} />
       <h2 className="ws-lesson-title">{lesson.title}</h2>
 
-      <SectionLabel text="Words & phrases" />
+      <SectionLabel text={isApply ? "Phrases — say these" : "Words & phrases"} />
       <div className="ws-lwords">
         {items.map((c) => (
           <button key={c.id} className="ws-lword" onClick={() => playCard(c)}>
@@ -1995,9 +2028,9 @@ function LessonView({ ctx }) {
         ))}
       </div>
 
-      <SectionLabel text="Clear all 4 to finish" />
+      <SectionLabel text={isApply ? "Type each phrase in Waray" : "Clear all 4 to finish"} />
       <div className="ws-parts">
-        {LESSON_PARTS.map((p, k) => {
+        {parts.map((p, k) => {
           const completed = done > k;
           const available = done >= k && items.length > 0;
           return (
@@ -2698,6 +2731,8 @@ function Styles() {
 .ws-unit-prog{flex-shrink:0;font-size:11px;font-weight:700;color:var(--tide);background:#eef8f8;
   border-radius:20px;padding:4px 9px;font-variant-numeric:tabular-nums}
 .ws-lessons{display:flex;flex-direction:column;gap:8px}
+.ws-lblock{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tide);
+  margin:6px 2px 0;opacity:.85}
 .ws-lnode{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;
   border-radius:14px;border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;
   font-family:inherit;transition:.15s}

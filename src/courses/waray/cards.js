@@ -609,6 +609,13 @@ export const SEED = [
   ["greet", "maupay", "good", "", "mah-OO-pigh"],
   ["greet", "tabang", "help", "as in “Tabang!”", "tah-BANG"],
   ["greet", "Gusto ko", "I like", "", "GOOS-to ko"],
+
+  // ===== mined phrase cards (attested in sources; appended → ids stay stable) =====
+  // Peace Corps course (both sides verbatim):
+  ["faith", "Nasimba kami", "We're worshipping", "Peace Corps L5", "nah-SEEM-bah kah-MEE"],
+  ["faith", "Diyos-diyos", "idol", "Peace Corps L6", "dee-YOS dee-YOS"],
+  // CHED First-1000 (Waray attested; English gloss to verify):
+  ["faith", "Ini nga uran, bendisyon ini han Ginoo", "This rain is a blessing from the Lord", "CHED · gloss to verify", "ee-NEE ngah oo-RAHN, ben-DEES-yon ee-NEE hahn gee-NO-o"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.
