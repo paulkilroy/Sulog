@@ -285,7 +285,9 @@ function checkAnswer(input, target, waray) {
       // heard string for non-trivial words.
       const tC = t.replace(/ /g, "");
       if (gotC === tC || lev(gotC, tC) <= _tol(tC.length)) return true;
-      if (tC.length >= 5 && gotC.includes(tC)) return true;
+      // containment is only for a hallucinated syllable (≤2 extra chars), NOT a
+      // whole phrase swallowing a short word — keep it tight to avoid false matches
+      if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) return true;
     }
   }
   return false;
@@ -307,7 +309,7 @@ function explainMatch(input, target, waray) {
       const tC = tFold.replace(/ /g, "");
       const distC = lev(gotC, tC);
       if (gotC === tC || distC <= _tol(tC.length)) { ok = true; how = "despaced"; }
-      else if (tC.length >= 5 && gotC.includes(tC)) { ok = true; how = "contained"; }
+      else if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) { ok = true; how = "contained"; }
     }
     return { target: t, fold: tFold, dist, tol, ok, how };
   });
