@@ -1,3 +1,4 @@
+import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -28,615 +29,38 @@ function buildLabel() {
    docx files: yama→yana(now), "mapaso him euro"→"mapaso hin duro",
    mahingin→mahangin, mapaSO→mapaso. Flagged in chat. */
 
-const SEED = [
-  // ---- Greetings & survival (from teacher dialogues + common usage) ----
-  ["greet", "Maupay nga aga", "Good morning", "", "mah-OO-pigh ngah AH-gah"],
-  ["greet", "Maupay nga kulop", "Good afternoon", "", "mah-OO-pigh ngah KOO-lop"],
-  ["greet", "Maupay nga gab-i", "Good evening / Good night", "the - in gab-i is a glottal stop", "mah-OO-pigh ngah gahb-EE"],
-  ["greet", "Kumusta ka?", "How are you?", "", "koo-moos-TAH kah"],
-  ["greet", "Maupay man", "I'm good / fine (so far)", "", "mah-OO-pigh mahn"],
-  ["greet", "Salamat", "Thank you", "", "sah-LAH-mat"],
-  ["greet", "Damo nga salamat", "Thank you very much", "", "DAH-mo ngah sah-LAH-mat"],
-  ["greet", "Oo", "Yes", "", "AW-aw"],
-  ["greet", "Diri", "No / not", "used for present & future answers", "DEE-ree"],
-  ["greet", "Waray", "None / nothing", "also 'no' for past-tense answers; and the language's name", "wah-RIGH"],
-  ["greet", "Waray pa", "Not yet", "", "wah-RIGH pah"],
-  ["greet", "Anay", "Wait / just a moment", "", "AH-nigh"],
-  ["greet", "Pasensya na", "Sorry / excuse me", "", "pah-SEN-syah nah"],
-  ["greet", "Sige", "Okay / go ahead", "", "SEE-geh"],
-  ["greet", "Adi", "Here it is", "", "AH-dee"],
-  ["greet", "Pwede", "Can / may (I)", "", "PWEH-deh"],
-  ["greet", "Naintindihan ko", "I understand", "", "nah-een-tin-dee-HAHN ko"],
-  ["greet", "Diri ako maaram", "I don't know", "", "DEE-ree ah-KAW mah-AH-ram"],
-  ["greet", "Karuyag ko", "I want", "", "kah-ROO-yag ko"],
-
-  // ---- Week 1 — foundations ----
-  ["week1", "Nakikit-an mo?", "Can you see it?", "", "nah-kee-KEET-an mo"],
-  ["week1", "Oo, nakikit-an ko", "Yes, I can see it", "", "AW-aw nah-kee-KEET-an ko"],
-  ["week1", "Klaro?", "Is it clear?", "", "KLAH-ro"],
-  ["week1", "Oo, klaro", "Yes, it's clear", "", "AW-aw KLAH-ro"],
-  ["week1", "Diri klaro", "No, it's not clear", "", "DEE-ree KLAH-ro"],
-  ["week1", "Naintindihan nimo?", "Do you understand?", "", "nah-een-tin-dee-HAHN NEE-mo"],
-  ["week1", "Oo, naintindihan ko", "Yes, I understand", "", "AW-aw nah-een-tin-dee-HAHN ko"],
-  ["week1", "Taga diin ka?", "Where are you from?", "", "TAH-gah dee-EEN kah"],
-  ["week1", "Hain ka?", "Where are you?", "", "HAH-een kah"],
-  ["week1", "ako", "I", "subject pronoun", "ah-KAW"],
-  ["week1", "ikaw / ka", "you", "ka is the short form", "ee-KOW / kah"],
-  ["week1", "kita", "we (inclusive)", "includes the person you're talking to", "kee-TAH"],
-  ["week1", "kami", "we (exclusive)", "excludes the listener", "kah-MEE"],
-  ["week1", "hiya", "he / she", "no gender marking", "HEE-yah"],
-  ["week1", "kamo", "you / y'all", "plural you", "kah-MAW"],
-  ["week1", "hira", "they", "", "HEE-rah"],
-  ["week1", "Kaon kita", "Let's eat", "", "KAH-on kee-TAH"],
-  ["week1", "Kumaon kita", "We ate", "pangaon = food; kumaon = the act of eating", "koo-MAH-on kee-TAH"],
-  ["week1", "Mahusay ka", "You are beautiful", "", "mah-hoo-SIGH kah"],
-  ["week1", "Maraksot ka", "You are ugly", "", "mah-RAK-sot kah"],
-  ["week1", "Ano imo gin-hihimo?", "What are you doing?", "", "AH-no EE-mo gin-hee-HEE-mo"],
-  ["week1", "Ano imo gin-kakaon?", "What are you eating?", "", "AH-no EE-mo gin-kah-KAH-on"],
-  ["week1", "tatay", "father", "", "TAH-tigh"],
-  ["week1", "nanay", "mother", "", "NAH-nigh"],
-  ["week1", "Amerikano", "American (male)", "", "ah-meh-ree-KAH-no"],
-  ["week1", "turista", "tourist", "", "too-REES-tah"],
-  ["week1", "babaye", "woman", "syllables: ba-ba-ye", "bah-BAH-yeh"],
-  ["week1", "malipay", "happy", "", "mah-LEE-pigh"],
-  ["week1", "buoton", "nice / kind / good", "also written bouton", "boo-OH-ton"],
-  ["week1", "makusog", "strong", "", "mah-KOO-sog"],
-  ["week1", "riko", "rich", "", "REE-ko"],
-  ["week1", "lalaki", "man", "", "lah-LAH-kee"],
-  ["week1", "asawa", "wife / spouse", "", "ah-SAH-wah"],
-  ["week1", "mapaso", "hot", "", "mah-PAH-so"],
-  ["week1", "bisita", "visitor", "", "bee-SEE-tah"],
-  ["week1", "Pilipino", "Filipino (male)", "", "pee-lee-PEE-no"],
-  ["week1", "gwapo", "handsome", "", "GWAH-po"],
-  ["week1", "sangkay", "friend", "", "sahng-KIGH"],
-  ["week1", "hataas", "tall / long", "", "hah-TAH-as"],
-  ["week1", "matambok", "fat", "", "mah-TAM-bok"],
-  ["week1", "estudyante", "student", "", "es-tood-YAHN-teh"],
-  ["week1", "maestro / maestra", "teacher (m / f)", "", "mah-ES-tro / mah-ES-trah"],
-  ["week1", "Estudyante kami", "We (excl.) are students", "", "es-tood-YAHN-teh kah-MEE"],
-  ["week1", "Pilipino hira", "They are Filipinos", "", "pee-lee-PEE-no HEE-rah"],
-  ["week1", "Babaye ka", "You are a woman", "", "bah-BAH-yeh kah"],
-  ["week1", "Amerikano ako", "I am American", "", "ah-meh-ree-KAH-no ah-KAW"],
-  ["week1", "Makusog ka", "You are strong", "", "mah-KOO-sog kah"],
-  ["week1", "Turista hiya", "She is a tourist", "", "too-REES-tah HEE-yah"],
-  ["week1", "Maestra kami", "We (excl.) are teachers", "", "mah-ES-trah kah-MEE"],
-  ["week1", "Makusog hiya", "He is strong", "", "mah-KOO-sog HEE-yah"],
-  ["week1", "Bisita hira", "They are visitors", "", "bee-SEE-tah HEE-rah"],
-  ["week1", "Nanay ako", "I am a mother", "", "NAH-nigh ah-KAW"],
-  ["week1", "Hinay-hinay la", "Just slowly, please", "", "HEE-nigh HEE-nigh lah"],
-  ["week1", "Pakpak anay", "Clap first", "", "PAK-pak AH-nigh"],
-  ["week1", "Makarit ka", "You are excellent", "", "mah-KAH-rit kah"],
-  ["week1", "kay", "because", "", "kigh"],
-
-  // ---- Verbs, objects & time ----
-  ["verbs", "Mag-aano ka?", "What are you going to do?", "", "mahg-AH-ah-no kah"],
-  ["verbs", "baktas", "to walk", "magbaktas = to walk/go on foot", "BAK-tas"],
-  ["verbs", "karsada", "road", "", "kar-SAH-dah"],
-  ["verbs", "bukid", "mountain", "", "BOO-kid"],
-  ["verbs", "laba", "to wash (clothes)", "", "LAH-bah"],
-  ["verbs", "bado", "clothes", "", "BAH-do"],
-  ["verbs", "panyo", "handkerchief", "", "PAHN-yo"],
-  ["verbs", "mantel", "tablecloth", "", "man-TEL"],
-  ["verbs", "biray", "curtain", "", "bee-RIGH"],
-  ["verbs", "sapatos", "shoes", "", "sah-PAH-tos"],
-  ["verbs", "taklap", "blanket", "", "TAK-lap"],
-  ["verbs", "hugas", "to wash (dishes)", "", "HOO-gas"],
-  ["verbs", "tinidor", "fork", "", "tee-nee-DOR"],
-  ["verbs", "kutsara", "spoon", "", "koot-SAH-rah"],
-  ["verbs", "pinggan", "plate", "", "PING-gan"],
-  ["verbs", "baso", "glass", "", "BAH-so"],
-  ["verbs", "sarakyan", "vehicle", "", "sah-RAK-yan"],
-  ["verbs", "motor", "motorcycle", "", "mo-TOR"],
-  ["verbs", "limpyu", "to clean", "", "LIM-pyoo"],
-  ["verbs", "awto", "car / auto", "", "OW-to"],
-  ["verbs", "kwarto", "room", "", "KWAR-to"],
-  ["verbs", "banyo", "bathroom", "", "BAHN-yo"],
-  ["verbs", "balay", "house", "", "bah-LIGH"],
-  ["verbs", "kusina", "kitchen", "", "koo-SEE-nah"],
-  ["verbs", "luto", "to cook", "", "LOO-to"],
-  ["verbs", "isda", "fish", "", "ees-DAH"],
-  ["verbs", "manok", "chicken", "", "mah-NOK"],
-  ["verbs", "karne", "meat", "", "KAR-neh"],
-  ["verbs", "utan", "vegetable", "", "OO-tan"],
-  ["verbs", "saribo", "to water plants", "", "sah-REE-bo"],
-  ["verbs", "tanom", "plant", "", "TAH-nom"],
-  ["verbs", "lukot", "to fold (clothes)", "", "LOO-kot"],
-  ["verbs", "tago", "to hide", "", "TAH-go"],
-  ["verbs", "andam", "to get ready", "", "AN-dam"],
-  ["verbs", "basa", "to read", "", "BAH-sah"],
-  ["verbs", "sudlay", "to comb", "", "sood-LIGH"],
-  ["verbs", "sayaw", "to dance", "", "sah-YOW"],
-  ["verbs", "maneho", "to drive", "", "mah-NEH-ho"],
-  ["verbs", "Mag- + verb", "future tense (actor focus)", "e.g. magbabaktas = will walk", "mahg"],
-  ["verbs", "Nag- + verb", "present / past tense", "naglalaba = washing; naglaba = washed", "nahg"],
-  ["verbs", "Pag- + verb", "command form", "paglaba = wash!", "pahg"],
-  ["verbs", "yana", "now", "", "YAH-nah"],
-  ["verbs", "niyan", "later", "", "nee-YAN"],
-  ["verbs", "buwas", "tomorrow", "", "BOO-was"],
-  ["verbs", "kakulop", "yesterday", "", "kah-KOO-lop"],
-  ["verbs", "kanina han aga", "earlier this morning", "", "kah-NEE-nah hahn AH-gah"],
-  ["verbs", "yana nga aga", "this morning (now)", "", "YAH-nah ngah AH-gah"],
-  ["verbs", "kulop", "afternoon", "", "KOO-lop"],
-  ["verbs", "yana nga gab-i", "tonight", "", "YAH-nah ngah gahb-EE"],
-  ["verbs", "kagab-i", "last night", "", "kah-gahb-EE"],
-  ["verbs", "kanina", "a little while ago", "", "kah-NEE-nah"],
-  ["verbs", "didi", "here", "", "DEE-dee"],
-  ["verbs", "dida", "there", "", "DEE-dah"],
-  ["verbs", "Ano it oras dida?", "What time is it there?", "", "AH-no eet OH-ras DEE-dah"],
-  ["verbs", "Alas singko didi", "It's 5 o'clock here", "Spanish-style clock times", "AH-las SEENG-ko DEE-dee"],
-  ["verbs", "uran / mauran", "rain / rainy", "", "OO-ran / mah-OO-ran"],
-  ["verbs", "mapaso hin duro", "very hot", "", "mah-PAH-so heen DOO-ro"],
-  ["verbs", "matugnaw", "cold", "", "mah-TOOG-now"],
-  ["verbs", "sirak / masirak", "sun ray / sunny", "", "SEE-rak / mah-SEE-rak"],
-  ["verbs", "dampog / madampog", "clouds / cloudy", "", "DAM-pog / mah-DAM-pog"],
-  ["verbs", "hangin / mahangin", "wind / windy", "", "HAH-ngin / mah-HAH-ngin"],
-  ["verbs", "may bagyo", "there is a storm", "", "migh BAHG-yo"],
-  ["verbs", "Kumusta it panahon?", "How is the weather?", "", "koo-moos-TAH eet pah-nah-HON"],
-
-  // ---- Phrases — invitations (Sheet 3) ----
-  ["invite", "imbitasyon", "invitation", "", "im-bee-tah-SYON"],
-  ["invite", "may / mayda", "there is / I have", "", "migh / MIGH-dah"],
-  ["invite", "gin-iimbita", "being invited", "", "gin-ee-im-BEE-tah"],
-  ["invite", "May libre ka ba nga oras hit Sabado?", "Do you have free time on Saturday?", "", "migh LEE-breh kah bah ngah OH-ras heet sah-BAH-do"],
-  ["invite", "Ano it mayda?", "What's going on?", "", "AH-no eet MIGH-dah"],
-  ["invite", "Nag-arog ako", "I prepared food", "", "nag-AH-rog ah-KAW"],
-  ["invite", "Mayda pangaon ha balay", "There is food at home", "", "MIGH-dah pah-NGAH-on hah bah-LIGH"],
-  ["invite", "Ano nga oras?", "What time?", "", "AH-no ngah OH-ras"],
-  ["invite", "Alas sais ha gab-i", "At 6 in the evening", "", "AH-las SAH-ees hah gahb-EE"],
-  ["invite", "Poydi ko ba ig-upod hi Rey?", "Can I bring Rey along?", "", "POY-dee ko bah eeg-OO-pod hee RAY"],
-  ["invite", "ig-upod", "to bring along", "", "eeg-OO-pod"],
-  ["invite", "akon patod", "my cousin", "", "AH-kon PAH-tod"],
-  ["invite", "makadto", "will go to", "", "mah-KAD-to"],
-  ["invite", "Siyempre, poydi", "Of course, you can", "", "see-YEM-preh POY-dee"],
-  ["invite", "Maghuhulat ako ha iyo", "I will wait for you all", "", "mag-hoo-HOO-lat ah-KAW hah EE-yo"],
-  ["invite", "hulat", "to wait", "", "HOO-lat"],
-  ["invite", "Sigurado, makadto kami", "Sure, we'll come", "", "see-goo-RAH-do mah-KAD-to kah-MEE"],
-  ["invite", "Sige, magkita kita hit Sabado", "Okay, let's meet on Saturday", "", "SEE-geh mag-KEE-tah kee-TAH heet sah-BAH-do"],
-  ["invite", "magkita", "to meet", "", "mag-KEE-tah"],
-
-  // ---- appended: standalone adjectives (kept at the end so existing card ids,
-  //      which are positional c{index}, don't shift and break saved progress) ----
-  ["week1", "mahusay", "beautiful", "", "mah-hoo-SIGH"],
-  ["week1", "maraksot", "ugly", "", "mah-RAK-sot"],
-  ["week1", "makarit", "excellent", "", "mah-KAH-rit"],
-
-  // ===== Out & About — Directions (from Pagpakiana…Direksiyon) =====
-  ["direk", "bangko", "bank", "", "BANG-ko"],
-  ["direk", "botika", "pharmacy", "", "bo-TEE-kah"],
-  ["direk", "ospital", "hospital", "", "os-pee-TAL"],
-  ["direk", "istasyon hit pulis", "police station", "", "ees-tah-SYON heet poo-LEES"],
-  ["direk", "munisipyo", "town / city hall", "", "moo-nee-SEEP-yo"],
-  ["direk", "paradahan", "terminal", "where vehicles wait", "pah-rah-DAH-han"],
-  ["direk", "eskina", "corner", "", "es-KEE-nah"],
-  ["direk", "atbang", "across / in front of", "", "AT-bang"],
-  ["direk", "dinhi", "here", "like didi", "DEEN-hee"],
-  ["direk", "harani", "near", "", "hah-RAH-nee"],
-  ["direk", "harayo", "far", "", "hah-RAH-yo"],
-  ["direk", "bus", "bus", "", "boos"],
-  ["direk", "dyip", "jeepney", "", "jeep"],
-  ["direk", "taxi", "taxi", "", "TAK-see"],
-  ["direk", "pedicab", "pedicab", "bicycle with sidecar", "PEH-dee-kab"],
-  ["direk", "traysikol", "tricycle", "motorbike with sidecar", "trigh-SEE-kol"],
-  ["direk", "Pwede magpakiana?", "May I ask a question?", "", "PWEH-deh mag-pah-kee-AH-na"],
-  ["direk", "Hain it bangko?", "Where is the bank?", "hain = where", "HAH-een eet BANG-ko"],
-  ["direk", "Harayo ba tikang dinhi?", "Is it far from here?", "", "hah-RAH-yo bah TEE-kang DEEN-hee"],
-  ["direk", "Waray sapayan", "You're welcome", "lit. no problem", "wah-RIGH sah-PAH-yan"],
-  ["direk", "Harani la", "It's just near", "", "hah-RAH-nee lah"],
-  ["direk", "Pwede baktason", "It can be walked", "", "PWEH-deh bak-TAH-son"],
-  ["direk", "Ika-upat nga eskina tikang dinhi", "The 4th corner from here", "", "ee-kah-OO-pat ngah es-KEE-nah TEE-kang DEEN-hee"],
-  ["direk", "Pagbus nala", "Just take the bus", "", "pag-BOOS nah-lah"],
-
-  // ===== Out & About — Shopping (from Useful_Words_When_Buying_Things) =====
-  ["shop", "tindahan", "store", "", "teen-DAH-han"],
-  ["shop", "tindera", "vendor", "shopkeeper", "teen-DEH-rah"],
-  ["shop", "kahera", "cashier", "", "kah-HEH-rah"],
-  ["shop", "kwarta", "money", "", "KWAR-tah"],
-  ["shop", "sukli", "change", "money returned", "sook-LEE"],
-  ["shop", "sinsilyo", "coins", "", "seen-SEEL-yo"],
-  ["shop", "barato", "cheap", "", "bah-RAH-to"],
-  ["shop", "bulad", "dried fish", "", "BOO-lad"],
-  ["shop", "tinapa", "smoked fish", "", "tee-NAH-pah"],
-  ["shop", "palit", "to buy", "papaliton = will buy", "PAH-leet"],
-  ["shop", "ginbibiling", "looking for", "from biling", "gin-bee-BEE-ling"],
-  ["shop", "karuyag", "want / like", "also gusto", "kah-ROO-yag"],
-  ["shop", "baraydan", "amount to pay", "", "bah-RIGH-dan"],
-  ["shop", "bulig", "to help", "buligan = help someone", "BOO-leeg"],
-  ["shop", "Ano ini?", "What is this?", "", "AH-no ee-NEE"],
-  ["shop", "Tagpira ini?", "How much is this?", "", "tag-PEE-rah ee-NEE"],
-  ["shop", "Hain tungod it kahera?", "Where is the cashier?", "hain tungod = where located", "HAH-een TOO-ngod eet kah-HEH-rah"],
-  ["shop", "May tinapa kamo dinhi?", "Do you have smoked fish here?", "", "migh tee-NAH-pah kah-MAW DEEN-hee"],
-  ["shop", "Ini it akon papaliton", "This is what I'll buy", "", "ee-NEE eet AH-kon pah-pah-LEE-ton"],
-  ["shop", "Pwede mo ako buligan?", "Can you help me?", "", "PWEH-deh mo ah-KAW boo-LEE-gan"],
-  ["shop", "Hain it mas barato?", "Which one is cheaper?", "", "HAH-een eet mahs bah-RAH-to"],
-  ["shop", "Adi it imo sukli", "Here is your change", "", "AH-dee eet EE-mo sook-LEE"],
-  ["shop", "Pira it akon baraydan?", "How much do I pay?", "", "PEE-rah eet AH-kon bah-RIGH-dan"],
-
-  // ===== Out & About — At the airport (from Ha_Airport) =====
-  ["airport", "eroplano", "airplane", "", "eh-ro-PLAH-no"],
-  ["airport", "tiket", "ticket", "", "TEE-ket"],
-  ["airport", "bagahe", "baggage", "", "bah-GAH-heh"],
-  ["airport", "gate", "gate", "", "gayt"],
-  ["airport", "kostums", "customs", "", "KOS-tooms"],
-  ["airport", "pasaporte", "passport", "", "pah-sah-POR-teh"],
-  ["airport", "pasahero", "passenger", "", "pah-sah-HEH-ro"],
-  ["airport", "Pakitaa ako hit imo tiket", "Please show me your ticket", "pakitaa = let me see", "pah-kee-tah-AH ah-KAW heet EE-mo TEE-ket"],
-  ["airport", "Pakitaa ako hit imo pasaporte", "Please show me your passport", "", "pah-kee-tah-AH ah-KAW heet EE-mo pah-sah-POR-teh"],
-  ["airport", "Malupad it eroplano alas nuybe", "The plane leaves at 9", "malupad = will fly", "mah-LOO-pad eet eh-ro-PLAH-no AH-las NOOY-beh"],
-  ["airport", "Deritso ha gate numero dos", "Straight to gate number 2", "", "deh-REET-so hah gayt NOO-meh-ro dos"],
-  ["airport", "Enjoy hit imo biyahe", "Enjoy your trip", "", "en-JOY heet EE-mo bee-YAH-heh"],
-
-  // ===== Out & About — A day trip (from PPERFECT_pamasyada_Kita) =====
-  ["daytrip", "pamasyada", "outing / stroll", "sightseeing", "pah-mas-YAH-dah"],
-  ["daytrip", "tulay", "bridge", "", "too-LIGH"],
-  ["daytrip", "lugar", "place", "", "loo-GAR"],
-  ["daytrip", "isla", "island", "", "EES-lah"],
-  ["daytrip", "museo", "museum", "", "moo-SEH-o"],
-  ["daytrip", "pumpboat", "pump boat", "motorized outrigger", "POMP-bot"],
-  ["daytrip", "makaradlok", "scary", "", "mah-kah-RAD-lok"],
-  ["daytrip", "mamasyada", "to go out / stroll", "", "mah-mas-YAH-dah"],
-  ["daytrip", "kumita", "to see / visit", "", "koo-MEE-tah"],
-  ["daytrip", "maupod", "to come along", "", "mah-OO-pod"],
-  ["daytrip", "huram", "to borrow", "", "HOO-ram"],
-  ["daytrip", "Pamasyada kita", "Let's go out", "", "pah-mas-YAH-dah kee-TAH"],
-  ["daytrip", "Mamamasyada ako buwas", "I'll go out tomorrow", "", "mah-mah-mas-YAH-dah ah-KAW BOO-was"],
-  ["daytrip", "Karuyag ko kumita", "I want to see it", "", "kah-ROO-yag ko koo-MEE-tah"],
-  ["daytrip", "Maupod ka buwas?", "Will you come along tomorrow?", "", "mah-OO-pod kah BOO-was"],
-  ["daytrip", "Karuyag ko kumita hit San Juanico", "I want to see San Juanico", "", "kah-ROO-yag ko koo-MEE-tah heet san-hwah-NEE-ko"],
-  ["daytrip", "Pwede kita magburubaktas", "We can walk around there", "", "PWEH-deh kee-TAH mag-boo-roo-BAK-tas"],
-  ["daytrip", "Pagkita kita buwas", "Let's meet tomorrow", "", "pag-KEE-tah kee-TAH BOO-was"],
-  ["daytrip", "Mahusay ngadto", "It's beautiful there", "", "mah-hoo-SIGH NGAD-to"],
-
-  // ===== Daily Life — Meals & eating (from PPERFECT_pamasyada_Kita) =====
-  ["meals", "pamahaw", "breakfast", "", "pah-MAH-how"],
-  ["meals", "paniudto", "lunch", "", "pah-nee-OOD-to"],
-  ["meals", "pangiklop", "dinner", "", "pah-NEEK-lop"],
-  ["meals", "isnak", "snack", "", "EES-nak"],
-  ["meals", "kan-on", "cooked rice", "", "KAN-on"],
-  ["meals", "pagkaon", "food", "", "pag-KAH-on"],
-  ["meals", "marasa", "delicious", "", "mah-RAH-sah"],
-  ["meals", "gutom", "hungry", "", "GOO-tom"],
-  ["meals", "Namahaw ka na?", "Have you had breakfast?", "", "nah-MAH-how kah nah"],
-  ["meals", "Naniudto ka na?", "Have you had lunch?", "", "nah-nee-OOD-to kah nah"],
-  ["meals", "Nangiklop ka na?", "Have you had dinner?", "", "nah-NEEK-lop kah nah"],
-  ["meals", "Pamahaw kita", "Let's have breakfast", "", "pah-MAH-how kee-TAH"],
-  ["meals", "Ano it paniudtuhon?", "What's for lunch?", "", "AH-no eet pah-nee-ood-TOO-hon"],
-  ["meals", "May pagkaon didi", "There's food here", "", "migh pag-KAH-on DEE-dee"],
-  ["meals", "Kaon anay", "Eat first", "", "KAH-on AH-nigh"],
-
-  // ===== Daily Life — Cooking (from …Pagluto_hin_Adobo) =====
-  ["cook", "lasona", "garlic", "", "lah-SO-nah"],
-  ["cook", "sibuyas", "onion", "", "see-BOO-yas"],
-  ["cook", "suoy", "vinegar", "", "SOO-oy"],
-  ["cook", "toyo", "soy sauce", "", "TOH-yo"],
-  ["cook", "tubig", "water", "", "TOO-beeg"],
-  ["cook", "pamyenta", "pepper", "", "pam-YEN-tah"],
-  ["cook", "asukar", "sugar", "", "ah-SOO-kar"],
-  ["cook", "lutuon", "to cook (it)", "from luto", "loo-too-ON"],
-  ["cook", "igbabad", "to marinate", "", "eeg-BAH-bad"],
-  ["cook", "pakaladkara", "to boil (it)", "", "pah-kah-lad-KAH-rah"],
-  ["cook", "panakot", "ingredients / spices", "", "pah-NAH-kot"],
-  ["cook", "madali", "easy / quick", "", "mah-dah-LEE"],
-  ["cook", "masayon", "easy / simple", "", "mah-SAH-yon"],
-  ["cook", "makuri", "hard / difficult", "", "mah-KOO-ree"],
-  ["cook", "Ano ini nga kaluto?", "What dish is this?", "", "AH-no ee-NEE ngah kah-LOO-to"],
-  ["cook", "Adobo nga manok", "Chicken adobo", "", "ah-DO-bo ngah mah-NOK"],
-  ["cook", "Makuri ba ini lutuon?", "Is this hard to cook?", "", "mah-KOO-ree bah ee-NEE loo-too-ON"],
-  ["cook", "Madali la", "It's easy", "", "mah-dah-LEE lah"],
-  ["cook", "Tutdui gad ako", "Please teach me", "", "toot-DOO-ee gad ah-KAW"],
-  ["cook", "Ano it mga panakot?", "What are the ingredients?", "mga = manga (plural)", "AH-no eet mah-NGAH pah-NAH-kot"],
-
-  // ===== Daily Life — When & travel (from PPERFECT_pamasyada_Kita) =====
-  ["whentrav", "biyahe", "trip / travel", "", "bee-YAH-heh"],
-  ["whentrav", "semana", "week", "", "seh-MAH-nah"],
-  ["whentrav", "adlaw", "day", "", "AD-low"],
-  ["whentrav", "maabot", "will arrive", "", "mah-AH-bot"],
-  ["whentrav", "lumakat", "left / departed", "", "loo-MAH-kat"],
-  ["whentrav", "san-o", "when", "", "SAN-o"],
-  ["whentrav", "kakan-o", "when (past)", "", "kah-KAN-o"],
-  ["whentrav", "Mabiyahe ako ha Pilipinas", "I'll travel to the Philippines", "", "mah-bee-YAH-heh ah-KAW hah pee-lee-PEE-nas"],
-  ["whentrav", "Ano ka nga adlaw maabot?", "What day will you arrive?", "", "AH-no kah ngah AD-low mah-AH-bot"],
-  ["whentrav", "Kakan-o ka umabot?", "When did you arrive?", "", "kah-KAN-o kah oo-MAH-bot"],
-  ["whentrav", "Hit maabot nga duha ka semana", "In the coming two weeks", "duha = two", "heet mah-AH-bot ngah DOO-hah kah seh-MAH-nah"],
-
-  // ===== Basics grammar — Describing sentences (from …Adobo doc) =====
-  ["gram", "bata", "child", "", "BAH-tah"],
-  ["gram", "uyab", "girlfriend / boyfriend", "", "OO-yab"],
-  ["gram", "mabaho", "smelly", "", "mah-BAH-ho"],
-  ["gram", "an", "the (completed / past)", "marks the subject", "ahn"],
-  ["gram", "it", "the (now / general)", "marks the subject", "eet"],
-  ["gram", "Gwapo it bata", "The child is handsome", "it = the (now)", "GWAH-po eet BAH-tah"],
-  ["gram", "Gwapo an bata", "The child was handsome", "an = the (past)", "GWAH-po ahn BAH-tah"],
-  ["gram", "Hataas it akon uyab", "My girlfriend is tall", "", "hah-TAH-as eet AH-kon OO-yab"],
-  ["gram", "Marasa it adobo", "The adobo is tasty", "", "mah-RAH-sah eet ah-DO-bo"],
-  ["gram", "Mabaho it jeep", "The jeepney is smelly", "", "mah-BAH-ho eet jeep"],
-
-  // ===== Basics grammar — Verbs in action (Mag/Nag, from …Adobo doc) =====
-  ["gram", "Magluluto it bata", "The child will cook", "future", "mag-loo-LOO-to eet BAH-tah"],
-  ["gram", "Nagluluto it bata", "The child is cooking", "present", "nag-loo-LOO-to eet BAH-tah"],
-  ["gram", "Nagluto an bata", "The child cooked", "past", "nag-LOO-to ahn BAH-tah"],
-
-  // ===== Numbers, Days & Colors (from Wikivoyage Waray phrasebook) =====
-  ["num", "usa", "one", "", "oo-SAH"],
-  ["num", "duha", "two", "", "doo-HAH"],
-  ["num", "tulo", "three", "", "too-LO"],
-  ["num", "upat", "four", "", "oo-PAT"],
-  ["num", "lima", "five", "", "lee-MAH"],
-  ["num", "unom", "six", "", "oo-NOM"],
-  ["num", "pito", "seven", "", "pee-TO"],
-  ["num", "walo", "eight", "", "wah-LO"],
-  ["num", "siyam", "nine", "", "see-YAM"],
-  ["num", "napulo", "ten", "", "nah-poo-LO"],
-  ["num", "karuhaan", "twenty", "", "kah-roo-HAH-an"],
-  ["num", "usa kagatos", "one hundred", "", "oo-SAH kah-GAH-tos"],
-
-  ["cal", "Lunes", "Monday", "", "LOO-nes"],
-  ["cal", "Martes", "Tuesday", "", "MAR-tes"],
-  ["cal", "Miyerkoles", "Wednesday", "", "mee-YER-ko-les"],
-  ["cal", "Huwebes", "Thursday", "", "hoo-WEH-bes"],
-  ["cal", "Biyernes", "Friday", "", "bee-YER-nes"],
-  ["cal", "Sabado", "Saturday", "", "SAH-bah-do"],
-  ["cal", "Dominggo", "Sunday", "", "do-MEENG-go"],
-  ["cal", "Enero", "January", "", "eh-NEH-ro"],
-  ["cal", "Pebrero", "February", "", "peb-REH-ro"],
-  ["cal", "Marso", "March", "", "MAR-so"],
-  ["cal", "Abril", "April", "", "ahb-REEL"],
-  ["cal", "Mayo", "May", "", "MAH-yo"],
-  ["cal", "Hunyo", "June", "", "HOON-yo"],
-  ["cal", "Hulyo", "July", "", "HOOL-yo"],
-  ["cal", "Agosto", "August", "", "ah-GOS-to"],
-  ["cal", "Setyembre", "September", "", "set-YEM-breh"],
-  ["cal", "Oktubre", "October", "", "ok-TOO-breh"],
-  ["cal", "Nobyembre", "November", "", "nob-YEM-breh"],
-  ["cal", "Disyembre", "December", "", "dis-YEM-breh"],
-
-  ["color", "itom", "black", "", "EE-tom"],
-  ["color", "busag", "white", "", "BOO-sag"],
-  ["color", "pula", "red", "", "POO-lah"],
-  ["color", "asul", "blue", "", "ah-SOOL"],
-  ["color", "darag", "yellow", "", "DAH-rag"],
-  ["color", "berde", "green", "", "BER-deh"],
-
-  ["essent", "Waray ako makabaro", "I don't understand", "", "wah-RIGH ah-KAW mah-kah-BAH-ro"],
-  ["essent", "Hain an CR?", "Where is the CR? (bathroom)", "an = the; ang is Tagalog", "HAH-een ahn see-AR"],
-  ["essent", "Buligi daw ako", "Please help me", "", "boo-LEE-gee dow ah-KAW"],
-  ["essent", "Pasaylo-a ako", "Excuse me / sorry", "", "pah-sigh-LO-ah ah-KAW"],
-  ["essent", "Sige, sunod na la", "Goodbye (see you next time)", "", "SEE-geh SOO-nod nah lah"],
-
-  // ===== Building Blocks — possessives II-class (Peace Corps L4) =====
-  ["poss", "nakon", "my", "short form: ko", "NAH-kon"],
-  ["poss", "ko", "my (short)", "", "ko"],
-  ["poss", "nimo", "your", "short form: mo", "NEE-mo"],
-  ["poss", "niya", "his / her", "", "nee-YAH"],
-  ["poss", "naton", "our (incl)", "", "NAH-ton"],
-  ["poss", "namon", "our (excl)", "", "NAH-mon"],
-  ["poss", "niyo", "your (pl)", "", "NEE-yo"],
-  ["poss", "nira", "their", "", "NEE-rah"],
-  ["poss", "libro nakon", "my book", "", "LEE-bro NAH-kon"],
-  ["poss", "lapis nimo", "your pencil", "", "LAH-pees NEE-mo"],
-  ["poss", "uyab niya", "his / her sweetheart", "", "OO-yab nee-YAH"],
-  ["poss", "balay namon", "our house", "", "bah-LIGH NAH-mon"],
-  // ===== Building Blocks — possessives III-class (Peace Corps L8) =====
-  ["poss", "akon", "mine / my", "", "AH-kon"],
-  ["poss", "imo", "yours / your", "", "EE-mo"],
-  ["poss", "iya", "his / hers", "", "ee-YAH"],
-  ["poss", "aton", "ours (incl)", "", "AH-ton"],
-  ["poss", "amon", "ours (excl)", "", "AH-mon"],
-  ["poss", "iyo", "yours (pl)", "", "EE-yo"],
-  ["poss", "ira", "theirs", "", "EE-rah"],
-  ["poss", "Akon ini", "This is mine", "", "AH-kon ee-NEE"],
-  ["poss", "Akon ini nga balay", "This house is mine", "", "AH-kon ee-NEE ngah bah-LIGH"],
-  ["poss", "ha akon", "to / for me", "", "hah AH-kon"],
-  ["poss", "ha imo", "to / for you", "", "hah EE-mo"],
-  ["poss", "ha iya", "to / for him / her", "", "hah ee-YAH"],
-
-  // ===== Building Blocks — demonstratives (Peace Corps L3) =====
-  ["demo", "ini", "this (near)", "", "ee-NEE"],
-  ["demo", "iton", "that (near you)", "", "ee-TON"],
-  ["demo", "adto", "that (over there)", "", "AD-to"],
-  ["demo", "kahoy", "tree", "", "KAH-hoy"],
-  ["demo", "libro", "book", "", "LEE-bro"],
-  ["demo", "ini nga babaye", "this woman", "", "ee-NEE ngah bah-BAH-yeh"],
-  ["demo", "iton nga lalake", "that man", "", "ee-TON ngah lah-LAH-keh"],
-  ["demo", "adto nga bata", "that child over there", "", "AD-to ngah BAH-tah"],
-  ["demo", "Tubig ini", "This is water", "", "TOO-beeg ee-NEE"],
-  ["demo", "Kahoy adto", "That's a tree over there", "", "KAH-hoy AD-to"],
-  ["demo", "Mga libro ini", "These are books", "", "mah-NGAH LEE-bro ee-NEE"],
-
-  // ===== Building Blocks — markers (Peace Corps L2 / L6) =====
-  ["mark", "hi", "the (before a name)", "name marker", "hee"],
-  ["mark", "hin", "a / some (object)", "object marker", "heen"],
-  ["mark", "han", "of / the (past object)", "", "hahn"],
-  ["mark", "ha", "to / at / in", "", "hah"],
-  ["mark", "ngan", "and", "", "ngahn"],
-  ["mark", "saging", "banana", "", "SAH-geeng"],
-  ["mark", "Ako hi Peter", "I am Peter", "", "ah-KAW hee PEE-ter"],
-  ["mark", "Hira Perla ngan Tessie", "They are Perla and Tessie", "", "HEE-rah PER-lah ngahn TES-see"],
-  ["mark", "Mapalit ako hin saging", "I'll buy a banana", "", "mah-PAH-leet ah-KAW heen SAH-geeng"],
-  ["mark", "Makadto ako ha balay", "I'll go to the house", "", "mah-KAD-to ah-KAW hah bah-LIGH"],
-
-  // ===== Building Blocks — question words (Peace Corps L10-12 / L28) =====
-  ["qword", "hin-o", "who", "", "heen-O"],
-  ["qword", "ano", "what", "", "AH-no"],
-  ["qword", "hain", "where", "", "HAH-een"],
-  ["qword", "diin", "where (from / which)", "", "dee-EEN"],
-  ["qword", "kay ano", "why", "", "kigh AH-no"],
-  ["qword", "mapira", "how many", "", "mah-PEE-rah"],
-  ["qword", "tagpira", "how much", "", "tag-PEE-rah"],
-  ["qword", "ba", "makes a yes/no question", "particle", "bah"],
-  ["qword", "Hin-o hiya?", "Who is she?", "", "heen-O hee-YAH"],
-  ["qword", "Isda ba ini?", "Is this fish?", "", "ees-DAH bah ee-NEE"],
-  ["qword", "Kay ano?", "Why?", "", "kigh AH-no"],
-  ["qword", "Mapira?", "How many?", "", "mah-PEE-rah"],
-
-  // ===== Building Blocks — particles & negation (Peace Corps L16 / L20) =====
-  ["ptcl", "na", "already", "", "nah"],
-  ["ptcl", "pa", "still / yet", "", "pah"],
-  ["ptcl", "liwat", "also / too", "", "LEE-wat"],
-  ["ptcl", "hin duro", "very / a lot", "", "heen DOO-ro"],
-  ["ptcl", "Marasa hin duro", "Very delicious", "", "mah-RAH-sah heen DOO-ro"],
-  ["ptcl", "Namahaw na ako", "I've already had breakfast", "", "nah-MAH-how nah ah-KAW"],
-  ["ptcl", "Diri pa", "Not yet / still not", "", "DEE-ree pah"],
-  ["ptcl", "Makusog liwat", "Strong too", "", "mah-KOO-sog LEE-wat"],
-
-  // ===== Building Blocks — ma- verb tenses (Peace Corps L5 conjugation) =====
-  ["gram", "makaon", "will eat", "future: ma-", "mah-KAH-on"],
-  ["gram", "nakaon", "is eating", "present: na-", "nah-KAH-on"],
-  ["gram", "kinmaon", "ate", "past: -inm-", "kin-MAH-on"],
-  ["gram", "malakat", "will go", "future: ma-", "mah-LAH-kat"],
-  ["gram", "nalakat", "is going", "present: na-", "nah-LAH-kat"],
-  ["gram", "linmakat", "went", "past: -inm-", "lin-MAH-kat"],
-  ["gram", "mapalit", "will buy", "future: ma-", "mah-PAH-leet"],
-  ["gram", "napalit", "is buying", "present: na-", "nah-PAH-leet"],
-  ["gram", "pinmalit", "bought", "past: -inm-", "pin-MAH-leet"],
-  ["gram", "mainom", "will drink", "future: ma-", "mah-EE-nom"],
-  ["gram", "nainom", "is drinking", "present: na-", "nah-EE-nom"],
-  ["gram", "inminom", "drank", "past: -inm-", "een-MEE-nom"],
-
-  // ===== Building Blocks — modals (Peace Corps L22) =====
-  ["modal", "kinahanglan", "need to / must", "", "kee-nah-HANG-lan"],
-  ["modal", "mahimo", "can / able to", "same as pwede", "mah-HEE-mo"],
-  ["modal", "Ayaw", "don't (command)", "", "AH-yaw"],
-  ["modal", "trabaho", "work", "magtrabaho = to work", "trah-BAH-ho"],
-  ["modal", "Kinahanglan ako magtrabaho", "I need to work", "", "kee-nah-HANG-lan ah-KAW mag-trah-BAH-ho"],
-  ["modal", "Pwede ka ba magdara?", "Can you bring it?", "", "PWEH-deh kah bah mag-DAH-rah"],
-  ["modal", "Mahimo ako maupod", "I can come along", "", "mah-HEE-mo ah-KAW mah-OO-pod"],
-  ["modal", "Ayaw pagkaon", "Don't eat", "", "AH-yaw pag-KAH-on"],
-
-  // ===== Full curriculum: new vocab (course + Tramp/Zorc dictionary verified) =====
-  // -- people & family --
-  ["ppl", "anak", "child", "", "ah-NAK"],
-  ["ppl", "apoy", "grandparent", "", "ah-POY"],
-  ["ppl", "apo", "grandchild", "", "ah-PO"],
-  ["ppl", "bugto", "sibling", "", "BOOG-to"],
-  ["ppl", "tawo", "person", "", "TAH-wo"],
-  ["ppl", "miyembro", "member", "", "mee-YEM-bro"],
-  ["ppl", "ulitawo", "young man", "", "oo-lee-TAH-wo"],
-  ["ppl", "daragita", "young woman", "", "dah-rah-GEE-tah"],
-  ["ppl", "lagas", "old person", "", "LAH-gas"],
-  ["ppl", "kaharani", "neighbor", "", "kah-hah-RAH-nee"],
-  // -- jobs & roles --
-  ["ppl", "nars", "nurse", "", "nars"],
-  ["ppl", "panday", "carpenter", "", "PAN-digh"],
-  ["ppl", "pastor", "pastor", "", "PAS-tor"],
-  ["ppl", "misyonaryo", "missionary", "", "mees-yo-NAR-yo"],
-  ["ppl", "abugado", "lawyer", "", "ah-boo-GAH-do"],
-  ["ppl", "mangingisda", "fisherman", "", "mah-ngee-NGEES-dah"],
-  ["ppl", "mag-uroma", "farmer", "", "mag-oo-ROH-mah"],
-  ["ppl", "direktor", "director", "", "dee-rek-TOR"],
-  ["ppl", "kapitan", "captain", "", "kah-pee-TAN"],
-  ["ppl", "mayor", "mayor / boss", "", "MAH-yor"],
-  ["ppl", "konsehal", "councilman", "", "kon-SEH-hal"],
-  ["ppl", "negosyante", "businessman", "", "neh-gos-YAN-teh"],
-  ["ppl", "sekretarya", "secretary", "", "sek-reh-TAR-yah"],
-  ["ppl", "hardinero", "gardener", "", "har-dee-NEH-ro"],
-  ["ppl", "tag-iya", "owner", "", "tag-ee-YAH"],
-  ["ppl", "ninong", "godfather", "", "NEE-nong"],
-  ["ppl", "pasyente", "patient", "", "pas-YEN-teh"],
-  // -- the body --
-  ["ppl", "lawas", "body", "", "LAH-was"],
-  ["ppl", "nawong", "face", "", "nah-WONG"],
-  ["ppl", "mata", "eye", "", "mah-TAH"],
-  ["ppl", "ulo", "head", "", "OO-lo"],
-  ["ppl", "kasingkasing", "heart", "", "kah-seeng-KAH-seeng"],
-  // -- describing (adjectives) --
-  ["week1", "daku", "big", "", "dah-KOO"],
-  ["week1", "gutiay", "small", "", "goo-TEE-igh"],
-  ["week1", "habubo", "short", "", "hah-boo-BO"],
-  ["week1", "magasa", "thin", "", "mah-GAH-sah"],
-  ["week1", "hubya", "lazy", "", "HOOB-yah"],
-  ["week1", "kapoy", "tired", "", "kah-POY"],
-  ["week1", "maraut", "bad", "", "mah-RAH-oot"],
-  ["week1", "grabe", "serious", "", "GRAH-beh"],
-  ["week1", "matidong", "righteous", "", "mah-tee-DONG"],
-  ["week1", "maalsom", "sour", "", "mah-AL-som"],
-  ["week1", "matam-is", "sweet", "", "mah-TAM-ees"],
-  ["week1", "matab-ang", "tasteless", "", "mah-tab-ANG"],
-  ["week1", "daan", "old (things)", "", "dah-AN"],
-  ["week1", "bag-o", "new", "", "BAG-o"],
-  // -- verbs --
-  ["verbs", "hatag", "to give", "", "HAH-tag"],
-  ["verbs", "bayad", "to pay", "", "BAH-yad"],
-  ["verbs", "hulam", "to borrow", "", "HOO-lam"],
-  ["verbs", "lingkod", "to sit", "", "leeng-KOD"],
-  ["verbs", "tindog", "to stand", "", "TEEN-dog"],
-  ["verbs", "sulod", "to enter", "", "soo-LOD"],
-  ["verbs", "buhat", "to do / make", "", "BOO-hat"],
-  ["verbs", "saka", "to climb", "", "SAH-kah"],
-  ["verbs", "lakso", "to jump", "", "LAK-so"],
-  ["verbs", "dalagan", "to run", "", "dah-LAH-gan"],
-  ["verbs", "uli", "to go home", "", "oo-LEE"],
-  ["verbs", "abot", "to arrive", "", "ah-BOT"],
-  ["verbs", "pili", "to choose", "", "PEE-lee"],
-  ["verbs", "surat", "to write", "", "SOO-rat"],
-  ["verbs", "siring", "to speak / say", "", "SEE-ring"],
-  ["verbs", "ampo", "to pray", "", "AM-po"],
-  ["verbs", "simba", "to worship", "", "SEEM-bah"],
-  ["verbs", "tanum", "to plant", "", "TAH-noom"],
-  ["verbs", "luhod", "to kneel", "", "loo-HOD"],
-  ["verbs", "hangyo", "to ask a favor", "", "hang-YO"],
-  ["verbs", "tukar", "to play music", "", "TOO-kar"],
-  ["verbs", "kanta", "to sing", "", "KAN-tah"],
-  ["verbs", "dara", "to bring", "", "DAH-rah"],
-  ["verbs", "labay", "to pass by", "", "lah-BIGH"],
-  // -- home & things --
-  ["verbs", "lamesa", "table", "", "lah-MEH-sah"],
-  ["verbs", "lingkuran", "chair", "", "leeng-KOO-ran"],
-  ["verbs", "katre", "bed", "", "KAT-reh"],
-  ["verbs", "kudal", "fence", "", "koo-DAL"],
-  ["verbs", "sala", "living room", "also: sin", "SAH-lah"],
-  ["verbs", "tsinelas", "slippers", "", "tsee-NEH-las"],
-  ["verbs", "saruwal", "pants", "", "sah-roo-WAL"],
-  ["verbs", "syaket", "jacket", "", "SYAH-ket"],
-  ["verbs", "medyas", "socks", "", "MED-yas"],
-  ["verbs", "papel", "paper", "", "pah-PEL"],
-  ["verbs", "lapis", "pencil", "", "LAH-pees"],
-  ["verbs", "mulayan", "toy", "", "moo-LAH-yan"],
-  ["verbs", "telebisyon", "television", "", "teh-leh-BEES-yon"],
-  ["verbs", "sista", "guitar", "", "SEES-tah"],
-  ["verbs", "mensahe", "message", "", "men-SAH-heh"],
-  ["verbs", "tambal", "medicine", "", "TAM-bal"],
-  // -- food --
-  ["meals", "mangga", "mango", "", "MANG-gah"],
-  ["meals", "nangka", "jackfruit", "", "NANG-kah"],
-  ["meals", "kamatis", "tomato", "", "kah-MAH-tees"],
-  ["meals", "mais", "corn", "", "mah-EES"],
-  ["meals", "tsa", "tea", "", "tsah"],
-  ["meals", "sabaw", "soup", "", "SAH-bow"],
-  ["meals", "keyk", "cake", "", "keyk"],
-  ["meals", "prutas", "fruit", "", "PROO-tas"],
-  // -- nature & animals --
-  ["nature", "dagat", "sea", "", "dah-GAT"],
-  ["nature", "bukad", "flower", "", "boo-KAD"],
-  ["nature", "tuna", "land / earth", "", "TOO-nah"],
-  ["nature", "langit", "sky / heaven", "", "LAH-ngeet"],
-  ["nature", "ayam", "dog", "also: ido", "AH-yam"],
-  ["nature", "karabaw", "carabao", "", "kah-rah-BOW"],
-  // -- time --
-  ["verbs", "panahon", "time / weather", "", "pah-nah-HON"],
-  ["verbs", "didto", "there (far)", "", "DEED-to"],
-  ["greet", "Maupay nga udto", "Good noon", "", "mah-OO-pigh ngah OOD-to"],
-  // -- faith & church --
-  ["faith", "Diyos", "God", "", "dee-YOS"],
-  ["faith", "Ginoo", "Lord", "", "gee-NO-o"],
-  ["faith", "Jesu Kristo", "Jesus Christ", "", "HEH-soo KREES-to"],
-  ["faith", "espiritu", "spirit", "", "es-pee-ree-TOO"],
-  ["faith", "gugma", "love", "", "GOOG-mah"],
-  ["faith", "bendisyon", "blessing", "", "ben-DEES-yon"],
-  ["faith", "iglesia", "church", "", "eeg-LEH-syah"],
-  ["faith", "Kristohanon", "Christian", "", "krees-to-HAH-non"],
-  ["faith", "Bibliya", "Bible", "", "beeb-LEE-yah"],
-  ["faith", "kros", "cross", "", "kros"],
-  ["faith", "kinabuhi", "life", "", "kee-nah-BOO-hee"],
-  ["faith", "kaadlawan", "birthday", "", "kah-ad-LAH-wan"],
-  ["faith", "pasaylo", "to forgive", "", "pah-SIGH-lo"],
-  ["faith", "wali", "to preach", "", "WAH-lee"],
-  ["faith", "sala nga buhat", "sin", "lit. wrong deed", "SAH-lah ngah BOO-hat"],
-
-  // ===== simple survival words (swapped into Survival Kit) =====
-  ["greet", "maupay", "good", "", "mah-OO-pigh"],
-  ["greet", "tabang", "help", "as in “Tabang!”", "tah-BANG"],
-  ["greet", "Gusto ko", "I like", "", "GOOS-to ko"],
-];
+/* ---------- active course (vocabulary + curriculum live in src/courses) ----------
+   The selected course is read from localStorage at module load; switching
+   courses persists the choice and reloads. Progress is namespaced per course. */
+function _readCourseId() {
+  try { return localStorage.getItem("sulog:course") || DEFAULT_COURSE_ID; }
+  catch (e) { return DEFAULT_COURSE_ID; }
+}
+const ACTIVE = getCourse(_readCourseId());
+const COURSE_ID = ACTIVE.id;
+const SEED = ACTIVE.seed;
+const FORGOTTEN = ACTIVE.forgotten;
+// per-course storage keys — progress is independent per course model
+const PK = {
+  prog:    `sulog:${COURSE_ID}:prog`,
+  streak:  `sulog:${COURSE_ID}:streak`,
+  lessons: `sulog:${COURSE_ID}:lessons`,
+  units:   `sulog:${COURSE_ID}:units`,
+  history: `sulog:${COURSE_ID}:history`,
+};
+// one-time migration: the original `waray:*` progress was on the Classic order,
+// so adopt it under waray-classic. Frequency (the new default) starts fresh.
+(function migrateV1() {
+  try {
+    if (localStorage.getItem("sulog:migrated-v1")) return;
+    for (const k of ["prog", "streak", "lessons", "units", "history"]) {
+      const old = localStorage.getItem("waray:" + k);
+      const dest = "sulog:waray-classic:" + k;
+      if (old !== null && localStorage.getItem(dest) === null) localStorage.setItem(dest, old);
+    }
+    localStorage.setItem("sulog:migrated-v1", "1");
+  } catch (e) {}
+})();
 
 const DECKS = {
   greet: { name: "Greetings & Survival", short: "Greetings", hint: "The phrases you reach for every day" },
@@ -679,164 +103,7 @@ const LESSON_PARTS = [
 ];
 
 // Top tier = sections; each section holds units; each unit holds lessons.
-const CURRICULUM = [
-  { id: "s1", name: "Survival Kit", hint: "Say something on day one", units: [
-  { id: "u1", name: "Greetings & courtesy", hint: "Hellos, thanks, manners", lessons: [
-    { id: "u1l1", title: "Hellos & thanks", items: ["Maupay nga aga", "Maupay nga udto", "Maupay nga kulop", "Maupay nga gab-i", "Kumusta ka?", "Maupay man", "Salamat", "Damo nga salamat", "Pasensya na", "Sige"] },
-    { id: "u1l2", title: "Yes, no & getting by", items: ["Oo", "Diri", "Waray", "Waray pa", "Anay", "Adi", "Pwede", "maupay", "tabang", "Hinay-hinay la"] },
-  ] },
-  { id: "u2", name: "Survival phrases", hint: "When you're stuck", lessons: [
-    { id: "u2l1", title: "When you're stuck", items: ["Waray ako makabaro", "Naintindihan ko", "Diri ako maaram", "Buligi daw ako", "Pasaylo-a ako", "Hain an CR?", "Karuyag ko", "Gusto ko", "Nakikit-an mo?", "Klaro?"] },
-  ] },
-  ] },
-  { id: "s2", name: "People & Describing", hint: "Who, and what they're like", units: [
-  { id: "u3", name: "Pronouns", hint: "I, you, he/she, we, they", lessons: [
-    { id: "u3l1", title: "The pronouns", items: ["ako", "ikaw / ka", "hiya", "kita", "kami", "kamo", "hira", "Amerikano ako", "Babaye ka", "Makusog hiya"] },
-  ] },
-  { id: "u4", name: "Family & people", hint: "Family and the people around you", lessons: [
-    { id: "u4l1", title: "Family", items: ["tatay", "nanay", "anak", "apoy", "apo", "asawa", "bugto", "akon patod", "uyab", "sangkay"] },
-    { id: "u4l2", title: "People around you", items: ["lalaki", "babaye", "bata", "ulitawo", "daragita", "lagas", "kaharani", "bisita", "tawo", "miyembro"] },
-  ] },
-  { id: "u5", name: "Jobs & roles", hint: "What people do", lessons: [
-    { id: "u5l1", title: "Work & roles", items: ["estudyante", "maestro / maestra", "turista", "nars", "panday", "pastor", "misyonaryo", "abugado", "mangingisda", "mag-uroma"] },
-    { id: "u5l2", title: "More roles", items: ["direktor", "kapitan", "mayor", "konsehal", "negosyante", "sekretarya", "hardinero", "tag-iya", "ninong", "pasyente"] },
-  ] },
-  { id: "u6", name: "Describing", hint: "Words to describe people", lessons: [
-    { id: "u6l1", title: "Looks", items: ["mahusay", "maraksot", "gwapo", "hataas", "habubo", "matambok", "magasa", "makusog", "daku", "gutiay"] },
-    { id: "u6l2", title: "Qualities", items: ["malipay", "buoton", "riko", "makarit", "hubya", "kapoy", "maraut", "grabe", "matidong", "mapaso"] },
-  ] },
-  { id: "u7", name: "The body", hint: "Body words", lessons: [
-    { id: "u7l1", title: "The body", items: ["lawas", "nawong", "mata", "ulo", "kasingkasing"] },
-  ] },
-  ] },
-  { id: "s3", name: "Building Blocks", hint: "The grammar glue", units: [
-  { id: "u8", name: "Markers", hint: "hi / hin / han / ha / ngan", lessons: [
-    { id: "u8l1", title: "The little markers", items: ["hi", "hin", "han", "ha", "ngan", "saging"] },
-    { id: "u8l2", title: "Markers in sentences", items: ["Ako hi Peter", "Hira Perla ngan Tessie", "Mapalit ako hin saging", "Makadto ako ha balay"] },
-  ] },
-  { id: "u9", name: "This & that", hint: "Demonstratives + nga", lessons: [
-    { id: "u9l1", title: "This, that, over there", items: ["ini", "iton", "adto", "kahoy", "libro"] },
-    { id: "u9l2", title: "This / that + noun", items: ["ini nga babaye", "iton nga lalake", "adto nga bata", "Tubig ini", "Kahoy adto", "Mga libro ini"] },
-  ] },
-  { id: "u10", name: "My, your, our", hint: "Possessives (nakon/ko, nimo/mo…)", lessons: [
-    { id: "u10l1", title: "Possessive forms", items: ["nakon", "ko", "nimo", "niya", "naton", "namon", "niyo", "nira"] },
-    { id: "u10l2", title: "Whose is it?", items: ["libro nakon", "lapis nimo", "uyab niya", "balay namon"] },
-  ] },
-  { id: "u11", name: "Mine & yours", hint: "Possessives (akon/imo/iya…) and ha +", lessons: [
-    { id: "u11l1", title: "Mine, yours, theirs", items: ["akon", "imo", "iya", "aton", "amon", "iyo", "ira"] },
-    { id: "u11l2", title: "It's mine / to me", items: ["Akon ini", "Akon ini nga balay", "ha akon", "ha imo", "ha iya"] },
-  ] },
-  { id: "u12", name: "Saying “X is Y”", hint: "Equational sentences + an / it", lessons: [
-    { id: "u12l1", title: "I am / you are", items: ["Amerikano ako", "Nanay ako", "Babaye ka", "Makusog ka", "Mahusay ka", "Maraksot ka", "Makarit ka", "Turista hiya", "Estudyante kami", "Pilipino hira"] },
-    { id: "u12l2", title: "The little words (an / it)", items: ["it", "an", "bata", "uyab", "mabaho"] },
-    { id: "u12l3", title: "The ___ is ___", items: ["Gwapo it bata", "Gwapo an bata", "Hataas it akon uyab", "Marasa it adobo", "Mabaho it jeep"] },
-  ] },
-  { id: "u13", name: "Asking", hint: "Question words + ba", lessons: [
-    { id: "u13l1", title: "Question words", items: ["hin-o", "ano", "hain", "diin", "kay ano", "mapira", "tagpira", "ba"] },
-    { id: "u13l2", title: "Asking questions", items: ["Hin-o hiya?", "Isda ba ini?", "Kay ano?", "Mapira?", "Ano ini?", "Tagpira ini?"] },
-    { id: "u13l3", title: "See & understand", items: ["Nakikit-an mo?", "Oo, nakikit-an ko", "Klaro?", "Oo, klaro", "Diri klaro", "Naintindihan nimo?", "Oo, naintindihan ko", "Taga diin ka?", "Hain ka?", "Ano imo gin-hihimo?"] },
-  ] },
-  { id: "u14", name: "Little words", hint: "na, pa, liwat, hin duro & negation", lessons: [
-    { id: "u14l1", title: "Particles & negation", items: ["na", "pa", "liwat", "hin duro", "Waray", "Diri"] },
-    { id: "u14l2", title: "Using the little words", items: ["Marasa hin duro", "Namahaw na ako", "Diri pa", "Makusog liwat", "Waray pa"] },
-  ] },
-  { id: "u15", name: "Verb tenses", hint: "will / now / did (ma- / na- / -inm-)", lessons: [
-    { id: "u15l1", title: "Eat & go", items: ["makaon", "nakaon", "kinmaon", "malakat", "nalakat", "linmakat"] },
-    { id: "u15l2", title: "Buy & drink", items: ["mapalit", "napalit", "pinmalit", "mainom", "nainom", "inminom"] },
-    { id: "u15l3", title: "The affixes", items: ["Mag- + verb", "Nag- + verb", "Pag- + verb", "Mag-aano ka?", "Kaon kita", "Kumaon kita"] },
-  ] },
-  { id: "u16", name: "Can, must, don't", hint: "kinahanglan, pwede / mahimo, Ayaw", lessons: [
-    { id: "u16l1", title: "Can, must, don't", items: ["kinahanglan", "mahimo", "Ayaw", "Pwede", "trabaho"] },
-    { id: "u16l2", title: "Using them", items: ["Kinahanglan ako magtrabaho", "Pwede ka ba magdara?", "Mahimo ako maupod", "Ayaw pagkaon"] },
-  ] },
-  ] },
-  { id: "s4", name: "Everyday Life", hint: "Doing things day to day", units: [
-  { id: "u17", name: "Action verbs", hint: "Things you do", lessons: [
-    { id: "u17l1", title: "Around the house", items: ["laba", "hugas", "luto", "limpyu", "lukot", "basa", "sudlay", "sayaw", "maneho", "tago"] },
-    { id: "u17l2", title: "Common verbs", items: ["hatag", "lingkod", "tindog", "hulat", "dara", "andam", "hangyo", "labay", "hulam", "bayad"] },
-    { id: "u17l3", title: "More verbs", items: ["saka", "lakso", "dalagan", "uli", "sulod", "buhat", "surat", "siring", "pili", "abot"] },
-  ] },
-  { id: "u18", name: "Time & when", hint: "Now, later, parts of the day", lessons: [
-    { id: "u18l1", title: "When", items: ["yana", "niyan", "buwas", "kanina", "kakulop", "kagab-i", "kanina han aga", "kulop", "yana nga aga", "yana nga gab-i"] },
-    { id: "u18l2", title: "Here, there & time", items: ["didi", "dida", "dinhi", "didto", "Ano it oras dida?", "Alas singko didi", "Ano nga oras?", "adlaw", "semana", "panahon"] },
-  ] },
-  { id: "u19", name: "Days & months", hint: "The week and the year", lessons: [
-    { id: "u19l1", title: "Days of the week", items: ["Lunes", "Martes", "Miyerkoles", "Huwebes", "Biyernes", "Sabado", "Dominggo"] },
-    { id: "u19l2", title: "Months", items: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Setyembre", "Oktubre", "Nobyembre", "Disyembre"] },
-  ] },
-  { id: "u20", name: "Weather", hint: "Talking about the day", lessons: [
-    { id: "u20l1", title: "Weather", items: ["uran / mauran", "sirak / masirak", "dampog / madampog", "hangin / mahangin", "mapaso", "matugnaw", "may bagyo", "mapaso hin duro", "Kumusta it panahon?"] },
-  ] },
-  { id: "u21", name: "Home & things", hint: "Nouns for the world around you", lessons: [
-    { id: "u21l1", title: "Rooms & furniture", items: ["balay", "kusina", "banyo", "kwarto", "sala", "lamesa", "lingkuran", "katre", "kudal", "telebisyon"] },
-    { id: "u21l2", title: "Clothes", items: ["bado", "sapatos", "tsinelas", "saruwal", "panyo", "mantel", "biray", "taklap", "syaket", "medyas"] },
-    { id: "u21l3", title: "Things", items: ["tinidor", "kutsara", "pinggan", "baso", "papel", "libro", "lapis", "mulayan", "sista", "tubig"] },
-  ] },
-  { id: "u22", name: "Meals & eating", hint: "Breakfast to dinner", lessons: [
-    { id: "u22l1", title: "Meals", items: ["pamahaw", "paniudto", "pangiklop", "isnak", "kan-on", "pagkaon", "marasa", "gutom"] },
-    { id: "u22l2", title: "Eating phrases", items: ["Namahaw ka na?", "Naniudto ka na?", "Nangiklop ka na?", "Waray pa", "Pamahaw kita", "Ano it paniudtuhon?", "May pagkaon didi", "Kaon anay"] },
-  ] },
-  { id: "u23", name: "Cooking", hint: "In the kitchen", lessons: [
-    { id: "u23l1", title: "Ingredients", items: ["lasona", "sibuyas", "suoy", "toyo", "tubig", "pamyenta", "asukar"] },
-    { id: "u23l2", title: "Cooking words", items: ["lutuon", "igbabad", "pakaladkara", "panakot", "madali", "masayon", "makuri"] },
-    { id: "u23l3", title: "Making adobo", items: ["Ano ini nga kaluto?", "Adobo nga manok", "Makuri ba ini lutuon?", "Madali la", "Tutdui gad ako", "Ano it mga panakot?"] },
-  ] },
-  ] },
-  { id: "s5", name: "Out & About", hint: "Getting around and running errands", units: [
-  { id: "u24", name: "Directions", hint: "Finding your way around", lessons: [
-    { id: "u24l1", title: "Places", items: ["bangko", "botika", "ospital", "istasyon hit pulis", "munisipyo", "paradahan", "eskina", "atbang"] },
-    { id: "u24l2", title: "Getting there", items: ["dinhi", "harani", "harayo", "bus", "dyip", "taxi", "pedicab", "traysikol"] },
-    { id: "u24l3", title: "Asking & answers", items: ["Pwede magpakiana?", "Hain it bangko?", "Harayo ba tikang dinhi?", "Waray sapayan", "Harani la", "Pwede baktason", "Ika-upat nga eskina tikang dinhi", "Pagbus nala"] },
-  ] },
-  { id: "u25", name: "Shopping", hint: "At the market", lessons: [
-    { id: "u25l1", title: "At the market", items: ["tindahan", "tindera", "kahera", "kwarta", "sukli", "sinsilyo", "barato", "bulad", "tinapa"] },
-    { id: "u25l2", title: "Buying words", items: ["palit", "ginbibiling", "karuyag", "baraydan", "bulig"] },
-    { id: "u25l3", title: "Asking & paying", items: ["Ano ini?", "Tagpira ini?", "Hain tungod it kahera?", "May tinapa kamo dinhi?", "Ini it akon papaliton", "Pwede mo ako buligan?", "Hain it mas barato?", "Adi it imo sukli", "Pira it akon baraydan?"] },
-  ] },
-  { id: "u26", name: "Transport", hint: "Ways to get around", lessons: [
-    { id: "u26l1", title: "Vehicles & roads", items: ["sarakyan", "motor", "awto", "pumpboat", "baktas", "karsada", "bukid", "tulay"] },
-  ] },
-  { id: "u27", name: "At the airport", hint: "Travel & check-in", lessons: [
-    { id: "u27l1", title: "Airport words", items: ["eroplano", "tiket", "bagahe", "gate", "kostums", "pasaporte", "pasahero"] },
-    { id: "u27l2", title: "At the counter", items: ["Pakitaa ako hit imo tiket", "Pakitaa ako hit imo pasaporte", "Malupad it eroplano alas nuybe", "Deritso ha gate numero dos", "Enjoy hit imo biyahe"] },
-  ] },
-  { id: "u28", name: "A day trip", hint: "San Juanico & Sto. Niño", lessons: [
-    { id: "u28l1", title: "Places & going out", items: ["pamasyada", "tulay", "lugar", "isla", "museo", "pumpboat", "makaradlok", "mamasyada", "kumita", "maupod", "huram"] },
-    { id: "u28l2", title: "Making the plan", items: ["Pamasyada kita", "Mamamasyada ako buwas", "Karuyag ko kumita", "Maupod ka buwas?", "Karuyag ko kumita hit San Juanico", "Pwede kita magburubaktas", "Pagkita kita buwas", "Mahusay ngadto"] },
-  ] },
-  { id: "u29", name: "Invitations", hint: "Asking someone over", lessons: [
-    { id: "u29l1", title: "What's going on?", items: ["imbitasyon", "may / mayda", "gin-iimbita", "Ano it mayda?", "May libre ka ba nga oras hit Sabado?", "Ano nga oras?", "Alas sais ha gab-i", "Nag-arog ako", "Mayda pangaon ha balay", "makadto"] },
-    { id: "u29l2", title: "Bring someone & meet", items: ["Poydi ko ba ig-upod hi Rey?", "ig-upod", "Siyempre, poydi", "Maghuhulat ako ha iyo", "Sigurado, makadto kami", "Sige, magkita kita hit Sabado", "magkita"] },
-  ] },
-  { id: "u30", name: "When & travel", hint: "Time spans and arriving", lessons: [
-    { id: "u30l1", title: "Time & travel", items: ["biyahe", "semana", "adlaw", "maabot", "lumakat", "san-o", "kakan-o"] },
-    { id: "u30l2", title: "Saying when", items: ["Mabiyahe ako ha Pilipinas", "Ano ka nga adlaw maabot?", "Kakan-o ka umabot?", "Hit maabot nga duha ka semana"] },
-  ] },
-  ] },
-  { id: "s6", name: "The World", hint: "Food, nature, colors, numbers", units: [
-  { id: "u31", name: "Food", hint: "On the table", lessons: [
-    { id: "u31l1", title: "At the table", items: ["isda", "manok", "karne", "utan", "kan-on", "pagkaon", "saging", "mangga", "prutas", "tubig"] },
-    { id: "u31l2", title: "More food", items: ["nangka", "kamatis", "mais", "tsa", "sabaw", "keyk", "marasa", "gutom"] },
-  ] },
-  { id: "u32", name: "Nature & animals", hint: "The outdoors", lessons: [
-    { id: "u32l1", title: "Nature & animals", items: ["kahoy", "dagat", "isla", "bukid", "bukad", "tuna", "langit", "ayam", "karabaw", "tanom"] },
-  ] },
-  { id: "u33", name: "Numbers", hint: "Counting 1–100", lessons: [
-    { id: "u33l1", title: "Numbers 1–100", items: ["usa", "duha", "tulo", "upat", "lima", "unom", "pito", "walo", "siyam", "napulo", "karuhaan", "usa kagatos"] },
-  ] },
-  { id: "u34", name: "Colors", hint: "Basic colors", lessons: [
-    { id: "u34l1", title: "Colors", items: ["itom", "busag", "pula", "asul", "darag", "berde"] },
-  ] },
-  ] },
-  { id: "s7", name: "Faith & Church", hint: "God, worship, belief", units: [
-  { id: "u35", name: "God & worship", hint: "Faith words", lessons: [
-    { id: "u35l1", title: "God & worship", items: ["Diyos", "Ginoo", "Jesu Kristo", "espiritu", "simba", "ampo", "wali", "bendisyon", "gugma", "kasingkasing"] },
-  ] },
-  { id: "u36", name: "Church & belief", hint: "Church life", lessons: [
-    { id: "u36l1", title: "Church & belief", items: ["iglesia", "pastor", "misyonaryo", "Kristohanon", "Bibliya", "kros", "kinabuhi", "langit", "pasaylo", "kaadlawan"] },
-  ] },
-  ] },
-];
+const CURRICULUM = ACTIVE.curriculum;
 // flat, ordered list of every lesson (with its unit + section) for unlock / "next"
 const LESSON_FLOW = CURRICULUM.flatMap((s) =>
   s.units.flatMap((u) => u.lessons.map((l) => ({ ...l, unit: u, section: s })))
@@ -900,13 +167,6 @@ function nextLesson(lessons) {
   return LESSON_FLOW.find((l) => !lessonDone(lessons, l.id)) || LESSON_FLOW[LESSON_FLOW.length - 1];
 }
 
-// Cards that Paul's old tracker logged as "Forgotten" — start these a notch lower
-const FORGOTTEN = new Set([
-  "buoton", "riko", "kita", "makusog", "asawa", "Naintindihan nimo?",
-  "Mahusay ka", "sangkay", "ako", "nanay", "matambok", "hataas",
-  "babaye", "lalaki", "hira", "mapaso", "Nakikit-an mo?", "Maraksot ka",
-  "Ano imo gin-kakaon?", "kamo", "bisita", "Oo, nakikit-an ko",
-]);
 
 function buildCards() {
   return SEED.map((r, i) => {
@@ -1244,13 +504,13 @@ export default function App() {
   // load on mount
   useEffect(() => {
     (async () => {
-      const p = await store.get("waray:prog");
-      const s = await store.get("waray:streak");
+      const p = await store.get(PK.prog);
+      const s = await store.get(PK.streak);
       const aIdx = await store.get("waray:audioIndex");
       const cfg = await store.get("waray:settings");
-      const les = await store.get("waray:lessons");
-      const hist = await store.get("waray:history");
-      const un = await store.get("waray:units");
+      const les = await store.get(PK.lessons);
+      const hist = await store.get(PK.history);
+      const un = await store.get(PK.units);
       if (p) setProg(JSON.parse(p));
       if (s) setStreak(JSON.parse(s));
       if (les) setLessons(JSON.parse(les));
@@ -1270,15 +530,15 @@ export default function App() {
     })();
   }, []);
 
-  const saveProg = useCallback((np) => { setProg(np); store.set("waray:prog", JSON.stringify(np)); }, []);
-  const saveStreak = useCallback((ns) => { setStreak(ns); store.set("waray:streak", JSON.stringify(ns)); }, []);
+  const saveProg = useCallback((np) => { setProg(np); store.set(PK.prog, JSON.stringify(np)); }, []);
+  const saveStreak = useCallback((ns) => { setStreak(ns); store.set(PK.streak, JSON.stringify(ns)); }, []);
   const saveSettings = useCallback((ns) => { setSettings(ns); store.set("waray:settings", JSON.stringify(ns)); }, []);
   // append one attempt to the full history log (capped so storage stays bounded)
   const logAttempt = useCallback((e) => {
     setHistory((prev) => {
       const ns = [...prev, e];
       if (ns.length > 6000) ns.splice(0, ns.length - 6000);
-      store.set("waray:history", JSON.stringify(ns));
+      store.set(PK.history, JSON.stringify(ns));
       return ns;
     });
   }, []);
@@ -1286,7 +546,7 @@ export default function App() {
   const completeLessonPart = useCallback((id, partIdx) => {
     setLessons((prev) => {
       const ns = { ...prev, [id]: Math.max(prev[id] || 0, partIdx + 1) };
-      store.set("waray:lessons", JSON.stringify(ns));
+      store.set(PK.lessons, JSON.stringify(ns));
       return ns;
     });
   }, []);
@@ -1310,7 +570,7 @@ export default function App() {
   const markUnitReview = useCallback((id, pct, passed) => {
     setUnits((prev) => {
       const ns = { ...prev, [id]: { best: Math.max(prev[id]?.best || 0, pct), passed: !!(passed || prev[id]?.passed), last: pct, at: today() } };
-      store.set("waray:units", JSON.stringify(ns));
+      store.set(PK.units, JSON.stringify(ns));
       return ns;
     });
   }, []);
@@ -1320,12 +580,12 @@ export default function App() {
       const t = today();
       if (prev.last === t) {
         const ns = { ...prev, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
-        store.set("waray:streak", JSON.stringify(ns)); return ns;
+        store.set(PK.streak, JSON.stringify(ns)); return ns;
       }
       const y = localDay(new Date(Date.now() - MS_DAY));
       const count = prev.last === y ? prev.count + 1 : 1;
       const ns = { count, last: t, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
-      store.set("waray:streak", JSON.stringify(ns)); return ns;
+      store.set(PK.streak, JSON.stringify(ns)); return ns;
     });
   }, []);
 
@@ -1334,7 +594,7 @@ export default function App() {
       const card = cards.find((c) => c.id === id);
       const st = prev[id] || freshStat(card?.forgotten);
       const np = { ...prev, [id]: { ...applyResult(st, correct), hasAudio: !!audio[id] } };
-      store.set("waray:prog", JSON.stringify(np));
+      store.set(PK.prog, JSON.stringify(np));
       return np;
     });
   }, [audio, cards]);
@@ -1348,7 +608,7 @@ export default function App() {
     setProg((prev) => {
       const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
       const np = { ...prev, [id]: { ...st, hasAudio: true } };
-      store.set("waray:prog", JSON.stringify(np));
+      store.set(PK.prog, JSON.stringify(np));
       return np;
     });
   }, [cards]);
@@ -1357,7 +617,7 @@ export default function App() {
     setProg((prev) => {
       const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
       const np = { ...prev, [id]: { ...st, pinned: !st.pinned } };
-      store.set("waray:prog", JSON.stringify(np));
+      store.set(PK.prog, JSON.stringify(np));
       return np;
     });
   }, [cards]);
@@ -1391,9 +651,9 @@ export default function App() {
   const importData = useCallback(async (data, mode) => {
     if (!data || data.app !== "sulog-waray") throw new Error("That doesn't look like a Sulog backup file.");
     // progress + streak: replace
-    if (data.prog) { setProg(data.prog); await store.set("waray:prog", JSON.stringify(data.prog)); }
-    if (data.streak) { setStreak(data.streak); await store.set("waray:streak", JSON.stringify(data.streak)); }
-    if (data.history) { setHistory(data.history); await store.set("waray:history", JSON.stringify(data.history)); }
+    if (data.prog) { setProg(data.prog); await store.set(PK.prog, JSON.stringify(data.prog)); }
+    if (data.streak) { setStreak(data.streak); await store.set(PK.streak, JSON.stringify(data.streak)); }
+    if (data.history) { setHistory(data.history); await store.set(PK.history, JSON.stringify(data.history)); }
     // recordings: merge so we never lose voice you already saved
     const incoming = data.audio || {};
     if (Object.keys(incoming).length) {
@@ -1420,15 +680,15 @@ export default function App() {
     const cur = stateRef.current;
     const np = mergeProg(cur.prog, cloud.prog || {});
     const ns = mergeStreak(cur.streak, cloud.streak || {});
-    setProg(np); await store.set("waray:prog", JSON.stringify(np));
-    setStreak(ns); await store.set("waray:streak", JSON.stringify(ns));
+    setProg(np); await store.set(PK.prog, JSON.stringify(np));
+    setStreak(ns); await store.set(PK.streak, JSON.stringify(ns));
     // history: union local + cloud by timestamp, keep chronological, cap
     const seenTs = new Set();
     const mh = [...(cur.history || []), ...(cloud.history || [])]
       .filter((e) => { const k = e.ts + "|" + e.waray + "|" + e.given; if (seenTs.has(k)) return false; seenTs.add(k); return true; })
       .sort((a, b) => a.ts - b.ts);
     if (mh.length > 6000) mh.splice(0, mh.length - 6000);
-    setHistory(mh); await store.set("waray:history", JSON.stringify(mh));
+    setHistory(mh); await store.set(PK.history, JSON.stringify(mh));
     const cloudAudio = cloud.audio || {};
     if (Object.keys(cloudAudio).length) {
       const merged = { ...cloudAudio, ...cur.audio }; // local wins
@@ -2844,9 +2104,26 @@ function BackupView({ ctx }) {
     }
   };
 
+  const switchCourse = (id) => {
+    if (id === COURSE_ID) return;
+    try { localStorage.setItem("sulog:course", id); } catch (e) {}
+    location.reload();
+  };
+
   return (
     <div className="ws-page">
       <TopBar title="Backup & sync" onBack={() => setView("home")} />
+
+      <SectionLabel icon={<BookOpen size={14} />} text="Course" />
+      <div className="ws-course-switch">
+        <select className="ws-course-sel" value={COURSE_ID} onChange={(e) => switchCourse(e.target.value)}>
+          {COURSES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select>
+        <p className="ws-course-note">
+          Each course keeps its own progress. <b>Frequency</b> is the new
+          frequency-first order; <b>Classic</b> is the original. Switching reloads the app.
+        </p>
+      </div>
 
       <div className="ws-pron-intro">
         Your progress lives in this browser only. Export it to a file to keep a backup,
@@ -3642,6 +2919,10 @@ function Styles() {
 .ws-pron-intro{font-size:13.5px;color:var(--ink-soft);line-height:1.55;background:var(--foam);
   border:1px solid var(--sand-deep);border-left:3px solid var(--tide);border-radius:12px;padding:13px 15px;
   margin-bottom:22px}
+.ws-course-switch{margin-bottom:22px}
+.ws-course-sel{width:100%;font-size:15px;font-weight:600;color:var(--ink);background:var(--foam);
+  border:1px solid var(--sand-deep);border-radius:12px;padding:12px 14px;-webkit-appearance:none;appearance:none}
+.ws-course-note{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin:8px 2px 0}
 .ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
 .ws-rule{background:var(--foam);border:1px solid var(--sand-deep);border-radius:13px;padding:13px 15px}
 .ws-rule-t{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--sea);margin-bottom:3px}
