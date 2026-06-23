@@ -65,8 +65,23 @@ frequency resources to mine. **Not yet downloaded** — capture/extract next.
   = exactly the themes the reorder defers. The frequency data CONFIRMS the
   reorder direction.
 
+## SCRAPE ATTEMPT (2026-06-22) — exact ranks are auth-gated, DEAD END for now
+Tried to pull the 1→1000 ranks from corporaproject.org directly (curl):
+- **Frequency Lists** (`index.php?type=word&id=all&language=24`) → "You do not
+  have permission to access this." Requires login (email/password form on site).
+- **Statistical Analysis** (`type=statistical`) → also login-gated.
+- **Per-word pages** (`?word_search=X&language=24`) are public BUT expose **no
+  per-word frequency count** — only POS, gloss, equivalents, sample sentence,
+  related words, and the same global corpus totals on every page. So can't
+  rebuild ranks by querying words one-by-one.
+- Sister site **waraylanguage.org is OFFLINE** (DNS does not resolve).
+→ Exact ranks need either an **account** (email Mark Fullmer / markfullmer.com,
+  or Voltaire Oyzon @ Leyte Normal U, for corpus access) or the **print book's
+  appendix**. Not worth more scraping. We already have the top-1000 SET — use it.
+
 ## Remaining next steps
-1. (Optional) get exact 1→1000 ranks via corpus scrape for fine-grained ordering.
+1. (Optional, low priority) email the project for corpus credentials to get exact
+   ranks. Otherwise treat the SET membership as the frequency signal.
 2. Re-derive lessons under i+1 using the top-1000 SET as the inclusion filter.
 3. Decide what to CUT/DEFER (the loan-heavy thematic clusters) and what top-1000
    words to ADD that Sulog lacks.
