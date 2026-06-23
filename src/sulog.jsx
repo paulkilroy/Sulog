@@ -267,16 +267,26 @@ function lev(a, b) {
 // fold Waray spelling equivalences: o=u and e=i are the same sound, so accept
 // either when grading a Waray answer
 const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i");
+const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
 function checkAnswer(input, target, waray) {
   let got = norm(input);
   if (!got) return false;
   const targets = alts(target);
   if (waray) got = warayFold(got);
+  const gotC = got.replace(/ /g, ""); // space-stripped: the recognizer splits/joins words freely
   for (let t of targets) {
     if (waray) t = warayFold(t);
     if (got === t) return true;
-    const tol = t.length <= 4 ? 0 : t.length <= 8 ? 1 : 2;
-    if (lev(got, t) <= tol) return true;
+    if (lev(got, t) <= _tol(t.length)) return true;
+    if (waray) {
+      // Filipino/Tagalog recognition mangles Waray: it splits one word into several
+      // and hallucinates a leading/trailing syllable (e.g. "ulitawo" → "huli tawo").
+      // Compare space-insensitively, and accept when the whole target sits inside the
+      // heard string for non-trivial words.
+      const tC = t.replace(/ /g, "");
+      if (gotC === tC || lev(gotC, tC) <= _tol(tC.length)) return true;
+      if (tC.length >= 5 && gotC.includes(tC)) return true;
+    }
   }
   return false;
 }
@@ -286,11 +296,20 @@ function checkAnswer(input, target, waray) {
 function explainMatch(input, target, waray) {
   const gotNorm = norm(input);
   const gotFold = waray ? warayFold(gotNorm) : gotNorm;
+  const gotC = gotFold.replace(/ /g, "");
   const targets = alts(target).map((t) => {
     const tFold = waray ? warayFold(t) : t;
-    const tol = tFold.length <= 4 ? 0 : tFold.length <= 8 ? 1 : 2;
+    const tol = _tol(tFold.length);
     const dist = lev(gotFold, tFold);
-    return { target: t, fold: tFold, dist, tol, ok: gotFold === tFold || dist <= tol };
+    let ok = gotFold === tFold || dist <= tol;
+    let how = ok ? (dist === 0 ? "exact" : "edit≤" + tol) : "";
+    if (!ok && waray) {
+      const tC = tFold.replace(/ /g, "");
+      const distC = lev(gotC, tC);
+      if (gotC === tC || distC <= _tol(tC.length)) { ok = true; how = "despaced"; }
+      else if (tC.length >= 5 && gotC.includes(tC)) { ok = true; how = "contained"; }
+    }
+    return { target: t, fold: tFold, dist, tol, ok, how };
   });
   return { raw: input, gotNorm, gotFold, targets, ok: targets.some((x) => x.ok) };
 }
@@ -816,6 +835,7 @@ export default function App() {
       {view === "history" && <HistoryView ctx={ctx} />}
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
+      {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
     </div>
   );
@@ -861,6 +881,9 @@ function HomeView({ ctx }) {
           </button>
           <button className="ws-icon-btn" onClick={() => setView("pronounce")} title="Pronunciation guide">
             <Ear size={20} />
+          </button>
+          <button className="ws-icon-btn" onClick={() => setView("stttest")} title="Waray speech test">
+            <Mic size={20} />
           </button>
         </div>
       </header>
@@ -1301,6 +1324,145 @@ function SttDebug({ heard, alts, answer, waray, lang }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/* Rapid-fire Waray speech-to-text tester. Walks every card; you say the Waray
+   word, and on a correct match it auto-advances and auto-listens for the next —
+   hands-free until a miss, where it stops and shows the speech debug so you can
+   tune the matching logic. Reached from the mic icon in the home header. */
+function SttTestView({ ctx }) {
+  const { cards, settings, setView } = ctx;
+  const lang = settings.sttLang || "fil-PH";
+  const pool = useRef(cards.filter((c) => c.waray)).current;
+  const [i, setI] = useState(0);
+  const [phase, setPhase] = useState("ready"); // ready|listening|hit|miss|done
+  const [heard, setHeard] = useState([]);
+  const [finalAlts, setFinalAlts] = useState(null);
+  const [stats, setStats] = useState({ hit: 0, miss: 0 });
+  const recRef = useRef(null);
+  const tokRef = useRef(0); // bumped on every (re)start so stale callbacks are ignored
+  const card = pool[i];
+
+  const stopRec = () => {
+    tokRef.current++;
+    try { recRef.current && recRef.current.abort(); } catch (e) {}
+    recRef.current = null;
+  };
+  useEffect(() => () => stopRec(), []); // cleanup on unmount
+
+  const evaluate = (idx, alts) => {
+    setFinalAlts(alts);
+    const ok = alts.length > 0 && speechMatches(alts, pool[idx].waray, true);
+    if (ok) {
+      setPhase("hit");
+      setStats((s) => ({ ...s, hit: s.hit + 1 }));
+      setTimeout(() => advance(idx), 600); // auto-advance + auto-listen
+    } else {
+      setPhase("miss");
+      setStats((s) => ({ ...s, miss: s.miss + 1 }));
+    }
+  };
+
+  const listenFor = (idx) => {
+    const c = pool[idx];
+    if (!SpeechRec || !c) return;
+    stopRec();
+    const tok = tokRef.current;
+    setHeard([]); setFinalAlts(null); setPhase("listening");
+    const rec = new SpeechRec();
+    rec.lang = lang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
+    let settled = false;
+    rec.onresult = (e) => {
+      if (tok !== tokRef.current) return;
+      const res = e.results[e.results.length - 1];
+      const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
+      if (res.isFinal) { settled = true; evaluate(idx, a); }
+      else setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6));
+    };
+    rec.onerror = () => { if (tok === tokRef.current && !settled) { settled = true; evaluate(idx, []); } };
+    rec.onend = () => { if (tok === tokRef.current && !settled) { settled = true; evaluate(idx, []); } };
+    recRef.current = rec;
+    try { rec.start(); } catch (e) {}
+  };
+
+  const advance = (fromIdx) => {
+    const ni = fromIdx + 1;
+    stopRec();
+    if (ni >= pool.length) { setI(ni - 1); setPhase("done"); return; }
+    setI(ni);
+    listenFor(ni);
+  };
+
+  const start = () => listenFor(i);
+  const retry = () => listenFor(i);
+  const skip = () => advance(i);
+  const pause = () => { stopRec(); setPhase("ready"); };
+  const restart = () => { stopRec(); setStats({ hit: 0, miss: 0 }); setI(0); setPhase("ready"); setHeard([]); setFinalAlts(null); };
+
+  if (!SpeechRec) {
+    return (
+      <div className="ws-page">
+        <TopBar title="Waray STT test" onBack={() => setView("home")} />
+        <div className="ws-pron-intro">Speech recognition isn't available in this browser. Try Chrome or Edge.</div>
+      </div>
+    );
+  }
+
+  const done = stats.hit + stats.miss;
+  const pct = done ? Math.round((stats.hit / done) * 100) : 0;
+  return (
+    <div className="ws-page">
+      <TopBar title="Waray STT test" onBack={() => { stopRec(); setView("home"); }} />
+
+      <div className="ws-stt-meter">
+        <span><b>{i + 1}</b> / {pool.length}</span>
+        <span className="ws-stt-hit"><Check size={13} /> {stats.hit}</span>
+        <span className="ws-stt-mis"><X size={13} /> {stats.miss}</span>
+        {done > 0 && <span className="ws-stt-pct">{pct}% match</span>}
+      </div>
+
+      <div className={`ws-stt-card ${phase}`}>
+        <div className="ws-stt-prompt">{card ? card.waray : "—"}</div>
+        <div className="ws-stt-gloss">{card ? card.english : ""}</div>
+        {card && card.say && <div className="ws-stt-say">{card.say}</div>}
+
+        {phase === "listening" && (
+          <div className="ws-stt-live">
+            <span className="ws-stt-dot" /> listening…
+            {heard.length > 0 && <div className="ws-stt-heard">{heard[heard.length - 1]}</div>}
+          </div>
+        )}
+        {phase === "hit" && <div className="ws-stt-verdict ok"><Check size={18} /> matched</div>}
+        {phase === "miss" && <div className="ws-stt-verdict no"><X size={18} /> no match</div>}
+      </div>
+
+      {phase === "miss" && finalAlts && (
+        <SttDebug heard={heard} alts={finalAlts} answer={card.waray} waray={true} lang={lang} />
+      )}
+
+      <div className="ws-stt-controls">
+        {(phase === "ready" || phase === "done") && (
+          <button className="ws-stt-btn primary" onClick={start}><Mic size={18} /> {phase === "done" ? "Done — restart?" : "Start"}</button>
+        )}
+        {phase === "listening" && (
+          <button className="ws-stt-btn" onClick={pause}>Pause</button>
+        )}
+        {phase === "miss" && (
+          <>
+            <button className="ws-stt-btn primary" onClick={retry}><RotateCcw size={16} /> Retry</button>
+            <button className="ws-stt-btn" onClick={skip}><ChevronRight size={16} /> Skip</button>
+          </>
+        )}
+        {phase !== "ready" && <button className="ws-stt-btn ghost" onClick={restart}>Restart from 1</button>}
+      </div>
+
+      <div className="ws-pron-intro" style={{ marginTop: 16 }}>
+        Say the Waray word shown. On a correct match it auto-advances and listens for
+        the next — hands-free until a miss. Listening in <b>{lang}</b> (no Waray locale
+        exists), o/u and e/i folded. Misses show the speech debug to tune the matcher.
+      </div>
     </div>
   );
 }
@@ -2923,6 +3085,32 @@ function Styles() {
 .ws-course-sel{width:100%;font-size:15px;font-weight:600;color:var(--ink);background:var(--foam);
   border:1px solid var(--sand-deep);border-radius:12px;padding:12px 14px;-webkit-appearance:none;appearance:none}
 .ws-course-note{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin:8px 2px 0}
+.ws-stt-meter{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+.ws-stt-meter b{color:var(--ink);font-size:15px}
+.ws-stt-hit{color:#1f8a4c;display:inline-flex;align-items:center;gap:3px}
+.ws-stt-mis{color:#c0432b;display:inline-flex;align-items:center;gap:3px}
+.ws-stt-pct{margin-left:auto;font-weight:600;color:var(--ink)}
+.ws-stt-card{background:var(--foam);border:1px solid var(--sand-deep);border-radius:18px;padding:26px 18px;
+  text-align:center;transition:border-color .15s,background .15s}
+.ws-stt-card.hit{border-color:#2faa63;background:#eefaf0}
+.ws-stt-card.miss{border-color:#d8745c;background:#fdf0ec}
+.ws-stt-prompt{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
+.ws-stt-gloss{font-size:14.5px;color:var(--ink-soft);margin-top:5px}
+.ws-stt-say{font-size:12.5px;color:var(--tide);margin-top:6px;font-style:italic}
+.ws-stt-live{margin-top:16px;font-size:13px;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:6px}
+.ws-stt-dot{width:11px;height:11px;border-radius:50%;background:#c0432b;display:inline-block;margin-right:6px;
+  animation:wsPulse 1s ease-in-out infinite}
+@keyframes wsPulse{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+.ws-stt-heard{font-size:17px;color:var(--ink);font-weight:600}
+.ws-stt-verdict{margin-top:16px;font-size:16px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.ws-stt-verdict.ok{color:#1f8a4c}
+.ws-stt-verdict.no{color:#c0432b}
+.ws-stt-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.ws-stt-btn{flex:1;min-width:120px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-size:15px;font-weight:600;padding:13px 16px;border-radius:13px;border:1px solid var(--sand-deep);
+  background:var(--foam);color:var(--ink);cursor:pointer}
+.ws-stt-btn.primary{background:var(--tide);border-color:var(--tide);color:#fff}
+.ws-stt-btn.ghost{flex:0 0 100%;background:transparent;border:none;color:var(--ink-soft);font-weight:500;font-size:13px;padding:6px}
 .ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
 .ws-rule{background:var(--foam);border:1px solid var(--sand-deep);border-radius:13px;padding:13px 15px}
 .ws-rule-t{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--sea);margin-bottom:3px}
