@@ -41,8 +41,32 @@ frequency resources to mine. **Not yet downloaded** — capture/extract next.
   needs filtering). Good for a *pedagogical* frequency proxy.
 - `docs/sources/tramp-zorc-...txt` — dictionary (headwords + example sentences).
 
-## Next steps
-1. Get the top-1000 list from #1 (scrape) or #2 (find the PDF).
-2. Re-rank the current `CURRICULUM` items by that frequency.
-3. Side-by-side: current teaching order vs frequency order; flag high-freq words
-   missing from early lessons and low-freq words taught too early.
+## OUTCOME (2026-06-22) — got the dictionary, FREE
+- **Free official PDF obtained & saved:** `docs/sources/waray-first-1000-words-2013.pdf`
+  (105pp, extracted text in `...-2013.txt`). Source: the MTB-MLE educators' blog
+  https://mlephil.wordpress.com/2013/09/29/... → direct PDF
+  `wp-content/uploads/2013/09/syahan-nga-usa-ka-yukot-hin-mga-pulong-edited.pdf`.
+  Also mirrored on DocsLib (doc 7161104) and Scribd (doc 449268274). **No payment
+  or registration needed** — it's CHED/DAP-funded educational material meant for
+  free distribution. ISBN 978-971-94520-3-4 (print, Tacloban, May 2013).
+- **The catch:** the body is an **alphabetical** Waray-English dictionary of the
+  ~1000 words (headword + POS + gloss + example). The **frequency-RANK appendix**
+  ("Syahan nga Padugang: Listahan han Kaagsob") is a **placeholder** in this free
+  edition: *"Insert the list here (file name: frequency list 1000 words)."* The
+  corpus it ranked = 179,000 terms. So we have the **SET** of top-1000, not the
+  1→1000 ranks.
+- **To get exact ranks:** scrape corporaproject.org (Waray=24, JS-gated) OR the
+  print book's appendix OR the readability site http://www.waraylanguage.org/readability.php.
+- **Cross-ref done** (see `docs/frequency-first-reorder.md`): of Sulog's 378
+  single-word cards, ≥43% are in the top-1000 SET (floor — grammar words &
+  verb inflections miss because the dict lists roots + a separate grammar
+  section). The cards NOT in the set are overwhelmingly **months, days,
+  religious vocab, job titles, transport, modern food** = Spanish/English loans
+  = exactly the themes the reorder defers. The frequency data CONFIRMS the
+  reorder direction.
+
+## Remaining next steps
+1. (Optional) get exact 1→1000 ranks via corpus scrape for fine-grained ordering.
+2. Re-derive lessons under i+1 using the top-1000 SET as the inclusion filter.
+3. Decide what to CUT/DEFER (the loan-heavy thematic clusters) and what top-1000
+   words to ADD that Sulog lacks.
