@@ -79,9 +79,17 @@ Tried to pull the 1→1000 ranks from corporaproject.org directly (curl):
   or Voltaire Oyzon @ Leyte Normal U, for corpus access) or the **print book's
   appendix**. Not worth more scraping. We already have the top-1000 SET — use it.
 
+## EMAIL SENT (2026-06-23) — requested corpus access, AWAITING REPLY
+Paul emailed corporaproject.org asking for access credentials (Waray = language
+24). If granted, this unlocks the login-gated **Frequency Lists** + **Statistical
+Analysis** pages = the exact 1→1000 ranks AND the full ranked corpus, not just the
+top-1000 SET we have. **Status: pending — no reply yet.** When access arrives:
+pull `index.php?type=word&id=all&language=24` (frequency) and the semantic lists.
+Until then, proceed with the SET as the frequency signal — don't block on this.
+
 ## Remaining next steps
-1. (Optional, low priority) email the project for corpus credentials to get exact
-   ranks. Otherwise treat the SET membership as the frequency signal.
+1. (DONE 2026-06-23) Emailed the project for corpus credentials — awaiting reply
+   (see above). Otherwise treat the SET membership as the frequency signal.
 2. Re-derive lessons under i+1 using the top-1000 SET as the inclusion filter.
 3. Decide what to CUT/DEFER (the loan-heavy thematic clusters) and what top-1000
    words to ADD that Sulog lacks.
