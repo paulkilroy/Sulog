@@ -155,7 +155,7 @@ export const CLASSIC = [
     { id: "u35l1", title: "God & worship", items: ["Diyos", "Ginoo", "Jesu Kristo", "espiritu", "simba", "ampo", "wali", "bendisyon", "gugma", "kasingkasing"] },
   ] },
   { id: "u36", name: "Church & belief", hint: "Church life", lessons: [
-    { id: "u36l1", title: "Church & belief", items: ["iglesia", "pastor", "misyonaryo", "Kristohanon", "Bibliya", "kros", "kinabuhi", "langit", "pasaylo", "kaadlawan"] },
+    { id: "u36l1", title: "Church & belief", items: ["simbahan", "pastor", "misyonaryo", "Kristohanon", "Bibliya", "kros", "kinabuhi", "langit", "pasaylo", "kaadlawan"] },
   ] },
   ] },
 ];

@@ -595,7 +595,7 @@ export const SEED = [
   ["faith", "espiritu", "spirit", "", "es-pee-ree-TOO"],
   ["faith", "gugma", "love", "", "GOOG-mah"],
   ["faith", "bendisyon", "blessing", "", "ben-DEES-yon"],
-  ["faith", "iglesia", "church", "", "eeg-LEH-syah"],
+  ["faith", "simbahan", "church", "from 'simba' — to worship", "seem-BAH-han"],
   ["faith", "Kristohanon", "Christian", "", "krees-to-HAH-non"],
   ["faith", "Bibliya", "Bible", "", "beeb-LEE-yah"],
   ["faith", "kros", "cross", "", "kros"],
