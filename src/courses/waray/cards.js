@@ -616,6 +616,33 @@ export const SEED = [
   ["faith", "Diyos-diyos", "idol", "Peace Corps L6", "dee-YOS dee-YOS"],
   // CHED First-1000 (Waray attested; English gloss to verify):
   ["faith", "Ini nga uran, bendisyon ini han Ginoo", "This rain is a blessing from the Lord", "CHED · gloss to verify", "ee-NEE ngah oo-RAHN, ben-DEES-yon ee-NEE hahn gee-NO-o"],
+
+  // Peace Corps course sentences (Waray + English verbatim from the course):
+  // describing people:
+  ["ppl", "Mahusay hiya", "She is beautiful", "Peace Corps L1", "mah-OO-sigh HEE-yah"],
+  ["ppl", "Hataas ako", "I am tall", "Peace Corps L1", "hah-TAH-as ah-KAW"],
+  ["ppl", "Riko hira", "They are rich", "Peace Corps L1", "REE-ko HEE-rah"],
+  ["ppl", "Makusog hiya nga lalake", "He is a strong man", "Peace Corps L11", "mah-KOO-sog HEE-yah ngah lah-LAH-keh"],
+  ["ppl", "Maraut ini nga tawo", "This is a bad person", "Peace Corps L3", "mah-RAH-oot ee-NEE ngah TAH-wo"],
+  // jobs / family:
+  ["ppl", "Estudyante hiya", "He is a student", "Peace Corps L1", "es-tood-YAHN-teh HEE-yah"],
+  ["ppl", "nanay niya", "his / her mother", "Peace Corps L4", "NAH-nigh NEE-yah"],
+  ["ppl", "sangkay nira", "their friend", "Peace Corps L4", "sang-KIGH NEE-rah"],
+  // actions / verbal sentences:
+  ["verbs", "Nakaon hiya", "He's eating", "Peace Corps L5", "nah-KAH-on HEE-yah"],
+  ["verbs", "Matindog kita", "We'll stand", "Peace Corps L5", "mah-TEEN-dog KEE-tah"],
+  ["verbs", "Tinmawag kamo", "You (pl) called", "Peace Corps L5", "tin-MAH-wag KAH-mo"],
+  ["verbs", "Natindog hira hiton lamesa ha sala", "They're standing on that table in the living room", "Peace Corps L6", "nah-TEEN-dog HEE-rah HEE-ton lah-MEH-sah hah SAH-lah"],
+  // around the house:
+  ["verbs", "Mahusay an lamesa", "The table is nice", "Peace Corps L2", "mah-OO-sigh an lah-MEH-sah"],
+  ["verbs", "Puno an baso", "The glass is full", "Peace Corps L2", "POO-no an BAH-so"],
+  ["verbs", "Mabusag an papel", "The paper is white", "Peace Corps L2", "mah-BOO-sag an pah-PEL"],
+  // food:
+  ["meals", "Mapalit hira hin mga isda ha merkado", "They'll buy fish at the market", "Peace Corps L6", "mah-PAH-lit HEE-rah hin mah-NGAH ees-DAH hah mer-KAH-do"],
+  ["meals", "Inminom hiya hini nga gatas ha kusina", "She drank this milk in the kitchen", "Peace Corps L6", "in-MEE-nom HEE-yah hee-NEE ngah GAH-tas hah koo-SEE-nah"],
+  // praying / going:
+  ["faith", "Maampo ba hi Bong?", "Will Bong pray?", "Peace Corps L12", "mah-AM-po bah hee bong"],
+  ["verbs", "Makadto ka ba ha eskwelahan?", "Are you going to school?", "Peace Corps L12", "mah-KAD-to kah bah hah es-kweh-lah-HAN"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.

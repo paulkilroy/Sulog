@@ -32,10 +32,26 @@ const REPLACE = {
 };
 
 // New ② Apply lessons appended to units that lacked any (mined from sources;
-// every line attested — Peace Corps / CHED. See docs/phrase-expansion-proposal.md).
+// every line attested — Peace Corps course / CHED. See docs/phrase-expansion-proposal.md).
 const ADD = {
+  u4:  [{ id: "u4a1",  title: "Family & friends", kind: "apply",
+    items: ["nanay niya", "sangkay nira"] }],
+  u5:  [{ id: "u5a1",  title: "At work", kind: "apply",
+    items: ["Estudyante hiya"] }],
+  u6:  [{ id: "u6a1",  title: "Describing people", kind: "apply",
+    items: ["Mahusay hiya", "Hataas ako", "Riko hira", "Makusog hiya nga lalake", "Maraut ini nga tawo"] }],
+  u17: [{ id: "u17a1", title: "Actions in sentences", kind: "apply",
+    items: ["Nakaon hiya", "Matindog kita", "Tinmawag kamo", "Natindog hira hiton lamesa ha sala"] }],
+  u21: [{ id: "u21a1", title: "Around the house", kind: "apply",
+    items: ["Mahusay an lamesa", "Puno an baso", "Mabusag an papel"] }],
+  u26: [{ id: "u26a1", title: "Going places", kind: "apply",
+    items: ["Makadto ka ba ha eskwelahan?"] }],
+  u31: [{ id: "u31a1", title: "Food in sentences", kind: "apply",
+    items: ["Mapalit hira hin mga isda ha merkado", "Inminom hiya hini nga gatas ha kusina"] }],
   u35: [{ id: "u35a1", title: "Faith in sentences", kind: "apply",
     items: ["Nasimba kami", "Diyos-diyos", "Ini nga uran, bendisyon ini han Ginoo"] }],
+  u36: [{ id: "u36a1", title: "Praying & belief", kind: "apply",
+    items: ["Maampo ba hi Bong?"] }],
 };
 
 // reuse a Classic unit with a can-do name; tag lesson kinds, apply splits/additions
