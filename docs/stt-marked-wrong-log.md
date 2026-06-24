@@ -35,7 +35,7 @@ speech-debug here when it happens.
   answer *contains* the gloss (the English mirror of the Waray "contained" tier). Watch
   false positives on very short glosses.
 
-## Capture timing — mic clips the first few ms of speech
+## Capture timing — mic clips the first few ms of speech (FIXED 2026-06-24)
 - **Symptom:** several misses look like the **start of the word was dropped** — the first
   syllable/sound is missing from every guess (e.g. leading consonant gone). Feels like the
   mic/recognizer isn't capturing the first moment of speaking.

@@ -519,6 +519,20 @@ function speak(arg, rate = 0.78) {
     synth.speak(u);
   } catch (e) {}
 }
+// short "go" beep so the user has a precise moment to start speaking (fired when the
+// recognizer's audio capture actually goes live, not when we call start())
+let _audioCtx = null;
+function beep(freq = 880, ms = 110) {
+  try {
+    _audioCtx = _audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (_audioCtx.state === "suspended") _audioCtx.resume();
+    const t = _audioCtx.currentTime, o = _audioCtx.createOscillator(), g = _audioCtx.createGain();
+    o.type = "sine"; o.frequency.value = freq; o.connect(g); g.connect(_audioCtx.destination);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.06, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000);
+    o.start(t); o.stop(t + ms / 1000);
+  } catch (e) {}
+}
 // speak plain English (for prompts whose question side is English) with an English voice
 function speakEnglish(text, rate = 0.95) {
   try {
@@ -1729,12 +1743,17 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const vmStop = () => { vmTok.current++; try { vmRec.current && vmRec.current.abort(); } catch (e) {} vmRec.current = null; };
   const vmListen = () => {
     if (!SpeechRec) return;
-    vmStop(); const tok = vmTok.current; setHeard([]); setSttAlts(null); setVmState("listening");
+    vmStop(); const tok = vmTok.current; setHeard([]); setSttAlts(null); setVmState("starting");
     const rec = new SpeechRec(); rec.lang = sttLang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
-    let settled = false, lastAlts = []; // keep interim guesses so a no-final end still judges
+    let settled = false, lastAlts = [], live = false; // keep interim guesses so a no-final end still judges
+    // cue the user to speak only when capture is actually live (onaudiostart) — avoids
+    // clipping the first ms while the mic warms up; beep gives a precise "go"
+    const goLive = () => { if (tok === vmTok.current && !settled && !live) { live = true; setVmState("listening"); beep(); } };
+    rec.onaudiostart = goLive; rec.onstart = goLive;
+    const liveFallback = setTimeout(goLive, 800); // in case onaudiostart never fires
     // reach a verdict from a set of guesses (type: always judges; mc: judges only on a match)
     const finish = (a) => {
-      settled = true; setVmState("idle"); setSttAlts(a);
+      settled = true; clearTimeout(liveFallback); setVmState("idle"); setSttAlts(a);
       const waray = dir === "etw";
       if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
       else { // mc / listen — pick the CLOSEST-matching option, not the first loose match
@@ -1753,9 +1772,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
       else { lastAlts = a; setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); } };
     // ended/errored without a final result: judge on the last interim if we heard anything,
     // so the card always reaches a verdict (and its Continue / "I was right" buttons) — never stuck
-    const onEnd = () => { if (tok === vmTok.current && !settled) { if (lastAlts.length) finish(lastAlts); else setVmState("idle"); } };
+    const onEnd = () => { clearTimeout(liveFallback); if (tok === vmTok.current && !settled) { if (lastAlts.length) finish(lastAlts); else setVmState("idle"); } };
     rec.onerror = onEnd; rec.onend = onEnd;
-    vmRec.current = rec; try { rec.start(); } catch (e) { setVmState("idle"); }
+    vmRec.current = rec; try { rec.start(); } catch (e) { clearTimeout(liveFallback); setVmState("idle"); }
   };
   useEffect(() => {
     if (!voiceMode || judged || picked !== null) return;
@@ -1799,7 +1818,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
 
         {voiceMode && picked === null && (
           <button className={`ws-voice-mini ${vmState}`} onClick={() => vmState === "listening" ? vmStop() : vmListen()}>
-            {vmState === "listening" ? <><Mic size={15} /> say the answer</> : vmState === "speaking" ? <>listen…</> : <><Volume2 size={15} /> tap to speak</>}
+            {vmState === "listening" ? <><Mic size={15} /> say the answer</> : vmState === "speaking" ? <>listen…</> : vmState === "starting" ? <>get ready…</> : <><Volume2 size={15} /> tap to speak</>}
             {heard.length > 0 && <b>{heard[heard.length - 1]}</b>}
           </button>
         )}
@@ -1828,7 +1847,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
                 {vmState === "listening" ? <Mic size={26} /> : <Volume2 size={26} />}
               </div>
               <div className="ws-voice-state">
-                {vmState === "speaking" ? "listen…" : vmState === "listening" ? "say the answer" : "tap to speak"}
+                {vmState === "speaking" ? "listen…" : vmState === "starting" ? "get ready…" : vmState === "listening" ? "say the answer" : "tap to speak"}
                 {heard.length > 0 && <div className="ws-voice-heard">{heard[heard.length - 1]}</div>}
               </div>
               <div className="ws-voice-acts">
@@ -3211,6 +3230,7 @@ function Styles() {
 .ws-voice-orb{display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;
   background:var(--foam);border:2px solid var(--sand-deep);color:var(--tide);cursor:pointer;transition:all .15s}
 .ws-voice-orb.speaking{border-color:#f4a53a;color:#f4a53a}
+.ws-voice-orb.starting{border-color:#f4a53a;color:#f4a53a;opacity:.6}
 .ws-voice-orb.listening{background:#fdf0ec;border-color:#c0432b;color:#c0432b;animation:wsPulse 1.1s ease-in-out infinite}
 .ws-voice-state{font-size:14px;color:var(--ink-soft);text-align:center}
 .ws-voice-heard{font-size:18px;font-weight:600;color:var(--ink);margin-top:4px}
