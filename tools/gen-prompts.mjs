@@ -49,26 +49,46 @@ for (const ph of FREQUENCY) for (const u of ph.units) {
 }
 const knownOf = id => unitsInOrder.find(u=>u.id===id).known;
 
-// ---- filler pools (waray:en) — all real deck cards; filtered to known per unit ----
-const POOL = {
-  obj:  [["libro","book"],["lamesa","table"],["baso","glass"],["lapis","pencil"],["sapatos","shoes"],["bado","shirt"],["tubig","water"],["kwarta","money"],["saging","banana"],["isda","fish"],["ayam","dog"],["bukad","flower"],["kahoy","tree"]],
-  place:[["balay","house"],["tindahan","store"],["simbahan","church"],["ospital","hospital"],["dagat","sea"],["bukid","mountain"],["kusina","kitchen"],["bangko","bank"]],
-  food: [["isda","fish"],["manok","chicken"],["kan-on","rice"],["saging","banana"],["mangga","mango"],["utan","vegetables"],["sabaw","soup"],["prutas","fruit"]],
-  drink:[["tubig","water"],["tsa","tea"]],
-  time: [["yana","now"],["niyan","later"],["buwas","tomorrow"],["kanina","earlier"],["kakulop","yesterday"],["kagab-i","last night"]],
-  adj:  [["daku","big"],["gutiay","small"],["mahusay","nice"],["maraut","bad"],["marasa","delicious"]],
-};
+// ---- goals (frequency-weighted target reuse) + word types, computed up front ----
+const normEn = s => s.toLowerCase().replace(/\(.*?\)/g,"").replace(/^(to |the |a |an )/,"").replace(/[^a-z ]/g,"").trim();
+const duoRank = {}; { let dr=0;
+  for (const line of fs.readFileSync("docs/sources/duolingo-spanish-vocab.txt","utf8").split("\n")) {
+    if (line.startsWith("#") || !line.trim()) continue;
+    line.split(" | ").forEach(p=>{ const en=(p.split("=")[1]||"").trim(); if(en){ dr++; const n=normEn(en); if(n && !(n in duoRank)) duoRank[n]=dr; } });
+  } }
+const unitPhase = {}; FREQUENCY.forEach((p,pi)=>p.units.forEach(u=>unitPhase[u.id]=pi+1));
+const PHASE_GOAL = {1:4, 2:2, 3:1, 4:1}; // realistic: P1 core recurs most; rare themes just need to appear
+const goalAt = (w, uid) => { let g=PHASE_GOAL[unitPhase[uid]]||1;
+  String(eng[w]||"").split("/").forEach(s=>{ const r=duoRank[normEn(s)]; if(r){ const dg=r<=40?5:r<=100?3:2; if(dg>g)g=dg; } }); return g; };
+// first unit that introduces each single word → its goal
+const introUnit={};
+unitsInOrder.forEach(u=>u.words.forEach(it=>it.split("/").map(x=>x.trim()).forEach(w=>{ if(!(w in introUnit)) introUnit[w]=u.id; })));
+const goalByW={}; for(const w of Object.keys(introUnit)){ if(!/\s/.test(w)&&!w.includes("/")) goalByW[w]=goalAt(w, introUnit[w]); }
+
+// ---- typed filler pools built from the WHOLE deck (so reuse can spread to any word) ----
+const UNIT_TYPE={u9:"obj",u21:"obj",u7:"obj",u31:"food",u22:"food",u23:"food",u24:"place",u25:"place",u26:"place",u27:"place",u28:"place",u32:"place",u4:"person",u5:"person",u6:"adj",u34:"adj",u18:"time",u19:"time",u30:"time"};
+const WORD_TYPE={dagat:"place",bukid:"place",isla:"place",tuna:"place",langit:"place",tubig:"drink",tsa:"drink",kape:"drink",gatas:"drink",duga:"drink"};
+const POOL={obj:[],place:[],food:[],drink:[],time:[],adj:[]};
+for(const w of Object.keys(introUnit)){ if(/\s/.test(w)||w.includes("/")) continue;
+  const t=WORD_TYPE[w]||UNIT_TYPE[introUnit[w]]; if(!t||!POOL[t]) continue;
+  POOL[t].push([w, gv(w)]); }
 const NAMES = ["Maria","Pedro","Ana","Jose","Lito","Rosa"];
-// subjects: names (always) + known SINGULAR people, so "is/has/-s" agree in English
 const PEOPLE = [["hiya","He"],["nanay","Mother"],["tatay","Father"],["bata","The child"],["lalaki","The man"],["babaye","The woman"]];
 
+const uses={}; // global reuse counter, drives demand-driven filling
+const deficit=([w])=>(goalByW[w]||1)-(uses[w]||0);
 function picker(unitId, idx) {
   const known = knownOf(unitId);
-  const filt = arr => arr.filter(([w]) => known.has(w));
-  const used = []; // track waray fillers actually used
-  const pick = (cat, off=0) => { const f=filt(POOL[cat]); if(!f.length) return null; const [w,e]=f[(idx+off)%f.length]; used.push(w); return e; };
+  const used = [];
+  // pick the most goal-starved known word of this type (off lets a frame take the Nth-neediest)
+  const pick = (cat, off=0) => { const f=(POOL[cat]||[]).filter(([w])=>known.has(w)); if(!f.length) return null;
+    f.sort((a,b)=> deficit(b)-deficit(a) || (uses[a[0]]||0)-(uses[b[0]]||0));
+    const [w,e]=f[Math.min(off,f.length-1)]; uses[w]=(uses[w]||0)+1; used.push(w); return e; };
   const name = (off=0) => NAMES[(idx+off)%NAMES.length];
-  const subj = (off=0) => { const ppl=filt(PEOPLE); const all=[...NAMES.map(n=>[null,n]),...ppl]; const [w,e]=all[(idx+off)%all.length]; if(w)used.push(w); return e; };
+  const subj = (off=0) => { const ppl=PEOPLE.filter(([w])=>known.has(w)).sort((a,b)=>deficit(b)-deficit(a));
+    // alternate between a needy person-word and a name for variety
+    if(ppl.length && (idx+off)%2===0){ const [w,e]=ppl[0]; uses[w]=(uses[w]||0)+1; used.push(w); return e; }
+    return NAMES[(idx+off)%NAMES.length]; };
   return { pick, name, subj, used, known };
 }
 
@@ -152,6 +172,7 @@ for (const u of unitsInOrder) {
     if (/^(Say it for|Make a simple sentence)/.test(en)) return;
     // complete Waray word set this prompt implies: target + reverse-mapped tokens
     const wordsUsed = [...new Set([w, ...reverseWords(en)])];
+    uses[w]=(uses[w]||0)+1; // the target word appears in its own prompt
     data.push({ unit:u.id, unitName:u.name, word:w, gloss:eng[w]||"", prompt:en, words:wordsUsed });
   });
 }
@@ -185,40 +206,24 @@ unitsInOrder.forEach((u,uidx)=>{
 });
 const countIn = (w, pred) => corpus.filter(c=>pred(c.uidx) && c.words.has(w)).length;
 
-// ---- GOAL: target later-reuse per word, frequency-weighted ----
-// Base by phase (frequency-first: P1 core words recur most; P4 themes least),
-// bumped up if the word matches an early Duolingo Spanish concept.
-const normEn = s => s.toLowerCase().replace(/\(.*?\)/g,"").replace(/^(to |the |a |an )/,"").replace(/[^a-z ]/g,"").trim();
-const duoRank = {}; { let dr=0;
-  for (const line of fs.readFileSync("docs/sources/duolingo-spanish-vocab.txt","utf8").split("\n")) {
-    if (line.startsWith("#") || !line.trim()) continue;
-    line.split(" | ").forEach(p=>{ const en=(p.split("=")[1]||"").trim(); if(en){ dr++; const n=normEn(en); if(n && !(n in duoRank)) duoRank[n]=dr; } });
-  } }
-const unitPhase = {}; FREQUENCY.forEach((p,pi)=>p.units.forEach(u=>unitPhase[u.id]=pi+1));
-const PHASE_GOAL = {1:5, 2:3, 3:2, 4:1};
-const goalOf = (w, uid) => {
-  let g = PHASE_GOAL[unitPhase[uid]] || 1;
-  String(eng[w]||"").split("/").forEach(s=>{ const r=duoRank[normEn(s)]; if(r){ const dg = r<=40?5 : r<=100?3 : 2; if(dg>g) g=dg; } });
-  return g;
-};
-
+// GOAL/duoRank/goalAt are defined up top (used by the demand-driven filler).
 let reinf = `# Phrase reinforcement — by unit's new words (with goal)\n\n`;
-reinf += `_Each new word gets a **goal** = how many *later* phrases should reuse it, weighted by frequency (Phase 1 core words → 5; Phase 4 themes → 1; bumped up if it's an early Duolingo concept). **Status**: ✓ = goal met · **+N** = needs N more reuses. The recombination pass targets the **+N** words._\n`;
-let totNew=0, totCov=0, totMet=0, deficit=0;
+reinf += `_Each new word gets a **goal** = how many *later* phrases should reuse it, weighted by frequency (Phase 1 core → 4-5; rare themes → 1; bumped up for early Duolingo concepts). Demand-driven fillers spend each sentence's slots on the most goal-starved words. **Status**: ✓ met · **+N** = needs N more._\n`;
+let totNew=0, totCov=0, totMet=0, totDeficit=0;
 for (const u of newWordsByUnit){
   if (!u.words.length) continue;
   reinf += `\n### ${u.name}  _(${u.words.length} new words)_\n\n| New word | English | In unit | Goal | Reused later | Status |\n|---|---|:--:|--:|--:|:--|\n`;
   const rows = u.words.map(w=>{
     const here = countIn(w, ux=>ux===u.uidx) > 0;
     const later = countIn(w, ux=>ux>u.uidx);
-    const goal = goalOf(w, u.id);
+    const goal = goalAt(w, u.id);
     const need = Math.max(0, goal-later);
-    totNew++; if(here)totCov++; if(need===0)totMet++; deficit+=need;
+    totNew++; if(here)totCov++; if(need===0)totMet++; totDeficit+=need;
     return {w, here, later, goal, need};
   }).sort((a,b)=>b.need-a.need || b.goal-a.goal);
   rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.here?"✓":"✗"} | ${r.goal} | ${r.later} | ${r.need?("**+"+r.need+"**"):"✓"} |\n`);
 }
-reinf = reinf.replace("(with goal)\n", `(with goal)\n\n_${totNew} new words · ${totMet} meet their reuse goal · ${totNew-totMet} fall short by a total of **${deficit}** reuses (the recombination backlog)._\n`);
+reinf = reinf.replace("(with goal)\n", `(with goal)\n\n_${totNew} new words · ${totMet} meet their reuse goal · ${totNew-totMet} fall short by a total of **${totDeficit}** reuses (the recombination backlog)._\n`);
 fs.writeFileSync("docs/phrase-reinforcement.md", reinf);
 
-console.log(`prompts: ${data.length} · new words: ${totNew} · meet goal: ${totMet}/${totNew} · total deficit: ${deficit}`);
+console.log(`prompts: ${data.length} · new words: ${totNew} · meet goal: ${totMet}/${totNew} · total deficit: ${totDeficit}`);

@@ -39,71 +39,71 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 
 ### Say what's yours
-- **ko** _(my (short))_ → “This book is mine.”  
+- **ko** _(my (short))_ → “This this is mine.”  
   Waray: ____________________
-- **naton** _(our (incl))_ → “That banana is ours.”  
+- **naton** _(our (incl))_ → “That that is ours.”  
   Waray: ____________________
-- **niyo** _(your (pl))_ → “This tree is yours (all of you).”  
+- **niyo** _(your (pl))_ → “This that is yours (all of you).”  
   Waray: ____________________
-- **nira** _(their)_ → “That book is theirs.”  
+- **nira** _(their)_ → “That tree is theirs.”  
   Waray: ____________________
 
 ### Say it's mine
 - **amon** _(ours (excl))_ → “This book is ours.”  
   Waray: ____________________
-- **iyo** _(yours (pl))_ → “That banana is yours (all).”  
+- **iyo** _(yours (pl))_ → “That this is yours (all).”  
   Waray: ____________________
-- **ira** _(theirs)_ → “This tree is theirs.”  
+- **ira** _(theirs)_ → “This that is theirs.”  
   Waray: ____________________
 
 ### Do it: now / will / did
-- **makaon** _(will eat)_ → “Maria will eat banana.”  
+- **makaon** _(will eat)_ → “He will eat rice.”  
   Waray: ____________________
-- **nakaon** _(is eating)_ → “Pedro is eating banana.”  
+- **nakaon** _(is eating)_ → “Pedro is eating rice.”  
   Waray: ____________________
-- **kinmaon** _(ate)_ → “Ana ate banana.”  
+- **kinmaon** _(ate)_ → “He ate rice.”  
   Waray: ____________________
 - **malakat** _(will go)_ → “Jose will go to the store.”  
   Waray: ____________________
-- **nalakat** _(is going)_ → “Lito is going to the store.”  
+- **nalakat** _(is going)_ → “Mother is going to the store.”  
   Waray: ____________________
 - **linmakat** _(went)_ → “Rosa went to the store.”  
   Waray: ____________________
-- **mapalit** _(will buy)_ → “He will buy book.”  
+- **mapalit** _(will buy)_ → “Father will buy that.”  
   Waray: ____________________
-- **pinmalit** _(bought)_ → “Mother bought banana.”  
+- **pinmalit** _(bought)_ → “Pedro bought tree.”  
   Waray: ____________________
-- **mainom** _(will drink)_ → “Father will drink water.”  
+- **mainom** _(will drink)_ → “The child will drink water.”  
   Waray: ____________________
-- **nainom** _(is drinking)_ → “The child is drinking water.”  
+- **nainom** _(is drinking)_ → “Jose is drinking water.”  
   Waray: ____________________
 
 ### Everyday actions
-- **laba** _(to wash (clothes))_ → “Maria likes to wash.”  
+- **laba** _(to wash (clothes))_ → “The woman likes to wash.”  
   Waray: ____________________
 - **hugas** _(to wash (dishes))_ → “Please wash.”  
   Waray: ____________________
-- **luto** _(to cook)_ → “Ana cooks banana.”  
+- **luto** _(to cook)_ → “He cooks rice.”  
   Waray: ____________________
 - **limpyu** _(to clean)_ → “Jose likes to clean.”  
   Waray: ____________________
-- **lukot** _(to fold (clothes))_ → “Lito folds the clothes.”  
+- **lukot** _(to fold (clothes))_ → “Mother folds the clothes.”  
   Waray: ____________________
 - **basa** _(to read)_ → “Rosa reads the book.”  
   Waray: ____________________
-- **sudlay** _(to comb)_ → “He likes to comb.”  
+- **sudlay** _(to comb)_ → “Father likes to comb.”  
   Waray: ____________________
 - **sayaw** _(to dance)_ → “Please dance.”  
   Waray: ____________________
 - **maneho** _(to drive)_ → “We will drive later.”  
   Waray: ____________________
-- **tago** _(to hide)_ → “The child likes to hide.”  
+- **tago** _(to hide)_ → “Jose likes to hide.”  
   Waray: ____________________
 - **lingkod** _(to sit)_ → “Please sit.”  
   Waray: ____________________
 - **tindog** _(to stand)_ → “We will stand later.”  
   Waray: ____________________
-- **hulat** _(to wait)_ → “Maria likes to wait.”  
+- **hulat** _(to wait)_ → “The woman likes to wait.”  
   Waray: ____________________
 - **andam** _(to get ready)_ → “Pedro get readys the book.”  
   Waray: ____________________
@@ -111,17 +111,17 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **labay** _(to pass by)_ → “Jose likes to pass by.”  
   Waray: ____________________
-- **hulam** _(to borrow)_ → “Lito borrows banana.”  
+- **hulam** _(to borrow)_ → “Mother borrows book.”  
   Waray: ____________________
 - **bayad** _(to pay)_ → “We will pay later.”  
   Waray: ____________________
-- **saka** _(to climb)_ → “He likes to climb.”  
+- **saka** _(to climb)_ → “Father likes to climb.”  
   Waray: ____________________
 - **lakso** _(to jump)_ → “Please jump.”  
   Waray: ____________________
-- **surat** _(to write)_ → “Father writes the book.”  
+- **surat** _(to write)_ → “The child writes the book.”  
   Waray: ____________________
-- **siring** _(to speak / say)_ → “The child likes to speak.”  
+- **siring** _(to speak / say)_ → “Jose likes to speak.”  
   Waray: ____________________
 - **pili** _(to choose)_ → “Please choose.”  
   Waray: ____________________
@@ -161,7 +161,7 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **sala** _(living room)_ → “I have two living rooms.”  
   Waray: ____________________
-- **katre** _(bed)_ → “The bed is in the kitchen.”  
+- **katre** _(bed)_ → “That is my bed.”  
   Waray: ____________________
 - **kudal** _(fence)_ → “This is the fence.”  
   Waray: ____________________
@@ -171,7 +171,7 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **sapatos** _(shoes)_ → “I have two shoess.”  
   Waray: ____________________
-- **tsinelas** _(slippers)_ → “The slippers is in the house.”  
+- **tsinelas** _(slippers)_ → “That is my slippers.”  
   Waray: ____________________
 - **saruwal** _(pants)_ → “This is the pants.”  
   Waray: ____________________
@@ -181,7 +181,7 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **biray** _(curtain)_ → “I have two curtains.”  
   Waray: ____________________
-- **taklap** _(blanket)_ → “The blanket is in the kitchen.”  
+- **taklap** _(blanket)_ → “That is my blanket.”  
   Waray: ____________________
 - **syaket** _(jacket)_ → “This is the jacket.”  
   Waray: ____________________
@@ -191,7 +191,7 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **kutsara** _(spoon)_ → “I have two spoons.”  
   Waray: ____________________
-- **pinggan** _(plate)_ → “The plate is in the house.”  
+- **pinggan** _(plate)_ → “That is my plate.”  
   Waray: ____________________
 - **libro** _(book)_ → “This is the book.”  
   Waray: ____________________
@@ -201,7 +201,7 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **pitaka** _(wallet)_ → “I have two wallets.”  
   Waray: ____________________
-- **relo** _(watch)_ → “The watch is in the kitchen.”  
+- **relo** _(watch)_ → “That is my watch.”  
   Waray: ____________________
 - **bag** _(bag)_ → “This is the bag.”  
   Waray: ____________________
@@ -209,11 +209,11 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 
 ### Talk about meals
-- **paniudto** _(lunch)_ → “Maria ate lunch.”  
+- **paniudto** _(lunch)_ → “The woman ate lunch.”  
   Waray: ____________________
 - **pangiklop** _(dinner)_ → “Have you eaten dinner?”  
   Waray: ____________________
-- **isnak** _(snack)_ → “We will have snack tomorrow.”  
+- **isnak** _(snack)_ → “We will have snack there.”  
   Waray: ____________________
 - **kan-on** _(cooked rice)_ → “Jose ate cooked rice.”  
   Waray: ____________________
@@ -251,17 +251,17 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 
 ### Name colors
-- **itom** _(black)_ → “The book is black.”  
+- **itom** _(black)_ → “The house is black.”  
   Waray: ____________________
 - **busag** _(white)_ → “Pedro has a white table.”  
   Waray: ____________________
-- **pula** _(red)_ → “That glass is red.”  
+- **pula** _(red)_ → “That chair is red.”  
   Waray: ____________________
-- **asul** _(blue)_ → “The pencil is blue.”  
+- **asul** _(blue)_ → “The glass is blue.”  
   Waray: ____________________
-- **darag** _(yellow)_ → “Lito has a yellow shoes.”  
+- **darag** _(yellow)_ → “Lito has a yellow paper.”  
   Waray: ____________________
-- **berde** _(green)_ → “That shirt is green.”  
+- **berde** _(green)_ → “That pencil is green.”  
   Waray: ____________________
 
 ### Talk about work
@@ -307,17 +307,17 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 
 ### Describe people
-- **maraksot** _(ugly)_ → “The book is ugly.”  
+- **maraksot** _(ugly)_ → “The jacket is ugly.”  
   Waray: ____________________
 - **gwapo** _(handsome)_ → “Pedro is handsome.”  
   Waray: ____________________
-- **habubo** _(short)_ → “That glass is short.”  
+- **habubo** _(short)_ → “That watch is short.”  
   Waray: ____________________
-- **matambok** _(fat)_ → “The pencil is fat.”  
+- **matambok** _(fat)_ → “The cap is fat.”  
   Waray: ____________________
-- **magasa** _(thin)_ → “Lito is thin.”  
+- **magasa** _(thin)_ → “The child is thin.”  
   Waray: ____________________
-- **gutiay** _(small)_ → “That shirt is small.”  
+- **gutiay** _(small)_ → “That kitchen is small.”  
   Waray: ____________________
 - **malipay** _(happy)_ → “My mother is happy.”  
   Waray: ____________________
@@ -499,13 +499,13 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 
 ### Food & the table
-- **manok** _(chicken)_ → “Maria likes chicken.”  
+- **manok** _(chicken)_ → “The man likes chicken.”  
   Waray: ____________________
 - **karne** _(meat)_ → “I will buy meat at the store.”  
   Waray: ____________________
 - **utan** _(vegetable)_ → “The vegetable is delicious.”  
   Waray: ____________________
-- **kan-on** _(cooked rice)_ → “We ate cooked rice earlier.”  
+- **kan-on** _(cooked rice)_ → “We ate cooked rice now.”  
   Waray: ____________________
 - **pagkaon** _(food)_ → “The food is ready.”  
   Waray: ____________________
@@ -513,17 +513,17 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **mangga** _(mango)_ → “The mango is delicious.”  
   Waray: ____________________
-- **tubig** _(water)_ → “We ate water later.”  
+- **tubig** _(water)_ → “We ate water a little while ago.”  
   Waray: ____________________
-- **nangka** _(jackfruit)_ → “Father likes jackfruit.”  
+- **nangka** _(jackfruit)_ → “Mother likes jackfruit.”  
   Waray: ____________________
 - **kamatis** _(tomato)_ → “I will buy tomato at the store.”  
   Waray: ____________________
 - **mais** _(corn)_ → “The corn is delicious.”  
   Waray: ____________________
-- **tsa** _(tea)_ → “We ate tea last night.”  
+- **tsa** _(tea)_ → “We ate tea there.”  
   Waray: ____________________
-- **sabaw** _(soup)_ → “Maria likes soup.”  
+- **sabaw** _(soup)_ → “The child likes soup.”  
   Waray: ____________________
 - **keyk** _(cake)_ → “I will buy cake at the store.”  
   Waray: ____________________
@@ -531,15 +531,15 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **gutom** _(hungry)_ → “I am hungry.”  
   Waray: ____________________
-- **kape** _(coffee)_ → “Lito likes coffee.”  
+- **kape** _(coffee)_ → “The man likes coffee.”  
   Waray: ____________________
 - **tinapay** _(bread)_ → “I will buy bread at the store.”  
   Waray: ____________________
 - **sorbetes** _(ice cream)_ → “The ice cream is delicious.”  
   Waray: ____________________
-- **duga** _(juice)_ → “We ate juice later.”  
+- **duga** _(juice)_ → “We ate juice March.”  
   Waray: ____________________
-- **kahel** _(orange)_ → “Father likes orange.”  
+- **kahel** _(orange)_ → “He likes orange.”  
   Waray: ____________________
 - **pinya** _(pineapple)_ → “I will buy pineapple at the store.”  
   Waray: ____________________
