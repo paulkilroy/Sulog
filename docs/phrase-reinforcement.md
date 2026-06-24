@@ -1,553 +1,553 @@
-# Phrase reinforcement — by unit's new words
+# Phrase reinforcement — by unit's new words (with goal)
 
-_378 new words · 355 appear in a phrase in their own unit · 278 are never reused in a later phrase._
+_378 new words · 52 meet their reuse goal · 326 fall short by a total of **786** reuses (the recombination backlog)._
 
-_For each unit: the **new words** it introduces, whether each appears in a phrase in **this** unit (✓ = covered), and how many phrases in **later** units use it (reinforcement). Corpus = existing ② Apply phrases + the recording prompts. ✗ in "this unit" = no phrase here yet; **Later 0** = never reused → weave it into a later prompt._
+_Each new word gets a **goal** = how many *later* phrases should reuse it, weighted by frequency (Phase 1 core words → 5; Phase 4 themes → 1; bumped up if it's an early Duolingo concept). **Status**: ✓ = goal met · **+N** = needs N more reuses. The recombination pass targets the **+N** words._
 
 ### Say hello & thanks  _(11 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| Waray | None / nothing | ✗ | 9 |
-| alayon | please | ✗ | 7 |
-| Pwede | Can / may (I) | ✗ | 5 |
-| Diri | No / not | ✗ | 4 |
-| Oo | Yes | ✗ | 3 |
-| maupay | good | ✗ | 2 |
-| Sige | Okay / go ahead | ✗ | 1 |
-| Anay | Wait / just a moment | ✗ | 1 |
-| Adi | Here it is | ✗ | 1 |
-| Salamat | Thank you | ✗ | 0 |
-| tabang | help | ✗ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| Salamat | Thank you | ✗ | 5 | 0 | **+5** |
+| tabang | help | ✗ | 5 | 0 | **+5** |
+| Sige | Okay / go ahead | ✗ | 5 | 1 | **+4** |
+| Anay | Wait / just a moment | ✗ | 5 | 1 | **+4** |
+| Adi | Here it is | ✗ | 5 | 1 | **+4** |
+| maupay | good | ✗ | 5 | 2 | **+3** |
+| Oo | Yes | ✗ | 5 | 3 | **+2** |
+| Diri | No / not | ✗ | 5 | 4 | **+1** |
+| Waray | None / nothing | ✗ | 5 | 9 | ✓ |
+| Pwede | Can / may (I) | ✗ | 5 | 5 | ✓ |
+| alayon | please | ✗ | 5 | 7 | ✓ |
 
 ### Say who's who  _(6 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| ako | I | ✓ | 48 |
-| kami | we (exclusive) | ✓ | 29 |
-| hiya | he / she | ✓ | 21 |
-| kita | we (inclusive) | ✓ | 11 |
-| hira | they | ✓ | 11 |
-| kamo | you / y'all | ✓ | 4 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| kamo | you / y'all | ✓ | 5 | 4 | **+1** |
+| ako | I | ✓ | 5 | 48 | ✓ |
+| hiya | he / she | ✓ | 5 | 21 | ✓ |
+| kita | we (inclusive) | ✓ | 5 | 11 | ✓ |
+| kami | we (exclusive) | ✓ | 5 | 29 | ✓ |
+| hira | they | ✓ | 5 | 11 | ✓ |
 
 ### Name what you see  _(6 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| ha | to / at / in | ✓ | 72 |
-| hin | a / some (object) | ✓ | 35 |
-| han | of / the (past object) | ✗ | 11 |
-| saging | banana | ✓ | 9 |
-| hi | the (before a name) | ✓ | 2 |
-| ngan | and | ✓ | 2 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| hi | the (before a name) | ✓ | 5 | 2 | **+3** |
+| ngan | and | ✓ | 5 | 2 | **+3** |
+| hin | a / some (object) | ✓ | 5 | 35 | ✓ |
+| han | of / the (past object) | ✗ | 5 | 11 | ✓ |
+| ha | to / at / in | ✓ | 5 | 72 | ✓ |
+| saging | banana | ✓ | 5 | 9 | ✓ |
 
 ### This & that  _(5 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| ini | this (near) | ✓ | 32 |
-| iton | that (near you) | ✓ | 16 |
-| libro | book | ✓ | 12 |
-| kahoy | tree | ✓ | 3 |
-| adto | that (over there) | ✓ | 2 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| adto | that (over there) | ✓ | 5 | 2 | **+3** |
+| kahoy | tree | ✓ | 5 | 3 | **+2** |
+| ini | this (near) | ✓ | 5 | 32 | ✓ |
+| iton | that (near you) | ✓ | 5 | 16 | ✓ |
+| libro | book | ✓ | 5 | 12 | ✓ |
 
 ### Ask what, where, who  _(7 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| hain | where | ✓ | 14 |
-| ano | what | ✓ | 9 |
-| ba | makes a yes/no question | ✓ | 8 |
-| tagpira | how much | ✓ | 1 |
-| hin-o | who | ✓ | 0 |
-| diin | where (from / which) | ✓ | 0 |
-| mapira | how many | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| hin-o | who | ✓ | 5 | 0 | **+5** |
+| diin | where (from / which) | ✓ | 5 | 0 | **+5** |
+| mapira | how many | ✓ | 5 | 0 | **+5** |
+| tagpira | how much | ✓ | 5 | 1 | **+4** |
+| ano | what | ✓ | 5 | 9 | ✓ |
+| hain | where | ✓ | 5 | 14 | ✓ |
+| ba | makes a yes/no question | ✓ | 5 | 8 | ✓ |
 
 ### Count to 100  _(11 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| duha | two | ✗ | 6 |
-| walo | eight | ✗ | 1 |
-| usa | one | ✗ | 0 |
-| tulo | three | ✗ | 0 |
-| upat | four | ✗ | 0 |
-| lima | five | ✗ | 0 |
-| unom | six | ✗ | 0 |
-| pito | seven | ✗ | 0 |
-| siyam | nine | ✗ | 0 |
-| napulo | ten | ✗ | 0 |
-| karuhaan | twenty | ✗ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| usa | one | ✗ | 5 | 0 | **+5** |
+| tulo | three | ✗ | 5 | 0 | **+5** |
+| upat | four | ✗ | 5 | 0 | **+5** |
+| lima | five | ✗ | 5 | 0 | **+5** |
+| unom | six | ✗ | 5 | 0 | **+5** |
+| pito | seven | ✗ | 5 | 0 | **+5** |
+| siyam | nine | ✗ | 5 | 0 | **+5** |
+| napulo | ten | ✗ | 5 | 0 | **+5** |
+| karuhaan | twenty | ✗ | 5 | 0 | **+5** |
+| walo | eight | ✗ | 5 | 1 | **+4** |
+| duha | two | ✗ | 5 | 6 | ✓ |
 
 ### Introduce your family  _(23 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| bata | child | ✓ | 8 |
-| nanay | mother | ✓ | 6 |
-| tatay | father | ✓ | 5 |
-| uyab | girlfriend / boyfriend | ✓ | 2 |
-| sangkay | friend | ✓ | 2 |
-| lalaki | man | ✓ | 2 |
-| babaye | woman | ✓ | 1 |
-| tawo | person | ✓ | 1 |
-| anak | child | ✓ | 0 |
-| apoy | grandparent | ✓ | 0 |
-| apo | grandchild | ✓ | 0 |
-| asawa | wife / spouse | ✓ | 0 |
-| bugto | sibling | ✓ | 0 |
-| ulitawo | young man | ✓ | 0 |
-| daragita | young woman | ✓ | 0 |
-| lagas | old person | ✓ | 0 |
-| kaharani | neighbor | ✓ | 0 |
-| bisita | visitor | ✓ | 0 |
-| miyembro | member | ✓ | 0 |
-| kuya | older brother | ✓ | 0 |
-| ate | older sister | ✓ | 0 |
-| tiya | aunt | ✓ | 0 |
-| tiyo | uncle | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| anak | child | ✓ | 5 | 0 | **+5** |
+| apoy | grandparent | ✓ | 5 | 0 | **+5** |
+| apo | grandchild | ✓ | 5 | 0 | **+5** |
+| asawa | wife / spouse | ✓ | 5 | 0 | **+5** |
+| bugto | sibling | ✓ | 5 | 0 | **+5** |
+| ulitawo | young man | ✓ | 5 | 0 | **+5** |
+| daragita | young woman | ✓ | 5 | 0 | **+5** |
+| lagas | old person | ✓ | 5 | 0 | **+5** |
+| kaharani | neighbor | ✓ | 5 | 0 | **+5** |
+| bisita | visitor | ✓ | 5 | 0 | **+5** |
+| miyembro | member | ✓ | 5 | 0 | **+5** |
+| kuya | older brother | ✓ | 5 | 0 | **+5** |
+| ate | older sister | ✓ | 5 | 0 | **+5** |
+| tiya | aunt | ✓ | 5 | 0 | **+5** |
+| tiyo | uncle | ✓ | 5 | 0 | **+5** |
+| babaye | woman | ✓ | 5 | 1 | **+4** |
+| tawo | person | ✓ | 5 | 1 | **+4** |
+| uyab | girlfriend / boyfriend | ✓ | 5 | 2 | **+3** |
+| sangkay | friend | ✓ | 5 | 2 | **+3** |
+| lalaki | man | ✓ | 5 | 2 | **+3** |
+| tatay | father | ✓ | 5 | 5 | ✓ |
+| nanay | mother | ✓ | 5 | 6 | ✓ |
+| bata | child | ✓ | 5 | 8 | ✓ |
 
 ### Say what's yours  _(8 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| ko | my (short) | ✓ | 23 |
-| naton | our (incl) | ✓ | 5 |
-| nira | their | ✓ | 2 |
-| niya | his / her | ✓ | 1 |
-| nakon | my | ✓ | 0 |
-| nimo | your | ✓ | 0 |
-| namon | our (excl) | ✓ | 0 |
-| niyo | your (pl) | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| nakon | my | ✓ | 3 | 0 | **+3** |
+| nimo | your | ✓ | 3 | 0 | **+3** |
+| namon | our (excl) | ✓ | 3 | 0 | **+3** |
+| niyo | your (pl) | ✓ | 3 | 0 | **+3** |
+| niya | his / her | ✓ | 3 | 1 | **+2** |
+| nira | their | ✓ | 3 | 2 | **+1** |
+| ko | my (short) | ✓ | 3 | 23 | ✓ |
+| naton | our (incl) | ✓ | 3 | 5 | ✓ |
 
 ### Say it's mine  _(7 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| imo | yours / your | ✓ | 4 |
-| akon | mine / my | ✓ | 3 |
-| iya | his / hers | ✓ | 3 |
-| iyo | yours (pl) | ✓ | 2 |
-| amon | ours (excl) | ✓ | 1 |
-| ira | theirs | ✓ | 1 |
-| aton | ours (incl) | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| aton | ours (incl) | ✓ | 3 | 0 | **+3** |
+| amon | ours (excl) | ✓ | 3 | 1 | **+2** |
+| ira | theirs | ✓ | 3 | 1 | **+2** |
+| iyo | yours (pl) | ✓ | 3 | 2 | **+1** |
+| akon | mine / my | ✓ | 3 | 3 | ✓ |
+| imo | yours / your | ✓ | 3 | 4 | ✓ |
+| iya | his / hers | ✓ | 3 | 3 | ✓ |
 
 ### Say “X is Y”  _(3 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| an | the (completed / past) | ✓ | 104 |
-| it | the (now / general) | ✓ | 10 |
-| mabaho | smelly | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| mabaho | smelly | ✓ | 3 | 0 | **+3** |
+| it | the (now / general) | ✓ | 3 | 10 | ✓ |
+| an | the (completed / past) | ✓ | 3 | 104 | ✓ |
 
 ### Already, not yet, just  _(3 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| na | already | ✓ | 7 |
-| pa | still / yet | ✓ | 3 |
-| liwat | also / too | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| liwat | also / too | ✓ | 3 | 0 | **+3** |
+| na | already | ✓ | 3 | 7 | ✓ |
+| pa | still / yet | ✓ | 3 | 3 | ✓ |
 
 ### Do it: now / will / did  _(12 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| nakaon | is eating | ✓ | 1 |
-| mapalit | will buy | ✓ | 1 |
-| inminom | drank | ✓ | 1 |
-| makaon | will eat | ✓ | 0 |
-| kinmaon | ate | ✓ | 0 |
-| malakat | will go | ✓ | 0 |
-| nalakat | is going | ✓ | 0 |
-| linmakat | went | ✓ | 0 |
-| napalit | is buying | ✓ | 0 |
-| pinmalit | bought | ✓ | 0 |
-| mainom | will drink | ✓ | 0 |
-| nainom | is drinking | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| makaon | will eat | ✓ | 3 | 0 | **+3** |
+| kinmaon | ate | ✓ | 3 | 0 | **+3** |
+| malakat | will go | ✓ | 3 | 0 | **+3** |
+| nalakat | is going | ✓ | 3 | 0 | **+3** |
+| linmakat | went | ✓ | 3 | 0 | **+3** |
+| napalit | is buying | ✓ | 3 | 0 | **+3** |
+| pinmalit | bought | ✓ | 3 | 0 | **+3** |
+| mainom | will drink | ✓ | 3 | 0 | **+3** |
+| nainom | is drinking | ✓ | 3 | 0 | **+3** |
+| nakaon | is eating | ✓ | 3 | 1 | **+2** |
+| mapalit | will buy | ✓ | 3 | 1 | **+2** |
+| inminom | drank | ✓ | 3 | 1 | **+2** |
 
 ### Everyday actions  _(30 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| luto | to cook | ✓ | 1 |
-| basa | to read | ✓ | 1 |
-| laba | to wash (clothes) | ✓ | 0 |
-| hugas | to wash (dishes) | ✓ | 0 |
-| limpyu | to clean | ✓ | 0 |
-| lukot | to fold (clothes) | ✓ | 0 |
-| sudlay | to comb | ✓ | 0 |
-| sayaw | to dance | ✓ | 0 |
-| maneho | to drive | ✓ | 0 |
-| tago | to hide | ✓ | 0 |
-| hatag | to give | ✓ | 0 |
-| lingkod | to sit | ✓ | 0 |
-| tindog | to stand | ✓ | 0 |
-| hulat | to wait | ✓ | 0 |
-| dara | to bring | ✓ | 0 |
-| andam | to get ready | ✓ | 0 |
-| hangyo | to ask a favor | ✓ | 0 |
-| labay | to pass by | ✓ | 0 |
-| hulam | to borrow | ✓ | 0 |
-| bayad | to pay | ✓ | 0 |
-| saka | to climb | ✓ | 0 |
-| lakso | to jump | ✓ | 0 |
-| dalagan | to run | ✓ | 0 |
-| uli | to go home | ✓ | 0 |
-| sulod | to enter | ✓ | 0 |
-| buhat | to do / make | ✓ | 0 |
-| surat | to write | ✓ | 0 |
-| siring | to speak / say | ✓ | 0 |
-| pili | to choose | ✓ | 0 |
-| abot | to arrive | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| laba | to wash (clothes) | ✓ | 3 | 0 | **+3** |
+| hugas | to wash (dishes) | ✓ | 3 | 0 | **+3** |
+| limpyu | to clean | ✓ | 3 | 0 | **+3** |
+| lukot | to fold (clothes) | ✓ | 3 | 0 | **+3** |
+| sudlay | to comb | ✓ | 3 | 0 | **+3** |
+| sayaw | to dance | ✓ | 3 | 0 | **+3** |
+| maneho | to drive | ✓ | 3 | 0 | **+3** |
+| tago | to hide | ✓ | 3 | 0 | **+3** |
+| hatag | to give | ✓ | 3 | 0 | **+3** |
+| lingkod | to sit | ✓ | 3 | 0 | **+3** |
+| tindog | to stand | ✓ | 3 | 0 | **+3** |
+| hulat | to wait | ✓ | 3 | 0 | **+3** |
+| dara | to bring | ✓ | 3 | 0 | **+3** |
+| andam | to get ready | ✓ | 3 | 0 | **+3** |
+| hangyo | to ask a favor | ✓ | 3 | 0 | **+3** |
+| labay | to pass by | ✓ | 3 | 0 | **+3** |
+| hulam | to borrow | ✓ | 3 | 0 | **+3** |
+| bayad | to pay | ✓ | 3 | 0 | **+3** |
+| saka | to climb | ✓ | 3 | 0 | **+3** |
+| lakso | to jump | ✓ | 3 | 0 | **+3** |
+| dalagan | to run | ✓ | 3 | 0 | **+3** |
+| uli | to go home | ✓ | 3 | 0 | **+3** |
+| sulod | to enter | ✓ | 3 | 0 | **+3** |
+| buhat | to do / make | ✓ | 3 | 0 | **+3** |
+| surat | to write | ✓ | 3 | 0 | **+3** |
+| siring | to speak / say | ✓ | 3 | 0 | **+3** |
+| pili | to choose | ✓ | 3 | 0 | **+3** |
+| abot | to arrive | ✓ | 3 | 0 | **+3** |
+| luto | to cook | ✓ | 3 | 1 | **+2** |
+| basa | to read | ✓ | 3 | 1 | **+2** |
 
 ### Tell the time of day  _(14 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| didi | here | ✓ | 9 |
-| buwas | tomorrow | ✓ | 7 |
-| yana | now | ✓ | 4 |
-| kakulop | yesterday | ✓ | 3 |
-| dinhi | here | ✓ | 3 |
-| didto | there (far) | ✓ | 3 |
-| niyan | later | ✓ | 2 |
-| kanina | a little while ago | ✓ | 1 |
-| adlaw | day | ✓ | 1 |
-| semana | week | ✓ | 1 |
-| kagab-i | last night | ✓ | 0 |
-| kulop | afternoon | ✓ | 0 |
-| dida | there | ✓ | 0 |
-| panahon | time / weather | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| kagab-i | last night | ✓ | 3 | 0 | **+3** |
+| kulop | afternoon | ✓ | 3 | 0 | **+3** |
+| dida | there | ✓ | 3 | 0 | **+3** |
+| panahon | time / weather | ✓ | 3 | 0 | **+3** |
+| kanina | a little while ago | ✓ | 3 | 1 | **+2** |
+| adlaw | day | ✓ | 3 | 1 | **+2** |
+| semana | week | ✓ | 3 | 1 | **+2** |
+| niyan | later | ✓ | 3 | 2 | **+1** |
+| yana | now | ✓ | 3 | 4 | ✓ |
+| buwas | tomorrow | ✓ | 3 | 7 | ✓ |
+| kakulop | yesterday | ✓ | 3 | 3 | ✓ |
+| didi | here | ✓ | 3 | 9 | ✓ |
+| dinhi | here | ✓ | 3 | 3 | ✓ |
+| didto | there (far) | ✓ | 3 | 3 | ✓ |
 
 ### Name things at home  _(33 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| tubig | water | ✓ | 3 |
-| baso | glass | ✓ | 2 |
-| lapis | pencil | ✓ | 2 |
-| balay | house | ✓ | 1 |
-| kusina | kitchen | ✓ | 1 |
-| lamesa | table | ✓ | 1 |
-| sapatos | shoes | ✓ | 1 |
-| banyo | bathroom | ✓ | 0 |
-| kwarto | room | ✓ | 0 |
-| sala | living room | ✓ | 0 |
-| lingkuran | chair | ✓ | 0 |
-| katre | bed | ✓ | 0 |
-| kudal | fence | ✓ | 0 |
-| telebisyon | television | ✓ | 0 |
-| bado | clothes | ✓ | 0 |
-| tsinelas | slippers | ✓ | 0 |
-| saruwal | pants | ✓ | 0 |
-| panyo | handkerchief | ✓ | 0 |
-| mantel | tablecloth | ✓ | 0 |
-| biray | curtain | ✓ | 0 |
-| taklap | blanket | ✓ | 0 |
-| syaket | jacket | ✓ | 0 |
-| medyas | socks | ✓ | 0 |
-| tinidor | fork | ✓ | 0 |
-| kutsara | spoon | ✓ | 0 |
-| pinggan | plate | ✓ | 0 |
-| papel | paper | ✓ | 0 |
-| mulayan | toy | ✓ | 0 |
-| sista | guitar | ✓ | 0 |
-| pitaka | wallet | ✓ | 0 |
-| relo | watch | ✓ | 0 |
-| bag | bag | ✓ | 0 |
-| kalo | cap / hat | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| banyo | bathroom | ✓ | 3 | 0 | **+3** |
+| kwarto | room | ✓ | 3 | 0 | **+3** |
+| sala | living room | ✓ | 3 | 0 | **+3** |
+| lingkuran | chair | ✓ | 3 | 0 | **+3** |
+| katre | bed | ✓ | 3 | 0 | **+3** |
+| kudal | fence | ✓ | 3 | 0 | **+3** |
+| telebisyon | television | ✓ | 3 | 0 | **+3** |
+| bado | clothes | ✓ | 3 | 0 | **+3** |
+| tsinelas | slippers | ✓ | 3 | 0 | **+3** |
+| saruwal | pants | ✓ | 3 | 0 | **+3** |
+| panyo | handkerchief | ✓ | 3 | 0 | **+3** |
+| mantel | tablecloth | ✓ | 3 | 0 | **+3** |
+| biray | curtain | ✓ | 3 | 0 | **+3** |
+| taklap | blanket | ✓ | 3 | 0 | **+3** |
+| syaket | jacket | ✓ | 3 | 0 | **+3** |
+| medyas | socks | ✓ | 3 | 0 | **+3** |
+| tinidor | fork | ✓ | 3 | 0 | **+3** |
+| kutsara | spoon | ✓ | 3 | 0 | **+3** |
+| pinggan | plate | ✓ | 3 | 0 | **+3** |
+| papel | paper | ✓ | 3 | 0 | **+3** |
+| mulayan | toy | ✓ | 3 | 0 | **+3** |
+| sista | guitar | ✓ | 3 | 0 | **+3** |
+| pitaka | wallet | ✓ | 3 | 0 | **+3** |
+| relo | watch | ✓ | 3 | 0 | **+3** |
+| bag | bag | ✓ | 3 | 0 | **+3** |
+| kalo | cap / hat | ✓ | 3 | 0 | **+3** |
+| tubig | water | ✓ | 5 | 3 | **+2** |
+| balay | house | ✓ | 3 | 1 | **+2** |
+| kusina | kitchen | ✓ | 3 | 1 | **+2** |
+| lamesa | table | ✓ | 3 | 1 | **+2** |
+| sapatos | shoes | ✓ | 3 | 1 | **+2** |
+| baso | glass | ✓ | 3 | 2 | **+1** |
+| lapis | pencil | ✓ | 3 | 2 | **+1** |
 
 ### Talk about meals  _(8 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| marasa | delicious | ✓ | 6 |
-| pagkaon | food | ✓ | 2 |
-| gutom | hungry | ✓ | 2 |
-| kan-on | cooked rice | ✓ | 1 |
-| pamahaw | breakfast | ✓ | 0 |
-| paniudto | lunch | ✓ | 0 |
-| pangiklop | dinner | ✓ | 0 |
-| isnak | snack | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| pamahaw | breakfast | ✓ | 3 | 0 | **+3** |
+| paniudto | lunch | ✓ | 3 | 0 | **+3** |
+| pangiklop | dinner | ✓ | 3 | 0 | **+3** |
+| isnak | snack | ✓ | 3 | 0 | **+3** |
+| kan-on | cooked rice | ✓ | 3 | 1 | **+2** |
+| pagkaon | food | ✓ | 3 | 2 | **+1** |
+| gutom | hungry | ✓ | 3 | 2 | **+1** |
+| marasa | delicious | ✓ | 3 | 6 | ✓ |
 
 ### Ask the way  _(17 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| harani | near | ✓ | 1 |
-| eskwelahan | school | ✓ | 1 |
-| bangko | bank | ✓ | 0 |
-| botika | pharmacy | ✓ | 0 |
-| ospital | hospital | ✓ | 0 |
-| munisipyo | town / city hall | ✓ | 0 |
-| paradahan | terminal | ✓ | 0 |
-| eskina | corner | ✓ | 0 |
-| atbang | across / in front of | ✓ | 0 |
-| harayo | far | ✓ | 0 |
-| bus | bus | ✓ | 0 |
-| dyip | jeepney | ✓ | 0 |
-| taxi | taxi | ✓ | 0 |
-| pedicab | pedicab | ✓ | 0 |
-| traysikol | tricycle | ✓ | 0 |
-| hotel | hotel | ✓ | 0 |
-| barangay | neighborhood | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| bangko | bank | ✓ | 3 | 0 | **+3** |
+| botika | pharmacy | ✓ | 3 | 0 | **+3** |
+| ospital | hospital | ✓ | 3 | 0 | **+3** |
+| munisipyo | town / city hall | ✓ | 3 | 0 | **+3** |
+| paradahan | terminal | ✓ | 3 | 0 | **+3** |
+| eskina | corner | ✓ | 3 | 0 | **+3** |
+| atbang | across / in front of | ✓ | 3 | 0 | **+3** |
+| harayo | far | ✓ | 3 | 0 | **+3** |
+| bus | bus | ✓ | 3 | 0 | **+3** |
+| dyip | jeepney | ✓ | 3 | 0 | **+3** |
+| taxi | taxi | ✓ | 3 | 0 | **+3** |
+| pedicab | pedicab | ✓ | 3 | 0 | **+3** |
+| traysikol | tricycle | ✓ | 3 | 0 | **+3** |
+| hotel | hotel | ✓ | 3 | 0 | **+3** |
+| barangay | neighborhood | ✓ | 3 | 0 | **+3** |
+| harani | near | ✓ | 3 | 1 | **+2** |
+| eskwelahan | school | ✓ | 3 | 1 | **+2** |
 
 ### Name colors  _(6 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| itom | black | ✓ | 0 |
-| busag | white | ✓ | 0 |
-| pula | red | ✓ | 0 |
-| asul | blue | ✓ | 0 |
-| darag | yellow | ✓ | 0 |
-| berde | green | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| itom | black | ✓ | 3 | 0 | **+3** |
+| busag | white | ✓ | 3 | 0 | **+3** |
+| pula | red | ✓ | 3 | 0 | **+3** |
+| asul | blue | ✓ | 3 | 0 | **+3** |
+| darag | yellow | ✓ | 3 | 0 | **+3** |
+| berde | green | ✓ | 3 | 0 | **+3** |
 
 ### Talk about work  _(21 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| pastor | pastor | ✓ | 2 |
-| misyonaryo | missionary | ✓ | 1 |
-| estudyante | student | ✓ | 0 |
-| turista | tourist | ✓ | 0 |
-| nars | nurse | ✓ | 0 |
-| panday | carpenter | ✓ | 0 |
-| abugado | lawyer | ✓ | 0 |
-| mangingisda | fisherman | ✓ | 0 |
-| mag-uroma | farmer | ✓ | 0 |
-| direktor | director | ✓ | 0 |
-| kapitan | captain | ✓ | 0 |
-| mayor | mayor / boss | ✓ | 0 |
-| konsehal | councilman | ✓ | 0 |
-| negosyante | businessman | ✓ | 0 |
-| sekretarya | secretary | ✓ | 0 |
-| hardinero | gardener | ✓ | 0 |
-| tag-iya | owner | ✓ | 0 |
-| ninong | godfather | ✓ | 0 |
-| pasyente | patient | ✓ | 0 |
-| arte | art | ✓ | 0 |
-| musika | music | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| estudyante | student | ✓ | 2 | 0 | **+2** |
+| turista | tourist | ✓ | 2 | 0 | **+2** |
+| nars | nurse | ✓ | 2 | 0 | **+2** |
+| panday | carpenter | ✓ | 2 | 0 | **+2** |
+| abugado | lawyer | ✓ | 2 | 0 | **+2** |
+| mangingisda | fisherman | ✓ | 2 | 0 | **+2** |
+| mag-uroma | farmer | ✓ | 2 | 0 | **+2** |
+| direktor | director | ✓ | 2 | 0 | **+2** |
+| kapitan | captain | ✓ | 2 | 0 | **+2** |
+| mayor | mayor / boss | ✓ | 2 | 0 | **+2** |
+| konsehal | councilman | ✓ | 2 | 0 | **+2** |
+| negosyante | businessman | ✓ | 2 | 0 | **+2** |
+| sekretarya | secretary | ✓ | 2 | 0 | **+2** |
+| hardinero | gardener | ✓ | 2 | 0 | **+2** |
+| tag-iya | owner | ✓ | 2 | 0 | **+2** |
+| ninong | godfather | ✓ | 2 | 0 | **+2** |
+| pasyente | patient | ✓ | 2 | 0 | **+2** |
+| arte | art | ✓ | 2 | 0 | **+2** |
+| musika | music | ✓ | 2 | 0 | **+2** |
+| misyonaryo | missionary | ✓ | 2 | 1 | **+1** |
+| pastor | pastor | ✓ | 2 | 2 | ✓ |
 
 ### Describe people  _(20 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| mapaso | hot | ✓ | 6 |
-| mahusay | beautiful | ✓ | 5 |
-| daku | big | ✓ | 2 |
-| gutiay | small | ✓ | 1 |
-| maraksot | ugly | ✓ | 0 |
-| gwapo | handsome | ✓ | 0 |
-| hataas | tall / long | ✓ | 0 |
-| habubo | short | ✓ | 0 |
-| matambok | fat | ✓ | 0 |
-| magasa | thin | ✓ | 0 |
-| makusog | strong | ✓ | 0 |
-| malipay | happy | ✓ | 0 |
-| buoton | nice / kind / good | ✓ | 0 |
-| riko | rich | ✓ | 0 |
-| makarit | excellent | ✓ | 0 |
-| hubya | lazy | ✓ | 0 |
-| kapoy | tired | ✓ | 0 |
-| maraut | bad | ✓ | 0 |
-| grabe | serious | ✓ | 0 |
-| matidong | righteous | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| buoton | nice / kind / good | ✓ | 3 | 0 | **+3** |
+| grabe | serious | ✓ | 3 | 0 | **+3** |
+| maraksot | ugly | ✓ | 2 | 0 | **+2** |
+| gwapo | handsome | ✓ | 2 | 0 | **+2** |
+| hataas | tall / long | ✓ | 2 | 0 | **+2** |
+| habubo | short | ✓ | 2 | 0 | **+2** |
+| matambok | fat | ✓ | 2 | 0 | **+2** |
+| magasa | thin | ✓ | 2 | 0 | **+2** |
+| makusog | strong | ✓ | 2 | 0 | **+2** |
+| malipay | happy | ✓ | 2 | 0 | **+2** |
+| riko | rich | ✓ | 2 | 0 | **+2** |
+| makarit | excellent | ✓ | 2 | 0 | **+2** |
+| hubya | lazy | ✓ | 2 | 0 | **+2** |
+| kapoy | tired | ✓ | 2 | 0 | **+2** |
+| maraut | bad | ✓ | 2 | 0 | **+2** |
+| matidong | righteous | ✓ | 2 | 0 | **+2** |
+| gutiay | small | ✓ | 2 | 1 | **+1** |
+| mahusay | beautiful | ✓ | 2 | 5 | ✓ |
+| daku | big | ✓ | 2 | 2 | ✓ |
+| mapaso | hot | ✓ | 2 | 6 | ✓ |
 
 ### Say where it hurts  _(5 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| kasingkasing | heart | ✓ | 1 |
-| lawas | body | ✓ | 0 |
-| nawong | face | ✓ | 0 |
-| mata | eye | ✓ | 0 |
-| ulo | head | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| lawas | body | ✓ | 2 | 0 | **+2** |
+| nawong | face | ✓ | 2 | 0 | **+2** |
+| mata | eye | ✓ | 2 | 0 | **+2** |
+| ulo | head | ✓ | 2 | 0 | **+2** |
+| kasingkasing | heart | ✓ | 2 | 1 | **+1** |
 
 ### Can, must, mustn't  _(4 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| kinahanglan | need to / must | ✓ | 0 |
-| mahimo | can / able to | ✓ | 0 |
-| Ayaw | don't (command) | ✓ | 0 |
-| trabaho | work | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| kinahanglan | need to / must | ✓ | 2 | 0 | **+2** |
+| mahimo | can / able to | ✓ | 2 | 0 | **+2** |
+| Ayaw | don't (command) | ✓ | 2 | 0 | **+2** |
+| trabaho | work | ✓ | 2 | 0 | **+2** |
 
 ### Days & months  _(19 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| Sabado | Saturday | ✓ | 2 |
-| Mayo | May | ✓ | 1 |
-| Lunes | Monday | ✓ | 0 |
-| Martes | Tuesday | ✓ | 0 |
-| Miyerkoles | Wednesday | ✓ | 0 |
-| Huwebes | Thursday | ✓ | 0 |
-| Biyernes | Friday | ✓ | 0 |
-| Dominggo | Sunday | ✓ | 0 |
-| Enero | January | ✓ | 0 |
-| Pebrero | February | ✓ | 0 |
-| Marso | March | ✓ | 0 |
-| Abril | April | ✓ | 0 |
-| Hunyo | June | ✓ | 0 |
-| Hulyo | July | ✓ | 0 |
-| Agosto | August | ✓ | 0 |
-| Setyembre | September | ✓ | 0 |
-| Oktubre | October | ✓ | 0 |
-| Nobyembre | November | ✓ | 0 |
-| Disyembre | December | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| Lunes | Monday | ✓ | 2 | 0 | **+2** |
+| Martes | Tuesday | ✓ | 2 | 0 | **+2** |
+| Miyerkoles | Wednesday | ✓ | 2 | 0 | **+2** |
+| Huwebes | Thursday | ✓ | 2 | 0 | **+2** |
+| Biyernes | Friday | ✓ | 2 | 0 | **+2** |
+| Dominggo | Sunday | ✓ | 2 | 0 | **+2** |
+| Enero | January | ✓ | 2 | 0 | **+2** |
+| Pebrero | February | ✓ | 2 | 0 | **+2** |
+| Marso | March | ✓ | 2 | 0 | **+2** |
+| Abril | April | ✓ | 2 | 0 | **+2** |
+| Hunyo | June | ✓ | 2 | 0 | **+2** |
+| Hulyo | July | ✓ | 2 | 0 | **+2** |
+| Agosto | August | ✓ | 2 | 0 | **+2** |
+| Setyembre | September | ✓ | 2 | 0 | **+2** |
+| Oktubre | October | ✓ | 2 | 0 | **+2** |
+| Nobyembre | November | ✓ | 2 | 0 | **+2** |
+| Disyembre | December | ✓ | 2 | 0 | **+2** |
+| Mayo | May | ✓ | 2 | 1 | **+1** |
+| Sabado | Saturday | ✓ | 2 | 2 | ✓ |
 
 ### Talk about the weather  _(1 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| matugnaw | cold | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| matugnaw | cold | ✓ | 2 | 0 | **+2** |
 
 ### Make travel plans  _(5 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| biyahe | trip / travel | ✓ | 1 |
-| maabot | will arrive | ✓ | 0 |
-| lumakat | left / departed | ✓ | 0 |
-| san-o | when | ✓ | 0 |
-| kakan-o | when (past) | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| maabot | will arrive | ✓ | 1 | 0 | **+1** |
+| lumakat | left / departed | ✓ | 1 | 0 | **+1** |
+| san-o | when | ✓ | 1 | 0 | **+1** |
+| kakan-o | when (past) | ✓ | 1 | 0 | **+1** |
+| biyahe | trip / travel | ✓ | 1 | 1 | ✓ |
 
 ### Shop at the market  _(14 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| tindahan | store | ✓ | 8 |
-| palit | to buy | ✓ | 6 |
-| karuyag | want / like | ✓ | 2 |
-| tindera | vendor | ✓ | 0 |
-| kahera | cashier | ✓ | 0 |
-| kwarta | money | ✓ | 0 |
-| sukli | change | ✓ | 0 |
-| sinsilyo | coins | ✓ | 0 |
-| barato | cheap | ✓ | 0 |
-| bulad | dried fish | ✓ | 0 |
-| tinapa | smoked fish | ✓ | 0 |
-| ginbibiling | looking for | ✓ | 0 |
-| baraydan | amount to pay | ✓ | 0 |
-| bulig | to help | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| tindera | vendor | ✓ | 1 | 0 | **+1** |
+| kahera | cashier | ✓ | 1 | 0 | **+1** |
+| kwarta | money | ✓ | 1 | 0 | **+1** |
+| sukli | change | ✓ | 1 | 0 | **+1** |
+| sinsilyo | coins | ✓ | 1 | 0 | **+1** |
+| barato | cheap | ✓ | 1 | 0 | **+1** |
+| bulad | dried fish | ✓ | 1 | 0 | **+1** |
+| tinapa | smoked fish | ✓ | 1 | 0 | **+1** |
+| ginbibiling | looking for | ✓ | 1 | 0 | **+1** |
+| baraydan | amount to pay | ✓ | 1 | 0 | **+1** |
+| bulig | to help | ✓ | 1 | 0 | **+1** |
+| tindahan | store | ✓ | 2 | 8 | ✓ |
+| palit | to buy | ✓ | 1 | 6 | ✓ |
+| karuyag | want / like | ✓ | 1 | 2 | ✓ |
 
 ### Get around  _(8 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| bukid | mountain | ✓ | 2 |
-| pumpboat | pump boat | ✓ | 1 |
-| tulay | bridge | ✓ | 1 |
-| sarakyan | vehicle | ✓ | 0 |
-| motor | motorcycle | ✓ | 0 |
-| awto | car / auto | ✓ | 0 |
-| baktas | to walk | ✓ | 0 |
-| karsada | road | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| sarakyan | vehicle | ✓ | 1 | 0 | **+1** |
+| motor | motorcycle | ✓ | 1 | 0 | **+1** |
+| awto | car / auto | ✓ | 1 | 0 | **+1** |
+| baktas | to walk | ✓ | 1 | 0 | **+1** |
+| karsada | road | ✓ | 1 | 0 | **+1** |
+| pumpboat | pump boat | ✓ | 1 | 1 | ✓ |
+| bukid | mountain | ✓ | 1 | 2 | ✓ |
+| tulay | bridge | ✓ | 1 | 1 | ✓ |
 
 ### Check in at the airport  _(7 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| eroplano | airplane | ✓ | 0 |
-| tiket | ticket | ✓ | 0 |
-| bagahe | baggage | ✓ | 0 |
-| gate | gate | ✓ | 0 |
-| kostums | customs | ✓ | 0 |
-| pasaporte | passport | ✓ | 0 |
-| pasahero | passenger | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| pasaporte | passport | ✓ | 3 | 0 | **+3** |
+| eroplano | airplane | ✓ | 1 | 0 | **+1** |
+| tiket | ticket | ✓ | 1 | 0 | **+1** |
+| bagahe | baggage | ✓ | 1 | 0 | **+1** |
+| gate | gate | ✓ | 1 | 0 | **+1** |
+| kostums | customs | ✓ | 1 | 0 | **+1** |
+| pasahero | passenger | ✓ | 1 | 0 | **+1** |
 
 ### Plan a day trip  _(9 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| isla | island | ✓ | 1 |
-| pamasyada | outing / stroll | ✓ | 0 |
-| lugar | place | ✓ | 0 |
-| museo | museum | ✓ | 0 |
-| makaradlok | scary | ✓ | 0 |
-| mamasyada | to go out / stroll | ✓ | 0 |
-| kumita | to see / visit | ✓ | 0 |
-| maupod | to come along | ✓ | 0 |
-| huram | to borrow | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| museo | museum | ✓ | 2 | 0 | **+2** |
+| pamasyada | outing / stroll | ✓ | 1 | 0 | **+1** |
+| lugar | place | ✓ | 1 | 0 | **+1** |
+| makaradlok | scary | ✓ | 1 | 0 | **+1** |
+| mamasyada | to go out / stroll | ✓ | 1 | 0 | **+1** |
+| kumita | to see / visit | ✓ | 1 | 0 | **+1** |
+| maupod | to come along | ✓ | 1 | 0 | **+1** |
+| huram | to borrow | ✓ | 1 | 0 | **+1** |
+| isla | island | ✓ | 1 | 1 | ✓ |
 
 ### Cook a dish  _(13 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| lasona | garlic | ✓ | 0 |
-| sibuyas | onion | ✓ | 0 |
-| suoy | vinegar | ✓ | 0 |
-| toyo | soy sauce | ✓ | 0 |
-| pamyenta | pepper | ✓ | 0 |
-| asukar | sugar | ✓ | 0 |
-| lutuon | to cook (it) | ✓ | 0 |
-| igbabad | to marinate | ✓ | 0 |
-| pakaladkara | to boil (it) | ✓ | 0 |
-| panakot | ingredients / spices | ✓ | 0 |
-| madali | easy / quick | ✓ | 0 |
-| masayon | easy / simple | ✓ | 0 |
-| makuri | hard / difficult | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| lasona | garlic | ✓ | 1 | 0 | **+1** |
+| sibuyas | onion | ✓ | 1 | 0 | **+1** |
+| suoy | vinegar | ✓ | 1 | 0 | **+1** |
+| toyo | soy sauce | ✓ | 1 | 0 | **+1** |
+| pamyenta | pepper | ✓ | 1 | 0 | **+1** |
+| asukar | sugar | ✓ | 1 | 0 | **+1** |
+| lutuon | to cook (it) | ✓ | 1 | 0 | **+1** |
+| igbabad | to marinate | ✓ | 1 | 0 | **+1** |
+| pakaladkara | to boil (it) | ✓ | 1 | 0 | **+1** |
+| panakot | ingredients / spices | ✓ | 1 | 0 | **+1** |
+| madali | easy / quick | ✓ | 1 | 0 | **+1** |
+| masayon | easy / simple | ✓ | 1 | 0 | **+1** |
+| makuri | hard / difficult | ✓ | 1 | 0 | **+1** |
 
 ### Food & the table  _(20 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| isda | fish | ✓ | 0 |
-| manok | chicken | ✓ | 0 |
-| karne | meat | ✓ | 0 |
-| utan | vegetable | ✓ | 0 |
-| mangga | mango | ✓ | 0 |
-| prutas | fruit | ✓ | 0 |
-| nangka | jackfruit | ✓ | 0 |
-| kamatis | tomato | ✓ | 0 |
-| mais | corn | ✓ | 0 |
-| tsa | tea | ✓ | 0 |
-| sabaw | soup | ✓ | 0 |
-| keyk | cake | ✓ | 0 |
-| kape | coffee | ✓ | 0 |
-| gatas | milk | ✓ | 0 |
-| tinapay | bread | ✓ | 0 |
-| sorbetes | ice cream | ✓ | 0 |
-| duga | juice | ✓ | 0 |
-| kahel | orange | ✓ | 0 |
-| pinya | pineapple | ✓ | 0 |
-| pakwan | watermelon | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| tsa | tea | ✓ | 5 | 0 | **+5** |
+| kape | coffee | ✓ | 5 | 0 | **+5** |
+| tinapay | bread | ✓ | 5 | 0 | **+5** |
+| sorbetes | ice cream | ✓ | 5 | 0 | **+5** |
+| duga | juice | ✓ | 5 | 0 | **+5** |
+| mangga | mango | ✓ | 2 | 0 | **+2** |
+| kahel | orange | ✓ | 2 | 0 | **+2** |
+| pinya | pineapple | ✓ | 2 | 0 | **+2** |
+| pakwan | watermelon | ✓ | 2 | 0 | **+2** |
+| isda | fish | ✓ | 1 | 0 | **+1** |
+| manok | chicken | ✓ | 1 | 0 | **+1** |
+| karne | meat | ✓ | 1 | 0 | **+1** |
+| utan | vegetable | ✓ | 1 | 0 | **+1** |
+| prutas | fruit | ✓ | 1 | 0 | **+1** |
+| nangka | jackfruit | ✓ | 1 | 0 | **+1** |
+| kamatis | tomato | ✓ | 1 | 0 | **+1** |
+| mais | corn | ✓ | 1 | 0 | **+1** |
+| sabaw | soup | ✓ | 1 | 0 | **+1** |
+| keyk | cake | ✓ | 1 | 0 | **+1** |
+| gatas | milk | ✓ | 1 | 0 | **+1** |
 
 ### Talk about nature & animals  _(7 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| langit | sky / heaven | ✓ | 1 |
-| dagat | sea | ✓ | 0 |
-| bukad | flower | ✓ | 0 |
-| tuna | land / earth | ✓ | 0 |
-| ayam | dog | ✓ | 0 |
-| karabaw | carabao | ✓ | 0 |
-| tanom | plant | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| dagat | sea | ✓ | 1 | 0 | **+1** |
+| bukad | flower | ✓ | 1 | 0 | **+1** |
+| tuna | land / earth | ✓ | 1 | 0 | **+1** |
+| ayam | dog | ✓ | 1 | 0 | **+1** |
+| karabaw | carabao | ✓ | 1 | 0 | **+1** |
+| tanom | plant | ✓ | 1 | 0 | **+1** |
+| langit | sky / heaven | ✓ | 1 | 1 | ✓ |
 
 ### God & worship  _(8 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| Diyos | God | ✓ | 0 |
-| Ginoo | Lord | ✓ | 0 |
-| espiritu | spirit | ✓ | 0 |
-| simba | to worship | ✓ | 0 |
-| ampo | to pray | ✓ | 0 |
-| wali | to preach | ✓ | 0 |
-| bendisyon | blessing | ✓ | 0 |
-| gugma | love | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| Diyos | God | ✓ | 1 | 0 | **+1** |
+| Ginoo | Lord | ✓ | 1 | 0 | **+1** |
+| espiritu | spirit | ✓ | 1 | 0 | **+1** |
+| simba | to worship | ✓ | 1 | 0 | **+1** |
+| ampo | to pray | ✓ | 1 | 0 | **+1** |
+| wali | to preach | ✓ | 1 | 0 | **+1** |
+| bendisyon | blessing | ✓ | 1 | 0 | **+1** |
+| gugma | love | ✓ | 1 | 0 | **+1** |
 
 ### Church & belief  _(7 new words)_
 
-| New word | English | In this unit | Reused later |
-|---|---|:--:|--:|
-| simbahan | church | ✓ | 0 |
-| Kristohanon | Christian | ✓ | 0 |
-| Bibliya | Bible | ✓ | 0 |
-| kros | cross | ✓ | 0 |
-| kinabuhi | life | ✓ | 0 |
-| pasaylo | to forgive | ✓ | 0 |
-| kaadlawan | birthday | ✓ | 0 |
+| New word | English | In unit | Goal | Reused later | Status |
+|---|---|:--:|--:|--:|:--|
+| simbahan | church | ✓ | 1 | 0 | **+1** |
+| Kristohanon | Christian | ✓ | 1 | 0 | **+1** |
+| Bibliya | Bible | ✓ | 1 | 0 | **+1** |
+| kros | cross | ✓ | 1 | 0 | **+1** |
+| kinabuhi | life | ✓ | 1 | 0 | **+1** |
+| pasaylo | to forgive | ✓ | 1 | 0 | **+1** |
+| kaadlawan | birthday | ✓ | 1 | 0 | **+1** |

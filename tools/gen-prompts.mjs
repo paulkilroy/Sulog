@@ -185,21 +185,40 @@ unitsInOrder.forEach((u,uidx)=>{
 });
 const countIn = (w, pred) => corpus.filter(c=>pred(c.uidx) && c.words.has(w)).length;
 
-let reinf = `# Phrase reinforcement — by unit's new words\n\n`;
-reinf += `_For each unit: the **new words** it introduces, whether each appears in a phrase in **this** unit (✓ = covered), and how many phrases in **later** units use it (reinforcement). Corpus = existing ② Apply phrases + the recording prompts. ✗ in "this unit" = no phrase here yet; **Later 0** = never reused → weave it into a later prompt._\n`;
-let totNew=0, totCov=0, totZero=0;
+// ---- GOAL: target later-reuse per word, frequency-weighted ----
+// Base by phase (frequency-first: P1 core words recur most; P4 themes least),
+// bumped up if the word matches an early Duolingo Spanish concept.
+const normEn = s => s.toLowerCase().replace(/\(.*?\)/g,"").replace(/^(to |the |a |an )/,"").replace(/[^a-z ]/g,"").trim();
+const duoRank = {}; { let dr=0;
+  for (const line of fs.readFileSync("docs/sources/duolingo-spanish-vocab.txt","utf8").split("\n")) {
+    if (line.startsWith("#") || !line.trim()) continue;
+    line.split(" | ").forEach(p=>{ const en=(p.split("=")[1]||"").trim(); if(en){ dr++; const n=normEn(en); if(n && !(n in duoRank)) duoRank[n]=dr; } });
+  } }
+const unitPhase = {}; FREQUENCY.forEach((p,pi)=>p.units.forEach(u=>unitPhase[u.id]=pi+1));
+const PHASE_GOAL = {1:5, 2:3, 3:2, 4:1};
+const goalOf = (w, uid) => {
+  let g = PHASE_GOAL[unitPhase[uid]] || 1;
+  String(eng[w]||"").split("/").forEach(s=>{ const r=duoRank[normEn(s)]; if(r){ const dg = r<=40?5 : r<=100?3 : 2; if(dg>g) g=dg; } });
+  return g;
+};
+
+let reinf = `# Phrase reinforcement — by unit's new words (with goal)\n\n`;
+reinf += `_Each new word gets a **goal** = how many *later* phrases should reuse it, weighted by frequency (Phase 1 core words → 5; Phase 4 themes → 1; bumped up if it's an early Duolingo concept). **Status**: ✓ = goal met · **+N** = needs N more reuses. The recombination pass targets the **+N** words._\n`;
+let totNew=0, totCov=0, totMet=0, deficit=0;
 for (const u of newWordsByUnit){
   if (!u.words.length) continue;
-  reinf += `\n### ${u.name}  _(${u.words.length} new words)_\n\n| New word | English | In this unit | Reused later |\n|---|---|:--:|--:|\n`;
+  reinf += `\n### ${u.name}  _(${u.words.length} new words)_\n\n| New word | English | In unit | Goal | Reused later | Status |\n|---|---|:--:|--:|--:|:--|\n`;
   const rows = u.words.map(w=>{
     const here = countIn(w, ux=>ux===u.uidx) > 0;
     const later = countIn(w, ux=>ux>u.uidx);
-    totNew++; if(here)totCov++; if(later===0)totZero++;
-    return {w, here, later};
-  }).sort((a,b)=>b.later-a.later);
-  rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.here?"✓":"✗"} | ${r.later} |\n`);
+    const goal = goalOf(w, u.id);
+    const need = Math.max(0, goal-later);
+    totNew++; if(here)totCov++; if(need===0)totMet++; deficit+=need;
+    return {w, here, later, goal, need};
+  }).sort((a,b)=>b.need-a.need || b.goal-a.goal);
+  rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.here?"✓":"✗"} | ${r.goal} | ${r.later} | ${r.need?("**+"+r.need+"**"):"✓"} |\n`);
 }
-reinf = reinf.replace("by unit's new words\n", `by unit's new words\n\n_${totNew} new words · ${totCov} appear in a phrase in their own unit · ${totZero} are never reused in a later phrase._\n`);
+reinf = reinf.replace("(with goal)\n", `(with goal)\n\n_${totNew} new words · ${totMet} meet their reuse goal · ${totNew-totMet} fall short by a total of **${deficit}** reuses (the recombination backlog)._\n`);
 fs.writeFileSync("docs/phrase-reinforcement.md", reinf);
 
-console.log(`prompts: ${data.length} · new words: ${totNew} · covered in-unit: ${totCov} · zero future reuse: ${totZero}`);
+console.log(`prompts: ${data.length} · new words: ${totNew} · meet goal: ${totMet}/${totNew} · total deficit: ${deficit}`);

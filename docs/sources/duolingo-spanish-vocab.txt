@@ -1,0 +1,20 @@
+# Cafe
+agua=water | café=coffee | chao=bye | con azúcar=with sugar | con hielo=with ice | con leche=with milk | gracias=thank you | helado=ice cream | hola=hello | o=or | pan=bread | perfecto=perfect | por favor=please | quieres=do you want | quiero=I want | sándwich=sandwich | taco=taco | té=tea | un=one | vaso de=glass of | y=and
+# Greetings
+bien=well | bienvenido=welcome | buenos días=good morning | ella=she | es=is | hasta luego=see you later | jugo=juice | mejor amigo=best friend | mucho gusto=nice to meet you | qué tal=how's it going | soy=I am | yo=I | él=he
+# Origin
+Alemania=Germany | Francia=France | buenas tardes=good afternoon | compañero de cuarto=roommate | de dónde eres=where are you from | encantado=pleased | eres de=you are from | mamá=mom | mi=my | no=no | soy de=I am from | sí=yes | tú=you | verdad=truth
+# Family
+amigo=friend | compañero de trabajo=coworker | en realidad=actually | hermana=sister | hermano=brother | hija=daughter | hijo=son | quiere=wants | solamente=only | también=too | tengo=I have | tía=aunt | tío=uncle | una=a
+# Character
+abuela=grandmother | abuelo=grandfather | creo que=I think | esposa=wife | esposo=husband | gracioso=funny | novia=girlfriend | novio=boyfriend | papá=dad | pero=but | serio=serious | simpático=nice | tu=your | tímido=shy
+# Packing
+aquí=here | cargador=charger | cartera=wallet | chaqueta=jacket | dónde=where | gorra=cap | libro=book | maleta=suitcase | mochila=backpack | nuevo=new | pasaporte=passport | reloj=watch | suéter=sweater | tableta=tablet | tranquilo=calm | vestido=dress
+# City
+banco=bank | barrio=neighborhood | cafetería=coffee shop | centro comercial=shopping mall | cerca=nearby | ciudad=city | en=in | estacionamiento=parking | estación de metro=subway station | hay=there are | hotel=hotel | librería=bookstore | mira=look | museo=museum | panadería=bakery | parque=park | pueblo=town | tienda=store
+# Study
+alemán=German | arte=art | casa=house | escuela=school | español=Spanish | estudio=study | francés=French | genial=cool | hablar=speak | inglés=English | italiano=Italian | música=music | por la mañana=morning | por la noche=night | portugués=Portuguese
+# Weather
+abrigo=coat | ahora=now | allí=there | buen tiempo=good weather | calor=hot | diciembre=December | enero=January | frío=cold | hoy=today | invierno=winter | julio=July | marzo=March | mucho=much | octubre=October | otoño=fall | país=country | primavera=spring | septiembre=September | sol=sun | traje de baño=swimsuit | verano=summer | viento=wind
+# Market
+bolsa=bag | botella de=bottle of | cuánto cuesta=how much | dos=two | durazno=peach | este=this | kilo de=kilo of | mango=mango | mercado=market | más=more | naranja=orange | necesito=I need | piña=pineapple | sandía=watermelon | tres=three
