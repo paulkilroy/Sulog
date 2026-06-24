@@ -191,57 +191,57 @@ _290 words. Each has an English target sentence built only from words already ta
 ### Name things at home
 - **balay** _(house)_ → “This is the house.”  
   Waray: ____________________
-- **kusina** _(kitchen)_ → “Where is the kitchen?”  
+- **kusina** _(kitchen)_ → “Our kitchen is here.”  
   Waray: ____________________
-- **banyo** _(bathroom)_ → “Ana has a bathroom.”  
+- **banyo** _(bathroom)_ → “Where is the bathroom?”  
   Waray: ____________________
-- **kwarto** _(room)_ → “The room is in the house.”  
+- **kwarto** _(room)_ → “I have two rooms.”  
   Waray: ____________________
-- **sala** _(living room)_ → “This is the living room.”  
+- **sala** _(living room)_ → “The living room is in the kitchen.”  
   Waray: ____________________
-- **lingkuran** _(chair)_ → “Where is the chair?”  
+- **lingkuran** _(chair)_ → “This is the chair.”  
   Waray: ____________________
-- **katre** _(bed)_ → “He has a bed.”  
+- **katre** _(bed)_ → “My bed is here.”  
   Waray: ____________________
-- **kudal** _(fence)_ → “The fence is in the house.”  
+- **kudal** _(fence)_ → “Where is the fence?”  
   Waray: ____________________
-- **telebisyon** _(television)_ → “This is the television.”  
+- **telebisyon** _(television)_ → “I have two televisions.”  
   Waray: ____________________
-- **bado** _(clothes)_ → “Where is the clothes?”  
+- **bado** _(clothes)_ → “The clothes is in the house.”  
   Waray: ____________________
-- **sapatos** _(shoes)_ → “The man has a shoes.”  
+- **sapatos** _(shoes)_ → “This is the shoes.”  
   Waray: ____________________
-- **tsinelas** _(slippers)_ → “The slippers is in the house.”  
+- **tsinelas** _(slippers)_ → “Their slippers is here.”  
   Waray: ____________________
-- **saruwal** _(pants)_ → “This is the pants.”  
+- **saruwal** _(pants)_ → “Where is the pants?”  
   Waray: ____________________
-- **panyo** _(handkerchief)_ → “Where is the handkerchief?”  
+- **panyo** _(handkerchief)_ → “I have two handkerchiefs.”  
   Waray: ____________________
-- **mantel** _(tablecloth)_ → “Ana has a tablecloth.”  
+- **mantel** _(tablecloth)_ → “The tablecloth is in the kitchen.”  
   Waray: ____________________
-- **biray** _(curtain)_ → “The curtain is in the house.”  
+- **biray** _(curtain)_ → “This is the curtain.”  
   Waray: ____________________
-- **taklap** _(blanket)_ → “This is the blanket.”  
+- **taklap** _(blanket)_ → “Our blanket is here.”  
   Waray: ____________________
 - **syaket** _(jacket)_ → “Where is the jacket?”  
   Waray: ____________________
-- **medyas** _(socks)_ → “He has a socks.”  
+- **medyas** _(socks)_ → “I have two sockss.”  
   Waray: ____________________
 - **tinidor** _(fork)_ → “The fork is in the house.”  
   Waray: ____________________
 - **kutsara** _(spoon)_ → “This is the spoon.”  
   Waray: ____________________
-- **pinggan** _(plate)_ → “Where is the plate?”  
+- **pinggan** _(plate)_ → “My plate is here.”  
   Waray: ____________________
-- **libro** _(book)_ → “The man has a book.”  
+- **libro** _(book)_ → “Where is the book?”  
   Waray: ____________________
-- **lapis** _(pencil)_ → “The pencil is in the house.”  
+- **lapis** _(pencil)_ → “I have two pencils.”  
   Waray: ____________________
-- **mulayan** _(toy)_ → “This is the toy.”  
+- **mulayan** _(toy)_ → “The toy is in the kitchen.”  
   Waray: ____________________
-- **sista** _(guitar)_ → “Where is the guitar?”  
+- **sista** _(guitar)_ → “This is the guitar.”  
   Waray: ____________________
-- **tubig** _(water)_ → “Ana has a water.”  
+- **tubig** _(water)_ → “Their water is here.”  
   Waray: ____________________
 
 ### Talk about meals
@@ -263,23 +263,23 @@ _290 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **ospital** _(hospital)_ → “Pedro went to the hospital.”  
   Waray: ____________________
-- **istasyon hit pulis** _(police station)_ → “The police station is near.”  
+- **istasyon hit pulis** _(police station)_ → “Our police station is near.”  
   Waray: ____________________
-- **munisipyo** _(town / city hall)_ → “I will go to the town.”  
+- **munisipyo** _(town / city hall)_ → “I will go to the town now.”  
   Waray: ____________________
 - **paradahan** _(terminal)_ → “Where is the terminal?”  
   Waray: ____________________
 - **atbang** _(across / in front of)_ → “Rosa went to the across.”  
   Waray: ____________________
-- **bus** _(bus)_ → “The bus is near.”  
+- **bus** _(bus)_ → “Our bus is near.”  
   Waray: ____________________
-- **dyip** _(jeepney)_ → “I will go to the jeepney.”  
+- **dyip** _(jeepney)_ → “I will go to the jeepney now.”  
   Waray: ____________________
 - **taxi** _(taxi)_ → “Where is the taxi?”  
   Waray: ____________________
 - **pedicab** _(pedicab)_ → “Jose went to the pedicab.”  
   Waray: ____________________
-- **traysikol** _(tricycle)_ → “The tricycle is near.”  
+- **traysikol** _(tricycle)_ → “Our tricycle is near.”  
   Waray: ____________________
 
 ### Name colors

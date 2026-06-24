@@ -17,6 +17,28 @@ const isCov = (w,set)=>{const p=w.split("/").map(x=>x.trim()).filter(Boolean);if
 const g0 = w => (eng[w]||w).split("/")[0].replace(/\(.*?\)/g,"").trim();
 const gv = w => g0(w).replace(/^to\s+/,"").trim();
 
+// ---- reverse map: English prompt token -> deck Waray word (for accurate word counting) ----
+const SINGLE = SEED.map(r=>r[1]).filter(w=>!/\s/.test(w) && !w.includes("/")); // single-token cards
+const SINGLE_SET = new Set(SINGLE);
+const glossRev = {}; // english gloss head -> waray (first wins)
+SEED.forEach(r=>{ if(/\s/.test(r[1])||r[1].includes("/")) return; const g=g0(r[1]).toLowerCase(); if(g && !glossRev[g]) glossRev[g]=r[1]; });
+const MAN = { // function words + verbs the templates use, mapped to a representative deck word
+  my:"ko",our:"naton",your:"nimo",their:"nira",his:"iya",her:"iya",mine:"akon",ours:"aton",theirs:"ira",yours:"imo",
+  this:"ini",that:"iton",these:"ini",the:"an",here:"didi",there:"didto",now:"yana",later:"niyan",tomorrow:"buwas",yesterday:"kakulop",earlier:"kanina",tonight:"gab-i",
+  i:"ako",he:"hiya",she:"hiya",we:"kami",they:"hira",you:"ikaw",
+  and:"ngan",not:"diri",no:"waray",to:"ha",at:"ha","in":"ha",
+  eat:"kaon",ate:"kaon",eating:"kaon",go:"lakat",went:"lakat",going:"lakat",buy:"palit",bought:"palit",buying:"palit",drink:"inom",drank:"inom",drinking:"inom",
+  see:"kita",seen:"kita",cook:"luto",cooks:"luto",read:"basa",reads:"basa",wash:"hugas",washes:"hugas",fold:"lukot",folds:"lukot",pray:"ampo",worship:"simba",preaches:"wali",love:"gugma",want:"karuyag",wants:"karuyag",help:"bulig",forgive:"pasaylo",ride:"sakay",walk:"baktas",wait:"hulat",
+  has:"may",have:"may",
+  good:"maupay",big:"daku",small:"gutiay",nice:"mahusay",beautiful:"mahusay",delicious:"marasa",hungry:"gutom",hot:"mapaso",cold:"matugnaw",near:"harani",far:"harayo",cheap:"barato",tall:"hataas",kind:"buoton",
+  one:"usa",two:"duha",three:"tulo",
+};
+const en2war = t => { const k=t.toLowerCase().replace(/[^a-z]/g,""); return MAN[k] || glossRev[k] || null; };
+// the deck Waray words an English sentence implies (function + content words)
+const reverseWords = s => { const out=new Set(); s.split(/\s+/).forEach(t=>{ const w=en2war(t); if(w && SINGLE_SET.has(w)) out.add(w); }); return out; };
+// the deck single-words present in a real Waray phrase (folded match)
+const phraseWords = ph => { const set=new Set(toks(ph)); return SINGLE.filter(w=>isCov(w,set)); };
+
 // ---- cumulative known single-word vocab by unit (curriculum order) ----
 const unitsInOrder = [];
 let acc = new Set();
@@ -101,9 +123,17 @@ const BUILD = {
   u35:(w,c)=>({simba:"We worship God.",ampo:"I pray every night.",wali:"The pastor preaches.",gugma:"God is love.",Diyos:"I believe in God.",Ginoo:"The Lord is good.",espiritu:"The spirit is holy.",bendisyon:"This is a blessing.",kasingkasing:"My heart is glad."}[w]||`This is the ${gv(w)}.`),
   u36:(w,c)=>({simbahan:"We go to church.",pasaylo:"Please forgive me.",kinabuhi:"Life is good.",kaadlawan:"Today is my birthday.",langit:"Heaven is beautiful.",pastor:"He is a pastor.",misyonaryo:"She is a missionary.",Kristohanon:"I am a Christian.",Bibliya:"I read the Bible.",kros:"The cross is on the wall."}[w]||`This is the ${gv(w)}.`),
 };
-function thing(w,c){ const g=gv(w); const a=c.pick("adj"); const p=c.pick("place",1); const s=c.subj();
-  return [`This is the ${g}.`, a?`The ${g} is ${a}.`:`Where is the ${g}?`, `${s} has ${A(g)}.`, p?`The ${g} is in the ${p}.`:`I see the ${g}.`][c._i%4]; }
-function place(w,c){ const g=gv(w); return [`Where is the ${g}?`,`${c.name()} went to the ${g}.`,`The ${g} is near.`,`I will go to the ${g}.`][c._i%4]; }
+// thing frames deliberately rotate in grammar words already taught (my/our/their,
+// this/that, have, two, is-it-a-question) so those high-frequency words get reinforced
+function thing(w,c){ const g=gv(w); const a=c.pick("adj"); const p=c.pick("place",1); const poss=["my","our","their"][c._i%3];
+  return [
+    `This is the ${g}.`,
+    `${poss==="my"?"My":poss==="our"?"Our":"Their"} ${g} is here.`,
+    a?`Is the ${g} ${a}?`:`Where is the ${g}?`,
+    `I have two ${g}s.`,
+    p?`The ${g} is in the ${p}.`:`That is my ${g}.`,
+  ][c._i%5]; }
+function place(w,c){ const g=gv(w); return [`Where is the ${g}?`,`${c.name()} went to the ${g}.`,`Our ${g} is near.`,`I will go to the ${g} now.`][c._i%4]; }
 
 // ---- generate ----
 const SKIP_U=new Set(["u1","u33"]); const SKIP_W=new Set(["han","hin","ha","hi","ngan","it","an","na","pa","liwat","ba","ano","hain","diin","mapira","tagpira","hin-o","ini","iton","adto","Pwede","Ayaw","Waray","Diri","Oo","Adi","Anay","Sige","maupay","tabang","Salamat"]);
@@ -120,7 +150,8 @@ for (const u of unitsInOrder) {
     // skip items with no real builder result — multi-word entries that are already
     // phrases/expressions (e.g. "Ano it oras dida?") don't need a sentence built around them
     if (/^(Say it for|Make a simple sentence)/.test(en)) return;
-    const wordsUsed = [...new Set([w, ...c.used])];
+    // complete Waray word set this prompt implies: target + reverse-mapped tokens
+    const wordsUsed = [...new Set([w, ...reverseWords(en)])];
     data.push({ unit:u.id, unitName:u.name, word:w, gloss:eng[w]||"", prompt:en, words:wordsUsed });
   });
 }
@@ -135,22 +166,40 @@ let cur="";
 for (const d of data){ if(d.unitName!==cur){cur=d.unitName; sheet+=`\n### ${cur}\n`;} sheet+=`- **${d.word}** _(${d.gloss})_ → “${d.prompt}”  \n  Waray: ____________________\n`; }
 fs.writeFileSync("docs/phrase-recording-sheet.md", sheet);
 
-// reinforcement table: per unit, words used in its prompts + how often each recurs in LATER units' prompts
-const unitOrder = [...new Set(data.map(d=>d.unit))];
-const promptsByUnitIdx = {}; unitOrder.forEach((u,i)=>promptsByUnitIdx[u]=i);
-let reinf = `# Phrase reinforcement\n\n_For each unit: the deck words appearing in its recording prompts, and how many times each word recurs in a **later** unit's prompts (reinforcement). High future-count = well reinforced; 0 = only seen once._\n`;
-for (const u of unitOrder){
-  const uName = data.find(d=>d.unit===u).unitName;
-  const here = data.filter(d=>d.unit===u);
-  const wordSet = [...new Set(here.flatMap(d=>d.words))];
-  reinf += `\n### ${uName}  _(${here.length} prompts, ${wordSet.length} distinct words)_\n\n| Word | English | Used here | Reused later |\n|---|---|--:|--:|\n`;
-  const rows = wordSet.map(w=>{
-    const usedHere = here.filter(d=>d.words.includes(w)).length;
-    const later = data.filter(d=>promptsByUnitIdx[d.unit]>promptsByUnitIdx[u] && d.words.includes(w)).length;
-    return {w, usedHere, later};
-  }).sort((a,b)=>b.later-a.later || b.usedHere-a.usedHere);
-  rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.usedHere} | ${r.later} |\n`);
+// ---- reinforcement table: keyed on each unit's NEW words ----
+// Corpus of phrases (each = a Set of deck words it contains), in curriculum order,
+// = existing ② Apply phrases (real Waray) + the recording prompts (reverse-mapped).
+const corpus = []; // { uidx, words:Set }
+const newWordsByUnit = []; // { id, name, words:[ new single-word vocab introduced here ] }
+let seen = new Set();
+unitsInOrder.forEach((u,uidx)=>{
+  const unitObj = FREQUENCY.flatMap(p=>p.units).find(x=>x.id===u.id);
+  // existing apply phrases for this unit
+  (unitObj.lessons.filter(l=>l.kind==="apply").flatMap(l=>l.items||[])).forEach(ph=>corpus.push({uidx, words:new Set(phraseWords(ph))}));
+  // recording prompts for this unit
+  data.filter(d=>d.unit===u.id).forEach(d=>corpus.push({uidx, words:new Set(d.words)}));
+  // new single-word vocab first introduced in this unit
+  const fresh = u.words.filter(w=>!/\s/.test(w) && !w.includes("/")).filter(w=>!seen.has(w));
+  fresh.forEach(w=>seen.add(w));
+  newWordsByUnit.push({ id:u.id, name:u.name, uidx, words:fresh });
+});
+const countIn = (w, pred) => corpus.filter(c=>pred(c.uidx) && c.words.has(w)).length;
+
+let reinf = `# Phrase reinforcement — by unit's new words\n\n`;
+reinf += `_For each unit: the **new words** it introduces, whether each appears in a phrase in **this** unit (✓ = covered), and how many phrases in **later** units use it (reinforcement). Corpus = existing ② Apply phrases + the recording prompts. ✗ in "this unit" = no phrase here yet; **Later 0** = never reused → weave it into a later prompt._\n`;
+let totNew=0, totCov=0, totZero=0;
+for (const u of newWordsByUnit){
+  if (!u.words.length) continue;
+  reinf += `\n### ${u.name}  _(${u.words.length} new words)_\n\n| New word | English | In this unit | Reused later |\n|---|---|:--:|--:|\n`;
+  const rows = u.words.map(w=>{
+    const here = countIn(w, ux=>ux===u.uidx) > 0;
+    const later = countIn(w, ux=>ux>u.uidx);
+    totNew++; if(here)totCov++; if(later===0)totZero++;
+    return {w, here, later};
+  }).sort((a,b)=>b.later-a.later);
+  rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.here?"✓":"✗"} | ${r.later} |\n`);
 }
+reinf = reinf.replace("by unit's new words\n", `by unit's new words\n\n_${totNew} new words · ${totCov} appear in a phrase in their own unit · ${totZero} are never reused in a later phrase._\n`);
 fs.writeFileSync("docs/phrase-reinforcement.md", reinf);
 
-console.log(`prompts: ${data.length} · units: ${unitOrder.length}`);
+console.log(`prompts: ${data.length} · new words: ${totNew} · covered in-unit: ${totCov} · zero future reuse: ${totZero}`);
