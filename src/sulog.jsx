@@ -989,12 +989,12 @@ function HomeView({ ctx }) {
       <div className="ws-units">
         {CURRICULUM.map((s) => {
           const sc = sectionCards(cards, s);
-          let f = 0, l = 0, m = 0;
+          let f = 0, l = 0, m = 0, w = 0;
           sc.forEach((c) => {
             const st = prog[c.id];
-            if (!st || st.seen === 0) f++;
-            else if (st.box >= 4) m++;
-            else l++;
+            if (!st || st.seen === 0) { f++; return; }
+            const p = masteryPct(st); // match the grid's buckets
+            if (p >= 0.8) m++; else if (p >= 0.4) l++; else w++; // w = weak/struggling (red)
           });
           const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l2) => lessonDone(lessons, l2.id)).length;
           const lessonsTot = s.units.flatMap((u) => u.lessons).length;
@@ -1006,7 +1006,7 @@ function HomeView({ ctx }) {
                 <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
               </div>
               <div className="ws-unit-tile-sub">{mUnits > 0 ? `${mUnits}/${s.units.length} units mastered` : "tap to review or re-learn"}</div>
-              <Distribution fresh={f} learning={l} mastered={m} />
+              <Distribution fresh={f} learning={l} mastered={m} weak={w} />
               <ConstellationGrid cards={sc} prog={prog} />
             </button>
           );
@@ -1093,18 +1093,20 @@ function DayTracker({ streak }) {
   );
 }
 
-function Distribution({ fresh, learning, mastered }) {
-  const tot = fresh + learning + mastered || 1;
+function Distribution({ fresh, learning, mastered, weak = 0 }) {
+  const tot = fresh + learning + mastered + weak || 1;
   return (
     <div className="ws-dist">
       <div className="ws-dist-bar">
         <div style={{ width: `${(mastered / tot) * 100}%` }} className="ws-seg ws-seg-m" />
         <div style={{ width: `${(learning / tot) * 100}%` }} className="ws-seg ws-seg-l" />
+        <div style={{ width: `${(weak / tot) * 100}%` }} className="ws-seg ws-seg-x" />
         <div style={{ width: `${(fresh / tot) * 100}%` }} className="ws-seg ws-seg-f" />
       </div>
       <div className="ws-dist-legend">
         <span><i className="ws-dot ws-dot-m" />Mastered {mastered}</span>
         <span><i className="ws-dot ws-dot-l" />Learning {learning}</span>
+        {weak > 0 && <span><i className="ws-dot ws-dot-x" />Needs work {weak}</span>}
         <span><i className="ws-dot ws-dot-f" />New {fresh}</span>
       </div>
     </div>
@@ -3085,11 +3087,11 @@ function Styles() {
 .ws-dist{margin-bottom:16px}
 .ws-dist-bar{display:flex;height:13px;border-radius:20px;overflow:hidden;background:var(--sand)}
 .ws-seg{transition:width .6s}
-.ws-seg-m{background:var(--jade)} .ws-seg-l{background:var(--tide-soft)} .ws-seg-f{background:var(--sand-deep)}
+.ws-seg-m{background:var(--jade)} .ws-seg-l{background:var(--tide-soft)} .ws-seg-x{background:var(--coral)} .ws-seg-f{background:var(--sand-deep)}
 .ws-dist-legend{display:flex;gap:14px;margin-top:9px;font-size:11.5px;color:var(--ink-soft);flex-wrap:wrap}
 .ws-dist-legend span{display:flex;align-items:center;gap:5px}
 .ws-dot{width:9px;height:9px;border-radius:3px;display:inline-block}
-.ws-dot-m{background:var(--jade)} .ws-dot-l{background:var(--tide-soft)} .ws-dot-f{background:var(--sand-deep)}
+.ws-dot-m{background:var(--jade)} .ws-dot-l{background:var(--tide-soft)} .ws-dot-x{background:var(--coral)} .ws-dot-f{background:var(--sand-deep)}
 
 /* constellation */
 .ws-constel{display:grid;grid-template-columns:repeat(auto-fill,minmax(13px,1fr));gap:4px;margin-top:4px}
