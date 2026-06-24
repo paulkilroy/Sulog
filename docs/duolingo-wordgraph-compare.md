@@ -35,6 +35,31 @@ vocabulary."
 | Words in 1 sentence | 16% | 68% |
 | Words in ≥5 sentences | 15 | 6 |
 
+## Deeper crawl (2026-06-23): first 36 Duolingo skills vs our 36 units
+Crawled the Spanish skill order from `Module:Skills/spanish` and batch-fetched the
+first 36 skill pages (Intro → Phrases 2) via the API. **Caveat:** the wiki only
+carries full sentence lists for the first 4 skills (Intro/Phrases/Travel/Restaurant);
+the rest are word-list stubs. So the sentence-level graph is Duolingo's first 4
+skills (188 sentences) vs our full 36 units.
+
+| Metric | Duolingo (first 4 skills) | Sulog (36 units) |
+|---|--:|--:|
+| New words | 105 | 356 |
+| Sentences | 188 | 455 |
+| Sentences / new word | 1.8 | 1.3 |
+| Distinct words in sentences | 112 | 367 |
+| **Words appearing once** | **7%** | **67%** |
+| **Words appearing ≥3×** | **79%** | **21%** |
+
+**Diagnosis (refined):** sentences-per-word is similar (1.8 vs 1.3); the gap is
+**vocabulary concentration**. Duolingo packs ~112 words into 188 sentences and
+recombines them (79% appear 3+×). We scatter 367 words across 455 sentences (67%
+appear once). Their first 4 skills teach ~105 words *deeply*; ours teach 356
+*thinly*. Two levers: (1) recombine more, (2) introduce fewer words per stretch and
+drill them before adding more.
+
+Our counts at time of writing: **4 phases · 36 units · 80 lessons** (49 ① words / 31 ② apply).
+
 ## The fix (proposed)
 Stop generating one prompt per word. Instead, per unit generate a **sentence pool**
 that:
