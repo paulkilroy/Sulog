@@ -1737,7 +1737,15 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
       settled = true; setVmState("idle"); setSttAlts(a);
       const waray = dir === "etw";
       if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
-      else { const idx = options.findIndex((o) => a.some((x) => checkAnswer(x, o, waray))); if (idx >= 0) { setPicked(idx); judge(options[idx] === answer); } }
+      else { // mc / listen — pick the CLOSEST-matching option, not the first loose match
+        // (e.g. "waray pa" contains "waray", but should select "Waray pa" exactly, not "Waray")
+        let best = -1, bestD = Infinity;
+        options.forEach((o, k) => a.forEach((x) => {
+          const m = explainMatch(x, o, waray);
+          if (m.ok) { const d = Math.min(...m.targets.map((t) => t.dist)); if (d < bestD) { bestD = d; best = k; } }
+        }));
+        if (best >= 0) { setPicked(best); judge(options[best] === answer); }
+      }
     };
     rec.onresult = (e) => { if (tok !== vmTok.current) return;
       const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
