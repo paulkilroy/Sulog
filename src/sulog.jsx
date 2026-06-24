@@ -1731,20 +1731,22 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     if (!SpeechRec) return;
     vmStop(); const tok = vmTok.current; setHeard([]); setSttAlts(null); setVmState("listening");
     const rec = new SpeechRec(); rec.lang = sttLang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
-    let settled = false;
+    let settled = false, lastAlts = []; // keep interim guesses so a no-final end still judges
+    // reach a verdict from a set of guesses (type: always judges; mc: judges only on a match)
+    const finish = (a) => {
+      settled = true; setVmState("idle"); setSttAlts(a);
+      const waray = dir === "etw";
+      if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
+      else { const idx = options.findIndex((o) => a.some((x) => checkAnswer(x, o, waray))); if (idx >= 0) { setPicked(idx); judge(options[idx] === answer); } }
+    };
     rec.onresult = (e) => { if (tok !== vmTok.current) return;
       const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
-      if (res.isFinal) { settled = true; setVmState("idle"); setSttAlts(a);
-        const waray = dir === "etw";
-        if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
-        else { // mc / listen — pick whichever option the spoken answer matches
-          const idx = options.findIndex((o) => a.some((x) => checkAnswer(x, o, waray)));
-          if (idx >= 0) { setPicked(idx); judge(options[idx] === answer); }
-          else { setVmState("idle"); /* no match → tap an option or re-listen */ }
-        }
-      } else setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); };
-    rec.onerror = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
-    rec.onend = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
+      if (res.isFinal) finish(a);
+      else { lastAlts = a; setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); } };
+    // ended/errored without a final result: judge on the last interim if we heard anything,
+    // so the card always reaches a verdict (and its Continue / "I was right" buttons) — never stuck
+    const onEnd = () => { if (tok === vmTok.current && !settled) { if (lastAlts.length) finish(lastAlts); else setVmState("idle"); } };
+    rec.onerror = onEnd; rec.onend = onEnd;
     vmRec.current = rec; try { rec.start(); } catch (e) { setVmState("idle"); }
   };
   useEffect(() => {
