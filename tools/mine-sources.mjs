@@ -96,4 +96,11 @@ rows.ched.forEach(([w,g,wa,k,dr])=>md+=`| **${w}** _(${g})_ | ${wa} | _${dr}_ | 
 md+=`\n## 🎤 No attested match — record these (${none})\n\n`;
 md+=rows.none.map(([w,g])=>`- **${w}** _(${g})_`).join("\n")+"\n";
 fs.writeFileSync("docs/phrase-mining.md", md);
-console.log("\nwrote docs/phrase-mining.md");
+// structured data for integration (unit per word from the recording prompts)
+const unitOf={}; RECORDING_PROMPTS.forEach(d=>unitOf[d.word]=unitOf[d.word]||{unit:d.unit,unitName:d.unitName});
+const strip=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,""); // drop diacritics for the card
+const J={pc:[], ched:[]};
+rows.pc.forEach(([w,g,wa,e])=>J.pc.push({word:w, ...unitOf[w], waray:strip(wa).replace(/\s+/g," ").trim(), english:e}));
+rows.ched.forEach(([w,g,wa,k,dr])=>J.ched.push({word:w, ...unitOf[w], waray:strip(wa).replace(/\s+/g," ").trim(), gloss:dr, known:k}));
+fs.writeFileSync("docs/phrase-mining-data.json", JSON.stringify(J,null,1));
+console.log("\nwrote docs/phrase-mining.md + phrase-mining-data.json");

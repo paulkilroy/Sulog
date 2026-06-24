@@ -1,0 +1,796 @@
+{
+ "pc": [
+  {
+   "word": "kita",
+   "unit": "u3",
+   "unitName": "Say who's who",
+   "waray": "Mga sangkay kita.",
+   "english": "We (incl) are friends."
+  },
+  {
+   "word": "kami",
+   "unit": "u3",
+   "unitName": "Say who's who",
+   "waray": "Mga Pilipino kami.",
+   "english": "We (excl) are Filipinos."
+  },
+  {
+   "word": "kamo",
+   "unit": "u3",
+   "unitName": "Say who's who",
+   "waray": "Tinmawag kamo",
+   "english": "you-pl called"
+  },
+  {
+   "word": "hira",
+   "unit": "u3",
+   "unitName": "Say who's who",
+   "waray": "Riko hira.",
+   "english": "They are rich."
+  },
+  {
+   "word": "lalaki",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Makusog hiya nga lalake",
+   "english": "he's a strong man"
+  },
+  {
+   "word": "bata",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Malabad an mga bata",
+   "english": "the children are naughty"
+  },
+  {
+   "word": "tawo",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Tawo iton.",
+   "english": "That is a person."
+  },
+  {
+   "word": "iyo",
+   "unit": "u11",
+   "unitName": "Say it's mine",
+   "waray": "Magdara ako han iyo lamesa ha iyo balay.",
+   "english": "I am bringing your table in your house."
+  },
+  {
+   "word": "nakaon",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Nakaon hiya",
+   "english": "he's eating"
+  },
+  {
+   "word": "mapalit",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Mapalit hira hin mga isda ha merkado",
+   "english": "they'll buy fish at the market"
+  },
+  {
+   "word": "inminom",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Inminom hira",
+   "english": "they drank"
+  },
+  {
+   "word": "didto",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Mag-ano man kamo didto?",
+   "english": "(What will you do there?)"
+  },
+  {
+   "word": "balay",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Magdara ako han iyo lamesa ha iyo balay.",
+   "english": "I am bringing your table in your house."
+  },
+  {
+   "word": "kusina",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Inminom hiya hini nga gatas ha kusina",
+   "english": "she drank this milk in the kitchen"
+  },
+  {
+   "word": "sala",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Natindog hira hiton lamesa ha sala",
+   "english": "standing on that table in the living room"
+  },
+  {
+   "word": "lingkuran",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Madig-on an mga lingkuran",
+   "english": "the chairs are strong/sturdy"
+  },
+  {
+   "word": "libro",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Mga libro ini",
+   "english": "these are books"
+  },
+  {
+   "word": "tubig",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Tubig ini.",
+   "english": "This is water. (very near)"
+  },
+  {
+   "word": "pastor",
+   "unit": "u5",
+   "unitName": "Talk about work",
+   "waray": "Maduroto ba hira nga mga pastor?",
+   "english": "Are they industrious pastors?"
+  },
+  {
+   "word": "daku",
+   "unit": "u6",
+   "unitName": "Describe people",
+   "waray": "Daku an klase",
+   "english": "the class is big"
+  },
+  {
+   "word": "mata",
+   "unit": "u7",
+   "unitName": "Say where it hurts",
+   "waray": "Mata ini",
+   "english": "this is an eye"
+  },
+  {
+   "word": "karuyag",
+   "unit": "u25",
+   "unitName": "Shop at the market",
+   "waray": "Karuyag magpalit ako hin karne ha merkado.",
+   "english": "I want to buy meat at the market."
+  },
+  {
+   "word": "karsada",
+   "unit": "u26",
+   "unitName": "Get around",
+   "waray": "Karsada ito.",
+   "english": "That is a road."
+  },
+  {
+   "word": "karne",
+   "unit": "u31",
+   "unitName": "Food & the table",
+   "waray": "Karuyag magpalit ako hin karne ha merkado.",
+   "english": "I want to buy meat at the market."
+  },
+  {
+   "word": "kahoy",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Kahoy adto.",
+   "english": "That \"over there\" is a tree. (far)"
+  },
+  {
+   "word": "dagat",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Dagat iton",
+   "english": "that's the sea"
+  }
+ ],
+ "ched": [
+  {
+   "word": "tatay",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Waray pa ada umabot an iya tatay.",
+   "gloss": "no still maybe [umabot] the his father",
+   "known": 71
+  },
+  {
+   "word": "anak",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Walo an ira anak.",
+   "gloss": "eight the theirs child",
+   "known": 100
+  },
+  {
+   "word": "apoy",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Didto na ito hira ha bukid han Apoy pagkatatawo.",
+   "gloss": "there already that they to mountain of the grandparent [pagkatatawo]",
+   "known": 78
+  },
+  {
+   "word": "apo",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Hi ako an tuba kan lubi apo.",
+   "gloss": "I the [tuba] [kan] [lubi] grandchild",
+   "known": 57
+  },
+  {
+   "word": "asawa",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Dinhi la kamo kay malakat ako, ginsiring an iya asawa.",
+   "gloss": "here just you because will go I [ginsiring] the his wife",
+   "known": 80
+  },
+  {
+   "word": "babaye",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Babayi an nati han amon karabaw.",
+   "gloss": "woman the [nati] of the ours carabao",
+   "known": 83
+  },
+  {
+   "word": "lagas",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "An ira nauusahan— ini nga lagas maupay kumita kun gab-i.",
+   "gloss": "the theirs [nauusahan—] this old person good see if [gab-i]",
+   "known": 60
+  },
+  {
+   "word": "bisita",
+   "unit": "u4",
+   "unitName": "Introduce your family",
+   "waray": "Agi, adi na an mga bisita!",
+   "gloss": "[Agi] Here it is already the [mga] visitor",
+   "known": 67
+  },
+  {
+   "word": "ko",
+   "unit": "u10",
+   "unitName": "Say what's yours",
+   "waray": "Nailiw na an kasingkasing ko.",
+   "gloss": "[Nailiw] already the heart my",
+   "known": 80
+  },
+  {
+   "word": "niyo",
+   "unit": "u10",
+   "unitName": "Say what's yours",
+   "waray": "Saliwani gad niyo an amon tanom nga iyo gin-ubos.",
+   "gloss": "[Saliwani] [gad] your the ours plant yours [gin-úbos]",
+   "known": 56
+  },
+  {
+   "word": "nira",
+   "unit": "u10",
+   "unitName": "Say what's yours",
+   "waray": "Kun ano man an ira nakakawat, iginbabahin nira ha ira datu.",
+   "gloss": "if what [man] the theirs [nakakawat] [iginbabahin] their to theirs [datu]",
+   "known": 55
+  },
+  {
+   "word": "aton",
+   "unit": "u11",
+   "unitName": "Say it's mine",
+   "waray": "Ini amo an maglilipay ha aton mahatungod han aton buhat.",
+   "gloss": "this [amo] the [maglilipay] to ours [mahatungód] of the ours do",
+   "known": 70
+  },
+  {
+   "word": "amon",
+   "unit": "u11",
+   "unitName": "Say it's mine",
+   "waray": "Waray pa pag- anak an amon ayam.",
+   "gloss": "no still [pag-] child the ours dog",
+   "known": 86
+  },
+  {
+   "word": "ira",
+   "unit": "u11",
+   "unitName": "Say it's mine",
+   "waray": "Walo an ira anak.",
+   "gloss": "eight the theirs child",
+   "known": 100
+  },
+  {
+   "word": "makaon",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Panguha hin bayabas, makaon ako.",
+   "gloss": "[Panguha] a [bayabas] will eat I",
+   "known": 60
+  },
+  {
+   "word": "malakat",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Dinhi la kamo kay malakat ako, ginsiring an iya asawa.",
+   "gloss": "here just you because will go I [ginsiring] the his wife",
+   "known": 80
+  },
+  {
+   "word": "napalit",
+   "unit": "u15",
+   "unitName": "Do it: now / will / did",
+   "waray": "Diri igo an iya napalit nga sapatos.",
+   "gloss": "not [ígo] the his is buying shoes",
+   "known": 71
+  },
+  {
+   "word": "sayaw",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "O, kay ano nagbubuhat hin sayaw an usa nga mananayaw?",
+   "gloss": "[O] because what [nagbubúhat] a dance the one [mananayaw]",
+   "known": 60
+  },
+  {
+   "word": "hatag",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Malipayon hiya han hatag ha iya nga bukad.",
+   "gloss": "[Malipayon] he/she of the give to his flower",
+   "known": 75
+  },
+  {
+   "word": "dara",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Gutom an umabot ha ira dara han pagkinarag hin pagkaon.",
+   "gloss": "hungry the [umabot] to theirs bring of the [pagkinarag] a food",
+   "known": 80
+  },
+  {
+   "word": "bayad",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Adi an akon ayaw han kulang ko nga bayad ka kulop.",
+   "gloss": "Here it is the mine don't of the [kulang] my pay you afternoon",
+   "known": 73
+  },
+  {
+   "word": "dalagan",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Ha tanto han iya dalagan, hirayo na hiya hin duro.",
+   "gloss": "to [tanto] of the his run [hiráyo] already he/she a [duro]",
+   "known": 70
+  },
+  {
+   "word": "uli",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Kay ano waray ka uli kagab-i?",
+   "gloss": "because what no you go home last night",
+   "known": 83
+  },
+  {
+   "word": "sulod",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Makuri maabot han mga bomber an sunog kay adto ha sulod.",
+   "gloss": "hard will arrive of the [mga] [bomber] the [sunog] because that to enter",
+   "known": 73
+  },
+  {
+   "word": "buhat",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Buhat na ikaw dida kay maalas-syete na.",
+   "gloss": "do already you there because [maalas-syete] already",
+   "known": 71
+  },
+  {
+   "word": "surat",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Nababara na kami kay waray ka man balos han amon surat.",
+   "gloss": "[Nababara] already we because no you [man] [bálos] of the ours write",
+   "known": 64
+  },
+  {
+   "word": "siring",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Kay siring niya, “Kay baga higagamitan pa gad ini nga lamisa.",
+   "gloss": "because speak his because [baga] [higagamitan] still [gad] this table",
+   "known": 64
+  },
+  {
+   "word": "abot",
+   "unit": "u17",
+   "unitName": "Everyday actions",
+   "waray": "Binuhi hira niya inay ha abot han iya makakaya.",
+   "gloss": "[Binuhi] they his [inay] to arrive of the his [makakaya]",
+   "known": 67
+  },
+  {
+   "word": "yana",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Kakaonon ko ini yana.",
+   "gloss": "[Kakaonon] my this now",
+   "known": 75
+  },
+  {
+   "word": "niyan",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Makadto kami niyan kanda Apoy Emang.",
+   "gloss": "will go to we later [kanda] grandparent [Emang]",
+   "known": 67
+  },
+  {
+   "word": "kanina",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Kinaon ko na kanina an akon bahin nga snack.",
+   "gloss": "[Kinaon] my already a little while ago the mine [bahín] [snack]",
+   "known": 56
+  },
+  {
+   "word": "kagab-i",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Kay ano waray ka uli kagab-i?",
+   "gloss": "because what no you go home last night",
+   "known": 83
+  },
+  {
+   "word": "kulop",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Adi an akon ayaw han kulang ko nga bayad ka kulop.",
+   "gloss": "Here it is the mine don't of the [kulang] my pay you afternoon",
+   "known": 73
+  },
+  {
+   "word": "didi",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Baga nakadungog liwat ako hin istorya didi, makaharadlok liwat.",
+   "gloss": "[Baga] [nakadungóg] also I a [istorya] here [makaharadlok] also",
+   "known": 56
+  },
+  {
+   "word": "dida",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Ano an karan-on dida?",
+   "gloss": "what the [karán-on] there",
+   "known": 75
+  },
+  {
+   "word": "dinhi",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Dinhi la kamo kay malakat ako, ginsiring an iya asawa.",
+   "gloss": "here just you because will go I [ginsiring] the his wife",
+   "known": 80
+  },
+  {
+   "word": "adlaw",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Nalingkod hiya dida han ganghaan han payag samtang nautouto an adlaw.",
+   "gloss": "[Nalingkod] he/she there of the [ganghaan] of the [payag] [samtang] [nautouto] the day",
+   "known": 55
+  },
+  {
+   "word": "semana",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Usa ka semana an iya pagliniyungliyong pamiling han tubig ha Tado.",
+   "gloss": "one you week the his [pagliniyungliyong] [pamiling] of the water to [Tado]",
+   "known": 64
+  },
+  {
+   "word": "panahon",
+   "unit": "u18",
+   "unitName": "Tell the time of day",
+   "waray": "Hini nga panahon lagas na hi Sumigin.",
+   "gloss": "[Hini] time old person already [Sumigin]",
+   "known": 57
+  },
+  {
+   "word": "sapatos",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Diri igo an iya napalit nga sapatos.",
+   "gloss": "not [ígo] the his is buying shoes",
+   "known": 71
+  },
+  {
+   "word": "saruwal",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Naratas an iya saruwal pagbuhat niya kay sumangit ha raysang.",
+   "gloss": "[Naratas] the his pants [pagbuhát] his because [sumangit] to [raysang]",
+   "known": 60
+  },
+  {
+   "word": "lapis",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Malipay an bata han bag-o niya nga lapis ngan para.",
+   "gloss": "happy the child of the new his pencil and [párà]",
+   "known": 80
+  },
+  {
+   "word": "mulayan",
+   "unit": "u21",
+   "unitName": "Name things at home",
+   "waray": "Ngan ihinatag niya an mulayan nga kinakaruyag han bata nga babayi.",
+   "gloss": "and [ihinátag] his the toy [kinakaruyag] of the child woman",
+   "known": 64
+  },
+  {
+   "word": "gutom",
+   "unit": "u22",
+   "unitName": "Talk about meals",
+   "waray": "Gutom na an bata kay nagtitinuok.",
+   "gloss": "hungry already the child because [nagtitinuok]",
+   "known": 83
+  },
+  {
+   "word": "busag",
+   "unit": "u34",
+   "unitName": "Name colors",
+   "waray": "Karuyag ko an busag nga tamsi.",
+   "gloss": "want my the white [tamsi]",
+   "known": 67
+  },
+  {
+   "word": "mangingisda",
+   "unit": "u5",
+   "unitName": "Talk about work",
+   "waray": "May ada magsarangkay tipakadto hira ha dagat, mangingisda kuno hira.",
+   "gloss": "there-is maybe [magsarangkay] [tipakádto] they to sea fisherman [kuno] they",
+   "known": 50
+  },
+  {
+   "word": "kapitan",
+   "unit": "u5",
+   "unitName": "Talk about work",
+   "waray": "Kapitan, kombidado ko ikaw han Lunes, kinahanglan umatinder ka.",
+   "gloss": "captain [kombidado] my you of the Monday need to [umatinder] you",
+   "known": 56
+  },
+  {
+   "word": "mayor",
+   "unit": "u5",
+   "unitName": "Talk about work",
+   "waray": "Kagutom, pero, didto kanda mayor damo hin pagkaon.",
+   "gloss": "[Kagutom] [pero] there [kanda] mayor [damo] a food",
+   "known": 50
+  },
+  {
+   "word": "gutiay",
+   "unit": "u6",
+   "unitName": "Describe people",
+   "waray": "May anak ito hiya nga gutiay.",
+   "gloss": "there-is child that he/she small",
+   "known": 50
+  },
+  {
+   "word": "malipay",
+   "unit": "u6",
+   "unitName": "Describe people",
+   "waray": "Malipay an bata han bag-o niya nga lapis ngan para.",
+   "gloss": "happy the child of the new his pencil and [párà]",
+   "known": 80
+  },
+  {
+   "word": "lawas",
+   "unit": "u7",
+   "unitName": "Say where it hurts",
+   "waray": "An akon lawas, palibot ito hin suga.",
+   "gloss": "the mine body [palibot] that a [sugâ]",
+   "known": 57
+  },
+  {
+   "word": "kasingkasing",
+   "unit": "u7",
+   "unitName": "Say where it hurts",
+   "waray": "Nailiw na an kasingkasing ko.",
+   "gloss": "[Nailiw] already the heart my",
+   "known": 80
+  },
+  {
+   "word": "trabaho",
+   "unit": "u16",
+   "unitName": "Can, must, mustn't",
+   "waray": "Damo iton trabaho kay maupay iton ekonomiya ta yana.",
+   "gloss": "[Damo] that work because good that [ekonomíya] [ta] now",
+   "known": 67
+  },
+  {
+   "word": "Lunes",
+   "unit": "u19",
+   "unitName": "Days & months",
+   "waray": "Kapitan, kombidado ko ikaw han Lunes, kinahanglan umatinder ka.",
+   "gloss": "captain [kombidado] my you of the Monday need to [umatinder] you",
+   "known": 56
+  },
+  {
+   "word": "biyahe",
+   "unit": "u30",
+   "unitName": "Make travel plans",
+   "waray": "Waray pa pagpapawa, biyahe, waray umundang, lakat la.",
+   "gloss": "no still [pagpapawa] trip no [umundang] [lakát] just",
+   "known": 50
+  },
+  {
+   "word": "san-o",
+   "unit": "u30",
+   "unitName": "Make travel plans",
+   "waray": "Mga tulo anay kabulan san-o hiya nakabalik ha amon.",
+   "gloss": "[Mga] three Wait [kabulan] when he/she [nakabalik] to ours",
+   "known": 67
+  },
+  {
+   "word": "tindahan",
+   "unit": "u25",
+   "unitName": "Shop at the market",
+   "waray": "Bali la anay didto ha tindahan basi kita may igsura.",
+   "gloss": "[Báli] just Wait there to store [basi] we there-is [igsura]",
+   "known": 50
+  },
+  {
+   "word": "palit",
+   "unit": "u25",
+   "unitName": "Shop at the market",
+   "waray": "Kamamahal han palit ko hito.",
+   "gloss": "[Kamamahal] of the buy my [hito]",
+   "known": 60
+  },
+  {
+   "word": "bulig",
+   "unit": "u25",
+   "unitName": "Shop at the market",
+   "waray": "Suok ha katawhan an Operation Bulig.",
+   "gloss": "[Suok] to [katawhan] the [Operation] help",
+   "known": 50
+  },
+  {
+   "word": "sarakyan",
+   "unit": "u26",
+   "unitName": "Get around",
+   "waray": "Naagi dinhi iton sarakyan para Catarman.",
+   "gloss": "[Naagi] here that vehicle [para] [Catarman]",
+   "known": 50
+  },
+  {
+   "word": "bukid",
+   "unit": "u26",
+   "unitName": "Get around",
+   "waray": "Didto na ito hira ha bukid han Apoy pagkatatawo.",
+   "gloss": "there already that they to mountain of the grandparent [pagkatatawo]",
+   "known": 78
+  },
+  {
+   "word": "lugar",
+   "unit": "u28",
+   "unitName": "Plan a day trip",
+   "waray": "Nagdara hin sakit adto nga mga dayo dida han ira lugar.",
+   "gloss": "[Nagdará] a [sakit] that [mga] [dayo] there of the theirs place",
+   "known": 55
+  },
+  {
+   "word": "manok",
+   "unit": "u31",
+   "unitName": "Food & the table",
+   "waray": "Diri nababasahan an iya agi kay baga hin kinabkab hin manok.",
+   "gloss": "not [nababasahan] the his [ági] because [baga] a [kinabkab] a chicken",
+   "known": 64
+  },
+  {
+   "word": "pagkaon",
+   "unit": "u31",
+   "unitName": "Food & the table",
+   "waray": "Gutom an umabot ha ira dara han pagkinarag hin pagkaon.",
+   "gloss": "hungry the [umabot] to theirs bring of the [pagkinarag] a food",
+   "known": 80
+  },
+  {
+   "word": "saging",
+   "unit": "u31",
+   "unitName": "Food & the table",
+   "waray": "Nakada la ini pinuputos han dahon han saging.",
+   "gloss": "[Nakadâ] just this [pinuputos] of the [dahon] of the banana",
+   "known": 50
+  },
+  {
+   "word": "prutas",
+   "unit": "u31",
+   "unitName": "Food & the table",
+   "waray": "Didto hiya bukid makaagi hin prutas, makakakaon.",
+   "gloss": "there he/she mountain [makaagí] a fruit [makakakaon]",
+   "known": 71
+  },
+  {
+   "word": "bukad",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Malipayon hiya han hatag ha iya nga bukad.",
+   "gloss": "[Malipayon] he/she of the give to his flower",
+   "known": 75
+  },
+  {
+   "word": "tuna",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Waray hira ilob kay uraura kamabaskog an gutom ha tuna.",
+   "gloss": "no they [ilob] because [uraurá] [kamabaskog] the hungry to land",
+   "known": 70
+  },
+  {
+   "word": "langit",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Waray kaiha, bwelta liwat an karabaw ngadto ha langit.",
+   "gloss": "no [kaiha] [bwelta] also the carabao [ngadto] to sky",
+   "known": 67
+  },
+  {
+   "word": "ayam",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Waray pa pag- anak an amon ayam.",
+   "gloss": "no still [pag-] child the ours dog",
+   "known": 86
+  },
+  {
+   "word": "karabaw",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Ini, tungod liwat ini han karabaw.",
+   "gloss": "this [tungod] also this of the carabao",
+   "known": 83
+  },
+  {
+   "word": "tanom",
+   "unit": "u32",
+   "unitName": "Talk about nature & animals",
+   "waray": "Ngan waray pa tanom ha kapatagan.",
+   "gloss": "and no still plant to [kapatagan]",
+   "known": 83
+  },
+  {
+   "word": "gugma",
+   "unit": "u35",
+   "unitName": "God & worship",
+   "waray": "Diin ka pakakaagi hin balay nga waray raysang kundi gugma.",
+   "gloss": "where you [pakakaagi] a house no [ráysang] [kundi] love",
+   "known": 50
+  },
+  {
+   "word": "simbahan",
+   "unit": "u36",
+   "unitName": "Church & belief",
+   "waray": "Amo ngay-an adto an patron dinhi ha simbahan.",
+   "gloss": "[Amo] [ngay-an] that the [patron] here to church",
+   "known": 63
+  },
+  {
+   "word": "kros",
+   "unit": "u36",
+   "unitName": "Church & belief",
+   "waray": "Ta, nagbutang na ngahaw dida gud han siyudad hin krus.",
+   "gloss": "[Ta] [nagbutang] already itself there [gud] of the [siyudád] a cross",
+   "known": 50
+  },
+  {
+   "word": "kinabuhi",
+   "unit": "u36",
+   "unitName": "Church & belief",
+   "waray": "May siyam nga kinabuhi iton misay.",
+   "gloss": "there-is nine life that [misay]",
+   "known": 50
+  }
+ ]
+}

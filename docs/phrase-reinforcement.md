@@ -1,6 +1,6 @@
 # Phrase reinforcement — by unit's new words
 
-_356 new words · 334 appear in a phrase in their own unit · 265 are never reused in a later phrase._
+_356 new words · 334 appear in a phrase in their own unit · 258 are never reused in a later phrase._
 
 _For each unit: the **new words** it introduces, whether each appears in a phrase in **this** unit (✓ = covered), and how many phrases in **later** units use it (reinforcement). Corpus = existing ② Apply phrases + the recording prompts. ✗ in "this unit" = no phrase here yet; **Later 0** = never reused → weave it into a later prompt._
 
@@ -8,10 +8,10 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
+| Waray | None / nothing | ✗ | 9 |
 | Pwede | Can / may (I) | ✗ | 5 |
-| Waray | None / nothing | ✗ | 4 |
+| Diri | No / not | ✗ | 4 |
 | Oo | Yes | ✗ | 3 |
-| Diri | No / not | ✗ | 3 |
 | maupay | good | ✗ | 2 |
 | Sige | Okay / go ahead | ✗ | 1 |
 | Anay | Wait / just a moment | ✗ | 1 |
@@ -23,41 +23,41 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ako | I | ✓ | 46 |
-| kami | we (exclusive) | ✓ | 29 |
-| hiya | he / she | ✓ | 17 |
-| kita | we (inclusive) | ✓ | 13 |
-| hira | they | ✓ | 7 |
-| kamo | you / y'all | ✓ | 2 |
+| ako | I | ✓ | 44 |
+| kami | we (exclusive) | ✓ | 28 |
+| hiya | he / she | ✓ | 20 |
+| kita | we (inclusive) | ✓ | 11 |
+| hira | they | ✓ | 11 |
+| kamo | you / y'all | ✓ | 4 |
 
 ### Name what you see  _(6 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ha | to / at / in | ✓ | 58 |
-| hin | a / some (object) | ✓ | 32 |
-| saging | banana | ✓ | 10 |
+| ha | to / at / in | ✓ | 67 |
+| hin | a / some (object) | ✓ | 33 |
+| han | of / the (past object) | ✗ | 11 |
+| saging | banana | ✓ | 9 |
 | hi | the (before a name) | ✓ | 2 |
-| han | of / the (past object) | ✗ | 2 |
-| ngan | and | ✓ | 0 |
+| ngan | and | ✓ | 2 |
 
 ### This & that  _(5 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ini | this (near) | ✓ | 29 |
+| ini | this (near) | ✓ | 30 |
 | iton | that (near you) | ✓ | 14 |
-| libro | book | ✓ | 13 |
-| kahoy | tree | ✓ | 5 |
-| adto | that (over there) | ✓ | 0 |
+| libro | book | ✓ | 12 |
+| kahoy | tree | ✓ | 3 |
+| adto | that (over there) | ✓ | 2 |
 
 ### Ask what, where, who  _(7 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
 | hain | where | ✓ | 13 |
-| ano | what | ✓ | 7 |
-| ba | makes a yes/no question | ✓ | 7 |
+| ano | what | ✓ | 9 |
+| ba | makes a yes/no question | ✓ | 8 |
 | tagpira | how much | ✓ | 1 |
 | hin-o | who | ✓ | 0 |
 | diin | where (from / which) | ✓ | 0 |
@@ -67,14 +67,14 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| duha | two | ✗ | 6 |
+| duha | two | ✗ | 5 |
+| walo | eight | ✗ | 1 |
 | usa | one | ✗ | 0 |
 | tulo | three | ✗ | 0 |
 | upat | four | ✗ | 0 |
 | lima | five | ✗ | 0 |
 | unom | six | ✗ | 0 |
 | pito | seven | ✗ | 0 |
-| walo | eight | ✗ | 0 |
 | siyam | nine | ✗ | 0 |
 | napulo | ten | ✗ | 0 |
 | karuhaan | twenty | ✗ | 0 |
@@ -83,13 +83,13 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| bata | child | ✓ | 6 |
-| nanay | mother | ✓ | 5 |
-| lalaki | man | ✓ | 4 |
-| tatay | father | ✓ | 3 |
+| bata | child | ✓ | 8 |
+| nanay | mother | ✓ | 6 |
+| tatay | father | ✓ | 4 |
 | uyab | girlfriend / boyfriend | ✓ | 2 |
 | sangkay | friend | ✓ | 2 |
-| babaye | woman | ✓ | 2 |
+| lalaki | man | ✓ | 2 |
+| babaye | woman | ✓ | 1 |
 | tawo | person | ✓ | 1 |
 | anak | child | ✓ | 0 |
 | apoy | grandparent | ✓ | 0 |
@@ -107,12 +107,12 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ko | my (short) | ✓ | 21 |
+| ko | my (short) | ✓ | 23 |
 | naton | our (incl) | ✓ | 5 |
-| nira | their | ✓ | 2 |
+| niya | his / her | ✓ | 1 |
+| nira | their | ✓ | 1 |
 | nakon | my | ✓ | 0 |
 | nimo | your | ✓ | 0 |
-| niya | his / her | ✓ | 0 |
 | namon | our (excl) | ✓ | 0 |
 | niyo | your (pl) | ✓ | 0 |
 
@@ -122,17 +122,17 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 |---|---|:--:|--:|
 | imo | yours / your | ✓ | 4 |
 | akon | mine / my | ✓ | 3 |
-| iyo | yours (pl) | ✓ | 1 |
-| iya | his / hers | ✓ | 0 |
+| iya | his / hers | ✓ | 3 |
+| iyo | yours (pl) | ✓ | 2 |
+| amon | ours (excl) | ✓ | 1 |
+| ira | theirs | ✓ | 1 |
 | aton | ours (incl) | ✓ | 0 |
-| amon | ours (excl) | ✓ | 0 |
-| ira | theirs | ✓ | 0 |
 
 ### Say “X is Y”  _(3 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| an | the (completed / past) | ✓ | 97 |
+| an | the (completed / past) | ✓ | 95 |
 | it | the (now / general) | ✓ | 10 |
 | mabaho | smelly | ✓ | 0 |
 
@@ -140,8 +140,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| na | already | ✓ | 3 |
-| pa | still / yet | ✓ | 1 |
+| na | already | ✓ | 7 |
+| pa | still / yet | ✓ | 3 |
 | liwat | also / too | ✓ | 0 |
 
 ### Do it: now / will / did  _(12 new words)_
@@ -200,7 +200,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| didi | here | ✓ | 10 |
+| didi | here | ✓ | 8 |
 | buwas | tomorrow | ✓ | 7 |
 | yana | now | ✓ | 3 |
 | kakulop | yesterday | ✓ | 3 |
@@ -219,7 +219,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| tubig | water | ✓ | 4 |
+| tubig | water | ✓ | 3 |
 | baso | glass | ✓ | 2 |
 | lapis | pencil | ✓ | 2 |
 | balay | house | ✓ | 1 |
@@ -253,10 +253,10 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| marasa | delicious | ✓ | 5 |
+| marasa | delicious | ✓ | 4 |
 | pagkaon | food | ✓ | 2 |
+| gutom | hungry | ✓ | 2 |
 | kan-on | cooked rice | ✓ | 1 |
-| gutom | hungry | ✓ | 1 |
 | pamahaw | breakfast | ✓ | 0 |
 | paniudto | lunch | ✓ | 0 |
 | pangiklop | dinner | ✓ | 0 |
@@ -320,10 +320,10 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| mahusay | beautiful | ✓ | 6 |
 | mapaso | hot | ✓ | 6 |
+| mahusay | beautiful | ✓ | 5 |
 | daku | big | ✓ | 2 |
-| gutiay | small | ✓ | 2 |
+| gutiay | small | ✓ | 1 |
 | maraksot | ugly | ✓ | 0 |
 | gwapo | handsome | ✓ | 0 |
 | hataas | tall / long | ✓ | 0 |
@@ -423,8 +423,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
+| bukid | mountain | ✓ | 2 |
 | pumpboat | pump boat | ✓ | 1 |
-| bukid | mountain | ✓ | 1 |
 | tulay | bridge | ✓ | 1 |
 | sarakyan | vehicle | ✓ | 0 |
 | motor | motorcycle | ✓ | 0 |

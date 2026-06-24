@@ -1,8 +1,8 @@
 # Waray (Frequency) — full curriculum, every lesson
 
-_4 phases · 36 units · 80 lessons · 578 items · 28 units have ② Apply phrases_
+_4 phases · 36 units · 95 lessons · 617 items · 31 units with ② Apply_
 
-_Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② Apply = type the phrase. Each item: **waray** — english._
+_① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — english._
 
 ---
 
@@ -22,6 +22,7 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _The pronouns:_  **ako** — I  ·  **ikaw / ka** — you  ·  **hiya** — he / she  ·  **kita** — we (inclusive)  ·  **kami** — we (exclusive)  ·  **kamo** — you / y'all  ·  **hira** — they
 **② Apply** _(type the Waray)_
 - _Saying who you are:_  **Amerikano ako** — I am American  ·  **Babaye ka** — You are a woman  ·  **Makusog hiya** — He is strong
+- _From real Waray:_  **Mga sangkay kita.** — We (incl) are friends.  ·  **Mga Pilipino kami.** — We (excl) are Filipinos.  ·  **Riko hira.** — They are rich.
 
 ### Name what you see  — _hi / an / it — point and name_
 **① Words**
@@ -51,6 +52,7 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _People around you:_  **lalaki** — man  ·  **babaye** — woman  ·  **bata** — child  ·  **ulitawo** — young man  ·  **daragita** — young woman  ·  **lagas** — old person  ·  **kaharani** — neighbor  ·  **bisita** — visitor  ·  **tawo** — person  ·  **miyembro** — member
 **② Apply** _(type the Waray)_
 - _Family & friends:_  **nanay niya** — his / her mother  ·  **sangkay nira** — their friend
+- _From real Waray:_  **Malabad an mga bata** — the children are naughty  ·  **Tawo iton.** — That is a person.  ·  **Waray pa ada umabot an iya tatay.** — His father has perhaps not arrived yet.  ·  **Walo an ira anak.** — They have eight children.  ·  **Didto na ito hira ha bukid han Apoy pagkatatawo.** — They were already on Grandfather's mountain at birth.  ·  **Dinhi la kamo kay malakat ako, ginsiring an iya asawa.** — 'Just stay here, I'm leaving,' his wife said.  ·  **Babayi an nati han amon karabaw.** — Our carabao's calf is female.
 
 ---
 
@@ -67,6 +69,7 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _Mine, yours, theirs:_  **akon** — mine / my  ·  **imo** — yours / your  ·  **iya** — his / hers  ·  **aton** — ours (incl)  ·  **amon** — ours (excl)  ·  **iyo** — yours (pl)  ·  **ira** — theirs
 **② Apply** _(type the Waray)_
 - _It's mine / to me:_  **Akon ini** — This is mine  ·  **Akon ini nga balay** — This house is mine  ·  **ha akon** — to / for me  ·  **ha imo** — to / for you  ·  **ha iya** — to / for him / her
+- _From real Waray:_  **Ini amo an maglilipay ha aton mahatungod han aton buhat.** — This is what will make us glad about our work.
 
 ### Say “X is Y”  — _Equational sentences + an / it_
 **① Words**
@@ -87,6 +90,7 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _Buy & drink:_  **mapalit** — will buy  ·  **napalit** — is buying  ·  **pinmalit** — bought  ·  **mainom** — will drink  ·  **nainom** — is drinking  ·  **inminom** — drank
 **② Apply** _(type the Waray)_
 - _The affixes:_  **Mag- + verb** — future tense (actor focus)  ·  **Nag- + verb** — present / past tense  ·  **Pag- + verb** — command form  ·  **Mag-aano ka?** — What are you going to do?  ·  **Kaon kita** — Let's eat  ·  **Kumaon kita** — We ate
+- _From real Waray:_  **Inminom hira** — they drank  ·  **Diri igo an iya napalit nga sapatos.** — The shoes she bought don't fit.
 
 ### Everyday actions  — _Things you do_
 **① Words**
@@ -95,10 +99,14 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _More verbs:_  **saka** — to climb  ·  **lakso** — to jump  ·  **dalagan** — to run  ·  **uli** — to go home  ·  **sulod** — to enter  ·  **buhat** — to do / make  ·  **surat** — to write  ·  **siring** — to speak / say  ·  **pili** — to choose  ·  **abot** — to arrive
 **② Apply** _(type the Waray)_
 - _Actions in sentences:_  **Nakaon hiya** — He's eating  ·  **Matindog kita** — We'll stand  ·  **Tinmawag kamo** — You (pl) called  ·  **Natindog hira hiton lamesa ha sala** — They're standing on that table in the living room
+- _From real Waray:_  **Malipayon hiya han hatag ha iya nga bukad.** — She was happy with the flower given to her.  ·  **Gutom an umabot ha ira dara han pagkinarag hin pagkaon.** — Hunger came upon them, bringing a scramble for food.  ·  **Ha tanto han iya dalagan, hirayo na hiya hin duro.** — From all his running, he was already very far away.  ·  **Kay ano waray ka uli kagab-i?** — Why didn't you go home last night?  ·  **Makuri maabot han mga bomber an sunog kay adto ha sulod.** — The firefighters had a hard time reaching the fire because it was inside.  ·  **Buhat na ikaw dida kay maalas-syete na.** — Get up now, it's already seven o'clock.
 
 ### Tell the time of day  — _Now, later, parts of the day_
+**① Words**
 - _When:_  **yana** — now  ·  **niyan** — later  ·  **buwas** — tomorrow  ·  **kanina** — a little while ago  ·  **kakulop** — yesterday  ·  **kagab-i** — last night  ·  **kanina han aga** — earlier this morning  ·  **kulop** — afternoon  ·  **yana nga aga** — this morning (now)  ·  **yana nga gab-i** — tonight
 - _Here, there & time:_  **didi** — here  ·  **dida** — there  ·  **dinhi** — here  ·  **didto** — there (far)  ·  **Ano it oras dida?** — What time is it there?  ·  **Alas singko didi** — It's 5 o'clock here  ·  **Ano nga oras?** — What time?  ·  **adlaw** — day  ·  **semana** — week  ·  **panahon** — time / weather
+**② Apply** _(type the Waray)_
+- _From real Waray:_  **Mag-ano man kamo didto?** — (What will you do there?)  ·  **Kakaonon ko ini yana.** — I'll eat this now.  ·  **Ano an karan-on dida?** — What food is there?
 
 ### Name things at home  — _Nouns for the world around you_
 **① Words**
@@ -107,12 +115,14 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _Things:_  **tinidor** — fork  ·  **kutsara** — spoon  ·  **pinggan** — plate  ·  **baso** — glass  ·  **papel** — paper  ·  **libro** — book  ·  **lapis** — pencil  ·  **mulayan** — toy  ·  **sista** — guitar  ·  **tubig** — water
 **② Apply** _(type the Waray)_
 - _Around the house:_  **Mahusay an lamesa** — The table is nice  ·  **Puno an baso** — The glass is full  ·  **Mabusag an papel** — The paper is white
+- _From real Waray:_  **Magdara ako han iyo lamesa ha iyo balay.** — I am bringing your table in your house.  ·  **Madig-on an mga lingkuran** — the chairs are strong/sturdy  ·  **Tubig ini.** — This is water. (very near)  ·  **Malipay an bata han bag-o niya nga lapis ngan para.** — The child is happy with his new pencil and pen.
 
 ### Talk about meals  — _Breakfast to dinner_
 **① Words**
 - _Meals:_  **pamahaw** — breakfast  ·  **paniudto** — lunch  ·  **pangiklop** — dinner  ·  **isnak** — snack  ·  **kan-on** — cooked rice  ·  **pagkaon** — food  ·  **marasa** — delicious  ·  **gutom** — hungry
 **② Apply** _(type the Waray)_
 - _Eating phrases:_  **Namahaw ka na?** — Have you had breakfast?  ·  **Naniudto ka na?** — Have you had lunch?  ·  **Nangiklop ka na?** — Have you had dinner?  ·  **Waray pa** — Not yet  ·  **Pamahaw kita** — Let's have breakfast  ·  **Ano it paniudtuhon?** — What's for lunch?  ·  **May pagkaon didi** — There's food here  ·  **Kaon anay** — Eat first
+- _From real Waray:_  **Gutom na an bata kay nagtitinuok.** — The child is hungry because he's crying.
 
 ### Ask the way  — _Finding your way around_
 **① Words**
@@ -134,6 +144,7 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _More roles:_  **direktor** — director  ·  **kapitan** — captain  ·  **mayor** — mayor / boss  ·  **konsehal** — councilman  ·  **negosyante** — businessman  ·  **sekretarya** — secretary  ·  **hardinero** — gardener  ·  **tag-iya** — owner  ·  **ninong** — godfather  ·  **pasyente** — patient
 **② Apply** _(type the Waray)_
 - _At work:_  **Estudyante hiya** — He is a student
+- _From real Waray:_  **Maduroto ba hira nga mga pastor?** — Are they industrious pastors?
 
 ### Describe people  — _Words to describe people_
 **① Words**
@@ -141,9 +152,13 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _Qualities:_  **malipay** — happy  ·  **buoton** — nice / kind / good  ·  **riko** — rich  ·  **makarit** — excellent  ·  **hubya** — lazy  ·  **kapoy** — tired  ·  **maraut** — bad  ·  **grabe** — serious  ·  **matidong** — righteous  ·  **mapaso** — hot
 **② Apply** _(type the Waray)_
 - _Describing people:_  **Mahusay hiya** — She is beautiful  ·  **Hataas ako** — I am tall  ·  **Riko hira** — They are rich  ·  **Makusog hiya nga lalake** — He is a strong man  ·  **Maraut ini nga tawo** — This is a bad person
+- _From real Waray:_  **Daku an klase** — the class is big
 
 ### Say where it hurts  — _Body words_
+**① Words**
 - _The body:_  **lawas** — body  ·  **nawong** — face  ·  **mata** — eye  ·  **ulo** — head  ·  **kasingkasing** — heart
+**② Apply** _(type the Waray)_
+- _From real Waray:_  **Mata ini** — this is an eye  ·  **Nailiw na an kasingkasing ko.** — My heart now longs.
 
 ### Can, must, mustn't  — _kinahanglan, pwede / mahimo, Ayaw_
 **① Words**
@@ -180,12 +195,14 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _Buying words:_  **palit** — to buy  ·  **ginbibiling** — looking for  ·  **karuyag** — want / like  ·  **baraydan** — amount to pay  ·  **bulig** — to help
 **② Apply** _(type the Waray)_
 - _Asking & paying:_  **Ano ini?** — What is this?  ·  **Tagpira ini?** — How much is this?  ·  **Hain tungod it kahera?** — Where is the cashier?  ·  **May tinapa kamo dinhi?** — Do you have smoked fish here?  ·  **Ini it akon papaliton** — This is what I'll buy  ·  **Pwede mo ako buligan?** — Can you help me?  ·  **Hain it mas barato?** — Which one is cheaper?  ·  **Adi it imo sukli** — Here is your change  ·  **Pira it akon baraydan?** — How much do I pay?
+- _From real Waray:_  **Karuyag magpalit ako hin karne ha merkado.** — I want to buy meat at the market.
 
 ### Get around  — _Ways to get around_
 **① Words**
 - _Vehicles & roads:_  **sarakyan** — vehicle  ·  **motor** — motorcycle  ·  **awto** — car / auto  ·  **pumpboat** — pump boat  ·  **baktas** — to walk  ·  **karsada** — road  ·  **bukid** — mountain  ·  **tulay** — bridge
 **② Apply** _(type the Waray)_
 - _Going places:_  **Makadto ka ba ha eskwelahan?** — Are you going to school?
+- _From real Waray:_  **Karsada ito.** — That is a road.
 
 ### Check in at the airport  — _Travel & check-in_
 **① Words**
@@ -212,9 +229,13 @@ _Generated from src/courses/waray/. ① Words = learn vocab (4-step drill); ② 
 - _More food:_  **nangka** — jackfruit  ·  **kamatis** — tomato  ·  **mais** — corn  ·  **tsa** — tea  ·  **sabaw** — soup  ·  **keyk** — cake  ·  **marasa** — delicious  ·  **gutom** — hungry
 **② Apply** _(type the Waray)_
 - _Food in sentences:_  **Mapalit hira hin mga isda ha merkado** — They'll buy fish at the market  ·  **Inminom hiya hini nga gatas ha kusina** — She drank this milk in the kitchen
+- _From real Waray:_  **Didto hiya bukid makaagi hin prutas, makakakaon.** — There on the mountain he could find fruit to eat.
 
 ### Talk about nature & animals  — _The outdoors_
+**① Words**
 - _Nature & animals:_  **kahoy** — tree  ·  **dagat** — sea  ·  **isla** — island  ·  **bukid** — mountain  ·  **bukad** — flower  ·  **tuna** — land / earth  ·  **langit** — sky / heaven  ·  **ayam** — dog  ·  **karabaw** — carabao  ·  **tanom** — plant
+**② Apply** _(type the Waray)_
+- _From real Waray:_  **Kahoy adto.** — That "over there" is a tree. (far)  ·  **Dagat iton** — that's the sea  ·  **Waray pa pag-anak an amon ayam.** — Our dog hasn't had puppies yet.  ·  **Waray hira ilob kay uraura kamabaskog an gutom ha tuna.** — They had no patience, for the famine in the land was severe.  ·  **Ngan waray pa tanom ha kapatagan.** — And there were no plants on the plain yet.
 
 ### God & worship  — _Faith words_
 **① Words**

@@ -9,6 +9,7 @@
    Waray, one step). The unit page shows ① Words then ② Apply; the graded unit
    review tests the ② phrases. Pure-vocab units have only ① Words. */
 import { CLASSIC } from "./classic.js";
+import { MINED_BY_UNIT } from "./mined-phrases.js";
 
 // index every Classic unit by id so we can reuse it (with all its lessons) here
 const U = {};
@@ -61,6 +62,10 @@ const retool = (id, name, hint) => {
   let lessons = REPLACE[id] || u.lessons;
   lessons = lessons.map((l) => ({ ...l, kind: l.kind || (APPLY_IDS.has(l.id) ? "apply" : "words") }));
   if (ADD[id]) lessons = lessons.concat(ADD[id].map((l) => ({ ...l, kind: l.kind || "apply" })));
+  // mined attested sentences (Peace Corps OCR + CHED) → an extra ② Apply lesson
+  if (MINED_BY_UNIT[id] && MINED_BY_UNIT[id].length) {
+    lessons = lessons.concat([{ id: id + "m1", title: "From real Waray", kind: "apply", items: MINED_BY_UNIT[id] }]);
+  }
   return { ...u, name, hint: hint ?? u.hint, lessons };
 };
 
