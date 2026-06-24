@@ -312,7 +312,7 @@ export const SEED = [
   ["whentrav", "Hit maabot nga duha ka semana", "In the coming two weeks", "duha = two", "heet mah-AH-bot ngah DOO-hah kah seh-MAH-nah"],
 
   // ===== Basics grammar — Describing sentences (from …Adobo doc) =====
-  ["gram", "bata", "child", "", "BAH-tah"],
+  ["gram", "bata", "child / kid", "general — any young person", "BAH-tah"],
   ["gram", "uyab", "girlfriend / boyfriend", "", "OO-yab"],
   ["gram", "mabaho", "smelly", "", "mah-BAH-ho"],
   ["gram", "an", "the (completed / past)", "marks the subject", "ahn"],
@@ -477,7 +477,7 @@ export const SEED = [
 
   // ===== Full curriculum: new vocab (course + Tramp/Zorc dictionary verified) =====
   // -- people & family --
-  ["ppl", "anak", "child", "", "ah-NAK"],
+  ["ppl", "anak", "son / daughter", "one's offspring (biological or adopted)", "ah-NAK"],
   ["ppl", "apoy", "grandparent", "", "ah-POY"],
   ["ppl", "apo", "grandchild", "", "ah-PO"],
   ["ppl", "bugto", "sibling", "", "BOOG-to"],

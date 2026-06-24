@@ -84,7 +84,7 @@ _Each new word gets a **goal** = how many *later* phrases should reuse it, weigh
 
 | New word | English | In unit | Goal | Reused later | Status |
 |---|---|:--:|--:|--:|:--|
-| anak | child | ✓ | 4 | 0 | **+4** |
+| anak | son / daughter | ✓ | 4 | 0 | **+4** |
 | apoy | grandparent | ✓ | 4 | 0 | **+4** |
 | apo | grandchild | ✓ | 4 | 0 | **+4** |
 | asawa | wife / spouse | ✓ | 4 | 0 | **+4** |
@@ -106,7 +106,7 @@ _Each new word gets a **goal** = how many *later* phrases should reuse it, weigh
 | nanay | mother | ✓ | 4 | 9 | ✓ |
 | lalaki | man | ✓ | 4 | 4 | ✓ |
 | babaye | woman | ✓ | 4 | 4 | ✓ |
-| bata | child | ✓ | 4 | 9 | ✓ |
+| bata | child / kid | ✓ | 4 | 9 | ✓ |
 
 ### Say what's yours  _(8 new words)_
 

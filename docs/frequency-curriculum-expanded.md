@@ -1,6 +1,6 @@
 # Waray (Frequency) — full curriculum, every lesson
 
-_4 phases · 36 units · 95 lessons · 617 items · 31 units with ② Apply_
+_4 phases · 36 units · 101 lessons · 639 items · 31 units with ② Apply_
 
 _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — english._
 
@@ -11,6 +11,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Say hello & thanks  — _Hellos, thanks, manners_
 - _Hellos & thanks:_  **Maupay nga aga** — Good morning  ·  **Maupay nga udto** — Good noon  ·  **Maupay nga kulop** — Good afternoon  ·  **Maupay nga gab-i** — Good evening / Good night  ·  **Kumusta ka?** — How are you?  ·  **Maupay man** — I'm good / fine (so far)  ·  **Salamat** — Thank you  ·  **Damo nga salamat** — Thank you very much  ·  **Pasensya na** — Sorry / excuse me  ·  **Sige** — Okay / go ahead
 - _Yes, no & getting by:_  **Oo** — Yes  ·  **Diri** — No / not  ·  **Waray** — None / nothing  ·  **Waray pa** — Not yet  ·  **Anay** — Wait / just a moment  ·  **Adi** — Here it is  ·  **Pwede** — Can / may (I)  ·  **maupay** — good  ·  **tabang** — help  ·  **Hinay-hinay la** — Just slowly, please
+- _More common words:_  **alayon** — please
 
 ### Get unstuck  — _Phrases for when you're lost_
 **① Words**
@@ -48,8 +49,9 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 
 ### Introduce your family  — _Family and the people around you_
 **① Words**
-- _Family:_  **tatay** — father  ·  **nanay** — mother  ·  **anak** — child  ·  **apoy** — grandparent  ·  **apo** — grandchild  ·  **asawa** — wife / spouse  ·  **bugto** — sibling  ·  **akon patod** — my cousin  ·  **uyab** — girlfriend / boyfriend  ·  **sangkay** — friend
-- _People around you:_  **lalaki** — man  ·  **babaye** — woman  ·  **bata** — child  ·  **ulitawo** — young man  ·  **daragita** — young woman  ·  **lagas** — old person  ·  **kaharani** — neighbor  ·  **bisita** — visitor  ·  **tawo** — person  ·  **miyembro** — member
+- _Family:_  **tatay** — father  ·  **nanay** — mother  ·  **anak** — son / daughter  ·  **apoy** — grandparent  ·  **apo** — grandchild  ·  **asawa** — wife / spouse  ·  **bugto** — sibling  ·  **akon patod** — my cousin  ·  **uyab** — girlfriend / boyfriend  ·  **sangkay** — friend
+- _People around you:_  **lalaki** — man  ·  **babaye** — woman  ·  **bata** — child / kid  ·  **ulitawo** — young man  ·  **daragita** — young woman  ·  **lagas** — old person  ·  **kaharani** — neighbor  ·  **bisita** — visitor  ·  **tawo** — person  ·  **miyembro** — member
+- _More common words:_  **kuya** — older brother  ·  **ate** — older sister  ·  **tiya** — aunt  ·  **tiyo** — uncle
 **② Apply** _(type the Waray)_
 - _Family & friends:_  **nanay niya** — his / her mother  ·  **sangkay nira** — their friend
 - _From real Waray:_  **Malabad an mga bata** — the children are naughty  ·  **Tawo iton.** — That is a person.  ·  **Waray pa ada umabot an iya tatay.** — His father has perhaps not arrived yet.  ·  **Walo an ira anak.** — They have eight children.  ·  **Didto na ito hira ha bukid han Apoy pagkatatawo.** — They were already on Grandfather's mountain at birth.  ·  **Dinhi la kamo kay malakat ako, ginsiring an iya asawa.** — 'Just stay here, I'm leaving,' his wife said.  ·  **Babayi an nati han amon karabaw.** — Our carabao's calf is female.
@@ -73,7 +75,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 
 ### Say “X is Y”  — _Equational sentences + an / it_
 **① Words**
-- _The little words (an / it):_  **it** — the (now / general)  ·  **an** — the (completed / past)  ·  **bata** — child  ·  **uyab** — girlfriend / boyfriend  ·  **mabaho** — smelly
+- _The little words (an / it):_  **it** — the (now / general)  ·  **an** — the (completed / past)  ·  **bata** — child / kid  ·  **uyab** — girlfriend / boyfriend  ·  **mabaho** — smelly
 **② Apply** _(type the Waray)_
 - _I am / you are:_  **Amerikano ako** — I am American  ·  **Nanay ako** — I am a mother  ·  **Babaye ka** — You are a woman  ·  **Makusog ka** — You are strong  ·  **Mahusay ka** — You are beautiful  ·  **Maraksot ka** — You are ugly  ·  **Makarit ka** — You are excellent  ·  **Turista hiya** — She is a tourist  ·  **Estudyante kami** — We (excl.) are students  ·  **Pilipino hira** — They are Filipinos
 - _The ___ is ___:_  **Gwapo it bata** — The child is handsome  ·  **Gwapo an bata** — The child was handsome  ·  **Hataas it akon uyab** — My girlfriend is tall  ·  **Marasa it adobo** — The adobo is tasty  ·  **Mabaho it jeep** — The jeepney is smelly
@@ -113,6 +115,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 - _Rooms & furniture:_  **balay** — house  ·  **kusina** — kitchen  ·  **banyo** — bathroom  ·  **kwarto** — room  ·  **sala** — living room  ·  **lamesa** — table  ·  **lingkuran** — chair  ·  **katre** — bed  ·  **kudal** — fence  ·  **telebisyon** — television
 - _Clothes:_  **bado** — clothes  ·  **sapatos** — shoes  ·  **tsinelas** — slippers  ·  **saruwal** — pants  ·  **panyo** — handkerchief  ·  **mantel** — tablecloth  ·  **biray** — curtain  ·  **taklap** — blanket  ·  **syaket** — jacket  ·  **medyas** — socks
 - _Things:_  **tinidor** — fork  ·  **kutsara** — spoon  ·  **pinggan** — plate  ·  **baso** — glass  ·  **papel** — paper  ·  **libro** — book  ·  **lapis** — pencil  ·  **mulayan** — toy  ·  **sista** — guitar  ·  **tubig** — water
+- _More common words:_  **pitaka** — wallet  ·  **relo** — watch  ·  **bag** — bag  ·  **kalo** — cap / hat
 **② Apply** _(type the Waray)_
 - _Around the house:_  **Mahusay an lamesa** — The table is nice  ·  **Puno an baso** — The glass is full  ·  **Mabusag an papel** — The paper is white
 - _From real Waray:_  **Magdara ako han iyo lamesa ha iyo balay.** — I am bringing your table in your house.  ·  **Madig-on an mga lingkuran** — the chairs are strong/sturdy  ·  **Tubig ini.** — This is water. (very near)  ·  **Malipay an bata han bag-o niya nga lapis ngan para.** — The child is happy with his new pencil and pen.
@@ -128,6 +131,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 **① Words**
 - _Places:_  **bangko** — bank  ·  **botika** — pharmacy  ·  **ospital** — hospital  ·  **istasyon hit pulis** — police station  ·  **munisipyo** — town / city hall  ·  **paradahan** — terminal  ·  **eskina** — corner  ·  **atbang** — across / in front of
 - _Getting there:_  **dinhi** — here  ·  **harani** — near  ·  **harayo** — far  ·  **bus** — bus  ·  **dyip** — jeepney  ·  **taxi** — taxi  ·  **pedicab** — pedicab  ·  **traysikol** — tricycle
+- _More common words:_  **hotel** — hotel  ·  **barangay** — neighborhood  ·  **eskwelahan** — school
 **② Apply** _(type the Waray)_
 - _Asking & answers:_  **Pwede magpakiana?** — May I ask a question?  ·  **Hain it bangko?** — Where is the bank?  ·  **Harayo ba tikang dinhi?** — Is it far from here?  ·  **Waray sapayan** — You're welcome  ·  **Harani la** — It's just near  ·  **Pwede baktason** — It can be walked  ·  **Ika-upat nga eskina tikang dinhi** — The 4th corner from here  ·  **Pagbus nala** — Just take the bus
 
@@ -142,6 +146,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 **① Words**
 - _Work & roles:_  **estudyante** — student  ·  **maestro / maestra** — teacher (m / f)  ·  **turista** — tourist  ·  **nars** — nurse  ·  **panday** — carpenter  ·  **pastor** — pastor  ·  **misyonaryo** — missionary  ·  **abugado** — lawyer  ·  **mangingisda** — fisherman  ·  **mag-uroma** — farmer
 - _More roles:_  **direktor** — director  ·  **kapitan** — captain  ·  **mayor** — mayor / boss  ·  **konsehal** — councilman  ·  **negosyante** — businessman  ·  **sekretarya** — secretary  ·  **hardinero** — gardener  ·  **tag-iya** — owner  ·  **ninong** — godfather  ·  **pasyente** — patient
+- _More common words:_  **arte** — art  ·  **musika** — music
 **② Apply** _(type the Waray)_
 - _At work:_  **Estudyante hiya** — He is a student
 - _From real Waray:_  **Maduroto ba hira nga mga pastor?** — Are they industrious pastors?
@@ -227,6 +232,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 **① Words**
 - _At the table:_  **isda** — fish  ·  **manok** — chicken  ·  **karne** — meat  ·  **utan** — vegetable  ·  **kan-on** — cooked rice  ·  **pagkaon** — food  ·  **saging** — banana  ·  **mangga** — mango  ·  **prutas** — fruit  ·  **tubig** — water
 - _More food:_  **nangka** — jackfruit  ·  **kamatis** — tomato  ·  **mais** — corn  ·  **tsa** — tea  ·  **sabaw** — soup  ·  **keyk** — cake  ·  **marasa** — delicious  ·  **gutom** — hungry
+- _More common words:_  **kape** — coffee  ·  **gatas** — milk  ·  **tinapay** — bread  ·  **sorbetes** — ice cream  ·  **duga** — juice  ·  **kahel** — orange  ·  **pinya** — pineapple  ·  **pakwan** — watermelon
 **② Apply** _(type the Waray)_
 - _Food in sentences:_  **Mapalit hira hin mga isda ha merkado** — They'll buy fish at the market  ·  **Inminom hiya hini nga gatas ha kusina** — She drank this milk in the kitchen
 - _From real Waray:_  **Didto hiya bukid makaagi hin prutas, makakakaon.** — There on the mountain he could find fruit to eat.
