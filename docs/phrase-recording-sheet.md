@@ -141,9 +141,9 @@ _271 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **kulop** _(afternoon)_ → “It is afternoon now.”  
   Waray: ____________________
-- **didi** _(here)_ → “The book is here.”  
+- **didi** _(here (this place))_ → “The book is here.”  
   Waray: ____________________
-- **dinhi** _(here)_ → “Come here.”  
+- **dinhi** _(here (this place))_ → “Come here.”  
   Waray: ____________________
 - **adlaw** _(day)_ → “Today is a good day.”  
   Waray: ____________________

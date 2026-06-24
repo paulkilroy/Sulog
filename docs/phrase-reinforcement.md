@@ -12,7 +12,7 @@ _Each new word gets a **goal** = how many *later* phrases should reuse it, weigh
 | tabang | help | ✗ | 4 | 0 | **+4** |
 | Sige | Okay / go ahead | ✗ | 4 | 1 | **+3** |
 | Anay | Wait / just a moment | ✗ | 4 | 1 | **+3** |
-| Adi | Here it is | ✗ | 4 | 1 | **+3** |
+| Adi | Here it is / here (with me) | ✗ | 4 | 1 | **+3** |
 | maupay | good | ✗ | 4 | 2 | **+2** |
 | Oo | Yes | ✗ | 4 | 3 | **+1** |
 | alayon | please | ✗ | 5 | 7 | ✓ |
@@ -213,8 +213,8 @@ _Each new word gets a **goal** = how many *later* phrases should reuse it, weigh
 | panahon | time / weather | ✓ | 2 | 0 | **+2** |
 | adlaw | day | ✓ | 2 | 1 | **+1** |
 | semana | week | ✓ | 2 | 1 | **+1** |
-| didi | here | ✓ | 3 | 9 | ✓ |
-| dinhi | here | ✓ | 3 | 3 | ✓ |
+| didi | here (this place) | ✓ | 3 | 9 | ✓ |
+| dinhi | here (this place) | ✓ | 3 | 3 | ✓ |
 | yana | now | ✓ | 2 | 5 | ✓ |
 | buwas | tomorrow | ✓ | 2 | 6 | ✓ |
 | kakulop | yesterday | ✓ | 2 | 3 | ✓ |

@@ -10,7 +10,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 
 ### Say hello & thanks  — _Hellos, thanks, manners_
 - _Hellos & thanks:_  **Maupay nga aga** — Good morning  ·  **Maupay nga udto** — Good noon  ·  **Maupay nga kulop** — Good afternoon  ·  **Maupay nga gab-i** — Good evening / Good night  ·  **Kumusta ka?** — How are you?  ·  **Maupay man** — I'm good / fine (so far)  ·  **Salamat** — Thank you  ·  **Damo nga salamat** — Thank you very much  ·  **Pasensya na** — Sorry / excuse me  ·  **Sige** — Okay / go ahead
-- _Yes, no & getting by:_  **Oo** — Yes  ·  **Diri** — No / not  ·  **Waray** — None / nothing  ·  **Waray pa** — Not yet  ·  **Anay** — Wait / just a moment  ·  **Adi** — Here it is  ·  **Pwede** — Can / may (I)  ·  **maupay** — good  ·  **tabang** — help  ·  **Hinay-hinay la** — Just slowly, please
+- _Yes, no & getting by:_  **Oo** — Yes  ·  **Diri** — No / not  ·  **Waray** — None / nothing  ·  **Waray pa** — Not yet  ·  **Anay** — Wait / just a moment  ·  **Adi** — Here it is / here (with me)  ·  **Pwede** — Can / may (I)  ·  **maupay** — good  ·  **tabang** — help  ·  **Hinay-hinay la** — Just slowly, please
 - _More common words:_  **alayon** — please
 
 ### Get unstuck  — _Phrases for when you're lost_
@@ -106,7 +106,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Tell the time of day  — _Now, later, parts of the day_
 **① Words**
 - _When:_  **yana** — now  ·  **niyan** — later  ·  **buwas** — tomorrow  ·  **kanina** — a little while ago  ·  **kakulop** — yesterday  ·  **kagab-i** — last night  ·  **kanina han aga** — earlier this morning  ·  **kulop** — afternoon  ·  **yana nga aga** — this morning (now)  ·  **yana nga gab-i** — tonight
-- _Here, there & time:_  **didi** — here  ·  **dida** — there  ·  **dinhi** — here  ·  **didto** — there (far)  ·  **Ano it oras dida?** — What time is it there?  ·  **Alas singko didi** — It's 5 o'clock here  ·  **Ano nga oras?** — What time?  ·  **adlaw** — day  ·  **semana** — week  ·  **panahon** — time / weather
+- _Here, there & time:_  **didi** — here (this place)  ·  **dida** — there  ·  **dinhi** — here (this place)  ·  **didto** — there (far)  ·  **Ano it oras dida?** — What time is it there?  ·  **Alas singko didi** — It's 5 o'clock here  ·  **Ano nga oras?** — What time?  ·  **adlaw** — day  ·  **semana** — week  ·  **panahon** — time / weather
 **② Apply** _(type the Waray)_
 - _From real Waray:_  **Mag-ano man kamo didto?** — (What will you do there?)  ·  **Kakaonon ko ini yana.** — I'll eat this now.  ·  **Ano an karan-on dida?** — What food is there?
 
@@ -130,7 +130,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Ask the way  — _Finding your way around_
 **① Words**
 - _Places:_  **bangko** — bank  ·  **botika** — pharmacy  ·  **ospital** — hospital  ·  **istasyon hit pulis** — police station  ·  **munisipyo** — town / city hall  ·  **paradahan** — terminal  ·  **eskina** — corner  ·  **atbang** — across / in front of
-- _Getting there:_  **dinhi** — here  ·  **harani** — near  ·  **harayo** — far  ·  **bus** — bus  ·  **dyip** — jeepney  ·  **taxi** — taxi  ·  **pedicab** — pedicab  ·  **traysikol** — tricycle
+- _Getting there:_  **dinhi** — here (this place)  ·  **harani** — near  ·  **harayo** — far  ·  **bus** — bus  ·  **dyip** — jeepney  ·  **taxi** — taxi  ·  **pedicab** — pedicab  ·  **traysikol** — tricycle
 - _More common words:_  **hotel** — hotel  ·  **barangay** — neighborhood  ·  **eskwelahan** — school
 **② Apply** _(type the Waray)_
 - _Asking & answers:_  **Pwede magpakiana?** — May I ask a question?  ·  **Hain it bangko?** — Where is the bank?  ·  **Harayo ba tikang dinhi?** — Is it far from here?  ·  **Waray sapayan** — You're welcome  ·  **Harani la** — It's just near  ·  **Pwede baktason** — It can be walked  ·  **Ika-upat nga eskina tikang dinhi** — The 4th corner from here  ·  **Pagbus nala** — Just take the bus
