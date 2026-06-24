@@ -10,6 +10,7 @@
    review tests the ② phrases. Pure-vocab units have only ① Words. */
 import { CLASSIC } from "./classic.js";
 import { MINED_BY_UNIT } from "./mined-phrases.js";
+import { ADDED_WORDS } from "./added-words.js";
 
 // index every Classic unit by id so we can reuse it (with all its lessons) here
 const U = {};
@@ -61,6 +62,10 @@ const retool = (id, name, hint) => {
   if (!u) throw new Error("frequency.js: unknown unit " + id);
   let lessons = REPLACE[id] || u.lessons;
   lessons = lessons.map((l) => ({ ...l, kind: l.kind || (APPLY_IDS.has(l.id) ? "apply" : "words") }));
+  // common words added from the Duolingo gap list → an extra ① Words lesson
+  if (ADDED_WORDS[id] && ADDED_WORDS[id].length) {
+    lessons = lessons.concat([{ id: id + "w2", title: "More common words", kind: "words", items: ADDED_WORDS[id] }]);
+  }
   if (ADD[id]) lessons = lessons.concat(ADD[id].map((l) => ({ ...l, kind: l.kind || "apply" })));
   // mined attested sentences (Peace Corps OCR + CHED) → an extra ② Apply lesson
   if (MINED_BY_UNIT[id] && MINED_BY_UNIT[id].length) {

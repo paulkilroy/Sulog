@@ -684,6 +684,30 @@ export const SEED = [
   ["meals", "Didto hiya bukid makaagi hin prutas, makakakaon.", "There on the mountain he could find fruit to eat.", "CHED · verify", ""],
   ["nature", "Waray hira ilob kay uraura kamabaskog an gutom ha tuna.", "They had no patience, for the famine in the land was severe.", "CHED · verify", ""],
   ["verbs", "Ngan waray pa tanom ha kapatagan.", "And there were no plants on the plain yet.", "CHED · verify", ""],
+
+  // ===== added from Duolingo gap list (common words we lacked) =====
+  ["ppl", "kuya", "older brother", "also a respectful address for any man (like 'sir'/'mister')", "KOO-yah"],
+  ["ppl", "ate", "older sister", "also a respectful address for any woman (like 'miss'/'ma'am')", "AH-teh"],
+  ["ppl", "tiya", "aunt", "Duolingo gap · verify", "TEE-yah"],
+  ["ppl", "tiyo", "uncle", "Duolingo gap · verify", "TEE-yo"],
+  ["meals", "kape", "coffee", "Duolingo gap · verify", "kah-PEH"],
+  ["meals", "gatas", "milk", "Duolingo gap · verify", "GAH-tas"],
+  ["meals", "tinapay", "bread", "Duolingo gap · verify", "tee-NAH-pigh"],
+  ["meals", "sorbetes", "ice cream", "Duolingo gap · verify", "sor-BEH-tes"],
+  ["meals", "duga", "juice", "Duolingo gap · verify", "DOO-gah"],
+  ["meals", "kahel", "orange", "Duolingo gap · verify", "kah-HEL"],
+  ["meals", "pinya", "pineapple", "Duolingo gap · verify", "PEEN-yah"],
+  ["meals", "pakwan", "watermelon", "Duolingo gap · verify", "PAK-wan"],
+  ["verbs", "pitaka", "wallet", "Duolingo gap · verify", "pee-TAH-kah"],
+  ["verbs", "relo", "watch", "Duolingo gap · verify", "REH-lo"],
+  ["verbs", "bag", "bag", "Duolingo gap · verify", "bag"],
+  ["verbs", "kalo", "cap / hat", "Duolingo gap · verify", "KAH-lo"],
+  ["direk", "hotel", "hotel", "Duolingo gap · verify", "ho-TEL"],
+  ["direk", "barangay", "neighborhood", "Duolingo gap · verify", "bah-rahng-GIGH"],
+  ["direk", "eskwelahan", "school", "Duolingo gap · verify", "es-kweh-LAH-han"],
+  ["ppl", "arte", "art", "Duolingo gap · verify", "AR-teh"],
+  ["ppl", "musika", "music", "Duolingo gap · verify", "moo-SEE-kah"],
+  ["greet", "alayon", "please", "Duolingo gap · verify", "ah-LAH-yon"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.

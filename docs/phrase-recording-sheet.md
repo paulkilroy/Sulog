@@ -1,6 +1,6 @@
 # Phrase recording sheet — cover the uncovered words
 
-_251 words. Each has an English target sentence built only from words already taught. **Say/record the Waray**; send back as `Waray = English`. If a prompt is odd, say a better short sentence with the word._
+_271 words. Each has an English target sentence built only from words already taught. **Say/record the Waray**; send back as `Waray = English`. If a prompt is odd, say a better short sentence with the word._
 
 ### Say who's who
 - **kamo** _(you / y'all)_ → “You are all teachers.”  
@@ -28,6 +28,14 @@ _251 words. Each has an English target sentence built only from words already ta
 - **bisita** _(visitor)_ → “Jose is a visitor.”  
   Waray: ____________________
 - **miyembro** _(member)_ → “She is a church member.”  
+  Waray: ____________________
+- **kuya** _(older brother)_ → “The older brother is here.”  
+  Waray: ____________________
+- **ate** _(older sister)_ → “This is the older sister.”  
+  Waray: ____________________
+- **tiya** _(aunt)_ → “Pedro is a aunt.”  
+  Waray: ____________________
+- **tiyo** _(uncle)_ → “That uncle is tall.”  
   Waray: ____________________
 
 ### Say what's yours
@@ -191,6 +199,14 @@ _251 words. Each has an English target sentence built only from words already ta
   Waray: ____________________
 - **sista** _(guitar)_ → “Where is the guitar?”  
   Waray: ____________________
+- **pitaka** _(wallet)_ → “I have two wallets.”  
+  Waray: ____________________
+- **relo** _(watch)_ → “The watch is in the kitchen.”  
+  Waray: ____________________
+- **bag** _(bag)_ → “This is the bag.”  
+  Waray: ____________________
+- **kalo** _(cap / hat)_ → “Their cap is here.”  
+  Waray: ____________________
 
 ### Talk about meals
 - **paniudto** _(lunch)_ → “Maria ate lunch.”  
@@ -226,6 +242,12 @@ _251 words. Each has an English target sentence built only from words already ta
 - **pedicab** _(pedicab)_ → “Jose went to the pedicab.”  
   Waray: ____________________
 - **traysikol** _(tricycle)_ → “Our tricycle is near.”  
+  Waray: ____________________
+- **hotel** _(hotel)_ → “I will go to the hotel now.”  
+  Waray: ____________________
+- **barangay** _(neighborhood)_ → “Where is the neighborhood?”  
+  Waray: ____________________
+- **eskwelahan** _(school)_ → “Pedro went to the school.”  
   Waray: ____________________
 
 ### Name colors
@@ -278,6 +300,10 @@ _251 words. Each has an English target sentence built only from words already ta
 - **ninong** _(godfather)_ → “Lito is a godfather.”  
   Waray: ____________________
 - **pasyente** _(patient)_ → “My friend is a patient.”  
+  Waray: ____________________
+- **arte** _(art)_ → “That art is kind.”  
+  Waray: ____________________
+- **musika** _(music)_ → “She is a music.”  
   Waray: ____________________
 
 ### Describe people
@@ -504,6 +530,20 @@ _251 words. Each has an English target sentence built only from words already ta
 - **marasa** _(delicious)_ → “It is delicious.”  
   Waray: ____________________
 - **gutom** _(hungry)_ → “I am hungry.”  
+  Waray: ____________________
+- **kape** _(coffee)_ → “Lito likes coffee.”  
+  Waray: ____________________
+- **tinapay** _(bread)_ → “I will buy bread at the store.”  
+  Waray: ____________________
+- **sorbetes** _(ice cream)_ → “The ice cream is delicious.”  
+  Waray: ____________________
+- **duga** _(juice)_ → “We ate juice later.”  
+  Waray: ____________________
+- **kahel** _(orange)_ → “Father likes orange.”  
+  Waray: ____________________
+- **pinya** _(pineapple)_ → “I will buy pineapple at the store.”  
+  Waray: ____________________
+- **pakwan** _(watermelon)_ → “The watermelon is delicious.”  
   Waray: ____________________
 
 ### Talk about nature & animals

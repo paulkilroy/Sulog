@@ -1,14 +1,15 @@
 # Phrase reinforcement — by unit's new words
 
-_356 new words · 334 appear in a phrase in their own unit · 258 are never reused in a later phrase._
+_378 new words · 355 appear in a phrase in their own unit · 278 are never reused in a later phrase._
 
 _For each unit: the **new words** it introduces, whether each appears in a phrase in **this** unit (✓ = covered), and how many phrases in **later** units use it (reinforcement). Corpus = existing ② Apply phrases + the recording prompts. ✗ in "this unit" = no phrase here yet; **Later 0** = never reused → weave it into a later prompt._
 
-### Say hello & thanks  _(10 new words)_
+### Say hello & thanks  _(11 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
 | Waray | None / nothing | ✗ | 9 |
+| alayon | please | ✗ | 7 |
 | Pwede | Can / may (I) | ✗ | 5 |
 | Diri | No / not | ✗ | 4 |
 | Oo | Yes | ✗ | 3 |
@@ -23,9 +24,9 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ako | I | ✓ | 44 |
-| kami | we (exclusive) | ✓ | 28 |
-| hiya | he / she | ✓ | 20 |
+| ako | I | ✓ | 48 |
+| kami | we (exclusive) | ✓ | 29 |
+| hiya | he / she | ✓ | 21 |
 | kita | we (inclusive) | ✓ | 11 |
 | hira | they | ✓ | 11 |
 | kamo | you / y'all | ✓ | 4 |
@@ -34,8 +35,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ha | to / at / in | ✓ | 67 |
-| hin | a / some (object) | ✓ | 33 |
+| ha | to / at / in | ✓ | 72 |
+| hin | a / some (object) | ✓ | 35 |
 | han | of / the (past object) | ✗ | 11 |
 | saging | banana | ✓ | 9 |
 | hi | the (before a name) | ✓ | 2 |
@@ -45,8 +46,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| ini | this (near) | ✓ | 30 |
-| iton | that (near you) | ✓ | 14 |
+| ini | this (near) | ✓ | 32 |
+| iton | that (near you) | ✓ | 16 |
 | libro | book | ✓ | 12 |
 | kahoy | tree | ✓ | 3 |
 | adto | that (over there) | ✓ | 2 |
@@ -55,7 +56,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| hain | where | ✓ | 13 |
+| hain | where | ✓ | 14 |
 | ano | what | ✓ | 9 |
 | ba | makes a yes/no question | ✓ | 8 |
 | tagpira | how much | ✓ | 1 |
@@ -67,7 +68,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| duha | two | ✗ | 5 |
+| duha | two | ✗ | 6 |
 | walo | eight | ✗ | 1 |
 | usa | one | ✗ | 0 |
 | tulo | three | ✗ | 0 |
@@ -79,13 +80,13 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | napulo | ten | ✗ | 0 |
 | karuhaan | twenty | ✗ | 0 |
 
-### Introduce your family  _(19 new words)_
+### Introduce your family  _(23 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
 | bata | child | ✓ | 8 |
 | nanay | mother | ✓ | 6 |
-| tatay | father | ✓ | 4 |
+| tatay | father | ✓ | 5 |
 | uyab | girlfriend / boyfriend | ✓ | 2 |
 | sangkay | friend | ✓ | 2 |
 | lalaki | man | ✓ | 2 |
@@ -102,6 +103,10 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | kaharani | neighbor | ✓ | 0 |
 | bisita | visitor | ✓ | 0 |
 | miyembro | member | ✓ | 0 |
+| kuya | older brother | ✓ | 0 |
+| ate | older sister | ✓ | 0 |
+| tiya | aunt | ✓ | 0 |
+| tiyo | uncle | ✓ | 0 |
 
 ### Say what's yours  _(8 new words)_
 
@@ -109,8 +114,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 |---|---|:--:|--:|
 | ko | my (short) | ✓ | 23 |
 | naton | our (incl) | ✓ | 5 |
+| nira | their | ✓ | 2 |
 | niya | his / her | ✓ | 1 |
-| nira | their | ✓ | 1 |
 | nakon | my | ✓ | 0 |
 | nimo | your | ✓ | 0 |
 | namon | our (excl) | ✓ | 0 |
@@ -132,7 +137,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| an | the (completed / past) | ✓ | 95 |
+| an | the (completed / past) | ✓ | 104 |
 | it | the (now / general) | ✓ | 10 |
 | mabaho | smelly | ✓ | 0 |
 
@@ -200,13 +205,13 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| didi | here | ✓ | 8 |
+| didi | here | ✓ | 9 |
 | buwas | tomorrow | ✓ | 7 |
-| yana | now | ✓ | 3 |
+| yana | now | ✓ | 4 |
 | kakulop | yesterday | ✓ | 3 |
 | dinhi | here | ✓ | 3 |
 | didto | there (far) | ✓ | 3 |
-| niyan | later | ✓ | 1 |
+| niyan | later | ✓ | 2 |
 | kanina | a little while ago | ✓ | 1 |
 | adlaw | day | ✓ | 1 |
 | semana | week | ✓ | 1 |
@@ -215,7 +220,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | dida | there | ✓ | 0 |
 | panahon | time / weather | ✓ | 0 |
 
-### Name things at home  _(29 new words)_
+### Name things at home  _(33 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
@@ -248,12 +253,16 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | papel | paper | ✓ | 0 |
 | mulayan | toy | ✓ | 0 |
 | sista | guitar | ✓ | 0 |
+| pitaka | wallet | ✓ | 0 |
+| relo | watch | ✓ | 0 |
+| bag | bag | ✓ | 0 |
+| kalo | cap / hat | ✓ | 0 |
 
 ### Talk about meals  _(8 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| marasa | delicious | ✓ | 4 |
+| marasa | delicious | ✓ | 6 |
 | pagkaon | food | ✓ | 2 |
 | gutom | hungry | ✓ | 2 |
 | kan-on | cooked rice | ✓ | 1 |
@@ -262,11 +271,12 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | pangiklop | dinner | ✓ | 0 |
 | isnak | snack | ✓ | 0 |
 
-### Ask the way  _(14 new words)_
+### Ask the way  _(17 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
 | harani | near | ✓ | 1 |
+| eskwelahan | school | ✓ | 1 |
 | bangko | bank | ✓ | 0 |
 | botika | pharmacy | ✓ | 0 |
 | ospital | hospital | ✓ | 0 |
@@ -280,6 +290,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | taxi | taxi | ✓ | 0 |
 | pedicab | pedicab | ✓ | 0 |
 | traysikol | tricycle | ✓ | 0 |
+| hotel | hotel | ✓ | 0 |
+| barangay | neighborhood | ✓ | 0 |
 
 ### Name colors  _(6 new words)_
 
@@ -292,7 +304,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | darag | yellow | ✓ | 0 |
 | berde | green | ✓ | 0 |
 
-### Talk about work  _(19 new words)_
+### Talk about work  _(21 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
@@ -315,6 +327,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | tag-iya | owner | ✓ | 0 |
 | ninong | godfather | ✓ | 0 |
 | pasyente | patient | ✓ | 0 |
+| arte | art | ✓ | 0 |
+| musika | music | ✓ | 0 |
 
 ### Describe people  _(20 new words)_
 
@@ -404,8 +418,8 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
-| tindahan | store | ✓ | 6 |
-| palit | to buy | ✓ | 4 |
+| tindahan | store | ✓ | 8 |
+| palit | to buy | ✓ | 6 |
 | karuyag | want / like | ✓ | 2 |
 | tindera | vendor | ✓ | 0 |
 | kahera | cashier | ✓ | 0 |
@@ -476,7 +490,7 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | masayon | easy / simple | ✓ | 0 |
 | makuri | hard / difficult | ✓ | 0 |
 
-### Food & the table  _(12 new words)_
+### Food & the table  _(20 new words)_
 
 | New word | English | In this unit | Reused later |
 |---|---|:--:|--:|
@@ -492,6 +506,14 @@ _For each unit: the **new words** it introduces, whether each appears in a phras
 | tsa | tea | ✓ | 0 |
 | sabaw | soup | ✓ | 0 |
 | keyk | cake | ✓ | 0 |
+| kape | coffee | ✓ | 0 |
+| gatas | milk | ✓ | 0 |
+| tinapay | bread | ✓ | 0 |
+| sorbetes | ice cream | ✓ | 0 |
+| duga | juice | ✓ | 0 |
+| kahel | orange | ✓ | 0 |
+| pinya | pineapple | ✓ | 0 |
+| pakwan | watermelon | ✓ | 0 |
 
 ### Talk about nature & animals  _(7 new words)_
 
