@@ -519,6 +519,18 @@ function speak(arg, rate = 0.78) {
     synth.speak(u);
   } catch (e) {}
 }
+// speak plain English (for prompts whose question side is English) with an English voice
+function speakEnglish(text, rate = 0.95) {
+  try {
+    const synth = window.speechSynthesis; if (!synth || !text) return;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = rate;
+    const v = (_voices || []).find((x) => /^en/i.test(x.lang));
+    if (v) u.voice = v;
+    synth.speak(u);
+  } catch (e) {}
+}
 
 /* =================================================================== */
 
@@ -534,7 +546,7 @@ export default function App() {
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
-  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true });
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
 
@@ -1187,7 +1199,7 @@ function shuffle(a) {
 }
 
 function SessionView({ ctx }) {
-  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, logAttempt } = ctx;
+  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, logAttempt, settings, saveSettings } = ctx;
   // base = the cards to study once (first attempt is what scores). Each becomes a
   // "step"; a missed written step splices in extra (unscored) MC→type steps so
   // you keep at it until you clear it.
@@ -1244,6 +1256,12 @@ function SessionView({ ctx }) {
           <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
         </div>
         <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
+        {mode === "type" && SpeechRec && (
+          <button className={`ws-vk ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice — tap for keyboard" : "Keyboard — tap for voice"}
+            onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+            {settings.voiceMode ? <Mic size={16} /> : <Pencil size={16} />}
+          </button>
+        )}
       </div>
 
       {step.remedial && (
@@ -1688,6 +1706,35 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [picked, mode]);
 
+  /* ---- VOICE MODE (hands-free typing replacement) ----
+     speak the prompt, listen for the spoken translation, judge, auto-advance. */
+  const voiceMode = settings.voiceMode && mode === "type";
+  const vmRec = useRef(null), vmTok = useRef(0);
+  const [vmState, setVmState] = useState("idle"); // idle | speaking | listening
+  const vmStop = () => { vmTok.current++; try { vmRec.current && vmRec.current.abort(); } catch (e) {} vmRec.current = null; };
+  const vmListen = () => {
+    if (!SpeechRec) return;
+    vmStop(); const tok = vmTok.current; setHeard([]); setSttAlts(null); setVmState("listening");
+    const rec = new SpeechRec(); rec.lang = sttLang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
+    let settled = false;
+    rec.onresult = (e) => { if (tok !== vmTok.current) return;
+      const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
+      if (res.isFinal) { settled = true; setVmState("idle");
+        const m = a.find((x) => checkAnswer(x, answer, dir === "etw"));
+        setSttAlts(a); setTyped(m ? answer : (a[0] || "")); judge(!!m);
+      } else setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); };
+    rec.onerror = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
+    rec.onend = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
+    vmRec.current = rec; try { rec.start(); } catch (e) { setVmState("idle"); }
+  };
+  useEffect(() => {
+    if (!voiceMode || judged) return;
+    let live = true; setVmState("speaking");
+    if (dir === "wte") playCard(card); else speakEnglish(prompt);
+    const t = setTimeout(() => { if (live) vmListen(); }, Math.min(2400, 650 + prompt.length * 45));
+    return () => { live = false; clearTimeout(t); vmStop(); };
+  }, [voiceMode, card.id, judged]);
+
   /* ---- MULTIPLE CHOICE ---- */
   if (mode === "mc" || mode === "listen") {
     const listening = mode === "listen";
@@ -1736,6 +1783,21 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
         <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
           onPlay={() => playCard(card)} />
         {!judged ? (
+          voiceMode ? (
+            <div className="ws-voice">
+              <div className={`ws-voice-orb ${vmState}`} onClick={() => vmState === "listening" ? vmStop() : vmListen()}>
+                {vmState === "listening" ? <Mic size={26} /> : <Volume2 size={26} />}
+              </div>
+              <div className="ws-voice-state">
+                {vmState === "speaking" ? "listen…" : vmState === "listening" ? "say the answer" : "tap to speak"}
+                {heard.length > 0 && <div className="ws-voice-heard">{heard[heard.length - 1]}</div>}
+              </div>
+              <div className="ws-voice-acts">
+                <button className="ws-skip" onClick={() => { if (dir === "wte") playCard(card); else speakEnglish(prompt); }}>Repeat</button>
+                {onSkip && <button className="ws-skip" onClick={() => { vmStop(); onSkip(); }}>Skip</button>}
+              </div>
+            </div>
+          ) : (
           <>
             <input className="ws-input" autoFocus value={typed} placeholder="Type or speak your answer…"
               onChange={(e) => setTyped(e.target.value)}
@@ -1759,11 +1821,12 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
             </button>
             {onSkip && <button className="ws-skip" onClick={onSkip}>Skip this one</button>}
           </>
+          )
         ) : (
           <>
             <div className={`ws-yourans ${judged}`}>{typed || "—"}</div>
             <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
-              given={typed} dir={dir}
+              given={typed} dir={dir} autoMs={voiceMode ? 1300 : undefined}
               showWaray={dir === "etw"} onResult={(corr) => onResult(corr, typed)} allowOverride />
           </>
         )}
@@ -2293,7 +2356,9 @@ function NeedsWorkView({ ctx }) {
       ) : (
         <>
           <button className="ws-start ws-full" onClick={() => {
-            setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "mc", limit: drill.length, only: drill.map((c) => c.id) });
+            // produce it from memory (English → Waray, typed) with remediation: a miss
+            // keeps re-drilling until cleared — a real mastery drill, not soft recognition
+            setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", remediate: true, limit: drill.length, only: drill.map((c) => c.id) });
             setView("session");
           }}>
             <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
@@ -3100,6 +3165,17 @@ function Styles() {
 .ws-sttdbg-arr{color:#5a9b97}
 .ws-sttdbg-dist{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
 .ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.ws-vk{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;
+  border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink-soft);cursor:pointer;flex:0 0 auto}
+.ws-vk.on{background:var(--tide);border-color:var(--tide);color:#fff}
+.ws-voice{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px 0 8px}
+.ws-voice-orb{display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;
+  background:var(--foam);border:2px solid var(--sand-deep);color:var(--tide);cursor:pointer;transition:all .15s}
+.ws-voice-orb.speaking{border-color:#f4a53a;color:#f4a53a}
+.ws-voice-orb.listening{background:#fdf0ec;border-color:#c0432b;color:#c0432b;animation:wsPulse 1.1s ease-in-out infinite}
+.ws-voice-state{font-size:14px;color:var(--ink-soft);text-align:center}
+.ws-voice-heard{font-size:18px;font-weight:600;color:var(--ink);margin-top:4px}
+.ws-voice-acts{display:flex;gap:10px}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
   border-radius:20px;transition:width .4s}
