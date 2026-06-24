@@ -1,199 +1,185 @@
 # Phrase recording sheet — cover the uncovered words
 
-_296 words across 27 units (greetings & numbers skipped)._
+_290 words. Each has an English target sentence built only from words already taught. **Say/record the Waray**; send back as `Waray = English`. If a prompt is odd, say a better short sentence with the word._
 
-_For each word: a varied English target sentence (different frames recycle words she already knows). **Record/say the Waray** for each. Send back as `Waray = English` per line and I'll add them as ② Apply phrases. If a prompt is awkward, just say a better short sentence with the word._
-
-### Say who's who  (4)
+### Say who's who
 - **kita** _(we (inclusive))_ → “We are friends.”  
   Waray: ____________________
 - **kami** _(we (exclusive))_ → “We are students.”  
   Waray: ____________________
-- **kamo** _(you / y'all)_ → “You are teachers.”  
+- **kamo** _(you / y'all)_ → “You are all teachers.”  
   Waray: ____________________
-- **hira** _(they)_ → “They are happy.”  
+- **hira** _(they)_ → “They went to the store.”  
   Waray: ____________________
 
-### Introduce your family  (18)
+### Introduce your family
 - **tatay** _(father)_ → “This is my father.”  
   Waray: ____________________
-- **anak** _(child)_ → “My child is kind.”  
+- **anak** _(child)_ → “Pedro is my child.”  
   Waray: ____________________
-- **apoy** _(grandparent)_ → “Where is my grandparent?”  
+- **apoy** _(grandparent)_ → “My grandparent is here.”  
   Waray: ____________________
-- **apo** _(grandchild)_ → “I love my grandchild.”  
+- **apo** _(grandchild)_ → “My grandchild is kind.”  
   Waray: ____________________
-- **asawa** _(wife / spouse)_ → “The wife is tall.”  
+- **asawa** _(wife / spouse)_ → “This is my wife.”  
   Waray: ____________________
-- **bugto** _(sibling)_ → “This is my sibling.”  
+- **bugto** _(sibling)_ → “Rosa is my sibling.”  
   Waray: ____________________
-- **akon patod** _(my cousin)_ → “My cousin is kind.”  
+- **akon patod** _(my cousin)_ → “My cousin is here.”  
   Waray: ____________________
-- **uyab** _(girlfriend / boyfriend)_ → “Where is my girlfriend?”  
+- **uyab** _(girlfriend / boyfriend)_ → “My girlfriend is kind.”  
   Waray: ____________________
-- **lalaki** _(man)_ → “I love my man.”  
+- **lalaki** _(man)_ → “This is the man.”  
   Waray: ____________________
-- **babaye** _(woman)_ → “The woman is tall.”  
+- **babaye** _(woman)_ → “Jose is a woman.”  
   Waray: ____________________
-- **bata** _(child)_ → “This is my child.”  
+- **bata** _(child)_ → “My child is here.”  
   Waray: ____________________
-- **ulitawo** _(young man)_ → “My young man is kind.”  
+- **ulitawo** _(young man)_ → “The young man is here.”  
   Waray: ____________________
-- **daragita** _(young woman)_ → “Where is my young woman?”  
+- **daragita** _(young woman)_ → “This is the young woman.”  
   Waray: ____________________
-- **lagas** _(old person)_ → “I love my old person.”  
+- **lagas** _(old person)_ → “Pedro is a old person.”  
   Waray: ____________________
-- **kaharani** _(neighbor)_ → “The neighbor is tall.”  
+- **kaharani** _(neighbor)_ → “My neighbor is here.”  
   Waray: ____________________
-- **bisita** _(visitor)_ → “This is my visitor.”  
+- **bisita** _(visitor)_ → “The visitor is here.”  
   Waray: ____________________
-- **tawo** _(person)_ → “My person is kind.”  
+- **tawo** _(person)_ → “This person is kind.”  
   Waray: ____________________
-- **miyembro** _(member)_ → “Where is my member?”  
-  Waray: ____________________
-
-### Say what's yours  (4)
-- **ko** _(my (short))_ → “This is my book.”  
-  Waray: ____________________
-- **naton** _(our (incl))_ → “That is our house.”  
-  Waray: ____________________
-- **niyo** _(your (pl))_ → “This is your book.”  
-  Waray: ____________________
-- **nira** _(their)_ → “That is their house.”  
+- **miyembro** _(member)_ → “She is a church member.”  
   Waray: ____________________
 
-### Say it's mine  (4)
-- **aton** _(ours (incl))_ → “It is ours.”  
+### Say what's yours
+- **ko** _(my (short))_ → “This book is mine.”  
   Waray: ____________________
-- **amon** _(ours (excl))_ → “The food is ours.”  
+- **naton** _(our (incl))_ → “That banana is ours.”  
   Waray: ____________________
-- **iyo** _(yours (pl))_ → “It is yours.”  
+- **niyo** _(your (pl))_ → “This tree is yours (all of you).”  
   Waray: ____________________
-- **ira** _(theirs)_ → “The food is theirs.”  
-  Waray: ____________________
-
-### Do it: now / will / did  (12)
-- **makaon** _(will eat)_ → “Say it for “will eat”.”  
-  Waray: ____________________
-- **nakaon** _(is eating)_ → “Say it for “is eating”.”  
-  Waray: ____________________
-- **kinmaon** _(ate)_ → “Say it for “ate”.”  
-  Waray: ____________________
-- **malakat** _(will go)_ → “Say it for “will go”.”  
-  Waray: ____________________
-- **nalakat** _(is going)_ → “Say it for “is going”.”  
-  Waray: ____________________
-- **linmakat** _(went)_ → “Say it for “went”.”  
-  Waray: ____________________
-- **mapalit** _(will buy)_ → “Say it for “will buy”.”  
-  Waray: ____________________
-- **napalit** _(is buying)_ → “Say it for “is buying”.”  
-  Waray: ____________________
-- **pinmalit** _(bought)_ → “Say it for “bought”.”  
-  Waray: ____________________
-- **mainom** _(will drink)_ → “Say it for “will drink”.”  
-  Waray: ____________________
-- **nainom** _(is drinking)_ → “Say it for “is drinking”.”  
-  Waray: ____________________
-- **inminom** _(drank)_ → “Say it for “drank”.”  
+- **nira** _(their)_ → “That book is theirs.”  
   Waray: ____________________
 
-### Everyday actions  (30)
-- **laba** _(to wash (clothes))_ → “I wash every day.”  
+### Say it's mine
+- **aton** _(ours (incl))_ → “This book is ours.”  
   Waray: ____________________
-- **hugas** _(to wash (dishes))_ → “She likes to wash.”  
+- **amon** _(ours (excl))_ → “That banana is ours.”  
   Waray: ____________________
-- **luto** _(to cook)_ → “We will cook later.”  
+- **iyo** _(yours (pl))_ → “This tree is yours (all).”  
   Waray: ____________________
-- **limpyu** _(to clean)_ → “Please clean.”  
+- **ira** _(theirs)_ → “That book is theirs.”  
   Waray: ____________________
-- **lukot** _(to fold (clothes))_ → “Do you want to fold?”  
+
+### Do it: now / will / did
+- **makaon** _(will eat)_ → “Maria will eat banana.”  
   Waray: ____________________
-- **basa** _(to read)_ → “I read every day.”  
+- **nakaon** _(is eating)_ → “Pedro is eating banana.”  
   Waray: ____________________
-- **sudlay** _(to comb)_ → “She likes to comb.”  
+- **kinmaon** _(ate)_ → “Ana ate banana.”  
   Waray: ____________________
-- **sayaw** _(to dance)_ → “We will dance later.”  
+- **malakat** _(will go)_ → “Jose will go to the store.”  
   Waray: ____________________
-- **maneho** _(to drive)_ → “Please drive.”  
+- **nalakat** _(is going)_ → “Lito is going to the store.”  
   Waray: ____________________
-- **tago** _(to hide)_ → “Do you want to hide?”  
+- **linmakat** _(went)_ → “Rosa went to the store.”  
   Waray: ____________________
-- **hatag** _(to give)_ → “I give every day.”  
+- **mapalit** _(will buy)_ → “He will buy book.”  
   Waray: ____________________
-- **lingkod** _(to sit)_ → “She likes to sit.”  
+- **napalit** _(is buying)_ → “Mother is buying banana.”  
   Waray: ____________________
-- **tindog** _(to stand)_ → “We will stand later.”  
+- **pinmalit** _(bought)_ → “Father bought tree.”  
+  Waray: ____________________
+- **mainom** _(will drink)_ → “The child will drink water.”  
+  Waray: ____________________
+- **nainom** _(is drinking)_ → “The man is drinking water.”  
+  Waray: ____________________
+- **inminom** _(drank)_ → “The woman drank water.”  
+  Waray: ____________________
+
+### Everyday actions
+- **laba** _(to wash (clothes))_ → “Maria likes to wash.”  
+  Waray: ____________________
+- **hugas** _(to wash (dishes))_ → “Please wash.”  
+  Waray: ____________________
+- **luto** _(to cook)_ → “Ana cooks banana.”  
+  Waray: ____________________
+- **limpyu** _(to clean)_ → “Jose likes to clean.”  
+  Waray: ____________________
+- **lukot** _(to fold (clothes))_ → “Lito folds the clothes.”  
+  Waray: ____________________
+- **basa** _(to read)_ → “Rosa reads the book.”  
+  Waray: ____________________
+- **sudlay** _(to comb)_ → “He likes to comb.”  
+  Waray: ____________________
+- **sayaw** _(to dance)_ → “Please dance.”  
+  Waray: ____________________
+- **maneho** _(to drive)_ → “We will drive later.”  
+  Waray: ____________________
+- **tago** _(to hide)_ → “The child likes to hide.”  
+  Waray: ____________________
+- **hatag** _(to give)_ → “The man gives banana.”  
+  Waray: ____________________
+- **lingkod** _(to sit)_ → “We will sit later.”  
+  Waray: ____________________
+- **tindog** _(to stand)_ → “Maria likes to stand.”  
   Waray: ____________________
 - **hulat** _(to wait)_ → “Please wait.”  
   Waray: ____________________
-- **dara** _(to bring)_ → “Do you want to bring?”  
+- **dara** _(to bring)_ → “Ana brings tree.”  
   Waray: ____________________
-- **andam** _(to get ready)_ → “I get ready every day.”  
+- **andam** _(to get ready)_ → “Jose get readys the book.”  
   Waray: ____________________
-- **hangyo** _(to ask a favor)_ → “She likes to ask a favor.”  
+- **hangyo** _(to ask a favor)_ → “Please ask a favor.”  
   Waray: ____________________
 - **labay** _(to pass by)_ → “We will pass by later.”  
   Waray: ____________________
-- **hulam** _(to borrow)_ → “Please borrow.”  
+- **hulam** _(to borrow)_ → “He borrows book.”  
   Waray: ____________________
-- **bayad** _(to pay)_ → “Do you want to pay?”  
+- **bayad** _(to pay)_ → “Please pay.”  
   Waray: ____________________
-- **saka** _(to climb)_ → “I climb every day.”  
+- **saka** _(to climb)_ → “We will climb later.”  
   Waray: ____________________
-- **lakso** _(to jump)_ → “She likes to jump.”  
+- **lakso** _(to jump)_ → “The child likes to jump.”  
   Waray: ____________________
-- **dalagan** _(to run)_ → “We will run later.”  
+- **dalagan** _(to run)_ → “Please run.”  
   Waray: ____________________
-- **uli** _(to go home)_ → “Please go home.”  
+- **uli** _(to go home)_ → “We will go home later.”  
   Waray: ____________________
-- **sulod** _(to enter)_ → “Do you want to enter?”  
+- **sulod** _(to enter)_ → “Maria likes to enter.”  
   Waray: ____________________
-- **buhat** _(to do / make)_ → “I do every day.”  
+- **buhat** _(to do / make)_ → “Please do.”  
   Waray: ____________________
-- **surat** _(to write)_ → “She likes to write.”  
+- **surat** _(to write)_ → “Ana writes the book.”  
   Waray: ____________________
-- **siring** _(to speak / say)_ → “We will speak later.”  
+- **siring** _(to speak / say)_ → “Jose likes to speak.”  
   Waray: ____________________
 - **pili** _(to choose)_ → “Please choose.”  
   Waray: ____________________
-- **abot** _(to arrive)_ → “Do you want to arrive?”  
+- **abot** _(to arrive)_ → “We will arrive later.”  
   Waray: ____________________
 
-### Tell the time of day  (20)
+### Tell the time of day
 - **yana** _(now)_ → “I will eat now.”  
   Waray: ____________________
-- **niyan** _(later)_ → “I will come later.”  
+- **niyan** _(later)_ → “They will come later.”  
   Waray: ____________________
-- **buwas** _(tomorrow)_ → “I will go tomorrow.”  
+- **buwas** _(tomorrow)_ → “Ana will go to the store tomorrow.”  
   Waray: ____________________
-- **kanina** _(a little while ago)_ → “I ate a while ago.”  
+- **kanina** _(a little while ago)_ → “I ate lunch earlier.”  
   Waray: ____________________
-- **kakulop** _(yesterday)_ → “I worked yesterday.”  
+- **kakulop** _(yesterday)_ → “We worked yesterday.”  
   Waray: ____________________
-- **kagab-i** _(last night)_ → “I slept last night.”  
+- **kagab-i** _(last night)_ → “The child slept last night.”  
   Waray: ____________________
-- **kanina han aga** _(earlier this morning)_ → “I ate a while ago.”  
+- **kulop** _(afternoon)_ → “It is afternoon now.”  
   Waray: ____________________
-- **kulop** _(afternoon)_ → “It is afternoon.”  
+- **didi** _(here)_ → “The banana is here.”  
   Waray: ____________________
-- **yana nga aga** _(this morning (now))_ → “I will eat now.”  
+- **dida** _(there)_ → “The store is there.”  
   Waray: ____________________
-- **yana nga gab-i** _(tonight)_ → “I will eat now.”  
+- **dinhi** _(here)_ → “Come here.”  
   Waray: ____________________
-- **didi** _(here)_ → “Say it for “here”.”  
-  Waray: ____________________
-- **dida** _(there)_ → “Say it for “there”.”  
-  Waray: ____________________
-- **dinhi** _(here)_ → “Say it for “here”.”  
-  Waray: ____________________
-- **didto** _(there (far))_ → “Say it for “there (far)”.”  
-  Waray: ____________________
-- **Ano it oras dida?** _(What time is it there?)_ → “Say it for “What time is it there?”.”  
-  Waray: ____________________
-- **Alas singko didi** _(It's 5 o'clock here)_ → “Say it for “It's 5 o'clock here”.”  
-  Waray: ____________________
-- **Ano nga oras?** _(What time?)_ → “Say it for “What time?”.”  
+- **didto** _(there (far))_ → “The church is over there.”  
   Waray: ____________________
 - **adlaw** _(day)_ → “Today is a good day.”  
   Waray: ____________________
@@ -202,274 +188,274 @@ _For each word: a varied English target sentence (different frames recycle words
 - **panahon** _(time / weather)_ → “There is no time.”  
   Waray: ____________________
 
-### Name things at home  (27)
+### Name things at home
 - **balay** _(house)_ → “This is the house.”  
   Waray: ____________________
 - **kusina** _(kitchen)_ → “Where is the kitchen?”  
   Waray: ____________________
-- **banyo** _(bathroom)_ → “The bathroom is new.”  
+- **banyo** _(bathroom)_ → “Ana has a bathroom.”  
   Waray: ____________________
-- **kwarto** _(room)_ → “I see a room.”  
+- **kwarto** _(room)_ → “The room is in the house.”  
   Waray: ____________________
-- **sala** _(living room)_ → “There is a living room in the house.”  
+- **sala** _(living room)_ → “This is the living room.”  
   Waray: ____________________
-- **lingkuran** _(chair)_ → “This is the chair.”  
+- **lingkuran** _(chair)_ → “Where is the chair?”  
   Waray: ____________________
-- **katre** _(bed)_ → “Where is the bed?”  
+- **katre** _(bed)_ → “He has a bed.”  
   Waray: ____________________
-- **kudal** _(fence)_ → “The fence is new.”  
+- **kudal** _(fence)_ → “The fence is in the house.”  
   Waray: ____________________
-- **telebisyon** _(television)_ → “I see a television.”  
+- **telebisyon** _(television)_ → “This is the television.”  
   Waray: ____________________
-- **bado** _(clothes)_ → “There is a clothes in the house.”  
+- **bado** _(clothes)_ → “Where is the clothes?”  
   Waray: ____________________
-- **sapatos** _(shoes)_ → “This is the shoes.”  
+- **sapatos** _(shoes)_ → “The man has a shoes.”  
   Waray: ____________________
-- **tsinelas** _(slippers)_ → “Where is the slippers?”  
+- **tsinelas** _(slippers)_ → “The slippers is in the house.”  
   Waray: ____________________
-- **saruwal** _(pants)_ → “The pants is new.”  
+- **saruwal** _(pants)_ → “This is the pants.”  
   Waray: ____________________
-- **panyo** _(handkerchief)_ → “I see a handkerchief.”  
+- **panyo** _(handkerchief)_ → “Where is the handkerchief?”  
   Waray: ____________________
-- **mantel** _(tablecloth)_ → “There is a tablecloth in the house.”  
+- **mantel** _(tablecloth)_ → “Ana has a tablecloth.”  
   Waray: ____________________
-- **biray** _(curtain)_ → “This is the curtain.”  
+- **biray** _(curtain)_ → “The curtain is in the house.”  
   Waray: ____________________
-- **taklap** _(blanket)_ → “Where is the blanket?”  
+- **taklap** _(blanket)_ → “This is the blanket.”  
   Waray: ____________________
-- **syaket** _(jacket)_ → “The jacket is new.”  
+- **syaket** _(jacket)_ → “Where is the jacket?”  
   Waray: ____________________
-- **medyas** _(socks)_ → “I see a socks.”  
+- **medyas** _(socks)_ → “He has a socks.”  
   Waray: ____________________
-- **tinidor** _(fork)_ → “There is a fork in the house.”  
+- **tinidor** _(fork)_ → “The fork is in the house.”  
   Waray: ____________________
 - **kutsara** _(spoon)_ → “This is the spoon.”  
   Waray: ____________________
 - **pinggan** _(plate)_ → “Where is the plate?”  
   Waray: ____________________
-- **libro** _(book)_ → “The book is new.”  
+- **libro** _(book)_ → “The man has a book.”  
   Waray: ____________________
-- **lapis** _(pencil)_ → “I see a pencil.”  
+- **lapis** _(pencil)_ → “The pencil is in the house.”  
   Waray: ____________________
-- **mulayan** _(toy)_ → “There is a toy in the house.”  
+- **mulayan** _(toy)_ → “This is the toy.”  
   Waray: ____________________
-- **sista** _(guitar)_ → “This is the guitar.”  
+- **sista** _(guitar)_ → “Where is the guitar?”  
   Waray: ____________________
-- **tubig** _(water)_ → “Where is the water?”  
+- **tubig** _(water)_ → “Ana has a water.”  
   Waray: ____________________
 
-### Talk about meals  (6)
-- **paniudto** _(lunch)_ → “I ate lunch.”  
+### Talk about meals
+- **paniudto** _(lunch)_ → “Maria ate lunch.”  
   Waray: ____________________
 - **pangiklop** _(dinner)_ → “Have you eaten dinner?”  
   Waray: ____________________
-- **isnak** _(snack)_ → “Let's have snack.”  
+- **isnak** _(snack)_ → “We will have snack tomorrow.”  
   Waray: ____________________
-- **kan-on** _(cooked rice)_ → “I ate cooked rice.”  
+- **kan-on** _(cooked rice)_ → “Jose ate cooked rice.”  
   Waray: ____________________
-- **marasa** _(delicious)_ → “Have you eaten delicious?”  
+- **marasa** _(delicious)_ → “The food is delicious.”  
   Waray: ____________________
 - **gutom** _(hungry)_ → “I am hungry.”  
   Waray: ____________________
 
-### Ask the way  (11)
+### Ask the way
 - **botika** _(pharmacy)_ → “Where is the pharmacy?”  
   Waray: ____________________
-- **ospital** _(hospital)_ → “The hospital is near.”  
+- **ospital** _(hospital)_ → “Pedro went to the hospital.”  
   Waray: ____________________
-- **istasyon hit pulis** _(police station)_ → “I will go to the police station.”  
+- **istasyon hit pulis** _(police station)_ → “The police station is near.”  
   Waray: ____________________
-- **munisipyo** _(town / city hall)_ → “Is the town far?”  
+- **munisipyo** _(town / city hall)_ → “I will go to the town.”  
   Waray: ____________________
 - **paradahan** _(terminal)_ → “Where is the terminal?”  
   Waray: ____________________
-- **atbang** _(across / in front of)_ → “The across is near.”  
+- **atbang** _(across / in front of)_ → “Rosa went to the across.”  
   Waray: ____________________
-- **bus** _(bus)_ → “I will go to the bus.”  
+- **bus** _(bus)_ → “The bus is near.”  
   Waray: ____________________
-- **dyip** _(jeepney)_ → “Is the jeepney far?”  
+- **dyip** _(jeepney)_ → “I will go to the jeepney.”  
   Waray: ____________________
 - **taxi** _(taxi)_ → “Where is the taxi?”  
   Waray: ____________________
-- **pedicab** _(pedicab)_ → “The pedicab is near.”  
+- **pedicab** _(pedicab)_ → “Jose went to the pedicab.”  
   Waray: ____________________
-- **traysikol** _(tricycle)_ → “I will go to the tricycle.”  
-  Waray: ____________________
-
-### Name colors  (6)
-- **itom** _(black)_ → “Make a simple sentence with “itom”.”  
-  Waray: ____________________
-- **busag** _(white)_ → “Make a simple sentence with “busag”.”  
-  Waray: ____________________
-- **pula** _(red)_ → “Make a simple sentence with “pula”.”  
-  Waray: ____________________
-- **asul** _(blue)_ → “Make a simple sentence with “asul”.”  
-  Waray: ____________________
-- **darag** _(yellow)_ → “Make a simple sentence with “darag”.”  
-  Waray: ____________________
-- **berde** _(green)_ → “Make a simple sentence with “berde”.”  
+- **traysikol** _(tricycle)_ → “The tricycle is near.”  
   Waray: ____________________
 
-### Talk about work  (19)
-- **maestro / maestra** _(teacher (m / f))_ → “My father is a teacher (m.”  
+### Name colors
+- **itom** _(black)_ → “The book is black.”  
   Waray: ____________________
-- **turista** _(tourist)_ → “She is a tourist.”  
+- **busag** _(white)_ → “Pedro has a white table.”  
   Waray: ____________________
-- **nars** _(nurse)_ → “The man is a nurse.”  
+- **pula** _(red)_ → “That glass is red.”  
   Waray: ____________________
-- **panday** _(carpenter)_ → “My friend is a carpenter.”  
+- **asul** _(blue)_ → “The pencil is blue.”  
   Waray: ____________________
-- **pastor** _(pastor)_ → “He is a pastor.”  
+- **darag** _(yellow)_ → “Lito has a yellow shoes.”  
   Waray: ____________________
-- **misyonaryo** _(missionary)_ → “My father is a missionary.”  
+- **berde** _(green)_ → “That shirt is green.”  
   Waray: ____________________
-- **abugado** _(lawyer)_ → “She is a lawyer.”  
+
+### Talk about work
+- **maestro / maestra** _(teacher (m / f))_ → “Maria is a teacher (m.”  
   Waray: ____________________
-- **mangingisda** _(fisherman)_ → “The man is a fisherman.”  
+- **turista** _(tourist)_ → “My mother is a tourist.”  
   Waray: ____________________
-- **mag-uroma** _(farmer)_ → “My friend is a farmer.”  
+- **nars** _(nurse)_ → “That nurse is kind.”  
   Waray: ____________________
-- **direktor** _(director)_ → “He is a director.”  
+- **panday** _(carpenter)_ → “She is a carpenter.”  
   Waray: ____________________
-- **kapitan** _(captain)_ → “My father is a captain.”  
+- **pastor** _(pastor)_ → “Lito is a pastor.”  
+  Waray: ____________________
+- **misyonaryo** _(missionary)_ → “My friend is a missionary.”  
+  Waray: ____________________
+- **abugado** _(lawyer)_ → “That lawyer is kind.”  
+  Waray: ____________________
+- **mangingisda** _(fisherman)_ → “She is a fisherman.”  
+  Waray: ____________________
+- **mag-uroma** _(farmer)_ → “Ana is a farmer.”  
+  Waray: ____________________
+- **direktor** _(director)_ → “My father is a director.”  
+  Waray: ____________________
+- **kapitan** _(captain)_ → “That captain is kind.”  
   Waray: ____________________
 - **mayor** _(mayor / boss)_ → “She is a mayor.”  
   Waray: ____________________
-- **konsehal** _(councilman)_ → “The man is a councilman.”  
+- **konsehal** _(councilman)_ → “Maria is a councilman.”  
   Waray: ____________________
-- **negosyante** _(businessman)_ → “My friend is a businessman.”  
+- **negosyante** _(businessman)_ → “My mother is a businessman.”  
   Waray: ____________________
-- **sekretarya** _(secretary)_ → “He is a secretary.”  
+- **sekretarya** _(secretary)_ → “That secretary is kind.”  
   Waray: ____________________
-- **hardinero** _(gardener)_ → “My father is a gardener.”  
+- **hardinero** _(gardener)_ → “She is a gardener.”  
   Waray: ____________________
-- **tag-iya** _(owner)_ → “She is a owner.”  
+- **tag-iya** _(owner)_ → “Lito is a owner.”  
   Waray: ____________________
-- **ninong** _(godfather)_ → “The man is a godfather.”  
+- **ninong** _(godfather)_ → “My friend is a godfather.”  
   Waray: ____________________
-- **pasyente** _(patient)_ → “My friend is a patient.”  
-  Waray: ____________________
-
-### Describe people  (15)
-- **maraksot** _(ugly)_ → “The man is ugly.”  
-  Waray: ____________________
-- **gwapo** _(handsome)_ → “My mother is handsome.”  
-  Waray: ____________________
-- **habubo** _(short)_ → “The child is short.”  
-  Waray: ____________________
-- **matambok** _(fat)_ → “The teacher is fat.”  
-  Waray: ____________________
-- **magasa** _(thin)_ → “I am thin.”  
-  Waray: ____________________
-- **daku** _(big)_ → “She is big.”  
-  Waray: ____________________
-- **gutiay** _(small)_ → “The man is small.”  
-  Waray: ____________________
-- **malipay** _(happy)_ → “My mother is happy.”  
-  Waray: ____________________
-- **buoton** _(nice / kind / good)_ → “The child is nice.”  
-  Waray: ____________________
-- **makarit** _(excellent)_ → “The teacher is excellent.”  
-  Waray: ____________________
-- **hubya** _(lazy)_ → “I am lazy.”  
-  Waray: ____________________
-- **kapoy** _(tired)_ → “She is tired.”  
-  Waray: ____________________
-- **grabe** _(serious)_ → “The man is serious.”  
-  Waray: ____________________
-- **matidong** _(righteous)_ → “My mother is righteous.”  
-  Waray: ____________________
-- **mapaso** _(hot)_ → “The child is hot.”  
+- **pasyente** _(patient)_ → “That patient is kind.”  
   Waray: ____________________
 
-### Say where it hurts  (5)
+### Describe people
+- **maraksot** _(ugly)_ → “The book is ugly.”  
+  Waray: ____________________
+- **gwapo** _(handsome)_ → “Pedro is handsome.”  
+  Waray: ____________________
+- **habubo** _(short)_ → “That glass is short.”  
+  Waray: ____________________
+- **matambok** _(fat)_ → “The pencil is fat.”  
+  Waray: ____________________
+- **magasa** _(thin)_ → “Lito is thin.”  
+  Waray: ____________________
+- **daku** _(big)_ → “That shirt is big.”  
+  Waray: ____________________
+- **gutiay** _(small)_ → “The water is small.”  
+  Waray: ____________________
+- **malipay** _(happy)_ → “Pedro is happy.”  
+  Waray: ____________________
+- **buoton** _(nice / kind / good)_ → “The teacher is nice.”  
+  Waray: ____________________
+- **makarit** _(excellent)_ → “I am excellent.”  
+  Waray: ____________________
+- **hubya** _(lazy)_ → “The man is lazy.”  
+  Waray: ____________________
+- **kapoy** _(tired)_ → “My mother is tired.”  
+  Waray: ____________________
+- **grabe** _(serious)_ → “Maria is serious.”  
+  Waray: ____________________
+- **matidong** _(righteous)_ → “The teacher is righteous.”  
+  Waray: ____________________
+- **mapaso** _(hot)_ → “That shirt is hot.”  
+  Waray: ____________________
+
+### Say where it hurts
 - **lawas** _(body)_ → “My body hurts.”  
   Waray: ____________________
-- **nawong** _(face)_ → “Her face is small.”  
+- **nawong** _(face)_ → “Pedro's face is small.”  
   Waray: ____________________
-- **mata** _(eye)_ → “His eye is big.”  
+- **mata** _(eye)_ → “The child's eye is big.”  
   Waray: ____________________
 - **ulo** _(head)_ → “My head hurts.”  
   Waray: ____________________
-- **kasingkasing** _(heart)_ → “Her heart is small.”  
+- **kasingkasing** _(heart)_ → “Lito's heart is small.”  
   Waray: ____________________
 
-### Can, must, mustn't  (1)
-- **trabaho** _(work)_ → “Make a simple sentence with “trabaho”.”  
+### Can, must, mustn't
+- **trabaho** _(work)_ → “The work is hard.”  
   Waray: ____________________
 
-### Days & months  (19)
+### Days & months
 - **Lunes** _(Monday)_ → “Today is Monday.”  
   Waray: ____________________
 - **Martes** _(Tuesday)_ → “Tomorrow is Tuesday.”  
   Waray: ____________________
 - **Miyerkoles** _(Wednesday)_ → “Yesterday was Wednesday.”  
   Waray: ____________________
-- **Huwebes** _(Thursday)_ → “I will rest on Thursday.”  
+- **Huwebes** _(Thursday)_ → “We will meet on Thursday.”  
   Waray: ____________________
-- **Biyernes** _(Friday)_ → “We will meet on Friday.”  
+- **Biyernes** _(Friday)_ → “Today is Friday.”  
   Waray: ____________________
-- **Sabado** _(Saturday)_ → “Today is Saturday.”  
+- **Sabado** _(Saturday)_ → “Tomorrow is Saturday.”  
   Waray: ____________________
-- **Dominggo** _(Sunday)_ → “Tomorrow is Sunday.”  
+- **Dominggo** _(Sunday)_ → “Yesterday was Sunday.”  
   Waray: ____________________
-- **Enero** _(January)_ → “Yesterday was January.”  
+- **Enero** _(January)_ → “It is hot in January.”  
   Waray: ____________________
-- **Pebrero** _(February)_ → “I will rest on February.”  
+- **Pebrero** _(February)_ → “We will travel in February.”  
   Waray: ____________________
-- **Marso** _(March)_ → “We will meet on March.”  
+- **Marso** _(March)_ → “My birthday is in March.”  
   Waray: ____________________
-- **Abril** _(April)_ → “Today is April.”  
+- **Abril** _(April)_ → “It is hot in April.”  
   Waray: ____________________
-- **Mayo** _(May)_ → “Tomorrow is May.”  
+- **Mayo** _(May)_ → “We will travel in May.”  
   Waray: ____________________
-- **Hunyo** _(June)_ → “Yesterday was June.”  
+- **Hunyo** _(June)_ → “My birthday is in June.”  
   Waray: ____________________
-- **Hulyo** _(July)_ → “I will rest on July.”  
+- **Hulyo** _(July)_ → “It is hot in July.”  
   Waray: ____________________
-- **Agosto** _(August)_ → “We will meet on August.”  
+- **Agosto** _(August)_ → “We will travel in August.”  
   Waray: ____________________
-- **Setyembre** _(September)_ → “Today is September.”  
+- **Setyembre** _(September)_ → “My birthday is in September.”  
   Waray: ____________________
-- **Oktubre** _(October)_ → “Tomorrow is October.”  
+- **Oktubre** _(October)_ → “It is hot in October.”  
   Waray: ____________________
-- **Nobyembre** _(November)_ → “Yesterday was November.”  
+- **Nobyembre** _(November)_ → “We will travel in November.”  
   Waray: ____________________
-- **Disyembre** _(December)_ → “I will rest on December.”  
+- **Disyembre** _(December)_ → “My birthday is in December.”  
   Waray: ____________________
 
-### Talk about the weather  (9)
+### Talk about the weather
 - **uran / mauran** _(rain / rainy)_ → “Today it is rain.”  
   Waray: ____________________
-- **sirak / masirak** _(sun ray / sunny)_ → “Yesterday it was sun ray.”  
+- **sirak / masirak** _(sun ray / sunny)_ → “Today it is sun ray.”  
   Waray: ____________________
 - **dampog / madampog** _(clouds / cloudy)_ → “Today it is clouds.”  
   Waray: ____________________
-- **hangin / mahangin** _(wind / windy)_ → “Yesterday it was wind.”  
+- **hangin / mahangin** _(wind / windy)_ → “Today it is wind.”  
   Waray: ____________________
-- **mapaso** _(hot)_ → “Today it is hot.”  
+- **mapaso** _(hot)_ → “It is hot today.”  
   Waray: ____________________
-- **matugnaw** _(cold)_ → “Yesterday it was cold.”  
+- **matugnaw** _(cold)_ → “It is cold now.”  
   Waray: ____________________
-- **may bagyo** _(there is a storm)_ → “There is a storm.”  
+- **may bagyo** _(there is a storm)_ → “Today it is there is a storm.”  
   Waray: ____________________
-- **mapaso hin duro** _(very hot)_ → “Yesterday it was very hot.”  
+- **mapaso hin duro** _(very hot)_ → “Today it is very hot.”  
   Waray: ____________________
-- **Kumusta it panahon?** _(How is the weather?)_ → “How is the weather?”  
-  Waray: ____________________
-
-### Make travel plans  (3)
-- **biyahe** _(trip / travel)_ → “Make a simple sentence with “biyahe”.”  
-  Waray: ____________________
-- **lumakat** _(left / departed)_ → “Make a simple sentence with “lumakat”.”  
-  Waray: ____________________
-- **san-o** _(when)_ → “Make a simple sentence with “san-o”.”  
+- **Kumusta it panahon?** _(How is the weather?)_ → “Today it is How is the weather?.”  
   Waray: ____________________
 
-### Shop at the market  (9)
+### Make travel plans
+- **biyahe** _(trip / travel)_ → “The trip is long.”  
+  Waray: ____________________
+- **lumakat** _(left / departed)_ → “They left yesterday.”  
+  Waray: ____________________
+- **san-o** _(when)_ → “When will you arrive?”  
+  Waray: ____________________
+
+### Shop at the market
 - **tindahan** _(store)_ → “Where is the store?”  
   Waray: ____________________
-- **tindera** _(vendor)_ → “She is the vendor.”  
+- **tindera** _(vendor)_ → “Pedro went to the vendor.”  
   Waray: ____________________
 - **kwarta** _(money)_ → “I have money.”  
   Waray: ____________________
@@ -481,38 +467,38 @@ _For each word: a varied English target sentence (different frames recycle words
   Waray: ____________________
 - **ginbibiling** _(looking for)_ → “I am looking for it.”  
   Waray: ____________________
-- **karuyag** _(want / like)_ → “I want this.”  
+- **karuyag** _(want / like)_ → “Pedro wants the fish.”  
   Waray: ____________________
 - **bulig** _(to help)_ → “Please help me.”  
   Waray: ____________________
 
-### Get around  (8)
-- **sarakyan** _(vehicle)_ → “I will ride the vehicle.”  
+### Get around
+- **sarakyan** _(vehicle)_ → “Maria will ride the vehicle.”  
   Waray: ____________________
 - **motor** _(motorcycle)_ → “The motorcycle is fast.”  
   Waray: ____________________
-- **awto** _(car / auto)_ → “We will take the car.”  
+- **awto** _(car / auto)_ → “We will take the car to the store.”  
   Waray: ____________________
-- **pumpboat** _(pump boat)_ → “Where is the pump boat?”  
+- **pumpboat** _(pump boat)_ → “Jose will ride the pump boat.”  
   Waray: ____________________
-- **baktas** _(to walk)_ → “I will ride the walk.”  
+- **baktas** _(to walk)_ → “We will walk to the store.”  
   Waray: ____________________
-- **karsada** _(road)_ → “The road is fast.”  
+- **karsada** _(road)_ → “The road is long.”  
   Waray: ____________________
-- **bukid** _(mountain)_ → “We will take the mountain.”  
+- **bukid** _(mountain)_ → “The mountain is high.”  
   Waray: ____________________
-- **tulay** _(bridge)_ → “Where is the bridge?”  
+- **tulay** _(bridge)_ → “The bridge is near.”  
   Waray: ____________________
 
-### Check in at the airport  (3)
+### Check in at the airport
 - **bagahe** _(baggage)_ → “Where is my baggage?”  
   Waray: ____________________
 - **kostums** _(customs)_ → “Here is my customs.”  
   Waray: ____________________
-- **pasahero** _(passenger)_ → “I lost my passenger.”  
+- **pasahero** _(passenger)_ → “Ana lost the passenger.”  
   Waray: ____________________
 
-### Plan a day trip  (8)
+### Plan a day trip
 - **tulay** _(bridge)_ → “We will go to the bridge.”  
   Waray: ____________________
 - **lugar** _(place)_ → “The place is beautiful.”  
@@ -523,97 +509,97 @@ _For each word: a varied English target sentence (different frames recycle words
   Waray: ____________________
 - **pumpboat** _(pump boat)_ → “The pump boat is beautiful.”  
   Waray: ____________________
-- **makaradlok** _(scary)_ → “Have you seen the scary?”  
+- **makaradlok** _(scary)_ → “It is scary.”  
   Waray: ____________________
-- **mamasyada** _(to go out / stroll)_ → “Let's go out.”  
+- **mamasyada** _(to go out / stroll)_ → “Let's go out tomorrow.”  
   Waray: ____________________
-- **huram** _(to borrow)_ → “The borrow is beautiful.”  
+- **huram** _(to borrow)_ → “May I borrow it?”  
   Waray: ____________________
 
-### Cook a dish  (10)
+### Cook a dish
 - **lasona** _(garlic)_ → “Add the garlic.”  
   Waray: ____________________
 - **sibuyas** _(onion)_ → “We need onion.”  
   Waray: ____________________
 - **suoy** _(vinegar)_ → “Do we have vinegar?”  
   Waray: ____________________
-- **toyo** _(soy sauce)_ → “This is the soy sauce.”  
+- **toyo** _(soy sauce)_ → “Add the soy sauce.”  
   Waray: ____________________
-- **tubig** _(water)_ → “Add the water.”  
+- **tubig** _(water)_ → “We need water.”  
   Waray: ____________________
-- **pamyenta** _(pepper)_ → “We need pepper.”  
+- **pamyenta** _(pepper)_ → “Do we have pepper?”  
   Waray: ____________________
-- **asukar** _(sugar)_ → “Do we have sugar?”  
+- **asukar** _(sugar)_ → “Add the sugar.”  
   Waray: ____________________
-- **igbabad** _(to marinate)_ → “Marinate it.”  
+- **igbabad** _(to marinate)_ → “Marinate the chicken.”  
   Waray: ____________________
-- **pakaladkara** _(to boil (it))_ → “Add the boil.”  
+- **pakaladkara** _(to boil (it))_ → “Boil the water.”  
   Waray: ____________________
-- **masayon** _(easy / simple)_ → “We need easy.”  
+- **masayon** _(easy / simple)_ → “It is easy to cook.”  
   Waray: ____________________
 
-### Food & the table  (17)
-- **manok** _(chicken)_ → “I like chicken.”  
+### Food & the table
+- **manok** _(chicken)_ → “Maria likes chicken.”  
   Waray: ____________________
-- **karne** _(meat)_ → “She is eating meat.”  
+- **karne** _(meat)_ → “I will buy meat at the store.”  
   Waray: ____________________
-- **utan** _(vegetable)_ → “I will buy vegetable.”  
+- **utan** _(vegetable)_ → “The vegetable is delicious.”  
   Waray: ____________________
-- **kan-on** _(cooked rice)_ → “Do you want cooked rice?”  
+- **kan-on** _(cooked rice)_ → “We ate cooked rice earlier.”  
   Waray: ____________________
-- **pagkaon** _(food)_ → “I like food.”  
+- **pagkaon** _(food)_ → “The food is ready.”  
   Waray: ____________________
-- **saging** _(banana)_ → “She is eating banana.”  
+- **saging** _(banana)_ → “I will buy banana at the store.”  
   Waray: ____________________
-- **mangga** _(mango)_ → “I will buy mango.”  
+- **mangga** _(mango)_ → “The mango is delicious.”  
   Waray: ____________________
-- **prutas** _(fruit)_ → “Do you want fruit?”  
+- **prutas** _(fruit)_ → “We ate fruit later.”  
   Waray: ____________________
-- **tubig** _(water)_ → “I like water.”  
+- **tubig** _(water)_ → “Father likes water.”  
   Waray: ____________________
-- **nangka** _(jackfruit)_ → “She is eating jackfruit.”  
+- **nangka** _(jackfruit)_ → “I will buy jackfruit at the store.”  
   Waray: ____________________
-- **kamatis** _(tomato)_ → “I will buy tomato.”  
+- **kamatis** _(tomato)_ → “The tomato is delicious.”  
   Waray: ____________________
-- **mais** _(corn)_ → “Do you want corn?”  
+- **mais** _(corn)_ → “We ate corn last night.”  
   Waray: ____________________
-- **tsa** _(tea)_ → “I like tea.”  
+- **tsa** _(tea)_ → “Maria likes tea.”  
   Waray: ____________________
-- **sabaw** _(soup)_ → “She is eating soup.”  
+- **sabaw** _(soup)_ → “I will buy soup at the store.”  
   Waray: ____________________
-- **keyk** _(cake)_ → “I will buy cake.”  
+- **keyk** _(cake)_ → “The cake is delicious.”  
   Waray: ____________________
 - **marasa** _(delicious)_ → “It is delicious.”  
   Waray: ____________________
-- **gutom** _(hungry)_ → “I like hungry.”  
+- **gutom** _(hungry)_ → “I am hungry.”  
   Waray: ____________________
 
-### Talk about nature & animals  (10)
+### Talk about nature & animals
 - **kahoy** _(tree)_ → “I see a tree.”  
   Waray: ____________________
-- **dagat** _(sea)_ → “The sea is big.”  
+- **dagat** _(sea)_ → “The sea is beautiful.”  
   Waray: ____________________
-- **isla** _(island)_ → “The island is beautiful.”  
+- **isla** _(island)_ → “There are many island here.”  
   Waray: ____________________
-- **bukid** _(mountain)_ → “There are many mountain here.”  
+- **bukid** _(mountain)_ → “I see a mountain.”  
   Waray: ____________________
-- **bukad** _(flower)_ → “I see a flower.”  
+- **bukad** _(flower)_ → “The flower is beautiful.”  
   Waray: ____________________
-- **tuna** _(land / earth)_ → “The land is big.”  
+- **tuna** _(land / earth)_ → “There are many land here.”  
   Waray: ____________________
-- **langit** _(sky / heaven)_ → “The sky is beautiful.”  
+- **langit** _(sky / heaven)_ → “I see a sky.”  
   Waray: ____________________
-- **ayam** _(dog)_ → “There are many dog here.”  
+- **ayam** _(dog)_ → “Pedro has a dog.”  
   Waray: ____________________
-- **karabaw** _(carabao)_ → “I see a carabao.”  
+- **karabaw** _(carabao)_ → “The carabao is big.”  
   Waray: ____________________
-- **tanom** _(plant)_ → “The plant is big.”  
+- **tanom** _(plant)_ → “I see a plant.”  
   Waray: ____________________
 
-### God & worship  (8)
+### God & worship
 - **Diyos** _(God)_ → “I believe in God.”  
   Waray: ____________________
-- **Jesu Kristo** _(Jesus Christ)_ → “This is Jesus Christ.”  
+- **Jesu Kristo** _(Jesus Christ)_ → “This is the Jesus Christ.”  
   Waray: ____________________
 - **espiritu** _(spirit)_ → “The spirit is holy.”  
   Waray: ____________________
@@ -628,7 +614,7 @@ _For each word: a varied English target sentence (different frames recycle words
 - **kasingkasing** _(heart)_ → “My heart is glad.”  
   Waray: ____________________
 
-### Church & belief  (10)
+### Church & belief
 - **simbahan** _(church)_ → “We go to church.”  
   Waray: ____________________
 - **pastor** _(pastor)_ → “He is a pastor.”  
