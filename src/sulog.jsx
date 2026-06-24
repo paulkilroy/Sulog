@@ -1699,6 +1699,27 @@ function PhraseStudioView({ ctx }) {
   );
 }
 
+// the shared voice-input control (same circle everywhere — type, mc, listen)
+function VoiceOrb({ vmState, heard, onTap, onRepeat, onSkip, compact }) {
+  return (
+    <div className={`ws-voice ${compact ? "compact" : ""}`}>
+      <div className={`ws-voice-orb ${vmState}`} onClick={onTap}>
+        {vmState === "listening" ? <Mic size={compact ? 22 : 26} /> : <Volume2 size={compact ? 22 : 26} />}
+      </div>
+      <div className="ws-voice-state">
+        {vmState === "speaking" ? "listen…" : vmState === "starting" ? "get ready…" : vmState === "listening" ? "say the answer" : "tap to speak"}
+        {heard.length > 0 && <div className="ws-voice-heard">{heard[heard.length - 1]}</div>}
+      </div>
+      {(onRepeat || onSkip) && (
+        <div className="ws-voice-acts">
+          {onRepeat && <button className="ws-skip" onClick={onRepeat}>Repeat</button>}
+          {onSkip && <button className="ws-skip" onClick={onSkip}>Skip</button>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const { playCard, saveAudio, audio, settings } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
@@ -1800,6 +1821,12 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
             onPlay={() => playCard(card)} />
         )}
 
+        {voiceMode && picked === null && (
+          <VoiceOrb compact vmState={vmState} heard={heard}
+            onTap={() => vmState === "listening" ? vmStop() : vmListen()}
+            onRepeat={() => { if (promptIsWaray) playCard(card); else speakEnglish(prompt); }} />
+        )}
+
         <div className="ws-options">
           {options.map((o, k) => {
             let cls = "";
@@ -1816,12 +1843,6 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           })}
         </div>
 
-        {voiceMode && picked === null && (
-          <button className={`ws-voice-mini ${vmState}`} onClick={() => vmState === "listening" ? vmStop() : vmListen()}>
-            {vmState === "listening" ? <><Mic size={15} /> say the answer</> : vmState === "speaking" ? <>listen…</> : vmState === "starting" ? <>get ready…</> : <><Volume2 size={15} /> tap to speak</>}
-            {heard.length > 0 && <b>{heard[heard.length - 1]}</b>}
-          </button>
-        )}
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
           given={picked !== null ? options[picked] : ""} dir={dir} autoMs={1300}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
@@ -1842,19 +1863,10 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           onPlay={() => playCard(card)} />
         {!judged ? (
           voiceMode ? (
-            <div className="ws-voice">
-              <div className={`ws-voice-orb ${vmState}`} onClick={() => vmState === "listening" ? vmStop() : vmListen()}>
-                {vmState === "listening" ? <Mic size={26} /> : <Volume2 size={26} />}
-              </div>
-              <div className="ws-voice-state">
-                {vmState === "speaking" ? "listen…" : vmState === "starting" ? "get ready…" : vmState === "listening" ? "say the answer" : "tap to speak"}
-                {heard.length > 0 && <div className="ws-voice-heard">{heard[heard.length - 1]}</div>}
-              </div>
-              <div className="ws-voice-acts">
-                <button className="ws-skip" onClick={() => { if (dir === "wte") playCard(card); else speakEnglish(prompt); }}>Repeat</button>
-                {onSkip && <button className="ws-skip" onClick={() => { vmStop(); onSkip(); }}>Skip</button>}
-              </div>
-            </div>
+            <VoiceOrb vmState={vmState} heard={heard}
+              onTap={() => vmState === "listening" ? vmStop() : vmListen()}
+              onRepeat={() => { if (promptIsWaray) playCard(card); else speakEnglish(prompt); }}
+              onSkip={onSkip ? () => { vmStop(); onSkip(); } : null} />
           ) : (
           <>
             <input className="ws-input" autoFocus value={typed} placeholder="Type or speak your answer…"
@@ -3237,10 +3249,9 @@ function Styles() {
 .ws-voice-acts{display:flex;gap:10px}
 .ws-vk-fixed{position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .ws-icon-btn.vk-on{background:var(--tide);border-color:var(--tide);color:#fff}
-.ws-voice-mini{display:inline-flex;align-items:center;gap:6px;margin:4px auto 0;padding:8px 14px;border-radius:20px;
-  border:1px dashed var(--sand-deep);background:transparent;color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer}
-.ws-voice-mini.listening{border-style:solid;border-color:#c0432b;color:#c0432b;background:#fdf0ec}
-.ws-voice-mini b{color:var(--ink)}
+.ws-voice.compact{padding:4px 0 12px;gap:9px}
+.ws-voice.compact .ws-voice-orb{width:62px;height:62px}
+.ws-voice.compact .ws-voice-state{font-size:13px}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
   border-radius:20px;transition:width .4s}
