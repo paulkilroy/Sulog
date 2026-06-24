@@ -5,7 +5,7 @@ import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
-  Cloud, Download, Upload, FolderOpen,
+  Cloud, Download, Upload, FolderOpen, Keyboard,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -865,7 +865,7 @@ export default function App() {
         <button className={`ws-vk ws-vk-fixed ${settings.voiceMode ? "on" : ""}`}
           title={settings.voiceMode ? "Voice mode — tap for keyboard" : "Keyboard mode — tap for voice"}
           onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-          {settings.voiceMode ? <Mic size={16} /> : <Pencil size={16} />}
+          {settings.voiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
         </button>
       )}
       {view === "home" && <HomeView ctx={ctx} />}
@@ -934,7 +934,7 @@ function HomeView({ ctx }) {
           {SpeechRec && (
             <button className={`ws-icon-btn ${settings.voiceMode ? "vk-on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
               onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-              {settings.voiceMode ? <Mic size={20} /> : <Pencil size={20} />}
+              {settings.voiceMode ? <Mic size={20} /> : <Keyboard size={20} />}
             </button>
           )}
         </div>
@@ -1272,7 +1272,7 @@ function SessionView({ ctx }) {
         {SpeechRec && (
           <button className={`ws-vk ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice — tap for keyboard" : "Keyboard — tap for voice"}
             onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-            {settings.voiceMode ? <Mic size={16} /> : <Pencil size={16} />}
+            {settings.voiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
           </button>
         )}
       </div>
@@ -1794,6 +1794,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
           given={picked !== null ? options[picked] : ""} dir={dir} autoMs={1300}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
+        {(sttAlts || heard.length > 0) && (judged === "wrong" || settings.sttDebug) && (
+          <SttDebug heard={heard} alts={sttAlts} answer={answer} waray={dir === "etw"} lang={sttLang} />
+        )}
         {onSkip && picked === null && <button className="ws-skip" onClick={onSkip}>Skip this one</button>}
       </div>
     );
@@ -1854,7 +1857,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
               showWaray={dir === "etw"} onResult={(corr) => onResult(corr, typed)} allowOverride />
           </>
         )}
-        {settings.sttDebug && (heard.length > 0 || sttAlts) && (
+        {(sttAlts || heard.length > 0) && (judged === "wrong" || settings.sttDebug) && (
           <SttDebug heard={heard} alts={sttAlts} answer={answer} waray={dir === "etw"} lang={sttLang} />
         )}
       </div>
