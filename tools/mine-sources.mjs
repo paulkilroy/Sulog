@@ -10,13 +10,33 @@ const ftoks=s=>s.replace(/[.,!?;:"'“”’()]/g,"").split(/[\s/]+/).map(fold).
 const DECK=new Set(SEED.map(r=>r[1]).filter(w=>!/\s/.test(w)&&!w.includes("/")).map(fold));
 const known=t=>DECK.has(t);
 
-// ---- source 1: Peace Corps (both-sides attested) ----
-const pc = (fs.readFileSync("docs/peace-corps-transcript.md","utf8")+"\n"+fs.readFileSync("docs/peace-corps-extract.md","utf8")).replace(/\n/g," ").replace(/\s+/g," ");
-const pcPairs=[]; // {waray, english}
-// pattern: "Waray words (english gloss)"
-const reP=/([A-ZÁÉÍÓÚ][A-Za-z'’\- ]{2,40}?)\s*\(([a-z][^)]{2,50})\)/g; let m;
-while((m=reP.exec(pc))){ const w=m[1].trim().replace(/\s+/g," "); const e=m[2].trim();
-  const n=w.split(/\s+/).length; if(n>=2&&n<=8 && /^[A-Z]/.test(w) && !/[.:]/.test(w)) pcPairs.push({w,e}); }
+// deck Waray words (folded) for filtering — used to confirm a line is really Waray
+const DECKF=new Set(SEED.map(r=>r[1]).flatMap(w=>w.split("/")).map(x=>x.trim()).flatMap(x=>x.split(/\s+/)).map(fold).filter(Boolean));
+const isWarayLine=l=>{ const t=l.replace(/[*]/g,"").split(/\s+/).filter(Boolean); if(t.length<2||t.length>9) return false; return t.some(x=>DECKF.has(fold(x))); };
+const EN1=new Set("the a an is are am to of and or in on at he she it you i we they his her my your our their this that these those what where who when why how do does did will not no yes".split(" "));
+const enScore=l=>{const t=l.toLowerCase().replace(/[.,!?;:"']/g,"").split(/\s+/).filter(Boolean);return t.length?t.filter(w=>EN1.has(w)).length/t.length:0;};
+// gloss map (folded waray -> english gloss words) to confirm an English line really
+// translates a Waray line (kills OCR mispairs from the scanned 2-column / numbered layout)
+const GLOSS={}; SEED.filter(r=>!/\s/.test(r[1])&&!r[1].includes("/")).forEach(r=>{const k=fold(r[1]); if(!GLOSS[k]) GLOSS[k]=(eng[r[1]]||"").toLowerCase().split(/[\/,(]/)[0].replace(/^to /,"").trim().split(/\s+/).filter(x=>x.length>2);});
+const corresponds=(w,e)=>{ const el=" "+e.toLowerCase()+" "; return w.split(/\s+/).some(t=>{const g=GLOSS[fold(t)]; return g&&g.some(x=>el.includes(" "+x));}); };
+let m;
+// ---- source 1: Peace Corps — full-PDF OCR, paired Waray line → English line ----
+const ocr=fs.readFileSync("docs/sources/peace-corps-full-ocr.txt","utf8").split("\n").map(s=>s.trim());
+const pcPairs=[]; const seenPC=new Set();
+for(let i=0;i<ocr.length-1;i++){
+  const a=ocr[i], b=ocr[i+1];
+  if(/PAGE|Lesson|Exercise|Vocabulary|Pronoun|Class|^Note/i.test(a)) continue;
+  if(/^\s*\d/.test(a) || /^\s*\d/.test(b) || / - /.test(a) || a.includes(":")) continue; // skip numbered exercises + vocab-list lines (unreliable pairing)
+  if(isWarayLine(a) && enScore(a)<0.2 && enScore(b)>=0.34 && b.split(/\s+/).length<=10 && corresponds(a,b)){
+    const w=a.replace(/[*]/g,"").trim(), e=b.trim(); const k=fold(w);
+    if(!seenPC.has(k)){ seenPC.add(k); pcPairs.push({w,e}); }
+  }
+}
+// also the hand-transcribed .md "Waray (english)" pairs
+const pcmd=(fs.readFileSync("docs/peace-corps-transcript.md","utf8")+fs.readFileSync("docs/peace-corps-extract.md","utf8")).replace(/\s+/g," ");
+const reP=/([A-ZÁÉÍÓÚ][A-Za-z'’\- ]{2,40}?)\s*\(([a-z][^)]{2,50})\)/g;
+while((m=reP.exec(pcmd))){ const w=m[1].trim().replace(/\s+/g," "); const e=m[2].trim();
+  const n=w.split(/\s+/).length; if(n>=2&&n<=8 && !/[.:]/.test(w) && isWarayLine(w)){ const k=fold(w); if(!seenPC.has(k)){seenPC.add(k);pcPairs.push({w,e});} } }
 
 // ---- source 2: CHED (Waray-only example sentences) ----
 // join wrapped lines so sentences spanning a line break are captured whole

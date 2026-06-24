@@ -2,34 +2,40 @@
 
 _Mined from the 3 sources to take recording load off Ella. **✅ = Waray + English both attested** (use as-is, just sanity-check). **✏️ = Waray attested, English is my draft** (verify the English). **🎤 = no attested match** → Ella records these. Diacrítics shown as printed; normalize on import._
 
-**20 ready-to-use (both sides) · 79 need an English check · 166 still to record · ~37% off Ella's plate.**
+**26 ready-to-use (both sides) · 76 need an English check · 163 still to record · ~38% off Ella's plate.**
 
-## ✅ Peace Corps — Waray + English (turnkey, 20)
+## ✅ Peace Corps — Waray + English (turnkey, 26)
 
 | Word | Waray sentence | English |
 |---|---|---|
-| **kita** _(we (inclusive))_ | Matindog kita | we'll stand |
-| **kami** _(we (exclusive))_ | Nasimba kami | we're worshipping |
+| **kita** _(we (inclusive))_ | Mga sangkay kita. | We (incl) are friends. |
+| **kami** _(we (exclusive))_ | Mga Pilipino kami. | We (excl) are Filipinos. |
 | **kamo** _(you / y'all)_ | Tinmawag kamo | you-pl called |
-| **hira** _(they)_ | Inminom hira | they drank |
+| **hira** _(they)_ | Riko hira. | They are rich. |
 | **lalaki** _(man)_ | Makusog hiya nga lalake | he's a strong man |
 | **bata** _(child)_ | Malabad an mga bata | the children are naughty |
-| **tawo** _(person)_ | Tawo iton | that's a person |
+| **tawo** _(person)_ | Tawo iton. | That is a person. |
+| **iyo** _(yours (pl))_ | Magdara ako han iyo lamesa ha iyo balay. | I am bringing your table in your house. |
 | **nakaon** _(is eating)_ | Nakaon hiya | he's eating |
 | **mapalit** _(will buy)_ | Mapalit hira hin mga isda ha merkado | they'll buy fish at the market |
 | **inminom** _(drank)_ | Inminom hira | they drank |
-| **balay** _(house)_ | Akon ini nga balay | this house is mine |
+| **didto** _(there (far))_ | Mag-ano man kamo didto? | (What will you do there?) |
+| **balay** _(house)_ | Magdara ako han iyo lamesa ha iyo balay. | I am bringing your table in your house. |
 | **kusina** _(kitchen)_ | Inminom hiya hini nga gatas ha kusina | she drank this milk in the kitchen |
 | **sala** _(living room)_ | Natindog hira hiton lamesa ha sala | standing on that table in the living room |
 | **lingkuran** _(chair)_ | Madig-on an mga lingkuran | the chairs are strong/sturdy |
 | **libro** _(book)_ | Mga libro ini | these are books |
-| **tubig** _(water)_ | Tubig ini | this is water |
+| **tubig** _(water)_ | Tubig ini. | This is water. (very near) |
+| **pastor** _(pastor)_ | Maduroto ba hira nga mga pastor? | Are they industrious pastors? |
 | **daku** _(big)_ | Daku an klase | the class is big |
 | **mata** _(eye)_ | Mata ini | this is an eye |
-| **kahoy** _(tree)_ | Kahoy adto | that's a tree |
+| **karuyag** _(want / like)_ | Karuyag magpalit ako hin karne ha merkado. | I want to buy meat at the market. |
+| **karsada** _(road)_ | Karsada ito. | That is a road. |
+| **karne** _(meat)_ | Karuyag magpalit ako hin karne ha merkado. | I want to buy meat at the market. |
+| **kahoy** _(tree)_ | Kahoy adto. | That "over there" is a tree. (far) |
 | **dagat** _(sea)_ | Dagat iton | that's the sea |
 
-## ✏️ CHED — Waray attested, English is a rough gloss to fix (79)
+## ✏️ CHED — Waray attested, English is a rough gloss to fix (76)
 
 _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck) — correct it into real English._
 
@@ -48,7 +54,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 | **nira** _(their)_ | Kun áno man an ira nakakawat, iginbabahin nira ha ira datu. | _if what [man] the theirs [nakakawat] [iginbabahin] their to theirs [datu]_ | 55% |
 | **aton** _(ours (incl))_ | Ini amo an maglilipay ha aton mahatungód han aton buhat. | _this [amo] the [maglilipay] to ours [mahatungód] of the ours do_ | 70% |
 | **amon** _(ours (excl))_ | Waray pa pag- anak an amon ayam. | _no still [pag-] child the ours dog_ | 86% |
-| **iyo** _(yours (pl))_ | Salámat, tatay ug nanay, han iyo paghigugma. | _Thank you father [ug] mother of the yours [paghigugma]_ | 71% |
 | **ira** _(theirs)_ | Waló an ira anak. | _eight the theirs child_ | 100% |
 | **makaon** _(will eat)_ | Panguha hin bayabas, makáon ako. | _[Panguha] a [bayabas] will eat I_ | 60% |
 | **malakat** _(will go)_ | Dinhi la kamo kay malakat ako, ginsiring an iya asawa. | _here just you because will go I [ginsiring] the his wife_ | 80% |
@@ -72,7 +77,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 | **didi** _(here)_ | Baga nakadungóg liwat ako hin istorya didi, makaharadlok liwat. | _[Baga] [nakadungóg] also I a [istorya] here [makaharadlok] also_ | 56% |
 | **dida** _(there)_ | Ano an karán-on dida? | _what the [karán-on] there_ | 75% |
 | **dinhi** _(here)_ | Dinhi la kamo kay malakat ako, ginsiring an iya asawa. | _here just you because will go I [ginsiring] the his wife_ | 80% |
-| **didto** _(there (far))_ | Didto na ito hira ha bukid han Apoy pagkatatawo. | _there already that they to mountain of the grandparent [pagkatatawo]_ | 78% |
 | **adlaw** _(day)_ | Nalingkod hiya dida han ganghaan han payag samtang nautouto an adlaw. | _[Nalingkod] he/she there of the [ganghaan] of the [payag] [samtang] [nautouto] the day_ | 55% |
 | **semana** _(week)_ | Usa ka semana an iya pagliniyungliyong pamiling han tubig ha Tado. | _one you week the his [pagliniyungliyong] [pamiling] of the water to [Tado]_ | 64% |
 | **panahon** _(time / weather)_ | Hini nga panahon lagas na hi Sumigin. | _[Hini] time old person already [Sumigin]_ | 57% |
@@ -95,7 +99,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 | **san-o** _(when)_ | Mga tulo anay kabulan san-o hiya nakabalik ha amon. | _[Mga] three Wait [kabulan] when he/she [nakabalik] to ours_ | 67% |
 | **tindahan** _(store)_ | Báli la anay didto ha tindahan basi kita may igsura. | _[Báli] just Wait there to store [basi] we there-is [igsura]_ | 50% |
 | **palit** _(to buy)_ | Kamamahal han palít ko hito. | _[Kamamahal] of the buy my [hito]_ | 60% |
-| **karuyag** _(want / like)_ | Karuyag ko an busag nga tamsi. | _want my the white [tamsi]_ | 67% |
 | **bulig** _(to help)_ | Suok ha katawhan an Operation Bulig. | _[Suok] to [katawhan] the [Operation] help_ | 50% |
 | **sarakyan** _(vehicle)_ | Naagi dínhi iton sarakyan para Catarman. | _[Naagi] here that vehicle [para] [Catarman]_ | 50% |
 | **bukid** _(mountain)_ | Didto na ito hira ha bukid han Apoy pagkatatawo. | _there already that they to mountain of the grandparent [pagkatatawo]_ | 78% |
@@ -115,7 +118,7 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 | **kros** _(cross)_ | Ta, nagbutang na ngahaw dida gud han siyudád hin krus. | _[Ta] [nagbutang] already itself there [gud] of the [siyudád] a cross_ | 50% |
 | **kinabuhi** _(life)_ | May siyám nga kinabuhi iton misay. | _there-is nine life that [misay]_ | 50% |
 
-## 🎤 No attested match — record these (166)
+## 🎤 No attested match — record these (163)
 
 - **bugto** _(sibling)_
 - **uyab** _(girlfriend / boyfriend)_
@@ -191,7 +194,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 - **turista** _(tourist)_
 - **nars** _(nurse)_
 - **panday** _(carpenter)_
-- **pastor** _(pastor)_
 - **misyonaryo** _(missionary)_
 - **abugado** _(lawyer)_
 - **mag-uroma** _(farmer)_
@@ -246,7 +248,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 - **awto** _(car / auto)_
 - **pumpboat** _(pump boat)_
 - **baktas** _(to walk)_
-- **karsada** _(road)_
 - **tulay** _(bridge)_
 - **bagahe** _(baggage)_
 - **kostums** _(customs)_
@@ -265,7 +266,6 @@ _The "rough gloss" is a word-by-word scaffold ([brackets] = word not in our deck
 - **igbabad** _(to marinate)_
 - **pakaladkara** _(to boil (it))_
 - **masayon** _(easy / simple)_
-- **karne** _(meat)_
 - **utan** _(vegetable)_
 - **mangga** _(mango)_
 - **nangka** _(jackfruit)_
