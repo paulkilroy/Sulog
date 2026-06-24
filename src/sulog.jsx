@@ -861,6 +861,13 @@ export default function App() {
   return (
     <div className="ws-root">
       <Styles />
+      {!["home", "session"].includes(view) && SpeechRec && (
+        <button className={`ws-vk ws-vk-fixed ${settings.voiceMode ? "on" : ""}`}
+          title={settings.voiceMode ? "Voice mode — tap for keyboard" : "Keyboard mode — tap for voice"}
+          onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+          {settings.voiceMode ? <Mic size={16} /> : <Pencil size={16} />}
+        </button>
+      )}
       {view === "home" && <HomeView ctx={ctx} />}
       {view === "learn" && <LearnView ctx={ctx} />}
       {view === "lesson" && <LessonView ctx={ctx} />}
@@ -879,7 +886,7 @@ export default function App() {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection } = ctx;
+  const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
   const curLesson = nextLesson(lessons);
   // open a section's own page; optionally scroll to a lesson within it
   const openSection = (sid, lessonId = null) => { setLearnSection(sid); setLearnTarget(lessonId); setView("learn"); };
@@ -924,6 +931,12 @@ function HomeView({ ctx }) {
           <button className="ws-icon-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases">
             <Pencil size={20} />
           </button>
+          {SpeechRec && (
+            <button className={`ws-icon-btn ${settings.voiceMode ? "vk-on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
+              onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+              {settings.voiceMode ? <Mic size={20} /> : <Pencil size={20} />}
+            </button>
+          )}
         </div>
       </header>
 
@@ -1256,7 +1269,7 @@ function SessionView({ ctx }) {
           <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
         </div>
         <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
-        {mode === "type" && SpeechRec && (
+        {SpeechRec && (
           <button className={`ws-vk ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice — tap for keyboard" : "Keyboard — tap for voice"}
             onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
             {settings.voiceMode ? <Mic size={16} /> : <Pencil size={16} />}
@@ -1706,9 +1719,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [picked, mode]);
 
-  /* ---- VOICE MODE (hands-free typing replacement) ----
-     speak the prompt, listen for the spoken translation, judge, auto-advance. */
-  const voiceMode = settings.voiceMode && mode === "type";
+  /* ---- VOICE MODE (hands-free) — speak the prompt, listen for the spoken answer,
+     judge (type) or pick the matching option (mc/listen), auto-advance. */
+  const voiceMode = settings.voiceMode && (mode === "type" || mode === "mc" || mode === "listen");
   const vmRec = useRef(null), vmTok = useRef(0);
   const [vmState, setVmState] = useState("idle"); // idle | speaking | listening
   const vmStop = () => { vmTok.current++; try { vmRec.current && vmRec.current.abort(); } catch (e) {} vmRec.current = null; };
@@ -1719,21 +1732,26 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     let settled = false;
     rec.onresult = (e) => { if (tok !== vmTok.current) return;
       const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
-      if (res.isFinal) { settled = true; setVmState("idle");
-        const m = a.find((x) => checkAnswer(x, answer, dir === "etw"));
-        setSttAlts(a); setTyped(m ? answer : (a[0] || "")); judge(!!m);
+      if (res.isFinal) { settled = true; setVmState("idle"); setSttAlts(a);
+        const waray = dir === "etw";
+        if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
+        else { // mc / listen — pick whichever option the spoken answer matches
+          const idx = options.findIndex((o) => a.some((x) => checkAnswer(x, o, waray)));
+          if (idx >= 0) { setPicked(idx); judge(options[idx] === answer); }
+          else { setVmState("idle"); /* no match → tap an option or re-listen */ }
+        }
       } else setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); };
     rec.onerror = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
     rec.onend = () => { if (tok === vmTok.current && !settled) { settled = true; setVmState("idle"); } };
     vmRec.current = rec; try { rec.start(); } catch (e) { setVmState("idle"); }
   };
   useEffect(() => {
-    if (!voiceMode || judged) return;
+    if (!voiceMode || judged || picked !== null) return;
     let live = true; setVmState("speaking");
-    if (dir === "wte") playCard(card); else speakEnglish(prompt);
+    if (promptIsWaray) playCard(card); else speakEnglish(prompt);
     const t = setTimeout(() => { if (live) vmListen(); }, Math.min(2400, 650 + prompt.length * 45));
     return () => { live = false; clearTimeout(t); vmStop(); };
-  }, [voiceMode, card.id, judged]);
+  }, [voiceMode, card.id, judged, picked]);
 
   /* ---- MULTIPLE CHOICE ---- */
   if (mode === "mc" || mode === "listen") {
@@ -1767,6 +1785,12 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           })}
         </div>
 
+        {voiceMode && picked === null && (
+          <button className={`ws-voice-mini ${vmState}`} onClick={() => vmState === "listening" ? vmStop() : vmListen()}>
+            {vmState === "listening" ? <><Mic size={15} /> say the answer</> : vmState === "speaking" ? <>listen…</> : <><Volume2 size={15} /> tap to speak</>}
+            {heard.length > 0 && <b>{heard[heard.length - 1]}</b>}
+          </button>
+        )}
         {judged && <Verdict card={card} ctx={ctx} answer={answer} correct={judged === "right"}
           given={picked !== null ? options[picked] : ""} dir={dir} autoMs={1300}
           showWaray onResult={(corr) => onResult(corr, picked !== null ? options[picked] : "")} />}
@@ -3176,6 +3200,12 @@ function Styles() {
 .ws-voice-state{font-size:14px;color:var(--ink-soft);text-align:center}
 .ws-voice-heard{font-size:18px;font-weight:600;color:var(--ink);margin-top:4px}
 .ws-voice-acts{display:flex;gap:10px}
+.ws-vk-fixed{position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.ws-icon-btn.vk-on{background:var(--tide);border-color:var(--tide);color:#fff}
+.ws-voice-mini{display:inline-flex;align-items:center;gap:6px;margin:4px auto 0;padding:8px 14px;border-radius:20px;
+  border:1px dashed var(--sand-deep);background:transparent;color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer}
+.ws-voice-mini.listening{border-style:solid;border-color:#c0432b;color:#c0432b;background:#fdf0ec}
+.ws-voice-mini b{color:var(--ink)}
 .ws-progress-track{flex:1;height:8px;background:var(--sand);border-radius:20px;overflow:hidden}
 .ws-progress-fill{height:100%;background:linear-gradient(90deg,var(--tide),var(--sun));
   border-radius:20px;transition:width .4s}
