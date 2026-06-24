@@ -22,6 +22,19 @@ speech-debug here when it happens.
   (fold `ng→n`, or ignore `nga` as a stopword). Open question: apply everywhere vs only
   in voice/drill mode (keep graded unit reviews order-strict).
 
+### 2. "Pasensya na" → answered **"I'm sorry"** — marked wrong
+- **Answer (gloss):** `Sorry / excuse me`  · **Given:** `I'm sorry`
+- **Why it failed:** different flavor from #1 — this is the **English answer side**, not
+  Waray pronunciation. Gloss alternates are `sorry` and `excuse me`; "I'm sorry" carries
+  an extra `I'm` → `im sorry` vs `sorry` is edit-distance 3, over tolerance → miss.
+- **Root cause:** natural English phrasings add a leading pronoun+be ("**I'm** sorry",
+  "**I** want", "**it's** good") that the bare gloss lacks. `checkAnswer` strips leading
+  `to/a/an/the` but not `I'm/I am/it's`.
+- **Fix candidates:** (a) add "I'm sorry" to this card's gloss alternates; (b) general —
+  strip leading `I'm / I am / it's / it is` for English answers, and/or accept when the
+  answer *contains* the gloss (the English mirror of the Waray "contained" tier). Watch
+  false positives on very short glosses.
+
 ## Notes / non-cases
 - **"Sige" = "okay"** heard correctly (`okay` is in the gloss "Okay / go ahead"), so the
   *matching* is fine there — that screen's issue was a UI bug (below), not a false negative.
