@@ -1501,12 +1501,14 @@ function SttTestView({ ctx }) {
    the recognizer just transcribes; the edit step is where the Waray gets correct. */
 const PHRASE_SAVE = "sulog:phrasedraft";
 const PHRASE_IDX = "sulog:phraseidx";
+const PHRASE_FLAG = "sulog:phraseflag";
 function PhraseStudioView({ ctx }) {
   const { settings, setView } = ctx;
   const lang = settings.sttLang || "fil-PH";
   const prompts = RECORDING_PROMPTS;
   const [i, setI] = useState(() => { try { return Math.min(+localStorage.getItem(PHRASE_IDX) || 0, prompts.length - 1); } catch (e) { return 0; } });
   const [saved, setSaved] = useState(() => { try { return JSON.parse(localStorage.getItem(PHRASE_SAVE) || "{}"); } catch (e) { return {}; } });
+  const [flagged, setFlagged] = useState(() => { try { return JSON.parse(localStorage.getItem(PHRASE_FLAG) || "{}"); } catch (e) { return {}; } });
   const [phase, setPhase] = useState("ready"); // ready | listening | review
   const [interim, setInterim] = useState("");
   const [draft, setDraft] = useState("");
@@ -1554,16 +1556,31 @@ function PhraseStudioView({ ctx }) {
     }
     go(i + 1);
   };
+  // mark the current prompt as "doesn't make sense" → we'll substitute it later
+  const flag = () => {
+    const ns = { ...flagged, [key(i)]: { word: p.word, gloss: p.gloss, prompt: p.prompt, unit: p.unit, unitName: p.unitName } };
+    setFlagged(ns);
+    try { localStorage.setItem(PHRASE_FLAG, JSON.stringify(ns)); } catch (e) {}
+    go(i + 1);
+  };
 
   const exportText = () => {
     const byUnit = {};
     for (const k of Object.keys(saved)) { const r = saved[k]; (byUnit[r.unitName] = byUnit[r.unitName] || []).push(r); }
     let s = "# Recorded phrases (Waray = English)\n";
     for (const u of Object.keys(byUnit)) { s += `\n## ${u}\n`; byUnit[u].forEach((r) => { s += `${r.waray} = ${r.prompt}\n`; }); }
+    const fl = Object.values(flagged);
+    if (fl.length) {
+      s += `\n\n# Flagged — prompts that don't make sense (replace these)\n`;
+      const fb = {};
+      fl.forEach((r) => (fb[r.unitName] = fb[r.unitName] || []).push(r));
+      for (const u of Object.keys(fb)) { s += `\n## ${u}\n`; fb[u].forEach((r) => { s += `- ${r.word} (${r.gloss}) — prompt was: “${r.prompt}”\n`; }); }
+    }
     return s;
   };
 
   const doneCount = Object.keys(saved).length;
+  const flagCount = Object.keys(flagged).length;
 
   if (!SpeechRec) {
     return (<div className="ws-page"><TopBar title="Phrase Studio" onBack={() => setView("home")} />
@@ -1590,6 +1607,7 @@ function PhraseStudioView({ ctx }) {
       <div className="ws-stt-meter">
         <span><b>{i + 1}</b> / {prompts.length}</span>
         <span className="ws-stt-hit"><Check size={13} /> {doneCount} saved</span>
+        {flagCount > 0 && <span className="ws-stt-mis"><X size={13} /> {flagCount} flagged</span>}
         <button className="ws-phrase-exp" onClick={() => { stopRec(); setExporting(true); }}>Export</button>
       </div>
 
@@ -1619,6 +1637,9 @@ function PhraseStudioView({ ctx }) {
             <button className="ws-stt-btn" onClick={() => go(i + 1)}>Skip</button>
           </>
         )}
+        <button className={`ws-stt-btn flag ${flagged[key(i)] ? "on" : ""}`} onClick={flag}>
+          🚩 {flagged[key(i)] ? "Flagged — next" : "Doesn't make sense"}
+        </button>
         <button className="ws-stt-btn ghost" onClick={() => go(i - 1)} disabled={i === 0}>← previous</button>
       </div>
 
@@ -3304,6 +3325,8 @@ function Styles() {
   background:#fff;border:1px solid var(--sand-deep);border-radius:12px;padding:11px 13px;resize:vertical}
 .ws-phrase-export{width:100%;box-sizing:border-box;height:46vh;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
   border:1px solid var(--sand-deep);border-radius:12px;padding:12px;margin-bottom:14px;background:#fff;color:var(--ink)}
+.ws-stt-btn.flag{flex:0 0 100%;background:transparent;border:1px dashed var(--sand-deep);color:var(--ink-soft);font-weight:600}
+.ws-stt-btn.flag.on{background:#fdf0ec;border-color:#d8745c;color:#c0432b}
 .ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
 .ws-rule{background:var(--foam);border:1px solid var(--sand-deep);border-radius:13px;padding:13px 15px}
 .ws-rule-t{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--sea);margin-bottom:3px}
