@@ -1,4 +1,5 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
+import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -284,7 +285,9 @@ function lev(a, b) {
 }
 // fold Waray spelling equivalences: o=u and e=i are the same sound, so accept
 // either when grading a Waray answer
-const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i");
+// Waray spelling equivalences for grading: o=u, e=i (same sound), and c→k
+// (loanwords + the recognizer spell /k/ as "c", e.g. "Rico" for "riko")
+const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i").replace(/c/g, "k");
 const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
 function checkAnswer(input, target, waray) {
   let got = norm(input);
@@ -856,6 +859,7 @@ export default function App() {
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
+      {view === "phrasestudio" && <PhraseStudioView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
     </div>
   );
@@ -904,6 +908,9 @@ function HomeView({ ctx }) {
           </button>
           <button className="ws-icon-btn" onClick={() => setView("stttest")} title="Waray speech test">
             <Mic size={20} />
+          </button>
+          <button className="ws-icon-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases">
+            <Pencil size={20} />
           </button>
         </div>
       </header>
@@ -1482,6 +1489,143 @@ function SttTestView({ ctx }) {
         Say the Waray word shown. On a correct match it auto-advances and listens for
         the next — hands-free until a miss. Listening in <b>{lang}</b> (no Waray locale
         exists), o/u and e/i folded. Misses show the speech debug to tune the matcher.
+      </div>
+    </div>
+  );
+}
+
+/* Phrase Studio — collect new ② Apply phrases by voice. Walks the uncovered-word
+   prompts: shows an English target sentence, listens (fil-PH) and drops the rough
+   transcript into an editable box; you tap-fix the Waray and save. Exports the
+   collected lines as "Waray = English" to hand back for ingestion. No answer key —
+   the recognizer just transcribes; the edit step is where the Waray gets correct. */
+const PHRASE_SAVE = "sulog:phrasedraft";
+const PHRASE_IDX = "sulog:phraseidx";
+function PhraseStudioView({ ctx }) {
+  const { settings, setView } = ctx;
+  const lang = settings.sttLang || "fil-PH";
+  const prompts = RECORDING_PROMPTS;
+  const [i, setI] = useState(() => { try { return Math.min(+localStorage.getItem(PHRASE_IDX) || 0, prompts.length - 1); } catch (e) { return 0; } });
+  const [saved, setSaved] = useState(() => { try { return JSON.parse(localStorage.getItem(PHRASE_SAVE) || "{}"); } catch (e) { return {}; } });
+  const [phase, setPhase] = useState("ready"); // ready | listening | review
+  const [interim, setInterim] = useState("");
+  const [draft, setDraft] = useState("");
+  const [exporting, setExporting] = useState(false);
+  const recRef = useRef(null);
+  const tokRef = useRef(0);
+  const p = prompts[i];
+  const key = (idx) => prompts[idx].unit + "#" + prompts[idx].word;
+
+  const persistIdx = (idx) => { try { localStorage.setItem(PHRASE_IDX, String(idx)); } catch (e) {} };
+  const stopRec = () => { tokRef.current++; try { recRef.current && recRef.current.abort(); } catch (e) {} recRef.current = null; };
+  useEffect(() => () => stopRec(), []);
+
+  const listen = (idx) => {
+    if (!SpeechRec) { setPhase("review"); setDraft(saved[key(idx)]?.waray || ""); return; }
+    stopRec();
+    const tok = tokRef.current;
+    setInterim(""); setDraft(saved[key(idx)]?.waray || ""); setPhase("listening");
+    const rec = new SpeechRec();
+    rec.lang = lang; rec.interimResults = true; rec.maxAlternatives = 1; rec.continuous = false;
+    let settled = false;
+    rec.onresult = (e) => {
+      if (tok !== tokRef.current) return;
+      const res = e.results[e.results.length - 1];
+      const t = res[0] ? res[0].transcript.trim() : "";
+      if (res.isFinal) { settled = true; setDraft(t); setPhase("review"); }
+      else setInterim(t);
+    };
+    rec.onerror = () => { if (tok === tokRef.current && !settled) { settled = true; setPhase("review"); } };
+    rec.onend = () => { if (tok === tokRef.current && !settled) { settled = true; setPhase("review"); } };
+    recRef.current = rec;
+    try { rec.start(); } catch (e) { setPhase("review"); }
+  };
+
+  const go = (idx) => {
+    if (idx < 0 || idx >= prompts.length) { stopRec(); setPhase("ready"); setExporting(true); return; }
+    setI(idx); persistIdx(idx); listen(idx);
+  };
+  const save = () => {
+    const w = draft.trim();
+    if (w) {
+      const ns = { ...saved, [key(i)]: { word: p.word, gloss: p.gloss, prompt: p.prompt, unit: p.unit, unitName: p.unitName, waray: w } };
+      setSaved(ns);
+      try { localStorage.setItem(PHRASE_SAVE, JSON.stringify(ns)); } catch (e) {}
+    }
+    go(i + 1);
+  };
+
+  const exportText = () => {
+    const byUnit = {};
+    for (const k of Object.keys(saved)) { const r = saved[k]; (byUnit[r.unitName] = byUnit[r.unitName] || []).push(r); }
+    let s = "# Recorded phrases (Waray = English)\n";
+    for (const u of Object.keys(byUnit)) { s += `\n## ${u}\n`; byUnit[u].forEach((r) => { s += `${r.waray} = ${r.prompt}\n`; }); }
+    return s;
+  };
+
+  const doneCount = Object.keys(saved).length;
+
+  if (!SpeechRec) {
+    return (<div className="ws-page"><TopBar title="Phrase Studio" onBack={() => setView("home")} />
+      <div className="ws-pron-intro">Speech recognition isn't available in this browser. Try Chrome or Edge.</div></div>);
+  }
+  if (exporting) {
+    const text = exportText();
+    return (
+      <div className="ws-page">
+        <TopBar title="Phrase Studio — export" onBack={() => setExporting(false)} />
+        <div className="ws-pron-intro">{doneCount} phrases recorded. Copy this and send it back — I'll add them as ② Apply cards.</div>
+        <textarea className="ws-phrase-export" readOnly value={text} onFocus={(e) => e.target.select()} />
+        <div className="ws-stt-controls">
+          <button className="ws-stt-btn primary" onClick={() => { try { navigator.clipboard.writeText(text); } catch (e) {} }}>Copy all</button>
+          <button className="ws-stt-btn" onClick={() => setExporting(false)}>Back to recording</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="ws-page">
+      <TopBar title="Phrase Studio" onBack={() => { stopRec(); setView("home"); }} />
+      <div className="ws-stt-meter">
+        <span><b>{i + 1}</b> / {prompts.length}</span>
+        <span className="ws-stt-hit"><Check size={13} /> {doneCount} saved</span>
+        <button className="ws-phrase-exp" onClick={() => { stopRec(); setExporting(true); }}>Export</button>
+      </div>
+
+      <div className="ws-phrase-card">
+        <div className="ws-phrase-unit">{p.unitName}</div>
+        <div className="ws-phrase-prompt">{p.prompt}</div>
+        <div className="ws-phrase-hint">say it in Waray · target word: <b>{p.word}</b> <span>({p.gloss})</span></div>
+
+        {phase === "listening" && (
+          <div className="ws-stt-live"><span className="ws-stt-dot" /> listening… <div className="ws-stt-heard">{interim}</div></div>
+        )}
+        {phase !== "listening" && (
+          <div className="ws-phrase-edit">
+            <label>Waray (fix the guess):</label>
+            <textarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="speak, or type the Waray here" rows={2} />
+          </div>
+        )}
+      </div>
+
+      <div className="ws-stt-controls">
+        {phase === "ready" && <button className="ws-stt-btn primary" onClick={() => listen(i)}><Mic size={18} /> Start</button>}
+        {phase === "listening" && <button className="ws-stt-btn" onClick={() => { stopRec(); setPhase("review"); }}>Stop</button>}
+        {phase === "review" && (
+          <>
+            <button className="ws-stt-btn primary" onClick={save}>Save & next <ChevronRight size={16} /></button>
+            <button className="ws-stt-btn" onClick={() => listen(i)}><RotateCcw size={16} /> Re-listen</button>
+            <button className="ws-stt-btn" onClick={() => go(i + 1)}>Skip</button>
+          </>
+        )}
+        <button className="ws-stt-btn ghost" onClick={() => go(i - 1)} disabled={i === 0}>← previous</button>
+      </div>
+
+      <div className="ws-pron-intro" style={{ marginTop: 14 }}>
+        Read the English, say the Waray. The rough guess appears above — tap to fix it,
+        then <b>Save &amp; next</b>. Listening in <b>{lang}</b>. Progress is saved; you can
+        stop and resume anytime. Hit <b>Export</b> to send the batch back.
       </div>
     </div>
   );
@@ -3148,6 +3292,18 @@ function Styles() {
   background:var(--foam);color:var(--ink);cursor:pointer}
 .ws-stt-btn.primary{background:var(--tide);border-color:var(--tide);color:#fff}
 .ws-stt-btn.ghost{flex:0 0 100%;background:transparent;border:none;color:var(--ink-soft);font-weight:500;font-size:13px;padding:6px}
+.ws-phrase-exp{margin-left:auto;font-size:12px;font-weight:600;color:var(--tide);background:none;border:none;cursor:pointer}
+.ws-phrase-card{background:var(--foam);border:1px solid var(--sand-deep);border-radius:18px;padding:20px 18px;margin-bottom:14px}
+.ws-phrase-unit{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--tide);opacity:.85}
+.ws-phrase-prompt{font-size:21px;font-weight:700;color:var(--ink);margin-top:6px;line-height:1.3}
+.ws-phrase-hint{font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+.ws-phrase-hint b{color:var(--ink)}
+.ws-phrase-edit{margin-top:14px}
+.ws-phrase-edit label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+.ws-phrase-edit textarea{width:100%;box-sizing:border-box;margin-top:5px;font-size:18px;font-weight:600;color:var(--ink);
+  background:#fff;border:1px solid var(--sand-deep);border-radius:12px;padding:11px 13px;resize:vertical}
+.ws-phrase-export{width:100%;box-sizing:border-box;height:46vh;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
+  border:1px solid var(--sand-deep);border-radius:12px;padding:12px;margin-bottom:14px;background:#fff;color:var(--ink)}
 .ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
 .ws-rule{background:var(--foam);border:1px solid var(--sand-deep);border-radius:13px;padding:13px 15px}
 .ws-rule-t{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--sea);margin-bottom:3px}
