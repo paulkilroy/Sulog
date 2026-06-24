@@ -35,6 +35,22 @@ speech-debug here when it happens.
   answer *contains* the gloss (the English mirror of the Waray "contained" tier). Watch
   false positives on very short glosses.
 
+## Capture timing — mic clips the first few ms of speech
+- **Symptom:** several misses look like the **start of the word was dropped** — the first
+  syllable/sound is missing from every guess (e.g. leading consonant gone). Feels like the
+  mic/recognizer isn't capturing the first moment of speaking.
+- **Why this is plausible (not in your head):** the Web Speech API needs a beat to actually
+  engage the mic after `rec.start()`. In our voice flow we set the UI to "say the answer"
+  **before** capture is truly live, so if you start speaking immediately, the opening is
+  clipped. There's also browser/OS mic warm-up latency.
+- **Fix candidates (deferred):**
+  - Flip the "say the answer" cue to fire on the recognizer's **`onstart` / `onaudiostart`**
+    event (when capture is actually live), not before `rec.start()`. Optionally a short
+    **beep/visual "go"** at that exact moment.
+  - Add a small lead-in (≈150–250 ms) after onstart before the user is cued to speak.
+  - These are independent of the matcher tuning — worth doing since they reduce *input*
+    loss rather than compensating for it after the fact.
+
 ## Notes / non-cases
 - **"Sige" = "okay"** heard correctly (`okay` is in the gloss "Okay / go ahead"), so the
   *matching* is fine there — that screen's issue was a UI bug (below), not a false negative.
