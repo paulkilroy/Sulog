@@ -35,6 +35,29 @@ speech-debug here when it happens.
   answer *contains* the gloss (the English mirror of the Waray "contained" tier). Watch
   false positives on very short glosses.
 
+### 3. "Anay" (voice MC, English → Waray) — heard "annay", got no credit
+- **Mode:** ② voice multiple-choice. Options: tabang / Salamat / maupay / **Anay**.
+- **Expected (folded):** `anay`  · **Heard alts:** Ann → Anna → annay; also anae, annai, anai.
+- **Per-alt distance to `anay`:** annay 1 · anai 1 · annai 2 · anai 1 — every alt is 1–2 off.
+- **Why it failed — three compounding things:**
+  - **(a) Gemination.** The recognizer (or the speaker) doubled the n → `annay`, which is
+    edit-distance 1 from `anay`. Doubled consonants are a recurring STT artifact.
+  - **(b) Short-word tolerance is 0.** `_tol(len) = 0 for len ≤ 4`, so a 4-char target like
+    `anay` tolerates *zero* slips — a single inserted letter can never match.
+  - **(c) MC picks nothing past tolerance.** Voice MC only selects an option where
+    `explainMatch.ok` (within `_tol`). When no option passes, `best = -1` and it selects
+    **nothing** — no credit, and the card can sit without a verdict — instead of choosing
+    the closest of the 4 presented options.
+- **Fix candidates (deferred, per the log's standing stance):**
+  - **Collapse repeated letters** before compare (`(.)\1+` → `$1`): `annay` → `anay`, exact
+    match. Cheap, targets the gemination class directly. Check Waray geminate minimal pairs
+    first (risk of over-merging a real long consonant); safest gated to voice/drill only.
+  - **Raise short-word tolerance** to 1 for len 4 (maybe 3). Riskier — short words are where
+    1-edit false positives bite — so keep graded unit reviews strict; loosen only in voice/drill.
+  - **Voice MC should pick the CLOSEST option even past strict tolerance.** You're choosing
+    among 4 known options, not free-typing, so the false-positive blast radius is bounded;
+    this also kills the "no verdict / stuck" outcome. Arguably a real bug, not just leniency.
+
 ## Capture timing — mic clips the first few ms of speech (FIXED 2026-06-24)
 - **Symptom:** several misses look like the **start of the word was dropped** — the first
   syllable/sound is missing from every guess (e.g. leading consonant gone). Feels like the
