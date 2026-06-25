@@ -769,6 +769,10 @@ export default function App() {
   const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
   const pushTimer = useRef(null);
   const didInitialPull = useRef(false);
+  // gate: never auto-push until the first pull has merged the cloud in. Without this a
+  // fresh/behind device pushes its empty state ~2.5s after launch and clobbers the gist
+  // before its pull lands (cell is slower than the debounce). See sync-clobber fix.
+  const [initialPulled, setInitialPulled] = useState(false);
 
   // merge a cloud snapshot into local (local wins on audio so fresh recordings survive)
   const applyCloud = useCallback(async (cloud) => {
@@ -869,22 +873,27 @@ export default function App() {
     setSyncState({ status: "idle", at: "", error: "" });
   }, [saveSettings]);
 
-  // pull once when the app opens (if already connected)
+  // pull once when the app opens (if already connected); only then unblock auto-push
   useEffect(() => {
-    if (loaded && !didInitialPull.current && settings.sync?.enabled && settings.sync?.gistId) {
+    if (!loaded || didInitialPull.current) return;
+    if (settings.sync?.enabled && settings.sync?.gistId) {
       didInitialPull.current = true;
-      syncPull();
+      syncPull().finally(() => setInitialPulled(true));
+    } else {
+      setInitialPulled(true); // nothing to pull → auto-push is free to run
     }
   }, [loaded, settings.sync, syncPull]);
 
-  // auto-push on changes (debounced)
+  // auto-push on changes (debounced) — held until the initial pull has merged cloud in,
+  // so we never overwrite the gist with this device's un-synced (possibly empty) state
   useEffect(() => {
     if (!loaded) return;
     if (!settings.sync?.enabled || !settings.sync?.gistId) return;
+    if (!initialPulled) return;
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => syncPush(), 2500);
     return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
-  }, [prog, streak, lessons, units, audio, history, loaded, settings.sync, syncPush]);
+  }, [prog, streak, lessons, units, audio, history, loaded, settings.sync, initialPulled, syncPush]);
 
   if (!loaded) {
     return (
