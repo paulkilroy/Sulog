@@ -29,6 +29,22 @@ for (const ph of FREQUENCY) {
 const fullDeck = new Set();
 for (const r of SEED) for (const t of tokens(r[1])) fullDeck.add(t);
 
+// proper names: Title-case words appearing MID-sentence (not sentence-initial, not
+// ALL-CAPS titles). A reader recognizes these as names, so they shouldn't count as
+// "unknown vocabulary". Recurring names get caught wherever they appear mid-sentence.
+function properNames(text) {
+  const names = new Set();
+  const flat = text.replace(/\s+/g, " ");
+  for (const sent of flat.split(/[.!?]+/)) {
+    const words = sent.trim().split(" ");
+    for (let i = 1; i < words.length; i++) {
+      const w = words[i].replace(/^["'“”(]+/, "").replace(/[,;:)"'“”]+$/, "");
+      if (/^[A-Z][a-zà-ÿ]+$/.test(w)) names.add(norm(w));
+    }
+  }
+  return names;
+}
+
 const rootsOf = (set) => [...set].filter((w) => w.length >= 4);
 function cover(toks, set, roots) {
   let raw = 0, stem = 0;
@@ -46,7 +62,7 @@ function stories(file, marker) {
   const titles = [...text.matchAll(new RegExp(`===${marker}: ([^=\\[\\n]+)`, "g"))].map((m) => m[1].trim());
   const parts = text.split(new RegExp(`===${marker}:[^=]*===`)).map((s) => s.trim());
   parts.shift(); // leading empty
-  return parts.map((p, i) => ({ title: titles[i] || `#${i}`, toks: tokens(p) })).filter((s) => s.toks.length > 20);
+  return parts.map((p, i) => ({ title: titles[i] || `#${i}`, raw: p, toks: tokens(p) })).filter((s) => s.toks.length > 20);
 }
 const all = [
   ...stories("docs/sources/bloom-waray-stories.txt", "BOOK").map((s) => ({ ...s, src: "Bloom" })),
@@ -57,12 +73,16 @@ const fullRoots = rootsOf(fullDeck);
 const cumRoots = cum.map((c) => rootsOf(c.set));
 
 // for each story: coverage at each phase + full deck, and the phase it first crosses 80% (stem)
+let totalRemoved = 0, totalToks = 0;
 const rows = all.map((s) => {
-  const perPhase = cum.map((c, i) => cover(s.toks, c.set, cumRoots[i]));
-  const full = cover(s.toks, fullDeck, fullRoots);
+  const names = properNames(s.raw);
+  const toks = s.toks.filter((t) => !names.has(t)); // drop proper names from the denominator
+  totalRemoved += s.toks.length - toks.length; totalToks += s.toks.length;
+  const perPhase = cum.map((c, i) => cover(toks, c.set, cumRoots[i]));
+  const full = cover(toks, fullDeck, fullRoots);
   const reach80 = perPhase.findIndex((p) => p.stem >= 0.8);
   const reach90 = perPhase.findIndex((p) => p.stem >= 0.9);
-  return { ...s, perPhase, full, reach80, reach90 };
+  return { ...s, toks, removed: s.toks.length - toks.length, perPhase, full, reach80, reach90 };
 }).sort((a, b) => b.full.stem - a.full.stem);
 
 const pct = (x) => Math.round(x * 100);
@@ -91,6 +111,7 @@ const ceil = (n) => rows.filter((r) => r.full.stem >= n).length;
 const atPhase = (i, n) => rows.filter((r) => r.perPhase[i].stem >= n).length;
 md += `\n## Summary
 - Stories analyzed: **${rows.length}** (${all.filter((s) => s.src === "Bloom").length} Bloom + ${all.filter((s) => s.src === "BFC").length} BFC)
+- Proper names excluded from denominators: **${totalRemoved}** tokens (${Math.round(100 * totalRemoved / totalToks)}% of running words were names)
 - **Full-deck ceiling** (if you learned every card): ≥90% in **${ceil(0.9)}** stories · ≥80% in **${ceil(0.8)}** · ≥70% in **${ceil(0.7)}**
 - Reaching ≥80% (stem) by phase: ${cum.map((c, i) => `${PN[i]} **${atPhase(i, 0.8)}**`).join(" · ")}
 - Reaching ≥90% (stem) by phase: ${cum.map((c, i) => `${PN[i]} **${atPhase(i, 0.9)}**`).join(" · ")}
