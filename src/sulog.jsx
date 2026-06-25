@@ -1,6 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
 import { STORIES, GLOSS } from "./courses/waray/stories.js";
+import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -243,7 +244,9 @@ function knownWaray(prog, cards) {
   for (const c of cards) if (masteryPct(prog[c.id]) >= 0.4) for (const t of storyToks(c.waray)) s.add(t);
   return s;
 }
-const knowsTok = (t, known, roots) => known.has(t) || (t.length >= 4 && roots.some((r) => t.includes(r)));
+const _knows = (t, known, roots) => t && (known.has(t) || (t.length >= 4 && roots.some((r) => t.includes(r))));
+// variant-aware: a dialect/spelling variant counts as known if its canonical is known
+const knowsTok = (t, known, roots) => _knows(t, known, roots) || _knows(VARIANTS[t], known, roots);
 // coverage of a story's running words + the count of distinct unknown words
 function storyCoverage(story, known, roots) {
   let total = 0, hit = 0; const unknown = new Set();
@@ -252,7 +255,8 @@ function storyCoverage(story, known, roots) {
   }
   return { pct: total ? hit / total : 0, total, unknown: unknown.size };
 }
-const glossFor = (word) => GLOSS[word] || GLOSS[word.replace(/o/g, "u").replace(/e/g, "i")] || null;
+const glossFor = (word) => GLOSS[word] || (VARIANTS[word] && GLOSS[VARIANTS[word]]) || GLOSS[word.replace(/o/g, "u").replace(/e/g, "i")] || null;
+const MAXCHUNK = Math.max(2, ...Object.keys(CHUNKS).map((k) => k.split(" ").length));
 // Cold type-recalls needed to graduate a missed word off "Needs work". Counts only
 // genuine recall: a typed (non-MC) correct answer that wasn't the remedial type step
 // right after an MC. See `recall` in applyResult.
@@ -2624,21 +2628,45 @@ function ReadView({ ctx }) {
     const cov = storyCoverage(open, known, roots);
     const tap = (core) => {
       const n = storyToks(core)[0] || "";
-      setSel({ word: core, gloss: glossFor(n) });
+      let g = glossFor(n);
+      if (g && VARIANTS[n] && !GLOSS[n]) g = `${g}  (form of ${VARIANTS[n]})`;
+      setSel({ word: core, gloss: g });
       playCard({ waray: core, say: "" });
     };
-    const renderPara = (p, pi) => (
-      <p key={pi} className="ws-read-p">
-        {p.split(/(\s+)/).map((tok, ti) => {
-          if (/^\s+$/.test(tok) || !tok) return tok;
-          const n = storyToks(tok)[0] || "";
-          if (!n) return <span key={ti}>{tok}</span>;
-          const kn = knowsTok(n, known, roots);
-          return <span key={ti} className={`ws-rw ${kn ? "" : "new"}`} onClick={() => tap(tok)}>{tok}</span>;
-        })}
-        <button className="ws-read-play" title="Hear this line" onClick={() => playCard({ waray: p, say: "" })}><Volume2 size={14} /></button>
-      </p>
-    );
+    const tapChunk = (text, gloss) => { setSel({ word: text, gloss }); playCard({ waray: text, say: "" }); };
+    // render a paragraph word-by-word, but match registered multi-word chunks LONGEST-FIRST
+    const renderPara = (p, pi) => {
+      const parts = p.split(/(\s+)/); // alternating words & whitespace
+      const out = [];
+      let i = 0;
+      while (i < parts.length) {
+        const part = parts[i];
+        if (part === "" || /^\s+$/.test(part)) { out.push(part); i++; continue; }
+        // longest chunk (MAXCHUNK..2 words) starting at this word
+        let chunk = null;
+        for (let len = MAXCHUNK; len >= 2 && !chunk; len--) {
+          const words = []; let j = i;
+          while (words.length < len && j < parts.length) {
+            if (/^\s+$/.test(parts[j])) { j++; continue; }
+            const wn = storyToks(parts[j])[0]; if (!wn) { words.length = 0; break; }
+            words.push(wn); j++;
+          }
+          if (words.length === len && CHUNKS[words.join(" ")]) chunk = { end: j, gloss: CHUNKS[words.join(" ")] };
+        }
+        if (chunk) {
+          const text = parts.slice(i, chunk.end).join("");
+          out.push(<span key={i} className="ws-rw chunk" onClick={() => tapChunk(text, chunk.gloss)}>{text}</span>);
+          i = chunk.end; continue;
+        }
+        const n = storyToks(part)[0] || "";
+        if (!n) { out.push(<span key={i}>{part}</span>); i++; continue; }
+        const kn = knowsTok(n, known, roots);
+        out.push(<span key={i} className={`ws-rw ${kn ? "" : "new"}`} onClick={() => tap(part)}>{part}</span>);
+        i++;
+      }
+      out.push(<button key="play" className="ws-read-play" title="Hear this line" onClick={() => playCard({ waray: p, say: "" })}><Volume2 size={14} /></button>);
+      return <p key={pi} className="ws-read-p">{out}</p>;
+    };
     return (
       <div className="ws-page">
         <TopBar title="Read" onBack={() => { setOpen(null); setSel(null); setAnswers({}); }} />
@@ -3467,6 +3495,7 @@ function Styles() {
 .ws-rw{cursor:pointer;border-radius:4px;padding:0 1px}
 .ws-rw:active{background:var(--sand)}
 .ws-rw.new{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:2px;text-underline-offset:3px}
+.ws-rw.chunk{text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--tide);text-decoration-thickness:2px;text-underline-offset:3px}
 .ws-read-play{vertical-align:middle;margin-left:5px;border:none;background:var(--foam);color:var(--tide);
   cursor:pointer;opacity:.55;padding:2px}
 .ws-read-credit{margin-top:20px;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--sand);padding-top:12px}
