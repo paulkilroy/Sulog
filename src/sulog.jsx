@@ -2603,6 +2603,8 @@ function ReadView({ ctx }) {
   const { cards, prog, setView, playCard } = ctx;
   const [open, setOpen] = useState(null);   // selected story
   const [sel, setSel] = useState(null);     // tapped {word, gloss}
+  const [answers, setAnswers] = useState({}); // comprehension-quiz picks {qIdx: optIdx}
+  const openStory = (s) => { setOpen(s); setSel(null); setAnswers({}); };
   const [readSet, setReadSet] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem(PK.read) || "[]")); } catch (e) { return new Set(); }
   });
@@ -2639,13 +2641,32 @@ function ReadView({ ctx }) {
     );
     return (
       <div className="ws-page">
-        <TopBar title="Read" onBack={() => { setOpen(null); setSel(null); }} />
+        <TopBar title="Read" onBack={() => { setOpen(null); setSel(null); setAnswers({}); }} />
         <h2 className="ws-lesson-title">{open.title}</h2>
         <div className="ws-read-meta">
           {open.source} · {Math.round(cov.pct * 100)}% known · {cov.unknown} new word{cov.unknown === 1 ? "" : "s"}
           <span className="ws-read-hint"> · tap any word</span>
         </div>
         <div className="ws-read-body">{open.paras.map(renderPara)}</div>
+        {open.questions && open.questions.length > 0 && (
+          <div className="ws-quiz">
+            <SectionLabel text="Check your understanding" />
+            {open.questions.map((q, qi) => (
+              <div key={qi} className="ws-quiz-q">
+                <div className="ws-quiz-prompt">{q.q}</div>
+                {q.options.map((o, oi) => {
+                  const chosen = answers[qi];
+                  let cls = "";
+                  if (chosen != null) { if (oi === q.answer) cls = "correct"; else if (oi === chosen) cls = "incorrect"; }
+                  return (
+                    <button key={oi} className={`ws-quiz-opt ${cls}`} disabled={chosen != null}
+                      onClick={() => setAnswers((a) => ({ ...a, [qi]: oi }))}>{o}</button>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )}
         <button className={`ws-start ws-full ${readSet.has(open.id) ? "ws-connected" : ""}`} style={{ marginTop: 18 }} onClick={() => markRead(open.id)}>
           {readSet.has(open.id) ? <><Check size={18} /> Read — tap to unmark</> : <><BookOpen size={18} /> Mark as read</>}
         </button>
@@ -2686,10 +2707,10 @@ function ReadView({ ctx }) {
         {rows.map(({ s, cov }) => {
           const tr = tier(cov.pct);
           return (
-            <button key={s.id} className="ws-read-card" onClick={() => { setOpen(s); setSel(null); }}>
+            <button key={s.id} className="ws-read-card" onClick={() => openStory(s)}>
               <div className="ws-read-card-main">
                 <div className="ws-read-card-title">{readSet.has(s.id) ? <Check size={14} className="ws-read-done" /> : null}{s.title}</div>
-                <div className="ws-read-card-sub">{s.source} · {s.paras.length} parts · {cov.unknown} new words</div>
+                <div className="ws-read-card-sub">{s.titleEn ? <i>“{s.titleEn}” · </i> : null}{s.source} · {s.paras.length} parts · {cov.unknown} new words</div>
               </div>
               <div className={`ws-read-badge ${tr.c}`}>
                 <b>{Math.round(cov.pct * 100)}%</b><span>{tr.t}</span>
@@ -3449,6 +3470,15 @@ function Styles() {
 .ws-read-play{vertical-align:middle;margin-left:5px;border:none;background:var(--foam);color:var(--tide);
   cursor:pointer;opacity:.55;padding:2px}
 .ws-read-credit{margin-top:20px;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--sand);padding-top:12px}
+/* Read tab — comprehension quiz */
+.ws-quiz{margin-top:24px;border-top:1px solid var(--sand);padding-top:16px}
+.ws-quiz-q{margin-bottom:18px}
+.ws-quiz-prompt{font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:9px}
+.ws-quiz-opt{display:block;width:100%;text-align:left;margin-bottom:7px;padding:11px 13px;border-radius:11px;
+  border:1.5px solid var(--sand-deep);background:var(--foam);color:var(--ink);font-size:14px;cursor:pointer;transition:.12s}
+.ws-quiz-opt:disabled{cursor:default}
+.ws-quiz-opt.correct{border-color:var(--jade);background:#e0f3ea;color:#2f7a57;font-weight:600}
+.ws-quiz-opt.incorrect{border-color:var(--coral);background:#fae3de;color:var(--coral)}
 .ws-gloss-bar{position:fixed;left:12px;right:12px;bottom:14px;max-width:600px;margin:0 auto;z-index:40;
   display:flex;align-items:center;gap:10px;background:var(--sea-ink);color:#fff;border-radius:14px;
   padding:12px 15px;box-shadow:0 6px 24px rgba(0,0,0,.25);cursor:pointer}

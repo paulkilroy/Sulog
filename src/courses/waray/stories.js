@@ -17,6 +17,27 @@ export const STORIES = [
    "May ada mga sibuyas, lasona ngan luya. Upod na an isda, karne han baboy ngan baka. Mayda liwat asin ngan asukar, toyo ngan asiti. Mayda pa gatas ngan palaman nga marasa! Kadako han tawa ni Mira!",
    "May ginhatag nga nakaputos an nanay ni Mira ha iya. Ginkulba hiya! pero dayun la nga nakapakpak hin kalipay hi Mira. Ginpalit ni nanay ngan tatay an mga tugon niya! May ada na hiya bag-o nga lapis, pula nga payong ngan dulaw nga bestida!",
    "Malipayun hin duro hi Mira! \"Salamat nanay! salamat tatay!\" \"Salamat han iyo mga pinalit didto ha tabu-an! \"Humangkop hi Mira ha iya nanay ngan tatay ngan sumiring; \"Nanay, tatay, kunta pirmi nala Huybes kada adlaw!\" Nagkatatawa an iya nanay ngan tatay! Nagkatatawa hira ngatanan!"
+  ],
+  "titleEn": "Every Day Thursday",
+  "questions": [
+   {
+    "q": "Why were Mira's parents not at home?",
+    "options": [
+     "They went to the market",
+     "They went to school",
+     "They went to visit a neighbor"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What made Mira very happy?",
+    "options": [
+     "Her parents bought her new shoes",
+     "Her parents bought the things she asked for",
+     "Her parents brought home a puppy"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -30,6 +51,27 @@ export const STORIES = [
    "Balay niya pirmi aklo.",
    "Naukoy hiya ha sapa.",
    "Kay naayon hiya han baha."
+  ],
+  "titleEn": "The Turtle",
+  "questions": [
+   {
+    "q": "Where does the turtle live?",
+    "options": [
+     "In a tree",
+     "In a river",
+     "In a house"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What does the turtle always carry?",
+    "options": [
+     "Its home",
+     "A basket",
+     "A stone"
+    ],
+    "answer": 0
+   }
   ]
  },
  {
@@ -45,6 +87,27 @@ export const STORIES = [
    "Kinabuwasan, ginkadto ni Mano Solomon an mga balay han magsarangkay.",
    "Ginpatawag hira upod an ira mga kag-anak para pagtuhay. \"Kay ano nga nanlabay kamo han atop nira Mana Lita?\", pakiana ni Kapitan Eddie. \"Hi Tristan po adto kapitan,\" baton ni Jolo. \"Ginsaway la po hiya nanlabay dayon,\" baton liwat ni Anton.",
    "Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita. Tikang hadto, an maagsarangkay in nagsaad nga diri na hira mag-uutro."
+  ],
+  "titleEn": "The Three Friends",
+  "questions": [
+   {
+    "q": "Why did Mana Lita scold the children?",
+    "options": [
+     "They were too noisy",
+     "They broke a plate",
+     "They were late for school"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did the friends and their parents do in the end?",
+    "options": [
+     "They moved away",
+     "They asked Mana Lita for forgiveness",
+     "They blamed Mano Solomon"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -62,6 +125,27 @@ export const STORIES = [
    "Bumaton an Itik, \"Karuyag kumaon han akon mga anak hin gudti nga mga prutas.\" Oh asya,\"baton han Pakla nga dako an baba.",
    "Kumadto han Buaya an Pakla ngan pumakiana, \"Ano an karuyag kaunon han imo mga anak?\". Han pagkita, nalipay an Buaya ngan gumuliat, \"Ooooohhhhhh\" Humadlok hin duro an Pakla pakabati niya han guliat han Buaya.",
    "Mga Pakiana: 1. Ano an pakiana han Pakla ha mga hayop? 2. Ano an baton han Tamsi ha pakiana han Pakla? 3. Ano an karuayag kaunon han mga anak han Baboy? 4. Ano an siring han Itik ngadto han Pakla nga karuyag kaunon han iya mga anak?"
+  ],
+  "titleEn": "The Talkative Frog",
+  "questions": [
+   {
+    "q": "What did the frog ask the animals?",
+    "options": [
+     "Where they lived",
+     "What their children liked to eat",
+     "Why they were sleeping"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Why did the frog become very afraid?",
+    "options": [
+     "The crocodile shouted",
+     "The bird flew away",
+     "The pig chased him"
+    ],
+    "answer": 0
+   }
   ]
  },
  {
@@ -82,6 +166,27 @@ export const STORIES = [
    "An ini nga istorya in sumala o nagtikang ha mga mga tawo nga nagkamay ada han mga eksperyensya, mga nahikit-an ngan mga nanhibati-an mahiunong ha kandiwata. Nga kun diin bisan ha pagkayana nga panahon ini in imo hibabati-an nga istorya mga tawo nga naukoy hirani ha kandiwata.",
    "Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.",
    "Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin respeto ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira naekperyensiyan, nakit-an ngan nanhibati-an. Damo nga Salamat!"
+  ],
+  "titleEn": "The Kandiwata Rock",
+  "questions": [
+   {
+    "q": "What do people say the Kandiwata rock once was?",
+    "options": [
+     "A big ship",
+     "A tall mountain",
+     "A lost house"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What lesson does the story teach?",
+    "options": [
+     "Ignore old stories",
+     "Care for beautiful places and respect local stories",
+     "Never visit the sea"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -103,6 +208,27 @@ export const STORIES = [
    "Nagtangis an daraga ngaha atubangan han nangunguyab ha iya tungod han ginbuhat hini. \"Pangaro pasaylo kan apoy Garing han imo ginbuhat.\" An siring han daraga kan Lindo. \"Oo mangangaro ako pasaylo. Pasayloa liwat ako han akon nabuhat\" an baton ni han ulitawo ha iya gingagarbohan. Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.",
    "Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan. \"Pasayloa ako apoy Garing han akon ginbuhat\" an siring han ulitawo. \"Okey la intoy maupay kay nag amin ka han imo ginbuhat. Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad\". An baton ni apoy Garing.",
    "Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana. Gintagan pa niya ulitawo ngan an daraga hin mga taramnon. Tikang hadto naging magsuok hira nga magsarangkay ngan nananom hira hin mga iba-iba nga mga bukad sanglit naging maupay ngan mahusay an ira barangay."
+  ],
+  "titleEn": "Apoy Garing's Flower",
+  "questions": [
+   {
+    "q": "What happened to Apoy Garing's rose plant?",
+    "options": [
+     "A young man took it",
+     "It died in the rain",
+     "A bird ate it"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What blessing did the enchanted butterfly give Apoy Garing?",
+    "options": [
+     "She could fly",
+     "Any plant she planted would grow",
+     "She would find gold"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -121,6 +247,27 @@ export const STORIES = [
    "Nangadi hi Pedro, nga konta mawara na ini nga pandemya.",
    "Paglabay hin usa ka tuig gin balita ha TELEVISION nga may ada na bulong an sakit nga Covid.",
    "Nag lipay hi Pedro han iya nabatian han anunsiyo. Naglipay liwat an iya pamilya."
+  ],
+  "titleEn": "The Happy Vendor",
+  "questions": [
+   {
+    "q": "Why did Pedro become sad?",
+    "options": [
+     "No one bought his goods",
+     "He lost his house",
+     "His family left town"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What made Pedro and his family happy again?",
+    "options": [
+     "They moved to another town",
+     "They heard there was medicine for Covid",
+     "They found a new boat"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -137,6 +284,27 @@ export const STORIES = [
    "“Paunano kita makakapalit hit makakaon naton nay?” pakiana ni Potpot. “Ayaw kabaraka manhahatag hira hin ayuda, ngan may ada kita mga tanom nga utanon ha at libong nga puwede naton maluto,” baton ni nanay",
    "“Tatagan ko hira Maya ngan Aloy han aton mga utanon,” malipayon nga siring ni Potpot. “Uu, manhahatag kita ha aton mga hiripid,” nalilipay nga baton ni nanay.",
    "Tikang hadto ginhimo nga pamatasan han pamilya ni Potpot an agsob ngan isakto nga paghugas han kamot ngan pagsugot ha mga protocol panlawas para makalikay ha mga nakakatapon nga sakit."
+  ],
+  "titleEn": "Taking Care of Health",
+  "questions": [
+   {
+    "q": "Why were children told not to go outside or gather together?",
+    "options": [
+     "Because of a spreading sickness",
+     "Because of a storm",
+     "Because school was over"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did Potpot's family start doing regularly?",
+    "options": [
+     "Selling vegetables",
+     "Washing hands and following health rules",
+     "Traveling to other towns"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -155,6 +323,27 @@ export const STORIES = [
    "Napiolan hi Banog han iya kahulog.",
    "Nagsiring hi Banog ha iya kalugaringon, \"diri ko na pipiriton tak kalugaringon kon diri ko kaya para diri ako mahingadto ha karat-an\".",
    "Ngan tikang hadto naging malipayon nala hi Banog maglinupad-lupad palibot han Budik Huraw."
+  ],
+  "titleEn": "Banog and Mount Huraw",
+  "questions": [
+   {
+    "q": "What did Banog try to do?",
+    "options": [
+     "Fly higher than Mount Huraw",
+     "Build a nest on Mount Huraw",
+     "Hide from the storm"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did Banog learn after falling?",
+    "options": [
+     "Never fly again",
+     "Not to force himself when he cannot do something",
+     "Mountains are easy to beat"
+    ],
+    "answer": 1
+   }
   ]
  },
  {
@@ -178,6 +367,27 @@ export const STORIES = [
    "Waray pag-iha, umabot an anak han tag-iya han tindahan. Ginkuha an iya sulod ngan gintrapohan. “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.",
    "Ginputos hiya hin malimpyo ngan bukadbukaron nga papel. May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop. Nakita niya an iya kalugaringon ha espiho ha tindahan. \"Kamakaruruyag kitaon it akon kalugaringon\", nalilipay nga siring ni Kaha.",
    "Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos. Gin-apresyar niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan. \"Damo nga salamat han maduruto ngan maabilidad nga bata\", malipayon nga siring ni Kaha."
+  ],
+  "titleEn": "Kaha the Box",
+  "questions": [
+   {
+    "q": "Why was Kaha sad in the store?",
+    "options": [
+     "She thought her owner had left her because she was useless",
+     "She wanted to ride the bus again",
+     "She lost her ribbon"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "How did Kaha learn she still had value?",
+    "options": [
+     "A child reused her for small items",
+     "She became a trash can",
+     "She went back to the farm"
+    ],
+    "answer": 0
+   }
   ]
  },
  {

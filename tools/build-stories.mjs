@@ -37,6 +37,13 @@ const raw = [
   ...parse("docs/sources/bloom-waray-stories.txt", "BOOK", "Bloom", "CC", "lines"),
   ...parse("docs/sources/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
 ];
+// merge ChatGPT-authored comprehension data (English title + MC questions), if present
+const qPath = path.join(root, "docs/sources/story-questions.json");
+const QA = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, "utf8")) : {};
+for (const s of raw) {
+  const q = QA[s.id];
+  if (q) { s.titleEn = q.title_en || ""; s.questions = q.questions || []; }
+}
 // dedup by id (Bloom has re-uploads of the same title under different CC licenses) —
 // keep the most complete copy. Guarantees unique ids (= unique React keys).
 const byId = new Map();

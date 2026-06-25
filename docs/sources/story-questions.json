@@ -1,0 +1,232 @@
+{
+ "bloom-kunta-huybes-kada-adlaw": {
+  "title_en": "Every Day Thursday",
+  "questions": [
+   {
+    "q": "Why were Mira's parents not at home?",
+    "options": [
+     "They went to the market",
+     "They went to school",
+     "They went to visit a neighbor"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What made Mira very happy?",
+    "options": [
+     "Her parents bought her new shoes",
+     "Her parents bought the things she asked for",
+     "Her parents brought home a puppy"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-an-bao": {
+  "title_en": "The Turtle",
+  "questions": [
+   {
+    "q": "Where does the turtle live?",
+    "options": [
+     "In a tree",
+     "In a river",
+     "In a house"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "What does the turtle always carry?",
+    "options": [
+     "Its home",
+     "A basket",
+     "A stone"
+    ],
+    "answer": 0
+   }
+  ]
+ },
+ "bloom-an-tulo-nga-magsarangkay": {
+  "title_en": "The Three Friends",
+  "questions": [
+   {
+    "q": "Why did Mana Lita scold the children?",
+    "options": [
+     "They were too noisy",
+     "They broke a plate",
+     "They were late for school"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did the friends and their parents do in the end?",
+    "options": [
+     "They moved away",
+     "They asked Mana Lita for forgiveness",
+     "They blamed Mano Solomon"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-an-pakla-nga-mayakan": {
+  "title_en": "The Talkative Frog",
+  "questions": [
+   {
+    "q": "What did the frog ask the animals?",
+    "options": [
+     "Where they lived",
+     "What their children liked to eat",
+     "Why they were sleeping"
+    ],
+    "answer": 1
+   },
+   {
+    "q": "Why did the frog become very afraid?",
+    "options": [
+     "The crocodile shouted",
+     "The bird flew away",
+     "The pig chased him"
+    ],
+    "answer": 0
+   }
+  ]
+ },
+ "bloom-an-istorya-han-pormado-nga-bato-han-kand": {
+  "title_en": "The Kandiwata Rock",
+  "questions": [
+   {
+    "q": "What do people say the Kandiwata rock once was?",
+    "options": [
+     "A big ship",
+     "A tall mountain",
+     "A lost house"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What lesson does the story teach?",
+    "options": [
+     "Ignore old stories",
+     "Care for beautiful places and respect local stories",
+     "Never visit the sea"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-an-bukad-ha-libong-ni-apoy-garing": {
+  "title_en": "Apoy Garing's Flower",
+  "questions": [
+   {
+    "q": "What happened to Apoy Garing's rose plant?",
+    "options": [
+     "A young man took it",
+     "It died in the rain",
+     "A bird ate it"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What blessing did the enchanted butterfly give Apoy Garing?",
+    "options": [
+     "She could fly",
+     "Any plant she planted would grow",
+     "She would find gold"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-an-malipayon-na-paragsudoy": {
+  "title_en": "The Happy Vendor",
+  "questions": [
+   {
+    "q": "Why did Pedro become sad?",
+    "options": [
+     "No one bought his goods",
+     "He lost his house",
+     "His family left town"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What made Pedro and his family happy again?",
+    "options": [
+     "They moved to another town",
+     "They heard there was medicine for Covid",
+     "They found a new boat"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-pagtimangno-hin-panlawas": {
+  "title_en": "Taking Care of Health",
+  "questions": [
+   {
+    "q": "Why were children told not to go outside or gather together?",
+    "options": [
+     "Because of a spreading sickness",
+     "Because of a storm",
+     "Because school was over"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did Potpot's family start doing regularly?",
+    "options": [
+     "Selling vegetables",
+     "Washing hands and following health rules",
+     "Traveling to other towns"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-an-banog-ha-bukid-huraw": {
+  "title_en": "Banog and Mount Huraw",
+  "questions": [
+   {
+    "q": "What did Banog try to do?",
+    "options": [
+     "Fly higher than Mount Huraw",
+     "Build a nest on Mount Huraw",
+     "Hide from the storm"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "What did Banog learn after falling?",
+    "options": [
+     "Never fly again",
+     "Not to force himself when he cannot do something",
+     "Mountains are easy to beat"
+    ],
+    "answer": 1
+   }
+  ]
+ },
+ "bloom-hi-kaha-kahon": {
+  "title_en": "Kaha the Box",
+  "questions": [
+   {
+    "q": "Why was Kaha sad in the store?",
+    "options": [
+     "She thought her owner had left her because she was useless",
+     "She wanted to ride the bus again",
+     "She lost her ribbon"
+    ],
+    "answer": 0
+   },
+   {
+    "q": "How did Kaha learn she still had value?",
+    "options": [
+     "A child reused her for small items",
+     "She became a trash can",
+     "She went back to the farm"
+    ],
+    "answer": 0
+   }
+  ]
+ }
+}
