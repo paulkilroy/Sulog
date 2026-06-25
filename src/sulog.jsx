@@ -229,13 +229,18 @@ function freshStat(forgotten) {
 }
 function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
 function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
-// "needs work" = you pinned it, or you've missed it at least once — the stuff to
-// redrill. Ranked elsewhere by how often it's been missed, so a word you keep
-// struggling with stays here even if you happened to get it right last time.
+// How far you must rebuild a missed word before it graduates off "Needs work":
+// box reaches 3 of 5 (≈60% mastery). Box resets to 0 on any miss and climbs +1 per
+// correct, so this means "get it right ~3 times since your last slip."
+const NW_RECOVER_BOX = 3;
+// "needs work" = you pinned it, OR you've missed it and haven't rebuilt it yet. It
+// DRAINS as you succeed: each correct answer raises the box, and once it hits the
+// recovery level the word drops off; miss it again and the box resets so it returns.
 function needsWorkCard(st) {
   if (!st) return false;
-  if (st.pinned) return true;
-  return (st.wrong || 0) > 0;
+  if (st.pinned) return true;                 // manual pin — stays until you unpin
+  if (!(st.wrong > 0)) return false;          // never missed → not a struggle word
+  return (st.box || 0) < NW_RECOVER_BOX;      // still rebuilding → keep; recovered → drop
 }
 // accuracy 0–1 (used to break ties when ranking struggle); unseen = perfect
 function accuracy(st) { return st && st.seen ? st.right / st.seen : 1; }
@@ -2484,7 +2489,7 @@ function NeedsWorkView({ ctx }) {
       {items.length === 0 ? (
         <div className="ws-empty">
           <Sparkles size={28} />
-          <p>Nothing to redrill yet. Anything you miss — or pin with the star — collects here, worst first, so you can hammer the hard ones.</p>
+          <p>Nothing to redrill yet. Miss a word — or pin it with the star — and it collects here. As you get it right it climbs out on its own; nail it 3× and it graduates off.</p>
         </div>
       ) : (
         <>
@@ -2496,6 +2501,9 @@ function NeedsWorkView({ ctx }) {
           }}>
             <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
           </button>
+          <div className="ws-pron-note" style={{ margin: "10px 0 4px" }}>
+            The dots show how close each word is to graduating — get it right {NW_RECOVER_BOX}× in a row and it drops off. A miss resets it.
+          </div>
           <div className="ws-nw-list">
             {items.map((c) => {
               const st = prog[c.id];
@@ -2507,6 +2515,13 @@ function NeedsWorkView({ ctx }) {
                     <div className="ws-nw-eng">{c.english}</div>
                   </div>
                   <div className="ws-nw-meta">
+                    {!st?.pinned && (
+                      <div className="ws-nw-recover" title={`${Math.min(st?.box || 0, NW_RECOVER_BOX)}/${NW_RECOVER_BOX} right to graduate off this list`}>
+                        {Array.from({ length: NW_RECOVER_BOX }).map((_, i) => (
+                          <span key={i} className={`ws-nw-pip ${(st?.box || 0) > i ? "on" : ""}`} />
+                        ))}
+                      </div>
+                    )}
                     <span className="ws-nw-miss" title="times missed">×{st?.wrong || 0}</span>
                     <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(c.id)}>
                       <Star size={15} />
@@ -3557,6 +3572,9 @@ function Styles() {
 .ws-nw-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea-ink)}
 .ws-nw-eng{font-size:12.5px;color:var(--ink-soft)}
 .ws-nw-meta{display:flex;align-items:center;gap:8px}
+.ws-nw-recover{display:flex;align-items:center;gap:3px}
+.ws-nw-pip{width:7px;height:7px;border-radius:50%;background:var(--sand-deep);opacity:.5}
+.ws-nw-pip.on{background:var(--jade);opacity:1}
 .ws-nw-miss{font-size:12px;color:var(--coral);font-weight:700;background:#fbe7e2;border-radius:8px;
   padding:3px 7px}
 .ws-pin{width:32px;height:32px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--foam);
