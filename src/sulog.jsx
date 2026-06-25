@@ -103,13 +103,11 @@ const LESSON_PARTS = [
   { dir: "wte", mode: "type", label: "Recall", hint: "Type the English" },
   { dir: "etw", mode: "type", label: "Produce", hint: "Type the Waray — no hints" },
 ];
-// ② Apply — phrase cards: words are already known, so just produce them (type the
-// Waray). One step; a miss still triggers SessionView's remediation loop.
-const APPLY_PARTS = [
-  { dir: "etw", mode: "type", label: "Produce", hint: "Type the Waray — no hints" },
-];
-// the step list for a lesson, by kind ("apply" = phrase lesson, else words)
-const partsFor = (lesson) => (lesson && lesson.kind === "apply" ? APPLY_PARTS : LESSON_PARTS);
+// Every lesson — words OR phrases — teaches with the full 4-step ladder. You never
+// first-learn something in produce-only mode; produce-only is the UNIT REVIEW's job
+// (see startUnitReview). `kind: "apply"` still marks a phrase lesson (for the ①/②
+// grouping and which cards the review tests) — it no longer shortens the drill.
+const partsFor = () => LESSON_PARTS;
 const partCountById = (id) => partsFor(LESSON_FLOW.find((l) => l.id === id)).length;
 
 // Top tier = sections; each section holds units; each unit holds lessons.
@@ -2326,7 +2324,7 @@ function LessonView({ ctx }) {
         ))}
       </div>
 
-      <SectionLabel text={isApply ? "Type each phrase in Waray" : "Clear all 4 to finish"} />
+      <SectionLabel text="Clear all 4 to finish" />
       <div className="ws-parts">
         {parts.map((p, k) => {
           const completed = done > k;
