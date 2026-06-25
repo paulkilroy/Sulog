@@ -1236,10 +1236,15 @@ function SessionView({ ctx }) {
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
   const [results, setResults] = useState([]); // first-attempt results only {id, prompt, answer, given, correct}
   const [done, setDone] = useState(base.length === 0);
+  // "Needs work" drill only: a sticky MC↔type/say switch the learner controls for
+  // the whole session (other sessions keep the mode their step prescribes).
+  const [drillMode, setDrillMode] = useState(session.mode);
 
   const step = steps[i];
   const card = step?.card;
-  const mode = step?.mode || session.mode;
+  // remedial steps keep their forced mc→type sequence; a drill's scored steps follow
+  // the sticky drillMode; everything else uses the step's own mode.
+  const mode = step?.remedial ? step.mode : (session.drill ? drillMode : (step?.mode || session.mode));
   const exitTo = session.lesson ? "lesson" : session.unitReview ? "learn" : "home";
 
   const advance = () => { if (i + 1 >= steps.length) { setDone(true); if (session.lesson) completeLessonPart(session.lesson.id, session.lesson.part); } else setI(i + 1); };
@@ -1253,7 +1258,7 @@ function SessionView({ ctx }) {
       bumpStreak();
       const prompt = session.dir === "wte" ? card.waray : card.english;
       const answer = session.dir === "wte" ? card.english : card.waray;
-      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode: session.mode });
+      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode });
       setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
       setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     }
@@ -1291,11 +1296,17 @@ function SessionView({ ctx }) {
         )}
       </div>
 
+      {session.drill && (
+        <div className="ws-drillmode">
+          <button className={drillMode === "mc" ? "on" : ""} onClick={() => setDrillMode("mc")}>Choices</button>
+          <button className={drillMode === "type" ? "on" : ""} onClick={() => setDrillMode("type")}>{settings.voiceMode ? "Say it" : "Type it"}</button>
+        </div>
+      )}
       {step.remedial && (
         <div className="ws-remedy">{mode === "mc" ? "Let's try that one again — pick the right answer." : "Now type it from memory."}</div>
       )}
       <CardReview
-        key={i + ":" + card.id}
+        key={i + ":" + card.id + ":" + mode}
         card={card} dir={session.dir} mode={mode}
         distractors={distractors} ctx={ctx} onResult={onResult}
         onSkip={step.remedial ? advance : null}
@@ -2426,7 +2437,7 @@ function NeedsWorkView({ ctx }) {
           <button className="ws-start ws-full" onClick={() => {
             // produce it from memory (English → Waray, typed) with remediation: a miss
             // keeps re-drilling until cleared — a real mastery drill, not soft recognition
-            setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", remediate: true, limit: drill.length, only: drill.map((c) => c.id) });
+            setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", remediate: true, drill: true, limit: drill.length, only: drill.map((c) => c.id) });
             setView("session");
           }}>
             <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
@@ -3236,6 +3247,10 @@ function Styles() {
 .ws-vk{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink-soft);cursor:pointer;flex:0 0 auto}
 .ws-vk.on{background:var(--tide);border-color:var(--tide);color:#fff}
+.ws-drillmode{display:flex;gap:6px;justify-content:center;margin:-12px 0 18px}
+.ws-drillmode button{padding:6px 18px;border-radius:999px;border:1.5px solid var(--sand-deep);
+  background:var(--foam);color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer}
+.ws-drillmode button.on{border-color:var(--tide);background:#eef8f8;color:var(--sea)}
 .ws-voice{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px 0 8px}
 .ws-voice-orb{display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;
   background:var(--foam);border:2px solid var(--sand-deep);color:var(--tide);cursor:pointer;transition:all .15s}
