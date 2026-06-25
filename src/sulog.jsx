@@ -267,6 +267,23 @@ function applyResult(st, correct, mode) {
   s.due = now() + BOX_DAYS[s.box] * MS_DAY;
   return s;
 }
+// One-time backfill for `recall` (added after launch): reconstruct each card's trailing
+// cold type-recall streak from the attempt history, so Needs-work dots reflect real past
+// typing instead of resetting to 0. Typed-correct +1, typed-miss resets, MC ignored —
+// the same rule as applyResult. Idempotent: only fills entries that lack `recall`.
+function backfillRecall(prog, history, cards) {
+  if (!prog || !Object.values(prog).some((st) => st && st.recall == null)) return prog;
+  const idByWaray = {};
+  cards.forEach((c) => { idByWaray[c.waray] = c.id; });
+  const recallBy = {};
+  for (const e of [...(history || [])].sort((a, b) => (a.ts || 0) - (b.ts || 0))) {
+    const id = idByWaray[e.waray];
+    if (id && e.mode === "type") recallBy[id] = e.correct ? (recallBy[id] || 0) + 1 : 0;
+  }
+  const np = { ...prog };
+  for (const id in np) if (np[id] && np[id].recall == null) np[id] = { ...np[id], recall: recallBy[id] || 0 };
+  return np;
+}
 
 /* ---------------- text matching ---------------- */
 function norm(s) {
@@ -612,10 +629,15 @@ export default function App() {
       const les = await store.get(PK.lessons);
       const hist = await store.get(PK.history);
       const un = await store.get(PK.units);
-      if (p) setProg(JSON.parse(p));
+      const parsedHist = hist ? JSON.parse(hist) : [];
+      if (hist) setHistory(parsedHist);
+      if (p) {
+        const pp = backfillRecall(JSON.parse(p), parsedHist, cards);
+        setProg(pp);
+        store.set(PK.prog, JSON.stringify(pp)); // persist the one-time recall backfill
+      }
       if (s) setStreak(JSON.parse(s));
       if (les) setLessons(JSON.parse(les));
-      if (hist) setHistory(JSON.parse(hist));
       if (un) setUnits(JSON.parse(un));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
       if (aIdx) {
