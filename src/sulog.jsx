@@ -2577,6 +2577,29 @@ function BackupView({ ctx }) {
     catch (e) { setMsg({ kind: "err", text: "Couldn't copy automatically — tap the field, select all, and copy." }); }
   };
 
+  // connection diagnostics: fire three probes and show which class of request dies.
+  // (1) plain GET — a "simple" CORS request, NO preflight. (2) + a custom header,
+  // which forces a CORS preflight but no auth. (3) + Authorization — preflight + auth,
+  // exactly what sync does. Pinpoints blocker (all fail) vs preflight/auth-only failure.
+  const [diag, setDiag] = useState(null);
+  const [diagBusy, setDiagBusy] = useState(false);
+  const runDiag = async () => {
+    setDiagBusy(true); setMsg(null);
+    const out = [];
+    const probe = async (name, opts) => {
+      const t0 = Date.now();
+      try { const r = await fetch("https://api.github.com/rate_limit", opts); out.push({ name, ok: true, detail: `HTTP ${r.status} · ${Date.now() - t0}ms` }); }
+      catch (e) { out.push({ name, ok: false, detail: `${e.name}: ${e.message || ""}`.slice(0, 80) }); }
+      setDiag([...out]);
+    };
+    await probe("Plain fetch — no preflight", {});
+    await probe("Fetch + custom header — forces preflight", { headers: { "X-GitHub-Api-Version": "2022-11-28" } });
+    const tok = (sync.token || token || "").trim();
+    if (tok) await probe("Fetch + token — preflight + auth (= sync)", { headers: { Authorization: "Bearer " + tok, "X-GitHub-Api-Version": "2022-11-28" } });
+    else { out.push({ name: "Fetch + token — preflight + auth (= sync)", ok: null, detail: "skipped — paste a token first" }); setDiag([...out]); }
+    setDiagBusy(false);
+  };
+
   const doConnect = async () => {
     setConnecting(true);
     try { await connectGist(token); setToken(""); }
@@ -2800,6 +2823,27 @@ function BackupView({ ctx }) {
             Auto-saves a few seconds after each change, and pulls when Sulog opens. Open it on another device, paste the same token, and it'll find this gist.
           </div>
         )}
+
+        <div style={{ marginTop: 12 }}>
+          <button className="ws-backup-row compact" onClick={runDiag} disabled={diagBusy}>
+            <AlertCircle size={16} /> {diagBusy ? "Testing…" : "Run connection diagnostics"}
+          </button>
+          {diag && (
+            <div className="ws-diag">
+              {diag.map((d, i) => (
+                <div key={i} className={`ws-diag-row ${d.ok === true ? "ok" : d.ok === false ? "err" : "skip"}`}>
+                  <span className="ws-diag-ic">{d.ok === true ? <Check size={14} /> : d.ok === false ? <X size={14} /> : "–"}</span>
+                  <span className="ws-diag-name">{d.name}</span>
+                  <code className="ws-diag-detail">{d.detail}</code>
+                </div>
+              ))}
+              <div className="ws-pron-note" style={{ marginTop: 6 }}>
+                If row 1 fails too, something on this device is blocking all scripted
+                requests to GitHub. If only the token row fails, it's the preflight/auth.
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="ws-pron-note" style={{ marginTop: 18 }}>
@@ -3613,6 +3657,16 @@ function Styles() {
 .ws-gist-help ol{margin:10px 0 8px;padding-left:18px;line-height:1.6}
 .ws-gist-help li{margin-bottom:4px}
 .ws-gist-help b{color:var(--sea-ink)}
+.ws-diag{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.ws-diag-row{display:flex;align-items:center;gap:8px;font-size:12.5px;background:var(--foam);
+  border:1px solid var(--sand-deep);border-radius:10px;padding:8px 10px}
+.ws-diag-row.ok{border-color:var(--jade);background:#eefaf3}
+.ws-diag-row.err{border-color:var(--coral);background:#fdeeee}
+.ws-diag-ic{display:flex;align-items:center;justify-content:center;width:18px;flex:0 0 auto;color:var(--ink-soft)}
+.ws-diag-row.ok .ws-diag-ic{color:var(--jade)}
+.ws-diag-row.err .ws-diag-ic{color:var(--coral)}
+.ws-diag-name{flex:1;font-weight:600;color:var(--ink)}
+.ws-diag-detail{font-size:10.5px;color:var(--ink-soft);font-family:ui-monospace,monospace;text-align:right}
 .ws-sync-status{display:flex;align-items:center;gap:9px;background:var(--foam);border:1px solid var(--sand-deep);
   border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:10px}
 .ws-sync-status code{margin-left:auto;font-size:11px;color:var(--ink-soft);background:var(--sand);
