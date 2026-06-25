@@ -1,0 +1,789 @@
+COMPREHENSION QUESTIONS — Waray children's stories (for the Sulog reading app)
+
+For EACH story below, write 2 simple multiple-choice comprehension questions IN ENGLISH
+that check whether a reader understood the STORY (who / what / where / why — not vocabulary
+trivia). The reader is a Waray learner who may not know every word.
+- Exactly 3 options each, exactly one correct.
+- Base questions on meaning; wrong options should be plausible but clearly wrong from the story.
+- Also give a short English title.
+
+Return ONE JSON array — one object per story, EXACTLY this shape, and NOTHING else:
+[
+  {"id":"<id>","title_en":"<short English title>","questions":[
+    {"q":"<question>","options":["A","B","C"],"answer":0},
+    {"q":"<question>","options":["A","B","C"],"answer":1}
+  ]}
+]
+
+(The "answer" is the 0-based index of the correct option. Use the exact "id" shown.)
+Stories follow, each after a "===== <id> =====" line.
+
+===== bloom-kunta-huybes-kada-adlaw =====
+TITLE (Waray): Kunta Huybes kada Adlaw
+
+Tuktuga-ok! tuktuga-ok! tuktuga-ok! Nakagmata hi Mira han tuga-ok han manok. Nangadi hiya pagpasalamat han Ginoo ngan dali nga gintipig an iya hinigdaan.
+Pag gawas niya ha kwarto, iya gintawag an iya nanay. "Nanay, nanay, nanay!" Iya liwat gintawag an iya tatay. "Tatay,tatay, tatay!" Pero waray may bumaton ha iya.
+Kumadto hiya ha ira kusina, waray tawo. Kumadto hiya ha ira balkon, waray tawo. Kumadto hiya ha ira libong, waray liwat tawo!
+Bumalik hi Mira ha sulod han ira balay ngan nahinumdum hiya. "Aha! Huybes ngayan yana, adlaw han tabo asya waray dinhi hira nanay ngan tatay. Timprano pa hira nga napakadto ha tabu-an para mamalit hin pagkaun ngan iba pa namon nga panginahanglan!" "Ano dawla kun napalit nira nanay ngan tatay an akon gintugon?" pakiana ni Mira ha iya kalugaringon.
+Waray la mag-iha, umabot na an kag-anak ni Mira tikang ha tabu-an. Damo an ira dara. Malipayon hira nga gintapo ni Mira.
+May ada mga sibuyas, lasona ngan luya. Upod na an isda, karne han baboy ngan baka. Mayda liwat asin ngan asukar, toyo ngan asiti. Mayda pa gatas ngan palaman nga marasa! Kadako han tawa ni Mira!
+May ginhatag nga nakaputos an nanay ni Mira ha iya. Ginkulba hiya! pero dayun la nga nakapakpak hin kalipay hi Mira. Ginpalit ni nanay ngan tatay an mga tugon niya! May ada na hiya bag-o nga lapis, pula nga payong ngan dulaw nga bestida!
+Malipayun hin duro hi Mira! "Salamat nanay! salamat tatay!" "Salamat han iyo mga pinalit didto ha tabu-an! "Humangkop hi Mira ha iya nanay ngan tatay ngan sumiring; "Nanay, tatay, kunta pirmi nala Huybes kada adlaw!" Nagkatatawa an iya nanay ngan tatay! Nagkatatawa hira ngatanan!
+
+===== bloom-an-bao =====
+TITLE (Waray): An Bao
+
+Tumago ha luyo han bato.
+Bisan diin hiya nakadto.
+Balay niya pirmi aklo.
+Naukoy hiya ha sapa.
+Kay naayon hiya han baha.
+
+===== bloom-an-tulo-nga-magsarangkay =====
+TITLE (Waray): An Tulo nga Magsarangkay
+
+Usa ka gab-i mapawa an bulan, nag uru-istorya hira Tristan, Jolo ngan Anton. Dako an tingog ngan tawa ni Tristan.
+Ginsaway hira ni Mana Lita. "Kabataan, hinaya an iyo tingog kay nakakaistorbo na kamo." saway ni Mana Lita nga pinipiraw.
+Ginsigawan nira Jolo ngan Anton hi Tristan. "Hala ka, Tristan! Hala ka, Tristan!" sigaw han duha. Tungod han kaawod, pumurot hiya hin bato ngan ginlabay an atop nira Mana Lita.
+Kinalasan hira Mana Lita. Nahimangno hira ngatanan. Iksakto nalabay hi Mano Solomon kay nagroronda. Ginsaway niya hi Tristan. "Kay ano nga nanlalabay ka man?" pakiana ni Mano Solomon. Nandadlagan an magsaarangkay.
+Kinabuwasan, ginkadto ni Mano Solomon an mga balay han magsarangkay.
+Ginpatawag hira upod an ira mga kag-anak para pagtuhay. "Kay ano nga nanlabay kamo han atop nira Mana Lita?", pakiana ni Kapitan Eddie. "Hi Tristan po adto kapitan," baton ni Jolo. "Ginsaway la po hiya nanlabay dayon," baton liwat ni Anton.
+Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita. Tikang hadto, an maagsarangkay in nagsaad nga diri na hira mag-uutro.
+
+===== bloom-an-pakla-nga-mayakan =====
+TITLE (Waray): An Pakla Nga Mayakan
+
+Ha usa nga lugar, may ada usa nga Pakla nga masyado hin kamayakan.Nakausa, ginpakianhan niya an nga tanan nga mga hayop kun ano an karuyag kaunon han ira mga anak.
+Ginpakianhan niya an Tamsi, "Ano an karuyag kaunon han imo mga anak?"
+Bumaton an Tamsi, "Karuyag kumaon han akon mga anak hin mga apan." Bumaton an pakla, "Oh, asya!"
+Ginkadto han Pakla nga dako an baba an Baboy, ngan iya ginpakianahan, "Ano an karuyag kaunon han imo mga anak?"
+Bumaton an Baboy, "Karuyag uminom hin gatas an akon mga anak." "Oh asya!", baton han pakla.
+Kumadto hiya han Itik ngan nagpakiana, "Ano an karuyag kaunon han imo mga anak."
+Bumaton an Itik, "Karuyag kumaon han akon mga anak hin gudti nga mga prutas." Oh asya,"baton han Pakla nga dako an baba.
+Kumadto han Buaya an Pakla ngan pumakiana, "Ano an karuyag kaunon han imo mga anak?". Han pagkita, nalipay an Buaya ngan gumuliat, "Ooooohhhhhh" Humadlok hin duro an Pakla pakabati niya han guliat han Buaya.
+Mga Pakiana: 1. Ano an pakiana han Pakla ha mga hayop? 2. Ano an baton han Tamsi ha pakiana han Pakla? 3. Ano an karuayag kaunon han mga anak han Baboy? 4. Ano an siring han Itik ngadto han Pakla nga karuyag kaunon han iya mga anak?
+
+===== bloom-an-istorya-han-pormado-nga-bato-han-kand =====
+TITLE (Waray): An Istorya Han Pormado Nga Bato Han Kandiwata
+
+Usa ha mga sikat kadtuon yana ha isla han munisipyo han Daram an ira bantog nga pormado nga bato o rock formation nga gintatawag nga kandiwata . An pulong nga Kandiwata in nagtikang sa lokal na termino han mga waray nga an karuyag sidngon in lugar o puroy-anan han mga diwata, engkanto o mga linarang nga diri nakikit-an han mga ordinaryo nga tawo.
+Sumala han istorya han mga kalagsan, an ini nga pormado nga bato nga baga han nalutaw ha butnga han kadagatan in usa daw nga dako nga barko nga may mga sakay nga pasahero nga nagnanabigar hadto, nga kun diin samtang ini in nagbibiyahe ha butnga han kadagatan in may kalipay nga nahitatabo ha sulod han barko, may ada mga nagkakaranta, nagsasarayaw, nagkakatatawa, ngan nangugugli-at nga mga pasahero.
+Ha butnga han ira karisyuhan nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga pag-intrimisan ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang nagnanabigar ha kadagatan. Ngan waray pag-iha.
+Nga tumigda la nga naglain an panahon ngan nagsirom an bug-os nga palibot ngan nagkamay ada hin makusog nga dalugdug ngan kidlat nga asya an naka-igo ha barko ngan ini nagin usa nga dako nga bato ngan nagporma hin sugad hin dako nga barko. Hito mismo nga oras pagkahuman han panhitabo in tigda la nga nagmingaw an bug-os nga palibot. An dako nga barko nagin usa nga dako nga bato.
+Ha pagkayana ini nga pormado nga bato in pareho hin usa nga barko nga nalutaw ha butnga han kadagatan. Ngan ini in maupay ngan kamakaruruyag pagkit-on.
+Dugang pa han istorya han pipira nga mangirisda nga nag-uukoy hirani ha kandiwata, nasiring hira nga danay may mga panahon nga nagpaparawa ha gab-i an pormado nga bato, ngan may ada mga tingog nira nga nahibabati-an nga mga nagririsyo nga sugad hin may ada sarayaw an mga diwata o engkanto. Asya daw adto an mga tawo nga sakay hadto han barko nga nagin usa nga bato.
+Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .
+Bisan ha pagkayana kun may napakadto didto nga mga turista nga karuyag mangarigo o magpahalibway hira gin sasagdunan nga magsarit anay ha pormado nga bato ha bisan ano nga karuyag nira buhaton didto.
+Dugang pa nga siring nira nga kinahanglan mo mag-itsa hin sinsilyo antis ka umuli o bumaya hito nga lugar para daw diri mag-isog o mabido an mga diwata o engkanto nga nangungukoy didto.
+An ini nga istorya in sumala o nagtikang ha mga mga tawo nga nagkamay ada han mga eksperyensya, mga nahikit-an ngan mga nanhibati-an mahiunong ha kandiwata. Nga kun diin bisan ha pagkayana nga panahon ini in imo hibabati-an nga istorya mga tawo nga naukoy hirani ha kandiwata.
+Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.
+Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin respeto ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira naekperyensiyan, nakit-an ngan nanhibati-an. Damo nga Salamat!
+
+===== bloom-an-bukad-ha-libong-ni-apoy-garing =====
+TITLE (Waray): AN BUKAD HA LIBONG NI APOY GARING
+
+Hi apoy Garing usa nga mahilig magtinanon bukad pero diri gud hiya gintutudkan hin mga tanom nga nabukad labot la ha usa nga tanom ini an tanom nga nabukad hin rosa.
+Pirmi ni apoy Garing gindadayaw ngan gintitimangno an iya bukad nga rosa. "Ikaw an bukad nga akon ginhihigugma kay ikaw la an tumurok han akon gin tanom ngan an kolor mo nga pula amo an akon paburito."
+Usa ka gab-i, gin kuha han usa nga ulitawo an iya tanom nga rosa. Pagkaaga pagkita ni apoy Garing ha iya libong waray na an iya minayuyo nga rosa. Naging masinalub-on hi apoy Garing kay nawara an iya tanom nga rosa.
+Gin dara han ulitawo an tanom ni apoy Garing nga rosa ngadto han libong han iya gin gagarbohan.
+Pagkaaga nalipay an daraga han iya nakita kay may usa nga tanom nga mahusay pagkinitaon. Iya gin daop ngan gin obserbahan. Na hunahunaan niya nga waray hiya tanom sugad hini kamahusay.
+Nahibaroan han enkantada nga alibangbang an nahinabo ngan nalooy ini kan apoy Garing. Lumupad an enkantada nga alibangbang kan apoy Garing kamot ngan nagsiring "Apoy Garing nakita ko an imo kabidoan han kawara han imo tanom nga rosa, yana an imo mga kamot tatagan kon bendisyon para bisan man ano nga tanom maturok kon ikaw an magtanom."
+Nalipay gud hi apoy Garing han gisiring han enkantada nga alibangbang ngan nagpasalamat sanglit kumadto dayon hiya ha iya libong ngan nagbungkag han tuna para han tatanoman nga mga tanom.
+Ngan mga pira ka adlaw nanubo an mga tanom ni apoy Garing nga nakita niya an magka iba-iba nga bukad nga maghusay.
+Ginkadto han enkantada nga alibangbang an ulitawo ngan an daraga ngan nagsiring "ulitawo diri maupay an imo gin buhat, kay ano ginkuha mo an tanom nga rosa ni apoy Garing?"
+Nangaro hin pasaylo an ulitawo han enkantada nga alibangbang. "Pasayloa ako han akon nabuhat kay tungod ginhigugma ko an akon gingagarbohan kay mahilig hiya hin mahusay nga bukad sanglit ginkuha ko an tanom nga rosa ni apoy Garing". Bumaton an enkantada nga alibangbang "pangaro pasaylo kan apoy Garing han imo gin buhat kay kon diri ako an maghahatag ha imo hin sirot ha imo".
+Nagtangis an daraga ngaha atubangan han nangunguyab ha iya tungod han ginbuhat hini. "Pangaro pasaylo kan apoy Garing han imo ginbuhat." An siring han daraga kan Lindo. "Oo mangangaro ako pasaylo. Pasayloa liwat ako han akon nabuhat" an baton ni han ulitawo ha iya gingagarbohan. Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.
+Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan. "Pasayloa ako apoy Garing han akon ginbuhat" an siring han ulitawo. "Okey la intoy maupay kay nag amin ka han imo ginbuhat. Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad". An baton ni apoy Garing.
+Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana. Gintagan pa niya ulitawo ngan an daraga hin mga taramnon. Tikang hadto naging magsuok hira nga magsarangkay ngan nananom hira hin mga iba-iba nga mga bukad sanglit naging maupay ngan mahusay an ira barangay.
+
+===== bloom-an-malipayon-na-paragsudoy =====
+TITLE (Waray): AN MALIPAYON NA PARAGSUDOY
+
+Usa nga malipayon nga tawo hi Pedro.
+Pirmi hiya nauli nga may dara nga pagkaon para ha iya pamilya.
+Nagmamata hiya hin timprano para mag baligya.
+Madali nga nauubos an iya mga baligya kay damo an napalit.
+Usa ka adlaw naging masulob-on hi Pedro kay waray napalit han iya tinda.
+Kulang na tawo an bungto tungod han pandemya (Covid 19)
+Umuli hi Pedro nga masulob-on. Nawawarayan na hiya pag laom.
+Nangadi hi Pedro, nga konta mawara na ini nga pandemya.
+Paglabay hin usa ka tuig gin balita ha TELEVISION nga may ada na bulong an sakit nga Covid.
+Nag lipay hi Pedro han iya nabatian han anunsiyo. Naglipay liwat an iya pamilya.
+
+===== bloom-pagtimangno-hin-panlawas =====
+TITLE (Waray): Pagtimangno hin Panlawas
+
+Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han budgyong. “eeeeennnngggg eeennngggg” tunog han budgyong “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan pagsalin-urog hin bisan anu nga katitirok,” pag imporma han tanod.
+Laksi nga dumalagan hi Potpot pag uli ha ira balay. “Nanay, siring han tanod diri na puwede gumawas an kabataan ngan an pagkatitirok,” sumat ni Potpot kan iya nanay. “Uu, kay mahitungod ito hit nakalat yana nga sakit, ” siring ni nanay.
+Nanhunahuna hi Potpot ngan masulub-on nga sumiring. “Diri na kami makakag-uyas hit ak kasangkayan, ngan diri kami makaka eskwela.” "Makaka eskwela kamu pero dinhi la kamu ha balay," siring han nanay. "An aton angay buhaton atamani naton an aton kalugaringon nga diri kita matapnan hin sakit," dugang nga siring ni nanay.
+“Para malikayan ito nga sakit kinahanglan kita sumunod hit mga ginpapatuman na mga protocol ha panlawas,” dugang nga siring ni nanay. “Anu it kinahanglan buhaton nay?” pakiana ni Potpot. Gin usa-usa ni nanay an angay buhaton. “Agsob ngan kaangayan nga paghugas han mga kamot gamit an sabon,” baton ni nanay.
+"Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.
+“Paunano kita makakapalit hit makakaon naton nay?” pakiana ni Potpot. “Ayaw kabaraka manhahatag hira hin ayuda, ngan may ada kita mga tanom nga utanon ha at libong nga puwede naton maluto,” baton ni nanay
+“Tatagan ko hira Maya ngan Aloy han aton mga utanon,” malipayon nga siring ni Potpot. “Uu, manhahatag kita ha aton mga hiripid,” nalilipay nga baton ni nanay.
+Tikang hadto ginhimo nga pamatasan han pamilya ni Potpot an agsob ngan isakto nga paghugas han kamot ngan pagsugot ha mga protocol panlawas para makalikay ha mga nakakatapon nga sakit.
+
+===== bloom-an-banog-ha-bukid-huraw =====
+TITLE (Waray): AN BANOG HA BUKID HURAW
+
+Malipayon nga naglilinupad-lupad hi Banog ha kagugub-an.
+Nakita niya an hitaas nga Bukid Huraw.
+Nagsiring hiya. "Bukid Huraw kaya ko lumupad ngan labwan an im kahitaas!"
+Gin andam niya an iya kalugaringon para paglupad.
+Han iya paglupad, tigda may umabot nga bagyo.
+"Kaya ko ini! kaya ko ini!" An siring ni Banog ha iya kalugaringon. "Wusssssss...". An tunog han makusog nga hangin nga natapo kan Banog han iya paglupad.
+Han kakusog han hangin waray kayaha ni banog nga makalampas ha kahitaas han Bukid Huraw ngan nahulog hiya ha mga puno han kahoy.
+Napiolan hi Banog han iya kahulog.
+Nagsiring hi Banog ha iya kalugaringon, "diri ko na pipiriton tak kalugaringon kon diri ko kaya para diri ako mahingadto ha karat-an".
+Ngan tikang hadto naging malipayon nala hi Banog maglinupad-lupad palibot han Budik Huraw.
+
+===== bloom-hi-kaha-kahon =====
+TITLE (Waray): Hi Kaha, Kahon
+
+Umandar na an bus nga ginsasakyan ni Kaha. “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha. Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.
+Usa… duha… tulo… tulo ka oras nga pagbay-og an gin-abat ni Kaha. Natapos gihap an iya beyahe. "Yeheey! Makakagawas na ako hini nga lugar", malipayon nga siring ni Kaha.
+"Kamakaluluoy ko man kitaon", masulob-on nga siring ni Kaha. Brown an iya kolor nga may gudti nga mga luho ha ligid niya. Pinaagi han dulaw nga higot, nasisirahan an tapotapohon nga iya abrihan.
+Dalidali hiya nga ginkuha han iya agaron ha iya kinamumutangan. Ginkaptan an dulaw nga higot nga ginhigot ha iya. Nahipausa hiya han iya nakita-an. “Wow! kamaupay man hini nga lugar.”, nalilipay nga siring ni Kaha.
+Dagko ngan higtaas nga bilding an aada ha iya atubangan. Iba ini ha iya gintikangan nga simple nga balay. Haros usa ka barangay an kahiluag hini ngan baga hin maabot na ngadto ha langit ha subra hin kahitaas.
+Ginbutang hiya han iya agaron ha pushcart ngan ginsulod hiya ha maanyag nga bilding. Puno hiya hin ginhamis nga mga bagol hin lubi. "Oy tigda nga umabri an purtahan!", nahipausa nga siring ni Kaha.
+Nakita niya an mainggat nga salog. Makaruruyag pagkit-on an iba-iba nga klase hin mga light. Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.
+"Kadadamo man hin tawo ha palibot', yakan ni Kaha. "Siguro kay mahagkot ini nga lugar". "Makikita ha ira nawong an kalipay ha pamamasyada, pagkaon ngan pamamalit", hunahuna ni Kaha.
+Ginbutang hiya sulod hin usa nga tindahan. Puno ini hin mag-upay nga mga pandekorasyon. Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na. Nasubo hi Kaha. “Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha. “Tungod ba kay luma na ako?”. “Waray nagud ada ako pulos ha iya”, tangis ni Kaha.
+Nabatian hiya ni basurahan. “Diri ito ungod sangkay. Tanan kita may ada mga pulos dinhi ha tuna", isplikar ni Basurahan. “Diri karuyag signgon nga waray ka na pulos kun ginbayaan ka man han imo agaron ".
+“Kitaa daw ako. Malipayon ako kay maaram ako nga dako it akon nahibubulig ha kalibungan", dugang nga siring ni Basurahan. “Ginbubutang ha amon an mga maghugaw nga mga butang para diri magin mahugaw an kalibungan."
+“Tama hi Basurahan. Kami gihapon imbis nga iglabog aadi kami para magamitan pa”, an siring han mga bagol hin lubi. "Ginhihimo kami nga pandekorasyon ha bahay, uyagan ngan puydi liwat mahimo nga garamiton ha pagluto.”
+Waray pag-iha, umabot an anak han tag-iya han tindahan. Ginkuha an iya sulod ngan gintrapohan. “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.
+Ginputos hiya hin malimpyo ngan bukadbukaron nga papel. May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop. Nakita niya an iya kalugaringon ha espiho ha tindahan. "Kamakaruruyag kitaon it akon kalugaringon", nalilipay nga siring ni Kaha.
+Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos. Gin-apresyar niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan. "Damo nga salamat han maduruto ngan maabilidad nga bata", malipayon nga siring ni Kaha.
+
+===== bloom-an-suok-nga-magsangkay =====
+TITLE (Waray): An Suok nga Magsangkay
+
+Magsangkay hi Ela ngan hi Mila. Tungod kay mag anyaw man hira. Suok gud kaupay hira nga magsangkay.
+Ha ira pag eskwela magsapit gud hira. An ira mga maestra gindadayaw hira. Ha klase pirmi hira nangunguna.
+Mga buruhaton ha balay waray kabudlay. Kay hira nga duha nagbibinuligay. Mga kag-anak nira waray problema.
+Bisan ha ira pagpahuway. Pirmi hira nag-iinatubangay. Pangandoy nira dungan nga mapa-uswag.
+May nahitabo ha ira kamagsangkay. Hira nagkabulag. Nag usaan nala hi Ela.
+Nahingadto hi Mila ha hirayo nga dapit. Hiya nakasala ha ira kamagsangkay. Gin-raut niya Ela ha iba.
+Ginpinsar ni Ela an panhitabo. Kada gab-i hiya nagtatangis. Ug hi Ela nagkasakit.
+Pirmi naghuna-huna hi Ela kan Mila. Ginhuhulat niya pirmi an pag-abot niya. Iya karawaton nga sakay gihapon.
+Nahibaro hi Mila han nahitabo. Nga nasakit an suok niya nga sangkay. Dali-dali nga bumalik hi Mila.
+Nagkita gihapon an magsangkay. Ginpasaylo ni Ela hi Mila. Ngan nagpabilin an ira suok nga kamagsangkay.
+
+===== bloom-an-bata-nga-mahilig-hin-dolce =====
+TITLE (Waray): An Bata nga Mahilig hin Dolce
+
+Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.
+Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin singko. "Aanhun mo na liwat it kwarta Ynah?" pakiana ha iya ni Tatay.
+May ada la po ako papaliton ha tindahan Nay, Tay! siring ni Ynah. "Upaya naman nga diri dolce tim paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.
+Dumiritso hiya daun ha tindahan. Pumalit hiya hin iba-iba nga klase hin dolce, waray hiya bumali han siring ni iya Nanay nga tinapay nala it paliton imbis nga dolce.
+"Maupay nala nga waray kumita hi Nanay nak mga ginpamalit sigurado gud nga pagbubusa-an niya ako!" siring ni Ynah ha iya kalugaringon. Nakakita an iya kuya han iya ginbuhat salit ginsidngan hiya "Upaya la nga la nga diri naman magsinakit it imo ngipon Ynah!" siring han iya kuya.
+Pagkagab-i maupay na an ira pangaturog.
+"Kakaunon ka namon, bisan ka diin magtago, mabibilngan ka la gihap namon rawrrrrrrrr". yakan han mga higante nga dolce. "Ayawwwww!" yakan ni Ynah nga sige it pagdinalagan.
+Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok. "Hin o dawla adi nga nagtitinuok?" siring han iya Nanay. Gumawas hiya han ira kwarto para bilngon kun diin tikang an tuok.
+"Naano ka Ynah? kay ano nagtitinuok ka man?" pakiana ha iya ni iya nanay. "Nay nag-inop ako nga ginlalanat ako hin higante nga mga dolce makaradlok!.....nay..... Nay, masakit nanaman tak ngipon huhuhu"....sumat ni Ynah "Waray udog ako tuod kinana nga tinapay nala it palita siring nimo, mga dolce na liwat nak ginkaon kanina. Tikang yana matuod na ako pirmi ha imo nga diri na magpinalit hin mga dolce." yakan pa ni Ynah.
+"Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.
+
+===== bloom-mga-kamot-ni-lotlot =====
+TITLE (Waray): Mga Kamot ni Lotlot
+
+Usa ka Sabado, nagsarit hi Lotlot kan iya Nanay Lila nga makikimulay hiya ha ira libong Nanay, human na ako manilhig. Pwede ba ako magmulay ha gawas?” pakiana ni Lotlot Oo sige, basta paghirot ikaw ha.”, yakan ni Nanay Lila “Opo, nanay.”, baton ni Lotlot.
+Marisyo hi Lotlot nga nagmulay ha gawas han ira balay Naghimo hiya hin iba iba nga porma gamit an lagay
+Gintawag na hi Lotlot ni iya nanay para mangaon. “Lotlot, pakadi na pag meryenda na. Sano ka kumaon, paghinaw anay hit imo kamot ha.”, tugon ni Nanay Lila. Tungod nga guol man hi Lotlot Nahubya hiya paghunaw ngan kumaon dayon hiya hin baduya nga saging
+Pagkagab-i nagsakit an tiyan ni Lotlot. “Nanay, masakit it akon tiyan.”, nagtutuok nga sumat ni Lotlot. “Naghunaw ka ba han imo kamot kanina pagkatapos mo magmulay ngan sano ka kumaon han baduya?”, pakiana ni Nanay Lila. “Waray po.”, baton ni Lotlot
+“Asya nga nagsakit an imo tiyan. Kinahanglan nga permi kita maghuhunaw sano ngan katapos kumaon, katapos magmulay ngan katapos gumamit han kasilyas para malimpyo permi an aton mga kamot. Kumapot ka han baduya nabalhin an kagaw han imo mahugaw nga kamot ngadto han imo pagkaon asya an hinungdan han pagsakit han imo tiyan, Lotlot.” siring ni Nanay Lila
+Kumadto hira ha kusina, gintutduan ni Nanay Lila hi Lotlot han eksakto nga paagi han paghunaw. Gin banyosan ni Nanay Lila an tiyan ni Lotlot “Damo nga salamat, Nanay. Tikang yana, pirmi na ako maghuhunaw hit akon mga kamot.” malipayon nga baton ni Lotlot
+
+===== bloom-an-misay-ni-tisay =====
+TITLE (Waray): An Misay ni Tisay
+
+An misay. Alaga ni Tisay.
+Busag an misay. Malimpyo an misay.
+Ginpapakaun ni Tisay, an iya misay.
+Pag nakaturog hi Tisay, nasapit an misay.
+Gamit ni Tisay, ginkutkot han yatot.
+Nakit-an han misay. Iya ini ginhagad.
+Naghulat an misay. Magbabantay kan Tisay.
+Ginhigugma ni Tisay, an iya misay.
+
+===== bloom-an-baluto =====
+TITLE (Waray): An Baluto
+
+Usa ka adlaw naglalakat hi Mano Boboy ngan Jose tipakadto ha tabi han dagat."Tatay unta damo it aton madakop nga isda yana para damo niyan an sulod han aton baluto". Unta, baton ni Mano Boboy kan Jose.
+Pag-abot nira ha tabi han dagat gin-andam na nira an ira baluto. Ngan nagtikang na pagbugsay hi Mano Boboy.
+"Tatay, kaupay man ngayan pagsinakay hin baluto hano", siring ni Jose. "Oo naman asay pa kun maupay an panahon", baton ni Mano Boboy.
+Pag-abot nira ha butnga han dagat. "Jose i-andam na an pukot kay itutunod ta na",siring ni Mano Boboy. "Opo, sigi tatay", baton ni Jose.
+Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose pag-alsaha an pukot. Nahipausa hira pagkita nga dadamo an sulod nga isda. "Hala tatay, kadadamo man han aton dakop yana! Damo an aton mahisasakay ha aton baluto". Yehey! Yakan nga malipayon ni Boboy.
+Malipayon ngan mahiyum-hiyom hi Mano Boboy ngan Jose samtang nagbubugsay hira han ira baluto tipauli ngadto han ira balay.
+
+===== bloom-waray-na-kakit-i =====
+TITLE (Waray): Waray na kakit-i
+
+Han una nga panahon,an aton kagugub an damo an mga kahayupan nga naukoy ngan damo liwat an mga kakahuyan. Napupuno hin kanta hin katamsihan an bug-os nga kagugub an. Maupay hin duro ini nga lugar. "kamalipayon ko nanay nga dinhi kita ha kagugub an naukoy" siring ni tamsi Pikoy kan iya nanay, nagtawa la hi iya nanay ha iya.
+An mga iba-iba nga tamsi nagsisibu-sibuay sanglit nagsaway hi iya nanay"bangin kamo madisgrasya hinay-hinay la kamo hit iyu pag-uyag pikoy"siring ni iya nanay, "opo nanay pikoy", baton han anak
+Usa ka adlaw lumakat hira nanay Pikoy kaupod an iya mga anak ug an iba pa nga tamsi para mamiling hin pagkaon. Lumupad hira, kumadto hira ha harayo nga lugar.
+Samtang waray hira nanay Pikoy ngan an iba pa nga tamsi umabot an tag iya han tuna ngan pinanmulod nira tanan nga mga kahoy,waray mag iha nawara na an tanan nga kakahuyan.
+Han umabot na hira Pikoy ngan an iba pa nga katamsihan waray na hira balay,waray na liwat an mga kakahuyan,diri na maupay an kagugub an."nanay Pikoy waray na kita uukyan"nahingatangis nga yakan ni tamsi Pikoy, "maghihimo nala kita hin bag o naton nga mauukyan" baton ni nanay Pikoy.
+Naghimo nala hira hin ira mga urukyan nga malay-balay kay waray naman an kagugub an, waray na an mga kahayupan nga nan-ngungukoy nganhi,ngan an damo nga kakakahuyan. Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.
+
+===== bloom-an-sista-ni-tatay =====
+TITLE (Waray): An Sista Ni Tatay
+
+May ada sista hi Tatay. Pinalit ini ni Nanay. "Maupay man ini nga sista", siring ni tatay. Bumaton hi nanay, "Oo, para may ada naton kaliawan".
+Makarit hi tatay magsista. Karuyag ko mamati samtang hiya nagsisista.
+Nagkakanta hi nanay kun nagsisista hi tatay. "Kamaupay ni nanay kumanta", yakan ni ate.
+Nagsasarayaw kami nga mga anak, samtang nagsisista hi tatay ngan nagkakanta hi nanay.
+Malipayon an amon pamilya tungod han sista. KATAPUSAN.
+
+===== bloom-an-panapuan-kan-elay =====
+TITLE (Waray): An Panapuan kan Elay
+
+Usa ka adlaw, nahimangno hi Elay han karasikas han iya Nanay Maya ha Kusina. "Buhat na dida Elay kay malakat ako" siring han iya Nanay.
+Katima magtima han iya hinigdaan, namahaw hi Elay dungan han iya nanay.
+"Ayaw pagpinasarang dinhi kay malakat ako" pahinumdom ni Nanay. "Oo nanay" baton ni Elay. "An akon panapuan ha?" mahiyum-hiyom nga yakan ni Elay. Naruruyag gud hiya nga an iya paborito an pirmi panapuan ha iya ni iya nanay.
+Katapos mo pamahaw panhugas han imo kinaunan ngan pag-alog hin tubig ha? tugon ni Nanay Maya. "Oo, nanay" baton ni Elay.
+Kahuman pamahaw ni Elay, gumawas hiya ngan nag-uyag kaupod an iya sangkay. "Niyan nala ako manhihimos ngan mag-aalog kahuman mag-uyag" pinsar ni Elay
+Naliaw hi Elay samtang nag-uuyag. Nahingalimot hiya han tugon ni iya Nanay.
+"Elay, Elay, adi na ako!" tawag ni Nanay Maya. "Halaka! ade na hi Nanay, waray pa ako maghimos ngan mag-alog" nababaraka nga pinsar ni Elay.
+Dali-dali nga umuli hi Elay ha ira balay. "Nanay, pasaylua ako. Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay. "Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag. Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot" yakan ni Nanay Maya.
+Malipayon nga nag-himos ngan nag-alog hi Elay. "Diri na ako mautro sunod" Pinsar ni Elay. "Susugton ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga pasalubong".
+Kahuman niya maghimos ngan mag-alog malipayon nga ginhatag ha iya ni Nanay Maya an iya paborito nga mani ngan pinyato nga tikang ha Buray. "Hmmmmm.. marasa gud it mani ngan pinyato nga tikang ha buray" siring ni Elay.
+"Salamat, Nanay. Sunod masugot anay ako hit imo tugon san-o ako mag-uyag" siring ni Elay.
+
+===== bloom-an-maduruto-nga-parapangisda =====
+TITLE (Waray): An Maduruto nga Parapangisda
+
+Ha usa nga bungto han Paranas hirani han dagat may naukoy usa nga pamilya. Ha usa nga simple nga balay malipayon nga nagkakaurusa hira Nanay Ondit, Tatay Omi ngan an ira mga anak.
+Pangisda an siyahan nga pangabuhi ni Tatay Omi. Tungod kay waray man hiya makatapos han pag iskoyla.
+Maadlaw man o mauran. Mamadlos ngan makusog man it balod nagikan la gihap pakadto ha dagat hi Tatay Omi para magbiling hin ira kakaunon ngan magkaada kwarta.
+Usa ka adlaw, malain an kaoras han panahon. "Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon", siring ni Nanay Ondit. "Kon diri ngani ako gumikan waray kita igsusura ngan kakaunon niyan. Waray liwat kita igpapalit gamit kanan pag iskoyla hit kabataan" , baton ni Tatay Omi .
+"Sigi, basta paghirot la pirmi ngan ayaw na pagkadto hit kalalawdan",tugon ni nanay Ondit. "Oo, ayaw kabaraka kay pirmi ko gin-aampo nga bantayan kita hit makagarahom nga Diyos", baton ni Tatay Omi.
+Nagtima hi Tatay Omi han iya mga gamit pangisda. Nangudos hiya san-o lumakat pakadto ha dagat.
+Kada adlaw amo pirmi ito it kan Tatay Omi ginbubuhat. Kun diri ngani hiya nakakagikan ngadto ha dagat, nabulig hiya ha mga trabahuon ha balay ngan naghuhukot han pukot.
+Umabot an damo nga kakurian ngan kawaray kwarta. Pero padayon la gihap hiya han pangisda kay natuod hiya nga makakatalwas hira hit mga kakurian.
+Naglabay an mga panahon naging maupay an kabutang han pamilya ni Tatay Omi. Nakatapos pag-iskoyla an iya mga anak ngan may ada na mga trabaho pinaagi han iya paningkamot han pangisda.
+"Tatay, undang na hito nga pagdagat. Kami naman it magtitimangno ha iyo kay may ada naman kami trabaho", pulong ni Andy kan iya tatay. "Sigi la, anak. Samtang kaya pa tak lawas mangingisda la gihap ako kay diri man pirmi it panahon nga may ada kita", baton ni Tatay Omi ha iya anak.
+"Damo nga salamat tatay han imo waray kaguol nga pagtimangno ha amon, dugang nga pulong ni Andy kan iya tatay. "Waray sapayan, anak. Obligasyon ito namon nga mga kag-anak. An makagarahom nga Diyos an angay naton pasalamatan ha tanan nga grasya nga iya ginhahatag ha aton," baton ni Tatay Omi.
+Masisiring nga usa nga mahigugmaon nga tatay ngan maduruto nga parapangisda hi Tatay Omi. Apisar han mga kakurian padayon nga naato ha mga problima nga naulpot ha kinabuhi.
+
+===== bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad =====
+TITLE (Waray): Ang Kusog han Gugma ha Murayaw nga Edad
+
+Ha usa nga hilumon ngan mahayag nga baryo ha probinsya han Samar, nakatira hi Marites usa nga disi-sais anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.
+Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante. Pirme hiya nag-aambit ha klase, ngan ginpapabilhan han iya mga maestro an iya kakugi. “Diri gud ako matitimbang,” siring niya ha iya kalugaringon, “kay para ini ha akon pamilya ngan ha akon tidaraon.” An iya pinakadako nga damgo amo an magin maestra.
+Pero ha luyo han iya kalipay, mayda maabot nga pagsulay. Nakilala niya hi Carlo usa nga lalaki nga mas tigulang ha iya. Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon. Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.
+Paglabay hin pipira ka semana, napansin niya nga nag-iiba an iya lawas. Nakuratan hiya burod hiya. An iya kalibutan sugad hin nabungkag. Damo nga gab-i an iya ginugol ha pag-ukoy ngan pagtinaluha.
+Tubtob nga usa ka gab-i, nagsumat hiya ha iya nanay. “Nanay… burod ako.” Nag-iyakan hira duha. Nasakitan an iya nanay, diri la tungod han nahitabo, kundi tungod han kahadlok para ha tidaraon han iya anak. Tungod han kaulaw, gin-undang anay ni Marites an iya pag-eskwela.
+Pero ha kada adlaw nga naglabay, ginbabatian niya an lihok han bata ha iya tiyan. “An akon anak… diri ko hiya pababayaan,” siring niya. Han adlaw han iya pagpanganak, gin-agian niya an duro nga kasakit. Pero han iya nakita an iya anak, usa nga matahum nga batang lalaki. Pinangaranan niya ini nga hi Joshua.
+“Marites,” siring han iya nanay, “diri pa huli an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay ginbibitbit niya hi Joshua kon waray magbantay. Ha gab-i, nag-aaral hiya bisan kapoy na gud.
+Naglabay an mga tuig, ngan padayon hiya nga naningkamot. Tubtob nga nakaabot hiya ha iya graduation. Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga palakpak. Waray hiya kapugong han iya luha. “Natuman ko gud,” siring niya ha iya kalugaringon.
+Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo. Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya. Usa ka adlaw, nagpakiana an usa niya nga estudyante, “Ma’am, paonan-o kamo nagin kusog?” Nagngiti hi Marites ngan siniring, “An kusog diri tikang ha edad. Tikang ini ha gugma ngan determinasyon.”
+Ha gab-i, samtang nagkakaon hira ni Joshua, ginyakap hiya han bata. “Nanay, proud ako ha imo.” Naluha hi Marites ngan ginyakap ini hin mahugot. “Mas proud ako ha imo, anak. Ikaw an akon kusog.”
+
+===== bfc-when-god-made-everything =====
+TITLE (Waray): When God Made Everything
+
+Sino an nagtuha sa ato?
+An Biblia, pulong han Ginoo, nagsusumat san tinikangan san katawhan.
+Sadto pa, an Ginoo gin tuha an pinaka-una nga lalaki ug iya gin ngaranan nga Adan.
+Gin tuha san Ginoo si Adan tikang han tapotapo sa tuna.
+Han paghatag kinabuhi han Ginoo kan Adan, nabuhi siya.
+Nakita niya an iya kalugaringo sulod sin maupay nga harden nga gintatawag Eden.
+Antis pa pagtuhaa han Ginoo si Adan, naghimo siya hin kalibutan nga puno sin mag upay nga mga butang.
+Hinay-hinay an Ginoo nagbuhat hin bungtod ug patag nga mga lugar, maghamot nga mga bukad ug higtaas nga mga puno, mga tamsi nga maglamrag an barahibo ngan maaringasa nga mga bubuyog, … … nagpupuropulilid nga ma balyena ngan magdalunot nga mga suso.
+Sa kamatooran, gin buhat san Ginoo an ngatanan – ngatanan.
+Tikang pa gud san tinikangan, antis pa buhaton san Ginoo an ngatanan, wara gud bisan nano kundi an Ginoo.
+Wara mga tawo o mga lugar o mga butang.
+Wara lamrag ngan kasisidman.
+Wara bawbaw ngan ilarom.
+Wara kahapon ngan buwas.
+An mayaon la an Ginoo nga wara tinikangan.
+Ngan ginios an Ginoo!
+Sa tinikangan, an Ginoo nagtuha san langit ug san tuna.
+Ug an tuna wara pa kaporma ug wara pa sulod.
+Ug putos sin kasisidman an kalala- wdan.
+Ngan nagsiring an Ginoo.
+“Mag ka mayaon kapawa.” Ngan nagkamayaon kapawa.
+Gin ngaranan san Ginoo an kapawa hin Adlaw ngan an kasisidman gin ngaranan hin Gab-i.
+Ug an gab-i ug aga an una nga adlaw.
+Sa ika duha ka adlaw, an Ginoo nag dara tubig sa kalawdan, kadagatan ug kadanawan ubos san Langit.
+Sa ika tulo ka adlaw, an Ginoo nagsiring, “Magpakita an kamad-an.” Ngan na tuman ini.
+Gin sugo liwat san Ginoo nga magpakita an kabanwaan, mga bukad ug mga kakahoyan.
+Ngan nagpakita ini sira.
+Naglabay an kagabihon ug inabot an aga mao adto an ika tulo ka adlaw.
+Ngan ginbuhat san Ginoo an sudang, ug an bulan, ug an gi damu-i nga mga bituon nga diri maihap bisan nino.
+Naglabay an kagabihon ug inabot an aga mao adto an ika upat ka adlaw.
+Gin tuha san Ginoo an sunod sa iya lista mao an mananap sa kadagatan ug mga isda ug mga tamsi.
+Sa ika lima ka adlaw iya gin himo an dagku nga mga malasugi ug digto nga mga sardinas, an hagtaas nga bitiis san … …abestros ug an malipayon nga huni sa digto nga katamsihan.
+Gin himo san Ginoo an ngatanan nga klase san mga isda aron mag puno san kadagatan san kalibutan ug ngatanan … … nga klase san tamsi para maglipay panhimulos san tuna, dagat ug kalangitan.
+Naglabay an kagabihon ug inabot an aga mao adto an ika lima ka adlaw.
+Kahuman sini, nagyakan balik an Ginoo.
+Nagsiring siya, “Magkamayada buhi nga kamananampan an tuna …” Ngatanan nga magkaduro-dilain nga insekto ug reptilya na buhi.
+Nagkamayada nagbabay-og nga elepante ngan nababarikaso nga kastor.
+Mayaangyaang nga mga unggoy ngan mga kimas nga buwaya.
+Malubaylubay nga bulati ngan mga pilyo nga chipmunks.
+Mantiw nga mga girape ngan nagdidinaguob nga misay.
+Ngatanan nga mga hayop gin tuha san Ginoo siton nga adlaw.
+Naglabay an kagabihon ug inabot an aga mao adto an ika unom ka adlaw.
+Sa ika unom ka adlaw may gin himo nga kakaiba na Ginoo - espisyal.
+An ngatanan yana andam na para sa Tawo.
+Mayaon na pagkaon an kahumayan ug mga hayop para sa iya.
+Nagsiring an Ginoo, “Maghihimo kit sin tawo ha akon panagway.
+Siya an maghahadi sa bugos nga tuna.” SALIT AN GINOO NAGBUHAT SIN TAWO SA IYA PANAGWAY; SA PANAGWAY SAN GINOO NAHIMO AN TAWO ...
+Nag sugad an Ginoo kan Adan.
+“Kauna an ngatanan nga imo karuyag sa harden.
+Ayaw la an puno nga may kaalam san maupay ug maraot.
+Pag kumaon ka tikang sito iton nga puno ikaw mamamatay.” Ug nagsiring an Ginoo, “Diri maupay nga magsayuan la an tawo.
+Maghihimo kaupod niya.” Gin dara san Ginoo an ngatanan nga mga katamsihan ug hayop kan Adan.
+Gin ngaranan ni Adan ini nga tanan.
+Maalam ini siya para mabuhat ini niya.
+Pero san ngatanan sini wara gihapon inangay nga kapareho niya.
+Gin pakaturog san Ginoo si Adan sin gihilarumi.
+Ginkuhaan sayo ka gusok an nakaturog nga lalake, an Ginoo nagtuha sin babaye tikang san gusok ni Adan.
+An babaye nga gin tuha san Ginoo an angay nga kapareho para kan Adan.
+Gin tuha san Ginoo an ngatana sulod san unom ka adlaw.
+Ug gin bendisyonan san Ginoo an ika pito ka adlaw ug gin himo ini nga adlaw san pagpahuway.
+Sa harden sa Eden, si Adan ug Eva nga iya asawa bugos an kalipay pagtuman san karuyag san Ginoo.
+An Ginoo an ira Diyos, an ira tagahatag ug ira sangkay.
+Han Pagtuha han Ginoo han Ngatanan An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Genesis 1-2 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-the-start-of-mans-sadness =====
+TITLE (Waray): The Start of Mans Sadness
+
+GINTUHA SAN GINOO AN NGATANAN!
+San pagtuha-a san Ginoo an una nga tawo, si Adan, nag estar siya sa harden sa Eden upod an iya asawa, si Eva.
+Malipayon sira nga nagtutuman san karuyag san Ginoo ug malipayon sira dida san presinsya san Ginoo tubtob sayo ka adlaw ...
+“Nag siring ba an Ginoo sa imo nga diri mag kano sa kada tagsa nga kahoy?” an pangutana san halas kan Eva.
+“Pwede kami kumaon san ngatanan nga prutas maliban la sin sayo,” an iya baton.
+“Pag kumaon kami o magkapot kami siton nga prutas, mapatay kami.” “Diri kam mapatay,” bagaw san halas nga nangisi.
+“Magigin kapareho niyo an Ginoo.” Karuyag ni Eva an frutas siton nga puno.
+Nag pamati siya san halas ngan iya gin kaon an prutas.
+Pagkahuman ni Eva talapason an Ginoo iya gin mandoan si Adan nga kaunon liwat an prutas.
+Nag sugad kunta si Adan, “Diri!
+Diri naku tatalapason an pulong san Ginoo.” Pagpakasala ni Adan ug Eva, nahinbaro sira nga mga hubo sira.
+Nagtahi epron tikang sa mga dahon, … … ira gin tahoban an ira mga lawas ngan nag tago sira sa mga tanaman ngan san presinsya san Ginoo.
+Sa katugnawon san kagabihon inabot an Ginoo sa harden.
+Sayod siya san gin buhat ni Adan ug Eva.
+Gin basol ni Adan si Eva.
+Si Eva naman gin basol an halas.
+Nag siring an Ginoo, “Gin gabaan an halas.
+Ngan ikaw babaye mag-aabat sin kakurian sa imo pag burod ug panganak.” “Adan, tungod kay ikaw nakasala, higagabaan an tuna hin katunokan ngan mga niyotiyo.
+Magtatrabago ug paghuhulasan ka aron maka kuha san iyo adlaw adlaw nga pagkaon.” Gin pagikan san Ginoo si Adan ug Eva san mabaysay nga harden.
+Tungod san ira pag pakasala, nahibulag sira san kinabuhi nga hatag san Ginoo!
+An Ginoo naghimo sin naglalarab nga espada para humarayo sira.
+Naghimo an Ginoo sin bado tikang sa panit para kan Adan ngan Eva.
+Diin kuhaa san Ginoo ini nga panit?
+Paglabay san panahon, nagkamayada pamilya si Adan ug Eva.
+An una nira nga anak nga lalaki, si Cain, paraguma.
+An ika duha nga anak nga lalaki, si Abel, magbarantay karnero.
+Sayo ka adlaw gindad-an ni Cain sin regalo nga mga utanon an Ginoo.
+Si Abel nagdara liwat pipira ka mag upay nga iya mga karnero para regalo sa Ginoo.
+An Ginoo na upayan san regalo ni Abel.
+An Ginoo wara kalipay san regalo ni Cain.
+Nalangot nga ungod si Cain.
+An Ginoo nagsiring, “Kon imo gin buhat an tama, diri mo kakarawaton?” An kalangot ni Cain wara kawara.
+Waray pag-iha, sa kauumhan iya gin dasmagan si Abel – ug iya gin patay!
+Nagsugad an Ginoo kan Cain.
+“Hain an imo bugto, si Abel?” “Diri ak batid,” an buwa ni Cain.
+“Ako ba an paragbantay sa ako bugto?” Gin sirotan san Ginoo si Cain diri na siya makaka- uma ug maglinayawlayaw siya.
+Hinirayo si Cain sa presinsya san Ginoo.
+Gin kasal si Cain sa anak nga babayi ni Adan ug Eva.
+Nagkamayaon sira pamilya.
+Sa wara pagiha, an kan Cain mga apo ug apo sa tuhod nagpuno san syudad nga iya naagian.
+Hiton liwat, an pamilya ni Adan ug Eva dagmit nagdamo.
+Sadto nga mga panahon, mas hilaba an kinabuhi san Tawo.
+San gin anak si Set, nagsiring si Eva, “Gin hatag san Ginoo si Seth sa ako para saliwan kan Abel.” Si Set diosnon nga tawo ug na buhi siya sin 912 katuig ug nag mayaon damo nga anak.
+Sa kalibutan, an mga tawo nagin uraura kamagraot sa paglabay san mga henerasyon.
+Sa kataposan, an Ginoo nagdesisyon nga pagpuohon an katawhan ngan ...
+ngatanan nga kamananampan hayop ug tamsi.
+Nagbasol an Ginoo nga iya gin tuha an tawo.
+Kundi mayaon sayo ka tawo nga nalipayan san Ginoo ...
+Ini nga tawo kay si Noe.
+Tulin ni Set, si Noe matadong ngan waray ikasaway.
+Hiya naglalakat upod an Ginoo.
+Iya liwat gin tutdoan an iya tulo nga anak nga lalaki san pagsunod sa Ginoo.
+Nagplano an Ginoo nga gamiton si Noe hin makatitingala ug espisyal nga paagi!
+An Sinugdanan san Kasubo san Tawo An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Genesis 3-6 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-noah-and-the-great-flood =====
+TITLE (Waray): Noah and the Great Flood
+
+Si Noe an tawo nga nagsisingba san Ginoo.
+Samtang ang ngatanan nasisina ngan diri gin susunod an Ginoo.
+Sayo ka adlaw, may gin siring nga makalilisang an Ginoo.
+“Ako gugubaon in nga maraot nga kalibotan,” an siring san Ginoo kan Noe.
+“An imo la pamilya an maluluwas.” Ginpahamangnoan san Ginoo si Noe nga magkakamayaon daku nga pagbaha ug mapuputos an tuna sini.
+“Paghimo sin arka nga kahoy, daku nga ungod nga makasya an imo pamilya ug an mga hayop,” an sugo kan Noe.
+Gin tagan si Noe san Ginoo hin sakto nga instruksyon.
+Nagin sagipo si Noe!
+Gin tatamay han mga tawo si Noe samtang iya gin sasaysay kon nano nga naghihimo siya arka.
+Padayon la gihapon san paghimo si Noe.
+Ug Padayon liwat siya pagsinumat han mga tawo hiunong han sugad han Ginoo.
+Waray bisan sino an namati sa iya.
+Daku an pagtoo ni Noe.
+Naayon siya han Ginoo bisan man wara pa pag uran tikang sa una.
+Wara pag iha andam na an arka butangan mga suplay.
+Yana inabot na an mga mananap.
+Gin padara han Ginoo an pito ka padis han tagsa tagsa nga mananap.
+Mga tamsi nga dagku ug digto, mga hayop nga gugtiay ug hagtaas nagpakadto sa arka.
+An mga tawo nag guguliat sin mga insulto han gin kakarga nira Noe an mga mananap.
+Wara tuko an ira pagpakasala san Ginoo.
+Wara sira paghangyo nga sumulod san arka.
+Ha kataposan, an ngatanan nga mga hayop ug tamsi nakasulod na.
+“Pakadi sulod sa arka,” dapit san Ginoo kan Noe.
+“Ikaw ug an imo pamilya.” Si Noe, iya asawa, iya tulo ka mga anak nga lalaki ug an ira mga asawa sinulod sa arka.
+Ngan gin sirado an purtahan san Ginoo!
+Inabot an uran.
+Nalunop an tuna san makusog nga paginuran sulod sin kwarenta ka adlaw ug gab-i.
+An baha naghuwad san mga bungto ug baryo.
+Han pagtuko han uran, bisan an mga kabukiran umilarom san tubig.
+An ngatanan nga buhi sa tuna nagkamatay.
+Han paghitaas san tubig, mao man paglutaw han arka.
+Bisan man iton masirom sa sulod, mahulos ug makaharadok.
+Kondi an arka nagpanalipod kanda Noe san baha.
+Kahuman san lima ka bulan nga paginuran, ginhuyop san Ginoo an sayo ka uga nga hangin.
+Hinayhinay, an arka nahisangya didto sa hataas nga bukid sa kabukiran sa Ararat.
+Si Noe nagpabilin sa sulod sa akra sulod sin kwarenta ka adlaw ngadto san paghubas san tubig.
+Si Noe nagpaguwas sin uwak ngan sarapati sa abri nga bintana sa arka.
+Tungod kay wara pakakita hin uga ngan limpyo nga lugar pagpahuway, binalik an sarapati ngadto kan Noah.
+Umagi an sayo ka simana, nagsari balik si Noe.
+An sarapati binalik nga may dahon hin olibo an iya tusak.
+Sunod kasimana, batid si Noe nga mamara na an tuna kay wara na balik an sarapati.
+Nag siring an Ginoo kan Noe nga oras na para bayaan an arka.
+Magkaurupod, si Noe ug an iya pamilya gin haw-as nira an mga mananap.
+Uraura nga pagpasalamat an gin bati ni Noe!
+Naghimo siya hin altar ngan iya ginsingba an Ginoo nga nagsalbar sa iya ug sa iya pamilya han makaharadok nga baha.
+An Ginoo naghatag kan Noe sin maopay nga saad.
+Diri na siya magpapadara hin baha para maghukom han mga sala han tawo.
+May ada hatag nga maopay nga pahinumdom an Ginoo san iya saad.
+An balangaw an sinyalis han saad han Ginoo.
+Si Noe ug an iya pamilya nakakita hin bago nga sinugdanan kahuman han baha.
+Inabot an panahon, an iya mga katulinan nagluob san kalibutan.
+Ngatanan nga nasud sa kalibutan nagtikang kan Noe ug sa iya kabataan.
+Si Noe ug an Daku nga Baha An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Genesis 6-10 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-the-birth-of-jesus =====
+TITLE (Waray): The Birth of Jesus
+
+Sadto pa, gin padara san Ginoo an anghel Gabriel ngadto hin Judio nga daraga an ngaran si Maria.
+Nag siring an anghel kan Maria, “Ikaw magbuburod hin lalaki nga pagngangaranan mo nga Hesus.
+Siya pagtatawagon anak san gihahataasi nga Dyos.
+Ug siya maghahadi sa kahangturan.” “Paano ini mahitatabo?” nahipausa nga pangutana san babaye.
+“Wara pa ak pakiguban sin bisan sino nga lalaki.” An anghel nag sugad kan Maria nga an bata tikang san Ginoo.
+An amahan diri matikang sin tawo.
+Nagsiring liwat an anghel kan Maria nga an iya patod si Elizabeth magkakaanak liwat bisan pa man arog na siya.
+Milagro lat ini.
+Waray pag-iha, binisita si Maria kan Elizabeth.
+Ira gindayaw an Ginoo.
+Si Maria igkakasal sin lalaki nga nagngangaran Jose.
+Si Jose masurobon san iya pagkahibaro nga burod si Maria.
+An iya kahuna nga iba nga lalaki an nakaburod.
+Sa inop, an anghel san Ginoo nag sugad kan Jose nga an bata anak san Ginoo.
+Si Jose magbubulig kan Maria pagmangno kan Hesus.
+Si Jose nagsarig ug nagsunod san Ginoo.
+Ug iya liwat gin sunod an balaod san ira nasod.
+Tungod san bago nga balaod, binaya sira sa bungto san Nazaret ug nagpakadto hi Jose ug Maria han bungto han Betlehem pagpalista han sensos.
+Kapanganakan na ni Maria.
+Kondi si Jose wara pakakaagi sin balay bisan diin.
+Puno na an ngatanan nga mga paupahan.
+Ngan nakakita gihapon hi Jose hin kwadra.
+Didto, igin anak an bata nga Hesus.
+An iya iroy iginbutang siya sa pasungan, lugar kon diin an pagkaon san hayop igin bubutang.
+Sa hirani nga dapit, may mga magmarangno hin mga karnero nga nagbabantay han ira mga nangangaturog nga panon.
+Nagpakita ha ira an anghel sa Ginoo ug nagsumat san maupay nga balita.
+“Didto sa bungto ni David natawo an iyo magtaralwas nga mao an Kristo nga Ginoo.
+Hiaagian niyo an bata nga hinulid sa pasungan.” Tigda may nangabot nga damo nga anghel, nagkakanta hin mga pagdayaw sa Ginoo, … “Himaya sa Dyos sa kahitasan ug kalinaw dinhi sa tuna, ug sa mga tawo nga maupay an kaburot-on.” An mga magmarangno han karnero nag dagmit pagpakadto sa pasungan.
+Kahuman nira makita an bata nga Hesus, ira gin sumatan an ngatanan nga ira nakatapo hiunong han iginsiring han anghel mahitungod kan Hesus.
+Naglabay an kwarenta ka adlaw, gindara ni Jose ug Maria si Hesus didto sa templo han Herusalem.
+Dito may-ada lalaki nga nagngangaran Simeon ngan iya gindadayaw an Ginoo tungod san bata nga Hesus, … … samtang an arog nga si Anna, sayo liwat nga suruguon san Dyos, nagpasalamat sa Dyos.
+Maaram hira nga si Hesus anak san Ginoo, an igin saad nga magtaralwas.
+Naghalad si Jose ug duha ka sarapati.
+Amo ini an balaod han Ginoo an paghalad han natawo pala nga bata ngadto sa Dyos.
+Waray pag-iha, nagpakita an masuna nga bituon ha mga magalam nga kalalakin-an ha sinirangan nga bungto san Herusalem.
+“Hain ba an natawo nga bata nga hadi han mga Judiyo?” ira pangutana.
+“Amo siya pagsisingbahon.” Nakabati hi Hari Herodes han tulo ka lalaki nga maalam.
+Nabaraka siya ug nagsugad sa ira nga sumatan hiya kon makita na nira hi Hesus.
+“Karuyag ko liwat siya pagsingbahon.” an siring ni Herodes.
+Kondi buwa la ini niya.
+Karuyag ni Herodes nga patayon si Hesus.
+An bitoon nagtutdo ha ira han sakto nga balay kon diin naestar si Maria ug Jose upod an ira bata.
+Nagkaluhod sira ug nagsingba, gin tagan nira hi Hesus hin mga marangya nga regalo sama san bulawan ug mga pahamot.
+Ginpahimangno an tulo kamaalam nga lalaki san Ginoo nga umuli patago ngan din a bumalik kan Herodes.
+Napungot si Herodes.
+Determinado nga wakayon si Hesus, an maraot nga Hadi gin papatay niya an ngatana nga mga bata nga lalaki sa Betlehem.
+Kondi diri mabubuhatan hin naraot ni Herodes an anak sa Dyos!
+Ginpahimangno pinaagi sa inop, pinmaligiw hira Jose, Maria ug Hesus sa Ehipto.
+Han pagkamatay ni Herodes, gin dara balik ni Jose si Maira ug Hesus gikan sa Ehipto.
+Nagukoy hira ha dito nga bungto han Nazaret, hirani ha dagat han Galilee.
+An pagana kan Hesus An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Mateo 1-2, Lucas 1-2 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-the-miracles-of-jesus =====
+TITLE (Waray): The Miracles of Jesus
+
+Damo an mga ginhimo nga milagro ni Hesus.
+An mga milagro amo an sinyalis nga si Jesus gud an anak san Ginoo.
+An una nga milagro nahitabo didto ha panagtawo han kasal.
+May bumangon nga problema.
+An bino diri kahusto para san ngatanan.
+Hi Maria, an inahan ni Hesus, iya gin sidngan si Hesus han problema, ug iya gin sugad an mga surugoon nga buhaton an bisan ano nga kan Hesus ig sugo.
+“Pun-a sin tubig ito ini nga mga tibod,” siring ni Hesus.
+“Tubig?” an pangutana san mga surugoon.
+Oo, tubig an ginhanyo ni Hesus.
+Gin siring ni Hesus an sayo ka surugoon tadyaw sayo nga daku nga daba ngan ipatadi ngadto san tinaporan han panagtawo han kasal.
+An tubig sadto amo na an bino yana!
+Maopay nga bino!
+Pinakamaopay nga alaksiw!
+Nahipausa an mga surugoon.
+Ginhimo ni Hesus nga bino an tubig.
+An Ginoo la an makakahimo sin sugad siton nga mga milagro.
+Si Hesus nagbuhat pa hin iba nga mga milagro.
+Sayo kagab-I, siya ug an iya mga disipulo nagpakadto han balay ni Peter.
+An ugangan nga babaye ni Peter ungod nga ginhihirangtan.
+Ginkaputan ni Hesus an kamot san masakiton nga babaye.
+Ha usa la ka dali maopay na hiya.
+Binohat hiya para mag-alagad kan Hesus ug han iya mga disipulo.
+Baga an bugos nga tawo san syudad nag tirimpon han purtahan hiton nga gab-i.
+An mga masakiton nagparakadto– buta, bugnol, ngula, baldado.
+Bisan pa man an mga tawo nga ginuukyan san yawa nagpalibot kan Hesus.
+Mabuligan ba niya ini kadamo?
+Si Hesus, an anak san Ginoo, makakabulig.
+Ug si Hesus binulig.
+An ngatanan nga pinakadto sa iya nahuwas.
+An mga tawo nga nagsasaklay sungkod bug-os nga ira kinabuhi kay nakakalakaw, dalagan ug lukso na.
+Nagkaabot an iba, amo nahimo magpurot tungod san leprosi.
+Sira nahimo buo ug maglimpyo kay ginhuwas sira ni Hesus.
+An mga lalaki ug babaye nga ginsisinamok han mga yawa nagtindog sa atubangan ni Hesus.
+Ginsugo ni Hesus an mga yawa nga bayaan sira.
+Ug sa pagtuod san yawa, an mahahadlukon, masurub-on nga mga tawo nagin kalmado ug malilipayon.
+Luyo han kadam-an, may ada upat ka mga lalaki nga naniningkamot nga buligan an ira sangkay ngadto kan Hesus.
+Pero diri sira maka duok ngadto sa iya.
+Ano an ira bubuhaton?
+Ira gin alsa na masakiton ngadto san bubong san balay, ...
+an upat nga matinumanon nga magsarangkay gin baklas an bubong san balay ug ira iginturos tipailarom an ira sangkay.
+Si Hesus nakakita nga an upat nga magsarangkay kay mayaon pagtoo.
+Nagsiring siya sa masakiton nga lalaki, “Napasaylo na an imo mga sala.
+Alsaha an imo higdaan ug paglakaw.” An lalaki binuhat, maupay ug makusog.
+Gin huwas siya ni Hesus.
+Waray pag-iha, si Hesus ug an iya mga disipulo nakasakay na sa baluto.
+Mayaon makaharadok nga bagyo an hinuyop sa dagat.
+Nakaturog si Hesus.
+“Ginoo, luwasa kami,” singgit nira.
+“Mahahanaw kami!” “Ukoy,” sugo ni Hesus san balud.
+Deretso, an dagat nagkalma.
+“Ano nga klase sin tawo ini?” Huring san iya mga disipulo.
+Bisan an hangin ug dagat nagtuod sa iya.
+Ug sira nag ayon nga si Jesus anak san Ginoo kay tungod san iya mga milagro nga nagpakita san iya himaya.
+Diri batid an mga disipulo, pero makakakita sira kan Hesus nga magbuhat sin ungod pa nga mga milargo sa katawhan sa iya pagalagad san Ginoo.
+An mga Milagro ni Hesus An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Mateo 8-9, Marcos 1-2, Marcos 4, Lukas 4, Lukas 8, Juan 2 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-the-first-easter =====
+TITLE (Waray): The First Easter
+
+An babaye nagtugbos han bungtod, an iya masurubon nga mata nagkikita sin makaharadlok nga taran-awon.
+An iya anak mamamatay na.
+An ini nga iroy kay si Maria, ug nagtugbos siya hirani san lugar kon diin gin raysang sa kros si Hesus.
+Nahano nga nahitabo ini ngatanan?
+Kay ano nga mabaysay nga kinabuhi ni Hesus matatapos lamang hin makaharadok nga kataposan?
+Kay ano nga gintugotan ini han Ginoo nga an iya anak ma raysang sa kros ug mamatay?
+May ada ba sayop nga nabuhat si Hesus?
+Napakyas ba an Ginoo?
+Wara ka pakyas an Ginoo.
+Si Hesus wara pagbuhat hin sayop.
+Maaram daan si Hesus nga papatayon hiya han mga magraot nga tawo.
+Pipira ka adlaw antis mamatay si Hesus, may ada babaye nga nagabot ug nag bubo haplas ha tiil han Ginoo.
+“Nagkakarag la hiya han iya kwarta,” an siring han mga disipulo.
+“Gin himo iton niya para sa ako lubong.” Makaurosa nga pulong!
+Kahuman sini, hi Judas, sayo sa mga disipulo ni Kristo, ginlingo hi Hesus ngadto han labaw nga Padi balyo hin 30 ka bugos nga plata.
+Didto han fiesta han Judio nga Pakua, hi Hesus nagpanihapon ha ultimo nga higayon kaupod an iya mga disipulo.
+Ginsumatan niya hira han magupay nga pulong ug saad han Ginoo han mga tawo nga aghihigugma ha iya.
+Ngan si Hesus naghatag tinapay ug baso nga ira pagbarahinan.
+Ini nahitabo pagpahinumdom nga an lawas ug dugo ni Kristo gin hatag para han kapasayluan han mga sala.
+Ug nagsiring hi Hesus han iya mga disipulo nga may maglilingo ha iya, ug maglilirong hira.
+“Diri ako maglilirong,” sugad ni Pedro.
+“Diri pa matugaok an manok, iglilirong mo na ako hin makatulo,” siring ni Hesus.
+Siton nga gab-i, Si Hesus nagpakadto han Hardin han Getsemani para magampo.
+An mga disipulo nga umupod ha iya nanhin ngaturog.
+“Amanhan ko,” pagampo ni Hesus, “...
+Inabot na an takna.
+Diri ini ako pagbuot, kondi natuman na an imo pagbuot.” Mayaon nagkaabot nga oripon sa hardin, gin papangulohan ini Judas.
+Si Hesus wara umato ha ira, kondi si Pedro gin tigbas an talinga han usa ka lalaki.
+Hinayhinay nga gin kaputan ni Hesus an talinga han lalaki ug iya ini gin luwas.
+Maaram na daan si Hesus nga api ini han mga pagbuot han Ginoo.
+An mga olipon gin dara hi Hesus ha balay han labaw nga padi.
+Didto, an pangulo han mga Judiyo nag sugad nga dapat mamatay si Hesus.
+Sa dapit, nakadto si Pedro natugbos tupad han tapong han surugoon ug nagkukulaw.
+Tulo ka higayon nga nagpakiaana an tawo kan Pedro, “Tinun-an ka ni Kristo!” Tulo liwat ka higayon nga iginlirong ini ni Pedro.
+Gin panumpa pa ngani ini ni Pedro.
+Tuman man nga tinmugaok an manok.
+Mala adto boses han Ginoo para kan Pedro.
+Nahinumdon si Pedro han gin sugad ni Hesus ug nagtangis si Pedro.
+Si Judas nakonsensya liwat.
+Maaram hiya nga wara gin buhat nga sala ug kremin si Hesus.
+Gin uli ni Judas an 30 ka bugos nga plata nga salapi kondi wara na ini karawata balik han padi.
+Gin pilak ni Judas ini nga mga salapi ug ginuwas hiya ug naghikog hiya.
+Gin dara han mga padi hi Hesus ngadto kan Pilato, an Gobernador nga Romano.
+Nag siring si Pilato, “Wara ko makita nga sala hini nga tawo.” Kondi an mga katawohan nag sangpit, “Igraysang hiya!
+Igraysang hiya!” Salit gin sunod ni Pilato an katawohan, ginsirotan niya hi Hesus nga mamatay ha kros.
+Gin suntok hiya han mga sundalo, gin tuprahan ha kahimo, ug gin latigo hiya.
+Gin himuan nira hi Hesus hin korona nga tikang han higlaba nga tunok ug gin duot nira sa iya ulo.
+Ngan ira hiya gin rasyang sa kahoy nga kros para mamatay.
+Maaram na daan si Hesus nga mapatay hiya sin sugad sit nga paagi.
+Batid liwat hiya nga an iya pagkamatay magdadara kapasayloan han mga makasasala nga nasarig ha iya.
+Duha liwat ka kreminal an gin raysang magkasiligid niya.
+An sayo natoo kan Hesus- ug nahingadto hiya sa Paraiso.
+An sayo man waray.
+Kapin oras nga paginangtos, nagsiring si Jesus, “Natuman na,” ug namatay.
+Natapos na an iya trabaho.
+Ginlubong hiya han iya mga tinunan hin pribado nga lubnganan.
+Ngan an mga Romano nga sundalo gin bantayan an lubnganan.
+Wara makasulod – ug guwas ngadto.
+Kon mao ini an kataposan han istorya, kamakasurobo.
+Kondi may ginhimo nga kaupay an Ginoo.
+Si Hesus wara pagpabilin nga patay!
+Timprano pa sa han aga han Domingo, an iba nga disipulo ni Hesus nakita nira nga liso na an bato han lubnganan.
+Paghiling nira han sulod, si Hesus wara na didto.
+Usa ka babayi an nagtitinangis ha gawas han lubnganan.
+Nagpakita hi Hesus ha iya.
+Ngan dagmit hiya nga bumalik aron sumatan an mga disipulo.
+“BUHI SI HESUS!
+SI HESUS NABANHAW!” Ngan si Hesus inmabot han mga disipulo, iya ginpakita An iya kamot nga ginraysang.
+Totoo man gud.
+SI HESUS NABUHI BALIK!
+Iya ginpasaylo hi Pedro nga ginlirong hiya, ug iya hira gin sugad nga sumatan an ngatanan han nahitabo ha iya.
+An Una nga Pagkabanhaw An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Mateo 26-28, Lucas 22-24, Juan 13-21 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
+
+===== bfc-heaven-gods-beautiful-home =====
+TITLE (Waray): Heaven Gods Beautiful Home
+
+Han pagbaya ni Hesus han kalibutan iya gin sumatan an iya mga tinunan han Langit.
+Iya ini gintatawag nga “Balay san ako Amahan”, ug nag siring hiya nga damu an mga mansion didto.
+Mansyon nga daku, mabaysay nga balay.
+An langit labaw nga daku ug mabaysay han balay ha kalibutan.
+Siniring si Hesus, “Mabaya ako para magandam hin lugar para ha iyo.
+Ug kon pumakadto para magandam hin lugar para ha iyo, mabalik ako aron pagkarawat ha iyo.” Si Hesus pumakadto ha langit, kahuman niya sumaka han mga patay.
+An mga disipulo nakakita, si Hesus gin kuha, ug an dampog nagkarawat ha hiya ug nawara hiya han ira mga pananaw.
+Tikang sadto, an mga Kristyano nakahinumdom ni Hesus nga mabalik hiyapagkuha ha ira.
+Nagsugad siya nga tidga la siya mabalik, ha panahon nga diri nato ginlalaoman.
+KAUPOD HAN GINOO Kondi ano man an mga Kristyanos nga nangamatay antis siya umabot?
+An Biblia nag sugad nga sira deresto maupod kan Hesus.
+An diri pagukoy ha lawas maukoy kaupod han Ginoo.
+KAUPOD HAN GINOO Ginpadayag, an ultimo nga libro han Biblia, nagsusumat ha ato han kaupay han langit.
+An pinakamaupay nga butang, sa pinaka-espisyal nga paagi, An Langit an balay sa Dyos.
+An Ginoo adto bisan diin, kondi an iya trono adto sa Langit.
+An mga Anghel ug mga langitnon nga tawo ginsisingba an Ginoo ha Langit.
+Sugad man han mga tinunan sa Dyos nga nangamatay ug sinaka sa Langit.
+Sira nagkakanta sin espesyal nga pagdaway ngadto san Ginoo.
+IKAW TAKOS TUNGOD HAN IMO DUGO KAY IMO GINTUBOS PARA HA DYOS AN MGA TAWO TIKANG HA MAGKALAINLAIN … … NGA TRIBU UG NASOD GINHIMO HIRA NGA GINHADIAN HIN KAPADIAN HIN PAG-ALAGAD HAN ATON DYOS.
+(GINPADAYAG 5:9) An pinakaurhi nga pahina han Biblia naghuhulagway han Langit nga “An Bago nga Herusalem”.
+Daku hinduro ini hiya, ug may mga higtaas nga pader.
+An pader pariho hin haspe nga bato, sugad katin-aw han Kristal.
+Mga Hiyas ug mga maharalon nga bato an nagtatabon han pundasyon han pader, nag-iinggat sin maganyag nga mga kolor.
+An kada tagsa nga ganghaan han syudad ginhimo hin sayo nga daku nga perlas!
+Adto nga mga dagku nga ganghaan diri nagsasara.
+Sulod kita ug kitaa ta an palibot ...
+Mas mabaysay pa an sulod han Langit.
+An syudad ginhimo ha puro nga bulawan, sugad han matin-aw nga salaming.
+Bisan an kalsada kay ginhimo sa bulawan.
+An mabaysay, malinaw nga tubig dagat san kinabuhi naawas tikang han trono han Ginoo.
+Kadaligid san dagat kay an puno han kinabuhi, nga una nga nakita ha Hardin han Eden.
+Ini nga puno espesyal nga ungod.
+Namumunga ini hin dose ka lainlain nga prutas, lainlain nga klase kada bulan.
+Ug an dahon han puno han kinabuhi para han kahuwasan han mga Nasod.
+An Langit wara pagkikinahanglan han sudang ug bulan para han lamrag.
+An gamhanan han Dyos an nagpupuno han Langit hin magupay nga lamrag.
+Waray gab-i didto.
+Bisan an mga mananap sa Langit kay iba.
+Sira makisangkayon permi.
+An mga lobo ug karnero nagdudungan pagkaon.
+Bisan an mabagsik nga leon nakaon hin dayami pareho han baka.
+Samtang ato gin-oobserbahan an palibot, nakita nato nga may mga butang nga wara sa Langit.
+Waray mga pulong han kasina nga mababati.
+Wara nag-aaraway ug waray hakog.
+Wara trangka an purtahan, kay wara kawatan ha Langit.
+Wara mga buwaon, parapamatay, barangan, ug lain pa nga mga daotan nga tawo.
+Wara bisan nano nga makasasala sa Langit.
+Sa Langit kaupod an Gino kay waray luha.
+Sa tuna danay, an tawo san Ginoo nagtatangis tungod han daku nga pagsubo sa kinabuhi.
+Sa Langit, ginpapahiran san Ginoo an ngatanan nga luha.
+Waray liwat kamatayon sa Langit.
+An katawhan nabubuhi kaupod an Ginoo ngadto sa kadayonan.
+Waray sakit, waray bulag, ug waray lubong.
+An ngatanan sa Langit maglipayon kaupod an Dyos.
+Labaw han ngatanan, an Langit para han mga lalaki ug babaye (ug mga adulto) nga natoo kan Jesu-Kristo nga ira magtaralwas ug ira ginsusunod nga ira Dyos.
+Sa Langit may libro nga gintatawag nga Libro han Kinabuhi han Kordero.
+Puno ini han ngaran han katilingban.
+Batid ka ba kon hino an mga ngaran nga nakasurat didto?
+An tanan nga tawo nga nasarig kan Hesus.
+An imo ba ngaran aadto?
+An katangposan nga pulong ha Biblia mahitungod ha Langit kay maupay nga imbetasyon.
+“An espiritu nagsiring, ‘Pakadi!’ Ug an ngatanan nga bumati ha iya gin sugad ‘Pakadi!’ Ug an ngatanan nga nauuhaw ha iya pakadi.
+Ug kon hino man maghingyap, tagan han tubig han kinabuhi.” Langit, an Maupay nga Balay han Ginoo An istorya tikang san mga pulong san Ginoo, an Biblia, makikita sa Jaun 14; 2 Korinto 5; Pahayag 4, 21, 22 “An aragian san Imo mga Pulong naghahatag lamrag.” Salmo 119:130 Katapusan Ini nga Bibliahanon nga storya nag susumat ha ato han kaupaya ha Ginoo nga naghimo ha ato ngan iya buot nga kumila ka ha iya.
+Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+An silot hini nga sala mao an kamatayon, tungod kay hinigugma ka hin ungod han Ginoo iya gin padara an iya bugtong Anak, hi Jesus, para mamatay ha kros ug silotan para sa imo mga sala.
+Ngan hiya nabanhaw ug sinaka sa langit!
+Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+Makadi hiya yana ug pagpuyo ha imo, ug ikaw liwat ha iya hangtod ha kadayunan.
+Kon ikaw na too nga mao ini an kamatuoran, e sugad ini ha Ginoo: Hesus, na too ako nga ikaw an Ginoo, nagpakatawo ug namatay para ha ako mga sala ug ikaw nabanhaw.
+Pakadi ha ako kinabuhi ug pasaylo-a an akon mga sala, para magkayaon ak bago nga kinabuhi, ug sayo ka adlaw ako makaupod ha imo ngadto ha kahangtoran.
+Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+Juan 3:16
