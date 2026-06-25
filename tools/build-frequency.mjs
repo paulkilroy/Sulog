@@ -68,6 +68,7 @@ const POS_EN = /\((noun|verb|modifier|pronoun|numeral|particle|linker|determiner
 function parseChed(text) {
   const lines = text.split(/\r?\n/);
   const heads = new Set();      // canonical Waray headwords (top-1000 set)
+  const glossOf = new Map();    // headword -> English gloss
   const examples = [];          // attested example sentences
   let cur = null;               // current entry block being accumulated
   const flush = () => {
@@ -75,7 +76,19 @@ function parseChed(text) {
     // headword = text before first colon; take primary form (before "(" or "/")
     const raw = cur.head.split(":")[0];
     const canon = norm(raw.split(/[(\/]/)[0]).replace(/^['\-]+|['\-]+$/g, "").trim();
-    if (canon && /^[a-z][a-z'\-]*$/.test(canon)) heads.add(canon);
+    if (canon && /^[a-z][a-z'\-]*$/.test(canon)) {
+      heads.add(canon);
+      // gloss = text after the LAST POS paren (handles multi-POS entries), up to the
+      // first example quote
+      const beforeEx = cur.body[0].split(/[‘']/)[0];
+      const re = new RegExp(POS_EN.source, "gi");
+      let lastPos = -1, mm;
+      while ((mm = re.exec(beforeEx))) lastPos = mm.index + mm[0].length;
+      if (lastPos >= 0) {
+        const g = beforeEx.slice(lastPos).replace(/^[.\s\d,;]+/, "").replace(/\s+/g, " ").trim();
+        if (g && !glossOf.has(canon)) glossOf.set(canon, g.slice(0, 60));
+      }
+    }
     // examples = anything in the block quoted with ‘ … (Waray sentences)
     const body = cur.body.join(" ");
     for (const m of body.matchAll(/[‘']([^‘'][^]*?)(?=[‘']|$)/g)) {
@@ -91,7 +104,7 @@ function parseChed(text) {
     else if (cur) cur.body.push(line);
   }
   flush();
-  return { heads, examples };
+  return { heads, glossOf, examples };
 }
 
 // --- build target lexicon: single-word SEED entries + CHED headwords ---
@@ -102,7 +115,7 @@ for (const row of SEED) {
 }
 
 const chedText = read(SRC.ched);
-const { heads: chedHeads, examples: chedExamples } = parseChed(chedText);
+const { heads: chedHeads, glossOf, examples: chedExamples } = parseChed(chedText);
 
 // Phase 1: children's-register sentences from Bible for Children
 const bfcText = read(SRC.bfc);
@@ -217,6 +230,25 @@ ${chedExamples.map((s) => `- ${s}`).join("\n")}
 ${bfcSentences.map((s) => `- ${s}`).join("\n")}
 `;
 fs.writeFileSync(path.join(root, "docs/sources/waray-attested-sentences.md"), pool);
+
+// review-ready "words to add" — the gap list with glosses, for curriculum decisions
+let add = `# Waray words to add — frequency gap, with glosses
+
+_High-frequency words in Oyzon's CHED top-1000 that our deck does NOT teach, ranked by
+attested corpus frequency. Glosses pulled from the CHED dictionary entries. **A review
+list** — some are genre-skewed by the literary corpus (siday=poem, sumat=story) and a few
+are spelling variants of cards we have (babayi≈babaye). Tick the ones to add._
+
+Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
+
+| add? | word | gloss | count | tier |
+|:--:|------|-------|------:|:--:|
+`;
+for (const r of gap.slice(0, 70)) {
+  add += `| ☐ | **${r.w}** | ${(glossOf.get(r.w) || "—").replace(/\|/g, "/")} | ${r.n} | ${r.tier} |\n`;
+}
+add += `\n_Top 70 of ${gap.length} gap words. Full list in waray-frequency.json._\n`;
+fs.writeFileSync(path.join(root, "docs/waray-words-to-add.md"), add);
 fs.writeFileSync(
   path.join(root, "docs/sources/waray-frequency.json"),
   JSON.stringify({
