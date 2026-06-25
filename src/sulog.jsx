@@ -373,6 +373,12 @@ const store = {
 const GIST_FILE = "sulog-progress.json";
 const GIST_DESC = "Sulog — Waray review progress (autosync)";
 
+// Tokens pasted on a phone often pick up a trailing newline, a non-breaking/zero-width
+// space, or a BOM. Any of those makes "Bearer <token>" an illegal HTTP header value, so
+// fetch throws a bare "TypeError" before it ever hits the network (looks like "can't
+// reach GitHub"). Strip the usual invisible offenders before we ever build the header.
+const cleanToken = (t) => (t || "").replace(/[\s\u00A0\u200B-\u200D\uFEFF]/g, "");
+
 async function gistApi(token, path, method, body) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 15000);
@@ -797,8 +803,9 @@ export default function App() {
 
   // connect: validate token, find an existing Sulog gist or create one, then pull
   const connectGist = useCallback(async (token) => {
-    token = (token || "").trim();
+    token = cleanToken(token);
     if (!token) throw new Error("Paste a token first.");
+    if (!/^[\x21-\x7e]+$/.test(token)) throw new Error("That token has unexpected characters — re-copy just the ghp_… value from GitHub (no surrounding spaces).");
     setSyncState({ status: "syncing", at: "", error: "" });
     try {
       const list = await gistApi(token, "/gists?per_page=100");
@@ -2594,9 +2601,15 @@ function BackupView({ ctx }) {
     };
     await probe("Plain fetch — no preflight", {});
     await probe("Fetch + custom header — forces preflight", { headers: { "X-GitHub-Api-Version": "2022-11-28" } });
-    const tok = (sync.token || token || "").trim();
-    if (tok) await probe("Fetch + token — preflight + auth (= sync)", { headers: { Authorization: "Bearer " + tok, "X-GitHub-Api-Version": "2022-11-28" } });
-    else { out.push({ name: "Fetch + token — preflight + auth (= sync)", ok: null, detail: "skipped — paste a token first" }); setDiag([...out]); }
+    // dummy CLEAN token: if this returns HTTP 401 (a real response), auth requests work
+    // and the issue is your token's characters; if it TypeErrors too, it's deeper.
+    await probe("Fetch + dummy clean token — expect HTTP 401", { headers: { Authorization: "Bearer ghp_0000000000000000000000000000000000" } });
+    const raw = (sync.token || token || ""), clean = cleanToken(raw);
+    const asciiOk = /^[\x21-\x7e]*$/.test(clean), stray = raw.trim().length - clean.length;
+    out.push({ name: "Your token format", ok: clean.length > 0 && asciiOk && stray === 0,
+      detail: clean.length === 0 ? "none entered" : `len ${clean.length}${stray > 0 ? `, ${stray} stray char(s)` : ""}, ${asciiOk ? "ascii ok" : "NON-ASCII"}` });
+    setDiag([...out]);
+    if (clean) await probe("Fetch + your token (cleaned)", { headers: { Authorization: "Bearer " + clean } });
     setDiagBusy(false);
   };
 
