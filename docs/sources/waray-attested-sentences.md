@@ -1,0 +1,1575 @@
+# Waray attested-sentence pool (Track 2)
+
+_Harvested by tools/build-frequency.mjs. Every line is attested — from a dictionary
+example or a published children's story — never invented. This is the raw fuel for the
+frame engine; Ella validates patterns drawn from here before any generation ships._
+
+- **CHED dictionary examples:** 1154
+- **Bible for Children (children's register):** 408 — _© Bible for Children, Inc.; free to copy/print, not for sale; leans dialectal (san→han, sa→ha)._
+- **Total:** 1562
+
+## CHED dictionary examples (1154)
+- Ay, Inday, bagà ka gud hinin balod. 2
+- Kundi, áanhon man, kaluoyan kay di maaram magsiring.
+- An kadaan nga abakadahan gagamiton komo batakan nga pananglitanan ha pagtutdo han bata pagluwas, pagbasa, pamati ug pagsurat nga nagamit han tuminungnong nga mga pulong.
+- Binuhi hira niya inay ha abot han iya makakaya. 2
+- Ginhihinulat han mga taga-Balangiga an pag-abot ni Layong Uray. 3
+- Pira an abot han imo dakop nga isda?
+- Mano, pwede kumadi ka la anay niyan ha balay kay may áda namon igpapakita ha imo. 2
+- Waray pa ada umabot an iya tatay. ádi /adí (yadi): pagpakita nga tigsaliwan (demonstrative pronoun). here; indicates something very close to the speaker.
+- Di na man hiya nakakalakat, kay adi nadadat- ogan it’ iya tiil hiton bato.
+- Sidnga didto, Karabaw, it
+- mga tawo nga it
+- iyo pagkaon, usa la pagkaon hit’ kada tulo ka adlaw. ádto (yadto): pagpakita nga tigsaliwan (demonstrative pronoun). there; that (far away); a place far from the speaker and/or the person spoken to.
+- Asya adto nga baga natalwas na it
+- nga bata tikang han iya sakit. ádto
+- n (adto): pagpakita nga tigsaliwan (demonstrative pronoun). that ; there (far away place or, time; contraction for adto nga; see adto).
+- Hinumdomi ta permi adto’n makasaysayan nga pagbalik niya ha Pilipinas.
+- Nakahunahuna hiya paghatag hin mga puplonganon ha Waray kada aga, kahuhuman han taramdan. 2
+- Aga permi nga namata an akon tatay basi mangisda.
+- Ngan han aga-aga pa gud, ha siyahan nga adlaw han semana, hira inabot ha bungto.
+- An dagko nga agaron-may-tuna nga aada ha poder han aton katilingban inaatuhan na han mga mag-uruma.
+- Diri nababasahan an iya ági kay baga hin kinabkab hin manok. 2
+- Makakabiling ka hin punaw kun maaram ka han ira ági. 3
+- Waray ági ha ira balay an iya sangkay. 3
+- Agi, adi na an mga bisita! agi daw! (ata!): tigkalas (interjection/expression). oh, my!; alas!; gee!.
+- Agi daw, bangin mahulog iton bata!
+- Ini nga porma diri hikakagian dinhi hini nga mga DYVL siday nga agsob nagtitinabok tabok hin tema.
+- da niya suruguon nga agta. 2
+- May naukoy nga agta ha puno han akasya.
+- Agud mapauruupay an programa, nakahunahuna hiya paghatag hin mga puplonganon kada kahuhuman han taramdan.
+- Waray pulos an ginsisiring nga rehabilitasyon han mga mining nga korporasyon ngan ahénsya han aton gobyerno. ak’: pagtag-iya nga tigsaliwan (possessive pronoun). my;mine (contraction of akon).
+- “Ayaw gad, leon, ayaw gad ako pagkaona,”siring han koneho. 2
+- Waray gud áko, an karas hiya an kumagat han namok. ákon: pagtag-iya nga tigsaliwan (possessive pronoun). mine/my.
+- Kay ini, kuno, nga koneho akon nadakop.
+- Ala- una na kami nanguli kagab-i. 2
+- Ala gad, kay nakahiram han lawas han halas!
+- Mga alas dos ada adto hin maagahon an ira pag-abot. 2
+- Hiya an alas ha ira grupo. am’: personal nga taligngaran/damo (personal pronoun plural). our; ours (contraction of amon).
+- May ko nahibaroan nga usa nga yarakanon tikang ha am’.
+- Ini nga amon amay kay maaram man iton hiya manambal. ámbot: tigkalas (interjection/expression). expression which means "I don
+- t know.”; “I am not sure."
+- Nakausa, ambot kun hi Ferdie adto an nagyakan, mayda kuno dida niya nakit-an nga White Lady.
+- Maaram ini hi Sumigin, ámo nga pirmi niya gin-uupod hi Layong Uray bisan diin hiya makadto. 2
+- Sumakay an amô ha bungkog han buaya. ámon (am’): pagtag-iya nga tigsaliwan (possessive pronoun). our.
+- Ini nga amon amay maaram iton hiya manambal. an: kasahiran nga tigpananglit (common determiner). refers to a specific thing (non- present, as opposed to iton or it
+- Han bag-o pala nga nahihimo an Balangiga, an naghahadi hadto hi Sumigin.
+- May anak hiya nga babayi nga nagngangaran nga Layong Uray.
+- Kuhaa daw ánay ito nga bato. 2
+- Ginkinaon han ánay an ira balay. 3
+- Ginpapauli ka kay nanganganak na an imo anáy.
+- Kulopay pa la, ándam na an ira mga tagudara--petromax, balon nga pagkaon, mga sugob, surodlan han dakop, upod na an pipira nga sulo.
+- Hin-o an ángay sirotan ngan pasidunggan? ánhi (hani): pagpakita nga tigsaliwan (demonstrative pronoun). is here (near the speaker and listener).
+- Agi daw, ánhi in
+- tubak, nangagat. áno (náno/anó): pagpakiana nga tigsaliwan (interrogative pronoun). what.
+- Kun áno man an ira nakakawat, iginbabahin nira ha ira datu.
+- Hi ako an tuba kan lubi apó. 2
+- Siguradoha nga ápo iton imo pagbasya hiton tuba ha surudlan para di mag-aslom.
+- Waray la it
+- hin aringasa nga bata.
+- Aringit an bata kay pinipiraw.
+- Dinhi la kamo kay malakat ako, ginsiring an iya asawa.
+- Gindadara han mga tikasan, asay pa an mga kababayin-an. 2
+- Mahilig ini nga bata mag-ásay hito’n isda.
+- Ngan hiya masusugad hin ihalas nga asno ha butnga han mga tawo.
+- Ada, katima hadto, asya adto nga baga natalwas na it
+- nga hi Rosaura. 2 Ha Asya nadiskobre an paggamit han arado.
+- May bubon didto han harani han amon kudal ha at’bang han balay. 2
+- Atubang didi basi ka kumita kun gin-aano pagluto hin dagmay.
+- Nanhatag hin pasalubong ha amon mga amyaw hi Ate Belen pag-abot niya tikang Manila. áton (at’): personal nga tigsaliwan, damo (personal pronoun plural). ours; belonging to us.
+- Didto hiton aton tuonan, didto hit
+- at’ abohan waray kalayo.
+- Pagsilhig dida ha atubángan.
+- Nga laong, "Lola, ayaw gad hiton," aw apoy, kay diri man lola, "Apoy ayaw gad hiton nga kanta kay maraot."
+- Paglingo an hinungdan han away han karas ngan namok. 2
+- Nakikig- away naman hi Sumigin, api an iba nga kalalakin-an ha ira tribo.
+- Waray kaiha may awto nga pumarada ngan damo nga pasahero an sumakay ha ira.
+- Hinkit-an an ayam didto natangka han lamisa.
+- Adi an akon áyaw han kulang ko nga bayad ka kulop. 2
+- “Ayaw gad, leon, ayaw gad ako pagkaona,” siring han koneho. Bb ba: kapinit ika-3 nga klase (clitic particle class 3). indicates a question/uncertainty in information.
+- Nagsisinayaw ito nga babayi, ngan tikaiha baga iba na ba an iya gios didto han sayaw.
+- s back. 1
+- Pastilan gad, it’ imo bábâ ighihiyabura la, puros man la iton buwa. 2
+- Babá ikaw kan imo Mano para diri ka mahulos pagtabok hinin salog.
+- May anak hiya nga babayi nga nagngangaran nga Layong Uray. 2 Babayí an anak han baka.
+- Ini hira an naghahablon hin abaka nga gingagamit paghimo han ira mga bado.
+- Ay, Inday, bagà ka gud hinin balod. 2
+- Kuha didto hiton bága ha abohan. 3
+- Diri maupay ha bagâ iton pagsinigarilyo.
+- n (mali/mala an): tigtulidong (modifier). (contraction of baga hin) like; similar; same; equal; sort of; it seems.
+- Sakto gud an mga detalye nga ginamit ni Lucente— syopaw nga may taguto, naglulutaw-lutaw nga bangka ha mantika, ulod ha pansit, sabaw nga bagá’n sagmaw.
+- Taliwan hini nga mga bagay an pulong han Dyos inabot kan Abram ha usa nga bisyon.
+- Ito nga kalsada baga hin bág-o pa la, bag-o pa la nga gin-aagian.
+- May bagyo, pero diri makusog.
+- Ha KZRH una nga ginpadayag an mga makasaysayan nga mga pasamwak bahín han Ikaduha nga Gyera Mundyal. 2
+- Kinaon ko na kanina an akon bahín nga snack.
+- Upod han alingugngog, alisngaw ngan dirudilain nga bahò han dose ka tawo, ginpipipiris-ok an manarakay ha sakob. 2
+- Waray na ganahi pagkaon an hadi dara han naalingasaw/naalimwag nga bahô. 3
+- Báho an akon boses ha amon choir.
+- Ikadi daw an bairán kay mangarol na inin akon sundang.
+- Pakianhi daw iton Ginoo kun kay ano nga iton akon mga báka di man nananambok.
+- Mano, pwede kumadi ka la anay niyan ha baláy kay may ada namon igpapakita ha imo.
+- Diri na gad la báli kay batid man ako nga nagugma man hiya han akon uyagan. 2
+- Báli la anay didto ha tindahan basi kita may igsura. 3
+- Báli na la basi diri ka malalamba. 4
+- Kun paminuon ka, balihá iton imo bado. 5
+- Balí an nagin hunahuna han bata han lumupad ini hin hitaas hirani han adlaw.
+- Pito anay ka tuig san-o hiya balik ha ira bungto. balítaw(balit’): kapinit ika-7 nga klase (clitic particle class 7), tigkalas (interjection). 1 actually; indeed; seriously 2 is that so?. 1
+- Pero kay balítaw ayon niya. 2
+- Balitaw! Mauli na sunod nga bulan hi tatay tikang ha Saudi?
+- Tikang la hira magkanawong-nawong ngan han bálo nga hi Pikong, pirmi na hiya nakatakgong. 2
+- Damo na an ginbalo hito dida nga dapit.
+- Nakadako ako hin bálod nga tamsi.
+- Iton mga balód, iton mga
+- Nababara na kami kay waray ka man bálos han amon surat. 2
+- Kaonon ta ikaw kay an bálos han maupay, maraot,siring han buwaya.
+- An bana an nagyayakan han pag-abot namon.
+- Niyan, bangin magkuratsa iton hi Consuelo, ayaw pagpasayawa kay nahimalansag it
+- Ha igbaw hini natungtong it’ bantay ngan naghuhulat ngan nangingita. 2
+- Bantay ka bangin umabot an agila.
+- Ako nakilala kun hin-o ikaw, an baraan nga Dyos.
+- An puntirya han pagdayaw amo an matahom nga daraga, tawo nga maabilidad, susbaranan nga amay o, inay, padi, talahuron nga opisyal han gobyerno, magturutdo o, mangulo han barangay.
+- Ha baras napulilid an mga balod.
+- Han waray pa kabungkag ito nga Can-omantag may ada nagpipinakita nga barko.
+- Hiya an pinakamahusay didto han ira baryo.
+- Kadi na kamo kay basi tikangan ini
+- Pagkita niya, waray niya hinkikit-an nga tawo, dida han tungod na han pangpang han salog an barko, basta kay pwerte hin kadako hin barko.
+- Han batà pa ini hi Layong Uray, nasasabtan na an iya kaibahan han nga tanan nga taga-bungto. 2
+- Idoy, alayon na gud ako pakiduhol han báta kay makarigo na ako. 3
+- Pagsarit didto kan imo batâ kun naruruyag pag-upod.
+- An maribhong ngan buhi nga tradisyon hin Literatura may aktibo nga tradisyon hin pagsurat, mga batan-on nga presente nga nagsusurat ug nag-eeksperimento hin mga porma.
+- Nagturutumbaw hira hin mga bató ha pantalan.
+- An batón han babayi nasiring:"An linmabay ha imo nga tamsi akon adto sugo."
+- Ha báwbaw han Kanhuraw namumutang an City Hall kun diin liwat tinatamdan an maanyag nga dagat han Kankabatok.
+- An baras ha baybáyon mahumok pa dara han hitaas pa nga dagat.
+- Ano ba, Rosaura, an gintatangisan mo, sa báyhon mo lamang nga may pagkabido. 2
+- Hinaya pagpakli hiton báyhon hiton libro kay bangin magisi. 3
+- May wawalo nga báyhon an bulan: subang, gimata, kaudto ha dulom, kabug-os, kadayaw, syahan nga salipod, kaudto ha bulanon, ug kawara.
+- Ini nga uran, bendisyón ini han Ginoo. 2
+- Bendisyonan unta kita han Makagarahom.
+- Hadto, usa ka beses, nasiring nga may
+- da koneho nga nagmiminakaluoy ha leon.
+- Tukag na la an bilín ha akon? 2
+- Dinhi ka la, bílin ka niyan nga gab-i kay makadto ako kanda nanay.
+- Ginkinita ko ini, ngan kalit la nga may binálik ha akon hunahuna kay magkapareho an hitsura han munyeka hadto’n amon anay kasapit hin balay nga hi Anna.
+- Siyempre, binatón ako niya hin “amo la gihapon.”
+- An didto han pangaonan binayáan ta na la ito kay may
+- da man sada.
+- Ngan ginbendisyonan hira niya ngan hi Laban linmakat, ngan binmálik ha iya lugar.
+- n trabaho, ini nga hadi naghihiniling dida han bintána ni Pedro.
+- Pero, mayda mga paningkamot nga binubúhat an pipira nga magsusurat yana nga ibalik an dignidad ha aton kalugaringon kultura, labi na an ha pinulongan."
+- An binúhat han akon nanay, kinuha hin banaog, pangontra ito hiton nga mga magraot nga tawo. 2
+- Aga pa nga bínuhat hi tatay basi magtuon.
+- Akon adto binuhátan kay nakasabot ako nga ini nga kabataan, akon ini mga anak.
+- Dinhi ha Tanauan, nausa an mga tawo nga ini nga bírhen damo an amorsecos.
+- Maaram ini hi Sumigin,
+- Dadamo an bisíta nga taga-iba-nga-ginhadian.
+- Matungod nga nagamit man gud hin bóses an radyo—ngan waray pa makaugsad tikadto han panahon han pag-imprenta—nagin lugar hiya han mag-upay mamag-oratoryo ngan deklamasyon.
+- Ta, ini man nga buaya binuhi niya.
+- May bubón didto han harani han amon kudal ha at’bang han balay.
+- Iya ini bubuháton para hiya mabuligan han mga buhi hin pag-ampo, o pagbuhat han mga kinahanglanon para makaluyo ngadto han sunod nga kinabuhi. 2
+- Kadi anay, buligi ako niyo—bubuhatón ta adi’n sakayan kay sumanglad.
+- Ini nga kapitan hadto nga panahon gintikas ako hini, nagbabalyo la ako hin bugas han akon kwentas, gintikas ako.
+- Kay pag-eskwela ko han high school, waray pa dinhi, uusa pa la an high school han bug-os nga Leyte.
+- Kaubos hito nga pananom ni Tatay, pira nga bugto
+- Iya ini buhát nga tanan nga painting? 2
+- Buhát na ikaw dida kay maalas-syete na.
+- Ngan kun waray mo búhata an maupay, an sala aada ha ganghaan. 2
+- Kun naruruyag ka umupod ha akon, buhatá adi nga duha nga sako ngadto ha paradahan.
+- Bis’ pa ano it’ im’ búhaton aada gud la hiya di ka ngani pag-iisgan pero tatagan ka hin kinaadman.
+- Pinaagi hini, nasasabtan han mga taga Musongbusong nga buhì pa hi Layong Uray kay sige pa man an pag-alog para han iya tubig. 2
+- Ginpapandakop han mga taga- Munisipyo an mga buhî nga kababoyan.
+- Nga han hadto nga mga panahon han mga prinsesa may
+- da hiton nangangaro hin buhís.
+- ong han alat,"Han diri pa ako buho, sinirong ako han ak
+- agaron, niyan han buho na ako, iginpaanod ako."
+- Iton nga babayi, halaba an buhok hiton niya.
+- Kay ano nga tinatawag nga"rahondahon"an rahondahon han bukád? 2
+- Kinahanglan mo hin bukád basi makapanguha hin sasing.
+- Agi daw an bukaw naglupad-lupad ha igbaw.
+- An iya ginbisyo, sinmagka hiya ha bukid hin waray balon-balon.
+- Niyan, bangin magkuratsa iton hi Consuelo, ayaw pagpasayawa kay nahimalansag it
+- Tulo ka búlan hiya nga naglinutaw-lutaw ha kalalawdan.
+- Tuod nga bulawan kay nag-iiringgat an barko.
+- Nagpapadayon ini nga paisan-isan ha kada tuig pinaagi han búlig han ira kasangkayan upod han gobyerno han probinsya. 2
+- Nagdadara adto permi hi Nay Adyang hin tag-usa ka búlig nga saging kun nabisita ha balay.
+- Nasiring ko ini kay hiya an usa han naniguro nga bumálik magsurat ha Winaray an mga kabataan dinhi ha aton dapit.
+- Nagtanom liwat ito hi Tatay hin mais, damo liwat an búnga hito nga mais."
+- Hadto nga panahon damo an tikasan nga nangangawat ha iba-iba nga búngto.
+- Syahan, karuyag ko igsaysay kun ano an akon buót ipasabot han akon paggamit han pulong nga pamahungpahong.
+- Hadto nga adlaw an nga tanan nga mga burábod han kahiglaruman han dagat nagkabubungkag, ngan an mga tamboanan han langit nagkabubuksan.
+- Ako maagi ha butnga han imo kapanon nga karnero yana, ngan iwawahig ko tikang didto an nga tanan nga burikbutík ngan tagiptipon nga mga karnero.
+- Burod ini nga amon ayam.
+- Mabutlaw an iya mga buruhatón pero di hiya ginkakapoy. busâ (isóg/panmulay/pamulay)/ búsa (kun súgad): tigngaran (noun), tigsumpay (linker). 1 reprimand 2 therefore; in conclusion . 1
+- Waray gud adto nga bata nababatian kundi busâ. 2
+- Búsa, an ngaran hito gintawag nga Babel.
+- Karuyag ko an busag nga tamsi.
+- May natukdo hin baol, tibod—nga tanan nga butang ha balay—baga hin nagproposisyon, an iba natugway hin bata.
+- Niyan han mga alas otso na han gab-i, an taga-dulong ngan han taga-ulin nga bantay nagsudoy han barko, hira, nagkita dida butnga. Dd
+- May intelektwal ngan kritikal nga pagtirutimbang han literatura nga balor han dáan ug bag-o nga mga sinurat, ngan labaw han nga tanan, mag-aram ug napaid nga mambabasa.
+- Idoy, dád-a kami ngadto ha Dalan Naga, pero ha Dalan Apitong, hapit anay kita.
+- Paglinog, dadlagan na liwat namon.
+- Sinmiring an Amoay, nga niya, “Hangagay, dad-on ta ini nga saging kay pagtatamnon ta.”
+- Ha bawbaw han Kanhuraw namumutang an City Hall kun diin liwat tinatamdan an maanyag nga dágat han Kankabatok.
+- Dinhi hadto han panahon pa han peace time, may mga tawo nga nagpapakita, an sinisiring nga dagkò nga mga tawo, nga dagkò pa hin harigi.
+- Ha dágmit nga himangraw, tinugot gihapon.
+- Ini nga pikoy paglupad murayaw, natuntong han sanga dagos paparayaw.
+- Ngan hi Kain nasina hin duro, ngan an iya dágway nabalhin.
+- Tinawag nga rahondahon an rahondahon han bukad kay alid-agid ini hin dáhon. 2
+- Pakli ngadto ha ika-123 nga dahon han libro ngan basaha.
+- Matungod dako na hi Layong Uray, diri na hiya naigo ha iya gintatagoan ha ilarom han puno.
+- Diri ngay-an dáko nga bato nga ira ginsirongan kundi usa nga dakò-dakoan nga bakò nga nagngangaranga.
+- Sus, an kapitan, baga hin nasugba ha
+- Han dinhi ha dalan nakaagi hiya hin turil nga damo
+- Dali-dali hira ikinasal nga siring pa niya, bisan hiya may pagbasol, iya na la ini ginkinimkim kay an iya asawa duro gud an gugma ha iya.
+- Hadto nga panahon damò an tikasan
+- Pero, makakasiring kita nga nagawas gad gihapon ini, dánay aksidente la, pananglitan ha siday nga Labitig (1993) ni Arturo Bautista ngan han kan Maximo Servidad Naghihigugma (1994).
+- Kay ano, pananglitan, nagpalya an Marxismo ha Rusya ug iba pa nga dápit. 2
+- Gindápit nira an iya mga amyaw basi tumambong han sasaro. 3
+- Nagdaog an manok nga dapít busag.
+- Gin-agian hiya hin tutulo ka tawo, may dará nga irimnon nga makahurubog. 2
+- Nabaha ha ira barangay dará han damo nga basura ha kanal. 3
+- Nadára hiya han istorya ha iya han lalaki, iya ginhatag an iya bag nga may sulod nga kwarta.
+- Ginsisiring nga anak daw hiya han mga engkanto. 2
+- Daw bato-barani an iya mga mata. 3
+- Alayon daw ako han luwag dida.
+- Waray man hiya iba nga binuhat, sakay dáyon. 2
+- Maupay man nga patron, dayòn kamo ha amon balay!
+- Ha sulod han baynte kwatro anyos, ini nga taramdan han DYVL an nagdepender ug nagpanalipod han Waraynon nga literatura tikang han dayuday nga kaanaw hini.
+- Hala gad daw kay pakasakay la kay deretso hurong-hurong ngadto han iya uma.
+- Kay di na man hiya nakakalakat, kay adi nadadat-ogan it’ iya tiil hiton bato. 2
+- Umabot an iya mangarasawa nga de-korbata. didâ (duon): pagpakita nga tigsaliwan (demonstrative pronoun). there (near by addressee not by the speaker) 2 when (things happens). 1
+- Pamati niya, baga hin may naawas nga dugo didâ han tungod. 2
+- Bumalik an mga Amerikano ha Pilipinas didâ han 1944. didí (dinhi/dihan): pagpakita nga tigsaliwan (demonstrative pronoun). here (near the speaker from the addressee).
+- Namahid hi Isa han iya luha ngan nakatawa katapos dinalagan para magmulay kan Barbie.
+- Naagi dínhi iton sarakyan para Catarman.
+- Matungod dako na hi Layong Uray, díri na hiya naigo ha iya gintatagoan ha ilarom han puno.
+- Nasingba kami kada Domingo. duduhá: katubtoban nga ihap (restrictive numeral). two.
+- Katikasi ha ira, nagproblema an itay ngada han duduha nga bata.
+- Nagpasalamat hi Juan Bahag han iya dugang nga kinabuhi. 2
+- Dugang la kamo, marasa inin luto ni nanay nga dagmay.
+- Inin dughan manipis man, tinago an nga tanan.
+- Pamati niya baga hin may naawas nga dugô dida han tungod. duhá: regular nga ihap (regular numeral). two.
+- Nagkabulag an duha nga bata, waray na iroy, waray an amay, nagkabulag pa gud hira.
+- Pero hat’ nga gab-i, dungan kami nga nanguli nira Anna.
+- Ini an pahayag ni Deputy Presidential Spokesperson Abigail Valte durante san press briefing sa Malacañan.
+- Pero dúrò an iya paniguro, waray katataw-i.
+- Salamat tatay han imo pagdúyog han nga tanan nga akon kalipayan ngan kabidoan. 2
+- Iduyóg ha puyot an bata basi mahingaturog.
+- Ha tinikangan an Dyos naghimo han mga langit ngan han tuna. Ee
+- An duha nga bata, sidngon ta an edád mga dose anyos na, asya iton bantay hiton barko.
+- Damo iton trabaho kay maupay iton ekonomíya ta yana.
+- An pakabuhi niya kada adlaw eksákto la han ira panggastos.
+- Diri hiya nakakabaya ha ira panimalay kay mayda niya duduha nga eskwela. 2
+- Eskwela kamo hin maupay basi kamo makaagi hin turutuhay nga kahimtang.
+- Duro an kaimpluwensya han Inenglis nga pinulongan hasta nga an literatura na la han nasabi nga lingwahe an igintututdo ha mga eskwelahan.
+- Ngan an kasisidman nakada ha bawbaw han nawong han kahiladman ngan an espirítu han Dyos napanoy ha bawbaw ha nawong han mga katubigan. Gg
+- Han gáb-i han pasko masulub-on hi Ising.
+- Diri malangbo an usa nga sosyodad kun diri hini gagamíton an iya kalugaringon yinaknan ha iya pamiling hin mga solusyon ha mga problema.
+- Ha pag-abot han takna, an Waray nga pinulongan sugad han iba nga mga linggwahe, nahukasan han iya dignidad ngan gahum.
+- Pag-abot ngadto ha talimpungayan kay didto tutubong an pikoy han iya mga piso, pamuruton an gámit han hadi, sul-ot tanan hasta kapa, piluon an iya buhok, magkorona ngan dumalagan.
+- Nagkasakit an hadi ngan an makaupay la an gatas han leon. gatós: regular nga ihap (regular numeral). hundred.
+- Ngan hi Adan nabuhi hin usa ka gatos katloan ka tuig.
+- Ini nga pamaagi hin pagsurat, gawás han iba nga porma, asya an sinupohan han mga batan-on mga magsusurat. 2
+- Gawás hini nga tuna ngan balik ngadto ha tuna nga imo natawohan.
+- ): tigtulidong (modifier). also;too; as usual; still; likewise; another.
+- Ada, an kapitan lugod an napriso, hira la gihápon an naglungon nga pamilya.
+- Hi Abyatar, an gihataasi nga saserdote.
+- Ngan ha gilayon binayaan nira an mga pukot, ngan nanunud hira ha iya.
+- Yana, an ngaran nga siday ginagámit na para pagtudlok han tanan nga klase ngan porma hin pagsiday— tradisyonal man o moderno an istilo.
+- Ginawas an mga tawo kay linminog.
+- Ma, kitaa na gud an ginbúhat ni Mano han akon munyeka. 2
+- Pakakita niya nga nahigda ito nga lagas, dayon ini niya nga ginbuhát ngan magdinalagan pangaro hin bulig.
+- Ginsisiring nga didto ha Panay hira Layong Uray gindará.
+- da didto usa nga ginhadían nga, inin, harani hiton inuukyan hito nga lagas.
+- Ginhímò nga mulayan han kabataan an kaliding han akon bisikleta.
+- Han nagtutubo na hiya, waray adlaw nga di hiya nagpapasalamat han Diyos nga gin karawat hiya han ginikánan ni iya nanay.
+- Katima, ginkádto an ak
+- Ngan ginkúha ko an morena nga munyeka nga miyembro han barkada ni Barbie Doll. 2
+- Ginkuhá na nira an mga bunga han santol.
+- Asya iton nga ginngaránan hin Tanauan.
+- Ginsawáy hiya hin lagas nga,"Iday, ayaw gad kamo dida pagtinanom kay nasasabod iton akon libong."
+- Waray magsumat an ginsiring, asya nga umuli na la ako. 2
+- Tikang hadto ginsiring nga namatay na hi Layong Uray.
+- Ginsugò hiya niya nanay panukot.
+- Iya ako ginsumátan kun diin hiya nakadto ka kulop.
+- Kun ikaw an gintágan han akon mga surat, ikaw an akon portuna. 2
+- Gintagan hiya hin tulo ka adlaw basi himuon an ginsugo ha iya.
+- Dayon gintawag nira an sumarakay--kampay ha tuo, kampay ha wala.
+- Pasalamat kita han Ginuo han grasya nga aton
+- Ginuwá ha balayan an sarapati pagsabwag ko han tubong.
+- Angay nga matadong an kada nagseserbisyo ha gobyerno.
+- Grabe an danyos nga durot han inagi nga bagyo.
+- Mahusay-husayan gud hiya.
+- Tapos sakay-sakay namon han gudti pa kami.
+- Hadto han gudtiay pa kami, an akon tatay may kasangkayan ha Kabakongan.
+- n akon kwarta diri ako naaawa, an kinaaawaan ko ha imo iton gugma.
+- Ngan hi Lot ginawas ngan nagyakan ha iya mga umagad nga lalaki. 2
+- Ano daw la an gumawas nga numero yana?
+- May anak ito hiya nga gutiay.
+- Gútom an umabot ha ira dara han pagkinarag hin pagkaon. 2
+- Gutòm na an bata kay nagtitinuok. Hh ha (sa)/ha?: kasahiran nga tigpananglit (common/non-personal determiner), kapinit (particle). 1 shows direction (to; for; from) 2 interrogative particle. 1
+- Kitaa sa (ha) mata ko an puraw nga luha, tigaman nga ikaw akon pinalangga. 2
+- Ha? Kay ano ka aanhi? hadí (sadí/yadí)/ hadì: pagpakita nga tigsaliwan (demonstrative pronoun). 1 this (used to indicate anything that is near the speaker but may be far from the listener) 2 king.1
+- Gintagan ka ni Mayor yadi nga kalo? 2
+- Una nga nahibatian ha kahanginan an DYVL dida hadto’n Oktobre 17, 1956.
+- Magkulop kun nagtrabaho ha hagnà hi tatay.
+- Sanglit amo ini nga an kasakitan hahani ha aton. háin (diin): pagpakiana nga tigsaliwan (interrogative pronoun). where; which/what place?.
+- Maaram ka kun hain ito uukoy?
+- Pag-abot ngadto tabok, ibutang an bata, mabalik na unta para han usa, halá gad daw kay dinmaralwa, naanod ito nga itay. 2
+- Halá, makadi na ako kay magab-i na.
+- Iton nga babayi halaba an buhok hiton niya.
+- Hi Kain nagdara hin bunga han tuna nga halad
+- Kasinahon man hini nga amo, kay waray hiya pakakadaop kay hálárom an tubig.
+- Ayaw dida ligid pagmulay bangin may halas. han (san): kasahiran nga tigpananglit (common/non-personal determiner). 1 of the; at the; with the; on the; indicates definite object.
+- Matungod nga namatay an iroy ni Layong Uray han pag-anaka ha iya, nagtubo hi Layong Uray ha pagbabantay ni iya tatay, hi Sumigin.
+- Bangin ha unhan may nagkaingin, namadlos huyop hini’n hangin.
+- Hápit la mahulog an bata. 2
+- Idoy, dad-a kami ngadto ha Dalan Naga, pero ha dalan Apitong, hapìt anay kita.
+- Ha puno han bayabas panháhápon an kamanokan. 2
+- Kanan mga Hapón adto mga supplies.
+- May nanunudsod dida ligid han salog han, baga harayo pa pagkita niya, mayda niya nakit-an nga nalutaw.
+- Maaram ako nga nagkukuri hiya pero ipinapakita niya nga harigi hiya nga amon matatapuran.
+- Masyado naman ini nga akon trabaho, kun háros adlaw-gab-i. 2
+- Nauurit gud hi Apoy Emang hiton bata nga waray kaharòs- haròs. 3
+- Naharòs an kadena han iya biseklita.
+- Gindara han kawatan hasta an ira tinuon nga kan-on. 2
+- Sige la an ira istorya hasta nga nagkakatutnga na."
+- Han bag-o pa la nga nahihimo an Balangiga, an naghahadì hadto hi Sumigin.
+- Brod, paspasi gad pagpedal
+- Ta, higda na,” siring han maghirilot.
+- Nakabuhi an kan tatay hígot. 2
+- Nagbak-ad an higót han karabaw.
+- Tipigi ta diin an higugma may rayandayan.
+- Sumiring an lalaki, Kun higugmáon mo ini nga akon uyagan, balyoa hito’n imo one. kamison.
+- Makasurubo hunahunaon nga yana ini nga mga kondisyonis diri hikakagián ha Waray.
+- Ginhingyap ka han inagi nga
+- Hímò hin bukad han tsampaka iton iya kwentas. hin (sin): kasahiran nga tigpananglit (common/non-personal determiner). of; a (indicates nonspecific thing).
+- Nagturutumbaw hira hin mga bato ha pantalan. hin-agián (naimdan/gin-agian/naagian/nahi-agian): tigpanhitabo (verb). was found; was seen by passerby.
+- Ngan hiya inabot ngan hin-agián hira nga nangangatúrog.
+- Iya liwat ini hinatag kan Anna nga hinumdoman kay nahuman na an iya trabaho hadto nga kulop.
+- Hinay- hínay la, mahinay an lakat han awto.
+- Akon hinbatián an ira uruistorya.
+- Para ta maabot, híngyap nga kauswagan, kita pagsakripisyo, pagtadong hit’ dalan. hiní (siní): pagpakita nga tigsaliwan (demonstrative pronoun). this/these (near the speaker and addressee).
+- Didto hira magbabantay han pag-abot hiní nga mga tikasan.
+- Ikaw amo an akon anak nga hinigúgma. hinkit-an (naimdan/ginkulwan/nakulwan/nahikulwan): tigpanhitabo (verb). was seen.
+- Hinkit-an iton, may ayam didto. hin-o (hino/sin-o): pagpakiana nga tigsaliwan (interrogative pronoun). who.
+- Waray gud hiya pagsusumat kun hin-o.
+- Matungod nga pirmi hira gin-aatake, naghimo hira han kuta ha prente han ira bungto.
+- Nakadi an ira payag, hiráni han bukid han Adel.
+- Kay hin-o man an nagdat-og hitó? hitó’n (sitó’n): pagpakita nga tigsaliwan (demonstrative pronoun). that; those (contraction of hito nga/siton nga).
+- Ini nga istorya tungod naman ini hito’n kuan, uding. hiyá (siya): personal nga tigsaliwan, uusa (personal pronoun/singular). she;he;it.
+- May anak hiya nga babayi nga nagngangaran nga Layong Uray.
+- Pero kun huhunáhunáon hin tul-id, ini nga siday naglalatag han pipira nga kabutang diin naturok an kinabuhi hin inasaw-an.
+- An ira hunáhúna permi may bag- o ngan kinadalian nga mga isyu nga angay tagan hin komentaryo.
+- Húnong na gad, Iday, pagpinasaway.
+- Gintungkas an sulod, gin-ubos hin hústo. Ii
+- Nagdaog ini nga painting kay ibá hiya ha nga tanan. 2
+- Matab-ang inin imo tinula, butangi hin ibà.
+- Hadto nga panahon damo an tikasan nga nangangawat ha iba-ibá nga bungto.
+- Pero, mayda mga paningkamot nga binubuhat an pipira nga magsusurat yana nga ibálik an dignidad ha aton kalugaringon kultura, labi na an ha pinulongan.
+- Pag-abot ngadto tabok, ibutáng an bata.
+- Natipa ako han ideya nga nihilistic o, existentialist an panmahungpahong han mga Waraynon.
+- Idoy,alayon gad ako pagsilhig dida.
+- Ha igbáw hini natungtong
+- ong, “Ini an kamatuoran, ighahatag ko ha im’.”
+- Ngan hi Abram gintawag ha ngaran nga Ismael an igin-anák ni Agar.
+- Hala gad daw! Kay may iniagi nga negosyante, iginbalígya ini nga babayi ni Juan.
+- Ngan iginbutáng hi Adan didto ha tanaman han Eden basi niya paghawanan ngan pagbantayan.
+- Nalilipay ako han imo iginhátag nga regalo dida han Pasko.
+- Kan Beloy iginlubóng hi Silay nga iya asawa ha sakob han lungib.
+- Idoy,kuhaa didto ha balay an iginpadará nimo nanay.
+- Ngan ini nga bata nagbuhat hin sugad ha nga tanan nga iginsúgo ha iya niya nanay.
+- Waray gud kapapara ha ak’ hunahuna an pakiana nga – ano daw la kun iginsumát ko bisan la kan Mama an akon nababaroan?
+- Sanglit hi iya nanay linakat, sugad han iginyakán ha iya han tambalan.
+- Didto ha luyo iglubóng han ayam an tul-an.
+- Diri ígo an iya napalit nga sapatos. 2
+- Ha primero nga igo ha iya, nahalawas.
+- Kun ano man iton balor nga aaroon hiton imo bana, ihahátag ko.
+- Ihátag ha akon an singsing nga kantan, ngan kuhaa para ha imo an mga manggad.
+- Ngan ihinátag niya an mulayan nga kinakaruyag han bata nga babayi. iiní: pagpakita nga tigsaliwan (demonstrative pronoun). (restrictive) here it is; this is it.
+- Ta, kay nadiri ka man, iini dinamo ko la. ikaduhá: kasusrunod nga ihap (ordinal numeral). second.
+- Para han ikaduhá nga pwesto, an premyo P1,500.00. ikatuló: kasusrunod nga ihap (ordinal numeral). third.
+- Sige, ikáw la anay pagmulay hito’n akon uruawtohay.
+- Kun naabot na an mga tikasan, gintatago niya hi Layong Uray ha ilaróm han dagko nga puno. im
+- : personal nga tigsaliwan, uusa (personal pronoun/singular). (short for imo); yours; you.
+- Pabay-i la ako nga mahigugma sa im’.
+- Nalihis an iya panlapdos, imbís nga an insik an paglatigohon, an mga taga-Manila asay ginhimurangtan. imo: personal nga tigsaliwan, uusa (personal pronoun/singular). your/yours.
+- Siring na la an leon, “Ikaw nga uding ka, hadakpan ko ngani ikaw, bisan it
+- imo tai, kakaonon ko.”
+- Narumpag ini nga ira pagtipa dara han higayon, impluwénsya ngan panginahanglan han nasud basi makalanat han karuhaan nga siglo.
+- n importánte di’ kita magturaw samtang nga buhi pa.
+- Hilarom na an gab-i, ínabot hira.
+- Adi’n akon padara kan Indáy, uyagan.
+- Baga weird inin iya titulo kay inénglis pero Winaray an kaurog han iya mga siday. ini (ini’n): pagpakita nga tigsaliwan (demonstrative pronoun). this/these (near the speaker and addressee).
+- Han bata pa ini hi Layong Uray, nasasabtan na an iya kaibahan han nga tanan nga tagabungto.
+- Masirom na nga inmabót hira ha bungto.
+- Inóp ko an magin usa nga engineer. intawon (udog): tigkalas (interjection/expression). what a pity!; pitiful; mercy.
+- Kairo man intawon ni Kim On, ni Tin Siugaw, diri na magririko pagnegosyo han hugaw.
+- Nabatian ni Dodong an pagtinawag han iya lola, sanglit inúkoy hiya hin mulay.
+- Ini nga libro an inúlang han magkadirodilain nga at
+- kaagi. íra (kanra): pagtag-iya nga tigsaliwan (possessive pronoun). their/theirs (they, in intransitive sentence form).
+- Nakikig- away naman hi Sumigin, api an iba nga kalalakin-an ha ira tribo.
+- An kolor berde nga hulabtog amo an iróng ngan an porma han tarong nga granate an iya ginhimo nga baba.
+- Matungod nga namatay an iróy ni Layong Uray han pag-anakan ha iya, nagtubo hiya ha pagbabantay ni iya tatay, hi Sumigin.
+- Kay may ada man isda.
+- Hi Pnoy it’ presidente hit’ Pilipinas.
+- Itinubyan ko ini ha imo nga akon uyasan, atamana ini. itó (it’): pagpakita nga tigsaliwan (demonstrative pronoun). that;this (far from the speaker but near the addressee).
+- Ikadi ito nga imo uyagan bangin mawara. itó’n: kasahiran nga tigpananglit (common determiner). variation of it
+- Nagtubo hi Layong Uray ha pagbabantay ni íya tatay, hi Sumigin. 2
+- Iyá, adi in’ santol. íyo: personal nga tigsaliwan, damo (personal pronoun/plural). yours/your (plural).
+- Sidnga didto, karabaw, it
+- mga tawo nga it
+- íyo pagkaon, usa la pagkaon hit’ kada tulo ka adlaw. Kk ka: personal nga tigsaliwan,uusa (personal pronoun/singular), kapinit nga tig-ihap (number particle). 1 you 2 links a numeral to a noun.1
+- Kay ano waray ka uli kagab-i? 2
+- Usa ka adlaw, nakabati hira han pagbudyong han bantay nga napasabot han pag- abot han mga tikasan.
+- Nabaroan ko tikang ha ak bugto nga nagmamata ngay-an hiya kada alas tres han kaagáhon para magrosaryo ngan magnovena para ha akon.
+- Ini nga libro an inulang han magkadirodilain nga at
+- Ginkakahadlokan ito hiya kay an mga kababayin-an nga nangangagi ginlalanat niya.
+- Dagko an kabakáhan ha turil.
+- Sugot an kabatáan kay waray man mahihimo kay uripon la hira. 2
+- An ira kabataán an nagmayuyo hadto nga kabataan nga nagkaiilo.
+- Adi inin kabayo, sakay.
+- Damo ha Pilipinas iton kablas nga mag-uruma.
+- Nagkakatitirok an mga kabugtoan ni Man Jess didto ha gawas han sirado nga balay.
+- Ngan an nga tanan nga mga higtaas nga kabukiran ha ilarom han bug-os nga langit nagkaaapo.
+- Susundon ko,Nanay, an imo kaburut-on.
+- Katima, nagproblema an itay ngada han duduha nga bata kay makuri man gud an ira kabutang.
+- Ginpapabay-an han aton gobyerno an kabutangan han katawhan.
+- Amo ito nga it
+- uding kay tungod hit
+- leon, kada kahuhuman pag-uuro, ira gintatak-opan hin maupay it
+- Ibabaligya ko ini, o sino man balyoa hin bugas, mga de kantidad, puro mga kadaan pa.
+- Nagpapasibo ha kadagátan makuri gud hidakpan inin balod.
+- Waray ako pumalit han imo sapotos kay diri ako maaram han kadakô han imo tiil/siki. 2
+- Basta kay pwerte hin kadáko hin barko!
+- An resulta hini nga pag-aram (research) madepende han kadamô han nakuha nga data. 2
+- Tungod han kadámò han napadara hin entry, napuno dayon an ira surudlan.
+- Kabugtoan, kadí anay, pamati madaliay.
+- Kadto kamo, kamo iton bantay hiton barko.
+- An usa nga linya aada ha napulo-kag-unom (16) ngadto ha napulo-kag-walo (18) ka silaba.
+- Kay mga katutnga na ada adto hin kagab-ihon.
+- Duro kagamhanan han leon ha kagurangan.
+- Ngan may ada kagutom ha tuna, labot han syahan nga kagutom ha mga adlaw ni Abraham. 2
+- Kagutom paghinulat, mauli na la ako.
+- Ini nga kahímtang may dako nga epekto ha kalidad han nagkakagawas ngan han binabasa nga Literatura ha Winaray.
+- Siring niya, “Dinhi na la ako huhuron hini nga káhoy.”
+- Kahuman uuro hiton uding, ira ito gintatakpan.
+- Kay kita ngahaw an kairo han aton mga binuhatan.
+- Siring na la an leon, “Ikaw nga uding ka, hadakpan ko ngani ikaw, kakaónon ko gud ikaw.”
+- Naputok an kakulba ha dughan an kamingaw asay gud dako. 2
+- Kakulba hito nga trabaho niyo.
+- An budo ayaw pagdad-a, an bahaw ngan luwag, layas kun malayas ka, diri matangis it’ ak’ kalag.
+- Puros kalalakin-an an mga anak ni Mimay.
+- Diri maupay nga pagmulayan hin bata an kaláyo. 2
+- Iya ginyabohan hin tubig an nagkakaladkad nga mantika, hala gad daw kay nagkalayó!
+- Kay an tawo nga hubya waray ikduha nga higayon ha bawbaw hinin kalibútan. 2
+- An mayor waray kalibútan nga iya ito anak ug an anak waray kalibútan nga iya ito tatay, kay waray man ini hira maghikiriglala.
+- Sanglit an katawhan duro an kalípay.
+- Hahani an hingpit nga ak kalipáyan; aanhi hira Nanay pati kabugtoan. 2
+- Upod ha harô an dahon han Kalipayan.
+- Ha giri han pader, ha giak han konkreto nga kalsáda may ko nasaygan.
+- s own personality, the right of possession.
+- Waray ako pagpasipara han akon kalugaríngon nga pamurubuot.
+- Ha kalúoy han Ginuo ha iya ngan hiya ginkuha nira, ngan ibinutang hiya ha gawas han bungto.
+- Sugad hini an iya pamati han kontra gusto niya pakahibaro han kamatuuran han iya pagkatawo. kamí: personal nga tigsaliwan, damo (personal pronoun/plural). we (exclusive).
+- Desisais kamí nga magburugto; umukoy kami didto ha Santa Rosa.
+- Naputok an kakulba ha dughan an kamíngaw asay gud dako. kamó: personal nga tigsaliwan /damo (personal pronoun/plural). you (exclusive).
+- Kamó nga mga tawo dinhi ha kalibotan, ha tuna, it
+- iyo pagkaon, tutulo ka beses kada usa ka adlaw.
+- Kan kanáy ta isasayop ini nga paglimot? 2
+- Kagutom, pero, didto kanda mayor damo hin pagkaon.
+- Kandidáto hiya ka Sangguniang Bayan.
+- Nanganak hin duha an amon kanding.
+- Linalantaw han usa nga Waraynon nga waray niya hul-os nga gahum ha iya kinabuhi, siring ko pa man kanina.
+- Kay ano naghihimo hin kanta an usa nga musikero?
+- Katapos, hala, káon ini nga amó didto ha igbaw han saging.
+- Ngan waray pa tanom ha kapatagan. kap-atán: regular nga ihap (regular numeral). forty.
+- Kapatan an iya kabakahan.
+- Ini nga istorya, tungod liwat ini han karabaw.
+- Ano an karán-on dida? Magutom man.
+- Pag- abot nira, dayon hira nga pinapangaon hin tinula nga manok nga duro an karása.
+- Marasa nga kaldereta iton karne hiton karnéro. karuháan: regular nga ihap (regular numeral). twenty.
+- Narumpag ini nga ira pagtipa dara han higayon, impluwensya ngan panginahanglan han nasud basi makalanat han karuháan nga siglo.
+- Bawion ta an istorya, ito nga tatay naanod ha usa nga bungto, didto hiya pagpatigayon pagpakabuhi, damo an kababayin-an nga karúyag makig-asawa ha iya.
+- Dida hito aton nakita an kasákit han iya kalag, han iya panginyupo ha aton, ngan waray kita pamati. 2
+- Kasakít ha tuhod pagsinakasaka hini nga hagdan.
+- Dumaraon an mga kasangkáyan niya ngan nagdugang hin pondo para han senimana ngan kinadabulan nga premyo hini nga paisan-isan.
+- Ayaw kasína kun may magpakiana ha imo niyan, ha?
+- Kasinahón man hini nga amo, kay waray hiya pakakadaop kay halarom an tubig.
+- Sumiring hi Sandangaw, “ Tatay, Nanay, ini nga ak
+- ginsaog nga lawaan, himoa ini niyo nga kasíng.
+- Nailiw na an kasingkasíng ko.
+- Nagpipinamati hiya han kondisyon nga kun káso magsala, papaulion ini nga kabataan. 2
+- Didto pagtago ini nga halas han buho han kasô.
+- Asya siguro mayda kasubô ha akon hunahuna.
+- Mahibabatian ini mga alas syete kataliwan han mga sumat ha aga.
+- Bunyog panguli an katamsihan, nahadlok bangin magab-ihan.
+- Ito ngani nga dako hin duro it
+- aton pagtagad hit
+- aton mangulo, katapós gutiay la it
+- Iginkab-it pa gud niya an kataposán didto han raysang kung diin niya ginsablay an iya manog-banog.
+- Suok ha katawhan an Operation Bulig.
+- Ada katima hadto, asya adto nga baga natalwas na it’ nga nahinglaw.
+- Ha katikangan masiring it’ mga tawo nga nasunog ini nga ulat nga aadi ha ak’ wala nga paa. katlóan: regular nga ihap (regular numeral). thirty.
+- Nabuhi hiya hin usa ka gatos katloan ka tuig, ngan nag-anak hin lalaki nga pareho ha iya ngan ha iya pamayhon.
+- Ngan ha butnga han imo katulinan ngan han iya katulinan hira an magtutultog han imo ulo ngan hi ikaw magtutultog han ira tikod.
+- An babayi anak hin hadi, an lalaki anak hin may kwarta pero waray katungdanan ha gobyerno.
+- Katungod han kada bata nga makagmulay.
+- Morena an panit niya pero klaro an iya pagkamaanyag kay mas maitom pa han katutnga han kagab-ihon an iya halaba nga buhok nga abot ha iya hawak. kaúnman: regular nga ihap (regular numeral). sixty .
+- Aada ha kaunman an iya edad.
+- An kaúpay hini nga siday nagtitikang han kalidad han emosyon han tono.
+- Kun diri man, ini kay para han pagkaurosa ngan kaupáyan han nga tanan.
+- Kaupod ko permi pag-uuli iton akon patod.
+- An tema han mga siday kaurog bahin han mga hitabo ha kinaadlaw.
+- Ako magtatanom lawiswis kawayan.
+- Ngan waray kabarak-an kay kada adlaw ngadi man ha akon an pag-uuli. kay ano (kay nano): pagpakiana nga tigsaliwan (interrogative pronoun). why.
+- Dida hira panhaw-as may akasya, ambot kun kay ano?
+- Pati an kabayo nakatangis tungod han iya bugto nga ginlamba han kerida han iya tatay.
+- Humagos an panahon, nagin kilala hiya nga newscaster.
+- May kalabotan ini han yayaknon
+- An mga sumat ha radyo mahibabatian an mga kagulalang ha kinabúhì ni Polano ug Polana, mga uropod, sangkay, kontra ug kaaway ha politika.
+- Napausa an hadì kun kay ano nga ini nga rasyon nagdodoble man, di kinadto.
+- Kapitan, kombidado ko ikaw han Lunes, kinahánglan umatinder ka.
+- Bisan di mo kami kinahanglánon dara nga maaram kami nga nagsusulwak ka hin kusog, aadi kami kay kami it’ nanginginahanglan ha imo.
+- Lugod, kinilála han mga Waraynon an panginahanglan han tawo han relihiyon.
+- Kinítà ko ini ngan kalit la nga may binalik ha akon hunahuna kay magkapareho an hitsura han munyeka hadto’n amon anay kasapit hin balay nga hi Anna.
+- Kaubos hito nga pananom ni Tatay, pira nga bugto ko an kinuhá. 2
+- Kinahanglan makakuha kitá hin tambalan kay ini darahog ini. 2
+- Maluya an kità yana han mga parupangisda kay madlos. 3
+- Didto kami kanda Nay Linda pagkitâ hin TV.
+- Ginpiruwisyo ako hito nga duduha nga gwardya, kitáa la iton pamisti.
+- Kakaonon ko ini yana.
+- Nanguna hira nga magtiayon nga nagserbi komo konsehal han syudad han Tacloban.
+- Ha mga sumat ha radyo mahibabatian an mga kagulalang ha kinabuhi ni Polano og Polana, mga uropod, sangkay, kóntra ug kaaway ha politika.
+- t remember or can
+- t immediately verbalize what he/she wants to say).
+- Kuan kuno ini, darahog. kuháa: verb. (asking someone) to get (something).
+- Kuháa iton imo mga uyagan dida ha sala.
+- Pagduong han barko kuhaon niya an kwentas, nga laong, ibabaligya ko ini, o sino man balyoa hin bugas, mga de kantidad, puro mga kadaan pa.
+- Kahuman nimo pagbutang han kwarta, imo na kukuháon ito nga grapa kun pira an kapital.
+- Pero ini nga siday kulang han sinisiring nga climactic build up—usa han mga kinaiya han siday ha radyo.
+- Sugad hiton, kay hira nagkakalakat kun kulóp na.
+- Hira in’ may hilarom ngan tinuod nga pagmayuyo han Waray, ira pa ngani ginpapasigarbo an kultúra hini.
+- May plano hira kumádto ha Manila
+- Kumanhi an taga-munisipyo nagbibiling ha imo.
+- Kun naruruyag ka kumaon hin silot,didto la kan tatay pakigsabot.
+- An ira nauusahan— ini nga lagas maupay kumitâ kun gab-i.
+- Kumuha hin kahoy hi Isbot basi idukdok han bayabas.
+- Buwas, kakadtuon ko it
+- hiya ha ira balay kun ano it
+- Diri niya karuyag paglatubon an drayber kundì karuyag la ni Aurillo ipakita in
+- usa nga kahimtang ha aton sosyudad. kunó: kapinit ika-5 nga klase (clitic particle class 5). was said by someone;according to; as told by .
+- Sige, ikaw na la daw anay kunó.
+- Mas maupay kuntà gamiton han mga bata an ira oras pagmulay/pag-uyas o, pagbasa.
+- Iya ito gin-ininaw, han baga tikaduok na, nawarayan hiya kusóg.
+- Hadto nga panahon may mag-asawa, an lalaki Mayor, an babayi mahusay ngan may kwarta. Ll la: kapinit ika-5 nga klase (clitic particle class 5). just; only; alone, no more.
+- Ginhangyo ni Layong Uray nga mainom la hiya ha tubig han iya gintikangan ha Balangiga.
+- Diri gud sabot ha
+- Waray naliwat lábot an taga-iba nga tribo. 2
+- Lábot la hito, waray na panguli nganhi an tag-iya hito nga balay. 3
+- Ayaw pag-labòt hiton gamit nga diri imo.
+- Amo ini an ginbasehan han pagpintura hin mag-upay nga ladáwan.
+- Hini nga panahon lagas na hi Sumigin.
+- Mga nagtatraysikol ha kada pamasada lain-lain nga tawo ginsisirbihan nira.
+- Waray pa pagpapawa, biyahe, waray umundang, lakát la.
+- Pero waray makaglingaya, nabuot la an laláki. 2
+- Nakabuhi an lalakí nga baboy ha tangkal kay namamarot.
+- Waray kaiha, bwelta liwat an karabaw ngadto ha langit.
+- Gintutugot han mga langyaw nga kapitalista ha mina nga kawaton an aton karikuhan tubtob ha waray wantas nga pagruba han aton kalibungan.
+- Ngan bisan ngani pati it’ imo lawas, karabaw, ipakaon gihap’ ha ira, kay para hira makakaon hin tulo ka beses kada usa ka adlaw.
+- Waray na balod inin lawód ko; hain na an mga haplas mo?
+- Damo an sugad hini nga libro an naghihisgot hin pamatasan.
+- Angay gud nga magserbi hin tuptop an usa nga líder.
+- May balay dida ligid han kalsada. 2
+- Nagligíd hira ha baybayon kay waray man nira sakayan pagtabok. limà: regular nga ihap (regular numeral). five.
+- Ginpinarte-parte ini para ha lima ka panimalay.
+- Kinabuwasan, sayo pa hi Man’ Jess linakat.
+- Han magtikang pagkaabot an mga kontribusyon, diri la tag-usa, duha o, tulo ka mga linya an ira iginpapadara—bug-os gud nga siday. 3
+- Gindakop an ira sinasakyan nga jeep kay waray ha línya.
+- Ini, tungod liwat ini han karabaw.
+- Oo, sige,” amo an malipayon nga baton han lola.
+- Nakalakat na an iya lolo ngan tiyo ngadto ha trabaho.
+- Lubi lingkuranay ayaw gad pagsak-i, kay hibuboayay.
+- Akon pamimilngon an iya lubngánan ngan ipapaayad ko ini.
+- Dayon ginpamiling han mga tikasan lugód: kapinit ika-8 nga klase (clitic particle class 8). instead; might as well; best thing to do; best thing would be.
+- Waray man ito balyoa nga kwentas, an babayi lugód gintikas.
+- Kitaa sa mata ko an puraw nga luhà, tigaman nga ikaw akon pinalangga.
+- An amon atubangan may ada lungib.
+- Lupád dayon ngadto an tamsi katima pakadagit.
+- Hala, kuno, karabaw, lúsad ngadto ha tuna.
+- Diri igkakalirong nga an siday—ha luyó han mga suson—usa nga pagpamatuod nga madasig ngan nagpapadayon an literatura han Sinirangan Visayas. Mm
+- Dara han bagyo, diri ada maábot hin napulo ka bakid an magagani yana nga katbari. 2
+- Ha pagkamatuod, nagpapakita ini han nahihimo han pagsiday ngan han kapas han pinulongan nga Winaray o, ano pa man nga linggwahe para maabót an sugad.
+- Ha bawbaw han Kanhuraw namumutang an City Hall kun diin liwat tinatamdan an maanyag nga dagat han Kankabatok.
+- Ito’n akon tatay, maaram it’ hiya manambal.
+- Pag- abot ngadto tabok, ibutang an bata, mabalik na unta para han usa, hala gad daw kay dinmaralwa!
+- Waray mabuhi an iya tanom nga tanglad
+- Kabugtoan kadi anay, pamati madaliay.
+- Ngan dida, may
+- da mag- asawa ha Olot.
+- Ngan ito nga nasod ira pag-aalagdon, akon paghuhukman ngan kataliwan hira magawas upod an dako nga kamanggaran.
+- Pangangadi basi di ka bubulagan hito’n imo anghel nga magbarantay.
+- Pagtul-a iton dama, an una makahubas amo an magdadará han premyo. 2
+- Kinuha hira han enhenyiro basi himoon nga magdadára han mga higamit.
+- Amay nga mga
+- Ako an maghahátag han angay nga rason hadto
+- n mga tawo nga kulang han balor.
+- Maupay an akon kalingkod han sumatan ako nga ako an magigin emcee han programa.
+- An magráot ug magtalumpigos— mga kaaway niya.
+- Masisiring ta nga an mga magsiríday han DYVL, labi na an mga batan-on, waray pa ngani ada makabasa kan Lucente, Makabenta, o Rebadulla.
+- Dara kay diri ginagamit ha pag-aram, an katahom han Winaray nga pinulongan hinngalimtan ngan an tradisyonal nga mga magsusúrat hinkalimtan ha kawad-an. 2
+- San-o ka magsusurát han imo nobela?
+- An iba, mag-úpay gud adto an ira mga lúwa.
+- Han pagdako na ni Layong Uray, nadidto na hiya upod ha iba nga mga maguráng nga kababayin-an.
+- Kanina nakada hi Mayor waray ka lugod magyakán ha iya han imo tuyo. 2 Ayaw pakigtinarutampo hiton magyakán nga mga tawo.
+- Pag-abot niya han ika-lima nga balay san-o han ira, umabat hiya han mahagkot nga hangin.
+- Mahátag hiya hin pagtahod han imo
+- Ini amo an maglilipay ha aton mahatungód han aton buhat.
+- Oo, Itay, waray kita
+- Manggud, damo han mga tradisyonal nga magsusurat an mahílig magsermon o, magbinusa.
+- Waray man hira mahímò kay an hadì gud ini nga nagmamandar, sugot nga igsusugba hira.
+- Lagas nga babayi nga kun mangiwa mahinay, ha usa nga traysikol hiya sumakay.
+- An pansit nga mahúgaw ayon han dila, langag-langag, mga but-ol naton din’ ha Tacloban.
+- Hadto nga panahon may mag- asawa, an lalaki Mayor, an babayi mahúsay ngan may kwarta.
+- Kun nangungumusta liwat ako hiton akon kasangkayan nga maíha na waray igkikirita, nabaton gihapon hira hin “amo la gihapon.”
+- Ta’k tatay maísog nga naatubang hit’ nga tanan nga nakakalisang.
+- Didto hiya bukid makaagí hin prutas, makakakaon.
+- Kun makabatí han mga iruistorya han kadagkoan, sulod ha usa nga talinga gawas ha luyo an nababatian.
+- Mákadto kami niyan kanda Apoy Emang.
+- Maaram gud hira nga kaugop nira an kamatuoran, relihiyon o, an Makagaráhom.
+- Makahímò ka na ba pagbasa han abakadahan?
+- Ha tagsa nga kahoy ug tanaman makakahímò ka pagkaon hin waray makauulang.
+- Ngan bisan ngani pati it’ imo lawas,karabaw, ipakaon gihap’ ha ira, kay para hira makakáon hin tulo ka beses kada usa ka adlaw.
+- Lingi gad, bisan la ako makakitâ hito’n imo kahimo, kontento na ako.
+- Diri ba an pulong nga “pag-ukoy” nagpapasabot nga ugsa an usa nga tawo makánhi ha kalibutan—diri hiya naukoy, naglalakaton hiya.
+- Panguha hin bayabas, makáon ako.
+- Ha ira mga obra, waray makikíta nga impluwensya tikang ha iba nga tradisyon hin pagsurat.
+- Kahuman han bagyo, maagahon na, makikit-an nga inin tubig ha dagat nagsugat ngan han tubig ha huron.
+- Hindaw, makíta ako hit
+- iya hubag. 2
+- Ambot kun makíta ini nga amon negosyo.
+- Makúha kita hin tambalan kay ini darahog ini.
+- Kay makúri man gud an ira kabutang, nagsiring an itay, “Panguli kita.”
+- Malipayon hiya han hatag ha iya nga bukad.
+- Pagkabuwas, mamíngaw na an panimalay han pagbuhat niya.s man (ma’): kapinit ika-3 nga klase (clitic particle class 3). too; also.
+- Kun ano man an ira nakakawat, iginbabahin nira ha ira dato.
+- Mana, panguli na kita kay bangin nagbibiling na hira tatay ha aton.
+- Ngan an Dyos naghimo han gidadagkoi nga mga mananáp ha dagat ngan han nga tanan nga buhi nga mananáp nga nagkikiwa.
+- Diri ako naghihingyap hin bisan ano nga manggad, kundi an imo gugma. 2
+- Pakadto gad la, manggad la maluoy ha imo. 3
+- Kakusog ngan kaisog manggad han kasingkasing.
+- Babayi an akon manghod.
+- Hi mano Palabio mahal magbaligya. 2
+- Mano- mano an amon paghimo hito nga tulay.
+- Paggawas nira ha mall, may mga naglalaray hin iba-iba nga klase hin manog-banog ha daplin han karsada.
+- Pananglitan, kay ano nga tinatawag nga “malonbalonan” an malonbalonan han manok?
+- Katitima nira pangingiklop, mapakadto ito hira ngadto han balay han ira apoy.
+- An iniingganyo han DYVL nga siday adto’n naghihingaday han kun ano an mapasô nga isyu—reporma ha tuna, kalibongan, agrikultura, druga, pangurakot, tinuyaw ha gobyerno, kahimyangan. 2
+- Tapos na gad ito hiya pag-eskwela pero ambot kun mapasò hiya yana nga Marso.
+- Kun ano man it’
+- maraot nga mahitabo ha barko, papagbayaron hira.
+- Nagdali-dali hiya pagpalit hin pan de sal kay marasa ini nga ipamahaw kun mapaso pa, ngan kun ginsasawsaw ha tsokolate – narururasa.
+- Ha pagkamatuod, an ira kasarang mas haruhaloag pa kompara han kadamo han paragsiday nga nailakip dinhi.
+- An Winaray timasa la ito, masiríng kita.
+- Ito nga kawayan han kasanhi, ibinubutang dida, may ada ka masugád hito.
+- Ayaw kabaraka may masunód pa nga awto yana nga maagi, temprano pa. 2
+- Buotan gad ini nga bata kay masunod.
+- Bisan hin-o nga makikit-an han matadong nira mga matá ginlalatos ha ira programa. 2
+- Matá na kay aga na. 3
+- Makuri pagbiling hiton sasing ug kipí kay kinahanglan maaram ka hiton ira máta.
+- Bisan hin-o nga makikit-an han matadong nira mga mata ginlalatos ha ira programa.
+- An puntirya han pagdayaw ha siday amo an matahóm nga daraga, tawo nga maabilidad, susbaranan nga amay o, inay, padi, talahuron nga opisyal han gobyerno, magturotdo o, mangulo han barangay.
+- An Iroy nga Tuna matam-is pagpuy-an.
+- Diri ba hiya nahulat matapos it
+- baton kun namamatbat?
+- Kun matugot kamo,
+- Ayaw gad uday, pastilan, it’ akon tinguha kataposan na la it’ ak ha im’ paghigugma, nga matúman la it’ ak’ ha im’ tinguha, para ha im’ uday nga akon ka gud hinigugma.
+- Nagpadayon ngan nagin maribhong ini nga paisan- isan hin siday diri kay matungód han premyo.
+- Kun hi Kain iginbulos hin makapito, matúod nga hi Lamek makapitoan kag pito liwat nga bubulson. 2
+- Di ako matúod hiton imo ginsisiring, gin-iinuwat mo la ako.
+- Ta, hala, maúli na ako. 2 Hin-o man an maulí hadi nga mga lingkuran?
+- Amo ito nga it
+- uding kay tungod hit
+- liyon, ira gintatak-opan hin maúpay it
+- ira tai kahuhuman uuro.
+- Asya gud an karuyag, maupód gud hiya. 2
+- Ayaw pagsumat adto nga maúpod kay makakasamok la ito hiton aton lakat.
+- Iya papaluparon ini hin hataas ngan hingyap niya nga mautod an higot han iya ginsurat basi mawarâ na an iya hinsabtan.
+- da kuan koneho, nga inin nagmiminakaluoy ha leon. may ada (may
+- da/ mayada/may-ada/yaon/may yaon): tigpanhitabo (verb),tigtulidong (modifier). there is/there are; has/have; wealthy.
+- Bisan pagpakaon han mga tawo waray problema, kay may ada man niya.
+- Mayor patrabahoa gad ako, makakaon-kaon la; Ngalaong: Oo, didi ka la, bulig-bulig hiton kusinero pag-alog.
+- Damo yana iton tawo ha merkádo kay tabo. mga: kapinit (clitic particle). 1 pluralizer 2 approximately . 1
+- Ginsisiring nga anak daw hiya han mga engkanto. 2
+- Mga tulo anay kabulan san-o hiya nakabalik ha amon.
+- Hinihimo han paragsiday an iya pagdayaw ha butnga mismo han iya pagluwa dida han okasyon. mo: personal nga tigsaliwan, uusa (personal pronoun/singular). you/your.
+- Ano, nasiring mo na didto an mga tawo?”
+- An baga istorya man han kasanhi, an Moros liwat.
+- It’ iya la ginpoproblema kun ano it’ kakaunon hit’ iya mga mulúpyo niyan.
+- Hirani la, kay atbang man la ito hit
+- munisipyo namon. Nn na: kapinit syahan nga klase (clitic particle class 1). indicates completed action.
+- Han bata pa ini hi Layong Uray, nasasabtan na an iya kaibahan han nga tanan nga tagabungto.
+- Pagtamod niya, naábat niya an kadena nga nagtitikahugot ha iya liog.
+- Kun naabót na an mga tikasan, gintatago niya hi Layong Uray ha ilarom hit’ mga puno nga dagko, nga naigbaw it’ mga ugat.
+- Ginsisiring nga nainom ngani ini hi Layong Uray, nasilhag an tubig nga naági ha iya but-ol.
+- Dumako ako nga nag-iinukoy la ha amon balay, kun makabati han mga iruistorya han kadagkoan, sulod ha usa nga talinga, gawas ha usa liwat an nababatian.
+- Kun nadangat na an
+- Kinabuwasan, nabatìan ko an pagkinagod han lubi ni Man’ Jess.
+- Kun kilal-on ka matungod hiton imo nabúhat ha sining, pasobra na la ito.
+- Kay nagsiring an tambalan, “Kun waray pangadii, bangin nabúhi adto.
+- Amo ito iton karabaw yana nabúlig hit’ pag-uma naton.
+- Ambot kun kahubya la ini hiton akon ginpapakianhan o, nadírì hira nga an nasabi nga butang paghimangrawan.
+- Matungod nga nagámit man gud hin boses an radyo—ngan waray pa makaugsad tikadto han panahon han pag imprenta—nagin lugar hiya han mag upay mamag-oratoryo ngan deklamasyon.
+- Kaiha-iha ano, nag-anak hira.
+- Ngan an Dyos nagbendisyon ha ira.
+- O, kay ano nagbubúhat hin sayaw an usa nga mananayaw?
+- Kinahanglan nga pasidunggan an nagbúhat hin maupay ha aton katilingban.
+- Delikado an pagbabag-o kun ini nagdadará hin karat-an. 2
+- Hin-o man an nagdadará han mga lalabhan?
+- Nagdará hin sakit adto nga mga dayo dida han ira lugar.
+- Amo ito, naghadì hiya hin kamadugayan na.
+- An tagdumara han RCBC an naghátag han una nga pondo para han kinadaadlaw nga premyo han siday nga naabot ha P15.00.
+- Kay ano an usa nga tawo naghihímò hini?
+- Matungod nga pirmi hira gin-aatake, naghímò hira han kuta ha prente han ira bungto.
+- Ha igbaw hini
+- Bata pa hiya nga nagin kaparte han DYVL.
+- Ngan hiya nag-inop.
+- An balak nagpabilin ha iya porma bisan pa man kun nagkaada ini hin mga bag-o nga tawag ngan naghuram hin mga aspeto han mga yinaknan han mga mananakop.
+- Ngan hira nagkalákat ngadto ha langyaw basi magtrabaho.
+- Didto na ito hira ha bukid han Apoy pagkatatawo.
+- Duro an aringasa han nagkikitá. 2
+- Iya kuno ini ginpapakianhan nga mago hin “Kumusta?” kun nagkikíta hira.
+- t remember or can
+- t immediately verbalize what he/she wants to say).
+- Katima, nagkuán hira, naghermano.
+- Iginhahalad ini para han Waraynon nga kultura kay ini an magsusumpay han yana, han naglabay ngan han buwas.
+- Iya gud man kaptan an bukad, naglinakat na hiya ha dagat.
+- Ngan an Ginuo nalukmay niya, ngan hi Rebeka nga iya asawa nagmabdus.
+- Tinikangan ini namon dida han 1979 ngan nagpadayon na ini hasta nga natima an bug-os nga tuig.
+- Nagpaháyag gihapon hiya han susumaton ngan pusong, mga syahan nga porma hin pag-istorya.
+- Nababaraka hi Mama, asya nagpakiana.
+- Ini nga siday nagpapakità han mayagayaga ngan mapintas nga panmahungpahong han mga Waray—maigat ug mayaangyaang.
+- Pero bisan pa man, diri ko gihap hira puyde sumatan kay nagsaad ako kan Anna nga waray iba nga makakasabot kun ano an tinuod niya nga ginbubuhat.
+- Oo, Mahal nga
+- Hin-o an nagsúgò ha imo? 2
+- Ngan an agaron nagsúgò han lalaki nga maghawan dida han pagtatamnan.
+- Ngan an tawo nagtáwag han iya asawa nga an ngaran Eva.
+- Dida hinin mga urhi nga mga tuig, nagtikáng makaangkon hin mga pasidungog an ira istasyon.
+- Nagtindog hira hin payag ha butnga han kahagnaan.
+- Hadto’n nagtitikang pala ako magsurat,ginsisinubad ko an magkarit nga mga magsusurat.
+- Nag-ukoy anay kami hadto ha San Policarpo.
+- Hin-o an nagyakán nga waray klase?
+- An tanan nga estudyante nahádlok nga mahulog ha iya klase.
+- Waray na may maaram kun ano an nahanabó kan Simang.
+- Waray mag-iha nahímò na ini nga paisan-isan.
+- Nailiw iton bata kan iya nanay.
+- Niyan han naglalakaton na, nakaági hira hin hinogan nga prutas, sidngon ta na la, mayabas. 2
+- Ito nga lagas an nakaági ha ira ha sapa.
+- Usa ka adlaw, nakabatí hira han pagbudyong han bantay nga napasabot han pag-abot han mga tikasan. 2
+- Hin-o ha iyo an nakabatí han istorya ni Sandangaw?
+- Nakadâ la ini pinuputos han dahon han saging. 2
+- An ira inay nakádto la han harumi han barko. 2
+- Pakianhi daw imo Mana kun nakadtó na hiya kan imo Apoy Dita.
+- Baga nakadungóg liwat ako hin istorya didi, makaharadlok liwat.
+- Asya ito nga ini nga bato nákanhi. 2
+- Nagkukuri an Pilipinas dara han mga dayo nga nakanhí.
+- Di nakaon an babayi.
+- Nakapira man ako hito niya dad-a, ginkakarga la ako han iya jeep.
+- An mga eksena nga nakikità ko ha panhunahuna baga’n telenovela ngan mas klaro pa kay kaupod ako han istorya. nakikit-an (naiimdan/ nakukulwan/nahikukulwan): tigpanhitabo (verb). is seen; being seen.
+- Amo adto an amon nakikit-an nga mga idro didto ha igbaw.
+- Takay, nakilála an babayi han mayor, “Akon ito asawa, kun ito nga duduha nga bata magkaruha ito, akon ito mga anak.”
+- Kay nakíta nga nauro ito
+- n uding, kahuman nira uuro, ira ito gintatak-opan. 2
+- Waray ito hira magpadayon kay nakitá na man nira an maraot nga epekto han ira plano.
+- Ala gad daw kuno, kay may
+- da hito nira nakit-an nga dako nga tamsi. nákon (nako): personal nga tigsaliwan, uusa (personal pronoun/singular). I; me; my; mine.
+- Waray pa ini nákon bunyagi, pero hi Mano Kurt nasiring hi Black Beauty kuno ini.
+- t remember or, can
+- t immediately verbalize what he/she wants to say.
+- Amo nga nakuan ako, nakanhi.
+- Dalagan man gud an koneho kay nakúha na man an iya tiil didto ha bato.
+- Kun nasisina nalakat ka, nag-uusahan ako ha tabi.
+- Ginkakarawat ka nam’ dinhi ha amon lugar.
+- Mano, pwede kumadi ka la anay niyan ha balay kay may ada námon igpapakita ha imo.
+- Dinhi ka la, bilin ka niyan nga gab-i kay makadto ako kanda nanáy.
+- Aga pa nangabót an mga bisita.
+- Kataliwan, nanganák iton hira nga mag-asawa.
+- Nahingain na ba an tingog han mga tawo.
+- Ngan hiya tinukdaw ha harani nira ha ilarom han kahoy ngan hira nangaon.
+- Waray ako pagpasipara han akon kalugaringon nga pamurubuot, kundi, nangarò ako hin gahom kay ikaw man an akon portuna—maghingaraot, maghingaupay.
+- Ako nanginginyúpo ha imo nga diri mo gad lambahon.
+- Bisan an mga kamikaze pilots, nagpakakita kami nga napakádto han barko.
+- Ini nga nanay, diri napakita ha iya bana.
+- Napaúsa ako kun kay ano nagkahaw-as an duha ha may akasya. napúlò: regular nga ihap (regular numerals). ten.
+- Pero ikaw, Pedro, han napúlò ka tuig waray ito manhimarbas.
+- An negosyante kay narurúyag
+- Dida han pag-iha narúyag na la an bata ngada han iya mulayan nga munyika nga buringot.
+- Agud maharuharani ha sentro han komersyo, bumalhin an nasabi nga istasyon ngadto ha Patria Building.
+- Pasayloa hira Ginuo, kay diri hira nasabót hit’ ira binubuhat.
+- Agi daw, nasína daw ini nga buwaya.
+- Nanaringsing ini hira dida han magtikang makaangkon hin kamandoan an duha nga pinulongan— an English ngan Filipino/Tagalog, an opisyal nga pinulongan han nasod.
+- An mga tawo nga baga mag-isog pagsasaka han pader, kay nasúgad man hito, ginkakalidingan nira hin bato nga di makadayon ngadto.
+- Hinkikit-an gud it
+- nira nga an bata nasulód han muskitero ngan nagawas. 2
+- Makuri maabot han mga bomber an sunog kay adto ha súlod.
+- Niyan, hadto nga panahon an kada nasyon nagbabalyo
+- An iya paghigugma han Waraynon nga kultura sobra pa han paghigugma han mga natáwo dinhi hini nga dapit.
+- Babayi an nati han amon karabaw.
+- Diin natíkang iton uran? náton (nato): personal nga tigsaliwan, damo (personal pronoun/plural). we; our (inclusive).
+- An pansit nga mahugaw ayon han dila, langag-langag, mga but-ol náton din
+- Dara han social milieu kun diin nagsusurat hi Pinca, naturál nga may epekto o, masasalamin ini ha iya panurat.
+- May naukóy nga higante ha Isla han Suluan. 2
+- Kun nauran ngani, naukóy kami pag- inuyas.
+- An ginkaibhan la han usa nga Waray tikang ha usa nga Mexikano kay diri puy-aw (solitary) an pamahungpahong han naúna.
+- Nawarâ an akon lapis. 2
+- Tápos yana kan nawárà Polano ngan nawara Polana.
+- A, kaguol man nímo. níra: pagtag-iya nga tigsaliwan (possessive pronoun). theirs.
+- Napirdi an tribo níra. níya (unina): personal nga tigsaliwan, uusa (personal pronoun/singular). hers/his/its.
+- Maaram ini hi Sumigin, amo nga pirmi níya gin-uupod hi Layong Uray bisan diin hiya makadto.
+- Sumiring nga, “Mano, pwede kumadi ka la anay niyán ha balay kay may ada namon igpapakita ha imo.” níyo: personal nga tigsaliwan, damo (personal pronoun/plural). you; yours (all the listeners).
+- Ginpainop hira nga sumiring ito nga ayaw níyo paglinaboti ito nga bata kay mabubuhi it
+- hiya hin iya kalugaringon. NGng
+- Han bag-o pala nga nahihimo an Balangiga, an naghahadi hadto hi Sumigin. ngadâ (ngaon/ngathon): pagpakita nga tigsaliwan (demonstrative pronoun). to that place/condition (near the addressee).
+- Waray na makagpainop hiya nga sugad hito an iya kabutangan ngadâ na han kadaraga. ngadí (nganhi): pagpakita nga tigsaliwan (demonstrative pronoun). to this place (near the speaker).
+- Pinanara hira han mga tikasan ngádto ha ira.
+- An entri nga nagdadaog an binabasa hito ngáhaw nga adlaw.
+- Ngal’ong han iya ginkatapo, “Kay ngaín ka?”
+- Ha igbaw hini natungtong it’ bantay ngan naghuhulat ngan nangingita. ngánhi: pagpakita nga tigsaliwan (demonstrative pronoun). to this place (going in the direction from a distance to the speaker).
+- Kadtoa an hardeniro, paaroti ngan pasak-a ngánhi ha akon kay may ada niya sala.
+- Ginsisiring nga nainom nganì ini hi Layong Uray, nasilhag an tubig nga naagi ha iya but-ol.
+- Kay ini ka ngay-an, Hangagay, ikaw ngay-an an nagpipinangagat ha akon. Oo
+- Pwede ka mag-una pag-uli o, maghuhulat ka ha akon.
+- Usa nga OFW an akon nanay.
+- Okey man an akon grado kan Mrs. Lucente.
+- Ngan bumaton hiya hin, “Oo adto pa ha ira.”
+- An puntirya han pagdayaw amo an matahom nga daraga, tawo nga maabilidad, susbaranan nga amay o, inay, padi, talahuron nga opisyál han gobyerno, magturotdo o, mangulo han barangay.
+- Han óras na han pagtawo, sumiring an kapitan, “Mayor, diri ako puyde kay hin-o man an magbabantay hinin barko.”
+- Pusilon ko otro, asya na an kaigo. Pp pa: kapinit syahan nga klase (clitic particle class 1). still; yet; else; more (indicates that an action/condition has not been completed yet).
+- Han bata pa ini hi Layong Uray, nasasabtan na an iya kaibahan han nga tanan nga tagabungto.
+- Kinokopya han iba nga mga istasyon an paagi ngan istilo han ira mga taramdan.
+- Tukdo han kalo, taklos han iya sundang, bitbit han bayong nga surudlan hin mani nga padará han iya bugto para ngadto han iya kaumangkonan. 2
+- Padára ka la liwat hadto nga pumaralit, nag-alkansi ka lugod hito yana nga imo pabligya.
+- Sugot an kabataan kay waray man mahihimo kay uripon la hira, padáyon an pagtawo, didto an kapitan, sarayaw nga tanan.
+- Aada la gihapon an gumuho nga padér ha usa nga eskwelahan.
+- s child). 1
+- Niyan may usa nga padì, an padi dida han bungto may ada bugto nga daraga. 2
+- Agi anay kita kanda padí Tomas, basi kita makapangaon.
+- Pag-abót ngadto ha tabok, mananggot ito hiya.
+- Ito dida nga dapit, pag-ági dida han ira balay, may
+- da niya bubon ngan hin baga kawayan dida han ligid.
+- Waray pa pag- anak an amon ayam.
+- Nagpahamtang hi Douglas McArthur hadto’n makasaysayan nga pagbálik niya ha Pilipinas.
+- Pagbúhat kita han mga butang nga makakabulig pagpauruupay han aton katilingban. 2
+- Naratas an iya saruwal pagbuhát niya kay sumangit ha raysang.
+- Danay matapo an iya kasangkayan para buligan hiya pagdará han iya mga hinpukotan. 2
+- Didto na la ito hiya, waray na umuli kay maupay man an pagdará han iya mga agaron.
+- Saki na ha paragsiday an paggamit hin tugma.
+- Nakahunahuna hiya paghátag hin mga puplonganon ha Waray kada kahuhuman han taramdan, agud magkamay ada baga iba nga rasa an kada aga nga mga sumat.
+- Ini hira an naghahablon hin abaka nga gingagamit paghímò han ira mga bado.
+- Ayaw pag-inom hin mahagkot nga tubig kun matumar ka hin bitamina.
+- Han iya pagkádto ha Bohol, nagkamay ada hiya higayon makakita han usa ka klase hin amò, an mago.
+- Ha pagkamatuod, an tuba tikang ha Barugo an pinakamarasa.
+- Kaon na la, ada man hin pagkáon ha lamisa. 2
+- Ginsiring hiya nga, “Sidnga didto, karabaw, it
+- mga tawo nga it
+- iyo pagkáon, usa la kada tulo ka adlaw.”
+- Di pagkuán hit
+- niya, may ada man niya sugad hit
+- nga ano, iya
+- t gindaop ngadto.
+- Kay sugo man pagkuhâ hin
+- An pagláom han siday an taga Norte han Samar nga hi Pablo Rebadulla, usa han pinakahag-id ug lyrical nga paragsiday.
+- Ini nga pulong nagsusumat han kultura o, kun tiunan-o kita nabaton han panginahanglan, pananglitan, nga makakaon katima naton pagmatá ha aga.
+- Nagdalidali hiya pagpalít hin pan de sal kay marasa ini nga ipamahaw kun mapaso pa ngan kun gin sasawsaw ha tsokolate – narururasa.
+- Maano pa man, an nakakabati o, nakakabasa nagkakamay ada pagsántop ngan simpatiya dida han makatarawa ug makasusobo nga kondisyon han tawo.
+- Imbestigasyon dayon, pagsiring han duduha nga bata.
+- Han pagkita namon ngan pagsumati ko ha iya nga waray ako makaupod han mga pinmasar, mas nahiuna pa hiya pagtuok ha akon.
+- Waray gud may nagsulsog han kan Pablo Rebadulla pamaagi hin pagsurat nga permi puno hin emosyon sugad han iya Basuni (1990) ngan duro hin katalagsaon ngan popular.
+- Naghinulat hiya ha kanto para pagtapô kan iya tatay.
+- Bisan han pagtikáng pala han operasyon han minahan libre ngan ilegal na ini nga nakakakuha hin tagpira ka tonelada hin magnetite sand ha aton kabaybayonan.
+- Pag-ukóy han pag-inusig han ayaman, amo an akon pagbuhat. 2
+- Kay hi Isong, iya katampo hin pag-ukóy ha balay, nagkatampo hira puros namon kabulig-bulig.
+- Pag- ikaduha, tumungtong la gihap hiya didto pag-ulì.
+- Nagtikang hiya pagyakán ha edad nga 2 anyos. 2
+- Binasa han tinaglawas an kanan Gobernador pagyákan, kay diri man hiya makakatambong hadto nga katitirok.
+- An mirisi, dida han may magrebyu hini nga nasabi nga sarswela ug nahimantala ha usa nga pahayag dinhi ha Sinirangan Visayas, kay an direktor la an ginngaranan.
+- Waray ako pakabátì han
+- Lumakat kami pakadto ha Guiuan alas kwatro pa la hin aga.
+- Hala, kay waray man ito pakakítà an kapitan han babayi, largo man ginkaptan an mga bata ngan pasak-on ngadto han barko.
+- Pagkadto han padi han, kun baga yana, sentro pakiána hiya, “Doktora, ano an resulta han akon ihi?”
+- Kubalon an iya pálad dara han duro nga trabaho. 2
+- Aanhon ta kay an pálad barubaliskad, diri mapugngan an limbag-limbag.
+- Nakadto ha usa nga tore han palásyo naukoy an prinsesa.
+- Usa liwat nga nagataw dinhi amo an pamahungpahong han Waraynon ngadto han mga butang ha iya palíbot. 2
+- Nagsabwag hira hin asin palíbot han ira balay.
+- Kamamahal han palít ko hito.
+- Ini nga pamaági hin pagsurat, gawas han iba nga porma, asya sinusubad han mga batan-on mga magsusurat.
+- Kun maupay an iya památì han tunog ug ritmo, posible gumamit hiya han pag-ihap han silaba. 2
+- Ayaw hin aringasa, památì lugod.
+- Pero, waray ako kalibutan nga dida ha imo ginhulog kay an sugo ko ha iya pamiling han akon portuna.
+- Ada, an kapitan lugod an napriso, hira la gihapon an naglungon nga pamílya.
+- Hadto nga panahón damo an tikasan nga nangangawat ha iba-iba nga bungto. 2
+- Namumuruglay ini nga kabataan dida kun maupay iton panahón.
+- An Baga Durogas nga Baga Tinuod ni Iluminado Lucente an usa nga pananglítan hin maupay nga pagsiday.
+- Hinay pagkaon kay bangin magkahugaw iton imo panápton.
+- Alas syete hit’ aga kami namamahaw, usa nga pan-de-sál ug luy-a nga lapsaw.
+- Madakmol ug nagdadag-om inin panganúron, pamulkasa iton imo pinanmalaypay kay mauran.
+- Han nagkita na kami, ngan nakit-an niya an akon dara, iya ako gin-imbitar pangáon didto han restoran ha harani. 2
+- Kadi, pangáon na!
+- Dida han tungod na han pángpang han salog asay niya hinkit-an an barko nga bulawan.
+- Hi Benigno Simeon Aquino III it’ pangúlo hit’ Pilipinas .
+- Hiya an magsusurat han pangúna han ira libro.
+- An mga manmarati han kinadaaga nga balita an may kasayoran han mga panhitábò ha sosyudad.
+- Sinurat an damo nga ira mga siday basi makiglantogi o, manlatigo han nalihis nga panhunahúnà o, pamatasan.
+- Naging kaparte han kada panimaláy
+- Kahamis han iya pánit.
+- Waray niya panúyò magtutdo hin moral, diri hiya nag- aaghat ha aton nga pagtimbangon kun hin-o an sayop ngan tama, hin-o an angay sirotan ngan pasidunggan.
+- May inmagi nga tamsi ha amon natad may binanga nga papél. 2
+- Hi Cesar Montano an gumanap ha papél nga Rizal.
+- Dayon ginpamiling han mga tikasan an mga kababayin-an pára na unta dad-on ha ira lugar. 2
+- Tuktok an konduktor, pará an drayber. 3
+- Malipay an bata han bag-o niya nga lapis ngan párà.
+- Hinihimo han paragsidáy an iya pagdayaw ha butnga mismo han iya pagluwa dida han okasyon.
+- Hi Pedro parag-uma.
+- Inin kinabuhi parého hin binlad.
+- An yinaknan han timog nga párte han Leyte, upod an Villaba, amo an Cebuano/Kana,.
+- Pastilán gad mano, iton imo gugma, ayaw, pastilán gad, mano, igpadayon, kay makawang la iton imo mga pulong.
+- imo lawas, karabaw, ipakaon gihap’ ha ira, kay para hira makakaon hin tulo ka beses kada usa ka adlaw.
+- Dara han patók kay pupudlon na an kahoy.
+- Ada, inmabot an bulan han Mayo, patrón nga patrón ka duro, an iya mimisahan Santarin. Hi San Roque an ira mahal nga patrón.
+- May nira payag ha butnga han hagna.
+- An pamahaw ha Samar ug Leyte pérmi binabahogan hin mga sumat tikang ha telebisyon o, radyo.
+- Naupay an sakit han mayor, péro waray tugoti pag-uli kay baga ginkwarentinas.
+- Pag-abot ngadto ha talimpongayan kay didto tutubong an pikóy han iya mga piso, pamuruton an gamit han hadi, sul-ot tanan hasta kapa, piloon an iya buhok, magkorona ngan dumalagan.
+- Diri la Tagalog an yinaknan han mga Pilipíno.
+- Hinihimo an sukol ha kada linya pinaági han pag-iihap han silaba ngan han pagbubutang hin caesura.
+- Pinalít niya nanay an uyasan nga iya karuyag.
+- Maaram hira mag-ekonomiya ngan maaram han tubtoban han ira pinílì nga hinihisgotan.
+- Hira an nag-aaram han Winaray nga pinulóngan.
+- Nangangamote hi Tatay, pipirá pa la ka bubon—duha na ka lata. pipitó: regular nga ihap (regular numeral). seven (restrictive).
+- An pitó nga mag-upay nga baka amo an pipitó ka tuig.
+- Kaubos hito nga pananom ni Tatay, pirá nga bugto ko an kinuha.
+- Pirit ako nga mag-aantos, an luha sa mata daw burabod, ay ahay.
+- Pitad basi ka makalakat utro. pitó: regular nga ihap (regular numeral). seven. Pitó hira nga magburugto.
+- Kay ano may póbre ug
+- Hi Man’ Pura nga ira pinakamagurang
+- say an nag-abri han pórtahan ngan makangingirhat an amon hin kit-an.
+- Benigno Simeon Aquino III it’ presidénte han Republika han Pilipinas.
+- Tatay, ipalit gad liwat ako
+- n uyagan kay an akon una ginbalyo man hito nga prinsésa hin kamison.
+- Ambot, kun an prinsipé an naasawa han prinsésa o, adto nga nag-istorya.
+- Katikas, nagprobléma an itay ngada han duduha nga bata.
+- Nagtikang ini nga prográma dida han 1974 ngan hasta ngada yana nangunguna la gihapon ini.
+- Iya hinihikas an iya púkot ngan nauli hiya ha ira dara gihapon an iya dakop.
+- Tinawag nga Kana ini nga yinaknan tungod han agsob nga paggamit han púlong nga "kana" (ito man) ha ira himangraw.
+- Kun naabot na an mga tikasan, gintatago niya hi Layong Uray ha ilarom hit’ mga punò nga dagko, nga naigbaw it’ mga ugat. 2 Waray may nadaop ha dara han iya punò. 3
+- Punô gud ko yana hin kalipay.
+- Ibabaligya ko ini o, sino man balyoa hin bugas, mga de kantidad, púro mga kadaan pa. 2
+- Nasangya hira ha usa nga purô.
+- Dumako ako nga ginyayam-iran an muron, púto ngan duma ha lamesa, kay an spaghetti, cake, salad, mango float an ginbibiling han akon banyaga nga dila. 2
+- Hi ako an putó ha amon nga magburugto. 3
+- Puto ito nga insek kay hugador.
+- Mano, pwede kumadi ka la anay niyan ha balay kay may ada namon igpapakita ha imo. Rr
+- An pamahaw ha Samar ug Leyte permi binabahogan hin mga sumat tikang ha telebisyon o, rádyo.
+- Diin ka pakakaagi hin balay nga waray ráysang kundi gugma.
+- Buwas, kakadtoon ko it
+- ira balay kun ano it
+- Matutuman kay larang man kuno sa Diyos, pero limbong san iya manghod.
+- Waray problema, an sáad ko ha imo, tutumanon ta ito, waray ito problema.
+- Kundi tugob hin pag-aradman, sadáng niyo ikalipay.
+- Paghikadto la ha baybayon, nakaagi hira hin sagíng.
+- Paarot, kahuman saká ngadto ha tore, may tuyo ha imo an hadi.
+- Waray man hiya iba nga binuhat, sakáy dayon. 2
+- Adto nga barko tikang ha Manila, damo an sákay.
+- Nakatapo na liwat hiya hin sakayán. 2
+- Hilaba iton pila didto hiton sakáyan para San Jose.
+- Han bata pa an akon nanay, may
+- da niya beri-beri nga sakít. 2
+- Aguy, kay sákit gad an amon ha kamot han mga Hapon.
+- An anak nira duro nga nakaon, an usa ka sáko ambot kun mabuwasan.
+- Ngan an katamsihan magkalupad ha babaw han tuna ha sakób han panganuron han langit.
+- Sáksi ako han iya mag-upay nga binuhatan.
+- Kadtoa an hardinero, paaroti ngan pasak-a nganhi ha akon kay may ada niya salâ.
+- Salámat, tatay ug nanay, han iyo paghigugma.
+- Diri maupay iton bata nga naara/nahiaara hin salapi.
+- Salit, nasuspetsa lugod an Hapon.
+- May manunodsod dida ligid han salóg han Can- omantag. 2
+- Nahigda na didto han salóg, kay hubog.
+- Bisan an bulan maparong, maghahanap ak
+- sin bituon, dadawgan ko, luludhan ko, tambal san gugma nga ilo.
+- An ini nga pikoy paglupad murayaw, natuntong han sangá dagos paparayaw.
+- Dida hinin naglabay nga patron ha Palo, inin akon sángkay nagpasalida hin sarswela.
+- Sánglit, naghingaupay adto nga bata. sán-o: pagpakiana nga tigsaliwan (interrogative pronoun). when.
+- Pinakiana hiya san- o ginpasulod ha gate,“Diin ka tikang?”
+- Surundanon han mga parahilot nga manguha hin mga tanom nga nakakabulong didto ha kagurangan kun Byernes Sánto.
+- An sapít hini nga bungto ngadto ha unhan pa ha katundan nagsi-Cebuano na.
+- Iginpapaabot para han mga pasahero labi na an mga lalaki nga nangingirugtol basi di hikit-an han pulis ha butnga han sarákyan ngan bangin makahigayon nga
+- t ha ilarom han saya—nga laong,"Panumdom kan imo nanay."
+- Waray pa bumalik an sarapáti nga akon binuhian didto ha Dulag.
+- Waray niya panuyo magtutdo hin moral, diri hiya nag-aaghat ha aton nga pagtimbangon kun hin-o an sayóp ngan tama, hin-o an angay sirotan ngan pasidunggan.
+- Usa ka semana an iya pagliniyungliyong pamiling han tubig ha Tado.
+- Di na kinahanglan hin lote ha sementéryo kay pwede man nira iglubong ha ira libong o, ikada hin vase o, crematory jewelry.
+- Aadto si Harold sa Catarman.
+- Han magtikang pagkaabot han mga kontribusyon, diri la tag-usa, duha o, tulo ka mga linya an ira iginpapadara--bug-os gud nga siday.
+- An duha nga bata, sidngón ta an edad mga dose anyos na, ginsugo nga magbantay han barko.
+- Iya,síge pangaon na kamo. 2
+- Han síge na an pakig-away han mga kalalakin-an, namamalagiw naman an mga kababayin-an.
+- Di sigurádo, waray may maaram kun diin tikang adto nga bata.
+- Diri makuri hisaydan an kan Aurillo siday, sigúro matungod ini han kabug-os han iya pagkita o, insight.
+- Amo ngay-an adto an patron dinhi ha simbáhan. sin (hin): kasahiran nga tigpananglit (common/non-personal). of; of the ( indicates nonspecific thing).
+- Bisan an bulan maparong maghahanap ak
+- sin bituon, dadawgan ko, luludhan ko, tambal san gugma nga ilo. siní (hiní): pagpakita nga tigsaliwan (demonstrative pronoun). this/these (near the speaker and addressee.
+- Kay nabutnga ako siní nga kalawdan, hiloag nga dagat sini’n kakurian.
+- Amo ini an lumad o, tuminungnong nga yinaknan han kasagaran ha Sinirángan nga Kabisay-an.
+- Han nakasakay na hiya, siniríng dayon hi Mana Pura, “Hala, masisina gud hi Jess kun umabot niyan nga waray pa kita.”
+- Hadto nga panahaon an sirot hadto’n may mga sala, pagsugba, sinisiríng nga taliro.
+- Ngan an kabataan sinulód ha eskwelahan basi di mauranan.
+- An nasabi nga siday sinurát ni F. Singson, usa nga abogado nga nakasurat hin damo nga siday ha Winaray ug Espanyol dida han 1930s. 2
+- Han gintetestingan na nira pag-access han mga sinurát ni Campbell McBride, waray pakakuha an opisina ni Sotto hin kopya han iya libro ha Internet.
+- Kay siríng niya, “Kay baga higagamitan pa gad ini nga lamisa.
+- Nagkuan la anay it
+- hiya didto ha sírong han balay.
+- Ta, asya na iton an sistéma kuno hadto nga mga panahon. siyám: regular nga ihap (regular numeral). nine.
+- May siyám nga kinabuhi iton misay.
+- Habubo la hiya nga pagkababayi mga lima ka pye an kahitaas-on ngan maghihimakuri hin sóbra 100 libras nga timbang.
+- An akon lawas, palibot ito hin sugâ.
+- Ini nga amon amay kay maaram man iton hiya manambal, sugád hiton.
+- Pati hira kinakaon pa hiton mga tawo tungod la hadto han iya pagsayop, baga, pagmensahe dinhi han mga tawo han sugò ha iya.
+- Babayi an ira suhag nga anak.
+- Ha sulód hin pira la nga mga linya naipakita ni Aurillo an bug-os nga sosyudad ngan han mga balaod nga ginigiosan han kada tagsa, upod an diri kamagtupong nga relasyon han babayi ngan lalaki.
+- Nakit-an han bata nga waray súl-ot an hadi. 2
+- Pag-abot ngadto ha talimpongayan kay didto tutubong an pikoy han iya mga piso, pamuruton an gamit han hadi, súl-ot tanan hasta kapa, piloon an iya buhok, magkorona ngan dumalagan.
+- Dayon sumakay han iya kabayo ngan kumakida.
+- An pamahaw ha Samar ug Leyte permi binabahogan hin mga súmat tikang ha telebisyon o, radyo.
+- Baga pakadalagan hit
+- niya, sumiríng hiya, “Panginanoa kay bangin waray na it
+- dida ha sirong.”
+- Nangamen hira tanan kan ira apoy Kuwa san-o sumulód ha balay.
+- Kulang na hin sundálo an aton pinulongan.
+- Iya ini bubuhaton para hiya mabuligan han mga buhi hin pag-ampo o, pagbuhat han mga kinahanglanon para makaluyo ngadto han sunód nga kinabuhi.
+- Tangkod nga surugúon hi Pisyong."
+- sus (Hesus!): tigkalas (interjection). Jesus!; Lord have mercy!.
+- An ira gamit, sus, kay mga de-binggala, mga de-kolor nga bala, inaagi dinhi, tapos ngadto ha bukid. syáhan (syapa/una/primero): kasusrunod nga ihap (ordinal numeral). first.
+- Ito nga Tagurabong , an syáhan nga nagbungkag hito hi Kardagaw.
+- Ta, nagbutang na ngahaw dida gud han siyudád hin krus. Tt ta/
+- Ta, hala, panguli na kita.
+- San-o mapakanhi an mga taga-baryo Karay-karay?
+- An ira hunahuna permi may bag-o ngan kinadalian nga mga isyu nga angay tagán hin komentaryo.
+- Tanggiro, ubas na ini akon tagayan! 2
+- Pasudlon an bisita nga tagáyan.
+- Han didto na ha kolonya baga nagkuri hira ha pagkaon, kay waray naman hira tagi han gobyerno hin supply.
+- An mga tawo didto kay waray pa man tag-íya hini didi, kun hain la hira nakaruyag pag-ukoy.
+- Pinaagi han ira tágsa nga bulig, an premyo para hini nga paisan-isan nagin P75.00.
+- Para ha akon waray hiton tamà o, sayop nga baton.
+- Nagkuan hira hin tambálan.
+- May inmagi ha am
+- natad, támsi may binanga nga papel.
+- Namukad na an mga bandera espanyola ha iya tanáman.
+- Han bata pa ini hi Layong Uray, nasasabtan na an iya kaibahan han nga tanán nga tagabungto. 2
+- Hi Florence gintánan.
+- Surundon han mga parahilot nga manguha didto ha kagurangan kun Byernes Santo hin mga tanóm nga nakakabulong. 2
+- Nalukop hin baha an iya tánom.
+- Kay an aton Ginuo amo gud an parapanhatag— kun ano an imo aroon, tátágan ka.
+- Bawion ta an istorya, ito nga tátay naanod ha usa nga bungto, didto hiya pagpatigayon pagpakabuhi.
+- Nguyngoy School of Literature (Lachrymose School of Literature) an táwag ni Rosario Cruz Lucero hini nga tradisyon nga panurat ni Pinca.
+- Dayon ginsugo han Datu an iya mga táwo nga mag-alog ha Musongbusong.
+- An pamahaw ha Samar ug Leyte permi binabahogan hin mga sumat tikang ha telebisyón o, radyo.
+- Tinawag ini namon nga
+- proverb’ kun ha Ininglis pa—tikang ha término nga pulong.
+- Ini nga mga imahe nga papakita han magkatugbang nga mga butang, paglibot han panahon, regodon han kahimtang, tigáman han igbaw ug ilarom han kinabuhi.
+- Han tikaiha na nga panahon hi Kardagaw na an kinuha, nasakit la adto hin tigdá.
+- Di na man hiya nakakalakat, kay adi nadadat-ogan it’ iya tíil hiton bato.
+- Nagdadlagan ini hira tikádto ha Musongbusong, ha igbaw han Manlara.
+- Hala daw, tikánga ta daw tíkang ha katikángan.
+- Kay basi tikangán ini
+- n pasaro,kadi na kamo.
+- Ngan tinágan ini namon hin iya kalugaringon iwag ha kahanginan.
+- Magdarahog iton mga Manilan-on, kay karuyag hin limpyo nga tinápay o, kan-on.
+- Kay ano nga tináwag hini nga katawhan an ira kalugaringon nga Waray?
+- Damo man ini didto hito nga tindáhan nga dagko.
+- Kay kun tingáli an ak’ paglaom bangin daw la nim kawangon.
+- DYVL— an tíngog han Leyte ngan Samar.
+- Diri ako maaram han aton mga tinipígan nga tradisyon, mga susumaton, mga epiko.
+- Gawas la han ikatulo nga linya, tinúod an nasabi nga porma ha bug-os nga stanza. 2
+- Maupay kay tinúod adto nga bata pagsidnga ko nga uli na la.
+- May ada magsarangkay tipakádto hira ha dagat, mangingisda kuno hira.
+- Para han hinuram o, espesyal nga klase hin mga termino, papahalawigon an abakadahan basi mahilakip an tirínggan Ee, Oo ug mangarabay Cc Ff Jj Nñ Qq Vv Xx Zz.
+- Han sulod han iya tiyán in may nakabara nga amo an hinungdan han iya pag uro-uro.
+- Hi Pedrito kay amo an nakatabok, nag-apply hin trabáho dida han mayor.
+- Hilarom an iya kinaadman bahin han kahimtang hin usa nga maribhong ngan buhi nga tradisyón hin Literatura.
+- Asya ada nga naimbento nira an tubâ ug ignom, agud liawon an kada tagsa nga kalugaringon tikang han kawaray mahihimo ha pag-ukoy.
+- Ginsisiring nga nainom ngani ini hi Layong Uray, nasilhag an tubíg nga naagi ha iya but-ol.
+- Tikang ha problema ha medisina, pagkaon ug masisirongan, panawagan han nawawara nga puya, túbtob pag-amot hin ibarayad ha kasal, bunyag ngan lubong—asya ini an ira programa.
+- Ginbiling an mga kawatan ug mga tudlo pinamutulan.
+- Sumiring an karabaw, “An tugon niya ha akon amo ini: Tikang kuno yana nga adlaw, kamo nga mga tawo dinhi ha kalibotan, ha tuna, it
+- iyo pagkaon, tutulo ka beses kada usa ka adlaw.”
+- Diri na nakalupad an agila hin tuháy.
+- Pira na ka túig an naglabay bag-o ako bumalik tikang ha bakasyon, gintapo ako han akon kag-anak ngadto ha airport.
+- Kay duduha it
+- tuláy, ada ha Bungsay, kahuman, aadto pa harani na hit
+- embarkadero, usa nga tuláy.
+- Tikang ha Espanya an tilitol han ira túlin. tuló: regular nga ihap (regular numeral). three. Tulo hira nga magburugto.
+- Hadto han baga una nga panahon, an karabaw ginsugo han aton Diyos pagkanhi ha tunà.
+- Ini, tungód naman ini hiton kuan, uding. 2
+- Túngod han mga kahoy nakit-an ko hi Kalay nga natumba.
+- Nahibaro na hiya han mga letra ngan han mga tunog han kada usa.
+- Pagtikang han panuro han tún-og, mga dahon,bukad panhumog, inin luha daw burabod, waray hunong hin pagtubod.
+- An tugon niya ha akon amo ini, “Tikang, kuno, yana nga adlaw, kamo nga mga tawo dinhi ha kalibotan, ha tuna, it
+- iyo pagkaon tikang yana, tutulo ka beses kada usa ka adlaw.” tutúo: tigkalas (interjection/expression). alas!; oh my!; how painful.
+- Ini nga libaong kay gin-iinitsahan hini
+- n mga pago hin nipa nga linagusohan, may haló nga nakadto, naluok, kahulog niya kay dinmalagan an haló, tutúo an kurahab han padi, “Intoy, Intoy!”
+- May tyémpo nga usa nga tawo ngan hin amó nagdidinebate kun hain nagtikang an uran. Uu
+- Saliwani gad niyo an amon tanom nga iyo gin-úbos. 2
+- Kumita ako ha bós ngan nakakita ako han ugat han kahoy haligutay nga barok. 3
+- Ako an iyo ubós nga sangkay, naghahatag hin katalahuran.
+- Ini, tungod naman ini hiton kuan, udíng. udóg: kapinit ika-9 nga klase (clitic particle class 9). indeed; certainly; to be sure.
+- Asya gad udóg gihap it’ amon karuyag.
+- An mayor waray kalibotan nga iya ito anak ug an anak waray kalibutan nga iya ito tatay, kay waray man ini hira maghikiriglala.
+- Diri ba an pulong nga "pag-ukoy" nagpapasabot nga úgsa an usa nga tawo makanhi ha kalibotan—diri hiya naukoy, naglalakaton hiya o, in motion?
+- Ukóy kamo pagminulay/ pag-inuyas hito nga kalayo dida. 2
+- Didto hira ukóy ha irayo.
+- An Mayor nasakit, sanla, nahalin kun ngain-ngain la nga mga leper colony, pag abot ngadto, nadisgrasya, naupay, pero waray tugoti pag-úli kay baga, sali ginkwarantinas.
+- Naghihikatuok nga siring ni Isa ngan ginpakita an iya mulayan nga napugotan han úlo.
+- Amo ito, iton karabaw yana nabulig ha uma naton, pagkuan hiton mga kahagnaan, panhakot, nga tanan.
+- Sumala han usa nga
+- Paborito nga umagad hi Bebe han pamilya Makabenta.
+- Han pag-agi han mga katuigan, umukóy an pagbisita ngan pag-alog hini nga mga tikasan ha Musongbusong. 2
+- Umukóy kami ha Tacloban.
+- Waray hiya umúlì hat’ nga gab-i. 2
+- Kinahanglan maaram an bata umulí han iya kalugaringon.
+- Hadto han baga úna nga panahon, an karabaw ginsugo han aton Diyos pagkanhi ha tuna. 2
+- Nag-uná hira pangaon.
+- Nakatalwas gad ako hit’ nga akon tigdaay nga pag- emcee, pero adi la gihap’ an kaawod ha akon kalugaringon nga bisan ako ungód nga Waraynon, banyaga nga dila an nahiaraan.
+- Ngan iya kinuha an usa unóm: regular nga ihap (regular numeral). six .
+- An unom nga papasidunggan amo an mga anak nira Mano Leon ug Sarah. untà (kunta): kapinit ika-9 nga klase (clitic particle class 9). hope; hopefully.
+- Dayon ginpamiling han mga tikasan an mga kababayin-an para na untà dad-on ha ira lugar. upát: regular nga ihap (regular numeral). four .
+- An iya anak, di natutuhay an pagkaon, an pagpapasuso kay upát ka bulan pa la tikang pag-anak niya.
+- Hi Nanay la iton akon upód ha balay.
+- Adto nga pasalida ikinalipay han mga Palon-on bisan sige an urán hadto nga gab-i.
+- Waray hira ilob kay uraurá kamabaskog an gutom ha tuna.
+- Dida hinin mga úrhi nga mga tuig, nagtikang makaangkon hin mga pasidungog an ira programa.
+- Sugot an kabataan kay waray man mahihimo kay urípon la hira, padayon an pagtawo, didto an kapitan, sarayaw nga tanan. usá (sayó): regular nga ihap (regular numeral). one .
+- Usá an nakadaog han sigkwenta mil nga premyo.
+- Mayda gad usaháy nakakatsamba, pero kasagaran, waray.
+- Naputos hira hin útang kay duro hin kamagasto. úupat: katubtoban nga ihap (restrictive numeral). four.
+- Hesus”, kuno, “ Kasayop kay an akon tugon ha imo siring nga úusa la ka pagkaon han kada tutulo ka adlaw.” Ww
+- O, kun ikaw kumuha han ha tuo, ako mapakadto ha walá. waló: regular nga ihap (regular numeral). eight.
+- Waló an ira anak.
+- An pagkita naman ngan pagsumati ko ha iya nga warâ ako makaupod han mga pinmasar, mas nahiuna pa hiya pagtuok ha akon.
+- Usa nga Waráy an akon nanay. 2
+- Han pamalagiw nira Layong Uray, waráy hira sabot nga nakakanay na an abaka han ira bado.
+- Maglipayon nga tawo iton mga Waraynón.
+- An Winaráy tinatawag gihapon nga Binisaya nga Lineyte-Samarnon o, Sinamar-Leytenhon, Waray o,Waray-Waray. Yy
+- Yakan ni Rizal, “Sugad hin butod nga isda an ha iya pinulongan diri nahigugma.”
+- Kakaonon ko ini yanâ.
+
+## Bible for Children — children's register (408)
+- Sino an nagtuha sa ato?
+- An Biblia, pulong han Ginoo, nagsusumat san tinikangan san katawhan.
+- Sadto pa, an Ginoo gin tuha an pinaka-una nga lalaki ug iya gin ngaranan nga Adan.
+- Gin tuha san Ginoo si Adan tikang han tapotapo sa tuna.
+- Han paghatag kinabuhi han Ginoo kan Adan, nabuhi siya.
+- Nakita niya an iya kalugaringo sulod sin maupay nga harden nga gintatawag Eden.
+- Antis pa pagtuhaa han Ginoo si Adan, naghimo siya hin kalibutan nga puno sin mag upay nga mga butang.
+- Sa kamatooran, gin buhat san Ginoo an ngatanan – ngatanan.
+- Tikang pa gud san tinikangan, antis pa buhaton san Ginoo an ngatanan, wara gud bisan nano kundi an Ginoo.
+- Wara lamrag ngan kasisidman.
+- Wara bawbaw ngan ilarom.
+- Wara kahapon ngan buwas.
+- An mayaon la an Ginoo nga wara tinikangan.
+- Ngan ginios an Ginoo!
+- Sa tinikangan, an Ginoo nagtuha san langit ug san tuna.
+- Ug an tuna wara pa kaporma ug wara pa sulod.
+- Ug putos sin kasisidman an kalala- wdan.
+- Ngan nagsiring an Ginoo.
+- “Mag ka mayaon kapawa.” Ngan nagkamayaon kapawa.
+- Gin ngaranan san Ginoo an kapawa hin Adlaw ngan an kasisidman gin ngaranan hin Gab-i.
+- Ug an gab-i ug aga an una nga adlaw.
+- Sa ika duha ka adlaw, an Ginoo nag dara tubig sa kalawdan, kadagatan ug kadanawan ubos san Langit.
+- Sa ika tulo ka adlaw, an Ginoo nagsiring, “Magpakita an kamad-an.” Ngan na tuman ini.
+- Gin sugo liwat san Ginoo nga magpakita an kabanwaan, mga bukad ug mga kakahoyan.
+- Ngan nagpakita ini sira.
+- Naglabay an kagabihon ug inabot an aga mao adto an ika tulo ka adlaw.
+- Ngan ginbuhat san Ginoo an sudang, ug an bulan, ug an gi damu-i nga mga bituon nga diri maihap bisan nino.
+- Naglabay an kagabihon ug inabot an aga mao adto an ika upat ka adlaw.
+- Gin tuha san Ginoo an sunod sa iya lista mao an mananap sa kadagatan ug mga isda ug mga tamsi.
+- Naglabay an kagabihon ug inabot an aga mao adto an ika lima ka adlaw.
+- Kahuman sini, nagyakan balik an Ginoo.
+- Nagsiring siya, “Magkamayada buhi nga kamananampan an tuna …” Ngatanan nga magkaduro-dilain nga insekto ug reptilya na buhi.
+- Nagkamayada nagbabay-og nga elepante ngan nababarikaso nga kastor.
+- Mayaangyaang nga mga unggoy ngan mga kimas nga buwaya.
+- Malubaylubay nga bulati ngan mga pilyo nga chipmunks.
+- Mantiw nga mga girape ngan nagdidinaguob nga misay.
+- Ngatanan nga mga hayop gin tuha san Ginoo siton nga adlaw.
+- Naglabay an kagabihon ug inabot an aga mao adto an ika unom ka adlaw.
+- Sa ika unom ka adlaw may gin himo nga kakaiba na Ginoo - espisyal.
+- An ngatanan yana andam na para sa Tawo.
+- Mayaon na pagkaon an kahumayan ug mga hayop para sa iya.
+- Nagsiring an Ginoo, “Maghihimo kit sin tawo ha akon panagway.
+- Nag sugad an Ginoo kan Adan.
+- “Kauna an ngatanan nga imo karuyag sa harden.
+- Ayaw la an puno nga may kaalam san maupay ug maraot.
+- Pag kumaon ka tikang sito iton nga puno ikaw mamamatay.” Ug nagsiring an Ginoo, “Diri maupay nga magsayuan la an tawo.
+- Maghihimo kaupod niya.” Gin dara san Ginoo an ngatanan nga mga katamsihan ug hayop kan Adan.
+- Gin ngaranan ni Adan ini nga tanan.
+- Maalam ini siya para mabuhat ini niya.
+- Pero san ngatanan sini wara gihapon inangay nga kapareho niya.
+- Gin pakaturog san Ginoo si Adan sin gihilarumi.
+- Ginkuhaan sayo ka gusok an nakaturog nga lalake, an Ginoo nagtuha sin babaye tikang san gusok ni Adan.
+- An babaye nga gin tuha san Ginoo an angay nga kapareho para kan Adan.
+- Gin tuha san Ginoo an ngatana sulod san unom ka adlaw.
+- Ug gin bendisyonan san Ginoo an ika pito ka adlaw ug gin himo ini nga adlaw san pagpahuway.
+- Sa harden sa Eden, si Adan ug Eva nga iya asawa bugos an kalipay pagtuman san karuyag san Ginoo.
+- An Ginoo an ira Diyos, an ira tagahatag ug ira sangkay.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- GINTUHA SAN GINOO AN NGATANAN!
+- Malipayon sira nga nagtutuman san karuyag san Ginoo ug malipayon sira dida san presinsya san Ginoo tubtob sayo ka adlaw ...
+- “Nag siring ba an Ginoo sa imo nga diri mag kano sa kada tagsa nga kahoy?” an pangutana san halas kan Eva.
+- “Pwede kami kumaon san ngatanan nga prutas maliban la sin sayo,” an iya baton.
+- “Pag kumaon kami o magkapot kami siton nga prutas, mapatay kami.” “Diri kam mapatay,” bagaw san halas nga nangisi.
+- “Magigin kapareho niyo an Ginoo.” Karuyag ni Eva an frutas siton nga puno.
+- Nag pamati siya san halas ngan iya gin kaon an prutas.
+- Pagkahuman ni Eva talapason an Ginoo iya gin mandoan si Adan nga kaunon liwat an prutas.
+- Nag sugad kunta si Adan, “Diri!
+- Diri naku tatalapason an pulong san Ginoo.” Pagpakasala ni Adan ug Eva, nahinbaro sira nga mga hubo sira.
+- Sa katugnawon san kagabihon inabot an Ginoo sa harden.
+- Sayod siya san gin buhat ni Adan ug Eva.
+- Gin basol ni Adan si Eva.
+- Si Eva naman gin basol an halas.
+- Nag siring an Ginoo, “Gin gabaan an halas.
+- Tungod san ira pag pakasala, nahibulag sira san kinabuhi nga hatag san Ginoo!
+- An Ginoo naghimo sin naglalarab nga espada para humarayo sira.
+- Naghimo an Ginoo sin bado tikang sa panit para kan Adan ngan Eva.
+- Diin kuhaa san Ginoo ini nga panit?
+- Paglabay san panahon, nagkamayada pamilya si Adan ug Eva.
+- An una nira nga anak nga lalaki, si Cain, paraguma.
+- An ika duha nga anak nga lalaki, si Abel, magbarantay karnero.
+- Sayo ka adlaw gindad-an ni Cain sin regalo nga mga utanon an Ginoo.
+- Si Abel nagdara liwat pipira ka mag upay nga iya mga karnero para regalo sa Ginoo.
+- An Ginoo na upayan san regalo ni Abel.
+- An Ginoo wara kalipay san regalo ni Cain.
+- Nalangot nga ungod si Cain.
+- An Ginoo nagsiring, “Kon imo gin buhat an tama, diri mo kakarawaton?” An kalangot ni Cain wara kawara.
+- Waray pag-iha, sa kauumhan iya gin dasmagan si Abel – ug iya gin patay!
+- Nagsugad an Ginoo kan Cain.
+- “Hain an imo bugto, si Abel?” “Diri ak batid,” an buwa ni Cain.
+- “Ako ba an paragbantay sa ako bugto?” Gin sirotan san Ginoo si Cain diri na siya makaka- uma ug maglinayawlayaw siya.
+- Hinirayo si Cain sa presinsya san Ginoo.
+- Gin kasal si Cain sa anak nga babayi ni Adan ug Eva.
+- Sa wara pagiha, an kan Cain mga apo ug apo sa tuhod nagpuno san syudad nga iya naagian.
+- Hiton liwat, an pamilya ni Adan ug Eva dagmit nagdamo.
+- Sadto nga mga panahon, mas hilaba an kinabuhi san Tawo.
+- Sa kalibutan, an mga tawo nagin uraura kamagraot sa paglabay san mga henerasyon.
+- Sa kataposan, an Ginoo nagdesisyon nga pagpuohon an katawhan ngan ...
+- ngatanan nga kamananampan hayop ug tamsi.
+- Nagbasol an Ginoo nga iya gin tuha an tawo.
+- Kundi mayaon sayo ka tawo nga nalipayan san Ginoo ...
+- Ini nga tawo kay si Noe.
+- Tulin ni Set, si Noe matadong ngan waray ikasaway.
+- Hiya naglalakat upod an Ginoo.
+- Iya liwat gin tutdoan an iya tulo nga anak nga lalaki san pagsunod sa Ginoo.
+- Nagplano an Ginoo nga gamiton si Noe hin makatitingala ug espisyal nga paagi!
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- Si Noe an tawo nga nagsisingba san Ginoo.
+- Samtang ang ngatanan nasisina ngan diri gin susunod an Ginoo.
+- Sayo ka adlaw, may gin siring nga makalilisang an Ginoo.
+- “Ako gugubaon in nga maraot nga kalibotan,” an siring san Ginoo kan Noe.
+- “An imo la pamilya an maluluwas.” Ginpahamangnoan san Ginoo si Noe nga magkakamayaon daku nga pagbaha ug mapuputos an tuna sini.
+- “Paghimo sin arka nga kahoy, daku nga ungod nga makasya an imo pamilya ug an mga hayop,” an sugo kan Noe.
+- Gin tagan si Noe san Ginoo hin sakto nga instruksyon.
+- Nagin sagipo si Noe!
+- Gin tatamay han mga tawo si Noe samtang iya gin sasaysay kon nano nga naghihimo siya arka.
+- Padayon la gihapon san paghimo si Noe.
+- Ug Padayon liwat siya pagsinumat han mga tawo hiunong han sugad han Ginoo.
+- Waray bisan sino an namati sa iya.
+- Daku an pagtoo ni Noe.
+- Naayon siya han Ginoo bisan man wara pa pag uran tikang sa una.
+- Wara pag iha andam na an arka butangan mga suplay.
+- Yana inabot na an mga mananap.
+- Gin padara han Ginoo an pito ka padis han tagsa tagsa nga mananap.
+- Mga tamsi nga dagku ug digto, mga hayop nga gugtiay ug hagtaas nagpakadto sa arka.
+- An mga tawo nag guguliat sin mga insulto han gin kakarga nira Noe an mga mananap.
+- Wara tuko an ira pagpakasala san Ginoo.
+- Wara sira paghangyo nga sumulod san arka.
+- Ha kataposan, an ngatanan nga mga hayop ug tamsi nakasulod na.
+- “Pakadi sulod sa arka,” dapit san Ginoo kan Noe.
+- Ngan gin sirado an purtahan san Ginoo!
+- Inabot an uran.
+- Nalunop an tuna san makusog nga paginuran sulod sin kwarenta ka adlaw ug gab-i.
+- An baha naghuwad san mga bungto ug baryo.
+- Han pagtuko han uran, bisan an mga kabukiran umilarom san tubig.
+- An ngatanan nga buhi sa tuna nagkamatay.
+- Han paghitaas san tubig, mao man paglutaw han arka.
+- Bisan man iton masirom sa sulod, mahulos ug makaharadok.
+- Kondi an arka nagpanalipod kanda Noe san baha.
+- Kahuman san lima ka bulan nga paginuran, ginhuyop san Ginoo an sayo ka uga nga hangin.
+- Hinayhinay, an arka nahisangya didto sa hataas nga bukid sa kabukiran sa Ararat.
+- Si Noe nagpabilin sa sulod sa akra sulod sin kwarenta ka adlaw ngadto san paghubas san tubig.
+- Si Noe nagpaguwas sin uwak ngan sarapati sa abri nga bintana sa arka.
+- Tungod kay wara pakakita hin uga ngan limpyo nga lugar pagpahuway, binalik an sarapati ngadto kan Noah.
+- Umagi an sayo ka simana, nagsari balik si Noe.
+- An sarapati binalik nga may dahon hin olibo an iya tusak.
+- Sunod kasimana, batid si Noe nga mamara na an tuna kay wara na balik an sarapati.
+- Nag siring an Ginoo kan Noe nga oras na para bayaan an arka.
+- Magkaurupod, si Noe ug an iya pamilya gin haw-as nira an mga mananap.
+- Uraura nga pagpasalamat an gin bati ni Noe!
+- Naghimo siya hin altar ngan iya ginsingba an Ginoo nga nagsalbar sa iya ug sa iya pamilya han makaharadok nga baha.
+- An Ginoo naghatag kan Noe sin maopay nga saad.
+- Diri na siya magpapadara hin baha para maghukom han mga sala han tawo.
+- May ada hatag nga maopay nga pahinumdom an Ginoo san iya saad.
+- An balangaw an sinyalis han saad han Ginoo.
+- Si Noe ug an iya pamilya nakakita hin bago nga sinugdanan kahuman han baha.
+- Inabot an panahon, an iya mga katulinan nagluob san kalibutan.
+- Ngatanan nga nasud sa kalibutan nagtikang kan Noe ug sa iya kabataan.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- Sadto pa, gin padara san Ginoo an anghel Gabriel ngadto hin Judio nga daraga an ngaran si Maria.
+- Nag siring an anghel kan Maria, “Ikaw magbuburod hin lalaki nga pagngangaranan mo nga Hesus.
+- Siya pagtatawagon anak san gihahataasi nga Dyos.
+- Ug siya maghahadi sa kahangturan.” “Paano ini mahitatabo?” nahipausa nga pangutana san babaye.
+- “Wara pa ak pakiguban sin bisan sino nga lalaki.” An anghel nag sugad kan Maria nga an bata tikang san Ginoo.
+- An amahan diri matikang sin tawo.
+- Nagsiring liwat an anghel kan Maria nga an iya patod si Elizabeth magkakaanak liwat bisan pa man arog na siya.
+- Milagro lat ini.
+- Waray pag-iha, binisita si Maria kan Elizabeth.
+- Ira gindayaw an Ginoo.
+- Si Maria igkakasal sin lalaki nga nagngangaran Jose.
+- Si Jose masurobon san iya pagkahibaro nga burod si Maria.
+- An iya kahuna nga iba nga lalaki an nakaburod.
+- Sa inop, an anghel san Ginoo nag sugad kan Jose nga an bata anak san Ginoo.
+- Si Jose magbubulig kan Maria pagmangno kan Hesus.
+- Si Jose nagsarig ug nagsunod san Ginoo.
+- Ug iya liwat gin sunod an balaod san ira nasod.
+- Kondi si Jose wara pakakaagi sin balay bisan diin.
+- Puno na an ngatanan nga mga paupahan.
+- Ngan nakakita gihapon hi Jose hin kwadra.
+- Didto, igin anak an bata nga Hesus.
+- An iya iroy iginbutang siya sa pasungan, lugar kon diin an pagkaon san hayop igin bubutang.
+- Sa hirani nga dapit, may mga magmarangno hin mga karnero nga nagbabantay han ira mga nangangaturog nga panon.
+- Nagpakita ha ira an anghel sa Ginoo ug nagsumat san maupay nga balita.
+- “Didto sa bungto ni David natawo an iyo magtaralwas nga mao an Kristo nga Ginoo.
+- Naglabay an kwarenta ka adlaw, gindara ni Jose ug Maria si Hesus didto sa templo han Herusalem.
+- Maaram hira nga si Hesus anak san Ginoo, an igin saad nga magtaralwas.
+- Naghalad si Jose ug duha ka sarapati.
+- Amo ini an balaod han Ginoo an paghalad han natawo pala nga bata ngadto sa Dyos.
+- Waray pag-iha, nagpakita an masuna nga bituon ha mga magalam nga kalalakin-an ha sinirangan nga bungto san Herusalem.
+- “Hain ba an natawo nga bata nga hadi han mga Judiyo?” ira pangutana.
+- “Amo siya pagsisingbahon.” Nakabati hi Hari Herodes han tulo ka lalaki nga maalam.
+- Nabaraka siya ug nagsugad sa ira nga sumatan hiya kon makita na nira hi Hesus.
+- “Karuyag ko liwat siya pagsingbahon.” an siring ni Herodes.
+- Kondi buwa la ini niya.
+- Karuyag ni Herodes nga patayon si Hesus.
+- An bitoon nagtutdo ha ira han sakto nga balay kon diin naestar si Maria ug Jose upod an ira bata.
+- Nagkaluhod sira ug nagsingba, gin tagan nira hi Hesus hin mga marangya nga regalo sama san bulawan ug mga pahamot.
+- Ginpahimangno an tulo kamaalam nga lalaki san Ginoo nga umuli patago ngan din a bumalik kan Herodes.
+- Napungot si Herodes.
+- Determinado nga wakayon si Hesus, an maraot nga Hadi gin papatay niya an ngatana nga mga bata nga lalaki sa Betlehem.
+- Kondi diri mabubuhatan hin naraot ni Herodes an anak sa Dyos!
+- Ginpahimangno pinaagi sa inop, pinmaligiw hira Jose, Maria ug Hesus sa Ehipto.
+- Han pagkamatay ni Herodes, gin dara balik ni Jose si Maira ug Hesus gikan sa Ehipto.
+- Nagukoy hira ha dito nga bungto han Nazaret, hirani ha dagat han Galilee.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- Damo an mga ginhimo nga milagro ni Hesus.
+- An mga milagro amo an sinyalis nga si Jesus gud an anak san Ginoo.
+- An una nga milagro nahitabo didto ha panagtawo han kasal.
+- May bumangon nga problema.
+- An bino diri kahusto para san ngatanan.
+- “Pun-a sin tubig ito ini nga mga tibod,” siring ni Hesus.
+- “Tubig?” an pangutana san mga surugoon.
+- Oo, tubig an ginhanyo ni Hesus.
+- An tubig sadto amo na an bino yana!
+- Maopay nga bino!
+- Pinakamaopay nga alaksiw!
+- Nahipausa an mga surugoon.
+- Ginhimo ni Hesus nga bino an tubig.
+- An Ginoo la an makakahimo sin sugad siton nga mga milagro.
+- Si Hesus nagbuhat pa hin iba nga mga milagro.
+- Sayo kagab-I, siya ug an iya mga disipulo nagpakadto han balay ni Peter.
+- An ugangan nga babaye ni Peter ungod nga ginhihirangtan.
+- Ginkaputan ni Hesus an kamot san masakiton nga babaye.
+- Binohat hiya para mag-alagad kan Hesus ug han iya mga disipulo.
+- Baga an bugos nga tawo san syudad nag tirimpon han purtahan hiton nga gab-i.
+- An mga masakiton nagparakadto– buta, bugnol, ngula, baldado.
+- Bisan pa man an mga tawo nga ginuukyan san yawa nagpalibot kan Hesus.
+- Mabuligan ba niya ini kadamo?
+- Si Hesus, an anak san Ginoo, makakabulig.
+- Ug si Hesus binulig.
+- An ngatanan nga pinakadto sa iya nahuwas.
+- An mga tawo nga nagsasaklay sungkod bug-os nga ira kinabuhi kay nakakalakaw, dalagan ug lukso na.
+- Nagkaabot an iba, amo nahimo magpurot tungod san leprosi.
+- An mga lalaki ug babaye nga ginsisinamok han mga yawa nagtindog sa atubangan ni Hesus.
+- Ginsugo ni Hesus an mga yawa nga bayaan sira.
+- Ug sa pagtuod san yawa, an mahahadlukon, masurub-on nga mga tawo nagin kalmado ug malilipayon.
+- Luyo han kadam-an, may ada upat ka mga lalaki nga naniningkamot nga buligan an ira sangkay ngadto kan Hesus.
+- Pero diri sira maka duok ngadto sa iya.
+- Ano an ira bubuhaton?
+- Ira gin alsa na masakiton ngadto san bubong san balay, ...
+- an upat nga matinumanon nga magsarangkay gin baklas an bubong san balay ug ira iginturos tipailarom an ira sangkay.
+- Si Hesus nakakita nga an upat nga magsarangkay kay mayaon pagtoo.
+- Nagsiring siya sa masakiton nga lalaki, “Napasaylo na an imo mga sala.
+- Alsaha an imo higdaan ug paglakaw.” An lalaki binuhat, maupay ug makusog.
+- Gin huwas siya ni Hesus.
+- Waray pag-iha, si Hesus ug an iya mga disipulo nakasakay na sa baluto.
+- Mayaon makaharadok nga bagyo an hinuyop sa dagat.
+- Nakaturog si Hesus.
+- “Mahahanaw kami!” “Ukoy,” sugo ni Hesus san balud.
+- Deretso, an dagat nagkalma.
+- “Ano nga klase sin tawo ini?” Huring san iya mga disipulo.
+- Bisan an hangin ug dagat nagtuod sa iya.
+- Ug sira nag ayon nga si Jesus anak san Ginoo kay tungod san iya mga milagro nga nagpakita san iya himaya.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- An babaye nagtugbos han bungtod, an iya masurubon nga mata nagkikita sin makaharadlok nga taran-awon.
+- An iya anak mamamatay na.
+- An ini nga iroy kay si Maria, ug nagtugbos siya hirani san lugar kon diin gin raysang sa kros si Hesus.
+- Nahano nga nahitabo ini ngatanan?
+- Kay ano nga mabaysay nga kinabuhi ni Hesus matatapos lamang hin makaharadok nga kataposan?
+- Kay ano nga gintugotan ini han Ginoo nga an iya anak ma raysang sa kros ug mamatay?
+- May ada ba sayop nga nabuhat si Hesus?
+- Napakyas ba an Ginoo?
+- Wara ka pakyas an Ginoo.
+- Si Hesus wara pagbuhat hin sayop.
+- Maaram daan si Hesus nga papatayon hiya han mga magraot nga tawo.
+- Pipira ka adlaw antis mamatay si Hesus, may ada babaye nga nagabot ug nag bubo haplas ha tiil han Ginoo.
+- “Nagkakarag la hiya han iya kwarta,” an siring han mga disipulo.
+- “Gin himo iton niya para sa ako lubong.” Makaurosa nga pulong!
+- Didto han fiesta han Judio nga Pakua, hi Hesus nagpanihapon ha ultimo nga higayon kaupod an iya mga disipulo.
+- Ginsumatan niya hira han magupay nga pulong ug saad han Ginoo han mga tawo nga aghihigugma ha iya.
+- Ngan si Hesus naghatag tinapay ug baso nga ira pagbarahinan.
+- Ini nahitabo pagpahinumdom nga an lawas ug dugo ni Kristo gin hatag para han kapasayluan han mga sala.
+- Ug nagsiring hi Hesus han iya mga disipulo nga may maglilingo ha iya, ug maglilirong hira.
+- “Diri ako maglilirong,” sugad ni Pedro.
+- “Diri pa matugaok an manok, iglilirong mo na ako hin makatulo,” siring ni Hesus.
+- Siton nga gab-i, Si Hesus nagpakadto han Hardin han Getsemani para magampo.
+- An mga disipulo nga umupod ha iya nanhin ngaturog.
+- Inabot na an takna.
+- Diri ini ako pagbuot, kondi natuman na an imo pagbuot.” Mayaon nagkaabot nga oripon sa hardin, gin papangulohan ini Judas.
+- Si Hesus wara umato ha ira, kondi si Pedro gin tigbas an talinga han usa ka lalaki.
+- Hinayhinay nga gin kaputan ni Hesus an talinga han lalaki ug iya ini gin luwas.
+- Maaram na daan si Hesus nga api ini han mga pagbuot han Ginoo.
+- An mga olipon gin dara hi Hesus ha balay han labaw nga padi.
+- Didto, an pangulo han mga Judiyo nag sugad nga dapat mamatay si Hesus.
+- Sa dapit, nakadto si Pedro natugbos tupad han tapong han surugoon ug nagkukulaw.
+- Tulo ka higayon nga nagpakiaana an tawo kan Pedro, “Tinun-an ka ni Kristo!” Tulo liwat ka higayon nga iginlirong ini ni Pedro.
+- Gin panumpa pa ngani ini ni Pedro.
+- Tuman man nga tinmugaok an manok.
+- Mala adto boses han Ginoo para kan Pedro.
+- Nahinumdon si Pedro han gin sugad ni Hesus ug nagtangis si Pedro.
+- Si Judas nakonsensya liwat.
+- Maaram hiya nga wara gin buhat nga sala ug kremin si Hesus.
+- Gin uli ni Judas an 30 ka bugos nga plata nga salapi kondi wara na ini karawata balik han padi.
+- Gin pilak ni Judas ini nga mga salapi ug ginuwas hiya ug naghikog hiya.
+- Gin dara han mga padi hi Hesus ngadto kan Pilato, an Gobernador nga Romano.
+- Nag siring si Pilato, “Wara ko makita nga sala hini nga tawo.” Kondi an mga katawohan nag sangpit, “Igraysang hiya!
+- Igraysang hiya!” Salit gin sunod ni Pilato an katawohan, ginsirotan niya hi Hesus nga mamatay ha kros.
+- Gin suntok hiya han mga sundalo, gin tuprahan ha kahimo, ug gin latigo hiya.
+- Gin himuan nira hi Hesus hin korona nga tikang han higlaba nga tunok ug gin duot nira sa iya ulo.
+- Ngan ira hiya gin rasyang sa kahoy nga kros para mamatay.
+- Maaram na daan si Hesus nga mapatay hiya sin sugad sit nga paagi.
+- Batid liwat hiya nga an iya pagkamatay magdadara kapasayloan han mga makasasala nga nasarig ha iya.
+- Duha liwat ka kreminal an gin raysang magkasiligid niya.
+- An sayo natoo kan Hesus- ug nahingadto hiya sa Paraiso.
+- An sayo man waray.
+- Kapin oras nga paginangtos, nagsiring si Jesus, “Natuman na,” ug namatay.
+- Natapos na an iya trabaho.
+- Ginlubong hiya han iya mga tinunan hin pribado nga lubnganan.
+- Ngan an mga Romano nga sundalo gin bantayan an lubnganan.
+- Kon mao ini an kataposan han istorya, kamakasurobo.
+- Kondi may ginhimo nga kaupay an Ginoo.
+- Si Hesus wara pagpabilin nga patay!
+- Timprano pa sa han aga han Domingo, an iba nga disipulo ni Hesus nakita nira nga liso na an bato han lubnganan.
+- Paghiling nira han sulod, si Hesus wara na didto.
+- Usa ka babayi an nagtitinangis ha gawas han lubnganan.
+- Nagpakita hi Hesus ha iya.
+- Ngan dagmit hiya nga bumalik aron sumatan an mga disipulo.
+- “BUHI SI HESUS!
+- SI HESUS NABANHAW!” Ngan si Hesus inmabot han mga disipulo, iya ginpakita An iya kamot nga ginraysang.
+- SI HESUS NABUHI BALIK!
+- Iya ginpasaylo hi Pedro nga ginlirong hiya, ug iya hira gin sugad nga sumatan an ngatanan han nahitabo ha iya.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+- Han pagbaya ni Hesus han kalibutan iya gin sumatan an iya mga tinunan han Langit.
+- Iya ini gintatawag nga “Balay san ako Amahan”, ug nag siring hiya nga damu an mga mansion didto.
+- Mansyon nga daku, mabaysay nga balay.
+- An langit labaw nga daku ug mabaysay han balay ha kalibutan.
+- Siniring si Hesus, “Mabaya ako para magandam hin lugar para ha iyo.
+- An mga disipulo nakakita, si Hesus gin kuha, ug an dampog nagkarawat ha hiya ug nawara hiya han ira mga pananaw.
+- Tikang sadto, an mga Kristyano nakahinumdom ni Hesus nga mabalik hiyapagkuha ha ira.
+- Nagsugad siya nga tidga la siya mabalik, ha panahon nga diri nato ginlalaoman.
+- KAUPOD HAN GINOO Kondi ano man an mga Kristyanos nga nangamatay antis siya umabot?
+- An Biblia nag sugad nga sira deresto maupod kan Hesus.
+- An diri pagukoy ha lawas maukoy kaupod han Ginoo.
+- KAUPOD HAN GINOO Ginpadayag, an ultimo nga libro han Biblia, nagsusumat ha ato han kaupay han langit.
+- An pinakamaupay nga butang, sa pinaka-espisyal nga paagi, An Langit an balay sa Dyos.
+- An Ginoo adto bisan diin, kondi an iya trono adto sa Langit.
+- An mga Anghel ug mga langitnon nga tawo ginsisingba an Ginoo ha Langit.
+- Sugad man han mga tinunan sa Dyos nga nangamatay ug sinaka sa Langit.
+- Sira nagkakanta sin espesyal nga pagdaway ngadto san Ginoo.
+- (GINPADAYAG 5:9) An pinakaurhi nga pahina han Biblia naghuhulagway han Langit nga “An Bago nga Herusalem”.
+- Daku hinduro ini hiya, ug may mga higtaas nga pader.
+- An pader pariho hin haspe nga bato, sugad katin-aw han Kristal.
+- Mga Hiyas ug mga maharalon nga bato an nagtatabon han pundasyon han pader, nag-iinggat sin maganyag nga mga kolor.
+- An kada tagsa nga ganghaan han syudad ginhimo hin sayo nga daku nga perlas!
+- Adto nga mga dagku nga ganghaan diri nagsasara.
+- Sulod kita ug kitaa ta an palibot ...
+- Mas mabaysay pa an sulod han Langit.
+- An syudad ginhimo ha puro nga bulawan, sugad han matin-aw nga salaming.
+- Bisan an kalsada kay ginhimo sa bulawan.
+- An mabaysay, malinaw nga tubig dagat san kinabuhi naawas tikang han trono han Ginoo.
+- Kadaligid san dagat kay an puno han kinabuhi, nga una nga nakita ha Hardin han Eden.
+- Ini nga puno espesyal nga ungod.
+- Namumunga ini hin dose ka lainlain nga prutas, lainlain nga klase kada bulan.
+- Ug an dahon han puno han kinabuhi para han kahuwasan han mga Nasod.
+- An Langit wara pagkikinahanglan han sudang ug bulan para han lamrag.
+- An gamhanan han Dyos an nagpupuno han Langit hin magupay nga lamrag.
+- Waray gab-i didto.
+- Bisan an mga mananap sa Langit kay iba.
+- An mga lobo ug karnero nagdudungan pagkaon.
+- Bisan an mabagsik nga leon nakaon hin dayami pareho han baka.
+- Samtang ato gin-oobserbahan an palibot, nakita nato nga may mga butang nga wara sa Langit.
+- Waray mga pulong han kasina nga mababati.
+- Wara nag-aaraway ug waray hakog.
+- Wara trangka an purtahan, kay wara kawatan ha Langit.
+- Wara mga buwaon, parapamatay, barangan, ug lain pa nga mga daotan nga tawo.
+- Wara bisan nano nga makasasala sa Langit.
+- Sa Langit kaupod an Gino kay waray luha.
+- Sa tuna danay, an tawo san Ginoo nagtatangis tungod han daku nga pagsubo sa kinabuhi.
+- Sa Langit, ginpapahiran san Ginoo an ngatanan nga luha.
+- Waray liwat kamatayon sa Langit.
+- An katawhan nabubuhi kaupod an Ginoo ngadto sa kadayonan.
+- Waray sakit, waray bulag, ug waray lubong.
+- An ngatanan sa Langit maglipayon kaupod an Dyos.
+- Sa Langit may libro nga gintatawag nga Libro han Kinabuhi han Kordero.
+- Puno ini han ngaran han katilingban.
+- Batid ka ba kon hino an mga ngaran nga nakasurat didto?
+- An tanan nga tawo nga nasarig kan Hesus.
+- An imo ba ngaran aadto?
+- An katangposan nga pulong ha Biblia mahitungod ha Langit kay maupay nga imbetasyon.
+- “An espiritu nagsiring, ‘Pakadi!’ Ug an ngatanan nga bumati ha iya gin sugad ‘Pakadi!’ Ug an ngatanan nga nauuhaw ha iya pakadi.
+- Maaram an Ginoo nga kita naka himo hin magraot nga mga butang, iya ini gintatawag nga sala.
+- Ngan hiya nabanhaw ug sinaka sa langit!
+- Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
+- Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
+- Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!

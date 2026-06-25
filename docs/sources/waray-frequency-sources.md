@@ -93,3 +93,29 @@ Until then, proceed with the SET as the frequency signal — don't block on this
 2. Re-derive lessons under i+1 using the top-1000 SET as the inclusion filter.
 3. Decide what to CUT/DEFER (the loan-heavy thematic clusters) and what top-1000
    words to ADD that Sulog lacks.
+
+## BUILT (2026-06-25) — we stopped waiting and computed our own frequency graph
+Rather than block on the gated 1→1000 ranks, we built an **attested frequency graph
+from the text we already have** plus a new free source. Tool: `tools/build-frequency.mjs`.
+
+**Sources folded in (all saved in this directory):**
+- `waray-first-1000-words-2013.txt` — CHED/Oyzon (869 headwords parsed + example sentences)
+- `peace-corps-full-ocr.txt` — conversational Waray
+- `tramp-zorc-...-1991.txt` — dictionary (English-heavy; Waray headwords/examples)
+- **NEW: `bfc-waray/` + `bfc-waray-stories.txt`** — Bible for Children, 7 stories in
+  children's-register Waray (free to copy, not for sale; attributed). Provenance +
+  license + re-fetch in `bfc-waray/SOURCES.md`. Leans dialectal (san→han, sa→ha).
+
+**Outputs:**
+- `docs/waray-frequency-graph.md` — ranked words + tiers; **gap list** (CHED top-1000
+  we don't teach, by frequency): kun, may, tanan, bisan, para, pero, basi, gihapon,
+  tikang, sugad, duro…; SEED-coverage + spelling-variant flags (babayi vs babaye).
+- `docs/sources/waray-attested-sentences.md` — **1,562-sentence Track-2 pool** (1,154
+  CHED examples + 408 Bible-for-Children), the frame-engine fuel.
+- `docs/sources/waray-frequency.json` — full data (word→count, gap, sentences, per-source).
+
+**Status of the gated ranks:** still pending; targeted-contact path now = email **Voltaire
+Q. Oyzon @ Leyte Normal University** directly (he built the corpus + is the site contact),
+not the generic inbox. The corpus texts themselves are NOT findable externally (internal
+student/oral pedagogical texts), so access is the only route to exact ranks. See memory
+`corpus-access-pending`. Our homemade tiers are the working signal until/unless it lands.

@@ -198,6 +198,25 @@ ${bfcSentences.slice(0, 12).map((s) => `- ${s}`).join("\n")}
 `;
 
 fs.writeFileSync(path.join(root, "docs/waray-frequency-graph.md"), md);
+
+// the full attested-sentence pool as a browsable doc (Track-2 frame fuel)
+let pool = `# Waray attested-sentence pool (Track 2)
+
+_Harvested by tools/build-frequency.mjs. Every line is attested — from a dictionary
+example or a published children's story — never invented. This is the raw fuel for the
+frame engine; Ella validates patterns drawn from here before any generation ships._
+
+- **CHED dictionary examples:** ${chedExamples.length}
+- **Bible for Children (children's register):** ${bfcSentences.length} — _© Bible for Children, Inc.; free to copy/print, not for sale; leans dialectal (san→han, sa→ha)._
+- **Total:** ${sentencePool.length}
+
+## CHED dictionary examples (${chedExamples.length})
+${chedExamples.map((s) => `- ${s}`).join("\n")}
+
+## Bible for Children — children's register (${bfcSentences.length})
+${bfcSentences.map((s) => `- ${s}`).join("\n")}
+`;
+fs.writeFileSync(path.join(root, "docs/sources/waray-attested-sentences.md"), pool);
 fs.writeFileSync(
   path.join(root, "docs/sources/waray-frequency.json"),
   JSON.stringify({
