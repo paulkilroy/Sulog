@@ -224,28 +224,28 @@ const currentStreak = (days) => {
 function freshStat(forgotten) {
   return {
     box: forgotten ? 0 : 0, seen: 0, right: 0, wrong: 0,
-    streak: 0, last: 0, due: 0, hasAudio: false, pinned: false,
+    streak: 0, last: 0, due: 0, hasAudio: false, pinned: false, recall: 0,
   };
 }
 function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
 function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
-// How far you must rebuild a missed word before it graduates off "Needs work":
-// box reaches 3 of 5 (≈60% mastery). Box resets to 0 on any miss and climbs +1 per
-// correct, so this means "get it right ~3 times since your last slip."
-const NW_RECOVER_BOX = 3;
-// "needs work" = you pinned it, OR you've missed it and haven't rebuilt it yet. It
-// DRAINS as you succeed: each correct answer raises the box, and once it hits the
-// recovery level the word drops off; miss it again and the box resets so it returns.
+// Cold type-recalls needed to graduate a missed word off "Needs work". Counts only
+// genuine recall: a typed (non-MC) correct answer that wasn't the remedial type step
+// right after an MC. See `recall` in applyResult.
+const NW_RECOVER = 3;
+// "needs work" = you pinned it, OR you've missed it and haven't re-earned it by cold
+// recall yet. It DRAINS only as you type it right from memory; multiple-choice wins
+// don't count. Miss it (typed) and the counter resets so it returns.
 function needsWorkCard(st) {
   if (!st) return false;
   if (st.pinned) return true;                 // manual pin — stays until you unpin
   if (!(st.wrong > 0)) return false;          // never missed → not a struggle word
-  return (st.box || 0) < NW_RECOVER_BOX;      // still rebuilding → keep; recovered → drop
+  return (st.recall || 0) < NW_RECOVER;       // still rebuilding → keep; recalled enough → drop
 }
 // accuracy 0–1 (used to break ties when ranking struggle); unseen = perfect
 function accuracy(st) { return st && st.seen ? st.right / st.seen : 1; }
 
-function applyResult(st, correct) {
+function applyResult(st, correct, mode) {
   const s = { ...st };
   s.seen += 1;
   s.last = now();
@@ -258,6 +258,12 @@ function applyResult(st, correct) {
     s.streak = 0;
     s.box = 0;
   }
+  // `recall` = consecutive COLD type-recalls (the Needs-work graduation signal). ONLY a
+  // typed answer moves it: +1 correct, back to 0 on a miss. MC answers are ignored
+  // entirely (recognition ≠ recall). The remedial type-after-MC step is unscored, so it
+  // never reaches here — exactly the "right after an MC prompt" case we want to exclude.
+  if (mode === "type") s.recall = correct ? (s.recall || 0) + 1 : 0;
+  else if (s.recall == null) s.recall = 0;
   s.due = now() + BOX_DAYS[s.box] * MS_DAY;
   return s;
 }
@@ -684,11 +690,11 @@ export default function App() {
     });
   }, []);
 
-  const recordCard = useCallback((id, correct) => {
+  const recordCard = useCallback((id, correct, mode) => {
     setProg((prev) => {
       const card = cards.find((c) => c.id === id);
       const st = prev[id] || freshStat(card?.forgotten);
-      const np = { ...prev, [id]: { ...applyResult(st, correct), hasAudio: !!audio[id] } };
+      const np = { ...prev, [id]: { ...applyResult(st, correct, mode), hasAudio: !!audio[id] } };
       store.set(PK.prog, JSON.stringify(np));
       return np;
     });
@@ -1304,7 +1310,7 @@ function SessionView({ ctx }) {
 
   const onResult = (correct, given) => {
     if (step.scored) { // only the first encounter feeds the SRS, history and grade
-      recordCard(card.id, correct);
+      recordCard(card.id, correct, mode);
       bumpStreak();
       const prompt = session.dir === "wte" ? card.waray : card.english;
       const answer = session.dir === "wte" ? card.english : card.waray;
@@ -2489,7 +2495,7 @@ function NeedsWorkView({ ctx }) {
       {items.length === 0 ? (
         <div className="ws-empty">
           <Sparkles size={28} />
-          <p>Nothing to redrill yet. Miss a word — or pin it with the star — and it collects here. As you get it right it climbs out on its own; nail it 3× and it graduates off.</p>
+          <p>Nothing to redrill yet. Miss a word — or pin it with the star — and it collects here. Type it right from memory {NW_RECOVER}× (multiple-choice doesn't count) and it graduates off on its own.</p>
         </div>
       ) : (
         <>
@@ -2502,7 +2508,7 @@ function NeedsWorkView({ ctx }) {
             <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
           </button>
           <div className="ws-pron-note" style={{ margin: "10px 0 4px" }}>
-            The dots show how close each word is to graduating — get it right {NW_RECOVER_BOX}× in a row and it drops off. A miss resets it.
+            The dots fill only when you <b>type</b> a word right from memory — multiple-choice doesn't count. {NW_RECOVER} cold recalls and it graduates off; a miss resets it.
           </div>
           <div className="ws-nw-list">
             {items.map((c) => {
@@ -2516,9 +2522,9 @@ function NeedsWorkView({ ctx }) {
                   </div>
                   <div className="ws-nw-meta">
                     {!st?.pinned && (
-                      <div className="ws-nw-recover" title={`${Math.min(st?.box || 0, NW_RECOVER_BOX)}/${NW_RECOVER_BOX} right to graduate off this list`}>
-                        {Array.from({ length: NW_RECOVER_BOX }).map((_, i) => (
-                          <span key={i} className={`ws-nw-pip ${(st?.box || 0) > i ? "on" : ""}`} />
+                      <div className="ws-nw-recover" title={`${Math.min(st?.recall || 0, NW_RECOVER)}/${NW_RECOVER} cold type-recalls to graduate off this list`}>
+                        {Array.from({ length: NW_RECOVER }).map((_, i) => (
+                          <span key={i} className={`ws-nw-pip ${(st?.recall || 0) > i ? "on" : ""}`} />
                         ))}
                       </div>
                     )}
