@@ -14,7 +14,7 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 | ☐ | **away** | quarrel; fight 2 to quarrel with; to | 163 | 1 |
 | ☐ | **siday** | poem. | 97 | 1 |
 | ☐ | **pulong** | word. | 89 | 1 |
-| ☐ | **ada** | kapinit ika-6 nga klase (clitic particle class | 80 | 1 |
+| ☐ | **ada** | there is / has (with 'may') | 80 | 1 |
 | ☐ | **babayi** | female;woman 2 female animal. 1 | 79 | 1 |
 | ☐ | **amo** | correct; | 75 | 1 |
 | ☐ | **baga** | like; similar; | 63 | 1 |

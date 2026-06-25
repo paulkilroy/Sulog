@@ -124,6 +124,13 @@ for (const row of SEED) {
 
 const chedText = read(SRC.ched);
 const { heads: chedHeads, glossOf, displayOf, posOf, examples: chedExamples } = parseChed(chedText);
+// manual gloss fixes for entries the CHED parser mis-extracted (grabbed the Waray POS
+// label instead of the English gloss). Applied everywhere glossOf flows.
+const GLOSS_OVERRIDES = {
+  ada: "there is / has (with 'may')",
+  pagyakan: "speech / saying",
+};
+for (const [k, v] of Object.entries(GLOSS_OVERRIDES)) glossOf.set(k, v);
 
 // children's-register sentences from Bible for Children + Bloom Library
 const bfcSentences = harvestSentences(read(SRC.bfc));
