@@ -30,7 +30,25 @@ const SRC = {
   ched: "docs/sources/waray-first-1000-words-2013.txt",
   peace: "docs/sources/peace-corps-full-ocr.txt",
   tramp: "docs/sources/tramp-zorc-waray-english-dictionary-1991.txt",
+  // Phase 1: Bible for Children — 7 stories in children's-register Waray (free to copy,
+  // not to sell; attributed). Simple declaratives, ideal for the frame engine. Note: this
+  // translation uses some colloquial/dialectal spellings (san=han, sa=ha, ato=aton).
+  bfc: "docs/sources/bfc-waray-stories.txt",
 };
+
+// harvest clean sentences from running text (rejoin PDF line-wraps, split on . ? !)
+function harvestSentences(text) {
+  return text
+    .replace(/===STORY:[^=]*===/g, " ")
+    .replace(/\s+/g, " ")
+    .split(/(?<=[.?!])\s+/)
+    .map((s) => s.trim())
+    .filter((s) => {
+      const w = s.split(" ").length;
+      if (w < 3 || w > 22 || s.length > 180) return false;
+      return /\b(an|han|nga|san|sa|in|hin|ngan|siya|hi|si|ini|iton|may|waray|diri)\b/i.test(norm(s));
+    });
+}
 
 // --- normalization: lowercase, strip diacritics, keep Waray's meaningful hyphen/apostrophe ---
 const stripAccents = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -86,10 +104,19 @@ for (const row of SEED) {
 const chedText = read(SRC.ched);
 const { heads: chedHeads, examples: chedExamples } = parseChed(chedText);
 
-// --- count occurrences across the whole corpus ---
-const corpus = [read(SRC.ched), read(SRC.peace), read(SRC.tramp)].join("\n");
+// Phase 1: children's-register sentences from Bible for Children
+const bfcText = read(SRC.bfc);
+const bfcSentences = harvestSentences(bfcText);
+const sentencePool = [...chedExamples, ...bfcSentences];
+
+// --- count occurrences across the whole corpus (per-source, for transparency) ---
+const perSource = {};
 const counts = new Map();
-for (const t of tokens(corpus)) counts.set(t, (counts.get(t) || 0) + 1);
+for (const [key, file] of Object.entries(SRC)) {
+  const toks = tokens(read(file));
+  perSource[key] = toks.length;
+  for (const t of toks) counts.set(t, (counts.get(t) || 0) + 1);
+}
 
 // target set = words we can confirm are Waray
 const target = new Set([...seedWords.keys(), ...chedHeads]);
@@ -118,10 +145,19 @@ let md = `# Waray frequency graph — Phase 0 (repo sources only)
 _Built by tools/build-frequency.mjs from the text already in the repo. Zero external
 dependency. Counts are attested occurrences across CHED + Peace Corps + Tramp/Zorc._
 
-## Corpus
-- CHED "First 1000 Words" (Oyzon 2013): **${chedHeads.size}** headwords parsed, **${chedExamples.length}** example sentences extracted
+## Corpus (Phase 0 + Phase 1)
+Token counts per source:
+${Object.entries(perSource).map(([k, n]) => `- \`${k}\` — ${n.toLocaleString()} tokens`).join("\n")}
+- CHED headwords parsed: **${chedHeads.size}**
 - Total distinct tokens counted: **${counts.size.toLocaleString()}**
 - Target lexicon (confirmable Waray = SEED single-words ∪ CHED headwords): **${target.size}** words, of which **${occurring.length}** occur in the corpus
+
+## Attested-sentence pool (Track 2 — frame-engine fuel)
+- CHED dictionary examples: **${chedExamples.length}**
+- Bible for Children (children's register): **${bfcSentences.length}**
+- **Combined pool: ${sentencePool.length} sentences** (deduping not applied)
+- _Bible for Children © Bible for Children, Inc. — free to copy/print, not for sale; attributed._
+- ⚠️ The BFC translation leans **dialectal/colloquial** (san→han, sa→ha, wara→waray, sino→hin-o). Real Waray, but normalize before using as frame templates — a job for native-speaker validation.
 
 ## Coverage of what we teach
 - SEED single-word vocab: **${seedWords.size}** words
@@ -153,10 +189,12 @@ _Either genuinely rare, a phrase fragment, or a spelling that differs from the c
 
 ${seedUnseen.join(", ") || "—"}
 
-## Attested example sentences harvested (Track 2 seed pool)
-**${chedExamples.length}** sentences pulled from CHED entries. First 15:
+## Sample harvested sentences (Track 2 seed pool)
+**CHED dictionary examples** (first 8):
+${chedExamples.slice(0, 8).map((s) => `- ${s}`).join("\n")}
 
-${chedExamples.slice(0, 15).map((s) => `- ${s}`).join("\n")}
+**Bible for Children — children's register** (first 12):
+${bfcSentences.slice(0, 12).map((s) => `- ${s}`).join("\n")}
 `;
 
 fs.writeFileSync(path.join(root, "docs/waray-frequency-graph.md"), md);
@@ -167,11 +205,12 @@ fs.writeFileSync(
     counts: Object.fromEntries(ranked.map((r) => [r.w, { n: r.n, inSeed: r.inSeed, inChed: r.inChed }])),
     chedHeads: [...chedHeads].sort(),
     gap: gap.map((r) => ({ w: r.w, n: r.n, tier: r.tier })),
-    examples: chedExamples,
+    perSource,
+    sentences: sentencePool,
   }, null, 0)
 );
 
-console.log(`corpus tokens: ${counts.size} | CHED heads: ${chedHeads.size} | examples: ${chedExamples.length}`);
+console.log(`corpus tokens: ${counts.size} | CHED heads: ${chedHeads.size} | sentence pool: ${sentencePool.length} (CHED ${chedExamples.length} + BFC ${bfcSentences.length})`);
 console.log(`target lexicon: ${target.size} | occurring: ${occurring.length} | SEED found: ${seedFound}/${seedWords.size}`);
 console.log(`gap (CHED−SEED): ${gap.length} | SEED unseen: ${seedUnseen.length}`);
 console.log(`top 15:`);
