@@ -1793,6 +1793,15 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           const m = explainMatch(x, o, waray);
           if (m.ok) { const d = Math.min(...m.targets.map((t) => t.dist)); if (d < bestD) { bestD = d; best = k; } }
         }));
+        if (best < 0) { // nothing cleared tolerance — still resolve to the nearest option by
+          // raw distance so the card ALWAYS reaches a verdict and auto-advances, like every
+          // other answer path (typed/tap). Among 4 shown options, not free-typing — no grading
+          // tolerance changes; this only closes the dead-end where voice MC judged nothing.
+          options.forEach((o, k) => a.forEach((x) => {
+            const d = Math.min(...explainMatch(x, o, waray).targets.map((t) => t.dist));
+            if (d < bestD) { bestD = d; best = k; }
+          }));
+        }
         if (best >= 0) { setPicked(best); judge(options[best] === answer); }
       }
     };
