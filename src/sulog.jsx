@@ -442,6 +442,23 @@ function mergeStreak(l, c) {
   const base = (c.last || "") >= (l.last || "") ? c : l;
   return { ...base, days, count: Math.max(l.count || 0, c.count || 0) };
 }
+// lessons: id -> parts cleared (monotonic). Take the furthest progress per lesson.
+function mergeLessons(l, c) {
+  const out = { ...(l || {}) };
+  for (const id in (c || {})) out[id] = Math.max(out[id] || 0, c[id] || 0);
+  return out;
+}
+// units: id -> {best, passed, last, at}. best = max, passed sticky, last/at from latest run.
+function mergeUnits(l, c) {
+  const out = { ...(l || {}) };
+  for (const id in (c || {})) {
+    const a = out[id], b = c[id];
+    if (!a) { out[id] = b; continue; }
+    const latest = (b.at || "") >= (a.at || "") ? b : a;
+    out[id] = { best: Math.max(a.best || 0, b.best || 0), passed: !!(a.passed || b.passed), last: latest.last, at: latest.at };
+  }
+  return out;
+}
 
 /* ---------------- speech ----------------
    The browser almost never ships a Waray voice. Best case is a Filipino /
@@ -715,10 +732,12 @@ export default function App() {
       exportedAt: new Date().toISOString(),
       prog,
       streak,
+      lessons,
+      units,
       history,
       audio: includeAudio ? audio : {},
     };
-  }, [prog, streak, audio, history]);
+  }, [prog, streak, lessons, units, audio, history]);
 
   // ---- backup: load a JSON object back in ----
   const importData = useCallback(async (data, mode) => {
@@ -726,6 +745,10 @@ export default function App() {
     // progress + streak: replace
     if (data.prog) { setProg(data.prog); await store.set(PK.prog, JSON.stringify(data.prog)); }
     if (data.streak) { setStreak(data.streak); await store.set(PK.streak, JSON.stringify(data.streak)); }
+    // lessons/units: merge (furthest progress wins) so importing never undoes lessons
+    // you've finished on this device
+    if (data.lessons) { const m = mergeLessons(lessons, data.lessons); setLessons(m); await store.set(PK.lessons, JSON.stringify(m)); }
+    if (data.units) { const m = mergeUnits(units, data.units); setUnits(m); await store.set(PK.units, JSON.stringify(m)); }
     if (data.history) { setHistory(data.history); await store.set(PK.history, JSON.stringify(data.history)); }
     // recordings: merge so we never lose voice you already saved
     const incoming = data.audio || {};
@@ -738,11 +761,11 @@ export default function App() {
       await store.set("waray:audioIndex", JSON.stringify(Object.keys(merged)));
     }
     return true;
-  }, [audio]);
+  }, [audio, lessons, units]);
 
   /* ---------------- cloud sync state & ops ---------------- */
   const stateRef = useRef({});
-  stateRef.current = { prog, streak, audio, settings, history };
+  stateRef.current = { prog, streak, audio, settings, history, lessons, units };
   const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
   const pushTimer = useRef(null);
   const didInitialPull = useRef(false);
@@ -755,6 +778,11 @@ export default function App() {
     const ns = mergeStreak(cur.streak, cloud.streak || {});
     setProg(np); await store.set(PK.prog, JSON.stringify(np));
     setStreak(ns); await store.set(PK.streak, JSON.stringify(ns));
+    // lesson completion + unit-review results (furthest progress / sticky pass wins)
+    const nl = mergeLessons(cur.lessons, cloud.lessons || {});
+    setLessons(nl); await store.set(PK.lessons, JSON.stringify(nl));
+    const nu = mergeUnits(cur.units, cloud.units || {});
+    setUnits(nu); await store.set(PK.units, JSON.stringify(nu));
     // history: union local + cloud by timestamp, keep chronological, cap
     const seenTs = new Set();
     const mh = [...(cur.history || []), ...(cloud.history || [])]
@@ -792,7 +820,7 @@ export default function App() {
     try {
       const payload = JSON.stringify({
         app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
-        prog: cur.prog, streak: cur.streak, audio: cur.audio, history: cur.history,
+        prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units, audio: cur.audio, history: cur.history,
       });
       await gistApi(s.token, "/gists/" + s.gistId, "PATCH", { files: { [GIST_FILE]: { content: payload } } });
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
@@ -815,7 +843,7 @@ export default function App() {
         const cur = stateRef.current;
         const payload = JSON.stringify({
           app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
-          prog: cur.prog, streak: cur.streak, audio: cur.audio,
+          prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units, audio: cur.audio, history: cur.history,
         });
         const created = await gistApi(token, "/gists", "POST", {
           description: GIST_DESC, public: false, files: { [GIST_FILE]: { content: payload } },
@@ -856,7 +884,7 @@ export default function App() {
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => syncPush(), 2500);
     return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
-  }, [prog, streak, audio, history, loaded, settings.sync, syncPush]);
+  }, [prog, streak, lessons, units, audio, history, loaded, settings.sync, syncPush]);
 
   if (!loaded) {
     return (
