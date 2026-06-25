@@ -1,6 +1,6 @@
 # Waray (Frequency) — full curriculum, every lesson
 
-_4 phases · 36 units · 99 lessons · 639 items · 31 units with ② Apply_
+_4 phases · 36 units · 102 lessons · 662 items · 31 units with ② Apply_
 
 _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — english._
 
@@ -39,18 +39,19 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Ask what, where, who  — _ano, hain, hin-o + ba_
 **① Words**
 - _Question words:_  **hin-o** — who  ·  **ano** — what  ·  **hain** — where  ·  **diin** — where (from / which)  ·  **kay ano** — why  ·  **mapira** — how many  ·  **tagpira** — how much  ·  **ba** — makes a yes/no question
+- _More common words:_  **kun** — if / when  ·  **pero** — but  ·  **tungod** — about / because of  ·  **para** — for
 **② Apply** _(type the Waray)_
 - _Asking questions:_  **Hin-o hiya?** — Who is she?  ·  **Isda ba ini?** — Is this fish?  ·  **Kay ano?** — Why?  ·  **Mapira?** — How many?  ·  **Ano ini?** — What is this?  ·  **Tagpira ini?** — How much is this?
 - _See & understand:_  **Nakikit-an mo?** — Can you see it?  ·  **Oo, nakikit-an ko** — Yes, I can see it  ·  **Klaro?** — Is it clear?  ·  **Oo, klaro** — Yes, it's clear  ·  **Diri klaro** — No, it's not clear  ·  **Naintindihan nimo?** — Do you understand?  ·  **Oo, naintindihan ko** — Yes, I understand  ·  **Taga diin ka?** — Where are you from?  ·  **Hain ka?** — Where are you?  ·  **Ano imo gin-hihimo?** — What are you doing?
 
 ### Count to 100  — _Counting 1–100_
-- _Numbers 1–100:_  **usa** — one  ·  **duha** — two  ·  **tulo** — three  ·  **upat** — four  ·  **lima** — five  ·  **unom** — six  ·  **pito** — seven  ·  **walo** — eight  ·  **siyam** — nine  ·  **napulo** — ten  ·  **karuhaan** — twenty  ·  **usa kagatos** — one hundred
+- _Numbers 1–100:_  **usa** — one  ·  **duha** — two  ·  **tulo** — three  ·  **upat** — four  ·  **lima** — five  ·  **unom** — six  ·  **pito** — seven  ·  **walo** — eight  ·  **siyam** — nine  ·  **napulo** — ten  ·  **karuhaan** — twenty  ·  **usa kagatos** — one hundred  ·  **una** — first
 
 ### Introduce your family  — _Family and the people around you_
 **① Words**
 - _Family:_  **tatay** — father  ·  **nanay** — mother  ·  **anak** — son / daughter  ·  **apoy** — grandparent  ·  **apo** — grandchild  ·  **asawa** — wife / spouse  ·  **bugto** — sibling  ·  **akon patod** — my cousin  ·  **uyab** — girlfriend / boyfriend  ·  **sangkay** — friend
 - _People around you:_  **lalaki** — man  ·  **babaye** — woman  ·  **bata** — child / kid  ·  **ulitawo** — young man  ·  **daragita** — young woman  ·  **lagas** — old person  ·  **kaharani** — neighbor  ·  **bisita** — visitor  ·  **tawo** — person  ·  **miyembro** — member
-- _More common words:_  **kuya** — older brother  ·  **ate** — older sister  ·  **tiya** — aunt  ·  **tiyo** — uncle
+- _More common words:_  **kuya** — older brother  ·  **ate** — older sister  ·  **tiya** — aunt  ·  **tiyo** — uncle  ·  **ngaran** — name
 **② Apply** _(type the Waray)_
 - _Family & friends:_  **nanay niya** — his / her mother  ·  **sangkay nira** — their friend
 - _From real Waray:_  **Malabad an mga bata** — the children are naughty  ·  **Tawo iton.** — That is a person.  ·  **Waray pa ada umabot an iya tatay.** — His father has perhaps not arrived yet.  ·  **Walo an ira anak.** — They have eight children.  ·  **Didto na ito hira ha bukid han Apoy pagkatatawo.** — They were already on Grandfather's mountain at birth.  ·  **Dinhi la kamo kay malakat ako, ginsiring an iya asawa.** — 'Just stay here, I'm leaving,' his wife said.  ·  **Babayi an nati han amon karabaw.** — Our carabao's calf is female.
@@ -75,6 +76,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Say “X is Y”  — _Equational sentences + an / it_
 **① Words**
 - _The little words (an / it):_  **it** — the (now / general)  ·  **an** — the (completed / past)  ·  **bata** — child / kid  ·  **uyab** — girlfriend / boyfriend  ·  **mabaho** — smelly
+- _More common words:_  **may** — there is / has  ·  **tanan** — all / everything  ·  **damo** — many / a lot  ·  **iba** — other / different
 **② Apply** _(type the Waray)_
 - _I am / you are:_  **Amerikano ako** — I am American  ·  **Nanay ako** — I am a mother  ·  **Babaye ka** — You are a woman  ·  **Makusog ka** — You are strong  ·  **Mahusay ka** — You are beautiful  ·  **Maraksot ka** — You are ugly  ·  **Makarit ka** — You are excellent  ·  **Turista hiya** — She is a tourist  ·  **Estudyante kami** — We (excl.) are students  ·  **Pilipino hira** — They are Filipinos
 - _The ___ is ___:_  **Gwapo it bata** — The child is handsome  ·  **Gwapo an bata** — The child was handsome  ·  **Hataas it akon uyab** — My girlfriend is tall  ·  **Marasa it adobo** — The adobo is tasty  ·  **Mabaho it jeep** — The jeepney is smelly
@@ -82,6 +84,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Already, not yet, just  — _na, pa, la, liwat, hin duro_
 **① Words**
 - _Particles & negation:_  **na** — already  ·  **pa** — still / yet  ·  **liwat** — also / too  ·  **hin duro** — very / a lot  ·  **Waray** — None / nothing  ·  **Diri** — No / not
+- _More common words:_  **duro** — very / too much  ·  **gihapon** — also / still / as well  ·  **tikang** — from / since  ·  **bisan** — even if / even though  ·  **sugad** — like / such as  ·  **kada** — each / every  ·  **basi** — so that / in order to
 **② Apply** _(type the Waray)_
 - _Using the little words:_  **Marasa hin duro** — Very delicious  ·  **Namahaw na ako** — I've already had breakfast  ·  **Diri pa** — Not yet / still not  ·  **Makusog liwat** — Strong too  ·  **Waray pa** — Not yet
 
@@ -114,7 +117,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 - _Rooms & furniture:_  **balay** — house  ·  **kusina** — kitchen  ·  **banyo** — bathroom  ·  **kwarto** — room  ·  **sala** — living room  ·  **lamesa** — table  ·  **lingkuran** — chair  ·  **katre** — bed  ·  **kudal** — fence  ·  **telebisyon** — television
 - _Clothes:_  **bado** — clothes  ·  **sapatos** — shoes  ·  **tsinelas** — slippers  ·  **saruwal** — pants  ·  **panyo** — handkerchief  ·  **mantel** — tablecloth  ·  **biray** — curtain  ·  **taklap** — blanket  ·  **syaket** — jacket  ·  **medyas** — socks
 - _Things:_  **tinidor** — fork  ·  **kutsara** — spoon  ·  **pinggan** — plate  ·  **baso** — glass  ·  **papel** — paper  ·  **libro** — book  ·  **lapis** — pencil  ·  **mulayan** — toy  ·  **sista** — guitar  ·  **tubig** — water
-- _More common words:_  **pitaka** — wallet  ·  **relo** — watch  ·  **bag** — bag  ·  **kalo** — cap / hat
+- _More common words:_  **pitaka** — wallet  ·  **relo** — watch  ·  **bag** — bag  ·  **kalo** — cap / hat  ·  **butang** — thing / object  ·  **klase** — kind / type
 **② Apply** _(type the Waray)_
 - _Around the house:_  **Mahusay an lamesa** — The table is nice  ·  **Puno an baso** — The glass is full  ·  **Mabusag an papel** — The paper is white
 - _From real Waray:_  **Magdara ako han iyo lamesa ha iyo balay.** — I am bringing your table in your house.  ·  **Madig-on an mga lingkuran** — the chairs are strong/sturdy  ·  **Tubig ini.** — This is water. (very near)  ·  **Malipay an bata han bag-o niya nga lapis ngan para.** — The child is happy with his new pencil and pen.
@@ -130,7 +133,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 **① Words**
 - _Places:_  **bangko** — bank  ·  **botika** — pharmacy  ·  **ospital** — hospital  ·  **istasyon hit pulis** — police station  ·  **munisipyo** — town / city hall  ·  **paradahan** — terminal  ·  **eskina** — corner  ·  **atbang** — across / in front of
 - _Getting there:_  **dinhi** — here (this place)  ·  **harani** — near  ·  **harayo** — far  ·  **bus** — bus  ·  **dyip** — jeepney  ·  **taxi** — taxi  ·  **pedicab** — pedicab  ·  **traysikol** — tricycle
-- _More common words:_  **hotel** — hotel  ·  **barangay** — neighborhood  ·  **eskwelahan** — school
+- _More common words:_  **hotel** — hotel  ·  **barangay** — neighborhood  ·  **eskwelahan** — school  ·  **bungto** — town
 **② Apply** _(type the Waray)_
 - _Asking & answers:_  **Pwede magpakiana?** — May I ask a question?  ·  **Hain it bangko?** — Where is the bank?  ·  **Harayo ba tikang dinhi?** — Is it far from here?  ·  **Waray sapayan** — You're welcome  ·  **Harani la** — It's just near  ·  **Pwede baktason** — It can be walked  ·  **Ika-upat nga eskina tikang dinhi** — The 4th corner from here  ·  **Pagbus nala** — Just take the bus
 
@@ -152,7 +155,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Describe people  — _Words to describe people_
 **① Words**
 - _Looks:_  **mahusay** — beautiful  ·  **maraksot** — ugly  ·  **gwapo** — handsome  ·  **hataas** — tall / long  ·  **habubo** — short  ·  **matambok** — fat  ·  **magasa** — thin  ·  **makusog** — strong  ·  **daku** — big  ·  **gutiay** — small
-- _Qualities:_  **malipay** — happy  ·  **buoton** — nice / kind / good  ·  **riko** — rich  ·  **makarit** — excellent  ·  **hubya** — lazy  ·  **kapoy** — tired  ·  **maraut** — bad  ·  **grabe** — serious  ·  **matidong** — righteous  ·  **mapaso** — hot
+- _Qualities:_  **malipay** — happy  ·  **buoton** — nice / kind / good  ·  **riko** — rich  ·  **makarit** — excellent  ·  **hubya** — lazy  ·  **kapoy** — tired  ·  **maraut** — bad  ·  **grabe** — serious  ·  **matidong** — righteous  ·  **mapaso** — hot  ·  **dako** — big / large
 **② Apply** _(type the Waray)_
 - _Describing people:_  **Mahusay hiya** — She is beautiful  ·  **Hataas ako** — I am tall  ·  **Riko hira** — They are rich  ·  **Makusog hiya nga lalake** — He is a strong man  ·  **Maraut ini nga tawo** — This is a bad person
 - _From real Waray:_  **Daku an klase** — the class is big
@@ -165,7 +168,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 
 ### Can, must, mustn't  — _kinahanglan, pwede / mahimo, Ayaw_
 **① Words**
-- _Can, must, don't:_  **kinahanglan** — need to / must  ·  **mahimo** — can / able to  ·  **Ayaw** — don't (command)  ·  **Pwede** — Can / may (I)  ·  **trabaho** — work
+- _Can, must, don't:_  **kinahanglan** — need to / must  ·  **mahimo** — can / able to  ·  **Ayaw** — don't (command)  ·  **Pwede** — Can / may (I)  ·  **trabaho** — work  ·  **maaram** — to know / knowledgeable  ·  **buot** — to want / will
 **② Apply** _(type the Waray)_
 - _Using them:_  **Kinahanglan ako magtrabaho** — I need to work  ·  **Pwede ka ba magdara?** — Can you bring it?  ·  **Mahimo ako maupod** — I can come along  ·  **Ayaw pagkaon** — Don't eat
 

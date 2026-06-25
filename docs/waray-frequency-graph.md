@@ -21,8 +21,8 @@ Token counts per source:
 - ⚠️ The BFC translation leans **dialectal/colloquial** (san→han, sa→ha, wara→waray, sino→hin-o). Real Waray, but normalize before using as frame templates — a job for native-speaker validation.
 
 ## Coverage of what we teach
-- SEED single-word vocab: **401** words
-- …found in the corpus: **367** (92%)
+- SEED single-word vocab: **424** words
+- …found in the corpus: **390** (92%)
 - …never seen in the corpus: **34** (listed at the end — check spelling/rarity)
 
 ## Tiers (by corpus frequency rank, over the 1122 occurring target words)
@@ -48,7 +48,7 @@ Token counts per source:
 | 15 | hiya | 273 | 1 | ✓ |  |
 | 16 | kay | 266 | 1 | ✓ | ✓ |
 | 17 | ba | 254 | 1 | ✓ |  |
-| 18 | may | 239 | 1 |  | ✓ |
+| 18 | may | 239 | 1 | ✓ | ✓ |
 | 19 | ako | 237 | 1 | ✓ |  |
 | 20 | diri | 236 | 1 | ✓ | ✓ |
 | 21 | hira | 214 | 1 | ✓ |  |
@@ -56,15 +56,15 @@ Token counts per source:
 | 23 | ginoo | 187 | 1 | ✓ |  |
 | 24 | ira | 187 | 1 | ✓ |  |
 | 25 | liwat | 182 | 1 | ✓ |  |
-| 26 | para | 177 | 1 |  | ✓ |
+| 26 | para | 177 | 1 | ✓ | ✓ |
 | 27 | away | 163 | 1 |  | ✓ |
 | 28 | akon | 160 | 1 | ✓ |  |
 | 29 | usa | 142 | 1 | ✓ |  |
-| 30 | kun | 139 | 1 |  | ✓ |
+| 30 | kun | 139 | 1 | ✓ | ✓ |
 | 31 | iton | 135 | 1 | ✓ |  |
 | 32 | ano | 129 | 1 | ✓ |  |
 | 33 | niya | 125 | 1 | ✓ |  |
-| 34 | duro | 123 | 1 |  | ✓ |
+| 34 | duro | 123 | 1 | ✓ | ✓ |
 | 35 | didto | 120 | 1 | ✓ |  |
 | 36 | tawo | 119 | 1 | ✓ | ✓ |
 | 37 | bata | 113 | 1 | ✓ | ✓ |
@@ -83,46 +83,46 @@ Token counts per source:
 | 50 | amo | 72 | 1 |  | ✓ |
 | 51 | amon | 71 | 1 | ✓ |  |
 | 52 | sala | 71 | 1 | ✓ | ✓ |
-| 53 | tikang | 71 | 1 |  | ✓ |
+| 53 | tikang | 71 | 1 | ✓ | ✓ |
 | 54 | nira | 70 | 1 | ✓ |  |
 | 55 | kami | 68 | 1 | ✓ |  |
 | 56 | dinhi | 65 | 1 | ✓ |  |
-| 57 | gihapon | 65 | 1 |  | ✓ |
+| 57 | gihapon | 65 | 1 | ✓ | ✓ |
 | 58 | baga | 61 | 1 |  | ✓ |
-| 59 | bisan | 61 | 1 |  | ✓ |
+| 59 | bisan | 61 | 1 | ✓ | ✓ |
 | 60 | iyo | 61 | 1 | ✓ |  |
 | 61 | tuna | 60 | 1 | ✓ | ✓ |
 | 62 | maupay | 58 | 1 | ✓ | ✓ |
 | 63 | sumat | 58 | 1 |  | ✓ |
 | 64 | libro | 57 | 1 | ✓ | ✓ |
-| 65 | sugad | 57 | 1 |  | ✓ |
+| 65 | sugad | 57 | 1 | ✓ | ✓ |
 | 66 | kamo | 56 | 1 | ✓ |  |
 | 67 | yana | 56 | 1 | ✓ | ✓ |
 | 68 | ada | 55 | 1 |  | ✓ |
-| 69 | iba | 54 | 1 |  | ✓ |
+| 69 | iba | 54 | 1 | ✓ | ✓ |
 | 70 | ayaw | 53 | 1 | ✓ | ✓ |
-| 71 | damo | 51 | 1 |  | ✓ |
-| 72 | kada | 51 | 1 |  | ✓ |
+| 71 | damo | 51 | 1 | ✓ | ✓ |
+| 72 | kada | 51 | 1 | ✓ | ✓ |
 | 73 | hin-o | 50 | 1 | ✓ |  |
 | 74 | tubig | 48 | 1 | ✓ | ✓ |
 | 75 | tatay | 47 | 1 | ✓ | ✓ |
-| 76 | tungod | 46 | 1 |  | ✓ |
+| 76 | tungod | 46 | 1 | ✓ | ✓ |
 | 77 | kinabuhi | 45 | 1 | ✓ | ✓ |
-| 78 | pero | 44 | 1 |  | ✓ |
+| 78 | pero | 44 | 1 | ✓ | ✓ |
 | 79 | tuba | 44 | 1 |  | ✓ |
 | 80 | karuyag | 43 | 1 | ✓ | ✓ |
-| 81 | klase | 43 | 1 |  | ✓ |
+| 81 | klase | 43 | 1 | ✓ | ✓ |
 | 82 | langit | 43 | 1 | ✓ | ✓ |
 | 83 | lugar | 43 | 1 | ✓ | ✓ |
-| 84 | maaram | 43 | 1 |  | ✓ |
+| 84 | maaram | 43 | 1 | ✓ | ✓ |
 | 85 | wara | 43 | 1 |  | ✓ |
 | 86 | anay | 41 | 1 | ✓ | ✓ |
 | 87 | kinahanglan | 40 | 1 | ✓ | ✓ |
-| 88 | tanan | 40 | 1 |  | ✓ |
-| 89 | basi | 39 | 1 |  | ✓ |
+| 88 | tanan | 40 | 1 | ✓ | ✓ |
+| 89 | basi | 39 | 1 | ✓ | ✓ |
 | 90 | pastor | 39 | 1 | ✓ |  |
 | 91 | pagkaon | 38 | 1 | ✓ | ✓ |
-| 92 | bungto | 37 | 1 |  | ✓ |
+| 92 | bungto | 37 | 1 | ✓ | ✓ |
 | 93 | diin | 37 | 1 | ✓ |  |
 | 94 | asya | 36 | 1 |  | ✓ |
 | 95 | dara | 36 | 1 | ✓ | ✓ |
@@ -130,20 +130,20 @@ Token counts per source:
 | 97 | dagat | 35 | 1 | ✓ | ✓ |
 | 98 | nanay | 35 | 1 | ✓ | ✓ |
 | 99 | panahon | 35 | 1 | ✓ | ✓ |
-| 100 | una | 35 | 1 |  | ✓ |
-| 101 | buot | 34 | 1 |  | ✓ |
+| 100 | una | 35 | 1 | ✓ | ✓ |
+| 101 | buot | 34 | 1 | ✓ | ✓ |
 | 102 | di | 34 | 1 |  | ✓ |
 | 103 | winaray | 34 | 1 |  | ✓ |
 | 104 | babaye | 33 | 1 | ✓ |  |
 | 105 | mayor | 33 | 1 | ✓ | ✓ |
 | 106 | namon | 33 | 1 | ✓ |  |
-| 107 | butang | 32 | 1 |  | ✓ |
+| 107 | butang | 32 | 1 | ✓ | ✓ |
 | 108 | sulod | 32 | 1 | ✓ | ✓ |
 | 109 | dyos | 31 | 1 |  | ✓ |
 | 110 | kahoy | 31 | 1 | ✓ | ✓ |
 | 111 | puno | 31 | 1 |  | ✓ |
-| 112 | dako | 30 | 1 |  | ✓ |
-| 113 | ngaran | 30 | 1 |  | ✓ |
+| 112 | dako | 30 | 1 | ✓ | ✓ |
+| 113 | ngaran | 30 | 1 | ✓ | ✓ |
 | 114 | makadto | 29 | 2 | ✓ | ✓ |
 | 115 | siring | 29 | 2 | ✓ | ✓ |
 | 116 | alas | 28 | 2 |  | ✓ |
@@ -159,44 +159,21 @@ _The highest-value add candidates: Oyzon's corpus says these are common, and the
 |--:|------|------:|:--:|
 | 1 | nga | 2769 | 1 |
 | 13 | ug | 322 | 1 |
-| 18 | may | 239 | 1 |
-| 26 | para | 177 | 1 |
 | 27 | away | 163 | 1 |
-| 30 | kun | 139 | 1 |
-| 34 | duro | 123 | 1 |
 | 39 | siday | 97 | 1 |
 | 43 | pulong | 86 | 1 |
 | 46 | babayi | 77 | 1 |
 | 50 | amo | 72 | 1 |
-| 53 | tikang | 71 | 1 |
-| 57 | gihapon | 65 | 1 |
 | 58 | baga | 61 | 1 |
-| 59 | bisan | 61 | 1 |
 | 63 | sumat | 58 | 1 |
-| 65 | sugad | 57 | 1 |
 | 68 | ada | 55 | 1 |
-| 69 | iba | 54 | 1 |
-| 71 | damo | 51 | 1 |
-| 72 | kada | 51 | 1 |
-| 76 | tungod | 46 | 1 |
-| 78 | pero | 44 | 1 |
 | 79 | tuba | 44 | 1 |
-| 81 | klase | 43 | 1 |
-| 84 | maaram | 43 | 1 |
 | 85 | wara | 43 | 1 |
-| 88 | tanan | 40 | 1 |
-| 89 | basi | 39 | 1 |
-| 92 | bungto | 37 | 1 |
 | 94 | asya | 36 | 1 |
-| 100 | una | 35 | 1 |
-| 101 | buot | 34 | 1 |
 | 102 | di | 34 | 1 |
 | 103 | winaray | 34 | 1 |
-| 107 | butang | 32 | 1 |
 | 109 | dyos | 31 | 1 |
 | 111 | puno | 31 | 1 |
-| 112 | dako | 30 | 1 |
-| 113 | ngaran | 30 | 1 |
 | 116 | alas | 28 | 2 |
 | 120 | ngani | 28 | 2 |
 | 121 | dayon | 27 | 2 |
@@ -237,8 +214,31 @@ _The highest-value add candidates: Oyzon's corpus says these are common, and the
 | 184 | gawas | 18 | 2 |
 | 186 | kalugaringon | 18 | 2 |
 | 187 | labi | 18 | 2 |
+| 188 | pag-abot | 18 | 2 |
+| 189 | pira | 18 | 2 |
+| 191 | hasta | 17 | 2 |
+| 192 | ilarom | 17 | 2 |
+| 193 | mahal | 17 | 2 |
+| 194 | naghimo | 17 | 2 |
+| 195 | namatay | 17 | 2 |
+| 196 | natural | 17 | 2 |
+| 197 | patron | 17 | 2 |
+| 198 | problema | 17 | 2 |
+| 199 | amay | 16 | 2 |
+| 200 | balod | 16 | 2 |
+| 202 | dalan | 16 | 2 |
+| 203 | inabot | 16 | 2 |
+| 204 | iroy | 16 | 2 |
+| 205 | kawayan | 16 | 2 |
+| 206 | kundi | 16 | 2 |
+| 208 | mahihimo | 16 | 2 |
+| 209 | mananap | 16 | 2 |
+| 211 | mas | 16 | 2 |
+| 217 | baboy | 15 | 2 |
+| 218 | bubuhaton | 15 | 2 |
+| 219 | butnga | 15 | 2 |
 
-_(+675 more in the JSON.)_
+_(+652 more in the JSON.)_
 
 ## SEED words not found in the corpus (34)
 _Either genuinely rare, a phrase fragment, or a spelling that differs from the corpus._

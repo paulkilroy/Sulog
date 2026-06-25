@@ -11,44 +11,21 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 |:--:|------|-------|------:|:--:|
 | ☐ | **nga** | connects modifiers and nouns, and between clauses. | 2769 | 1 |
 | ☐ | **ug** | and; plus. | 322 | 1 |
-| ☐ | **may** | indicates presence, or place | 239 | 1 |
-| ☐ | **para** | for; | 177 | 1 |
 | ☐ | **away** | quarrel; fight 2 to quarrel with; to | 163 | 1 |
-| ☐ | **kun** | if; when. | 139 | 1 |
-| ☐ | **duro** | excessive; radical; extreme; intense; | 123 | 1 |
 | ☐ | **siday** | poem. | 97 | 1 |
 | ☐ | **pulong** | word. | 86 | 1 |
 | ☐ | **babayi** | female;woman 2 female animal. 1 | 77 | 1 |
 | ☐ | **amo** | correct; | 72 | 1 |
-| ☐ | **tikang** | from; start. | 71 | 1 |
-| ☐ | **gihapon** | — | 65 | 1 |
 | ☐ | **baga** | like; similar; | 61 | 1 |
-| ☐ | **bisan** | even if; inspite of; any. | 61 | 1 |
 | ☐ | **sumat** | news; reports; information. | 58 | 1 |
-| ☐ | **sugad** | like/as if. | 57 | 1 |
 | ☐ | **ada** | kapinit ika-6 nga klase (clitic particle class | 55 | 1 |
-| ☐ | **iba** | other; variety;different 2 cicca acida & cicca | 54 | 1 |
-| ☐ | **damo** | many;abundant. | 51 | 1 |
-| ☐ | **kada** | each; every. | 51 | 1 |
-| ☐ | **tungod** | concerning; about; | 46 | 1 |
-| ☐ | **pero** | but. | 44 | 1 |
 | ☐ | **tuba** | wine derived from coconut palm sap. | 44 | 1 |
-| ☐ | **klase** | class; category; rank; kind; variety. | 43 | 1 |
-| ☐ | **maaram** | in the know; knowledgable. | 43 | 1 |
 | ☐ | **wara** | (dialectal variation for the word waray) none; nothing; | 43 | 1 |
-| ☐ | **tanan** | all 2 escape; flee; elope. 1 | 40 | 1 |
-| ☐ | **basi** | so that; in order that. | 39 | 1 |
-| ☐ | **bungto** | town. | 37 | 1 |
 | ☐ | **asya** | to be; proper; correct; | 36 | 1 |
-| ☐ | **una** | first 2 to go | 35 | 1 |
-| ☐ | **buot** | will; mind; sanity; want; wish. | 34 | 1 |
 | ☐ | **di** | not (short for diri) 2 with (something). 1 | 34 | 1 |
 | ☐ | **winaray** | the language of the Waray people. | 34 | 1 |
-| ☐ | **butang** | a thing; an object; a matter. | 32 | 1 |
 | ☐ | **dyos** | God. | 31 | 1 |
 | ☐ | **puno** | base; trunk of a tree 2 itch on the head | 31 | 1 |
-| ☐ | **dako** | big; huge; vast. | 30 | 1 |
-| ☐ | **ngaran** | name. | 30 | 1 |
 | ☐ | **alas** | used before Spanish number in stating time | 28 | 2 |
 | ☐ | **ngani** | as a matter of fact; although; according to. | 28 | 2 |
 | ☐ | **dayon** | immediately; at | 27 | 2 |
@@ -79,5 +56,28 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 | ☐ | **kabataan** | children; youth; youthfulness 2 uncles. | 20 | 2 |
 | ☐ | **kamot** | hand. | 20 | 2 |
 | ☐ | **nagsiring** | said; spoke; told; asked. | 20 | 2 |
+| ☐ | **ngahaw** | self same; again; however. | 20 | 2 |
+| ☐ | **oras** | time. | 20 | 2 |
+| ☐ | **bahin** | about 2 share; part; allotment. 1 | 19 | 2 |
+| ☐ | **hangin** | air; wind. | 19 | 2 |
+| ☐ | **padi** | priest 2 sponsor (in baptism of someone | 19 | 2 |
+| ☐ | **ungod** | true; authentic; credible. | 19 | 2 |
+| ☐ | **bantay** | guard 2 be alert; be watchful. 1 | 18 | 2 |
+| ☐ | **gawas** | outside; exit;exception 2 to exit; to | 18 | 2 |
+| ☐ | **kalugaringon** | self; ownership, one | 18 | 2 |
+| ☐ | **labi** | including; more than; much better. | 18 | 2 |
+| ☐ | **pag-abot** | the act of arriving; coming; arrival; advent. | 18 | 2 |
+| ☐ | **pira** | few, how many; how much. | 18 | 2 |
+| ☐ | **hasta** | down to including 2 until, till. 1 | 17 | 2 |
+| ☐ | **ilarom** | under; beneath; below; bottom. | 17 | 2 |
+| ☐ | **mahal** | expensive; costly; dear; excellent; illustrious. | 17 | 2 |
+| ☐ | **naghimo** | made. | 17 | 2 |
+| ☐ | **namatay** | died. | 17 | 2 |
+| ☐ | **natural** | natural; inherent. | 17 | 2 |
+| ☐ | **patron** | feast; fiesta; town fiesta; festival 2 patron; patron saint. | 17 | 2 |
+| ☐ | **problema** | problem. | 17 | 2 |
+| ☐ | **amay** | father. | 16 | 2 |
+| ☐ | **balod** | wave 2 wild pigoen. | 16 | 2 |
+| ☐ | **dalan** | road; footpath. | 16 | 2 |
 
-_Top 70 of 755 gap words. Full lexicon in waray-lexicon.json._
+_Top 70 of 732 gap words. Full lexicon in waray-lexicon.json._

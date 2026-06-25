@@ -708,6 +708,32 @@ export const SEED = [
   ["ppl", "arte", "art", "Duolingo gap · verify", "AR-teh"],
   ["ppl", "musika", "music", "Duolingo gap · verify", "moo-SEE-kah"],
   ["greet", "alayon", "please", "Duolingo gap · verify", "ah-LAH-yon"],
+  // Frequency-gap adds (2026-06-25): high-frequency Waray from the CHED top-1000 that
+  // the deck lacked, surfaced by tools/build-frequency.mjs. Glosses from CHED; respellings
+  // are first-pass (verify stress with Ella).
+  ["gram", "kun", "if / when", "freq gap · verify", "koon"],
+  ["gram", "bisan", "even if / even though", "freq gap · verify", "BEE-sahn"],
+  ["gram", "pero", "but", "freq gap · verify; Spanish loan (ngan = and)", "PEH-ro"],
+  ["gram", "basi", "so that / in order to", "freq gap · verify", "BAH-see"],
+  ["gram", "para", "for", "freq gap · verify", "PAH-rah"],
+  ["gram", "kada", "each / every", "freq gap · verify", "KAH-dah"],
+  ["gram", "sugad", "like / such as", "freq gap · verify", "SOO-gad"],
+  ["gram", "tungod", "about / because of", "freq gap · verify", "too-NGOD"],
+  ["gram", "may", "there is / has", "freq gap · verify; existential", "migh"],
+  ["gram", "tanan", "all / everything", "freq gap · verify", "tah-NAHN"],
+  ["gram", "damo", "many / a lot", "freq gap · verify; also spelled damu", "DAH-mo"],
+  ["gram", "iba", "other / different", "freq gap · verify", "ee-BAH"],
+  ["ptcl", "duro", "very / too much", "freq gap · verify", "DOO-ro"],
+  ["ptcl", "gihapon", "also / still / as well", "freq gap · verify", "gee-HAH-pon"],
+  ["ptcl", "tikang", "from / since", "freq gap · verify", "tee-KAHNG"],
+  ["verbs", "ngaran", "name", "freq gap · verify", "NGAH-ran"],
+  ["verbs", "butang", "thing / object", "freq gap · verify", "BOO-tang"],
+  ["verbs", "bungto", "town", "freq gap · verify", "BOONG-to"],
+  ["verbs", "klase", "kind / type", "freq gap · verify", "KLAH-seh"],
+  ["verbs", "maaram", "to know / knowledgeable", "freq gap · verify", "mah-AH-ram"],
+  ["verbs", "buot", "to want / will", "freq gap · verify", "BOO-ot"],
+  ["verbs", "dako", "big / large", "freq gap · verify", "DAH-ko"],
+  ["verbs", "una", "first", "freq gap · verify", "OO-nah"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.

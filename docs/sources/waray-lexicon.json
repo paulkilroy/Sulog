@@ -16,7 +16,7 @@
   "counts": {
    "sources": 5,
    "lexemes": 1157,
-   "cards": 628,
+   "cards": 651,
    "sentences": 1562
   }
  },
@@ -266,8 +266,8 @@
    "tier": 1,
    "rank": 18,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c636"
   },
   {
    "id": "ako",
@@ -355,15 +355,15 @@
   },
   {
    "id": "para",
-   "waray": "pára",
+   "waray": "para",
    "pos": "noun",
    "gloss": "for;",
    "freq": 177,
    "tier": 1,
    "rank": 26,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c632"
   },
   {
    "id": "away",
@@ -410,8 +410,8 @@
    "tier": 1,
    "rank": 30,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c628"
   },
   {
    "id": "iton",
@@ -451,15 +451,15 @@
   },
   {
    "id": "duro",
-   "waray": "dúrò",
+   "waray": "duro",
    "pos": "modifier",
    "gloss": "excessive; radical; extreme; intense;",
    "freq": 123,
    "tier": 1,
    "rank": 34,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c640"
   },
   {
    "id": "didto",
@@ -679,15 +679,15 @@
   },
   {
    "id": "tikang",
-   "waray": "tíkang",
+   "waray": "tikang",
    "pos": "modifier",
    "gloss": "from; start.",
    "freq": 71,
    "tier": 1,
    "rank": 53,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c642"
   },
   {
    "id": "nira",
@@ -727,15 +727,15 @@
   },
   {
    "id": "gihapon",
-   "waray": "gihápon",
+   "waray": "gihapon",
    "pos": null,
-   "gloss": null,
+   "gloss": "also / still / as well",
    "freq": 65,
    "tier": 1,
    "rank": 57,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c641"
   },
   {
    "id": "baga",
@@ -751,15 +751,15 @@
   },
   {
    "id": "bisan",
-   "waray": "bísan",
+   "waray": "bisan",
    "pos": "modifier",
    "gloss": "even if; inspite of; any.",
    "freq": 61,
    "tier": 1,
    "rank": 59,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c629"
   },
   {
    "id": "iyo",
@@ -823,15 +823,15 @@
   },
   {
    "id": "sugad",
-   "waray": "sugád",
+   "waray": "sugad",
    "pos": "modifier",
    "gloss": "like/as if.",
    "freq": 57,
    "tier": 1,
    "rank": 65,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c634"
   },
   {
    "id": "kamo",
@@ -871,15 +871,15 @@
   },
   {
    "id": "iba",
-   "waray": "ibá",
+   "waray": "iba",
    "pos": "modifier",
    "gloss": "other; variety;different 2 cicca acida & cicca",
    "freq": 54,
    "tier": 1,
    "rank": 69,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c639"
   },
   {
    "id": "ayaw",
@@ -895,27 +895,27 @@
   },
   {
    "id": "damo",
-   "waray": "damò",
+   "waray": "damo",
    "pos": "modifier",
    "gloss": "many;abundant.",
    "freq": 51,
    "tier": 1,
    "rank": 71,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c638"
   },
   {
    "id": "kada",
-   "waray": "káda",
+   "waray": "kada",
    "pos": "modifier",
    "gloss": "each; every.",
    "freq": 51,
    "tier": 1,
    "rank": 72,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c633"
   },
   {
    "id": "hin-o",
@@ -955,15 +955,15 @@
   },
   {
    "id": "tungod",
-   "waray": "tungód",
+   "waray": "tungod",
    "pos": "modifier",
    "gloss": "concerning; about;",
    "freq": 46,
    "tier": 1,
    "rank": 76,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c635"
   },
   {
    "id": "kinabuhi",
@@ -979,15 +979,15 @@
   },
   {
    "id": "pero",
-   "waray": "péro",
+   "waray": "pero",
    "pos": "linker",
    "gloss": "but.",
    "freq": 44,
    "tier": 1,
    "rank": 78,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c630"
   },
   {
    "id": "tuba",
@@ -1015,15 +1015,15 @@
   },
   {
    "id": "klase",
-   "waray": "kláse",
+   "waray": "klase",
    "pos": "noun",
    "gloss": "class; category; rank; kind; variety.",
    "freq": 43,
    "tier": 1,
    "rank": 81,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c646"
   },
   {
    "id": "langit",
@@ -1051,15 +1051,15 @@
   },
   {
    "id": "maaram",
-   "waray": "maáram",
+   "waray": "maaram",
    "pos": "modifier",
    "gloss": "in the know; knowledgable.",
    "freq": 43,
    "tier": 1,
    "rank": 84,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c647"
   },
   {
    "id": "wara",
@@ -1099,27 +1099,27 @@
   },
   {
    "id": "tanan",
-   "waray": "tanán",
+   "waray": "tanan",
    "pos": "noun",
    "gloss": "all 2 escape; flee; elope. 1",
    "freq": 40,
    "tier": 1,
    "rank": 88,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c637"
   },
   {
    "id": "basi",
-   "waray": "bási",
+   "waray": "basi",
    "pos": "linker",
    "gloss": "so that; in order that.",
    "freq": 39,
    "tier": 1,
    "rank": 89,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c631"
   },
   {
    "id": "pastor",
@@ -1147,15 +1147,15 @@
   },
   {
    "id": "bungto",
-   "waray": "búngto",
+   "waray": "bungto",
    "pos": "noun",
    "gloss": "town.",
    "freq": 37,
    "tier": 1,
    "rank": 92,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c645"
   },
   {
    "id": "diin",
@@ -1243,27 +1243,27 @@
   },
   {
    "id": "una",
-   "waray": "úna",
+   "waray": "una",
    "pos": "verb",
    "gloss": "first 2 to go",
    "freq": 35,
    "tier": 1,
    "rank": 100,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c650"
   },
   {
    "id": "buot",
-   "waray": "buót",
+   "waray": "buot",
    "pos": "noun",
    "gloss": "will; mind; sanity; want; wish.",
    "freq": 34,
    "tier": 1,
    "rank": 101,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c648"
   },
   {
    "id": "di",
@@ -1327,15 +1327,15 @@
   },
   {
    "id": "butang",
-   "waray": "butáng",
+   "waray": "butang",
    "pos": "noun",
    "gloss": "a thing; an object; a matter.",
    "freq": 32,
    "tier": 1,
    "rank": 107,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c644"
   },
   {
    "id": "sulod",
@@ -1387,27 +1387,27 @@
   },
   {
    "id": "dako",
-   "waray": "dáko",
+   "waray": "dako",
    "pos": "modifier",
    "gloss": "big; huge; vast.",
    "freq": 30,
    "tier": 1,
    "rank": 112,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c649"
   },
   {
    "id": "ngaran",
-   "waray": "ngáran",
+   "waray": "ngaran",
    "pos": "noun",
    "gloss": "name.",
    "freq": 30,
    "tier": 1,
    "rank": 113,
    "top1000": true,
-   "inDeck": false,
-   "cardId": null
+   "inDeck": true,
+   "cardId": "c643"
   },
   {
    "id": "makadto",
@@ -21254,6 +21254,236 @@
    "say": "ah-LAH-yon",
    "single": true,
    "lexeme": "alayon"
+  },
+  {
+   "id": "c628",
+   "deck": "gram",
+   "waray": "kun",
+   "english": "if / when",
+   "subtext": "freq gap · verify",
+   "say": "koon",
+   "single": true,
+   "lexeme": "kun"
+  },
+  {
+   "id": "c629",
+   "deck": "gram",
+   "waray": "bisan",
+   "english": "even if / even though",
+   "subtext": "freq gap · verify",
+   "say": "BEE-sahn",
+   "single": true,
+   "lexeme": "bisan"
+  },
+  {
+   "id": "c630",
+   "deck": "gram",
+   "waray": "pero",
+   "english": "but",
+   "subtext": "freq gap · verify; Spanish loan (ngan = and)",
+   "say": "PEH-ro",
+   "single": true,
+   "lexeme": "pero"
+  },
+  {
+   "id": "c631",
+   "deck": "gram",
+   "waray": "basi",
+   "english": "so that / in order to",
+   "subtext": "freq gap · verify",
+   "say": "BAH-see",
+   "single": true,
+   "lexeme": "basi"
+  },
+  {
+   "id": "c632",
+   "deck": "gram",
+   "waray": "para",
+   "english": "for",
+   "subtext": "freq gap · verify",
+   "say": "PAH-rah",
+   "single": true,
+   "lexeme": "para"
+  },
+  {
+   "id": "c633",
+   "deck": "gram",
+   "waray": "kada",
+   "english": "each / every",
+   "subtext": "freq gap · verify",
+   "say": "KAH-dah",
+   "single": true,
+   "lexeme": "kada"
+  },
+  {
+   "id": "c634",
+   "deck": "gram",
+   "waray": "sugad",
+   "english": "like / such as",
+   "subtext": "freq gap · verify",
+   "say": "SOO-gad",
+   "single": true,
+   "lexeme": "sugad"
+  },
+  {
+   "id": "c635",
+   "deck": "gram",
+   "waray": "tungod",
+   "english": "about / because of",
+   "subtext": "freq gap · verify",
+   "say": "too-NGOD",
+   "single": true,
+   "lexeme": "tungod"
+  },
+  {
+   "id": "c636",
+   "deck": "gram",
+   "waray": "may",
+   "english": "there is / has",
+   "subtext": "freq gap · verify; existential",
+   "say": "migh",
+   "single": true,
+   "lexeme": "may"
+  },
+  {
+   "id": "c637",
+   "deck": "gram",
+   "waray": "tanan",
+   "english": "all / everything",
+   "subtext": "freq gap · verify",
+   "say": "tah-NAHN",
+   "single": true,
+   "lexeme": "tanan"
+  },
+  {
+   "id": "c638",
+   "deck": "gram",
+   "waray": "damo",
+   "english": "many / a lot",
+   "subtext": "freq gap · verify; also spelled damu",
+   "say": "DAH-mo",
+   "single": true,
+   "lexeme": "damo"
+  },
+  {
+   "id": "c639",
+   "deck": "gram",
+   "waray": "iba",
+   "english": "other / different",
+   "subtext": "freq gap · verify",
+   "say": "ee-BAH",
+   "single": true,
+   "lexeme": "iba"
+  },
+  {
+   "id": "c640",
+   "deck": "ptcl",
+   "waray": "duro",
+   "english": "very / too much",
+   "subtext": "freq gap · verify",
+   "say": "DOO-ro",
+   "single": true,
+   "lexeme": "duro"
+  },
+  {
+   "id": "c641",
+   "deck": "ptcl",
+   "waray": "gihapon",
+   "english": "also / still / as well",
+   "subtext": "freq gap · verify",
+   "say": "gee-HAH-pon",
+   "single": true,
+   "lexeme": "gihapon"
+  },
+  {
+   "id": "c642",
+   "deck": "ptcl",
+   "waray": "tikang",
+   "english": "from / since",
+   "subtext": "freq gap · verify",
+   "say": "tee-KAHNG",
+   "single": true,
+   "lexeme": "tikang"
+  },
+  {
+   "id": "c643",
+   "deck": "verbs",
+   "waray": "ngaran",
+   "english": "name",
+   "subtext": "freq gap · verify",
+   "say": "NGAH-ran",
+   "single": true,
+   "lexeme": "ngaran"
+  },
+  {
+   "id": "c644",
+   "deck": "verbs",
+   "waray": "butang",
+   "english": "thing / object",
+   "subtext": "freq gap · verify",
+   "say": "BOO-tang",
+   "single": true,
+   "lexeme": "butang"
+  },
+  {
+   "id": "c645",
+   "deck": "verbs",
+   "waray": "bungto",
+   "english": "town",
+   "subtext": "freq gap · verify",
+   "say": "BOONG-to",
+   "single": true,
+   "lexeme": "bungto"
+  },
+  {
+   "id": "c646",
+   "deck": "verbs",
+   "waray": "klase",
+   "english": "kind / type",
+   "subtext": "freq gap · verify",
+   "say": "KLAH-seh",
+   "single": true,
+   "lexeme": "klase"
+  },
+  {
+   "id": "c647",
+   "deck": "verbs",
+   "waray": "maaram",
+   "english": "to know / knowledgeable",
+   "subtext": "freq gap · verify",
+   "say": "mah-AH-ram",
+   "single": true,
+   "lexeme": "maaram"
+  },
+  {
+   "id": "c648",
+   "deck": "verbs",
+   "waray": "buot",
+   "english": "to want / will",
+   "subtext": "freq gap · verify",
+   "say": "BOO-ot",
+   "single": true,
+   "lexeme": "buot"
+  },
+  {
+   "id": "c649",
+   "deck": "verbs",
+   "waray": "dako",
+   "english": "big / large",
+   "subtext": "freq gap · verify",
+   "say": "DAH-ko",
+   "single": true,
+   "lexeme": "dako"
+  },
+  {
+   "id": "c650",
+   "deck": "verbs",
+   "waray": "una",
+   "english": "first",
+   "subtext": "freq gap · verify",
+   "say": "OO-nah",
+   "single": true,
+   "lexeme": "una"
   }
  ],
  "sentences": [
