@@ -62,9 +62,16 @@ const retool = (id, name, hint) => {
   if (!u) throw new Error("frequency.js: unknown unit " + id);
   let lessons = REPLACE[id] || u.lessons;
   lessons = lessons.map((l) => ({ ...l, kind: l.kind || (APPLY_IDS.has(l.id) ? "apply" : "words") }));
-  // common words added from the Duolingo gap list → an extra ① Words lesson
+  // common words added from the Duolingo gap list. Small batches (≤2) fold into the
+  // unit's last ① Words lesson — no tiny orphan lessons; ~10/lesson isn't a hard cap.
   if (ADDED_WORDS[id] && ADDED_WORDS[id].length) {
-    lessons = lessons.concat([{ id: id + "w2", title: "More common words", kind: "words", items: ADDED_WORDS[id] }]);
+    const add = ADDED_WORDS[id];
+    let lastW = -1; lessons.forEach((l, i) => { if (l.kind !== "apply") lastW = i; });
+    if (add.length <= 2 && lastW >= 0) {
+      lessons = lessons.map((l, i) => i === lastW ? { ...l, items: [...(l.items || []), ...add] } : l);
+    } else {
+      lessons = lessons.concat([{ id: id + "w2", title: "More common words", kind: "words", items: add }]);
+    }
   }
   if (ADD[id]) lessons = lessons.concat(ADD[id].map((l) => ({ ...l, kind: l.kind || "apply" })));
   // mined attested sentences (Peace Corps OCR + CHED) → an extra ② Apply lesson

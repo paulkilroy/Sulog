@@ -1,6 +1,6 @@
 # Waray (Frequency) — full curriculum, every lesson
 
-_4 phases · 36 units · 101 lessons · 639 items · 31 units with ② Apply_
+_4 phases · 36 units · 99 lessons · 639 items · 31 units with ② Apply_
 
 _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — english._
 
@@ -10,8 +10,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 
 ### Say hello & thanks  — _Hellos, thanks, manners_
 - _Hellos & thanks:_  **Maupay nga aga** — Good morning  ·  **Maupay nga udto** — Good noon  ·  **Maupay nga kulop** — Good afternoon  ·  **Maupay nga gab-i** — Good evening / Good night  ·  **Kumusta ka?** — How are you?  ·  **Maupay man** — I'm good / fine (so far)  ·  **Salamat** — Thank you  ·  **Damo nga salamat** — Thank you very much  ·  **Pasensya na** — Sorry / excuse me  ·  **Sige** — Okay / go ahead
-- _Yes, no & getting by:_  **Oo** — Yes  ·  **Diri** — No / not  ·  **Waray** — None / nothing  ·  **Waray pa** — Not yet  ·  **Anay** — Wait / just a moment  ·  **Adi** — Here it is / here (with me)  ·  **Pwede** — Can / may (I)  ·  **maupay** — good  ·  **tabang** — help  ·  **Hinay-hinay la** — Just slowly, please
-- _More common words:_  **alayon** — please
+- _Yes, no & getting by:_  **Oo** — Yes  ·  **Diri** — No / not  ·  **Waray** — None / nothing  ·  **Waray pa** — Not yet  ·  **Anay** — Wait / just a moment  ·  **Adi** — Here it is / here (with me)  ·  **Pwede** — Can / may (I)  ·  **maupay** — good  ·  **tabang** — help  ·  **Hinay-hinay la** — Just slowly, please  ·  **alayon** — please
 
 ### Get unstuck  — _Phrases for when you're lost_
 **① Words**
@@ -145,8 +144,7 @@ _① Words = learn vocab (4-step); ② Apply = type the phrase. **waray** — en
 ### Talk about work  — _What people do_
 **① Words**
 - _Work & roles:_  **estudyante** — student  ·  **maestro / maestra** — teacher (m / f)  ·  **turista** — tourist  ·  **nars** — nurse  ·  **panday** — carpenter  ·  **pastor** — pastor  ·  **misyonaryo** — missionary  ·  **abugado** — lawyer  ·  **mangingisda** — fisherman  ·  **mag-uroma** — farmer
-- _More roles:_  **direktor** — director  ·  **kapitan** — captain  ·  **mayor** — mayor / boss  ·  **konsehal** — councilman  ·  **negosyante** — businessman  ·  **sekretarya** — secretary  ·  **hardinero** — gardener  ·  **tag-iya** — owner  ·  **ninong** — godfather  ·  **pasyente** — patient
-- _More common words:_  **arte** — art  ·  **musika** — music
+- _More roles:_  **direktor** — director  ·  **kapitan** — captain  ·  **mayor** — mayor / boss  ·  **konsehal** — councilman  ·  **negosyante** — businessman  ·  **sekretarya** — secretary  ·  **hardinero** — gardener  ·  **tag-iya** — owner  ·  **ninong** — godfather  ·  **pasyente** — patient  ·  **arte** — art  ·  **musika** — music
 **② Apply** _(type the Waray)_
 - _At work:_  **Estudyante hiya** — He is a student
 - _From real Waray:_  **Maduroto ba hira nga mga pastor?** — Are they industrious pastors?
