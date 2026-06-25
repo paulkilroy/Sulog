@@ -1,0 +1,250 @@
+TRANSLATION REQUEST — Waray → English (for the Sulog reading app)
+
+Translate each Waray line below into NATURAL, SIMPLE English (these are children's stories).
+RULES:
+- Keep the exact "@@ <id> <index> @@" prefix on every line, unchanged.
+- Return ONLY these lines, one English line per input line — no extra commentary.
+- "<index> t" is the story title; translate it too.
+- If a line is a proper name only, keep the name.
+
+
+# Kunta Huybes kada Adlaw [Bloom · cc-by-nd]
+@@ bloom-kunta-huybes-kada-adlaw t @@ Kunta Huybes kada Adlaw
+@@ bloom-kunta-huybes-kada-adlaw 0 @@ Tuktuga-ok! tuktuga-ok! tuktuga-ok! Nakagmata hi Mira han tuga-ok han manok. Nangadi hiya pagpasalamat han Ginoo ngan dali nga gintipig an iya hinigdaan.
+@@ bloom-kunta-huybes-kada-adlaw 1 @@ Pag gawas niya ha kwarto, iya gintawag an iya nanay. "Nanay, nanay, nanay!" Iya liwat gintawag an iya tatay. "Tatay,tatay, tatay!" Pero waray may bumaton ha iya.
+@@ bloom-kunta-huybes-kada-adlaw 2 @@ Kumadto hiya ha ira kusina, waray tawo. Kumadto hiya ha ira balkon, waray tawo. Kumadto hiya ha ira libong, waray liwat tawo!
+@@ bloom-kunta-huybes-kada-adlaw 3 @@ Bumalik hi Mira ha sulod han ira balay ngan nahinumdum hiya. "Aha! Huybes ngayan yana, adlaw han tabo asya waray dinhi hira nanay ngan tatay. Timprano pa hira nga napakadto ha tabu-an para mamalit hin pagkaun ngan iba pa namon nga panginahanglan!" "Ano dawla kun napalit nira nanay ngan tatay an akon gintugon?" pakiana ni Mira ha iya kalugaringon.
+@@ bloom-kunta-huybes-kada-adlaw 4 @@ Waray la mag-iha, umabot na an kag-anak ni Mira tikang ha tabu-an. Damo an ira dara. Malipayon hira nga gintapo ni Mira.
+@@ bloom-kunta-huybes-kada-adlaw 5 @@ May ada mga sibuyas, lasona ngan luya. Upod na an isda, karne han baboy ngan baka. Mayda liwat asin ngan asukar, toyo ngan asiti. Mayda pa gatas ngan palaman nga marasa! Kadako han tawa ni Mira!
+@@ bloom-kunta-huybes-kada-adlaw 6 @@ May ginhatag nga nakaputos an nanay ni Mira ha iya. Ginkulba hiya! pero dayun la nga nakapakpak hin kalipay hi Mira. Ginpalit ni nanay ngan tatay an mga tugon niya! May ada na hiya bag-o nga lapis, pula nga payong ngan dulaw nga bestida!
+@@ bloom-kunta-huybes-kada-adlaw 7 @@ Malipayun hin duro hi Mira! "Salamat nanay! salamat tatay!" "Salamat han iyo mga pinalit didto ha tabu-an! "Humangkop hi Mira ha iya nanay ngan tatay ngan sumiring; "Nanay, tatay, kunta pirmi nala Huybes kada adlaw!" Nagkatatawa an iya nanay ngan tatay! Nagkatatawa hira ngatanan!
+
+# An Bao [Bloom · cc-by-nc]
+@@ bloom-an-bao t @@ An Bao
+@@ bloom-an-bao 0 @@ Tumago ha luyo han bato.
+@@ bloom-an-bao 1 @@ Bisan diin hiya nakadto.
+@@ bloom-an-bao 2 @@ Balay niya pirmi aklo.
+@@ bloom-an-bao 3 @@ Naukoy hiya ha sapa.
+@@ bloom-an-bao 4 @@ Kay naayon hiya han baha.
+
+# An Tulo nga Magsarangkay [Bloom · cc-by-nc]
+@@ bloom-an-tulo-nga-magsarangkay t @@ An Tulo nga Magsarangkay
+@@ bloom-an-tulo-nga-magsarangkay 0 @@ Usa ka gab-i mapawa an bulan, nag uru-istorya hira Tristan, Jolo ngan Anton. Dako an tingog ngan tawa ni Tristan.
+@@ bloom-an-tulo-nga-magsarangkay 1 @@ Ginsaway hira ni Mana Lita. "Kabataan, hinaya an iyo tingog kay nakakaistorbo na kamo." saway ni Mana Lita nga pinipiraw.
+@@ bloom-an-tulo-nga-magsarangkay 2 @@ Ginsigawan nira Jolo ngan Anton hi Tristan. "Hala ka, Tristan! Hala ka, Tristan!" sigaw han duha. Tungod han kaawod, pumurot hiya hin bato ngan ginlabay an atop nira Mana Lita.
+@@ bloom-an-tulo-nga-magsarangkay 3 @@ Kinalasan hira Mana Lita. Nahimangno hira ngatanan. Iksakto nalabay hi Mano Solomon kay nagroronda. Ginsaway niya hi Tristan. "Kay ano nga nanlalabay ka man?" pakiana ni Mano Solomon. Nandadlagan an magsaarangkay.
+@@ bloom-an-tulo-nga-magsarangkay 4 @@ Kinabuwasan, ginkadto ni Mano Solomon an mga balay han magsarangkay.
+@@ bloom-an-tulo-nga-magsarangkay 5 @@ Ginpatawag hira upod an ira mga kag-anak para pagtuhay. "Kay ano nga nanlabay kamo han atop nira Mana Lita?", pakiana ni Kapitan Eddie. "Hi Tristan po adto kapitan," baton ni Jolo. "Ginsaway la po hiya nanlabay dayon," baton liwat ni Anton.
+@@ bloom-an-tulo-nga-magsarangkay 6 @@ Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita. Tikang hadto, an maagsarangkay in nagsaad nga diri na hira mag-uutro.
+
+# An Pakla Nga Mayakan [Bloom · cc-by-nc-sa]
+@@ bloom-an-pakla-nga-mayakan t @@ An Pakla Nga Mayakan
+@@ bloom-an-pakla-nga-mayakan 0 @@ Ha usa nga lugar, may ada usa nga Pakla nga masyado hin kamayakan.Nakausa, ginpakianhan niya an nga tanan nga mga hayop kun ano an karuyag kaunon han ira mga anak.
+@@ bloom-an-pakla-nga-mayakan 1 @@ Ginpakianhan niya an Tamsi, "Ano an karuyag kaunon han imo mga anak?"
+@@ bloom-an-pakla-nga-mayakan 2 @@ Bumaton an Tamsi, "Karuyag kumaon han akon mga anak hin mga apan." Bumaton an pakla, "Oh, asya!"
+@@ bloom-an-pakla-nga-mayakan 3 @@ Ginkadto han Pakla nga dako an baba an Baboy, ngan iya ginpakianahan, "Ano an karuyag kaunon han imo mga anak?"
+@@ bloom-an-pakla-nga-mayakan 4 @@ Bumaton an Baboy, "Karuyag uminom hin gatas an akon mga anak." "Oh asya!", baton han pakla.
+@@ bloom-an-pakla-nga-mayakan 5 @@ Kumadto hiya han Itik ngan nagpakiana, "Ano an karuyag kaunon han imo mga anak."
+@@ bloom-an-pakla-nga-mayakan 6 @@ Bumaton an Itik, "Karuyag kumaon han akon mga anak hin gudti nga mga prutas." Oh asya,"baton han Pakla nga dako an baba.
+@@ bloom-an-pakla-nga-mayakan 7 @@ Kumadto han Buaya an Pakla ngan pumakiana, "Ano an karuyag kaunon han imo mga anak?". Han pagkita, nalipay an Buaya ngan gumuliat, "Ooooohhhhhh" Humadlok hin duro an Pakla pakabati niya han guliat han Buaya.
+@@ bloom-an-pakla-nga-mayakan 8 @@ Mga Pakiana: 1. Ano an pakiana han Pakla ha mga hayop? 2. Ano an baton han Tamsi ha pakiana han Pakla? 3. Ano an karuayag kaunon han mga anak han Baboy? 4. Ano an siring han Itik ngadto han Pakla nga karuyag kaunon han iya mga anak?
+
+# An Istorya Han Pormado Nga Bato Han Kandiwata [Bloom · cc-by-nc-sa]
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand t @@ An Istorya Han Pormado Nga Bato Han Kandiwata
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 0 @@ Usa ha mga sikat kadtuon yana ha isla han munisipyo han Daram an ira bantog nga pormado nga bato o rock formation nga gintatawag nga kandiwata . An pulong nga Kandiwata in nagtikang sa lokal na termino han mga waray nga an karuyag sidngon in lugar o puroy-anan han mga diwata, engkanto o mga linarang nga diri nakikit-an han mga ordinaryo nga tawo.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 1 @@ Sumala han istorya han mga kalagsan, an ini nga pormado nga bato nga baga han nalutaw ha butnga han kadagatan in usa daw nga dako nga barko nga may mga sakay nga pasahero nga nagnanabigar hadto, nga kun diin samtang ini in nagbibiyahe ha butnga han kadagatan in may kalipay nga nahitatabo ha sulod han barko, may ada mga nagkakaranta, nagsasarayaw, nagkakatatawa, ngan nangugugli-at nga mga pasahero.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 2 @@ Ha butnga han ira karisyuhan nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga pag-intrimisan ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang nagnanabigar ha kadagatan. Ngan waray pag-iha.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 3 @@ Nga tumigda la nga naglain an panahon ngan nagsirom an bug-os nga palibot ngan nagkamay ada hin makusog nga dalugdug ngan kidlat nga asya an naka-igo ha barko ngan ini nagin usa nga dako nga bato ngan nagporma hin sugad hin dako nga barko. Hito mismo nga oras pagkahuman han panhitabo in tigda la nga nagmingaw an bug-os nga palibot. An dako nga barko nagin usa nga dako nga bato.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 4 @@ Ha pagkayana ini nga pormado nga bato in pareho hin usa nga barko nga nalutaw ha butnga han kadagatan. Ngan ini in maupay ngan kamakaruruyag pagkit-on.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 5 @@ Dugang pa han istorya han pipira nga mangirisda nga nag-uukoy hirani ha kandiwata, nasiring hira nga danay may mga panahon nga nagpaparawa ha gab-i an pormado nga bato, ngan may ada mga tingog nira nga nahibabati-an nga mga nagririsyo nga sugad hin may ada sarayaw an mga diwata o engkanto. Asya daw adto an mga tawo nga sakay hadto han barko nga nagin usa nga bato.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 6 @@ Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 7 @@ Bisan ha pagkayana kun may napakadto didto nga mga turista nga karuyag mangarigo o magpahalibway hira gin sasagdunan nga magsarit anay ha pormado nga bato ha bisan ano nga karuyag nira buhaton didto.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 8 @@ Dugang pa nga siring nira nga kinahanglan mo mag-itsa hin sinsilyo antis ka umuli o bumaya hito nga lugar para daw diri mag-isog o mabido an mga diwata o engkanto nga nangungukoy didto.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 9 @@ An ini nga istorya in sumala o nagtikang ha mga mga tawo nga nagkamay ada han mga eksperyensya, mga nahikit-an ngan mga nanhibati-an mahiunong ha kandiwata. Nga kun diin bisan ha pagkayana nga panahon ini in imo hibabati-an nga istorya mga tawo nga naukoy hirani ha kandiwata.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 10 @@ Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.
+@@ bloom-an-istorya-han-pormado-nga-bato-han-kand 11 @@ Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin respeto ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira naekperyensiyan, nakit-an ngan nanhibati-an. Damo nga Salamat!
+
+# AN BUKAD HA LIBONG NI APOY GARING [Bloom · cc-by-nc-sa]
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing t @@ AN BUKAD HA LIBONG NI APOY GARING
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 0 @@ Hi apoy Garing usa nga mahilig magtinanon bukad pero diri gud hiya gintutudkan hin mga tanom nga nabukad labot la ha usa nga tanom ini an tanom nga nabukad hin rosa.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 1 @@ Pirmi ni apoy Garing gindadayaw ngan gintitimangno an iya bukad nga rosa. "Ikaw an bukad nga akon ginhihigugma kay ikaw la an tumurok han akon gin tanom ngan an kolor mo nga pula amo an akon paburito."
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 2 @@ Usa ka gab-i, gin kuha han usa nga ulitawo an iya tanom nga rosa. Pagkaaga pagkita ni apoy Garing ha iya libong waray na an iya minayuyo nga rosa. Naging masinalub-on hi apoy Garing kay nawara an iya tanom nga rosa.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 3 @@ Gin dara han ulitawo an tanom ni apoy Garing nga rosa ngadto han libong han iya gin gagarbohan.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 4 @@ Pagkaaga nalipay an daraga han iya nakita kay may usa nga tanom nga mahusay pagkinitaon. Iya gin daop ngan gin obserbahan. Na hunahunaan niya nga waray hiya tanom sugad hini kamahusay.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 5 @@ Nahibaroan han enkantada nga alibangbang an nahinabo ngan nalooy ini kan apoy Garing. Lumupad an enkantada nga alibangbang kan apoy Garing kamot ngan nagsiring "Apoy Garing nakita ko an imo kabidoan han kawara han imo tanom nga rosa, yana an imo mga kamot tatagan kon bendisyon para bisan man ano nga tanom maturok kon ikaw an magtanom."
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 6 @@ Nalipay gud hi apoy Garing han gisiring han enkantada nga alibangbang ngan nagpasalamat sanglit kumadto dayon hiya ha iya libong ngan nagbungkag han tuna para han tatanoman nga mga tanom.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 7 @@ Ngan mga pira ka adlaw nanubo an mga tanom ni apoy Garing nga nakita niya an magka iba-iba nga bukad nga maghusay.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 8 @@ Ginkadto han enkantada nga alibangbang an ulitawo ngan an daraga ngan nagsiring "ulitawo diri maupay an imo gin buhat, kay ano ginkuha mo an tanom nga rosa ni apoy Garing?"
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 9 @@ Nangaro hin pasaylo an ulitawo han enkantada nga alibangbang. "Pasayloa ako han akon nabuhat kay tungod ginhigugma ko an akon gingagarbohan kay mahilig hiya hin mahusay nga bukad sanglit ginkuha ko an tanom nga rosa ni apoy Garing". Bumaton an enkantada nga alibangbang "pangaro pasaylo kan apoy Garing han imo gin buhat kay kon diri ako an maghahatag ha imo hin sirot ha imo".
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 10 @@ Nagtangis an daraga ngaha atubangan han nangunguyab ha iya tungod han ginbuhat hini. "Pangaro pasaylo kan apoy Garing han imo ginbuhat." An siring han daraga kan Lindo. "Oo mangangaro ako pasaylo. Pasayloa liwat ako han akon nabuhat" an baton ni han ulitawo ha iya gingagarbohan. Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 11 @@ Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan. "Pasayloa ako apoy Garing han akon ginbuhat" an siring han ulitawo. "Okey la intoy maupay kay nag amin ka han imo ginbuhat. Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad". An baton ni apoy Garing.
+@@ bloom-an-bukad-ha-libong-ni-apoy-garing 12 @@ Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana. Gintagan pa niya ulitawo ngan an daraga hin mga taramnon. Tikang hadto naging magsuok hira nga magsarangkay ngan nananom hira hin mga iba-iba nga mga bukad sanglit naging maupay ngan mahusay an ira barangay.
+
+# AN MALIPAYON NA PARAGSUDOY [Bloom · cc-by-nc-sa]
+@@ bloom-an-malipayon-na-paragsudoy t @@ AN MALIPAYON NA PARAGSUDOY
+@@ bloom-an-malipayon-na-paragsudoy 0 @@ Usa nga malipayon nga tawo hi Pedro.
+@@ bloom-an-malipayon-na-paragsudoy 1 @@ Pirmi hiya nauli nga may dara nga pagkaon para ha iya pamilya.
+@@ bloom-an-malipayon-na-paragsudoy 2 @@ Nagmamata hiya hin timprano para mag baligya.
+@@ bloom-an-malipayon-na-paragsudoy 3 @@ Madali nga nauubos an iya mga baligya kay damo an napalit.
+@@ bloom-an-malipayon-na-paragsudoy 4 @@ Usa ka adlaw naging masulob-on hi Pedro kay waray napalit han iya tinda.
+@@ bloom-an-malipayon-na-paragsudoy 5 @@ Kulang na tawo an bungto tungod han pandemya (Covid 19)
+@@ bloom-an-malipayon-na-paragsudoy 6 @@ Umuli hi Pedro nga masulob-on. Nawawarayan na hiya pag laom.
+@@ bloom-an-malipayon-na-paragsudoy 7 @@ Nangadi hi Pedro, nga konta mawara na ini nga pandemya.
+@@ bloom-an-malipayon-na-paragsudoy 8 @@ Paglabay hin usa ka tuig gin balita ha TELEVISION nga may ada na bulong an sakit nga Covid.
+@@ bloom-an-malipayon-na-paragsudoy 9 @@ Nag lipay hi Pedro han iya nabatian han anunsiyo. Naglipay liwat an iya pamilya.
+
+# Pagtimangno hin Panlawas [Bloom · cc-by-nc-sa]
+@@ bloom-pagtimangno-hin-panlawas t @@ Pagtimangno hin Panlawas
+@@ bloom-pagtimangno-hin-panlawas 0 @@ Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han budgyong. “eeeeennnngggg eeennngggg” tunog han budgyong “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan pagsalin-urog hin bisan anu nga katitirok,” pag imporma han tanod.
+@@ bloom-pagtimangno-hin-panlawas 1 @@ Laksi nga dumalagan hi Potpot pag uli ha ira balay. “Nanay, siring han tanod diri na puwede gumawas an kabataan ngan an pagkatitirok,” sumat ni Potpot kan iya nanay. “Uu, kay mahitungod ito hit nakalat yana nga sakit, ” siring ni nanay.
+@@ bloom-pagtimangno-hin-panlawas 2 @@ Nanhunahuna hi Potpot ngan masulub-on nga sumiring. “Diri na kami makakag-uyas hit ak kasangkayan, ngan diri kami makaka eskwela.” "Makaka eskwela kamu pero dinhi la kamu ha balay," siring han nanay. "An aton angay buhaton atamani naton an aton kalugaringon nga diri kita matapnan hin sakit," dugang nga siring ni nanay.
+@@ bloom-pagtimangno-hin-panlawas 3 @@ “Para malikayan ito nga sakit kinahanglan kita sumunod hit mga ginpapatuman na mga protocol ha panlawas,” dugang nga siring ni nanay. “Anu it kinahanglan buhaton nay?” pakiana ni Potpot. Gin usa-usa ni nanay an angay buhaton. “Agsob ngan kaangayan nga paghugas han mga kamot gamit an sabon,” baton ni nanay.
+@@ bloom-pagtimangno-hin-panlawas 4 @@ "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.
+@@ bloom-pagtimangno-hin-panlawas 5 @@ “Paunano kita makakapalit hit makakaon naton nay?” pakiana ni Potpot. “Ayaw kabaraka manhahatag hira hin ayuda, ngan may ada kita mga tanom nga utanon ha at libong nga puwede naton maluto,” baton ni nanay
+@@ bloom-pagtimangno-hin-panlawas 6 @@ “Tatagan ko hira Maya ngan Aloy han aton mga utanon,” malipayon nga siring ni Potpot. “Uu, manhahatag kita ha aton mga hiripid,” nalilipay nga baton ni nanay.
+@@ bloom-pagtimangno-hin-panlawas 7 @@ Tikang hadto ginhimo nga pamatasan han pamilya ni Potpot an agsob ngan isakto nga paghugas han kamot ngan pagsugot ha mga protocol panlawas para makalikay ha mga nakakatapon nga sakit.
+
+# AN BANOG HA BUKID HURAW [Bloom · cc-by-nc-sa]
+@@ bloom-an-banog-ha-bukid-huraw t @@ AN BANOG HA BUKID HURAW
+@@ bloom-an-banog-ha-bukid-huraw 0 @@ Malipayon nga naglilinupad-lupad hi Banog ha kagugub-an.
+@@ bloom-an-banog-ha-bukid-huraw 1 @@ Nakita niya an hitaas nga Bukid Huraw.
+@@ bloom-an-banog-ha-bukid-huraw 2 @@ Nagsiring hiya. "Bukid Huraw kaya ko lumupad ngan labwan an im kahitaas!"
+@@ bloom-an-banog-ha-bukid-huraw 3 @@ Gin andam niya an iya kalugaringon para paglupad.
+@@ bloom-an-banog-ha-bukid-huraw 4 @@ Han iya paglupad, tigda may umabot nga bagyo.
+@@ bloom-an-banog-ha-bukid-huraw 5 @@ "Kaya ko ini! kaya ko ini!" An siring ni Banog ha iya kalugaringon. "Wusssssss...". An tunog han makusog nga hangin nga natapo kan Banog han iya paglupad.
+@@ bloom-an-banog-ha-bukid-huraw 6 @@ Han kakusog han hangin waray kayaha ni banog nga makalampas ha kahitaas han Bukid Huraw ngan nahulog hiya ha mga puno han kahoy.
+@@ bloom-an-banog-ha-bukid-huraw 7 @@ Napiolan hi Banog han iya kahulog.
+@@ bloom-an-banog-ha-bukid-huraw 8 @@ Nagsiring hi Banog ha iya kalugaringon, "diri ko na pipiriton tak kalugaringon kon diri ko kaya para diri ako mahingadto ha karat-an".
+@@ bloom-an-banog-ha-bukid-huraw 9 @@ Ngan tikang hadto naging malipayon nala hi Banog maglinupad-lupad palibot han Budik Huraw.
+
+# Hi Kaha, Kahon [Bloom · cc-by-nc-sa]
+@@ bloom-hi-kaha-kahon t @@ Hi Kaha, Kahon
+@@ bloom-hi-kaha-kahon 0 @@ Umandar na an bus nga ginsasakyan ni Kaha. “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha. Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.
+@@ bloom-hi-kaha-kahon 1 @@ Usa… duha… tulo… tulo ka oras nga pagbay-og an gin-abat ni Kaha. Natapos gihap an iya beyahe. "Yeheey! Makakagawas na ako hini nga lugar", malipayon nga siring ni Kaha.
+@@ bloom-hi-kaha-kahon 2 @@ "Kamakaluluoy ko man kitaon", masulob-on nga siring ni Kaha. Brown an iya kolor nga may gudti nga mga luho ha ligid niya. Pinaagi han dulaw nga higot, nasisirahan an tapotapohon nga iya abrihan.
+@@ bloom-hi-kaha-kahon 3 @@ Dalidali hiya nga ginkuha han iya agaron ha iya kinamumutangan. Ginkaptan an dulaw nga higot nga ginhigot ha iya. Nahipausa hiya han iya nakita-an. “Wow! kamaupay man hini nga lugar.”, nalilipay nga siring ni Kaha.
+@@ bloom-hi-kaha-kahon 4 @@ Dagko ngan higtaas nga bilding an aada ha iya atubangan. Iba ini ha iya gintikangan nga simple nga balay. Haros usa ka barangay an kahiluag hini ngan baga hin maabot na ngadto ha langit ha subra hin kahitaas.
+@@ bloom-hi-kaha-kahon 5 @@ Ginbutang hiya han iya agaron ha pushcart ngan ginsulod hiya ha maanyag nga bilding. Puno hiya hin ginhamis nga mga bagol hin lubi. "Oy tigda nga umabri an purtahan!", nahipausa nga siring ni Kaha.
+@@ bloom-hi-kaha-kahon 6 @@ Nakita niya an mainggat nga salog. Makaruruyag pagkit-on an iba-iba nga klase hin mga light. Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.
+@@ bloom-hi-kaha-kahon 7 @@ "Kadadamo man hin tawo ha palibot', yakan ni Kaha. "Siguro kay mahagkot ini nga lugar". "Makikita ha ira nawong an kalipay ha pamamasyada, pagkaon ngan pamamalit", hunahuna ni Kaha.
+@@ bloom-hi-kaha-kahon 8 @@ Ginbutang hiya sulod hin usa nga tindahan. Puno ini hin mag-upay nga mga pandekorasyon. Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na. Nasubo hi Kaha. “Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha. “Tungod ba kay luma na ako?”. “Waray nagud ada ako pulos ha iya”, tangis ni Kaha.
+@@ bloom-hi-kaha-kahon 9 @@ Nabatian hiya ni basurahan. “Diri ito ungod sangkay. Tanan kita may ada mga pulos dinhi ha tuna", isplikar ni Basurahan. “Diri karuyag signgon nga waray ka na pulos kun ginbayaan ka man han imo agaron ".
+@@ bloom-hi-kaha-kahon 10 @@ “Kitaa daw ako. Malipayon ako kay maaram ako nga dako it akon nahibubulig ha kalibungan", dugang nga siring ni Basurahan. “Ginbubutang ha amon an mga maghugaw nga mga butang para diri magin mahugaw an kalibungan."
+@@ bloom-hi-kaha-kahon 11 @@ “Tama hi Basurahan. Kami gihapon imbis nga iglabog aadi kami para magamitan pa”, an siring han mga bagol hin lubi. "Ginhihimo kami nga pandekorasyon ha bahay, uyagan ngan puydi liwat mahimo nga garamiton ha pagluto.”
+@@ bloom-hi-kaha-kahon 12 @@ Waray pag-iha, umabot an anak han tag-iya han tindahan. Ginkuha an iya sulod ngan gintrapohan. “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.
+@@ bloom-hi-kaha-kahon 13 @@ Ginputos hiya hin malimpyo ngan bukadbukaron nga papel. May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop. Nakita niya an iya kalugaringon ha espiho ha tindahan. "Kamakaruruyag kitaon it akon kalugaringon", nalilipay nga siring ni Kaha.
+@@ bloom-hi-kaha-kahon 14 @@ Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos. Gin-apresyar niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan. "Damo nga salamat han maduruto ngan maabilidad nga bata", malipayon nga siring ni Kaha.
+
+# An Suok nga Magsangkay [Bloom · cc-by-nc-sa]
+@@ bloom-an-suok-nga-magsangkay t @@ An Suok nga Magsangkay
+@@ bloom-an-suok-nga-magsangkay 0 @@ Magsangkay hi Ela ngan hi Mila. Tungod kay mag anyaw man hira. Suok gud kaupay hira nga magsangkay.
+@@ bloom-an-suok-nga-magsangkay 1 @@ Ha ira pag eskwela magsapit gud hira. An ira mga maestra gindadayaw hira. Ha klase pirmi hira nangunguna.
+@@ bloom-an-suok-nga-magsangkay 2 @@ Mga buruhaton ha balay waray kabudlay. Kay hira nga duha nagbibinuligay. Mga kag-anak nira waray problema.
+@@ bloom-an-suok-nga-magsangkay 3 @@ Bisan ha ira pagpahuway. Pirmi hira nag-iinatubangay. Pangandoy nira dungan nga mapa-uswag.
+@@ bloom-an-suok-nga-magsangkay 4 @@ May nahitabo ha ira kamagsangkay. Hira nagkabulag. Nag usaan nala hi Ela.
+@@ bloom-an-suok-nga-magsangkay 5 @@ Nahingadto hi Mila ha hirayo nga dapit. Hiya nakasala ha ira kamagsangkay. Gin-raut niya Ela ha iba.
+@@ bloom-an-suok-nga-magsangkay 6 @@ Ginpinsar ni Ela an panhitabo. Kada gab-i hiya nagtatangis. Ug hi Ela nagkasakit.
+@@ bloom-an-suok-nga-magsangkay 7 @@ Pirmi naghuna-huna hi Ela kan Mila. Ginhuhulat niya pirmi an pag-abot niya. Iya karawaton nga sakay gihapon.
+@@ bloom-an-suok-nga-magsangkay 8 @@ Nahibaro hi Mila han nahitabo. Nga nasakit an suok niya nga sangkay. Dali-dali nga bumalik hi Mila.
+@@ bloom-an-suok-nga-magsangkay 9 @@ Nagkita gihapon an magsangkay. Ginpasaylo ni Ela hi Mila. Ngan nagpabilin an ira suok nga kamagsangkay.
+
+# An Bata nga Mahilig hin Dolce [Bloom · cc-by-nc-sa]
+@@ bloom-an-bata-nga-mahilig-hin-dolce t @@ An Bata nga Mahilig hin Dolce
+@@ bloom-an-bata-nga-mahilig-hin-dolce 0 @@ Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 1 @@ Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin singko. "Aanhun mo na liwat it kwarta Ynah?" pakiana ha iya ni Tatay.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 2 @@ May ada la po ako papaliton ha tindahan Nay, Tay! siring ni Ynah. "Upaya naman nga diri dolce tim paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 3 @@ Dumiritso hiya daun ha tindahan. Pumalit hiya hin iba-iba nga klase hin dolce, waray hiya bumali han siring ni iya Nanay nga tinapay nala it paliton imbis nga dolce.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 4 @@ "Maupay nala nga waray kumita hi Nanay nak mga ginpamalit sigurado gud nga pagbubusa-an niya ako!" siring ni Ynah ha iya kalugaringon. Nakakita an iya kuya han iya ginbuhat salit ginsidngan hiya "Upaya la nga la nga diri naman magsinakit it imo ngipon Ynah!" siring han iya kuya.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 5 @@ Pagkagab-i maupay na an ira pangaturog.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 6 @@ "Kakaunon ka namon, bisan ka diin magtago, mabibilngan ka la gihap namon rawrrrrrrrr". yakan han mga higante nga dolce. "Ayawwwww!" yakan ni Ynah nga sige it pagdinalagan.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 7 @@ Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok. "Hin o dawla adi nga nagtitinuok?" siring han iya Nanay. Gumawas hiya han ira kwarto para bilngon kun diin tikang an tuok.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 8 @@ "Naano ka Ynah? kay ano nagtitinuok ka man?" pakiana ha iya ni iya nanay. "Nay nag-inop ako nga ginlalanat ako hin higante nga mga dolce makaradlok!.....nay..... Nay, masakit nanaman tak ngipon huhuhu"....sumat ni Ynah "Waray udog ako tuod kinana nga tinapay nala it palita siring nimo, mga dolce na liwat nak ginkaon kanina. Tikang yana matuod na ako pirmi ha imo nga diri na magpinalit hin mga dolce." yakan pa ni Ynah.
+@@ bloom-an-bata-nga-mahilig-hin-dolce 9 @@ "Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.
+
+# Mga Kamot ni Lotlot [Bloom · cc-by-nc-sa]
+@@ bloom-mga-kamot-ni-lotlot t @@ Mga Kamot ni Lotlot
+@@ bloom-mga-kamot-ni-lotlot 0 @@ Usa ka Sabado, nagsarit hi Lotlot kan iya Nanay Lila nga makikimulay hiya ha ira libong Nanay, human na ako manilhig. Pwede ba ako magmulay ha gawas?” pakiana ni Lotlot Oo sige, basta paghirot ikaw ha.”, yakan ni Nanay Lila “Opo, nanay.”, baton ni Lotlot.
+@@ bloom-mga-kamot-ni-lotlot 1 @@ Marisyo hi Lotlot nga nagmulay ha gawas han ira balay Naghimo hiya hin iba iba nga porma gamit an lagay
+@@ bloom-mga-kamot-ni-lotlot 2 @@ Gintawag na hi Lotlot ni iya nanay para mangaon. “Lotlot, pakadi na pag meryenda na. Sano ka kumaon, paghinaw anay hit imo kamot ha.”, tugon ni Nanay Lila. Tungod nga guol man hi Lotlot Nahubya hiya paghunaw ngan kumaon dayon hiya hin baduya nga saging
+@@ bloom-mga-kamot-ni-lotlot 3 @@ Pagkagab-i nagsakit an tiyan ni Lotlot. “Nanay, masakit it akon tiyan.”, nagtutuok nga sumat ni Lotlot. “Naghunaw ka ba han imo kamot kanina pagkatapos mo magmulay ngan sano ka kumaon han baduya?”, pakiana ni Nanay Lila. “Waray po.”, baton ni Lotlot
+@@ bloom-mga-kamot-ni-lotlot 4 @@ “Asya nga nagsakit an imo tiyan. Kinahanglan nga permi kita maghuhunaw sano ngan katapos kumaon, katapos magmulay ngan katapos gumamit han kasilyas para malimpyo permi an aton mga kamot. Kumapot ka han baduya nabalhin an kagaw han imo mahugaw nga kamot ngadto han imo pagkaon asya an hinungdan han pagsakit han imo tiyan, Lotlot.” siring ni Nanay Lila
+@@ bloom-mga-kamot-ni-lotlot 5 @@ Kumadto hira ha kusina, gintutduan ni Nanay Lila hi Lotlot han eksakto nga paagi han paghunaw. Gin banyosan ni Nanay Lila an tiyan ni Lotlot “Damo nga salamat, Nanay. Tikang yana, pirmi na ako maghuhunaw hit akon mga kamot.” malipayon nga baton ni Lotlot
+
+# An Misay ni Tisay [Bloom · cc-by-nc]
+@@ bloom-an-misay-ni-tisay t @@ An Misay ni Tisay
+@@ bloom-an-misay-ni-tisay 0 @@ An misay. Alaga ni Tisay.
+@@ bloom-an-misay-ni-tisay 1 @@ Busag an misay. Malimpyo an misay.
+@@ bloom-an-misay-ni-tisay 2 @@ Ginpapakaun ni Tisay, an iya misay.
+@@ bloom-an-misay-ni-tisay 3 @@ Pag nakaturog hi Tisay, nasapit an misay.
+@@ bloom-an-misay-ni-tisay 4 @@ Gamit ni Tisay, ginkutkot han yatot.
+@@ bloom-an-misay-ni-tisay 5 @@ Nakit-an han misay. Iya ini ginhagad.
+@@ bloom-an-misay-ni-tisay 6 @@ Naghulat an misay. Magbabantay kan Tisay.
+@@ bloom-an-misay-ni-tisay 7 @@ Ginhigugma ni Tisay, an iya misay.
+
+# An Baluto [Bloom · cc-by-nc-sa]
+@@ bloom-an-baluto t @@ An Baluto
+@@ bloom-an-baluto 0 @@ Usa ka adlaw naglalakat hi Mano Boboy ngan Jose tipakadto ha tabi han dagat."Tatay unta damo it aton madakop nga isda yana para damo niyan an sulod han aton baluto". Unta, baton ni Mano Boboy kan Jose.
+@@ bloom-an-baluto 1 @@ Pag-abot nira ha tabi han dagat gin-andam na nira an ira baluto. Ngan nagtikang na pagbugsay hi Mano Boboy.
+@@ bloom-an-baluto 2 @@ "Tatay, kaupay man ngayan pagsinakay hin baluto hano", siring ni Jose. "Oo naman asay pa kun maupay an panahon", baton ni Mano Boboy.
+@@ bloom-an-baluto 3 @@ Pag-abot nira ha butnga han dagat. "Jose i-andam na an pukot kay itutunod ta na",siring ni Mano Boboy. "Opo, sigi tatay", baton ni Jose.
+@@ bloom-an-baluto 4 @@ Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose pag-alsaha an pukot. Nahipausa hira pagkita nga dadamo an sulod nga isda. "Hala tatay, kadadamo man han aton dakop yana! Damo an aton mahisasakay ha aton baluto". Yehey! Yakan nga malipayon ni Boboy.
+@@ bloom-an-baluto 5 @@ Malipayon ngan mahiyum-hiyom hi Mano Boboy ngan Jose samtang nagbubugsay hira han ira baluto tipauli ngadto han ira balay.
+
+# Waray na kakit-i [Bloom · cc-by-nc-sa]
+@@ bloom-waray-na-kakit-i t @@ Waray na kakit-i
+@@ bloom-waray-na-kakit-i 0 @@ Han una nga panahon,an aton kagugub an damo an mga kahayupan nga naukoy ngan damo liwat an mga kakahuyan. Napupuno hin kanta hin katamsihan an bug-os nga kagugub an. Maupay hin duro ini nga lugar. "kamalipayon ko nanay nga dinhi kita ha kagugub an naukoy" siring ni tamsi Pikoy kan iya nanay, nagtawa la hi iya nanay ha iya.
+@@ bloom-waray-na-kakit-i 1 @@ An mga iba-iba nga tamsi nagsisibu-sibuay sanglit nagsaway hi iya nanay"bangin kamo madisgrasya hinay-hinay la kamo hit iyu pag-uyag pikoy"siring ni iya nanay, "opo nanay pikoy", baton han anak
+@@ bloom-waray-na-kakit-i 2 @@ Usa ka adlaw lumakat hira nanay Pikoy kaupod an iya mga anak ug an iba pa nga tamsi para mamiling hin pagkaon. Lumupad hira, kumadto hira ha harayo nga lugar.
+@@ bloom-waray-na-kakit-i 3 @@ Samtang waray hira nanay Pikoy ngan an iba pa nga tamsi umabot an tag iya han tuna ngan pinanmulod nira tanan nga mga kahoy,waray mag iha nawara na an tanan nga kakahuyan.
+@@ bloom-waray-na-kakit-i 4 @@ Han umabot na hira Pikoy ngan an iba pa nga katamsihan waray na hira balay,waray na liwat an mga kakahuyan,diri na maupay an kagugub an."nanay Pikoy waray na kita uukyan"nahingatangis nga yakan ni tamsi Pikoy, "maghihimo nala kita hin bag o naton nga mauukyan" baton ni nanay Pikoy.
+@@ bloom-waray-na-kakit-i 5 @@ Naghimo nala hira hin ira mga urukyan nga malay-balay kay waray naman an kagugub an, waray na an mga kahayupan nga nan-ngungukoy nganhi,ngan an damo nga kakakahuyan. Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.
+
+# An Sista Ni Tatay [Bloom · cc-by-nc-sa]
+@@ bloom-an-sista-ni-tatay t @@ An Sista Ni Tatay
+@@ bloom-an-sista-ni-tatay 0 @@ May ada sista hi Tatay. Pinalit ini ni Nanay. "Maupay man ini nga sista", siring ni tatay. Bumaton hi nanay, "Oo, para may ada naton kaliawan".
+@@ bloom-an-sista-ni-tatay 1 @@ Makarit hi tatay magsista. Karuyag ko mamati samtang hiya nagsisista.
+@@ bloom-an-sista-ni-tatay 2 @@ Nagkakanta hi nanay kun nagsisista hi tatay. "Kamaupay ni nanay kumanta", yakan ni ate.
+@@ bloom-an-sista-ni-tatay 3 @@ Nagsasarayaw kami nga mga anak, samtang nagsisista hi tatay ngan nagkakanta hi nanay.
+@@ bloom-an-sista-ni-tatay 4 @@ Malipayon an amon pamilya tungod han sista. KATAPUSAN.
+
+# An Panapuan kan Elay [Bloom · cc-by-nc-sa]
+@@ bloom-an-panapuan-kan-elay t @@ An Panapuan kan Elay
+@@ bloom-an-panapuan-kan-elay 0 @@ Usa ka adlaw, nahimangno hi Elay han karasikas han iya Nanay Maya ha Kusina. "Buhat na dida Elay kay malakat ako" siring han iya Nanay.
+@@ bloom-an-panapuan-kan-elay 1 @@ Katima magtima han iya hinigdaan, namahaw hi Elay dungan han iya nanay.
+@@ bloom-an-panapuan-kan-elay 2 @@ "Ayaw pagpinasarang dinhi kay malakat ako" pahinumdom ni Nanay. "Oo nanay" baton ni Elay. "An akon panapuan ha?" mahiyum-hiyom nga yakan ni Elay. Naruruyag gud hiya nga an iya paborito an pirmi panapuan ha iya ni iya nanay.
+@@ bloom-an-panapuan-kan-elay 3 @@ Katapos mo pamahaw panhugas han imo kinaunan ngan pag-alog hin tubig ha? tugon ni Nanay Maya. "Oo, nanay" baton ni Elay.
+@@ bloom-an-panapuan-kan-elay 4 @@ Kahuman pamahaw ni Elay, gumawas hiya ngan nag-uyag kaupod an iya sangkay. "Niyan nala ako manhihimos ngan mag-aalog kahuman mag-uyag" pinsar ni Elay
+@@ bloom-an-panapuan-kan-elay 5 @@ Naliaw hi Elay samtang nag-uuyag. Nahingalimot hiya han tugon ni iya Nanay.
+@@ bloom-an-panapuan-kan-elay 6 @@ "Elay, Elay, adi na ako!" tawag ni Nanay Maya. "Halaka! ade na hi Nanay, waray pa ako maghimos ngan mag-alog" nababaraka nga pinsar ni Elay.
+@@ bloom-an-panapuan-kan-elay 7 @@ Dali-dali nga umuli hi Elay ha ira balay. "Nanay, pasaylua ako. Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay. "Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag. Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot" yakan ni Nanay Maya.
+@@ bloom-an-panapuan-kan-elay 8 @@ Malipayon nga nag-himos ngan nag-alog hi Elay. "Diri na ako mautro sunod" Pinsar ni Elay. "Susugton ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga pasalubong".
+@@ bloom-an-panapuan-kan-elay 9 @@ Kahuman niya maghimos ngan mag-alog malipayon nga ginhatag ha iya ni Nanay Maya an iya paborito nga mani ngan pinyato nga tikang ha Buray. "Hmmmmm.. marasa gud it mani ngan pinyato nga tikang ha buray" siring ni Elay.
+@@ bloom-an-panapuan-kan-elay 10 @@ "Salamat, Nanay. Sunod masugot anay ako hit imo tugon san-o ako mag-uyag" siring ni Elay.
+
+# An Maduruto nga Parapangisda [Bloom · cc-by-nc-sa]
+@@ bloom-an-maduruto-nga-parapangisda t @@ An Maduruto nga Parapangisda
+@@ bloom-an-maduruto-nga-parapangisda 0 @@ Ha usa nga bungto han Paranas hirani han dagat may naukoy usa nga pamilya. Ha usa nga simple nga balay malipayon nga nagkakaurusa hira Nanay Ondit, Tatay Omi ngan an ira mga anak.
+@@ bloom-an-maduruto-nga-parapangisda 1 @@ Pangisda an siyahan nga pangabuhi ni Tatay Omi. Tungod kay waray man hiya makatapos han pag iskoyla.
+@@ bloom-an-maduruto-nga-parapangisda 2 @@ Maadlaw man o mauran. Mamadlos ngan makusog man it balod nagikan la gihap pakadto ha dagat hi Tatay Omi para magbiling hin ira kakaunon ngan magkaada kwarta.
+@@ bloom-an-maduruto-nga-parapangisda 3 @@ Usa ka adlaw, malain an kaoras han panahon. "Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon", siring ni Nanay Ondit. "Kon diri ngani ako gumikan waray kita igsusura ngan kakaunon niyan. Waray liwat kita igpapalit gamit kanan pag iskoyla hit kabataan" , baton ni Tatay Omi .
+@@ bloom-an-maduruto-nga-parapangisda 4 @@ "Sigi, basta paghirot la pirmi ngan ayaw na pagkadto hit kalalawdan",tugon ni nanay Ondit. "Oo, ayaw kabaraka kay pirmi ko gin-aampo nga bantayan kita hit makagarahom nga Diyos", baton ni Tatay Omi.
+@@ bloom-an-maduruto-nga-parapangisda 5 @@ Nagtima hi Tatay Omi han iya mga gamit pangisda. Nangudos hiya san-o lumakat pakadto ha dagat.
+@@ bloom-an-maduruto-nga-parapangisda 6 @@ Kada adlaw amo pirmi ito it kan Tatay Omi ginbubuhat. Kun diri ngani hiya nakakagikan ngadto ha dagat, nabulig hiya ha mga trabahuon ha balay ngan naghuhukot han pukot.
+@@ bloom-an-maduruto-nga-parapangisda 7 @@ Umabot an damo nga kakurian ngan kawaray kwarta. Pero padayon la gihap hiya han pangisda kay natuod hiya nga makakatalwas hira hit mga kakurian.
+@@ bloom-an-maduruto-nga-parapangisda 8 @@ Naglabay an mga panahon naging maupay an kabutang han pamilya ni Tatay Omi. Nakatapos pag-iskoyla an iya mga anak ngan may ada na mga trabaho pinaagi han iya paningkamot han pangisda.
+@@ bloom-an-maduruto-nga-parapangisda 9 @@ "Tatay, undang na hito nga pagdagat. Kami naman it magtitimangno ha iyo kay may ada naman kami trabaho", pulong ni Andy kan iya tatay. "Sigi la, anak. Samtang kaya pa tak lawas mangingisda la gihap ako kay diri man pirmi it panahon nga may ada kita", baton ni Tatay Omi ha iya anak.
+@@ bloom-an-maduruto-nga-parapangisda 10 @@ "Damo nga salamat tatay han imo waray kaguol nga pagtimangno ha amon, dugang nga pulong ni Andy kan iya tatay. "Waray sapayan, anak. Obligasyon ito namon nga mga kag-anak. An makagarahom nga Diyos an angay naton pasalamatan ha tanan nga grasya nga iya ginhahatag ha aton," baton ni Tatay Omi.
+@@ bloom-an-maduruto-nga-parapangisda 11 @@ Masisiring nga usa nga mahigugmaon nga tatay ngan maduruto nga parapangisda hi Tatay Omi. Apisar han mga kakurian padayon nga naato ha mga problima nga naulpot ha kinabuhi.
+
+# Ang Kusog han Gugma ha Murayaw nga Edad [Bloom · cc-by]
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad t @@ Ang Kusog han Gugma ha Murayaw nga Edad
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 0 @@ Ha usa nga hilumon ngan mahayag nga baryo ha probinsya han Samar, nakatira hi Marites usa nga disi-sais anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 1 @@ Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante. Pirme hiya nag-aambit ha klase, ngan ginpapabilhan han iya mga maestro an iya kakugi. “Diri gud ako matitimbang,” siring niya ha iya kalugaringon, “kay para ini ha akon pamilya ngan ha akon tidaraon.” An iya pinakadako nga damgo amo an magin maestra.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 2 @@ Pero ha luyo han iya kalipay, mayda maabot nga pagsulay. Nakilala niya hi Carlo usa nga lalaki nga mas tigulang ha iya. Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon. Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 3 @@ Paglabay hin pipira ka semana, napansin niya nga nag-iiba an iya lawas. Nakuratan hiya burod hiya. An iya kalibutan sugad hin nabungkag. Damo nga gab-i an iya ginugol ha pag-ukoy ngan pagtinaluha.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 4 @@ Tubtob nga usa ka gab-i, nagsumat hiya ha iya nanay. “Nanay… burod ako.” Nag-iyakan hira duha. Nasakitan an iya nanay, diri la tungod han nahitabo, kundi tungod han kahadlok para ha tidaraon han iya anak. Tungod han kaulaw, gin-undang anay ni Marites an iya pag-eskwela.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 5 @@ Pero ha kada adlaw nga naglabay, ginbabatian niya an lihok han bata ha iya tiyan. “An akon anak… diri ko hiya pababayaan,” siring niya. Han adlaw han iya pagpanganak, gin-agian niya an duro nga kasakit. Pero han iya nakita an iya anak, usa nga matahum nga batang lalaki. Pinangaranan niya ini nga hi Joshua.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 6 @@ “Marites,” siring han iya nanay, “diri pa huli an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay ginbibitbit niya hi Joshua kon waray magbantay. Ha gab-i, nag-aaral hiya bisan kapoy na gud.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 7 @@ Naglabay an mga tuig, ngan padayon hiya nga naningkamot. Tubtob nga nakaabot hiya ha iya graduation. Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga palakpak. Waray hiya kapugong han iya luha. “Natuman ko gud,” siring niya ha iya kalugaringon.
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 8 @@ Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo. Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya. Usa ka adlaw, nagpakiana an usa niya nga estudyante, “Ma’am, paonan-o kamo nagin kusog?” Nagngiti hi Marites ngan siniring, “An kusog diri tikang ha edad. Tikang ini ha gugma ngan determinasyon.”
+@@ bloom-ang-kusog-han-gugma-ha-murayaw-nga-edad 9 @@ Ha gab-i, samtang nagkakaon hira ni Joshua, ginyakap hiya han bata. “Nanay, proud ako ha imo.” Naluha hi Marites ngan ginyakap ini hin mahugot. “Mas proud ako ha imo, anak. Ikaw an akon kusog.”
