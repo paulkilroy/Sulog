@@ -1,5 +1,6 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
+import { STORIES, GLOSS } from "./courses/waray/stories.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -229,6 +230,28 @@ function freshStat(forgotten) {
 }
 function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
 function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
+// --- reading coverage (mirrors tools/reading-coverage.mjs: exact + morphological
+// containment, so inflected forms of a known root count as known) ---
+function storyToks(text) {
+  return (text || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[’`]/g, "'").split(/[^a-z'\-]+/).map((t) => t.replace(/^['\-]+|['\-]+$/g, "")).filter((t) => t.length >= 2);
+}
+// the set of Waray word-tokens the learner can be said to "know" (box ≥ 2)
+function knownWaray(prog, cards) {
+  const s = new Set();
+  for (const c of cards) if (masteryPct(prog[c.id]) >= 0.4) for (const t of storyToks(c.waray)) s.add(t);
+  return s;
+}
+const knowsTok = (t, known, roots) => known.has(t) || (t.length >= 4 && roots.some((r) => t.includes(r)));
+// coverage of a story's running words + the count of distinct unknown words
+function storyCoverage(story, known, roots) {
+  let total = 0, hit = 0; const unknown = new Set();
+  for (const p of story.paras) for (const t of storyToks(p)) {
+    total++; if (knowsTok(t, known, roots)) hit++; else unknown.add(t);
+  }
+  return { pct: total ? hit / total : 0, total, unknown: unknown.size };
+}
+const glossFor = (word) => GLOSS[word] || GLOSS[word.replace(/o/g, "u").replace(/e/g, "i")] || null;
 // Cold type-recalls needed to graduate a missed word off "Needs work". Counts only
 // genuine recall: a typed (non-MC) correct answer that wasn't the remedial type step
 // right after an MC. See `recall` in applyResult.
@@ -964,6 +987,7 @@ export default function App() {
       {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
+      {view === "read" && <ReadView ctx={ctx} />}
       {view === "history" && <HistoryView ctx={ctx} />}
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
@@ -1070,6 +1094,14 @@ function HomeView({ ctx }) {
           <div>
             <div className="ws-cta-t">Needs work {needsWork ? <span className="ws-badge">{needsWork}</span> : null}</div>
             <div className="ws-cta-d">The words & phrases you keep missing</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        <button className="ws-cta" onClick={() => setView("read")}>
+          <div className="ws-cta-ic ws-ic-jade"><BookOpen size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Read a story</div>
+            <div className="ws-cta-d">Real Waray stories, matched to what you know</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -2565,6 +2597,97 @@ function NeedsWorkView({ ctx }) {
   );
 }
 
+/* ============================ READ ============================ */
+function ReadView({ ctx }) {
+  const { cards, prog, setView, playCard } = ctx;
+  const [open, setOpen] = useState(null);   // selected story
+  const [sel, setSel] = useState(null);     // tapped {word, gloss}
+
+  const { known, roots } = React.useMemo(() => {
+    const k = knownWaray(prog, cards);
+    return { known: k, roots: [...k].filter((w) => w.length >= 4) };
+  }, [prog, cards]);
+
+  // ---------- reader ----------
+  if (open) {
+    const cov = storyCoverage(open, known, roots);
+    const tap = (core) => {
+      const n = storyToks(core)[0] || "";
+      setSel({ word: core, gloss: glossFor(n) });
+      playCard({ waray: core, say: "" });
+    };
+    const renderPara = (p, pi) => (
+      <p key={pi} className="ws-read-p">
+        {p.split(/(\s+)/).map((tok, ti) => {
+          if (/^\s+$/.test(tok) || !tok) return tok;
+          const n = storyToks(tok)[0] || "";
+          if (!n) return <span key={ti}>{tok}</span>;
+          const kn = knowsTok(n, known, roots);
+          return <span key={ti} className={`ws-rw ${kn ? "" : "new"}`} onClick={() => tap(tok)}>{tok}</span>;
+        })}
+        <button className="ws-read-play" title="Hear this line" onClick={() => playCard({ waray: p, say: "" })}><Volume2 size={14} /></button>
+      </p>
+    );
+    return (
+      <div className="ws-page">
+        <TopBar title="Read" onBack={() => { setOpen(null); setSel(null); }} />
+        <h2 className="ws-lesson-title">{open.title}</h2>
+        <div className="ws-read-meta">
+          {open.source} · {Math.round(cov.pct * 100)}% known · {cov.unknown} new word{cov.unknown === 1 ? "" : "s"}
+          <span className="ws-read-hint"> · tap any word</span>
+        </div>
+        <div className="ws-read-body">{open.paras.map(renderPara)}</div>
+        <div className="ws-read-credit">
+          {open.source === "Bloom"
+            ? <>From <b>Bloom Library</b> ({open.license}) — bloomlibrary.org. Used with attribution.</>
+            : <>From <b>Bible for Children</b> — free to copy, not for sale. Used with attribution.</>}
+        </div>
+        {sel && (
+          <div className="ws-gloss-bar" onClick={() => playCard({ waray: sel.word, say: "" })}>
+            <Volume2 size={16} />
+            <b>{sel.word}</b>
+            <span>{sel.gloss || "— no gloss yet —"}</span>
+            <button className="ws-skip" onClick={(e) => { e.stopPropagation(); setSel(null); }}>✕</button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ---------- story list ----------
+  const rows = STORIES
+    .map((s) => ({ s, cov: storyCoverage(s, known, roots) }))
+    .sort((a, b) => b.cov.pct - a.cov.pct);
+  const tier = (p) => p >= 0.85 ? { c: "ok", t: "ready" } : p >= 0.7 ? { c: "mid", t: "a stretch" } : { c: "hard", t: "hard" };
+
+  return (
+    <div className="ws-page">
+      <TopBar title="Read a story" onBack={() => setView("home")} />
+      <div className="ws-pron-intro">
+        Real Waray stories, free &amp; openly licensed, sorted by how much you already know.
+        Tap any word to hear it and see its meaning. Don't expect to know every word — reading
+        a story where you know most of it is how the words stick.
+      </div>
+      <div className="ws-read-list">
+        {rows.map(({ s, cov }) => {
+          const tr = tier(cov.pct);
+          return (
+            <button key={s.id} className="ws-read-card" onClick={() => { setOpen(s); setSel(null); }}>
+              <div className="ws-read-card-main">
+                <div className="ws-read-card-title">{s.title}</div>
+                <div className="ws-read-card-sub">{s.source} · {s.paras.length} parts · {cov.unknown} new words</div>
+              </div>
+              <div className={`ws-read-badge ${tr.c}`}>
+                <b>{Math.round(cov.pct * 100)}%</b><span>{tr.t}</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ============================ BROWSE ============================ */
 function BrowseView({ ctx }) {
   const { cards, prog, setView, playCard, saveAudio, audio, togglePin } = ctx;
@@ -3285,6 +3408,38 @@ function Styles() {
 .ws-cta-primary .ws-cta-ic{background:rgba(255,255,255,.2);color:#fff}
 .ws-ic-tide{background:#dcefef;color:var(--tide)}
 .ws-ic-coral{background:#fae3de;color:var(--coral)}
+.ws-ic-jade{background:#e0f3ea;color:var(--jade)}
+/* Read tab — story list */
+.ws-read-list{display:flex;flex-direction:column;gap:9px}
+.ws-read-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+  background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:13px 15px}
+.ws-read-card-main{flex:1;min-width:0}
+.ws-read-card-title{font-size:15px;font-weight:650;color:var(--ink)}
+.ws-read-card-sub{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.ws-read-badge{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:58px;padding:6px 8px;border-radius:11px;line-height:1.1}
+.ws-read-badge b{font-size:15px}
+.ws-read-badge span{font-size:10px;opacity:.85}
+.ws-read-badge.ok{background:#e0f3ea;color:#2f7a57}
+.ws-read-badge.mid{background:#fdf0db;color:var(--sun-deep)}
+.ws-read-badge.hard{background:#fae3de;color:var(--coral)}
+/* Read tab — reader */
+.ws-read-meta{font-size:12.5px;color:var(--ink-soft);margin:-6px 0 14px}
+.ws-read-hint{color:var(--tide)}
+.ws-read-body{font-size:18px;line-height:1.85;color:var(--ink)}
+.ws-read-p{margin:0 0 15px}
+.ws-rw{cursor:pointer;border-radius:4px;padding:0 1px}
+.ws-rw:active{background:var(--sand)}
+.ws-rw.new{text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:2px;text-underline-offset:3px}
+.ws-read-play{vertical-align:middle;margin-left:5px;border:none;background:var(--foam);color:var(--tide);
+  cursor:pointer;opacity:.55;padding:2px}
+.ws-read-credit{margin-top:20px;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--sand);padding-top:12px}
+.ws-gloss-bar{position:fixed;left:12px;right:12px;bottom:14px;max-width:600px;margin:0 auto;z-index:40;
+  display:flex;align-items:center;gap:10px;background:var(--sea-ink);color:#fff;border-radius:14px;
+  padding:12px 15px;box-shadow:0 6px 24px rgba(0,0,0,.25);cursor:pointer}
+.ws-gloss-bar b{font-size:16px;flex:0 0 auto}
+.ws-gloss-bar span{flex:1;font-size:13.5px;opacity:.9}
+.ws-gloss-bar .ws-skip{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:4px 9px}
 .ws-cta-t{font-weight:600;font-size:15.5px}
 .ws-cta-d{font-size:12.5px;opacity:.78;margin-top:1px}
 .ws-cta-sub{font-size:11.5px;opacity:.6;margin-top:1px}
