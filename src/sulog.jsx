@@ -50,6 +50,7 @@ const PK = {
   lessons: `sulog:${COURSE_ID}:lessons`,
   units:   `sulog:${COURSE_ID}:units`,
   history: `sulog:${COURSE_ID}:history`,
+  read:    `sulog:${COURSE_ID}:read`,
 };
 // one-time migration: the original `waray:*` progress was on the Classic order,
 // so adopt it under waray-classic. Frequency (the new default) starts fresh.
@@ -2602,6 +2603,14 @@ function ReadView({ ctx }) {
   const { cards, prog, setView, playCard } = ctx;
   const [open, setOpen] = useState(null);   // selected story
   const [sel, setSel] = useState(null);     // tapped {word, gloss}
+  const [readSet, setReadSet] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(PK.read) || "[]")); } catch (e) { return new Set(); }
+  });
+  const markRead = (id) => setReadSet((prev) => {
+    const ns = new Set(prev); ns.has(id) ? ns.delete(id) : ns.add(id);
+    try { localStorage.setItem(PK.read, JSON.stringify([...ns])); } catch (e) {}
+    return ns;
+  });
 
   const { known, roots } = React.useMemo(() => {
     const k = knownWaray(prog, cards);
@@ -2637,6 +2646,9 @@ function ReadView({ ctx }) {
           <span className="ws-read-hint"> · tap any word</span>
         </div>
         <div className="ws-read-body">{open.paras.map(renderPara)}</div>
+        <button className={`ws-start ws-full ${readSet.has(open.id) ? "ws-connected" : ""}`} style={{ marginTop: 18 }} onClick={() => markRead(open.id)}>
+          {readSet.has(open.id) ? <><Check size={18} /> Read — tap to unmark</> : <><BookOpen size={18} /> Mark as read</>}
+        </button>
         <div className="ws-read-credit">
           {open.source === "Bloom"
             ? <>From <b>Bloom Library</b> ({open.license}) — bloomlibrary.org. Used with attribution.</>
@@ -2655,9 +2667,11 @@ function ReadView({ ctx }) {
   }
 
   // ---------- story list ----------
+  // sort: most-known first; ties (e.g. a fresh learner at 0%) break to the EASIEST —
+  // fewest new words, then shortest — so there's always a sensible "start here".
   const rows = STORIES
     .map((s) => ({ s, cov: storyCoverage(s, known, roots) }))
-    .sort((a, b) => b.cov.pct - a.cov.pct);
+    .sort((a, b) => b.cov.pct - a.cov.pct || a.cov.unknown - b.cov.unknown || a.cov.total - b.cov.total);
   const tier = (p) => p >= 0.85 ? { c: "ok", t: "ready" } : p >= 0.7 ? { c: "mid", t: "a stretch" } : { c: "hard", t: "hard" };
 
   return (
@@ -2674,7 +2688,7 @@ function ReadView({ ctx }) {
           return (
             <button key={s.id} className="ws-read-card" onClick={() => { setOpen(s); setSel(null); }}>
               <div className="ws-read-card-main">
-                <div className="ws-read-card-title">{s.title}</div>
+                <div className="ws-read-card-title">{readSet.has(s.id) ? <Check size={14} className="ws-read-done" /> : null}{s.title}</div>
                 <div className="ws-read-card-sub">{s.source} · {s.paras.length} parts · {cov.unknown} new words</div>
               </div>
               <div className={`ws-read-badge ${tr.c}`}>
@@ -3415,6 +3429,7 @@ function Styles() {
   background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:13px 15px}
 .ws-read-card-main{flex:1;min-width:0}
 .ws-read-card-title{font-size:15px;font-weight:650;color:var(--ink)}
+.ws-read-done{color:var(--jade);vertical-align:-2px;margin-right:5px}
 .ws-read-card-sub{font-size:12px;color:var(--ink-soft);margin-top:2px}
 .ws-read-badge{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
   min-width:58px;padding:6px 8px;border-radius:11px;line-height:1.1}

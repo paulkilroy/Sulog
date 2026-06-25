@@ -158,23 +158,6 @@ export const STORIES = [
   ]
  },
  {
-  "id": "bloom-an-istorya-han-pormado-nga-bato-han-kand",
-  "title": "An Istorya Han Pormado nga Bato Han Kandiwata",
-  "source": "Bloom",
-  "license": "cc-by-sa",
-  "paras": [
-   "Isa sa mga sikat puntahan ngayon sa isla ng bayan ng Daram ay ang kanilang tanyag na pormadong bato o rock formation na tinatawag na kandiwata . Ang salitang Kandiwata ay nagmula sa lokal na termino ng mga waray na ang ibig sabihin ay lugar o tahanan ng mga diwata o engkanto o mga nilalang na hindi nakikita ng ordinaryong tao. Ayon sa kuwento ng mga matanda, ang pormadong –batong ito na parang nakalutang sa gitna ng karagatan ay isa daw di-umanong malaking barkong pampasahero na naglalayag noon, na kung saan habang ito daw ay nagbibiyahe sa gitna ng karagatan ay may kasayahang nagaganap sa loob ng barko, may nagkakantahan, nagsasayawan, nagtatawanan, at naghihiyawan na mga pasahero.",
-   "Sa gitna daw di-umano ng kasiyahan, isang babae na may kasamang alagang pusa ang pinagkatuwaan na paliguan at bihisan at pasayaw-sayawin ng mga tao ang nasabing pusa, na kung saan mas lalong naging matindi ang kasiyahan ng mga tao habang nagbibiyahe sa karagatan. Nang bigla umanong sumama ang panahon at nagdilim ang buong paligid at nagkaroon ng malakas na kulog at kidlat na siyang tumama sa barko at sa isang iglap ito ay naging isang malaking batong hugis-barko. Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.",
-   "Nang bigla umanong sumama ang panahon at nagdilim ang buong paligid at nagkaroon ng malakas na kulog at kidlat na siyang tumama sa barko at sa isang iglap ito ay naging isang malaking batong hugis-barko. Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.",
-   "Sa kasalukuyan ang pormadong batong ito ay hugis-barko na parang nakalutang lamang sa gitna ng karagatan. At ito’y napakagandang pagmasdan.",
-   "Ayon parin sa kuwento ng mga mangingisda na nakatira malapit sa kandiwata, Minsan daw may mga panahon itong nagliliwanag sa gabi at may ingay na maririnig na nagkakasayahan at iyon daw ang mga taong sakay noon na mga naging engkanto o diwata na.",
-   "Dagdag pa ng mga residente doon na nakatira sa malapit na barangay ng kandiwata, ang sabi nila na pagmamingwit ka daw o manghuli ng isda malapit sa kandiwata ay kailangan mo daw magpaalam muna sa batong ito, upang hindi ka daw magkaproblema tulad ng ; masisiraan daw ang sasakyan mo at ang lambat daw ay hindi na makukuha o kaya magpaparamdam ang mga diwata o engkanto sa iyo o di kaya’y kukunin ka daw nila.",
-   "Ang kuwentong ito ay ayon lamang sa mga taong nagkaroon ng karanasan at batay sa kanilang naranasan, nakita, at narinig. At ito’y hanggang ngayon ay isang kuwentong bayan lamang na nagpapasalin-salin sa mga bibig ng mga taong nakatira sa isla ng Daram lalo sa mga taong malapit na nakatira sa pormadong-bato ng kandiwata.",
-   "Ito’y isang yamang maipagmamalaki ng mga Daramnon sa Pilipinas maging sa buong mundo. Na dapat nating panatilihing malinis at pangalagaan, irespeto at igalang ang paniniwala ng mga taong nagkaroon ng karanasan sa napakagandang tanawin ng kandiwata rock formation sa Isla ng Daram, Samar. Mula sa panulat at pananaliksik ni: BRANDO M. ALVAREZ, LPT. Residente sa Bayan ng Daram ng mahigit 30 taon.",
-   "Isang makapigil-hininga ang ganda ng kandiwata rock formation, na dinarayo ngayon ng mga turista sa mga kalapit na bayan ng Daram. Perfect ditong mag-selfie at maligo dahil ang tubig ay crystal clear."
-  ]
- },
- {
   "id": "bloom-hi-kaha-kahon",
   "title": "Hi Kaha, Kahon",
   "source": "Bloom",
