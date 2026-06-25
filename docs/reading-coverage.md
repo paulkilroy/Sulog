@@ -51,3 +51,60 @@ A story's **full-deck %** is the ceiling: even finishing the whole course, that'
 you'd know, because the rest are words our curriculum never teaches (the long tail). If a
 story tops out at 70%, it needs ~30% glossing no matter what — that's the "learn this
 story" tier, not "flow." Raw vs stem gap shows how much Waray inflection hides.
+
+## Cross-story leverage — unknown words by story spread
+_Truly-unknown words (no taught root inside), ranked by how many stories they appear in.
+Adding the high-spread ones lifts coverage across many stories at once. "1000?" = also in
+the CHED top-1000 (a double win: frequent in the corpus AND spans the stories)._
+
+**Coverage lift on the top-12 readable stories (avg STEM %):** base **75%** → +20 words **77%** → +40 **78%** → +60 **80%**
+
+| word | #stories | freq | gloss | 1000? |
+|------|:--:|--:|-------|:--:|
+| **kan** | 18 | 64 | — |  |
+| **samtang** | 11 | 15 | meanwhile; while. | ✓ |
+| **gin** | 10 | 66 | — |  |
+| **kon** | 10 | 27 | — |  |
+| **pirmi** | 9 | 18 | — |  |
+| **gud** | 8 | 16 | — |  |
+| **istorya** | 8 | 16 | — |  |
+| **ungod** | 8 | 13 | true; authentic; credible. | ✓ |
+| **naghimo** | 8 | 12 | made. | ✓ |
+| **pakadi** | 8 | 12 | — |  |
+| **gintatawag** | 8 | 11 | — |  |
+| **naaro** | 8 | 8 | — |  |
+| **sin** | 7 | 31 | — |  |
+| **siya** | 7 | 30 | — |  |
+| **sayo** | 7 | 23 | — |  |
+| **mao** | 7 | 22 | — |  |
+| **too** | 7 | 21 | — |  |
+| **ato** | 7 | 17 | — |  |
+| **pamilya** | 7 | 16 | family. | ✓ |
+| **nabanhaw** | 7 | 15 | — |  |
+| **yakan** | 7 | 12 | to utter; to assert; to say; | ✓ |
+| **himo** | 7 | 12 | to make; to do; to compose; to create; t | ✓ |
+| **lamrag** | 7 | 10 | — |  |
+| **bago** | 7 | 9 | — |  |
+| **sinaka** | 7 | 8 | — |  |
+| **magraot** | 7 | 8 | persons with ugly character. | ✓ |
+| **kapasayluan** | 7 | 8 | — |  |
+| **aragian** | 7 | 7 | — |  |
+| **storya** | 7 | 7 | — |  |
+| **susumat** | 7 | 7 | — |  |
+| **kaupaya** | 7 | 7 | — |  |
+| **kumila** | 7 | 7 | — |  |
+| **naka** | 7 | 7 | — |  |
+| **silot** | 7 | 7 | — |  |
+| **silotan** | 7 | 7 | — |  |
+| **makadi** | 7 | 7 | — |  |
+| **pagpuyo** | 7 | 7 | — |  |
+| **hangtod** | 7 | 7 | — |  |
+| **kamatuoran** | 7 | 7 | truth; reality. | ✓ |
+| **magkayaon** | 7 | 7 | — |  |
+| **makaupod** | 7 | 7 | — |  |
+| **kahangtoran** | 7 | 7 | — |  |
+| **mabuhi** | 7 | 7 | will live; to live. | ✓ |
+| **amen** | 7 | 7 | — |  |
+| **paki** | 7 | 7 | — |  |
+
+_1466 distinct unknown words total. The long tail (appears in 1 story) is genuinely story-specific — gloss it in the reader rather than teach it._

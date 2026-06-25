@@ -122,7 +122,53 @@ you'd know, because the rest are words our curriculum never teaches (the long ta
 story tops out at 70%, it needs ~30% glossing no matter what — that's the "learn this
 story" tier, not "flow." Raw vs stem gap shows how much Waray inflection hides.
 `;
+// ---- cross-story leverage: which UNKNOWN words recur across the most stories ----
+const lex = JSON.parse(read("docs/sources/waray-lexicon.json"));
+const glossOf = new Map(lex.lexemes.map((l) => [l.id, l.gloss]));
+const top1000 = new Set(lex.lexemes.filter((l) => l.top1000).map((l) => l.id));
+const knownStem = (t) => fullDeck.has(t) || (t.length >= 4 && fullRoots.some((r) => t.includes(r)));
+
+const spread = new Map(); // truly-unknown token -> {docs:Set, freq}
+for (const s of rows) {
+  const here = new Set();
+  for (const t of s.toks) {
+    if (t.length < 3 || knownStem(t)) continue;
+    const e = spread.get(t) || { docs: new Set(), freq: 0 };
+    e.freq++; e.docs.add(s.title); spread.set(t, e);
+  }
+}
+const leverage = [...spread.entries()]
+  .map(([w, e]) => ({ w, docs: e.docs.size, freq: e.freq, gloss: glossOf.get(w) || null, top1000: top1000.has(w) }))
+  .sort((a, b) => b.docs - a.docs || b.freq - a.freq);
+
+// simulate coverage lift on the top-12 readable stories from adding the top-N leverage words
+const top12 = rows.slice(0, 12);
+const avgCover = (extra) => {
+  const xset = new Set([...fullDeck, ...extra]);
+  const xroots = [...fullRoots, ...extra.filter((w) => w.length >= 4)];
+  return top12.reduce((s, r) => s + cover(r.toks, xset, xroots).stem, 0) / top12.length;
+};
+const words = (n) => leverage.slice(0, n).map((l) => l.w);
+const lift = { base: avgCover([]), a20: avgCover(words(20)), a40: avgCover(words(40)), a60: avgCover(words(60)) };
+
+md += `\n## Cross-story leverage — unknown words by story spread
+_Truly-unknown words (no taught root inside), ranked by how many stories they appear in.
+Adding the high-spread ones lifts coverage across many stories at once. "1000?" = also in
+the CHED top-1000 (a double win: frequent in the corpus AND spans the stories)._
+
+**Coverage lift on the top-12 readable stories (avg STEM %):** base **${pct(lift.base)}%** → +20 words **${pct(lift.a20)}%** → +40 **${pct(lift.a40)}%** → +60 **${pct(lift.a60)}%**
+
+| word | #stories | freq | gloss | 1000? |
+|------|:--:|--:|-------|:--:|
+`;
+for (const l of leverage.slice(0, 45)) {
+  md += `| **${l.w}** | ${l.docs} | ${l.freq} | ${(l.gloss || "—").replace(/\|/g, "/").slice(0, 40)} | ${l.top1000 ? "✓" : ""} |\n`;
+}
+md += `\n_${leverage.length} distinct unknown words total. The long tail (appears in 1 story) is genuinely story-specific — gloss it in the reader rather than teach it._\n`;
+
 fs.writeFileSync(path.join(root, "docs/reading-coverage.md"), md);
+console.log(`\ncross-story leverage: ${leverage.length} unknown words | lift top-12 avg: ${pct(lift.base)}% → +40w ${pct(lift.a40)}%`);
+console.log(`top spread:`); leverage.slice(0, 12).forEach((l) => console.log(`  ${l.docs} stories ·${String(l.freq).padStart(3)}× ${l.w.padEnd(14)} ${l.top1000 ? "[1000]" : ""} ${l.gloss || ""}`));
 
 console.log(`stories: ${rows.length} | full-deck ceiling ≥90%: ${ceil(0.9)}, ≥80%: ${ceil(0.8)}, ≥70%: ${ceil(0.7)}`);
 console.log(`reach ≥80% by phase (stem): ${cum.map((c, i) => `${PN[i]}=${atPhase(i, 0.8)}`).join(" ")}`);
