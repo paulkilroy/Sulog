@@ -11,7 +11,7 @@
 
    Outputs:
    - docs/waray-frequency-graph.md   (human-readable report: ranked words, tiers, gap list)
-   - docs/sources/waray-frequency.json (full data: word -> {count, inSeed, inChed})
+   - docs/sources/waray-lexicon.json (normalized: sources, lexemes, cards, sentences)
 
    Method is deliberately conservative: we only ever *rank words we can confirm are Waray*
    (SEED words ∪ CHED headwords) by how often they occur across the corpus. English in the
@@ -69,6 +69,8 @@ function parseChed(text) {
   const lines = text.split(/\r?\n/);
   const heads = new Set();      // canonical Waray headwords (top-1000 set)
   const glossOf = new Map();    // headword -> English gloss
+  const displayOf = new Map();  // headword -> accented display form
+  const posOf = new Map();      // headword -> part of speech (english)
   const examples = [];          // attested example sentences
   let cur = null;               // current entry block being accumulated
   const flush = () => {
@@ -78,12 +80,15 @@ function parseChed(text) {
     const canon = norm(raw.split(/[(\/]/)[0]).replace(/^['\-]+|['\-]+$/g, "").trim();
     if (canon && /^[a-z][a-z'\-]*$/.test(canon)) {
       heads.add(canon);
-      // gloss = text after the LAST POS paren (handles multi-POS entries), up to the
+      const disp = raw.split(/[(\/]/)[0].trim();
+      if (disp && !displayOf.has(canon)) displayOf.set(canon, disp);
+      // gloss + pos = after the LAST POS paren (handles multi-POS entries), up to the
       // first example quote
       const beforeEx = cur.body[0].split(/[‘']/)[0];
       const re = new RegExp(POS_EN.source, "gi");
-      let lastPos = -1, mm;
-      while ((mm = re.exec(beforeEx))) lastPos = mm.index + mm[0].length;
+      let lastPos = -1, posName = null, mm;
+      while ((mm = re.exec(beforeEx))) { lastPos = mm.index + mm[0].length; posName = mm[1].toLowerCase(); }
+      if (posName && !posOf.has(canon)) posOf.set(canon, posName);
       if (lastPos >= 0) {
         const g = beforeEx.slice(lastPos).replace(/^[.\s\d,;]+/, "").replace(/\s+/g, " ").trim();
         if (g && !glossOf.has(canon)) glossOf.set(canon, g.slice(0, 60));
@@ -104,7 +109,7 @@ function parseChed(text) {
     else if (cur) cur.body.push(line);
   }
   flush();
-  return { heads, glossOf, examples };
+  return { heads, glossOf, displayOf, posOf, examples };
 }
 
 // --- build target lexicon: single-word SEED entries + CHED headwords ---
@@ -115,7 +120,7 @@ for (const row of SEED) {
 }
 
 const chedText = read(SRC.ched);
-const { heads: chedHeads, glossOf, examples: chedExamples } = parseChed(chedText);
+const { heads: chedHeads, glossOf, displayOf, posOf, examples: chedExamples } = parseChed(chedText);
 
 // Phase 1: children's-register sentences from Bible for Children
 const bfcText = read(SRC.bfc);
@@ -247,18 +252,75 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 for (const r of gap.slice(0, 70)) {
   add += `| ☐ | **${r.w}** | ${(glossOf.get(r.w) || "—").replace(/\|/g, "/")} | ${r.n} | ${r.tier} |\n`;
 }
-add += `\n_Top 70 of ${gap.length} gap words. Full list in waray-frequency.json._\n`;
+add += `\n_Top 70 of ${gap.length} gap words. Full lexicon in waray-lexicon.json._\n`;
 fs.writeFileSync(path.join(root, "docs/waray-words-to-add.md"), add);
+// ---------------- normalized lexicon: the JSON source of truth ----------------
+// Entities + links: sources, lexemes, cards, sentences (sentence↔lexeme many-to-many).
+// Generated, not hand-maintained — re-derives from SEED + the raw text sources. Markdown
+// docs above are views of this same in-memory model. (No build timestamp — git is the clock.)
+const SOURCES = [
+  { id: "ched",  name: "First 1000 Words in Waray (Oyzon/CHED 2013)", url: "https://mlephil.wordpress.com/", license: "free educational (CHED/3NS)" },
+  { id: "peace", name: "Peace Corps Waray course",                    url: "", license: "US gov — public domain" },
+  { id: "tramp", name: "Tramp & Zorc Waray-English Dictionary (1991)", url: "", license: "reference" },
+  { id: "bfc",   name: "Bible for Children — Waray (7 stories)",       url: "https://bibleforchildren.org/PDFs/waray/", license: "free to copy/print, not for sale" },
+  { id: "seed",  name: "Sulog deck (hand-authored)",                   url: "", license: "project" },
+];
+
+const tnorm = (w) => norm(w).replace(/^['\-]+|['\-]+$/g, "");
+const rankByNorm = new Map(occurring.map((r) => [r.w, r]));
+
+// cards mirror SEED (positional ids c0…cN — append-only); single-word cards link to a lexeme
+const cardByNorm = new Map();
+const cards = SEED.map((row, i) => {
+  const [deck, waray, english, subtext, say] = row;
+  const single = !/\s/.test((waray || "").trim());
+  const wn = tnorm(waray);
+  if (single && wn && !cardByNorm.has(wn)) cardByNorm.set(wn, `c${i}`);
+  return { id: `c${i}`, deck, waray, english, subtext: subtext || "", say: say || "", single, lexeme: single ? wn : null };
+});
+
+const lexNorms = new Set([...seedWords.keys(), ...chedHeads]);
+const lexemes = [...lexNorms].map((n) => {
+  const r = rankByNorm.get(n);
+  const card = cardByNorm.get(n);
+  return {
+    id: n,
+    waray: seedWords.get(n) || displayOf.get(n) || n,
+    pos: posOf.get(n) || null,
+    gloss: glossOf.get(n) || (card ? cards.find((c) => c.id === card)?.english : null) || null,
+    freq: counts.get(n) || 0,
+    tier: r ? r.tier : null,
+    rank: r ? r.rank : null,
+    top1000: chedHeads.has(n),
+    inDeck: seedWords.has(n),
+    cardId: card || null,
+  };
+}).sort((a, b) => b.freq - a.freq || a.id.localeCompare(b.id));
+
+// multi-word (phrase) cards → the lexemes they contain
+for (const c of cards) if (!c.single) c.words = [...new Set(tokens(c.waray).filter((t) => lexNorms.has(t)))];
+
+// sentence pool with component lexemes (the many-to-many the frame engine queries)
+let sid = 0;
+const sentences = [
+  ...chedExamples.map((t) => ({ text: t, sourceId: "ched", register: "dictionary" })),
+  ...bfcSentences.map((t) => ({ text: t, sourceId: "bfc", register: "childrens" })),
+].map((s) => ({ id: `s${sid++}`, ...s, words: [...new Set(tokens(s.text).filter((w) => lexNorms.has(w)))] }));
+
 fs.writeFileSync(
-  path.join(root, "docs/sources/waray-frequency.json"),
+  path.join(root, "docs/sources/waray-lexicon.json"),
   JSON.stringify({
-    builtFrom: Object.values(SRC),
-    counts: Object.fromEntries(ranked.map((r) => [r.w, { n: r.n, inSeed: r.inSeed, inChed: r.inChed }])),
-    chedHeads: [...chedHeads].sort(),
-    gap: gap.map((r) => ({ w: r.w, n: r.n, tier: r.tier })),
-    perSource,
-    sentences: sentencePool,
-  }, null, 0)
+    meta: {
+      note: "Normalized source of truth for Waray curriculum data. Generated by tools/build-frequency.mjs from SEED + the text sources. Markdown docs are views of this.",
+      builtFrom: Object.values(SRC),
+      perSource,
+      counts: { sources: SOURCES.length, lexemes: lexemes.length, cards: cards.length, sentences: sentences.length },
+    },
+    sources: SOURCES,
+    lexemes,
+    cards,
+    sentences,
+  }, null, 1)
 );
 
 console.log(`corpus tokens: ${counts.size} | CHED heads: ${chedHeads.size} | sentence pool: ${sentencePool.length} (CHED ${chedExamples.length} + BFC ${bfcSentences.length})`);

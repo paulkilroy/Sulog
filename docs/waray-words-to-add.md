@@ -80,4 +80,4 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 | ☐ | **kamot** | hand. | 20 | 2 |
 | ☐ | **nagsiring** | said; spoke; told; asked. | 20 | 2 |
 
-_Top 70 of 755 gap words. Full list in waray-frequency.json._
+_Top 70 of 755 gap words. Full lexicon in waray-lexicon.json._
