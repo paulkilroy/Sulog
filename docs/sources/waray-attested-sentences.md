@@ -6,7 +6,8 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 
 - **CHED dictionary examples:** 1154
 - **Bible for Children (children's register):** 408 — _© Bible for Children, Inc.; free to copy/print, not for sale; leans dialectal (san→han, sa→ha)._
-- **Total:** 1562
+- **Bloom Library (21 CC children's books):** 321 — _CC-licensed; contemporary conversational register (best match). See bloom-waray/SOURCES.md._
+- **Total:** 1883
 
 ## CHED dictionary examples (1154)
 - Ay, Inday, bagà ka gud hinin balod. 2
@@ -1573,3 +1574,326 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 - Kon ikaw na too kan Jesus ug naaro ka kapasayluan han imo mga sala, iya iton bubuhaton.
 - Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
 - Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
+
+## Bloom Library — contemporary children's books (321)
+- Nakagmata hi Mira han tuga-ok han manok.
+- Nangadi hiya pagpasalamat han Ginoo ngan dali nga gintipig an iya hinigdaan.
+- Pag gawas niya ha kwarto, iya gintawag an iya nanay.
+- "Nanay, nanay, nanay!" Iya liwat gintawag an iya tatay.
+- "Tatay,tatay, tatay!" Pero waray may bumaton ha iya.
+- Kumadto hiya ha ira kusina, waray tawo.
+- Kumadto hiya ha ira balkon, waray tawo.
+- Kumadto hiya ha ira libong, waray liwat tawo!
+- Bumalik hi Mira ha sulod han ira balay ngan nahinumdum hiya.
+- Huybes ngayan yana, adlaw han tabo asya waray dinhi hira nanay ngan tatay.
+- Waray la mag-iha, umabot na an kag-anak ni Mira tikang ha tabu-an.
+- Damo an ira dara.
+- Malipayon hira nga gintapo ni Mira.
+- May ada mga sibuyas, lasona ngan luya.
+- Upod na an isda, karne han baboy ngan baka.
+- Mayda liwat asin ngan asukar, toyo ngan asiti.
+- Mayda pa gatas ngan palaman nga marasa!
+- Kadako han tawa ni Mira!
+- May ginhatag nga nakaputos an nanay ni Mira ha iya.
+- pero dayun la nga nakapakpak hin kalipay hi Mira.
+- Ginpalit ni nanay ngan tatay an mga tugon niya!
+- May ada na hiya bag-o nga lapis, pula nga payong ngan dulaw nga bestida!
+- Malipayun hin duro hi Mira!
+- salamat tatay!" "Salamat han iyo mga pinalit didto ha tabu-an!
+- An Bao Tumago ha luyo han bato.
+- Kay naayon hiya han baha.
+- An Tulo nga Magsarangkay Usa ka gab-i mapawa an bulan, nag uru-istorya hira Tristan, Jolo ngan Anton.
+- Dako an tingog ngan tawa ni Tristan.
+- "Kabataan, hinaya an iyo tingog kay nakakaistorbo na kamo." saway ni Mana Lita nga pinipiraw.
+- Ginsigawan nira Jolo ngan Anton hi Tristan.
+- Hala ka, Tristan!" sigaw han duha.
+- Tungod han kaawod, pumurot hiya hin bato ngan ginlabay an atop nira Mana Lita.
+- Iksakto nalabay hi Mano Solomon kay nagroronda.
+- Ginsaway niya hi Tristan.
+- "Kay ano nga nanlalabay ka man?" pakiana ni Mano Solomon.
+- Nandadlagan an magsaarangkay.
+- Kinabuwasan, ginkadto ni Mano Solomon an mga balay han magsarangkay.
+- Ginpatawag hira upod an ira mga kag-anak para pagtuhay.
+- "Kay ano nga nanlabay kamo han atop nira Mana Lita?", pakiana ni Kapitan Eddie.
+- "Hi Tristan po adto kapitan," baton ni Jolo.
+- Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita.
+- Tikang hadto, an maagsarangkay in nagsaad nga diri na hira mag-uutro.
+- Kumadto han Buaya an Pakla ngan pumakiana, "Ano an karuyag kaunon han imo mga anak?".
+- Han pagkita, nalipay an Buaya ngan gumuliat, "Ooooohhhhhh" Humadlok hin duro an Pakla pakabati niya han guliat han Buaya.
+- Ano an pakiana han Pakla ha mga hayop?
+- Ano an baton han Tamsi ha pakiana han Pakla?
+- Ano an karuayag kaunon han mga anak han Baboy?
+- Ano an siring han Itik ngadto han Pakla nga karuyag kaunon han iya mga anak?
+- Ngan waray pag-iha.
+- Hito mismo nga oras pagkahuman han panhitabo in tigda la nga nagmingaw an bug-os nga palibot.
+- An dako nga barko nagin usa nga dako nga bato.
+- Ha pagkayana ini nga pormado nga bato in pareho hin usa nga barko nga nalutaw ha butnga han kadagatan.
+- Ngan ini in maupay ngan kamakaruruyag pagkit-on.
+- Asya daw adto an mga tawo nga sakay hadto han barko nga nagin usa nga bato.
+- Nga kun diin bisan ha pagkayana nga panahon ini in imo hibabati-an nga istorya mga tawo nga naukoy hirani ha kandiwata.
+- Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw.
+- Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram.
+- Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan.
+- Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.
+- Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar.
+- Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan.
+- Damo nga Salamat!
+- Pirmi ni apoy Garing gindadayaw ngan gintitimangno an iya bukad nga rosa.
+- Pagkaaga pagkita ni apoy Garing ha iya libong waray na an iya minayuyo nga rosa.
+- Naging masinalub-on hi apoy Garing kay nawara an iya tanom nga rosa.
+- Gin dara han ulitawo an tanom ni apoy Garing nga rosa ngadto han libong han iya gin gagarbohan.
+- Pagkaaga nalipay an daraga han iya nakita kay may usa nga tanom nga mahusay pagkinitaon.
+- Iya gin daop ngan gin obserbahan.
+- Na hunahunaan niya nga waray hiya tanom sugad hini kamahusay.
+- Nahibaroan han enkantada nga alibangbang an nahinabo ngan nalooy ini kan apoy Garing.
+- Ngan mga pira ka adlaw nanubo an mga tanom ni apoy Garing nga nakita niya an magka iba-iba nga bukad nga maghusay.
+- Nagtangis an daraga ngaha atubangan han nangunguyab ha iya tungod han ginbuhat hini.
+- "Pangaro pasaylo kan apoy Garing han imo ginbuhat." An siring han daraga kan Lindo.
+- Pasayloa liwat ako han akon nabuhat" an baton ni han ulitawo ha iya gingagarbohan.
+- Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.
+- Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan.
+- "Pasayloa ako apoy Garing han akon ginbuhat" an siring han ulitawo.
+- "Okey la intoy maupay kay nag amin ka han imo ginbuhat.
+- Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad".
+- An baton ni apoy Garing.
+- Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana.
+- Gintagan pa niya ulitawo ngan an daraga hin mga taramnon.
+- AN MALIPAYON NA PARAGSUDOY Usa nga malipayon nga tawo hi Pedro.
+- Pirmi hiya nauli nga may dara nga pagkaon para ha iya pamilya.
+- Nagmamata hiya hin timprano para mag baligya.
+- Madali nga nauubos an iya mga baligya kay damo an napalit.
+- Usa ka adlaw naging masulob-on hi Pedro kay waray napalit han iya tinda.
+- Kulang na tawo an bungto tungod han pandemya (Covid 19) Umuli hi Pedro nga masulob-on.
+- Nangadi hi Pedro, nga konta mawara na ini nga pandemya.
+- Paglabay hin usa ka tuig gin balita ha TELEVISION nga may ada na bulong an sakit nga Covid.
+- Nag lipay hi Pedro han iya nabatian han anunsiyo.
+- Naglipay liwat an iya pamilya.
+- Pagtimangno hin Panlawas Usa ka adlaw samtang nagmumulay hi Potpot.
+- Nakabati hiya han tunog han budgyong.
+- Laksi nga dumalagan hi Potpot pag uli ha ira balay.
+- “Nanay, siring han tanod diri na puwede gumawas an kabataan ngan an pagkatitirok,” sumat ni Potpot kan iya nanay.
+- “Uu, kay mahitungod ito hit nakalat yana nga sakit, ” siring ni nanay.
+- Nanhunahuna hi Potpot ngan masulub-on nga sumiring.
+- "An aton angay buhaton atamani naton an aton kalugaringon nga diri kita matapnan hin sakit," dugang nga siring ni nanay.
+- “Para malikayan ito nga sakit kinahanglan kita sumunod hit mga ginpapatuman na mga protocol ha panlawas,” dugang nga siring ni nanay.
+- Gin usa-usa ni nanay an angay buhaton.
+- “Agsob ngan kaangayan nga paghugas han mga kamot gamit an sabon,” baton ni nanay.
+- "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.
+- “Uu, manhahatag kita ha aton mga hiripid,” nalilipay nga baton ni nanay.
+- AN BANOG HA BUKID HURAW Malipayon nga naglilinupad-lupad hi Banog ha kagugub-an.
+- Nakita niya an hitaas nga Bukid Huraw.
+- "Bukid Huraw kaya ko lumupad ngan labwan an im kahitaas!" Gin andam niya an iya kalugaringon para paglupad.
+- Han iya paglupad, tigda may umabot nga bagyo.
+- "Kaya ko ini!
+- kaya ko ini!" An siring ni Banog ha iya kalugaringon.
+- An tunog han makusog nga hangin nga natapo kan Banog han iya paglupad.
+- Napiolan hi Banog han iya kahulog.
+- Nagsiring hi Banog ha iya kalugaringon, "diri ko na pipiriton tak kalugaringon kon diri ko kaya para diri ako mahingadto ha karat-an".
+- Ngan tikang hadto naging malipayon nala hi Banog maglinupad-lupad palibot han Budik Huraw.
+- Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.
+- Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.
+- Sa kasalukuyan ang pormadong batong ito ay hugis-barko na parang nakalutang lamang sa gitna ng karagatan.
+- Ang kuwentong ito ay ayon lamang sa mga taong nagkaroon ng karanasan at batay sa kanilang naranasan, nakita, at narinig.
+- Ito’y isang yamang maipagmamalaki ng mga Daramnon sa Pilipinas maging sa buong mundo.
+- Mula sa panulat at pananaliksik ni: BRANDO M.
+- Residente sa Bayan ng Daram ng mahigit 30 taon.
+- Isang makapigil-hininga ang ganda ng kandiwata rock formation, na dinarayo ngayon ng mga turista sa mga kalapit na bayan ng Daram.
+- Hi Kaha, Kahon Umandar na an bus nga ginsasakyan ni Kaha.
+- “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha.
+- Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.
+- Usa… duha… tulo… tulo ka oras nga pagbay-og an gin-abat ni Kaha.
+- Natapos gihap an iya beyahe.
+- Makakagawas na ako hini nga lugar", malipayon nga siring ni Kaha.
+- "Kamakaluluoy ko man kitaon", masulob-on nga siring ni Kaha.
+- Brown an iya kolor nga may gudti nga mga luho ha ligid niya.
+- Pinaagi han dulaw nga higot, nasisirahan an tapotapohon nga iya abrihan.
+- Dalidali hiya nga ginkuha han iya agaron ha iya kinamumutangan.
+- Ginkaptan an dulaw nga higot nga ginhigot ha iya.
+- Nahipausa hiya han iya nakita-an.
+- kamaupay man hini nga lugar.”, nalilipay nga siring ni Kaha.
+- Dagko ngan higtaas nga bilding an aada ha iya atubangan.
+- Iba ini ha iya gintikangan nga simple nga balay.
+- Haros usa ka barangay an kahiluag hini ngan baga hin maabot na ngadto ha langit ha subra hin kahitaas.
+- Ginbutang hiya han iya agaron ha pushcart ngan ginsulod hiya ha maanyag nga bilding.
+- Puno hiya hin ginhamis nga mga bagol hin lubi.
+- "Oy tigda nga umabri an purtahan!", nahipausa nga siring ni Kaha.
+- Nakita niya an mainggat nga salog.
+- Makaruruyag pagkit-on an iba-iba nga klase hin mga light.
+- Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.
+- "Kadadamo man hin tawo ha palibot', yakan ni Kaha.
+- "Siguro kay mahagkot ini nga lugar".
+- "Makikita ha ira nawong an kalipay ha pamamasyada, pagkaon ngan pamamalit", hunahuna ni Kaha.
+- Ginbutang hiya sulod hin usa nga tindahan.
+- Puno ini hin mag-upay nga mga pandekorasyon.
+- Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na.
+- Nasubo hi Kaha.
+- “Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha.
+- “Waray nagud ada ako pulos ha iya”, tangis ni Kaha.
+- “Diri ito ungod sangkay.
+- Tanan kita may ada mga pulos dinhi ha tuna", isplikar ni Basurahan.
+- “Diri karuyag signgon nga waray ka na pulos kun ginbayaan ka man han imo agaron ".
+- Malipayon ako kay maaram ako nga dako it akon nahibubulig ha kalibungan", dugang nga siring ni Basurahan.
+- “Ginbubutang ha amon an mga maghugaw nga mga butang para diri magin mahugaw an kalibungan." “Tama hi Basurahan.
+- Kami gihapon imbis nga iglabog aadi kami para magamitan pa”, an siring han mga bagol hin lubi.
+- Ginkuha an iya sulod ngan gintrapohan.
+- “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.
+- Ginputos hiya hin malimpyo ngan bukadbukaron nga papel.
+- May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop.
+- Nakita niya an iya kalugaringon ha espiho ha tindahan.
+- "Kamakaruruyag kitaon it akon kalugaringon", nalilipay nga siring ni Kaha.
+- Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos.
+- Gin-apresyar niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan.
+- "Damo nga salamat han maduruto ngan maabilidad nga bata", malipayon nga siring ni Kaha.
+- An Suok nga Magsangkay Magsangkay hi Ela ngan hi Mila.
+- Suok gud kaupay hira nga magsangkay.
+- An ira mga maestra gindadayaw hira.
+- Mga buruhaton ha balay waray kabudlay.
+- Kay hira nga duha nagbibinuligay.
+- Mga kag-anak nira waray problema.
+- Pangandoy nira dungan nga mapa-uswag.
+- May nahitabo ha ira kamagsangkay.
+- Nag usaan nala hi Ela.
+- Nahingadto hi Mila ha hirayo nga dapit.
+- Ginpinsar ni Ela an panhitabo.
+- Ug hi Ela nagkasakit.
+- Pirmi naghuna-huna hi Ela kan Mila.
+- Ginhuhulat niya pirmi an pag-abot niya.
+- Iya karawaton nga sakay gihapon.
+- Nahibaro hi Mila han nahitabo.
+- Nga nasakit an suok niya nga sangkay.
+- Dali-dali nga bumalik hi Mila.
+- Nagkita gihapon an magsangkay.
+- Ginpasaylo ni Ela hi Mila.
+- Ngan nagpabilin an ira suok nga kamagsangkay.
+- An Bata nga Mahilig hin Dolce Hi Ynah in usa nga bata nga babayi.
+- Gutiay ngan matambok.
+- Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.
+- Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin singko.
+- May ada la po ako papaliton ha tindahan Nay, Tay!
+- "Upaya naman nga diri dolce tim paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.
+- "Maupay nala nga waray kumita hi Nanay nak mga ginpamalit sigurado gud nga pagbubusa-an niya ako!" siring ni Ynah ha iya kalugaringon.
+- Pagkagab-i maupay na an ira pangaturog.
+- yakan han mga higante nga dolce.
+- "Ayawwwww!" yakan ni Ynah nga sige it pagdinalagan.
+- Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok.
+- "Hin o dawla adi nga nagtitinuok?" siring han iya Nanay.
+- Gumawas hiya han ira kwarto para bilngon kun diin tikang an tuok.
+- "Nay nag-inop ako nga ginlalanat ako hin higante nga mga dolce makaradlok!.....nay.....
+- Tikang yana matuod na ako pirmi ha imo nga diri na magpinalit hin mga dolce." yakan pa ni Ynah.
+- "Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo".
+- Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.
+- “Nanay, masakit it akon tiyan.”, nagtutuok nga sumat ni Lotlot.
+- “Naghunaw ka ba han imo kamot kanina pagkatapos mo magmulay ngan sano ka kumaon han baduya?”, pakiana ni Nanay Lila.
+- “Waray po.”, baton ni Lotlot “Asya nga nagsakit an imo tiyan.
+- Gin banyosan ni Nanay Lila an tiyan ni Lotlot “Damo nga salamat, Nanay.
+- Tikang yana, pirmi na ako maghuhunaw hit akon mga kamot.” malipayon nga baton ni Lotlot An Misay ni Tisay An misay.
+- Busag an misay.
+- Malimpyo an misay.
+- Ginpapakaun ni Tisay, an iya misay.
+- Pag nakaturog hi Tisay, nasapit an misay.
+- Gamit ni Tisay, ginkutkot han yatot.
+- Nakit-an han misay.
+- Iya ini ginhagad.
+- Naghulat an misay.
+- Ginhigugma ni Tisay, an iya misay.
+- Pag-abot nira ha tabi han dagat gin-andam na nira an ira baluto.
+- Ngan nagtikang na pagbugsay hi Mano Boboy.
+- "Tatay, kaupay man ngayan pagsinakay hin baluto hano", siring ni Jose.
+- "Oo naman asay pa kun maupay an panahon", baton ni Mano Boboy.
+- Pag-abot nira ha butnga han dagat.
+- "Jose i-andam na an pukot kay itutunod ta na",siring ni Mano Boboy.
+- Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose pag-alsaha an pukot.
+- Nahipausa hira pagkita nga dadamo an sulod nga isda.
+- "Hala tatay, kadadamo man han aton dakop yana!
+- Damo an aton mahisasakay ha aton baluto".
+- Yakan nga malipayon ni Boboy.
+- Malipayon ngan mahiyum-hiyom hi Mano Boboy ngan Jose samtang nagbubugsay hira han ira baluto tipauli ngadto han ira balay.
+- Waray na kakit-i Han una nga panahon,an aton kagugub an damo an mga kahayupan nga naukoy ngan damo liwat an mga kakahuyan.
+- Napupuno hin kanta hin katamsihan an bug-os nga kagugub an.
+- Maupay hin duro ini nga lugar.
+- Lumupad hira, kumadto hira ha harayo nga lugar.
+- Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.
+- An Sista Ni Tatay May ada sista hi Tatay.
+- Pinalit ini ni Nanay.
+- "Maupay man ini nga sista", siring ni tatay.
+- Bumaton hi nanay, "Oo, para may ada naton kaliawan".
+- Makarit hi tatay magsista.
+- Nagkakanta hi nanay kun nagsisista hi tatay.
+- Nagsasarayaw kami nga mga anak, samtang nagsisista hi tatay ngan nagkakanta hi nanay.
+- Malipayon an amon pamilya tungod han sista.
+- An Panapuan kan Elay Usa ka adlaw, nahimangno hi Elay han karasikas han iya Nanay Maya ha Kusina.
+- "Buhat na dida Elay kay malakat ako" siring han iya Nanay.
+- Katima magtima han iya hinigdaan, namahaw hi Elay dungan han iya nanay.
+- "An akon panapuan ha?" mahiyum-hiyom nga yakan ni Elay.
+- Naruruyag gud hiya nga an iya paborito an pirmi panapuan ha iya ni iya nanay.
+- Katapos mo pamahaw panhugas han imo kinaunan ngan pag-alog hin tubig ha?
+- Kahuman pamahaw ni Elay, gumawas hiya ngan nag-uyag kaupod an iya sangkay.
+- "Niyan nala ako manhihimos ngan mag-aalog kahuman mag-uyag" pinsar ni Elay Naliaw hi Elay samtang nag-uuyag.
+- Nahingalimot hiya han tugon ni iya Nanay.
+- ade na hi Nanay, waray pa ako maghimos ngan mag-alog" nababaraka nga pinsar ni Elay.
+- Dali-dali nga umuli hi Elay ha ira balay.
+- Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay.
+- "Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag.
+- Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot" yakan ni Nanay Maya.
+- Malipayon nga nag-himos ngan nag-alog hi Elay.
+- "Diri na ako mautro sunod" Pinsar ni Elay.
+- "Susugton ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga pasalubong".
+- marasa gud it mani ngan pinyato nga tikang ha buray" siring ni Elay.
+- Sunod masugot anay ako hit imo tugon san-o ako mag-uyag" siring ni Elay.
+- An Maduruto nga Parapangisda Ha usa nga bungto han Paranas hirani han dagat may naukoy usa nga pamilya.
+- Ha usa nga simple nga balay malipayon nga nagkakaurusa hira Nanay Ondit, Tatay Omi ngan an ira mga anak.
+- Pangisda an siyahan nga pangabuhi ni Tatay Omi.
+- Tungod kay waray man hiya makatapos han pag iskoyla.
+- Usa ka adlaw, malain an kaoras han panahon.
+- "Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon", siring ni Nanay Ondit.
+- "Kon diri ngani ako gumikan waray kita igsusura ngan kakaunon niyan.
+- Waray liwat kita igpapalit gamit kanan pag iskoyla hit kabataan" , baton ni Tatay Omi .
+- "Sigi, basta paghirot la pirmi ngan ayaw na pagkadto hit kalalawdan",tugon ni nanay Ondit.
+- "Oo, ayaw kabaraka kay pirmi ko gin-aampo nga bantayan kita hit makagarahom nga Diyos", baton ni Tatay Omi.
+- Nagtima hi Tatay Omi han iya mga gamit pangisda.
+- Nangudos hiya san-o lumakat pakadto ha dagat.
+- Kun diri ngani hiya nakakagikan ngadto ha dagat, nabulig hiya ha mga trabahuon ha balay ngan naghuhukot han pukot.
+- Umabot an damo nga kakurian ngan kawaray kwarta.
+- Pero padayon la gihap hiya han pangisda kay natuod hiya nga makakatalwas hira hit mga kakurian.
+- Naglabay an mga panahon naging maupay an kabutang han pamilya ni Tatay Omi.
+- Nakatapos pag-iskoyla an iya mga anak ngan may ada na mga trabaho pinaagi han iya paningkamot han pangisda.
+- "Tatay, undang na hito nga pagdagat.
+- Kami naman it magtitimangno ha iyo kay may ada naman kami trabaho", pulong ni Andy kan iya tatay.
+- "Damo nga salamat tatay han imo waray kaguol nga pagtimangno ha amon, dugang nga pulong ni Andy kan iya tatay.
+- "Waray sapayan, anak.
+- Obligasyon ito namon nga mga kag-anak.
+- An makagarahom nga Diyos an angay naton pasalamatan ha tanan nga grasya nga iya ginhahatag ha aton," baton ni Tatay Omi.
+- Masisiring nga usa nga mahigugmaon nga tatay ngan maduruto nga parapangisda hi Tatay Omi.
+- Apisar han mga kakurian padayon nga naato ha mga problima nga naulpot ha kinabuhi.
+- An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.
+- Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante.
+- Pirme hiya nag-aambit ha klase, ngan ginpapabilhan han iya mga maestro an iya kakugi.
+- Pero ha luyo han iya kalipay, mayda maabot nga pagsulay.
+- Nakilala niya hi Carlo usa nga lalaki nga mas tigulang ha iya.
+- Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon.
+- Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.
+- Paglabay hin pipira ka semana, napansin niya nga nag-iiba an iya lawas.
+- An iya kalibutan sugad hin nabungkag.
+- Damo nga gab-i an iya ginugol ha pag-ukoy ngan pagtinaluha.
+- Tubtob nga usa ka gab-i, nagsumat hiya ha iya nanay.
+- Nasakitan an iya nanay, diri la tungod han nahitabo, kundi tungod han kahadlok para ha tidaraon han iya anak.
+- Tungod han kaulaw, gin-undang anay ni Marites an iya pag-eskwela.
+- Pero ha kada adlaw nga naglabay, ginbabatian niya an lihok han bata ha iya tiyan.
+- “An akon anak… diri ko hiya pababayaan,” siring niya.
+- Han adlaw han iya pagpanganak, gin-agian niya an duro nga kasakit.
+- Pero han iya nakita an iya anak, usa nga matahum nga batang lalaki.
+- Pinangaranan niya ini nga hi Joshua.
+- “Marites,” siring han iya nanay, “diri pa huli an tanan.
+- Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon.
+- Diri ini masayon.
+- Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay.
+- Usahay ginbibitbit niya hi Joshua kon waray magbantay.
+- Naglabay an mga tuig, ngan padayon hiya nga naningkamot.
+- Tubtob nga nakaabot hiya ha iya graduation.
+- Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga palakpak.
+- Waray hiya kapugong han iya luha.
+- Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo.
+- Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya.
+- Tikang ini ha gugma ngan determinasyon.” Ha gab-i, samtang nagkakaon hira ni Joshua, ginyakap hiya han bata.
+- “Nanay, proud ako ha imo.” Naluha hi Marites ngan ginyakap ini hin mahugot.
+- Ikaw an akon kusog.”

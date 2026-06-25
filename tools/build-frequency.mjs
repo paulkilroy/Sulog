@@ -34,12 +34,15 @@ const SRC = {
   // not to sell; attributed). Simple declaratives, ideal for the frame engine. Note: this
   // translation uses some colloquial/dialectal spellings (san=han, sa=ha, ato=aton).
   bfc: "docs/sources/bfc-waray-stories.txt",
+  // Phase 2: Bloom Library — 21 CC-licensed Waray children's books (contemporary,
+  // conversational, leveled — the best register match yet). See bloom-waray/SOURCES.md.
+  bloom: "docs/sources/bloom-waray-stories.txt",
 };
 
-// harvest clean sentences from running text (rejoin PDF line-wraps, split on . ? !)
+// harvest clean sentences from running text (rejoin line-wraps, split on . ? !)
 function harvestSentences(text) {
   return text
-    .replace(/===STORY:[^=]*===/g, " ")
+    .replace(/===(?:STORY|BOOK):[^=]*===/g, " ")
     .replace(/\s+/g, " ")
     .split(/(?<=[.?!])\s+/)
     .map((s) => s.trim())
@@ -122,10 +125,10 @@ for (const row of SEED) {
 const chedText = read(SRC.ched);
 const { heads: chedHeads, glossOf, displayOf, posOf, examples: chedExamples } = parseChed(chedText);
 
-// Phase 1: children's-register sentences from Bible for Children
-const bfcText = read(SRC.bfc);
-const bfcSentences = harvestSentences(bfcText);
-const sentencePool = [...chedExamples, ...bfcSentences];
+// children's-register sentences from Bible for Children + Bloom Library
+const bfcSentences = harvestSentences(read(SRC.bfc));
+const bloomSentences = harvestSentences(read(SRC.bloom));
+const sentencePool = [...chedExamples, ...bfcSentences, ...bloomSentences];
 
 // --- count occurrences across the whole corpus (per-source, for transparency) ---
 const perSource = {};
@@ -173,8 +176,9 @@ ${Object.entries(perSource).map(([k, n]) => `- \`${k}\` — ${n.toLocaleString()
 ## Attested-sentence pool (Track 2 — frame-engine fuel)
 - CHED dictionary examples: **${chedExamples.length}**
 - Bible for Children (children's register): **${bfcSentences.length}**
+- Bloom Library (21 CC books, contemporary children's): **${bloomSentences.length}**
 - **Combined pool: ${sentencePool.length} sentences** (deduping not applied)
-- _Bible for Children © Bible for Children, Inc. — free to copy/print, not for sale; attributed._
+- _Bible for Children © Bible for Children, Inc. (free to copy, not for sale). Bloom Library books CC-licensed — see bloom-waray/SOURCES.md. Both attributed._
 - ⚠️ The BFC translation leans **dialectal/colloquial** (san→han, sa→ha, wara→waray, sino→hin-o). Real Waray, but normalize before using as frame templates — a job for native-speaker validation.
 
 ## Coverage of what we teach
@@ -211,8 +215,11 @@ ${seedUnseen.join(", ") || "—"}
 **CHED dictionary examples** (first 8):
 ${chedExamples.slice(0, 8).map((s) => `- ${s}`).join("\n")}
 
-**Bible for Children — children's register** (first 12):
-${bfcSentences.slice(0, 12).map((s) => `- ${s}`).join("\n")}
+**Bible for Children — children's register** (first 8):
+${bfcSentences.slice(0, 8).map((s) => `- ${s}`).join("\n")}
+
+**Bloom Library — contemporary children's books** (first 12):
+${bloomSentences.slice(0, 12).map((s) => `- ${s}`).join("\n")}
 `;
 
 fs.writeFileSync(path.join(root, "docs/waray-frequency-graph.md"), md);
@@ -226,6 +233,7 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 
 - **CHED dictionary examples:** ${chedExamples.length}
 - **Bible for Children (children's register):** ${bfcSentences.length} — _© Bible for Children, Inc.; free to copy/print, not for sale; leans dialectal (san→han, sa→ha)._
+- **Bloom Library (21 CC children's books):** ${bloomSentences.length} — _CC-licensed; contemporary conversational register (best match). See bloom-waray/SOURCES.md._
 - **Total:** ${sentencePool.length}
 
 ## CHED dictionary examples (${chedExamples.length})
@@ -233,6 +241,9 @@ ${chedExamples.map((s) => `- ${s}`).join("\n")}
 
 ## Bible for Children — children's register (${bfcSentences.length})
 ${bfcSentences.map((s) => `- ${s}`).join("\n")}
+
+## Bloom Library — contemporary children's books (${bloomSentences.length})
+${bloomSentences.map((s) => `- ${s}`).join("\n")}
 `;
 fs.writeFileSync(path.join(root, "docs/sources/waray-attested-sentences.md"), pool);
 
@@ -263,6 +274,7 @@ const SOURCES = [
   { id: "peace", name: "Peace Corps Waray course",                    url: "", license: "US gov — public domain" },
   { id: "tramp", name: "Tramp & Zorc Waray-English Dictionary (1991)", url: "", license: "reference" },
   { id: "bfc",   name: "Bible for Children — Waray (7 stories)",       url: "https://bibleforchildren.org/PDFs/waray/", license: "free to copy/print, not for sale" },
+  { id: "bloom", name: "Bloom Library — Waray (21 children's books)",  url: "https://bloomlibrary.org/language:war", license: "Creative Commons (per book — see bloom-waray/SOURCES.md)" },
   { id: "seed",  name: "Sulog deck (hand-authored)",                   url: "", license: "project" },
 ];
 
@@ -305,6 +317,7 @@ let sid = 0;
 const sentences = [
   ...chedExamples.map((t) => ({ text: t, sourceId: "ched", register: "dictionary" })),
   ...bfcSentences.map((t) => ({ text: t, sourceId: "bfc", register: "childrens" })),
+  ...bloomSentences.map((t) => ({ text: t, sourceId: "bloom", register: "childrens" })),
 ].map((s) => ({ id: `s${sid++}`, ...s, words: [...new Set(tokens(s.text).filter((w) => lexNorms.has(w)))] }));
 
 fs.writeFileSync(
@@ -323,7 +336,7 @@ fs.writeFileSync(
   }, null, 1)
 );
 
-console.log(`corpus tokens: ${counts.size} | CHED heads: ${chedHeads.size} | sentence pool: ${sentencePool.length} (CHED ${chedExamples.length} + BFC ${bfcSentences.length})`);
+console.log(`corpus tokens: ${counts.size} | CHED heads: ${chedHeads.size} | sentence pool: ${sentencePool.length} (CHED ${chedExamples.length} + BFC ${bfcSentences.length} + Bloom ${bloomSentences.length})`);
 console.log(`target lexicon: ${target.size} | occurring: ${occurring.length} | SEED found: ${seedFound}/${seedWords.size}`);
 console.log(`gap (CHED−SEED): ${gap.length} | SEED unseen: ${seedUnseen.length}`);
 console.log(`top 15:`);
