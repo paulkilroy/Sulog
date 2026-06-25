@@ -734,6 +734,10 @@ export const SEED = [
   ["verbs", "buot", "to want / will", "freq gap · verify", "BOO-ot"],
   ["verbs", "dako", "big / large", "freq gap · verify", "DAH-ko"],
   ["verbs", "una", "first", "freq gap · verify", "OO-nah"],
+  // personal-noun markers (pair with hi): the genitive/agent and oblique forms, very
+  // high-frequency in narration ("ni Nanay" = Nanay's / by Nanay; "kan Mira" = to/for Mira).
+  ["mark", "ni", "of / by (before a name)", "personal marker — ni Nanay = Nanay's / by Nanay", "nee"],
+  ["mark", "kan", "to / for (before a name)", "personal marker — kan Mira = to / for Mira", "kahn"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.

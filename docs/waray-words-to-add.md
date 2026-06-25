@@ -25,8 +25,8 @@ Tiers: **1** = core (top 10% of all attested words) … **4** = rarer.
 | ☐ | **wara** | (dialectal variation for the word waray) none; nothing; | 43 | 1 |
 | ☐ | **di** | not (short for diri) 2 with (something). 1 | 37 | 1 |
 | ☐ | **puno** | base; trunk of a tree 2 itch on the head | 36 | 1 |
-| ☐ | **barko** | boat; ship. | 34 | 1 |
-| ☐ | **baton** | reply;answer 2 to respond. 1 | 34 | 1 |
+| ☐ | **barko** | boat; ship. | 34 | 2 |
+| ☐ | **baton** | reply;answer 2 to respond. 1 | 34 | 2 |
 | ☐ | **gab-i** | night;evening. | 34 | 2 |
 | ☐ | **winaray** | the language of the Waray people. | 34 | 2 |
 | ☐ | **malipayon** | joyful; blissful; cheerful; delightful; happy; | 33 | 2 |

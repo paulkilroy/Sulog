@@ -16,4 +16,5 @@ export const ADDED_WORDS = {
   "u16": ["maaram", "buot"],                       // know / want (with can/must)
   "u6":  ["dako"],                                  // big (with describing people)
   "u33": ["una"],                                  // first (with numbers)
+  "u8":  ["ni", "kan"],                            // personal markers (with hi / an / it)
 };

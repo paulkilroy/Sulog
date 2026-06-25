@@ -2707,7 +2707,7 @@ function ReadView({ ctx }) {
           <div className="ws-gloss-bar" onClick={() => playCard({ waray: sel.word, say: "" })}>
             <Volume2 size={16} />
             <b>{sel.word}</b>
-            <span>{sel.gloss || "— no gloss yet —"}</span>
+            <span>{sel.gloss || "not in the glossary — likely a name, or a rare/inflected word (tap to hear it)"}</span>
             <button className="ws-skip" onClick={(e) => { e.stopPropagation(); setSel(null); }}>✕</button>
           </div>
         )}
