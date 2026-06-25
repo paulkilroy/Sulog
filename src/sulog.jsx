@@ -6,6 +6,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
+  Eye, EyeOff, Copy, AlertTriangle,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -2564,10 +2565,17 @@ function BackupView({ ctx }) {
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
   const [token, setToken] = useState("");
   const [connecting, setConnecting] = useState(false);
+  const [showToken, setShowToken] = useState(false); // reveal the stored sync token
+  const [copied, setCopied] = useState(false);
   const fileRef = useRef(null);
 
   const sync = settings.sync || {};
   const connected = sync.enabled && sync.gistId;
+
+  const copyToken = async () => {
+    try { await navigator.clipboard.writeText(sync.token || ""); setCopied(true); setTimeout(() => setCopied(false), 1500); }
+    catch (e) { setMsg({ kind: "err", text: "Couldn't copy automatically — tap the field, select all, and copy." }); }
+  };
 
   const doConnect = async () => {
     setConnecting(true);
@@ -2742,6 +2750,35 @@ function BackupView({ ctx }) {
             <button className="ws-backup-row compact" onClick={() => syncPush()}>
               <Upload size={16} /> Push now
             </button>
+          </div>
+        )}
+
+        {connected && (
+          <div style={{ marginTop: 10 }}>
+            {!showToken ? (
+              <button className="ws-backup-row compact" onClick={() => setShowToken(true)}>
+                <Eye size={16} /> Reveal sync token
+              </button>
+            ) : (
+              <>
+                <div className="ws-backup-msg err">
+                  <AlertTriangle size={16} />
+                  <span>This is a secret. It grants read &amp; write to your synced gist —
+                    anyone who has it can read and overwrite your progress. Don't paste it
+                    into chats, screenshots, or anywhere public.</span>
+                </div>
+                <input className="ws-search" readOnly value={sync.token || "(no token stored)"}
+                  onFocus={(e) => e.target.select()} style={{ marginTop: 8 }} />
+                <div className="ws-sync-btns" style={{ marginTop: 8 }}>
+                  <button className="ws-backup-row compact" onClick={copyToken} disabled={!sync.token}>
+                    {copied ? <><Check size={16} /> Copied</> : <><Copy size={16} /> Copy</>}
+                  </button>
+                  <button className="ws-backup-row compact" onClick={() => { setShowToken(false); setCopied(false); }}>
+                    <EyeOff size={16} /> Hide
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         )}
 
