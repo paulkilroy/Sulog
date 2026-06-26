@@ -1,0 +1,1262 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sulog — missing-word corrections</title>
+<style>
+  body{font:16px/1.5 -apple-system,system-ui,sans-serif;margin:0;background:#f6f7f9;color:#1a1a1a}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;z-index:9}
+  header h1{font-size:17px;margin:0;flex:1}
+  header .n{color:#666;font-size:14px}
+  button{font:inherit;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid #2563eb;background:#2563eb;color:#fff;cursor:pointer}
+  #search{font:inherit;padding:7px 10px;border:1px solid #ccc;border-radius:8px;min-width:160px}
+  .wrap{max-width:760px;margin:0 auto;padding:14px}
+  .card{background:#fff;border:1px solid #e4e6ea;border-radius:10px;padding:12px 14px;margin:10px 0}
+  .hd{display:flex;align-items:baseline;gap:10px}
+  .w{font-size:19px;font-weight:700;color:#0f172a}
+  .meta{color:#888;font-size:13px}
+  .hint{color:#9333ea;font-size:12.5px;margin:2px 0 8px}
+  .ctx{background:#f9fafb;border-left:3px solid #cbd5e1;padding:6px 10px;margin:5px 0;border-radius:4px;font-size:15px}
+  .ctx.none{color:#aaa;font-style:italic;border-color:#eee}
+  .ctx .st{display:block;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+  mark{background:#fde68a;padding:0 2px;border-radius:3px;font-weight:600}
+  .action{width:100%;box-sizing:border-box;margin-top:8px;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font:inherit}
+  .action:focus{outline:2px solid #2563eb;border-color:#2563eb}
+  .done{background:#16a34a;border-color:#16a34a}
+  textarea#dump{width:100%;height:160px;font:13px/1.4 ui-monospace,monospace;margin-top:10px;display:none}
+</style></head><body>
+<header>
+  <h1>Missing-word corrections <span class="n">(173 words)</span></h1>
+  <input id="search" placeholder="filter…" oninput="filt(this.value)">
+  <span class="n" id="count"></span>
+  <button onclick="copyActions()">Copy actions</button>
+</header>
+<div class="wrap">
+  <p class="n">Read each word in its story sentence (highlighted), type an action in the box,
+  then hit <b>Copy actions</b> — only words you've filled in are copied. Paste them back into the chat.</p>
+  <div class="card" data-w="nag">
+  <div class="hd"><span class="w">nag</span>
+    <span class="meta">4× · 4 stories</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Usa ka gab-i mapawa an bulan, <mark>nag</mark> uru-istorya hira Tristan, Jolo ngan Anton. Dako an tingog ngan tawa ni Tristan.</div><div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan. "Pasayloa ako apoy Garing han akon ginbuhat" an siring han ulitawo. "Okey la intoy maupay kay <mark>nag</mark> amin ka han imo ginbuhat. Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad". An baton ni apoy Garing.</div><div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> <mark>Nag</mark> lipay hi Pedro han iya nabatian han anunsiyo. Naglipay liwat an iya pamilya.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pag-iha">
+  <div class="hd"><span class="w">pag-iha</span>
+    <span class="meta">2× · 2 stories</span></div>
+  <div class="hint">stem → iha: to be late; to go slow</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Ha butnga han ira karisyuhan nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga pag-intrimisan ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang nagnanabigar ha kadagatan. Ngan waray <mark>pag-iha.</mark></div><div class="ctx"><span class="st">Hi Kaha, Kahon</span> Waray <mark>pag-iha,</mark> umabot an anak han tag-iya han tindahan. Ginkuha an iya sulod ngan gintrapohan. “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagkit-on">
+  <div class="hd"><span class="w">pagkit-on</span>
+    <span class="meta">2× · 2 stories</span></div>
+  <div class="hint">stem → kit-on: appearance; delectation</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Ha pagkayana ini nga pormado nga bato in pareho hin usa nga barko nga nalutaw ha butnga han kadagatan. Ngan ini in maupay ngan kamakaruruyag <mark>pagkit-on.</mark></div><div class="ctx"><span class="st">Hi Kaha, Kahon</span> Nakita niya an mainggat nga salog. Makaruruyag <mark>pagkit-on</mark> an iba-iba nga klase hin mga light. Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="kagugub-an">
+  <div class="hd"><span class="w">kagugub-an</span>
+    <span class="meta">2× · 2 stories</span></div>
+  <div class="hint">stem → gub: to pull down</div>
+  <div class="ctx"><span class="st">AN BANOG HA BUKID HURAW</span> Malipayon nga naglilinupad-lupad hi Banog ha <mark>kagugub-an.</mark></div><div class="ctx"><span class="st">Waray na kakit-i</span> Naghimo nala hira hin ira mga urukyan nga malay-balay kay waray naman an kagugub an, waray na an mga kahayupan nga nan-ngungukoy nganhi,ngan an damo nga kakakahuyan. Sanglit kamo nga mga bata ayaw niyu pasagdi it aton <mark>kagugub-an,</mark> pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="paghirot">
+  <div class="hd"><span class="w">paghirot</span>
+    <span class="meta">2× · 2 stories</span></div>
+  <div class="hint">stem → hirot: to attend carefully; to avoid</div>
+  <div class="ctx"><span class="st">Mga Kamot ni Lotlot</span> Usa ka Sabado, nagsarit hi Lotlot kan iya Nanay Lila nga makikimulay hiya ha ira libong Nanay, human na ako manilhig. Pwede ba ako magmulay ha gawas?” pakiana ni Lotlot Oo sige, basta <mark>paghirot</mark> ikaw ha.”, yakan ni Nanay Lila “Opo, nanay.”, baton ni Lotlot.</div><div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> "Sigi, basta <mark>paghirot</mark> la pirmi ngan ayaw na pagkadto hit kalalawdan",tugon ni nanay Ondit. "Oo, ayaw kabaraka kay pirmi ko gin-aampo nga bantayan kita hit makagarahom nga Diyos", baton ni Tatay Omi.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="dolce">
+  <div class="hd"><span class="w">dolce</span>
+    <span class="meta">8× · 1 story</span></div>
+  <div class="hint">looks like a NAME</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga <mark>dolce.</mark></div><div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> May ada la po ako papaliton ha tindahan Nay, Tay! siring ni Ynah. "Upaya naman nga diri <mark>dolce</mark> tim paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.</div><div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Dumiritso hiya daun ha tindahan. Pumalit hiya hin iba-iba nga klase hin <mark>dolce,</mark> waray hiya bumali han siring ni iya Nanay nga tinapay nala it paliton imbis nga <mark>dolce.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="kagugub">
+  <div class="hd"><span class="w">kagugub</span>
+    <span class="meta">5× · 1 story</span></div>
+  <div class="hint">stem → gub: to pull down</div>
+  <div class="ctx"><span class="st">Waray na kakit-i</span> Han una nga panahon,an aton <mark>kagugub</mark> an damo an mga kahayupan nga naukoy ngan damo liwat an mga kakahuyan. Napupuno hin kanta hin katamsihan an bug-os nga <mark>kagugub</mark> an. Maupay hin duro ini nga lugar. "kamalipayon ko nanay nga dinhi kita ha <mark>kagugub</mark> an naukoy" siring ni tamsi Pikoy kan iya nanay, nagtawa la hi iya nanay ha iya.</div><div class="ctx"><span class="st">Waray na kakit-i</span> Han umabot na hira Pikoy ngan an iba pa nga katamsihan waray na hira balay,waray na liwat an mga kakahuyan,diri na maupay an <mark>kagugub</mark> an."nanay Pikoy waray na kita uukyan"nahingatangis nga yakan ni tamsi Pikoy, "maghihimo nala kita hin bag o naton nga mauukyan" baton ni nanay Pikoy.</div><div class="ctx"><span class="st">Waray na kakit-i</span> Naghimo nala hira hin ira mga urukyan nga malay-balay kay waray naman an <mark>kagugub</mark> an, waray na an mga kahayupan nga nan-ngungukoy nganhi,ngan an damo nga kakakahuyan. Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="suok">
+  <div class="hd"><span class="w">suok</span>
+    <span class="meta">3× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Magsangkay hi Ela ngan hi Mila. Tungod kay mag anyaw man hira. <mark>Suok</mark> gud kaupay hira nga magsangkay.</div><div class="ctx"><span class="st">An Suok nga Magsangkay</span> Nahibaro hi Mila han nahitabo. Nga nasakit an <mark>suok</mark> niya nga sangkay. Dali-dali nga bumalik hi Mila.</div><div class="ctx"><span class="st">An Suok nga Magsangkay</span> Nagkita gihapon an magsangkay. Ginpasaylo ni Ela hi Mila. Ngan nagpabilin an ira <mark>suok</mark> nga kamagsangkay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginpakianhan">
+  <div class="hd"><span class="w">ginpakianhan</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Pakla Nga Mayakan</span> Ha usa nga lugar, may ada usa nga Pakla nga masyado hin kamayakan.Nakausa, <mark>ginpakianhan</mark> niya an nga tanan nga mga hayop kun ano an karuyag kaunon han ira mga anak.</div><div class="ctx"><span class="st">An Pakla Nga Mayakan</span> <mark>Ginpakianhan</mark> niya an Tamsi, "Ano an karuyag kaunon han imo mga anak?"</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="rock">
+  <div class="hd"><span class="w">rock</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa ha mga sikat kadtuon yana ha isla han munisipyo han Daram an ira bantog nga pormado nga bato o <mark>rock</mark> formation nga gintatawag nga kandiwata . An pulong nga Kandiwata in nagtikang sa lokal na termino han mga waray nga an karuyag sidngon in lugar o puroy-anan han mga diwata, engkanto o mga linarang nga diri nakikit-an han mga ordinaryo nga tawo.</div><div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata <mark>rock</mark> formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagnanabigar">
+  <div class="hd"><span class="w">nagnanabigar</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Sumala han istorya han mga kalagsan, an ini nga pormado nga bato nga baga han nalutaw ha butnga han kadagatan in usa daw nga dako nga barko nga may mga sakay nga pasahero nga <mark>nagnanabigar</mark> hadto, nga kun diin samtang ini in nagbibiyahe ha butnga han kadagatan in may kalipay nga nahitatabo ha sulod han barko, may ada mga nagkakaranta, nagsasarayaw, nagkakatatawa, ngan nangugugli-at nga mga pasahero.</div><div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Ha butnga han ira karisyuhan nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga pag-intrimisan ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang <mark>nagnanabigar</mark> ha kadagatan. Ngan waray pag-iha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magsarit">
+  <div class="hd"><span class="w">magsarit</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay <mark>magsarit</mark> sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .</div><div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Bisan ha pagkayana kun may napakadto didto nga mga turista nga karuyag mangarigo o magpahalibway hira gin sasagdunan nga <mark>magsarit</mark> anay ha pormado nga bato ha bisan ano nga karuyag nira buhaton didto.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagkaaga">
+  <div class="hd"><span class="w">pagkaaga</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">stem → aga: morning(sunrise till 10 A; M</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Usa ka gab-i, gin kuha han usa nga ulitawo an iya tanom nga rosa. <mark>Pagkaaga</mark> pagkita ni apoy Garing ha iya libong waray na an iya minayuyo nga rosa. Naging masinalub-on hi apoy Garing kay nawara an iya tanom nga rosa.</div><div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> <mark>Pagkaaga</mark> nalipay an daraga han iya nakita kay may usa nga tanom nga mahusay pagkinitaon. Iya gin daop ngan gin obserbahan. Na hunahunaan niya nga waray hiya tanom sugad hini kamahusay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gingagarbohan">
+  <div class="hd"><span class="w">gingagarbohan</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">stem → garbo: grace; elegance</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Nangaro hin pasaylo an ulitawo han enkantada nga alibangbang. "Pasayloa ako han akon nabuhat kay tungod ginhigugma ko an akon <mark>gingagarbohan</mark> kay mahilig hiya hin mahusay nga bukad sanglit ginkuha ko an tanom nga rosa ni apoy Garing". Bumaton an enkantada nga alibangbang "pangaro pasaylo kan apoy Garing han imo gin buhat kay kon diri ako an maghahatag ha imo hin sirot ha imo".</div><div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Nagtangis an daraga ngaha atubangan han nangunguyab ha iya tungod han ginbuhat hini. "Pangaro pasaylo kan apoy Garing han imo ginbuhat." An siring han daraga kan Lindo. "Oo mangangaro ako pasaylo. Pasayloa liwat ako han akon nabuhat" an baton ni han ulitawo ha iya <mark>gingagarbohan.</mark> Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pandemya">
+  <div class="hd"><span class="w">pandemya</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> Kulang na tawo an bungto tungod han <mark>pandemya</mark> (Covid 19)</div><div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> Nangadi hi Pedro, nga konta mawara na ini nga <mark>pandemya.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="budgyong">
+  <div class="hd"><span class="w">budgyong</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han <mark>budgyong.</mark> “eeeeennnngggg eeennngggg” tunog han <mark>budgyong</mark> “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan pagsalin-urog hin bisan anu nga katitirok,” pag imporma han tanod.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nay">
+  <div class="hd"><span class="w">nay</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> “Para malikayan ito nga sakit kinahanglan kita sumunod hit mga ginpapatuman na mga protocol ha panlawas,” dugang nga siring ni nanay. “Anu it kinahanglan buhaton <mark>nay?”</mark> pakiana ni Potpot. Gin usa-usa ni nanay an angay buhaton. “Agsob ngan kaangayan nga paghugas han mga kamot gamit an sabon,” baton ni nanay.</div><div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> “Paunano kita makakapalit hit makakaon naton <mark>nay?”</mark> pakiana ni Potpot. “Ayaw kabaraka manhahatag hira hin ayuda, ngan may ada kita mga tanom nga utanon ha at libong nga puwede naton maluto,” baton ni nanay</div><div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> May ada la po ako papaliton ha tindahan <mark>Nay,</mark> Tay! siring ni Ynah. "Upaya naman nga diri dolce tim paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagtitinuok">
+  <div class="hd"><span class="w">nagtitinuok</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">stem → tinuok: wailing; v</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok. "Hin o dawla adi nga <mark>nagtitinuok?"</mark> siring han iya Nanay. Gumawas hiya han ira kwarto para bilngon kun diin tikang an tuok.</div><div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Naano ka Ynah? kay ano <mark>nagtitinuok</mark> ka man?" pakiana ha iya ni iya nanay. "Nay nag-inop ako nga ginlalanat ako hin higante nga mga dolce makaradlok!.....nay..... Nay, masakit nanaman tak ngipon huhuhu"....sumat ni Ynah "Waray udog ako tuod kinana nga tinapay nala it palita siring nimo, mga dolce na liwat nak ginkaon kanina. Tikang yana matuod na ako pirmi ha imo nga diri na magpinalit hin mga dolce." yakan pa ni Ynah.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nahingalimot">
+  <div class="hd"><span class="w">nahingalimot</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Naliaw hi Elay samtang nag-uuyag. <mark>Nahingalimot</mark> hiya han tugon ni iya Nanay.</div><div class="ctx"><span class="st">An Panapuan kan Elay</span> Dali-dali nga umuli hi Elay ha ira balay. "Nanay, pasaylua ako. <mark>Nahingalimot</mark> ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay. "Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag. Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot" yakan ni Nanay Maya.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="iskoyla">
+  <div class="hd"><span class="w">iskoyla</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Pangisda an siyahan nga pangabuhi ni Tatay Omi. Tungod kay waray man hiya makatapos han pag <mark>iskoyla.</mark></div><div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Usa ka adlaw, malain an kaoras han panahon. "Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon", siring ni Nanay Ondit. "Kon diri ngani ako gumikan waray kita igsusura ngan kakaunon niyan. Waray liwat kita igpapalit gamit kanan pag <mark>iskoyla</mark> hit kabataan" , baton ni Tatay Omi .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginyakap">
+  <div class="hd"><span class="w">ginyakap</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha gab-i, samtang nagkakaon hira ni Joshua, <mark>ginyakap</mark> hiya han bata. “Nanay, proud ako ha imo.” Naluha hi Marites ngan <mark>ginyakap</mark> ini hin mahugot. “Mas proud ako ha imo, anak. Ikaw an akon kusog.”</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="proud">
+  <div class="hd"><span class="w">proud</span>
+    <span class="meta">2× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha gab-i, samtang nagkakaon hira ni Joshua, ginyakap hiya han bata. “Nanay, <mark>proud</mark> ako ha imo.” Naluha hi Marites ngan ginyakap ini hin mahugot. “Mas <mark>proud</mark> ako ha imo, anak. Ikaw an akon kusog.”</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="mamalit">
+  <div class="hd"><span class="w">mamalit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Kunta Huybes kada Adlaw</span> Bumalik hi Mira ha sulod han ira balay ngan nahinumdum hiya. "Aha! Huybes ngayan yana, adlaw han tabo asya waray dinhi hira nanay ngan tatay. Timprano pa hira nga napakadto ha tabu-an para <mark>mamalit</mark> hin pagkaun ngan iba pa namon nga panginahanglan!" "Ano dawla kun napalit nira nanay ngan tatay an akon gintugon?" pakiana ni Mira ha iya kalugaringon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="asiti">
+  <div class="hd"><span class="w">asiti</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Kunta Huybes kada Adlaw</span> May ada mga sibuyas, lasona ngan luya. Upod na an isda, karne han baboy ngan baka. Mayda liwat asin ngan asukar, toyo ngan <mark>asiti.</mark> Mayda pa gatas ngan palaman nga marasa! Kadako han tawa ni Mira!</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="bestida">
+  <div class="hd"><span class="w">bestida</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Kunta Huybes kada Adlaw</span> May ginhatag nga nakaputos an nanay ni Mira ha iya. Ginkulba hiya! pero dayun la nga nakapakpak hin kalipay hi Mira. Ginpalit ni nanay ngan tatay an mga tugon niya! May ada na hiya bag-o nga lapis, pula nga payong ngan dulaw nga <mark>bestida!</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="aklo">
+  <div class="hd"><span class="w">aklo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bao</span> Balay niya pirmi <mark>aklo.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sapa">
+  <div class="hd"><span class="w">sapa</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bao</span> Naukoy hiya ha <mark>sapa.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nakakaistorbo">
+  <div class="hd"><span class="w">nakakaistorbo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Ginsaway hira ni Mana Lita. "Kabataan, hinaya an iyo tingog kay <mark>nakakaistorbo</mark> na kamo." saway ni Mana Lita nga pinipiraw.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginsigawan">
+  <div class="hd"><span class="w">ginsigawan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> <mark>Ginsigawan</mark> nira Jolo ngan Anton hi Tristan. "Hala ka, Tristan! Hala ka, Tristan!" sigaw han duha. Tungod han kaawod, pumurot hiya hin bato ngan ginlabay an atop nira Mana Lita.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sigaw">
+  <div class="hd"><span class="w">sigaw</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Ginsigawan nira Jolo ngan Anton hi Tristan. "Hala ka, Tristan! Hala ka, Tristan!" <mark>sigaw</mark> han duha. Tungod han kaawod, pumurot hiya hin bato ngan ginlabay an atop nira Mana Lita.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagroronda">
+  <div class="hd"><span class="w">nagroronda</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → ronda: round of a patrol; night patrol</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Kinalasan hira Mana Lita. Nahimangno hira ngatanan. Iksakto nalabay hi Mano Solomon kay <mark>nagroronda.</mark> Ginsaway niya hi Tristan. "Kay ano nga nanlalabay ka man?" pakiana ni Mano Solomon. Nandadlagan an magsaarangkay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magsaarangkay">
+  <div class="hd"><span class="w">magsaarangkay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Kinalasan hira Mana Lita. Nahimangno hira ngatanan. Iksakto nalabay hi Mano Solomon kay nagroronda. Ginsaway niya hi Tristan. "Kay ano nga nanlalabay ka man?" pakiana ni Mano Solomon. Nandadlagan an <mark>magsaarangkay.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="maagsarangkay">
+  <div class="hd"><span class="w">maagsarangkay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita. Tikang hadto, an <mark>maagsarangkay</mark> in nagsaad nga diri na hira mag-uutro.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="mag-uutro">
+  <div class="hd"><span class="w">mag-uutro</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Tulo nga Magsarangkay</span> Para matapos na an pagtuhay ha ira ni Kapitan, nangaro hin pasaylo an magsarangkay ngan ira mga kag-anak kan Mana Lita. Tikang hadto, an maagsarangkay in nagsaad nga diri na hira <mark>mag-uutro.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="uminom">
+  <div class="hd"><span class="w">uminom</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Pakla Nga Mayakan</span> Bumaton an Baboy, "Karuyag <mark>uminom</mark> hin gatas an akon mga anak." "Oh asya!", baton han pakla.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="karuayag">
+  <div class="hd"><span class="w">karuayag</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Pakla Nga Mayakan</span> Mga Pakiana: 1. Ano an pakiana han Pakla ha mga hayop? 2. Ano an baton han Tamsi ha pakiana han Pakla? 3. Ano an <mark>karuayag</mark> kaunon han mga anak han Baboy? 4. Ano an siring han Itik ngadto han Pakla nga karuyag kaunon han iya mga anak?</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sikat">
+  <div class="hd"><span class="w">sikat</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa ha mga <mark>sikat</mark> kadtuon yana ha isla han munisipyo han Daram an ira bantog nga pormado nga bato o rock formation nga gintatawag nga kandiwata . An pulong nga Kandiwata in nagtikang sa lokal na termino han mga waray nga an karuyag sidngon in lugar o puroy-anan han mga diwata, engkanto o mga linarang nga diri nakikit-an han mga ordinaryo nga tawo.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nakikit-an">
+  <div class="hd"><span class="w">nakikit-an</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → kit: we and you; us and you</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa ha mga sikat kadtuon yana ha isla han munisipyo han Daram an ira bantog nga pormado nga bato o rock formation nga gintatawag nga kandiwata . An pulong nga Kandiwata in nagtikang sa lokal na termino han mga waray nga an karuyag sidngon in lugar o puroy-anan han mga diwata, engkanto o mga linarang nga diri <mark>nakikit-an</mark> han mga ordinaryo nga tawo.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nangugugli-at">
+  <div class="hd"><span class="w">nangugugli-at</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Sumala han istorya han mga kalagsan, an ini nga pormado nga bato nga baga han nalutaw ha butnga han kadagatan in usa daw nga dako nga barko nga may mga sakay nga pasahero nga nagnanabigar hadto, nga kun diin samtang ini in nagbibiyahe ha butnga han kadagatan in may kalipay nga nahitatabo ha sulod han barko, may ada mga nagkakaranta, nagsasarayaw, nagkakatatawa, ngan <mark>nangugugli-at</mark> nga mga pasahero.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="karisyuhan">
+  <div class="hd"><span class="w">karisyuhan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Ha butnga han ira <mark>karisyuhan</mark> nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga pag-intrimisan ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang nagnanabigar ha kadagatan. Ngan waray pag-iha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pag-intrimisan">
+  <div class="hd"><span class="w">pag-intrimisan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Ha butnga han ira karisyuhan nakit-an han mga tawo an usa babayi nga may ada kugos nga misay ngan ira ini ginhimo nga <mark>pag-intrimisan</mark> ginkuha an misay ngan ginkariguan, ginbadoan ngan ginpasayaw-sayaw han mga tawo an nasabi nga misay, nga kun diin mas nagin marisyo pa hin duro an mga tawo samtang nagnanabigar ha kadagatan. Ngan waray pag-iha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagsirom">
+  <div class="hd"><span class="w">nagsirom</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Nga tumigda la nga naglain an panahon ngan <mark>nagsirom</mark> an bug-os nga palibot ngan nagkamay ada hin makusog nga dalugdug ngan kidlat nga asya an naka-igo ha barko ngan ini nagin usa nga dako nga bato ngan nagporma hin sugad hin dako nga barko. Hito mismo nga oras pagkahuman han panhitabo in tigda la nga nagmingaw an bug-os nga palibot. An dako nga barko nagin usa nga dako nga bato.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagririsyo">
+  <div class="hd"><span class="w">nagririsyo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa han istorya han pipira nga mangirisda nga nag-uukoy hirani ha kandiwata, nasiring hira nga danay may mga panahon nga nagpaparawa ha gab-i an pormado nga bato, ngan may ada mga tingog nira nga nahibabati-an nga mga <mark>nagririsyo</mark> nga sugad hin may ada sarayaw an mga diwata o engkanto. Asya daw adto an mga tawo nga sakay hadto han barko nga nagin usa nga bato.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="residente">
+  <div class="hd"><span class="w">residente</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga <mark>residente</mark> han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagkaruba">
+  <div class="hd"><span class="w">pagkaruba</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → ruba: fear; respect of authority</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: <mark>pagkaruba</mark> han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagkasangit">
+  <div class="hd"><span class="w">pagkasangit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, <mark>pagkasangit</mark> han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli haiyo panimalay .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="makakauli">
+  <div class="hd"><span class="w">makakauli</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → uli: to regress; to reimburse</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana <mark>makakauli</mark> haiyo panimalay .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="haiyo">
+  <div class="hd"><span class="w">haiyo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga istorya han pipira nga mga residente han usa barangay nga naukoy hirani ha kandiwata, an siring nira nga kun mangangawil o mananakop ka hin mga isda nga harani ha kandiwata in kinahanglan mo anay magsarit sa dako nga bato (kandiwata) para diri daw magkamay ada hin problema sugad han: pagkaruba han imo sarakyan, pagkasangit han imo pukot, pagpapaabat han mga diwata ngan engkanto ha imo o di ngani diri kana makakauli <mark>haiyo</mark> panimalay .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="antis">
+  <div class="hd"><span class="w">antis</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Dugang pa nga siring nira nga kinahanglan mo mag-itsa hin sinsilyo <mark>antis</mark> ka umuli o bumaya hito nga lugar para daw diri mag-isog o mabido an mga diwata o engkanto nga nangungukoy didto.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tourist">
+  <div class="hd"><span class="w">tourist</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon <mark>(tourist</mark> spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="spot">
+  <div class="hd"><span class="w">spot</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist <mark>spot)</mark> an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gindadayo">
+  <div class="hd"><span class="w">gindadayo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → dayo: immigrant</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga <mark>gindadayo</mark> yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagkaada">
+  <div class="hd"><span class="w">pagkaada</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → ada: there</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. <mark>Pagkaada</mark> hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagrespeto">
+  <div class="hd"><span class="w">pagrespeto</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin <mark>pagrespeto</mark> ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="eksperyensiya">
+  <div class="hd"><span class="w">eksperyensiya</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Usa nga mahusay nga dagat-panan-awon (tourist spot) an pormado nga bato han kandiwata ( kandiwata rock formation), nga gindadayo yana han mga turista nga natikang ha mga hagrani nga lugar han Daram. Maupay didto mangarigo kay an tubig malimpyo ngan matin-aw. Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram. Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan. Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin <mark>eksperyensiya</mark> mahiunong han ira mga istorya hiunong han kandiwata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="importansiya">
+  <div class="hd"><span class="w">importansiya</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Aton tagan hin <mark>importansiya</mark> an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin respeto ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira naekperyensiyan, nakit-an ngan nanhibati-an. Damo nga Salamat!</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="respeto">
+  <div class="hd"><span class="w">respeto</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin <mark>respeto</mark> ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira naekperyensiyan, nakit-an ngan nanhibati-an. Damo nga Salamat!</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="naekperyensiyan">
+  <div class="hd"><span class="w">naekperyensiyan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Istorya Han Pormado Nga Bato Han Kandiwata</span> Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar. Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan. paghatag hin respeto ngadto han mga tawo nga naghahatag han ira mga istorya tikang han mga butang nga ira <mark>naekperyensiyan,</mark> nakit-an ngan nanhibati-an. Damo nga Salamat!</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magtinanon">
+  <div class="hd"><span class="w">magtinanon</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Hi apoy Garing usa nga mahilig <mark>magtinanon</mark> bukad pero diri gud hiya gintutudkan hin mga tanom nga nabukad labot la ha usa nga tanom ini an tanom nga nabukad hin rosa.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gintutudkan">
+  <div class="hd"><span class="w">gintutudkan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Hi apoy Garing usa nga mahilig magtinanon bukad pero diri gud hiya <mark>gintutudkan</mark> hin mga tanom nga nabukad labot la ha usa nga tanom ini an tanom nga nabukad hin rosa.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="paburito">
+  <div class="hd"><span class="w">paburito</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Pirmi ni apoy Garing gindadayaw ngan gintitimangno an iya bukad nga rosa. "Ikaw an bukad nga akon ginhihigugma kay ikaw la an tumurok han akon gin tanom ngan an kolor mo nga pula amo an akon <mark>paburito."</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gagarbohan">
+  <div class="hd"><span class="w">gagarbohan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → garbo: grace; elegance</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Gin dara han ulitawo an tanom ni apoy Garing nga rosa ngadto han libong han iya gin <mark>gagarbohan.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nalooy">
+  <div class="hd"><span class="w">nalooy</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Nahibaroan han enkantada nga alibangbang an nahinabo ngan <mark>nalooy</mark> ini kan apoy Garing. Lumupad an enkantada nga alibangbang kan apoy Garing kamot ngan nagsiring "Apoy Garing nakita ko an imo kabidoan han kawara han imo tanom nga rosa, yana an imo mga kamot tatagan kon bendisyon para bisan man ano nga tanom maturok kon ikaw an magtanom."</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magka">
+  <div class="hd"><span class="w">magka</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → ka: you</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Ngan mga pira ka adlaw nanubo an mga tanom ni apoy Garing nga nakita niya an <mark>magka</mark> iba-iba nga bukad nga maghusay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sirot">
+  <div class="hd"><span class="w">sirot</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Nangaro hin pasaylo an ulitawo han enkantada nga alibangbang. "Pasayloa ako han akon nabuhat kay tungod ginhigugma ko an akon gingagarbohan kay mahilig hiya hin mahusay nga bukad sanglit ginkuha ko an tanom nga rosa ni apoy Garing". Bumaton an enkantada nga alibangbang "pangaro pasaylo kan apoy Garing han imo gin buhat kay kon diri ako an maghahatag ha imo hin <mark>sirot</mark> ha imo".</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ngaha">
+  <div class="hd"><span class="w">ngaha</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Nagtangis an daraga <mark>ngaha</mark> atubangan han nangunguyab ha iya tungod han ginbuhat hini. "Pangaro pasaylo kan apoy Garing han imo ginbuhat." An siring han daraga kan Lindo. "Oo mangangaro ako pasaylo. Pasayloa liwat ako han akon nabuhat" an baton ni han ulitawo ha iya gingagarbohan. Kumadto dayon hira kan apoy Garing para mangaro han kapasayloanan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="amin">
+  <div class="hd"><span class="w">amin</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Han nakadto na hira kan apoy Garing libong nangaro hira hin kapasayloanan. "Pasayloa ako apoy Garing han akon ginbuhat" an siring han ulitawo. "Okey la intoy maupay kay nag <mark>amin</mark> ka han imo ginbuhat. Malipayon ako yana kay may ada na ako bago na mga tanom nga nabukad hin rosa ngan iba pa nga mga bukad". An baton ni apoy Garing.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magsuok">
+  <div class="hd"><span class="w">magsuok</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana. Gintagan pa niya ulitawo ngan an daraga hin mga taramnon. Tikang hadto naging <mark>magsuok</mark> hira nga magsarangkay ngan nananom hira hin mga iba-iba nga mga bukad sanglit naging maupay ngan mahusay an ira barangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nananom">
+  <div class="hd"><span class="w">nananom</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BUKAD HA LIBONG NI APOY GARING</span> Waray hi apoy Garing mag-isog kundi naging malipayon pa hiya han may ada hiya yana. Gintagan pa niya ulitawo ngan an daraga hin mga taramnon. Tikang hadto naging magsuok hira nga magsarangkay ngan <mark>nananom</mark> hira hin mga iba-iba nga mga bukad sanglit naging maupay ngan mahusay an ira barangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tinda">
+  <div class="hd"><span class="w">tinda</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> Usa ka adlaw naging masulob-on hi Pedro kay waray napalit han iya <mark>tinda.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="television">
+  <div class="hd"><span class="w">television</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> Paglabay hin usa ka tuig gin balita ha <mark>TELEVISION</mark> nga may ada na bulong an sakit nga Covid.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="anunsiyo">
+  <div class="hd"><span class="w">anunsiyo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN MALIPAYON NA PARAGSUDOY</span> Nag lipay hi Pedro han iya nabatian han <mark>anunsiyo.</mark> Naglipay liwat an iya pamilya.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="eeeeennnngggg">
+  <div class="hd"><span class="w">eeeeennnngggg</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han budgyong. <mark>“eeeeennnngggg</mark> eeennngggg” tunog han budgyong “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan pagsalin-urog hin bisan anu nga katitirok,” pag imporma han tanod.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="eeennngggg">
+  <div class="hd"><span class="w">eeennngggg</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han budgyong. “eeeeennnngggg <mark>eeennngggg”</mark> tunog han budgyong “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan pagsalin-urog hin bisan anu nga katitirok,” pag imporma han tanod.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagsalin-urog">
+  <div class="hd"><span class="w">pagsalin-urog</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Usa ka adlaw samtang nagmumulay hi Potpot. Nakabati hiya han tunog han budgyong. “eeeeennnngggg eeennngggg” tunog han budgyong “Ginpapasabot nga gindidiri an paggawas han mga kabataan ngan <mark>pagsalin-urog</mark> hin bisan anu nga katitirok,” pag imporma han tanod.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="makakag-uyas">
+  <div class="hd"><span class="w">makakag-uyas</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Nanhunahuna hi Potpot ngan masulub-on nga sumiring. “Diri na kami <mark>makakag-uyas</mark> hit ak kasangkayan, ngan diri kami makaka eskwela.” "Makaka eskwela kamu pero dinhi la kamu ha balay," siring han nanay. "An aton angay buhaton atamani naton an aton kalugaringon nga diri kita matapnan hin sakit," dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="lwt">
+  <div class="hd"><span class="w">lwt</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi <mark>lwt</mark> an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagmantene">
+  <div class="hd"><span class="w">pagmantene</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. <mark>"Pagmantene</mark> liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="malibsog">
+  <div class="hd"><span class="w">malibsog</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin <mark>malibsog</mark> nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagtumar">
+  <div class="hd"><span class="w">pagtumar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin <mark>pagtumar</mark> bitamina ngan pagkaon nga masustansya," dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="masustansya">
+  <div class="hd"><span class="w">masustansya</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> "Pagtakop han baba ngan irong gamit an panyo, kun waray panyo puydi lwt an pako' han bado,ngan paharayo ha mga katawhan kun maubo" siring ni nanay. "Pagmantene liwat hin malibsog nga kalawasan, pinaagi hin pagtumar bitamina ngan pagkaon nga <mark>masustansya,"</mark> dugang nga siring ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="hiripid">
+  <div class="hd"><span class="w">hiripid</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> “Tatagan ko hira Maya ngan Aloy han aton mga utanon,” malipayon nga siring ni Potpot. “Uu, manhahatag kita ha aton mga <mark>hiripid,”</mark> nalilipay nga baton ni nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="isakto">
+  <div class="hd"><span class="w">isakto</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Pagtimangno hin Panlawas</span> Tikang hadto ginhimo nga pamatasan han pamilya ni Potpot an agsob ngan <mark>isakto</mark> nga paghugas han kamot ngan pagsugot ha mga protocol panlawas para makalikay ha mga nakakatapon nga sakit.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="labwan">
+  <div class="hd"><span class="w">labwan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BANOG HA BUKID HURAW</span> Nagsiring hiya. "Bukid Huraw kaya ko lumupad ngan <mark>labwan</mark> an im kahitaas!"</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="wusssssss">
+  <div class="hd"><span class="w">wusssssss</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">AN BANOG HA BUKID HURAW</span> "Kaya ko ini! kaya ko ini!" An siring ni Banog ha iya kalugaringon. <mark>"Wusssssss...".</mark> An tunog han makusog nga hangin nga natapo kan Banog han iya paglupad.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="umandar">
+  <div class="hd"><span class="w">umandar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> <mark>Umandar</mark> na an bus nga ginsasakyan ni Kaha. “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha. Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginsasakyan">
+  <div class="hd"><span class="w">ginsasakyan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → sakyan: to ride; n</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Umandar na an bus nga <mark>ginsasakyan</mark> ni Kaha. “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha. Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="kamalipog">
+  <div class="hd"><span class="w">kamalipog</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Umandar na an bus nga ginsasakyan ni Kaha. <mark>“Kamalipog</mark> man hini nga akon pagbiyahe”, reklamo ni Kaha. Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagbay-og">
+  <div class="hd"><span class="w">pagbay-og</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → bay-og: to shake; to tremble</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Usa… duha… tulo… tulo ka oras nga <mark>pagbay-og</mark> an gin-abat ni Kaha. Natapos gihap an iya beyahe. "Yeheey! Makakagawas na ako hini nga lugar", malipayon nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="yeheey">
+  <div class="hd"><span class="w">yeheey</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Usa… duha… tulo… tulo ka oras nga pagbay-og an gin-abat ni Kaha. Natapos gihap an iya beyahe. <mark>"Yeheey!</mark> Makakagawas na ako hini nga lugar", malipayon nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="brown">
+  <div class="hd"><span class="w">brown</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> "Kamakaluluoy ko man kitaon", masulob-on nga siring ni Kaha. <mark>Brown</mark> an iya kolor nga may gudti nga mga luho ha ligid niya. Pinaagi han dulaw nga higot, nasisirahan an tapotapohon nga iya abrihan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nasisirahan">
+  <div class="hd"><span class="w">nasisirahan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> "Kamakaluluoy ko man kitaon", masulob-on nga siring ni Kaha. Brown an iya kolor nga may gudti nga mga luho ha ligid niya. Pinaagi han dulaw nga higot, <mark>nasisirahan</mark> an tapotapohon nga iya abrihan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="wow">
+  <div class="hd"><span class="w">wow</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Dalidali hiya nga ginkuha han iya agaron ha iya kinamumutangan. Ginkaptan an dulaw nga higot nga ginhigot ha iya. Nahipausa hiya han iya nakita-an. <mark>“Wow!</mark> kamaupay man hini nga lugar.”, nalilipay nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pushcart">
+  <div class="hd"><span class="w">pushcart</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Ginbutang hiya han iya agaron ha <mark>pushcart</mark> ngan ginsulod hiya ha maanyag nga bilding. Puno hiya hin ginhamis nga mga bagol hin lubi. "Oy tigda nga umabri an purtahan!", nahipausa nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="light">
+  <div class="hd"><span class="w">light</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Nakita niya an mainggat nga salog. Makaruruyag pagkit-on an iba-iba nga klase hin mga <mark>light.</mark> Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pamamalit">
+  <div class="hd"><span class="w">pamamalit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> "Kadadamo man hin tawo ha palibot', yakan ni Kaha. "Siguro kay mahagkot ini nga lugar". "Makikita ha ira nawong an kalipay ha pamamasyada, pagkaon ngan <mark>pamamalit",</mark> hunahuna ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nasubo">
+  <div class="hd"><span class="w">nasubo</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Ginbutang hiya sulod hin usa nga tindahan. Puno ini hin mag-upay nga mga pandekorasyon. Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na. <mark>Nasubo</mark> hi Kaha. “Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha. “Tungod ba kay luma na ako?”. “Waray nagud ada ako pulos ha iya”, tangis ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="luma">
+  <div class="hd"><span class="w">luma</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → la: la, a musical note</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Ginbutang hiya sulod hin usa nga tindahan. Puno ini hin mag-upay nga mga pandekorasyon. Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na. Nasubo hi Kaha. “Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha. “Tungod ba kay <mark>luma</mark> na ako?”. “Waray nagud ada ako pulos ha iya”, tangis ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="isplikar">
+  <div class="hd"><span class="w">isplikar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Nabatian hiya ni basurahan. “Diri ito ungod sangkay. Tanan kita may ada mga pulos dinhi ha tuna", <mark>isplikar</mark> ni Basurahan. “Diri karuyag signgon nga waray ka na pulos kun ginbayaan ka man han imo agaron ".</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="signgon">
+  <div class="hd"><span class="w">signgon</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Nabatian hiya ni basurahan. “Diri ito ungod sangkay. Tanan kita may ada mga pulos dinhi ha tuna", isplikar ni Basurahan. “Diri karuyag <mark>signgon</mark> nga waray ka na pulos kun ginbayaan ka man han imo agaron ".</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="iglabog">
+  <div class="hd"><span class="w">iglabog</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> “Tama hi Basurahan. Kami gihapon imbis nga <mark>iglabog</mark> aadi kami para magamitan pa”, an siring han mga bagol hin lubi. "Ginhihimo kami nga pandekorasyon ha bahay, uyagan ngan puydi liwat mahimo nga garamiton ha pagluto.”</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pantinda">
+  <div class="hd"><span class="w">pantinda</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Waray pag-iha, umabot an anak han tag-iya han tindahan. Ginkuha an iya sulod ngan gintrapohan. “Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga <mark>pantinda”,</mark> siring han bata.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ribbon">
+  <div class="hd"><span class="w">ribbon</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Ginputos hiya hin malimpyo ngan bukadbukaron nga papel. May ada pa ginbutang nga pula nga <mark>ribbon</mark> ha bawbaw han iya takop. Nakita niya an iya kalugaringon ha espiho ha tindahan. "Kamakaruruyag kitaon it akon kalugaringon", nalilipay nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="espiho">
+  <div class="hd"><span class="w">espiho</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Ginputos hiya hin malimpyo ngan bukadbukaron nga papel. May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop. Nakita niya an iya kalugaringon ha <mark>espiho</mark> ha tindahan. "Kamakaruruyag kitaon it akon kalugaringon", nalilipay nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gin-apresyar">
+  <div class="hd"><span class="w">gin-apresyar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Hi Kaha, Kahon</span> Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos. <mark>Gin-apresyar</mark> niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan. "Damo nga salamat han maduruto ngan maabilidad nga bata", malipayon nga siring ni Kaha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nangunguna">
+  <div class="hd"><span class="w">nangunguna</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Ha ira pag eskwela magsapit gud hira. An ira mga maestra gindadayaw hira. Ha klase pirmi hira <mark>nangunguna.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagbibinuligay">
+  <div class="hd"><span class="w">nagbibinuligay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → binuligay: to help each other</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Mga buruhaton ha balay waray kabudlay. Kay hira nga duha <mark>nagbibinuligay.</mark> Mga kag-anak nira waray problema.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagpahuway">
+  <div class="hd"><span class="w">pagpahuway</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → pahuway: to appease; to breathe (as take a re</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Bisan ha ira <mark>pagpahuway.</mark> Pirmi hira nag-iinatubangay. Pangandoy nira dungan nga mapa-uswag.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="mapa-uswag">
+  <div class="hd"><span class="w">mapa-uswag</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → pauswag: to develop; to usher in</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Bisan ha ira pagpahuway. Pirmi hira nag-iinatubangay. Pangandoy nira dungan nga <mark>mapa-uswag.</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="gin-raut">
+  <div class="hd"><span class="w">gin-raut</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> Nahingadto hi Mila ha hirayo nga dapit. Hiya nakasala ha ira kamagsangkay. <mark>Gin-raut</mark> niya Ela ha iba.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginpinsar">
+  <div class="hd"><span class="w">ginpinsar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Suok nga Magsangkay</span> <mark>Ginpinsar</mark> ni Ela an panhitabo. Kada gab-i hiya nagtatangis. Ug hi Ela nagkasakit.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="cake">
+  <div class="hd"><span class="w">cake</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit <mark>cake,</mark> ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ice">
+  <div class="hd"><span class="w">ice</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, <mark>ice</mark> cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="cream">
+  <div class="hd"><span class="w">cream</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice <mark>cream,</mark> tsukolate, softdrinks, lollipop, labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tsukolate">
+  <div class="hd"><span class="w">tsukolate</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, <mark>tsukolate,</mark> softdrinks, lollipop, labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="softdrinks">
+  <div class="hd"><span class="w">softdrinks</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, <mark>softdrinks,</mark> lollipop, labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="lollipop">
+  <div class="hd"><span class="w">lollipop</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Hi Ynah in usa nga bata nga babayi. Gutiay ngan matambok. Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, <mark>lollipop,</mark> labi na gud it mga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="singko">
+  <div class="hd"><span class="w">singko</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin <mark>singko.</mark> "Aanhun mo na liwat it kwarta Ynah?" pakiana ha iya ni Tatay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="aanhun">
+  <div class="hd"><span class="w">aanhun</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin singko. <mark>"Aanhun</mark> mo na liwat it kwarta Ynah?" pakiana ha iya ni Tatay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tim">
+  <div class="hd"><span class="w">tim</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> May ada la po ako papaliton ha tindahan Nay, Tay! siring ni Ynah. "Upaya naman nga diri dolce <mark>tim</mark> paliton, mas maupay kun tinapay nala anak!" siring han iya nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="daun">
+  <div class="hd"><span class="w">daun</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Dumiritso hiya <mark>daun</mark> ha tindahan. Pumalit hiya hin iba-iba nga klase hin dolce, waray hiya bumali han siring ni iya Nanay nga tinapay nala it paliton imbis nga dolce.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="rawrrrrrrrr">
+  <div class="hd"><span class="w">rawrrrrrrrr</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Kakaunon ka namon, bisan ka diin magtago, mabibilngan ka la gihap namon <mark>rawrrrrrrrr".</mark> yakan han mga higante nga dolce. "Ayawwwww!" yakan ni Ynah nga sige it pagdinalagan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="bilngon">
+  <div class="hd"><span class="w">bilngon</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok. "Hin o dawla adi nga nagtitinuok?" siring han iya Nanay. Gumawas hiya han ira kwarto para <mark>bilngon</mark> kun diin tikang an tuok.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="huhuhu">
+  <div class="hd"><span class="w">huhuhu</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx none">(no context found)</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="naku">
+  <div class="hd"><span class="w">naku</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Hay <mark>naku</mark> anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tam">
+  <div class="hd"><span class="w">tam</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Hay naku anak, hinaot unta nga pirmi kana manmamati <mark>tam</mark> mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nag-totooth">
+  <div class="hd"><span class="w">nag-totooth</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya <mark>nag-totooth</mark> brush kada kakahuman niya pagkaon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="brush">
+  <div class="hd"><span class="w">brush</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Bata nga Mahilig hin Dolce</span> "Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo". yakan ni iya nanay. Tikang hadto nga panhitabo, pirmi na hiya nag-totooth <mark>brush</mark> kada kakahuman niya pagkaon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagsarit">
+  <div class="hd"><span class="w">nagsarit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Mga Kamot ni Lotlot</span> Usa ka Sabado, <mark>nagsarit</mark> hi Lotlot kan iya Nanay Lila nga makikimulay hiya ha ira libong Nanay, human na ako manilhig. Pwede ba ako magmulay ha gawas?” pakiana ni Lotlot Oo sige, basta paghirot ikaw ha.”, yakan ni Nanay Lila “Opo, nanay.”, baton ni Lotlot.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="paghinaw">
+  <div class="hd"><span class="w">paghinaw</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Mga Kamot ni Lotlot</span> Gintawag na hi Lotlot ni iya nanay para mangaon. “Lotlot, pakadi na pag meryenda na. Sano ka kumaon, <mark>paghinaw</mark> anay hit imo kamot ha.”, tugon ni Nanay Lila. Tungod nga guol man hi Lotlot Nahubya hiya paghunaw ngan kumaon dayon hiya hin baduya nga saging</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="kasilyas">
+  <div class="hd"><span class="w">kasilyas</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Mga Kamot ni Lotlot</span> “Asya nga nagsakit an imo tiyan. Kinahanglan nga permi kita maghuhunaw sano ngan katapos kumaon, katapos magmulay ngan katapos gumamit han <mark>kasilyas</mark> para malimpyo permi an aton mga kamot. Kumapot ka han baduya nabalhin an kagaw han imo mahugaw nga kamot ngadto han imo pagkaon asya an hinungdan han pagsakit han imo tiyan, Lotlot.” siring ni Nanay Lila</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagsinakay">
+  <div class="hd"><span class="w">pagsinakay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → sakay: fellow passenger</div>
+  <div class="ctx"><span class="st">An Baluto</span> "Tatay, kaupay man ngayan <mark>pagsinakay</mark> hin baluto hano", siring ni Jose. "Oo naman asay pa kun maupay an panahon", baton ni Mano Boboy.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="hano">
+  <div class="hd"><span class="w">hano</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Baluto</span> "Tatay, kaupay man ngayan pagsinakay hin baluto <mark>hano",</mark> siring ni Jose. "Oo naman asay pa kun maupay an panahon", baton ni Mano Boboy.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pag-alsaha">
+  <div class="hd"><span class="w">pag-alsaha</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → alsaha: raise! lift!</div>
+  <div class="ctx"><span class="st">An Baluto</span> Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose <mark>pag-alsaha</mark> an pukot. Nahipausa hira pagkita nga dadamo an sulod nga isda. "Hala tatay, kadadamo man han aton dakop yana! Damo an aton mahisasakay ha aton baluto". Yehey! Yakan nga malipayon ni Boboy.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="yehey">
+  <div class="hd"><span class="w">yehey</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Baluto</span> Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose pag-alsaha an pukot. Nahipausa hira pagkita nga dadamo an sulod nga isda. "Hala tatay, kadadamo man han aton dakop yana! Damo an aton mahisasakay ha aton baluto". <mark>Yehey!</mark> Yakan nga malipayon ni Boboy.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tipauli">
+  <div class="hd"><span class="w">tipauli</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Baluto</span> Malipayon ngan mahiyum-hiyom hi Mano Boboy ngan Jose samtang nagbubugsay hira han ira baluto <mark>tipauli</mark> ngadto han ira balay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nagsisibu-sibuay">
+  <div class="hd"><span class="w">nagsisibu-sibuay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Waray na kakit-i</span> An mga iba-iba nga tamsi <mark>nagsisibu-sibuay</mark> sanglit nagsaway hi iya nanay"bangin kamo madisgrasya hinay-hinay la kamo hit iyu pag-uyag pikoy"siring ni iya nanay, "opo nanay pikoy", baton han anak</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="mamiling">
+  <div class="hd"><span class="w">mamiling</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → iling: black-backed coleto,Sarcops calvus m</div>
+  <div class="ctx"><span class="st">Waray na kakit-i</span> Usa ka adlaw lumakat hira nanay Pikoy kaupod an iya mga anak ug an iba pa nga tamsi para <mark>mamiling</mark> hin pagkaon. Lumupad hira, kumadto hira ha harayo nga lugar.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pinanmulod">
+  <div class="hd"><span class="w">pinanmulod</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Waray na kakit-i</span> Samtang waray hira nanay Pikoy ngan an iba pa nga tamsi umabot an tag iya han tuna ngan <mark>pinanmulod</mark> nira tanan nga mga kahoy,waray mag iha nawara na an tanan nga kakahuyan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="uukyan">
+  <div class="hd"><span class="w">uukyan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx none">(no context found)</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="maukyan">
+  <div class="hd"><span class="w">maukyan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Waray na kakit-i</span> Naghimo nala hira hin ira mga urukyan nga malay-balay kay waray naman an kagugub an, waray na an mga kahayupan nga nan-ngungukoy nganhi,ngan an damo nga kakakahuyan. Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda <mark>maukyan</mark> an katamsihan.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagpinasarang">
+  <div class="hd"><span class="w">pagpinasarang</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → pasarang: to broadcast; to circulate</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> "Ayaw <mark>pagpinasarang</mark> dinhi kay malakat ako" pahinumdom ni Nanay. "Oo nanay" baton ni Elay. "An akon panapuan ha?" mahiyum-hiyom nga yakan ni Elay. Naruruyag gud hiya nga an iya paborito an pirmi panapuan ha iya ni iya nanay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ige">
+  <div class="hd"><span class="w">ige</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Dali-dali nga umuli hi Elay ha ira balay. "Nanay, pasaylua ako. Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay. "Halas <mark>ige,</mark> sunod trabahua anay an akon tugon ha san-o ka mag-uyag. Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot" yakan ni Nanay Maya.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sumugot">
+  <div class="hd"><span class="w">sumugot</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Dali-dali nga umuli hi Elay ha ira balay. "Nanay, pasaylua ako. Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako" nagbabasol nga yakan ni Elay. "Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag. Adi na an imo panapuan ihahatag ko ha imo katapos mo <mark>sumugot"</mark> yakan ni Nanay Maya.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="susugton">
+  <div class="hd"><span class="w">susugton</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Malipayon nga nag-himos ngan nag-alog hi Elay. "Diri na ako mautro sunod" Pinsar ni Elay. <mark>"Susugton</mark> ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga pasalubong".</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pasalubong">
+  <div class="hd"><span class="w">pasalubong</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Malipayon nga nag-himos ngan nag-alog hi Elay. "Diri na ako mautro sunod" Pinsar ni Elay. "Susugton ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga <mark>pasalubong".</mark></div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="hmmmmm">
+  <div class="hd"><span class="w">hmmmmm</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Panapuan kan Elay</span> Kahuman niya maghimos ngan mag-alog malipayon nga ginhatag ha iya ni Nanay Maya an iya paborito nga mani ngan pinyato nga tikang ha Buray. <mark>"Hmmmmm..</mark> marasa gud it mani ngan pinyato nga tikang ha buray" siring ni Elay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="siyahan">
+  <div class="hd"><span class="w">siyahan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Pangisda an <mark>siyahan</mark> nga pangabuhi ni Tatay Omi. Tungod kay waray man hiya makatapos han pag iskoyla.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="magkaada">
+  <div class="hd"><span class="w">magkaada</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → ada: there</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Maadlaw man o mauran. Mamadlos ngan makusog man it balod nagikan la gihap pakadto ha dagat hi Tatay Omi para magbiling hin ira kakaunon ngan <mark>magkaada</mark> kwarta.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="igsusura">
+  <div class="hd"><span class="w">igsusura</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Usa ka adlaw, malain an kaoras han panahon. "Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon", siring ni Nanay Ondit. "Kon diri ngani ako gumikan waray kita <mark>igsusura</mark> ngan kakaunon niyan. Waray liwat kita igpapalit gamit kanan pag iskoyla hit kabataan" , baton ni Tatay Omi .</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="naghuhukot">
+  <div class="hd"><span class="w">naghuhukot</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → hukot: to knit; to enlace</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Kada adlaw amo pirmi ito it kan Tatay Omi ginbubuhat. Kun diri ngani hiya nakakagikan ngadto ha dagat, nabulig hiya ha mga trabahuon ha balay ngan <mark>naghuhukot</mark> han pukot.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="makakatalwas">
+  <div class="hd"><span class="w">makakatalwas</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → katalwas: deliverance; riddance</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Umabot an damo nga kakurian ngan kawaray kwarta. Pero padayon la gihap hiya han pangisda kay natuod hiya nga <mark>makakatalwas</mark> hira hit mga kakurian.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pag-iskoyla">
+  <div class="hd"><span class="w">pag-iskoyla</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Naglabay an mga panahon naging maupay an kabutang han pamilya ni Tatay Omi. Nakatapos <mark>pag-iskoyla</mark> an iya mga anak ngan may ada na mga trabaho pinaagi han iya paningkamot han pangisda.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="sapayan">
+  <div class="hd"><span class="w">sapayan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> "Damo nga salamat tatay han imo waray kaguol nga pagtimangno ha amon, dugang nga pulong ni Andy kan iya tatay. "Waray <mark>sapayan,</mark> anak. Obligasyon ito namon nga mga kag-anak. An makagarahom nga Diyos an angay naton pasalamatan ha tanan nga grasya nga iya ginhahatag ha aton," baton ni Tatay Omi.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="apisar">
+  <div class="hd"><span class="w">apisar</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">An Maduruto nga Parapangisda</span> Masisiring nga usa nga mahigugmaon nga tatay ngan maduruto nga parapangisda hi Tatay Omi. <mark>Apisar</mark> han mga kakurian padayon nga naato ha mga problima nga naulpot ha kinabuhi.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="hilumon">
+  <div class="hd"><span class="w">hilumon</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha usa nga <mark>hilumon</mark> ngan mahayag nga baryo ha probinsya han Samar, nakatira hi Marites usa nga disi-sais anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="probinsya">
+  <div class="hd"><span class="w">probinsya</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha usa nga hilumon ngan mahayag nga baryo ha <mark>probinsya</mark> han Samar, nakatira hi Marites usa nga disi-sais anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="disi-sais">
+  <div class="hd"><span class="w">disi-sais</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha usa nga hilumon ngan mahayag nga baryo ha probinsya han Samar, nakatira hi Marites usa nga <mark>disi-sais</mark> anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="yero">
+  <div class="hd"><span class="w">yero</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Ha usa nga hilumon ngan mahayag nga baryo ha probinsya han Samar, nakatira hi Marites usa nga disi-sais anyos nga babaye nga puno hin damgo ngan paglaum. An ira balay ginbubuhat la tikang ha kahoy ngan <mark>yero,</mark> pero puno ini hin gugma ngan pagtinabangay.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nag-aambit">
+  <div class="hd"><span class="w">nag-aambit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante. Pirme hiya <mark>nag-aambit</mark> ha klase, ngan ginpapabilhan han iya mga maestro an iya kakugi. “Diri gud ako matitimbang,” siring niya ha iya kalugaringon, “kay para ini ha akon pamilya ngan ha akon tidaraon.” An iya pinakadako nga damgo amo an magin maestra.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginpapabilhan">
+  <div class="hd"><span class="w">ginpapabilhan</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante. Pirme hiya nag-aambit ha klase, ngan <mark>ginpapabilhan</mark> han iya mga maestro an iya kakugi. “Diri gud ako matitimbang,” siring niya ha iya kalugaringon, “kay para ini ha akon pamilya ngan ha akon tidaraon.” An iya pinakadako nga damgo amo an magin maestra.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="pagsulay">
+  <div class="hd"><span class="w">pagsulay</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Pero ha luyo han iya kalipay, mayda maabot nga <mark>pagsulay.</mark> Nakilala niya hi Carlo usa nga lalaki nga mas tigulang ha iya. Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon. Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="tigulang">
+  <div class="hd"><span class="w">tigulang</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Pero ha luyo han iya kalipay, mayda maabot nga pagsulay. Nakilala niya hi Carlo usa nga lalaki nga mas <mark>tigulang</mark> ha iya. Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon. Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nag-iiba">
+  <div class="hd"><span class="w">nag-iiba</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → iba: iba or kamyas, Cicca acida &amp; Cicca d</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Paglabay hin pipira ka semana, napansin niya nga <mark>nag-iiba</mark> an iya lawas. Nakuratan hiya burod hiya. An iya kalibutan sugad hin nabungkag. Damo nga gab-i an iya ginugol ha pag-ukoy ngan pagtinaluha.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="lihok">
+  <div class="hd"><span class="w">lihok</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Pero ha kada adlaw nga naglabay, ginbabatian niya an <mark>lihok</mark> han bata ha iya tiyan. “An akon anak… diri ko hiya pababayaan,” siring niya. Han adlaw han iya pagpanganak, gin-agian niya an duro nga kasakit. Pero han iya nakita an iya anak, usa nga matahum nga batang lalaki. Pinangaranan niya ini nga hi Joshua.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="huli">
+  <div class="hd"><span class="w">huli</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> “Marites,” siring han iya nanay, “diri pa <mark>huli</mark> an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay ginbibitbit niya hi Joshua kon waray magbantay. Ha gab-i, nag-aaral hiya bisan kapoy na gud.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="suporta">
+  <div class="hd"><span class="w">suporta</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> “Marites,” siring han iya nanay, “diri pa huli an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han <mark>suporta,</mark> nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay ginbibitbit niya hi Joshua kon waray magbantay. Ha gab-i, nag-aaral hiya bisan kapoy na gud.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ginbibitbit">
+  <div class="hd"><span class="w">ginbibitbit</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → bitbit: to tote; to carry in the hand</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> “Marites,” siring han iya nanay, “diri pa huli an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay <mark>ginbibitbit</mark> niya hi Joshua kon waray magbantay. Ha gab-i, nag-aaral hiya bisan kapoy na gud.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="nag-aaral">
+  <div class="hd"><span class="w">nag-aaral</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> “Marites,” siring han iya nanay, “diri pa huli an tanan. Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon. Diri ini masayon. Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay. Usahay ginbibitbit niya hi Joshua kon waray magbantay. Ha gab-i, <mark>nag-aaral</mark> hiya bisan kapoy na gud.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="graduation">
+  <div class="hd"><span class="w">graduation</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Naglabay an mga tuig, ngan padayon hiya nga naningkamot. Tubtob nga nakaabot hiya ha iya <mark>graduation.</mark> Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga palakpak. Waray hiya kapugong han iya luha. “Natuman ko gud,” siring niya ha iya kalugaringon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="palakpak">
+  <div class="hd"><span class="w">palakpak</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Naglabay an mga tuig, ngan padayon hiya nga naningkamot. Tubtob nga nakaabot hiya ha iya graduation. Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga <mark>palakpak.</mark> Waray hiya kapugong han iya luha. “Natuman ko gud,” siring niya ha iya kalugaringon.</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="ma'am">
+  <div class="hd"><span class="w">ma'am</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">stem → am: we, us, our/s not you</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo. Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya. Usa ka adlaw, nagpakiana an usa niya nga estudyante, <mark>“Ma’am,</mark> paonan-o kamo nagin kusog?” Nagngiti hi Marites ngan siniring, “An kusog diri tikang ha edad. Tikang ini ha gugma ngan determinasyon.”</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+<div class="card" data-w="paonan-o">
+  <div class="hd"><span class="w">paonan-o</span>
+    <span class="meta">1× · 1 story</span></div>
+  <div class="hint">no dictionary root — likely local word / loan / typo</div>
+  <div class="ctx"><span class="st">Ang Kusog han Gugma ha Murayaw nga Edad</span> Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo. Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya. Usa ka adlaw, nagpakiana an usa niya nga estudyante, “Ma’am, <mark>paonan-o</mark> kamo nagin kusog?” Nagngiti hi Marites ngan siniring, “An kusog diri tikang ha edad. Tikang ini ha gugma ngan determinasyon.”</div>
+  <input class="action" type="text" placeholder="action (e.g. gloss: 'market' · variant of X · name · drop · ask Ella)" />
+</div>
+  <textarea id="dump" readonly></textarea>
+</div>
+<script>
+function filt(q){q=q.toLowerCase().trim();document.querySelectorAll('.card').forEach(c=>{c.style.display=!q||c.dataset.w.includes(q)?'':'none'});}
+function copyActions(){
+  const lines=[];
+  document.querySelectorAll('.card').forEach(c=>{const a=c.querySelector('.action').value.trim();if(a)lines.push(c.dataset.w+'  —  '+a);});
+  const txt=lines.length?lines.join('\n'):'(no actions filled in yet)';
+  const d=document.getElementById('dump');d.style.display='block';d.value=txt;d.select();
+  try{navigator.clipboard.writeText(txt);}catch(e){}
+  document.execCommand&&document.execCommand('copy');
+  const b=event.target;b.textContent='Copied '+lines.length+'!';b.classList.add('done');
+  setTimeout(()=>{b.textContent='Copy actions';b.classList.remove('done');},1600);
+  document.getElementById('count').textContent=lines.length+' filled';
+}
+</script>
+</body></html>
