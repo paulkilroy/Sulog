@@ -24,6 +24,8 @@ export const VARIANTS = {
   digto: "didto",   // dialectal "there"
   aada:  "ada",     // "is present / there is"
   ak:    "akon",    // clipped "my / mine" (ak')
+  tak:   "akon",    // clitic clip of "akon" ("tak lawas" = my body)
+  sigi:  "sige",    // e→i spelling variant of "sige" (okay / go ahead)
   storya: "istorya",// clipped "story" (BFC boilerplate form)
 };
 

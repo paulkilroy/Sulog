@@ -21,7 +21,7 @@ const hasGloss = (t) => glossKeys.has(t) || (VARIANTS[t] && glossKeys.has(VARIAN
 // light de-inflection: return candidate roots to look up in the glossary
 function deinflect(t) {
   const c = new Set();
-  const add = (x) => { if (x && x.length >= 3 && x !== t) c.add(x); };
+  const add = (x) => { x = x && x.replace(/^[-']+|[-']+$/g, ""); if (x && x.length >= 3 && x !== t) c.add(x); }; // trim hyphen: "pag-iha"→"iha"
   let s = t.replace(/^(nakaka|nagka|naka|nagpa|napa|nag|mag|nan|nam|nang|gin|gi|na|ma|pa|pag|pan|ka|i)/, ""); add(s);
   // -um-/-in- infix after the first consonant: b+um+aton -> baton ; t+in+ago -> tago
   const inf = t.replace(/^([bcdfghjklmnpqrstvwxyz])(um|in)/, "$1"); add(inf);
