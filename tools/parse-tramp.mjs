@@ -11,8 +11,10 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’`]/g, "'").trim();
 
-const POS = "n|v|vt|vi|vr|a|adj|adv|prep|conj|pron|art|num|interj|interjection|part|particle|excl|pl|aux|dem";
-const ENTRY = new RegExp(`^([A-Za-zÀ-ÿ'’-][^,\\n]{0,28}),\\s*(?:${POS})\\b\\.?\\s*(.*)$`);
+// headword, then a POS tag — which may be COMPOUND/dotted (n. / adv. / nom.pron. /
+// postpos.gen.pron. / v.pass.) — then the definition. The old simple-POS pattern dropped
+// every compound-tagged entry (all the pronouns, etc.).
+const ENTRY = /^([A-Za-zÀ-ÿ'’\-][^,\n]{0,28}),\s*([a-z][a-z.]*\.)\s*(.*)$/;
 
 const lines = read("docs/sources/tramp-zorc-waray-english-dictionary-1991.txt").split(/\r?\n/);
 const gloss = {};
@@ -34,7 +36,7 @@ const flush = () => {
 };
 for (const line of lines) {
   const m = line.match(ENTRY);
-  if (m && !/^mga --/.test(line)) { flush(); cur = { head: m[1].trim(), def: [m[2] || ""] }; }
+  if (m && !/^mga --/.test(line)) { flush(); cur = { head: m[1].trim(), def: [m[3] || ""] }; }
   else if (cur && line.trim()) cur.def.push(line.trim());
 }
 flush();
