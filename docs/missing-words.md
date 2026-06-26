@@ -9,6 +9,28 @@ inflected forms and beyond-top-1000 words still fall through._
 - **inflected (root known, just not shown): 706** tokens · 461 distinct
 - **missing (genuine gap): 993** tokens · 543 distinct
 
+## Categories of the still-missing (543) — what each needs
+- **content**: 452
+- **function/clitic**: 4
+- **short (clitic/noise)**: 20
+- **affix-fragment**: 4
+- **name**: 63
+
+### content (452)
+pirmi, naaro, sayo, nabanhaw, storya, kumila, silot, silotan, pagpuyo, paki, sira, nala, pag-iha, antis, aron, bugos, sini, pagpahuway, maalam, sino, dagku, kagabihon, surugoon, digto, tinunan, dawla, nahimangno, pagkit-on, mag-isog, eksperyensya, aada, puydi, kagugub-an, simple, naku, paghirot, mahiyum-hiyom, nagdesisyon, pinakamaopay, sudang … +412
+
+### function/clitic (4)
+ikaw, mo, sin, siya
+
+### short (clitic/noise) (20)
+ak, ito, si, po, tak, anu, nak, of, the, lwt, im, ice, tim, tam, iyu, ige, kam, ang, buo, sit
+
+### affix-fragment (4)
+nag, naka, gi, ig
+
+### name (63)
+juan, timprano, sigi, opo, pagkaaga, uu, nay, nahingalimot, ginpahimangno, ginkulba, ginsigawan, iksakto, pagkaada, nahibaroan, television, pagmantene, wusssssss, napiolan, umandar, kamalipog, yeheey, kamakaluluoy, brown, ginkaptan, wow, nasubo, gin-apresyar, gin-raut, ginpinsar, nahibaro, aanhun, dumiritso, kumapot, alaga, ginpapakaun, yehey, susugton, hmmmmm, mamadlos, nagtima … +23
+
 ## INFLECTED — we have the root, the reader just doesn't show it (461)
 _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `baton`.)_
 

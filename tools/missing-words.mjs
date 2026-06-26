@@ -43,9 +43,14 @@ function names(text) {
 }
 
 const inflected = new Map(), missing = new Map(); // token -> {freq, docs:Set, root?}
+const caps = new Map(); // token -> {c: capitalized occurrences, t: total} (to spot leaked names)
 let total = 0, glossed = 0, nameTok = 0;
 for (const s of STORIES) {
   const nm = names((s.paras || []).join(" "));
+  for (const p of s.paras || []) for (const raw of p.split(/\s+/)) {
+    const x = raw.replace(/^["'“”(.,]+/, "").replace(/[,;:)"'“”.!?]+$/, ""); const cn = norm(x);
+    if (cn) { const e = caps.get(cn) || { c: 0, t: 0 }; e.t++; if (/^[A-Z]/.test(x)) e.c++; caps.set(cn, e); }
+  }
   for (const p of s.paras || []) for (const t of toks(p)) {
     total++;
     if (nm.has(t)) { nameTok++; continue; }
@@ -59,6 +64,21 @@ for (const s of STORIES) {
 const rank = (m) => [...m.entries()].map(([w, e]) => ({ w, ...e, docs: e.docs.size })).sort((a, b) => b.docs - a.docs || b.freq - a.freq);
 const inf = rank(inflected), mis = rank(missing);
 
+// categorize the still-missing words by the kind of work each needs
+const AFFIX = new Set(["nag", "gin", "mag", "pag", "naka", "nagka", "nang", "nan", "gi", "ig", "napa", "nagpa"]);
+const FUNCTION = new Set(["ka", "ikaw", "mo", "ko", "sin", "siya", "hira", "kita", "kami", "kamo", "ako", "imo", "akon", "iya", "ira", "aton", "amon", "iyo", "nira", "niya", "nimo", "nakon", "la", "man", "gud", "daw", "gad", "ngani", "kuno", "unta", "kunta", "ngay-an", "ngayan", "hala", "tana", "anay", "liwat", "ngani", "ba", "kay", "kun", "kon", "basta", "agud", "kungud"]);
+const capRatio = (w) => { const e = caps.get(w); return e && e.t ? e.c / e.t : 0; };
+function categorize(w) {
+  if (AFFIX.has(w)) return "affix-fragment";       // split verb prefix written apart (gin tuha)
+  if (capRatio(w) >= 0.6) return "name";            // leaked proper noun (mostly capitalized)
+  if (FUNCTION.has(w)) return "function/clitic";    // pronoun/particle that needs a curated gloss
+  if (w.length <= 3) return "short (clitic/noise)"; // tiny tokens — usually clitics or OCR bits
+  return "content";                                  // genuine vocabulary Tramp lacks
+}
+const cats = {};
+for (const r of mis) { const c = categorize(r.w); (cats[c] = cats[c] || []).push(r); }
+const catOrder = ["content", "function/clitic", "short (clitic/noise)", "affix-fragment", "name"];
+
 const pct = (n) => Math.round((100 * n) / total);
 let md = `# Story words the reader can't gloss
 
@@ -70,6 +90,11 @@ inflected forms and beyond-top-1000 words still fall through._
 - glossed: **${glossed}** (${pct(glossed)}%) · names: **${nameTok}** (${pct(nameTok)}%)
 - **inflected (root known, just not shown): ${[...inflected.values()].reduce((s, e) => s + e.freq, 0)}** tokens · ${inf.length} distinct
 - **missing (genuine gap): ${[...missing.values()].reduce((s, e) => s + e.freq, 0)}** tokens · ${mis.length} distinct
+
+## Categories of the still-missing (${mis.length}) — what each needs
+${catOrder.map((c) => `- **${c}**: ${(cats[c] || []).length}`).join("\n")}
+
+${catOrder.map((c) => `### ${c} (${(cats[c] || []).length})\n${(cats[c] || []).slice(0, 40).map((r) => r.w).join(", ") || "—"}${(cats[c] || []).length > 40 ? ` … +${(cats[c] || []).length - 40}` : ""}`).join("\n\n")}
 
 ## INFLECTED — we have the root, the reader just doesn't show it (${inf.length})
 _A stem-gloss fallback would fix all of these for free. (e.g. \`bumaton\` → \`baton\`.)_
@@ -91,6 +116,8 @@ fs.writeFileSync(path.join(root, "docs/missing-words.md"), md);
 fs.writeFileSync(path.join(root, "docs/sources/missing-words.json"), JSON.stringify({ inflected: inf, missing: mis }, null, 0));
 
 console.log(`tokens ${total} | glossed ${pct(glossed)}% | names ${pct(nameTok)}% | inflected ${inf.length} distinct | MISSING ${mis.length} distinct`);
+console.log(`\nstill-missing (${mis.length}) by category:`);
+catOrder.forEach((c) => console.log(`  ${String((cats[c] || []).length).padStart(4)}  ${c}`));
 console.log(`\ncheck the examples:`);
 for (const w of ["bumaton", "kaliawan"]) {
   const b = inflected.get(w) ? `INFLECTED → ${inflected.get(w).root}` : missing.get(w) ? "MISSING" : hasGloss(w) ? "glossed" : "(name/absent)";
