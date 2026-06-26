@@ -5,25 +5,25 @@ root. Proper names excluded. "Complete dictionary" = ~1,000 CHED **roots** + the
 inflected forms and beyond-top-1000 words still fall through._
 
 ## Totals (running tokens)
-- glossed: **8257** (70%) · names: **2130** (18%)
+- glossed: **8267** (70%) · names: **2124** (18%)
 - **inflected (root known, just not shown): 884** tokens · 609 distinct
-- **missing (genuine gap): 601** tokens · 368 distinct
+- **missing (genuine gap): 592** tokens · 365 distinct
 
-## Categories of the still-missing (368) — what each needs
-- **content**: 308
+## Categories of the still-missing (365) — what each needs
+- **content**: 307
 - **function/clitic**: 0
-- **short (clitic/noise)**: 15
+- **short (clitic/noise)**: 13
 - **affix-fragment**: 3
 - **name**: 42
 
-### content (308)
-sayo, storya, kumila, pagpuyo, sira, nala, pag-iha, antis, aron, bugos, sini, pagpahuway, dagku, surugoon, tinunan, dawla, pagkit-on, mag-isog, eksperyensya, puydi, kagugub-an, simple, naku, paghirot, mahiyum-hiyom, sudang, espisyal, sakto, pagtoo, sinyalis, dolce, kagugub, tabu-an, suok, sano, presinsya, ginpakianhan, rock, nagnanabigar, magsarit … +268
+### content (307)
+sayo, kumila, pagpuyo, sira, nala, pag-iha, antis, aron, bugos, sini, pagpahuway, dagku, surugoon, tinunan, dawla, pagkit-on, mag-isog, eksperyensya, puydi, kagugub-an, simple, naku, paghirot, mahiyum-hiyom, sudang, espisyal, sakto, pagtoo, sinyalis, dolce, kagugub, tabu-an, suok, sano, presinsya, ginpakianhan, rock, nagnanabigar, magsarit, gingagarbohan … +267
 
 ### function/clitic (0)
 —
 
-### short (clitic/noise) (15)
-si, po, tak, anu, of, the, lwt, ice, tim, tam, iyu, ige, ang, buo, sit
+### short (clitic/noise) (13)
+si, po, tak, anu, lwt, ice, tim, tam, iyu, ige, ang, buo, sit
 
 ### affix-fragment (3)
 nag, gi, ig
@@ -99,14 +99,13 @@ _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `bat
 
 _+549 more._
 
-## MISSING — genuine vocabulary gaps to gloss/add (368)
+## MISSING — genuine vocabulary gaps to gloss/add (365)
 _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "entertainment / to not be bored"._
 
 | word | #stories | freq |
 |------|:--:|--:|
 | nag | 11 | 34 |
 | sayo | 7 | 23 |
-| storya | 7 | 7 |
 | kumila | 7 | 7 |
 | pagpuyo | 7 | 7 |
 | sira | 6 | 21 |
@@ -217,12 +216,13 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | pagkaada | 1 | 1 |
 | pagrespeto | 1 | 1 |
 | eksperyensiya | 1 | 1 |
-| of | 1 | 1 |
-| the | 1 | 1 |
 | importansiya | 1 | 1 |
 | respeto | 1 | 1 |
 | naekperyensiyan | 1 | 1 |
 | gintutudkan | 1 | 1 |
 | paburito | 1 | 1 |
+| gagarbohan | 1 | 1 |
+| nalooy | 1 | 1 |
+| magka | 1 | 1 |
 
-_+248 more (full set in the JSON sidecar)._
+_+245 more (full set in the JSON sidecar)._

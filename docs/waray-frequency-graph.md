@@ -9,16 +9,16 @@ Token counts per source:
 - `peace` — 18,943 tokens
 - `tramp` — 235,860 tokens
 - `bfc` — 6,503 tokens
-- `bloom` — 6,182 tokens
+- `bloom` — 5,631 tokens
 - CHED headwords parsed: **869**
-- Total distinct tokens counted: **59,012**
+- Total distinct tokens counted: **58,897**
 - Target lexicon (confirmable Waray = SEED single-words ∪ CHED headwords): **1160** words, of which **1130** occur in the corpus
 
 ## Attested-sentence pool (Track 2 — frame-engine fuel)
 - CHED dictionary examples: **1154**
 - Bible for Children (children's register): **408**
-- Bloom Library (21 CC books, contemporary children's): **321**
-- **Combined pool: 1883 sentences** (deduping not applied)
+- Bloom Library (21 CC books, contemporary children's): **313**
+- **Combined pool: 1875 sentences** (deduping not applied)
 - _Bible for Children © Bible for Children, Inc. (free to copy, not for sale). Bloom Library books CC-licensed — see bloom-waray/SOURCES.md. Both attributed._
 - ⚠️ The BFC translation leans **dialectal/colloquial** (san→han, sa→ha, wara→waray, sino→hin-o). Real Waray, but normalize before using as frame templates — a job for native-speaker validation.
 
@@ -33,27 +33,27 @@ Token counts per source:
 ## Top 120 Waray words by attested frequency
 | # | word | count | tier | in deck? | CHED-1000? |
 |--:|------|------:|:--:|:--:|:--:|
-| 1 | nga | 3150 | 1 |  | ✓ |
-| 2 | an | 2591 | 1 | ✓ |  |
-| 3 | han | 1641 | 1 | ✓ |  |
+| 1 | nga | 3148 | 1 |  | ✓ |
+| 2 | an | 2589 | 1 | ✓ |  |
+| 3 | han | 1637 | 1 | ✓ |  |
 | 4 | ha | 1533 | 1 | ✓ |  |
-| 5 | mga | 997 | 1 | ✓ |  |
+| 5 | mga | 975 | 1 | ✓ |  |
 | 6 | hin | 837 | 1 | ✓ |  |
-| 7 | na | 648 | 1 | ✓ |  |
-| 8 | it | 645 | 1 | ✓ |  |
+| 7 | it | 645 | 1 | ✓ |  |
+| 8 | na | 614 | 1 | ✓ |  |
 | 9 | iya | 503 | 1 | ✓ |  |
 | 10 | ngan | 499 | 1 | ✓ | ✓ |
-| 11 | waray | 477 | 1 | ✓ | ✓ |
+| 11 | waray | 476 | 1 | ✓ | ✓ |
 | 12 | hi | 389 | 1 | ✓ |  |
 | 13 | ini | 382 | 1 | ✓ |  |
-| 14 | pa | 373 | 1 | ✓ |  |
+| 14 | pa | 372 | 1 | ✓ |  |
 | 15 | hiya | 344 | 1 | ✓ |  |
 | 16 | ug | 324 | 1 |  | ✓ |
 | 17 | kay | 306 | 1 | ✓ | ✓ |
-| 18 | ni | 299 | 1 | ✓ |  |
+| 18 | ni | 298 | 1 | ✓ |  |
 | 19 | ako | 281 | 1 | ✓ |  |
-| 20 | may | 276 | 1 | ✓ | ✓ |
-| 21 | diri | 271 | 1 | ✓ | ✓ |
+| 20 | diri | 271 | 1 | ✓ | ✓ |
+| 21 | may | 271 | 1 | ✓ | ✓ |
 | 22 | ba | 257 | 1 | ✓ |  |
 | 23 | hira | 256 | 1 | ✓ |  |
 | 24 | imo | 244 | 1 | ✓ |  |
@@ -101,8 +101,8 @@ Token counts per source:
 | 66 | gihapon | 68 | 1 | ✓ | ✓ |
 | 67 | yana | 67 | 1 | ✓ | ✓ |
 | 68 | damo | 66 | 1 | ✓ | ✓ |
-| 69 | iyo | 65 | 1 | ✓ |  |
-| 70 | sugad | 65 | 1 | ✓ | ✓ |
+| 69 | sugad | 65 | 1 | ✓ | ✓ |
+| 70 | iyo | 64 | 1 | ✓ |  |
 | 71 | baga | 63 | 1 |  | ✓ |
 | 72 | iba | 63 | 1 | ✓ | ✓ |
 | 73 | kamo | 63 | 1 | ✓ |  |
@@ -113,53 +113,53 @@ Token counts per source:
 | 78 | tungod | 59 | 1 | ✓ | ✓ |
 | 79 | karuyag | 57 | 1 | ✓ | ✓ |
 | 80 | libro | 57 | 1 | ✓ | ✓ |
-| 81 | lugar | 54 | 1 | ✓ | ✓ |
+| 81 | lugar | 53 | 1 | ✓ | ✓ |
 | 82 | pero | 53 | 1 | ✓ | ✓ |
-| 83 | tubig | 51 | 1 | ✓ | ✓ |
-| 84 | hin-o | 50 | 1 | ✓ |  |
+| 83 | hin-o | 50 | 1 | ✓ |  |
+| 84 | tubig | 50 | 1 | ✓ | ✓ |
 | 85 | anay | 49 | 1 | ✓ | ✓ |
 | 86 | klase | 47 | 1 | ✓ | ✓ |
-| 87 | panahon | 47 | 1 | ✓ | ✓ |
-| 88 | tanan | 47 | 1 | ✓ | ✓ |
-| 89 | kinabuhi | 46 | 1 | ✓ | ✓ |
-| 90 | kinahanglan | 45 | 1 | ✓ | ✓ |
-| 91 | pagkaon | 45 | 1 | ✓ | ✓ |
-| 92 | asya | 44 | 1 |  | ✓ |
-| 93 | langit | 44 | 1 | ✓ | ✓ |
-| 94 | maaram | 44 | 1 | ✓ | ✓ |
+| 87 | tanan | 47 | 1 | ✓ | ✓ |
+| 88 | kinabuhi | 46 | 1 | ✓ | ✓ |
+| 89 | kinahanglan | 45 | 1 | ✓ | ✓ |
+| 90 | pagkaon | 45 | 1 | ✓ | ✓ |
+| 91 | asya | 44 | 1 |  | ✓ |
+| 92 | langit | 44 | 1 | ✓ | ✓ |
+| 93 | maaram | 44 | 1 | ✓ | ✓ |
+| 94 | panahon | 44 | 1 | ✓ | ✓ |
 | 95 | tuba | 44 | 1 |  | ✓ |
-| 96 | bato | 43 | 1 |  | ✓ |
-| 97 | dagat | 43 | 1 | ✓ | ✓ |
-| 98 | diin | 43 | 1 | ✓ |  |
-| 99 | wara | 43 | 1 |  | ✓ |
-| 100 | apoy | 42 | 1 | ✓ |  |
-| 101 | dako | 41 | 1 | ✓ | ✓ |
+| 96 | dagat | 43 | 1 | ✓ | ✓ |
+| 97 | diin | 43 | 1 | ✓ |  |
+| 98 | wara | 43 | 1 |  | ✓ |
+| 99 | apoy | 42 | 1 | ✓ |  |
+| 100 | dako | 41 | 1 | ✓ | ✓ |
+| 101 | bato | 40 | 1 |  | ✓ |
 | 102 | basi | 39 | 1 | ✓ | ✓ |
 | 103 | bungto | 39 | 1 | ✓ | ✓ |
 | 104 | dara | 39 | 1 | ✓ | ✓ |
 | 105 | pastor | 39 | 1 | ✓ |  |
 | 106 | sulod | 38 | 1 | ✓ | ✓ |
-| 107 | di | 37 | 1 |  | ✓ |
-| 108 | namon | 37 | 1 | ✓ |  |
-| 109 | butang | 36 | 1 | ✓ | ✓ |
+| 107 | namon | 37 | 1 | ✓ |  |
+| 108 | butang | 36 | 1 | ✓ | ✓ |
+| 109 | di | 36 | 1 |  | ✓ |
 | 110 | puno | 36 | 1 |  | ✓ |
 | 111 | una | 36 | 1 | ✓ | ✓ |
 | 112 | asawa | 35 | 1 | ✓ | ✓ |
 | 113 | kahoy | 35 | 1 | ✓ | ✓ |
 | 114 | babaye | 34 | 2 | ✓ |  |
-| 115 | barko | 34 | 2 |  | ✓ |
-| 116 | baton | 34 | 2 |  | ✓ |
-| 117 | buot | 34 | 2 | ✓ | ✓ |
-| 118 | gab-i | 34 | 2 |  | ✓ |
-| 119 | winaray | 34 | 2 |  | ✓ |
-| 120 | malipayon | 33 | 2 |  | ✓ |
+| 115 | baton | 34 | 2 |  | ✓ |
+| 116 | buot | 34 | 2 | ✓ | ✓ |
+| 117 | gab-i | 34 | 2 |  | ✓ |
+| 118 | winaray | 34 | 2 |  | ✓ |
+| 119 | malipayon | 33 | 2 |  | ✓ |
+| 120 | mayor | 33 | 2 | ✓ | ✓ |
 
 ## Gap list — CHED top-1000 words we DON'T teach yet (by corpus frequency)
 _The highest-value add candidates: Oyzon's corpus says these are common, and they're not in the deck._
 
 | # | word | count | tier |
 |--:|------|------:|:--:|
-| 1 | nga | 3150 | 1 |
+| 1 | nga | 3148 | 1 |
 | 16 | ug | 324 | 1 |
 | 32 | away | 163 | 1 |
 | 46 | siday | 97 | 1 |
@@ -169,36 +169,36 @@ _The highest-value add candidates: Oyzon's corpus says these are common, and the
 | 59 | amo | 75 | 1 |
 | 71 | baga | 63 | 1 |
 | 75 | sumat | 61 | 1 |
-| 92 | asya | 44 | 1 |
+| 91 | asya | 44 | 1 |
 | 95 | tuba | 44 | 1 |
-| 96 | bato | 43 | 1 |
-| 99 | wara | 43 | 1 |
-| 107 | di | 37 | 1 |
+| 98 | wara | 43 | 1 |
+| 101 | bato | 40 | 1 |
+| 109 | di | 36 | 1 |
 | 110 | puno | 36 | 1 |
-| 115 | barko | 34 | 2 |
-| 116 | baton | 34 | 2 |
-| 118 | gab-i | 34 | 2 |
-| 119 | winaray | 34 | 2 |
-| 120 | malipayon | 33 | 2 |
-| 124 | mano | 32 | 2 |
-| 125 | ngani | 32 | 2 |
+| 115 | baton | 34 | 2 |
+| 117 | gab-i | 34 | 2 |
+| 118 | winaray | 34 | 2 |
+| 119 | malipayon | 33 | 2 |
+| 123 | mano | 32 | 2 |
+| 124 | ngani | 32 | 2 |
+| 125 | barko | 31 | 2 |
 | 126 | dayon | 31 | 2 |
 | 127 | dyos | 31 | 2 |
 | 128 | kamot | 31 | 2 |
 | 130 | kalugaringon | 30 | 2 |
 | 132 | tamsi | 30 | 2 |
 | 137 | alas | 28 | 2 |
-| 141 | pamilya | 28 | 2 |
-| 142 | sakit | 28 | 2 |
+| 140 | pamilya | 28 | 2 |
+| 141 | sakit | 28 | 2 |
 | 145 | tuig | 27 | 2 |
 | 149 | angay | 25 | 2 |
 | 151 | bulan | 25 | 2 |
 | 153 | kabataan | 25 | 2 |
-| 156 | oras | 25 | 2 |
-| 161 | kahuman | 24 | 2 |
-| 162 | nagsiring | 24 | 2 |
-| 163 | pinulongan | 24 | 2 |
-| 164 | hala | 23 | 2 |
+| 160 | kahuman | 24 | 2 |
+| 161 | nagsiring | 24 | 2 |
+| 162 | pinulongan | 24 | 2 |
+| 163 | hala | 23 | 2 |
+| 167 | oras | 23 | 2 |
 | 168 | upod | 23 | 2 |
 | 169 | bangin | 22 | 2 |
 | 170 | buhi | 22 | 2 |
@@ -211,12 +211,12 @@ _The highest-value add candidates: Oyzon's corpus says these are common, and the
 | 181 | gawas | 21 | 2 |
 | 182 | hangin | 21 | 2 |
 | 184 | maraot | 21 | 2 |
-| 185 | mas | 21 | 2 |
-| 186 | nakita | 21 | 2 |
-| 187 | pag-abot | 21 | 2 |
-| 189 | butnga | 20 | 2 |
-| 190 | himo | 20 | 2 |
-| 192 | nagin | 20 | 2 |
+| 185 | pag-abot | 21 | 2 |
+| 187 | butnga | 20 | 2 |
+| 188 | himo | 20 | 2 |
+| 190 | mas | 20 | 2 |
+| 191 | nagin | 20 | 2 |
+| 192 | nakita | 20 | 2 |
 | 193 | ngahaw | 20 | 2 |
 | 194 | pakiana | 20 | 2 |
 | 195 | samtang | 20 | 2 |
@@ -231,14 +231,14 @@ _The highest-value add candidates: Oyzon's corpus says these are common, and the
 | 205 | bantay | 18 | 2 |
 | 208 | kundi | 18 | 2 |
 | 209 | natural | 18 | 2 |
-| 210 | sakay | 18 | 2 |
-| 212 | yakan | 18 | 2 |
-| 213 | baba | 17 | 2 |
-| 214 | balod | 17 | 2 |
-| 215 | gamit | 17 | 2 |
-| 216 | hasta | 17 | 2 |
-| 217 | ilarom | 17 | 2 |
-| 219 | kaupod | 17 | 2 |
+| 211 | yakan | 18 | 2 |
+| 212 | baba | 17 | 2 |
+| 213 | balod | 17 | 2 |
+| 214 | gamit | 17 | 2 |
+| 215 | hasta | 17 | 2 |
+| 216 | ilarom | 17 | 2 |
+| 218 | kaupod | 17 | 2 |
+| 219 | mahal | 17 | 2 |
 
 _(+652 more in the JSON.)_
 

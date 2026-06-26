@@ -29,7 +29,8 @@ const stripTags = (s) => s.replace(/<[^>]+>/g, " ")
   .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n))
   .replace(/\s+/g, " ").trim();
 
-let corpus = "", rows = [];
+const titleKey = (s) => (s || "").toLowerCase().replace(/\s+/g, " ").trim();
+const fetched = [];
 for (const b of books) {
   const baseUrl = decodeURIComponent(b.baseUrl).replace(/\/$/, "");
   const folder = baseUrl.split("/").pop();          // title folder (spaces as +)
@@ -44,11 +45,24 @@ for (const b of books) {
     const t = stripTags(m[2]);
     if (t.length >= 2 && !seen.has(t)) { seen.add(t); parts.push(t); }
   }
-  const text = parts.join("\n");
+  let text = parts.join("\n").replace(/Moral Lesson of the Story:\s*/gi, ""); // strip English label
   if (!text) { console.log(`  ⚠ no war text: ${b.title}`); continue; }
-  corpus += `\n===BOOK: ${b.title} [${b.license}]===\n${text}\n`;
-  rows.push({ title: b.title, copyright: b.copyright || "", license: b.license || "?", pages: b.pageCount || "", url: `https://bloomlibrary.org/book/${b.objectId}` });
+  fetched.push({ title: b.title, license: b.license || "?", copyright: b.copyright || "", pages: b.pageCount || "", objectId: b.objectId, text });
   console.log(`  ✓ ${b.title} (${b.license}) — ${parts.length} blocks, ${text.length} chars`);
+}
+
+// dedup by title, keeping the LONGEST text — Bloom hosts duplicate-title editions, and one
+// ("Kandiwata", cc-by-sa) is mis-uploaded with Tagalog content under the Waray tag; it's the
+// shorter copy, so keeping the longest drops it cleanly. (Mirrors build-stories' dedup.)
+const byTitle = new Map();
+for (const b of fetched) { const k = titleKey(b.title); const ex = byTitle.get(k); if (!ex || b.text.length > ex.text.length) byTitle.set(k, b); }
+const final = [...byTitle.values()];
+if (final.length < fetched.length) console.log(`  (deduped ${fetched.length - final.length} duplicate-title book(s))`);
+
+let corpus = "", rows = [];
+for (const b of final) {
+  corpus += `\n===BOOK: ${b.title} [${b.license}]===\n${b.text}\n`;
+  rows.push({ title: b.title, copyright: b.copyright, license: b.license, pages: b.pages, url: `https://bloomlibrary.org/book/${b.objectId}` });
 }
 
 fs.mkdirSync(path.join(root, "docs/sources/bloom-waray"), { recursive: true });

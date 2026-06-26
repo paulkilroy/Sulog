@@ -6,8 +6,8 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 
 - **CHED dictionary examples:** 1154
 - **Bible for Children (children's register):** 408 — _© Bible for Children, Inc.; free to copy/print, not for sale; leans dialectal (san→han, sa→ha)._
-- **Bloom Library (21 CC children's books):** 321 — _CC-licensed; contemporary conversational register (best match). See bloom-waray/SOURCES.md._
-- **Total:** 1883
+- **Bloom Library (21 CC children's books):** 313 — _CC-licensed; contemporary conversational register (best match). See bloom-waray/SOURCES.md._
+- **Total:** 1875
 
 ## CHED dictionary examples (1154)
 - Ay, Inday, bagà ka gud hinin balod. 2
@@ -1575,7 +1575,7 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 - Buligi ako han pagsunod ha imo ug mabuhi para ha imo nga imo anak.
 - Amen Basaha an Bibliya ug paki istorya han Ginoo kada adlaw!
 
-## Bloom Library — contemporary children's books (321)
+## Bloom Library — contemporary children's books (313)
 - Nakagmata hi Mira han tuga-ok han manok.
 - Nangadi hiya pagpasalamat han Ginoo ngan dali nga gintipig an iya hinigdaan.
 - Pag gawas niya ha kwarto, iya gintawag an iya nanay.
@@ -1635,7 +1635,7 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 - Ini in usa nga natural nga karikuhan nga maidadasig han mga tawo nga mulopyo han munisipyo han Daram.
 - Nga angay naton timangnuon, paghirutan ngan ipadayon an kalimpyo han kadagatan.
 - Pagkaada hin pagrespeto ngadto han mga tawo nga nagkamay ada hin eksperyensiya mahiunong han ira mga istorya hiunong han kandiwata.
-- Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar.
+- Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar.
 - Aton atamanon, timangnuon ngan ipadayon an kalimpyo han aton kalibungan, kadagatan ngan kagurangan.
 - Damo nga Salamat!
 - Pirmi ni apoy Garing gindadayaw ngan gintitimangno an iya bukad nga rosa.
@@ -1690,14 +1690,6 @@ frame engine; Ella validates patterns drawn from here before any generation ship
 - Napiolan hi Banog han iya kahulog.
 - Nagsiring hi Banog ha iya kalugaringon, "diri ko na pipiriton tak kalugaringon kon diri ko kaya para diri ako mahingadto ha karat-an".
 - Ngan tikang hadto naging malipayon nala hi Banog maglinupad-lupad palibot han Budik Huraw.
-- Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.
-- Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.
-- Sa kasalukuyan ang pormadong batong ito ay hugis-barko na parang nakalutang lamang sa gitna ng karagatan.
-- Ang kuwentong ito ay ayon lamang sa mga taong nagkaroon ng karanasan at batay sa kanilang naranasan, nakita, at narinig.
-- Ito’y isang yamang maipagmamalaki ng mga Daramnon sa Pilipinas maging sa buong mundo.
-- Mula sa panulat at pananaliksik ni: BRANDO M.
-- Residente sa Bayan ng Daram ng mahigit 30 taon.
-- Isang makapigil-hininga ang ganda ng kandiwata rock formation, na dinarayo ngayon ng mga turista sa mga kalapit na bayan ng Daram.
 - Hi Kaha, Kahon Umandar na an bus nga ginsasakyan ni Kaha.
 - “Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha.
 - Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.

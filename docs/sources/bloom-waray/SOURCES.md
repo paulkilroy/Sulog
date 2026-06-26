@@ -1,6 +1,6 @@
 # Bloom Library — Waray books (provenance + license)
 
-21 children's books in Waray, fetched from Bloom Library's public API
+20 children's books in Waray, fetched from Bloom Library's public API
 (https://bloomlibrary.org/language:war). All Creative-Commons; used here for a free,
 non-commercial learning app with attribution. **cc-by-nd** titles: frequency only, no
 derived frames (No-Derivatives). **cc-...-sa**: derivatives share-alike.
@@ -16,7 +16,6 @@ derived frames (No-Derivatives). **cc-...-sa**: derivatives share-alike.
 | AN MALIPAYON NA PARAGSUDOY | Copyright © 2021, GLEN MARK L. CABRITO | cc-by-nc-sa | 16 |
 | Pagtimangno hin Panlawas | Copyright © 2021, MARYKNOLL L. CABRAL | cc-by-nc-sa | 14 |
 | AN BANOG HA BUKID HURAW | Copyright © 2021, MELBERT P. PACAMPARA | cc-by-nc-sa | 16 |
-| An Istorya Han Pormado nga Bato Han Kandiwata | Copyright © 2021, BRANDO M. ALVAREZ | cc-by-sa | 17 |
 | Hi Kaha, Kahon | Copyright © 2021, Mary-Ann M. Calutan | cc-by-nc-sa | 21 |
 | An Suok nga Magsangkay | Copyright © 2021, Nenita J. Lopez
  | cc-by-nc-sa | 16 |

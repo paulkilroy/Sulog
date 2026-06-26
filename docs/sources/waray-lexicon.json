@@ -13,13 +13,13 @@
    "peace": 18943,
    "tramp": 235860,
    "bfc": 6503,
-   "bloom": 6182
+   "bloom": 5631
   },
   "counts": {
    "sources": 6,
    "lexemes": 1160,
    "cards": 654,
-   "sentences": 1883
+   "sentences": 1875
   }
  },
  "sources": [
@@ -66,7 +66,7 @@
    "waray": "nga",
    "pos": "linker",
    "gloss": "connects modifiers and nouns, and between clauses.",
-   "freq": 3150,
+   "freq": 3148,
    "tier": 1,
    "rank": 1,
    "top1000": true,
@@ -78,7 +78,7 @@
    "waray": "an",
    "pos": null,
    "gloss": "the (completed / past)",
-   "freq": 2591,
+   "freq": 2589,
    "tier": 1,
    "rank": 2,
    "top1000": false,
@@ -90,7 +90,7 @@
    "waray": "han",
    "pos": null,
    "gloss": "of / the (past object)",
-   "freq": 1641,
+   "freq": 1637,
    "tier": 1,
    "rank": 3,
    "top1000": false,
@@ -114,7 +114,7 @@
    "waray": "mga",
    "pos": null,
    "gloss": "plural marker (the …s)",
-   "freq": 997,
+   "freq": 975,
    "tier": 1,
    "rank": 5,
    "top1000": false,
@@ -134,28 +134,28 @@
    "cardId": "c375"
   },
   {
-   "id": "na",
-   "waray": "na",
-   "pos": null,
-   "gloss": "already",
-   "freq": 648,
-   "tier": 1,
-   "rank": 7,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c396"
-  },
-  {
    "id": "it",
    "waray": "it",
    "pos": null,
    "gloss": "the (now / general)",
    "freq": 645,
    "tier": 1,
-   "rank": 8,
+   "rank": 7,
    "top1000": false,
    "inDeck": true,
    "cardId": "c288"
+  },
+  {
+   "id": "na",
+   "waray": "na",
+   "pos": null,
+   "gloss": "already",
+   "freq": 614,
+   "tier": 1,
+   "rank": 8,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c396"
   },
   {
    "id": "iya",
@@ -186,7 +186,7 @@
    "waray": "Waray",
    "pos": "modifier",
    "gloss": "speaker of Waray",
-   "freq": 477,
+   "freq": 476,
    "tier": 1,
    "rank": 11,
    "top1000": true,
@@ -222,7 +222,7 @@
    "waray": "pa",
    "pos": null,
    "gloss": "still / yet",
-   "freq": 373,
+   "freq": 372,
    "tier": 1,
    "rank": 14,
    "top1000": false,
@@ -270,7 +270,7 @@
    "waray": "ni",
    "pos": null,
    "gloss": "of / by (before a name)",
-   "freq": 299,
+   "freq": 298,
    "tier": 1,
    "rank": 18,
    "top1000": false,
@@ -290,28 +290,28 @@
    "cardId": "c28"
   },
   {
-   "id": "may",
-   "waray": "may",
-   "pos": "modifier",
-   "gloss": "indicates presence, or place",
-   "freq": 276,
-   "tier": 1,
-   "rank": 20,
-   "top1000": true,
-   "inDeck": true,
-   "cardId": "c636"
-  },
-  {
    "id": "diri",
    "waray": "Diri",
    "pos": "modifier",
    "gloss": "not; no; negative.",
    "freq": 271,
    "tier": 1,
-   "rank": 21,
+   "rank": 20,
    "top1000": true,
    "inDeck": true,
    "cardId": "c8"
+  },
+  {
+   "id": "may",
+   "waray": "may",
+   "pos": "modifier",
+   "gloss": "indicates presence, or place",
+   "freq": 271,
+   "tier": 1,
+   "rank": 21,
+   "top1000": true,
+   "inDeck": true,
+   "cardId": "c636"
   },
   {
    "id": "ba",
@@ -878,28 +878,28 @@
    "cardId": "c638"
   },
   {
-   "id": "iyo",
-   "waray": "iyo",
-   "pos": null,
-   "gloss": "yours (pl)",
-   "freq": 65,
-   "tier": 1,
-   "rank": 69,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c356"
-  },
-  {
    "id": "sugad",
    "waray": "sugad",
    "pos": "modifier",
    "gloss": "like/as if.",
    "freq": 65,
    "tier": 1,
-   "rank": 70,
+   "rank": 69,
    "top1000": true,
    "inDeck": true,
    "cardId": "c634"
+  },
+  {
+   "id": "iyo",
+   "waray": "iyo",
+   "pos": null,
+   "gloss": "yours (pl)",
+   "freq": 64,
+   "tier": 1,
+   "rank": 70,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c356"
   },
   {
    "id": "baga",
@@ -1026,7 +1026,7 @@
    "waray": "lugar",
    "pos": "noun",
    "gloss": "place; locality; space.",
-   "freq": 54,
+   "freq": 53,
    "tier": 1,
    "rank": 81,
    "top1000": true,
@@ -1046,28 +1046,28 @@
    "cardId": "c630"
   },
   {
-   "id": "tubig",
-   "waray": "tubig",
-   "pos": "noun",
-   "gloss": "water.",
-   "freq": 51,
-   "tier": 1,
-   "rank": 83,
-   "top1000": true,
-   "inDeck": true,
-   "cardId": "c257"
-  },
-  {
    "id": "hin-o",
    "waray": "hin-o",
    "pos": null,
    "gloss": "who",
    "freq": 50,
    "tier": 1,
-   "rank": 84,
+   "rank": 83,
    "top1000": false,
    "inDeck": true,
    "cardId": "c384"
+  },
+  {
+   "id": "tubig",
+   "waray": "tubig",
+   "pos": "noun",
+   "gloss": "water.",
+   "freq": 50,
+   "tier": 1,
+   "rank": 84,
+   "top1000": true,
+   "inDeck": true,
+   "cardId": "c257"
   },
   {
    "id": "anay",
@@ -1094,25 +1094,13 @@
    "cardId": "c646"
   },
   {
-   "id": "panahon",
-   "waray": "panahon",
-   "pos": "noun",
-   "gloss": "time; era; period 2 weather condition. 1",
-   "freq": 47,
-   "tier": 1,
-   "rank": 87,
-   "top1000": true,
-   "inDeck": true,
-   "cardId": "c524"
-  },
-  {
    "id": "tanan",
    "waray": "tanan",
    "pos": "noun",
    "gloss": "all 2 escape; flee; elope. 1",
    "freq": 47,
    "tier": 1,
-   "rank": 88,
+   "rank": 87,
    "top1000": true,
    "inDeck": true,
    "cardId": "c637"
@@ -1124,7 +1112,7 @@
    "gloss": "life.",
    "freq": 46,
    "tier": 1,
-   "rank": 89,
+   "rank": 88,
    "top1000": true,
    "inDeck": true,
    "cardId": "c537"
@@ -1136,7 +1124,7 @@
    "gloss": "must, ought, should;",
    "freq": 45,
    "tier": 1,
-   "rank": 90,
+   "rank": 89,
    "top1000": true,
    "inDeck": true,
    "cardId": "c416"
@@ -1148,7 +1136,7 @@
    "gloss": "food 2 eat; to take food. 1",
    "freq": 45,
    "tier": 1,
-   "rank": 91,
+   "rank": 90,
    "top1000": true,
    "inDeck": true,
    "cardId": "c243"
@@ -1160,7 +1148,7 @@
    "gloss": "to be; proper; correct;",
    "freq": 44,
    "tier": 1,
-   "rank": 92,
+   "rank": 91,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1172,7 +1160,7 @@
    "gloss": "heaven.",
    "freq": 44,
    "tier": 1,
-   "rank": 93,
+   "rank": 92,
    "top1000": true,
    "inDeck": true,
    "cardId": "c521"
@@ -1184,10 +1172,22 @@
    "gloss": "in the know; knowledgable.",
    "freq": 44,
    "tier": 1,
-   "rank": 94,
+   "rank": 93,
    "top1000": true,
    "inDeck": true,
    "cardId": "c647"
+  },
+  {
+   "id": "panahon",
+   "waray": "panahon",
+   "pos": "noun",
+   "gloss": "time; era; period 2 weather condition. 1",
+   "freq": 44,
+   "tier": 1,
+   "rank": 94,
+   "top1000": true,
+   "inDeck": true,
+   "cardId": "c524"
   },
   {
    "id": "tuba",
@@ -1202,25 +1202,13 @@
    "cardId": null
   },
   {
-   "id": "bato",
-   "waray": "bató",
-   "pos": "noun",
-   "gloss": "stone; rock.",
-   "freq": 43,
-   "tier": 1,
-   "rank": 96,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "dagat",
    "waray": "dagat",
    "pos": "noun",
    "gloss": "sea.",
    "freq": 43,
    "tier": 1,
-   "rank": 97,
+   "rank": 96,
    "top1000": true,
    "inDeck": true,
    "cardId": "c518"
@@ -1232,7 +1220,7 @@
    "gloss": "where (from / which)",
    "freq": 43,
    "tier": 1,
-   "rank": 98,
+   "rank": 97,
    "top1000": false,
    "inDeck": true,
    "cardId": "c387"
@@ -1244,7 +1232,7 @@
    "gloss": "(dialectal variation for the word waray) none; nothing;",
    "freq": 43,
    "tier": 1,
-   "rank": 99,
+   "rank": 98,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1256,7 +1244,7 @@
    "gloss": "grandparent",
    "freq": 42,
    "tier": 1,
-   "rank": 100,
+   "rank": 99,
    "top1000": false,
    "inDeck": true,
    "cardId": "c425"
@@ -1268,10 +1256,22 @@
    "gloss": "big; huge; vast.",
    "freq": 41,
    "tier": 1,
-   "rank": 101,
+   "rank": 100,
    "top1000": true,
    "inDeck": true,
    "cardId": "c649"
+  },
+  {
+   "id": "bato",
+   "waray": "bató",
+   "pos": "noun",
+   "gloss": "stone; rock.",
+   "freq": 40,
+   "tier": 1,
+   "rank": 101,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
   },
   {
    "id": "basi",
@@ -1334,25 +1334,13 @@
    "cardId": "c475"
   },
   {
-   "id": "di",
-   "waray": "di",
-   "pos": "modifier",
-   "gloss": "not (short for diri) 2 with (something). 1",
-   "freq": 37,
-   "tier": 1,
-   "rank": 107,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "namon",
    "waray": "namon",
    "pos": null,
    "gloss": "our (excl)",
    "freq": 37,
    "tier": 1,
-   "rank": 108,
+   "rank": 107,
    "top1000": false,
    "inDeck": true,
    "cardId": "c344"
@@ -1364,10 +1352,22 @@
    "gloss": "a thing; an object; a matter.",
    "freq": 36,
    "tier": 1,
-   "rank": 109,
+   "rank": 108,
    "top1000": true,
    "inDeck": true,
    "cardId": "c644"
+  },
+  {
+   "id": "di",
+   "waray": "di",
+   "pos": "modifier",
+   "gloss": "not (short for diri) 2 with (something). 1",
+   "freq": 36,
+   "tier": 1,
+   "rank": 109,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
   },
   {
    "id": "puno",
@@ -1430,25 +1430,13 @@
    "cardId": "c45"
   },
   {
-   "id": "barko",
-   "waray": "bárko",
-   "pos": "noun",
-   "gloss": "boat; ship.",
-   "freq": 34,
-   "tier": 2,
-   "rank": 115,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "baton",
    "waray": "batón",
    "pos": "verb",
    "gloss": "reply;answer 2 to respond. 1",
    "freq": 34,
    "tier": 2,
-   "rank": 116,
+   "rank": 115,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1460,7 +1448,7 @@
    "gloss": "will; mind; sanity; want; wish.",
    "freq": 34,
    "tier": 2,
-   "rank": 117,
+   "rank": 116,
    "top1000": true,
    "inDeck": true,
    "cardId": "c648"
@@ -1472,7 +1460,7 @@
    "gloss": "night;evening.",
    "freq": 34,
    "tier": 2,
-   "rank": 118,
+   "rank": 117,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1484,7 +1472,7 @@
    "gloss": "the language of the Waray people.",
    "freq": 34,
    "tier": 2,
-   "rank": 119,
+   "rank": 118,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1496,7 +1484,7 @@
    "gloss": "joyful; blissful; cheerful; delightful; happy;",
    "freq": 33,
    "tier": 2,
-   "rank": 120,
+   "rank": 119,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1508,7 +1496,7 @@
    "gloss": "main; major; superior 2 mayor (as in town",
    "freq": 33,
    "tier": 2,
-   "rank": 121,
+   "rank": 120,
    "top1000": true,
    "inDeck": true,
    "cardId": "c443"
@@ -1520,7 +1508,7 @@
    "gloss": "two",
    "freq": 32,
    "tier": 2,
-   "rank": 122,
+   "rank": 121,
    "top1000": false,
    "inDeck": true,
    "cardId": "c298"
@@ -1532,7 +1520,7 @@
    "gloss": "beautiful; pretty.",
    "freq": 32,
    "tier": 2,
-   "rank": 123,
+   "rank": 122,
    "top1000": true,
    "inDeck": true,
    "cardId": "c157"
@@ -1544,7 +1532,7 @@
    "gloss": "older brother; older male cousin; polite",
    "freq": 32,
    "tier": 2,
-   "rank": 124,
+   "rank": 123,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1555,6 +1543,18 @@
    "pos": "modifier",
    "gloss": "as a matter of fact; although; according to.",
    "freq": 32,
+   "tier": 2,
+   "rank": 124,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "barko",
+   "waray": "bárko",
+   "pos": "noun",
+   "gloss": "boat; ship.",
+   "freq": 31,
    "tier": 2,
    "rank": 125,
    "top1000": true,
@@ -1706,25 +1706,13 @@
    "cardId": null
   },
   {
-   "id": "isda",
-   "waray": "isda",
-   "pos": "noun",
-   "gloss": "fish.",
-   "freq": 28,
-   "tier": 2,
-   "rank": 138,
-   "top1000": true,
-   "inDeck": true,
-   "cardId": "c100"
-  },
-  {
    "id": "makaon",
    "waray": "makaon",
    "pos": "modifier",
    "gloss": "will eat 2 glutton; voracious;",
    "freq": 28,
    "tier": 2,
-   "rank": 139,
+   "rank": 138,
    "top1000": true,
    "inDeck": true,
    "cardId": "c404"
@@ -1736,7 +1724,7 @@
    "gloss": "later on.",
    "freq": 28,
    "tier": 2,
-   "rank": 140,
+   "rank": 139,
    "top1000": true,
    "inDeck": true,
    "cardId": "c117"
@@ -1748,7 +1736,7 @@
    "gloss": "family.",
    "freq": 28,
    "tier": 2,
-   "rank": 141,
+   "rank": 140,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1760,7 +1748,7 @@
    "gloss": "disease; ache; ailment; infirmity; malady; pain;",
    "freq": 28,
    "tier": 2,
-   "rank": 142,
+   "rank": 141,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -1772,7 +1760,7 @@
    "gloss": "clothes; garment.",
    "freq": 27,
    "tier": 2,
-   "rank": 143,
+   "rank": 142,
    "top1000": true,
    "inDeck": true,
    "cardId": "c80"
@@ -1784,10 +1772,22 @@
    "gloss": "flower; blossom; bloom 2 a tool used to dig. 1",
    "freq": 27,
    "tier": 2,
-   "rank": 144,
+   "rank": 143,
    "top1000": true,
    "inDeck": true,
    "cardId": "c519"
+  },
+  {
+   "id": "isda",
+   "waray": "isda",
+   "pos": "noun",
+   "gloss": "fish.",
+   "freq": 27,
+   "tier": 2,
+   "rank": 144,
+   "top1000": true,
+   "inDeck": true,
+   "cardId": "c100"
   },
   {
    "id": "tuig",
@@ -1922,25 +1922,13 @@
    "cardId": "c187"
   },
   {
-   "id": "oras",
-   "waray": "óras",
-   "pos": "noun",
-   "gloss": "time.",
-   "freq": 25,
-   "tier": 2,
-   "rank": 156,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "trabaho",
    "waray": "trabaho",
    "pos": "noun",
    "gloss": "work; livelihood; occupation.",
    "freq": 25,
    "tier": 2,
-   "rank": 157,
+   "rank": 156,
    "top1000": true,
    "inDeck": true,
    "cardId": "c419"
@@ -1952,7 +1940,7 @@
    "gloss": "dog.",
    "freq": 24,
    "tier": 2,
-   "rank": 158,
+   "rank": 157,
    "top1000": true,
    "inDeck": true,
    "cardId": "c522"
@@ -1964,7 +1952,7 @@
    "gloss": "bag",
    "freq": 24,
    "tier": 2,
-   "rank": 159,
+   "rank": 158,
    "top1000": false,
    "inDeck": true,
    "cardId": "c620"
@@ -1976,7 +1964,7 @@
    "gloss": "small; few; meagre; less.",
    "freq": 24,
    "tier": 2,
-   "rank": 160,
+   "rank": 159,
    "top1000": true,
    "inDeck": true,
    "cardId": "c457"
@@ -1988,7 +1976,7 @@
    "gloss": "after; aftermath; completion;",
    "freq": 24,
    "tier": 2,
-   "rank": 161,
+   "rank": 160,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2000,7 +1988,7 @@
    "gloss": "said; spoke; told; asked.",
    "freq": 24,
    "tier": 2,
-   "rank": 162,
+   "rank": 161,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2012,7 +2000,7 @@
    "gloss": "language.",
    "freq": 24,
    "tier": 2,
-   "rank": 163,
+   "rank": 162,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2024,7 +2012,7 @@
    "gloss": "expression of surprise, or warning; watch out!",
    "freq": 23,
    "tier": 2,
-   "rank": 164,
+   "rank": 163,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2036,7 +2024,7 @@
    "gloss": "do; thing to do; be made possible.",
    "freq": 23,
    "tier": 2,
-   "rank": 165,
+   "rank": 164,
    "top1000": true,
    "inDeck": true,
    "cardId": "c417"
@@ -2048,7 +2036,7 @@
    "gloss": "eye 2 to wake up 3 markings on",
    "freq": 23,
    "tier": 2,
-   "rank": 166,
+   "rank": 165,
    "top1000": true,
    "inDeck": true,
    "cardId": "c453"
@@ -2060,10 +2048,22 @@
    "gloss": "our (incl)",
    "freq": 23,
    "tier": 2,
-   "rank": 167,
+   "rank": 166,
    "top1000": false,
    "inDeck": true,
    "cardId": "c343"
+  },
+  {
+   "id": "oras",
+   "waray": "óras",
+   "pos": "noun",
+   "gloss": "time.",
+   "freq": 23,
+   "tier": 2,
+   "rank": 167,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
   },
   {
    "id": "upod",
@@ -2270,37 +2270,13 @@
    "cardId": null
   },
   {
-   "id": "mas",
-   "waray": "mas",
-   "pos": "modifier",
-   "gloss": "more (use to show degree of comparison).",
-   "freq": 21,
-   "tier": 2,
-   "rank": 185,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
-   "id": "nakita",
-   "waray": "nakíta",
-   "pos": "verb",
-   "gloss": "can see;",
-   "freq": 21,
-   "tier": 2,
-   "rank": 186,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "pag-abot",
    "waray": "pag-abót",
    "pos": "verb",
    "gloss": "the act of arriving; coming; arrival; advent.",
    "freq": 21,
    "tier": 2,
-   "rank": 187,
+   "rank": 185,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2312,7 +2288,7 @@
    "gloss": "sibling.",
    "freq": 20,
    "tier": 2,
-   "rank": 188,
+   "rank": 186,
    "top1000": true,
    "inDeck": true,
    "cardId": "c427"
@@ -2324,7 +2300,7 @@
    "gloss": "center; core; middle; nucleus.",
    "freq": 20,
    "tier": 2,
-   "rank": 189,
+   "rank": 187,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2336,7 +2312,7 @@
    "gloss": "to make; to do; to compose; to create; to construct;",
    "freq": 20,
    "tier": 2,
-   "rank": 190,
+   "rank": 188,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2348,16 +2324,40 @@
    "gloss": "song.",
    "freq": 20,
    "tier": 2,
-   "rank": 191,
+   "rank": 189,
    "top1000": true,
    "inDeck": true,
    "cardId": "c491"
+  },
+  {
+   "id": "mas",
+   "waray": "mas",
+   "pos": "modifier",
+   "gloss": "more (use to show degree of comparison).",
+   "freq": 20,
+   "tier": 2,
+   "rank": 190,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
   },
   {
    "id": "nagin",
    "waray": "nagin",
    "pos": "verb",
    "gloss": "became; turn into.",
+   "freq": 20,
+   "tier": 2,
+   "rank": 191,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "nakita",
+   "waray": "nakíta",
+   "pos": "verb",
+   "gloss": "can see;",
    "freq": 20,
    "tier": 2,
    "rank": 192,
@@ -2570,25 +2570,13 @@
    "cardId": null
   },
   {
-   "id": "sakay",
-   "waray": "sakáy",
-   "pos": "noun",
-   "gloss": "to ride; to embark; to transport",
-   "freq": 18,
-   "tier": 2,
-   "rank": 210,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "ulo",
    "waray": "ulo",
    "pos": "noun",
    "gloss": "head .",
    "freq": 18,
    "tier": 2,
-   "rank": 211,
+   "rank": 210,
    "top1000": true,
    "inDeck": true,
    "cardId": "c454"
@@ -2600,7 +2588,7 @@
    "gloss": "to utter; to assert; to say;",
    "freq": 18,
    "tier": 2,
-   "rank": 212,
+   "rank": 211,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2612,7 +2600,7 @@
    "gloss": "mouth 2 to carry",
    "freq": 17,
    "tier": 2,
-   "rank": 213,
+   "rank": 212,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2624,7 +2612,7 @@
    "gloss": "wave 2 wild pigoen.",
    "freq": 17,
    "tier": 2,
-   "rank": 214,
+   "rank": 213,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2636,7 +2624,7 @@
    "gloss": "stuff; things; utility.",
    "freq": 17,
    "tier": 2,
-   "rank": 215,
+   "rank": 214,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2648,7 +2636,7 @@
    "gloss": "down to including 2 until, till. 1",
    "freq": 17,
    "tier": 2,
-   "rank": 216,
+   "rank": 215,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2660,7 +2648,7 @@
    "gloss": "under; beneath; below; bottom.",
    "freq": 17,
    "tier": 2,
-   "rank": 217,
+   "rank": 216,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2672,7 +2660,7 @@
    "gloss": "head of a barangay 2 captain; master of a vessel.",
    "freq": 17,
    "tier": 2,
-   "rank": 218,
+   "rank": 217,
    "top1000": true,
    "inDeck": true,
    "cardId": "c442"
@@ -2684,7 +2672,7 @@
    "gloss": "companion; mate; partner; cohort; friend.",
    "freq": 17,
    "tier": 2,
-   "rank": 219,
+   "rank": 218,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2696,7 +2684,7 @@
    "gloss": "expensive; costly; dear; excellent; illustrious.",
    "freq": 17,
    "tier": 2,
-   "rank": 220,
+   "rank": 219,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2708,7 +2696,7 @@
    "gloss": "died.",
    "freq": 17,
    "tier": 2,
-   "rank": 221,
+   "rank": 220,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2720,7 +2708,7 @@
    "gloss": "your",
    "freq": 17,
    "tier": 2,
-   "rank": 222,
+   "rank": 221,
    "top1000": false,
    "inDeck": true,
    "cardId": "c341"
@@ -2732,7 +2720,7 @@
    "gloss": "feast; fiesta; town fiesta; festival 2 patron; patron saint.",
    "freq": 17,
    "tier": 2,
-   "rank": 223,
+   "rank": 222,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2744,7 +2732,7 @@
    "gloss": "parrot.",
    "freq": 17,
    "tier": 2,
-   "rank": 224,
+   "rank": 223,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -2754,6 +2742,18 @@
    "waray": "pipirá",
    "pos": "modifier",
    "gloss": "in limited number.",
+   "freq": 17,
+   "tier": 2,
+   "rank": 224,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "sakay",
+   "waray": "sakáy",
+   "pos": "noun",
+   "gloss": "to ride; to embark; to transport",
    "freq": 17,
    "tier": 2,
    "rank": 225,
@@ -3578,25 +3578,13 @@
    "cardId": null
   },
   {
-   "id": "barangay",
-   "waray": "barangay",
-   "pos": "noun",
-   "gloss": "village; the smallest political unit of the community.",
-   "freq": 13,
-   "tier": 2,
-   "rank": 294,
-   "top1000": true,
-   "inDeck": true,
-   "cardId": "c623"
-  },
-  {
    "id": "didi",
    "waray": "didi",
    "pos": null,
    "gloss": "here (this place)",
    "freq": 13,
    "tier": 2,
-   "rank": 295,
+   "rank": 294,
    "top1000": false,
    "inDeck": true,
    "cardId": "c126"
@@ -3608,7 +3596,7 @@
    "gloss": "extra; addition; more 2 to have",
    "freq": 13,
    "tier": 2,
-   "rank": 296,
+   "rank": 295,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3620,7 +3608,7 @@
    "gloss": "government.",
    "freq": 13,
    "tier": 2,
-   "rank": 297,
+   "rank": 296,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3632,7 +3620,7 @@
    "gloss": "close;near; approaching.",
    "freq": 13,
    "tier": 2,
-   "rank": 298,
+   "rank": 297,
    "top1000": true,
    "inDeck": true,
    "cardId": "c169"
@@ -3644,7 +3632,7 @@
    "gloss": "tall / long",
    "freq": 13,
    "tier": 2,
-   "rank": 299,
+   "rank": 298,
    "top1000": false,
    "inDeck": true,
    "cardId": "c57"
@@ -3656,7 +3644,7 @@
    "gloss": "to give",
    "freq": 13,
    "tier": 2,
-   "rank": 300,
+   "rank": 299,
    "top1000": false,
    "inDeck": true,
    "cardId": "c470"
@@ -3668,7 +3656,7 @@
    "gloss": "near.",
    "freq": 13,
    "tier": 2,
-   "rank": 301,
+   "rank": 300,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3680,7 +3668,7 @@
    "gloss": "varying;",
    "freq": 13,
    "tier": 2,
-   "rank": 302,
+   "rank": 301,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3692,7 +3680,7 @@
    "gloss": "on top; above.",
    "freq": 13,
    "tier": 2,
-   "rank": 303,
+   "rank": 302,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3704,7 +3692,7 @@
    "gloss": "women.",
    "freq": 13,
    "tier": 2,
-   "rank": 304,
+   "rank": 303,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3716,7 +3704,7 @@
    "gloss": "ocean; oceans; deep sea; deep seas;",
    "freq": 13,
    "tier": 2,
-   "rank": 305,
+   "rank": 304,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3728,7 +3716,7 @@
    "gloss": "joy; hapiness.",
    "freq": 13,
    "tier": 2,
-   "rank": 306,
+   "rank": 305,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3740,7 +3728,7 @@
    "gloss": "eat.",
    "freq": 13,
    "tier": 2,
-   "rank": 307,
+   "rank": 306,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3752,7 +3740,7 @@
    "gloss": "go/went there.",
    "freq": 13,
    "tier": 2,
-   "rank": 308,
+   "rank": 307,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3764,7 +3752,7 @@
    "gloss": "margin; edge; border; rim 2 to",
    "freq": 13,
    "tier": 2,
-   "rank": 309,
+   "rank": 308,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3776,7 +3764,7 @@
    "gloss": "literature.",
    "freq": 13,
    "tier": 2,
-   "rank": 310,
+   "rank": 309,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3788,7 +3776,7 @@
    "gloss": "will arrive; will reach; will produce; will attain;",
    "freq": 13,
    "tier": 2,
-   "rank": 311,
+   "rank": 310,
    "top1000": true,
    "inDeck": true,
    "cardId": "c276"
@@ -3800,7 +3788,7 @@
    "gloss": "seen; will",
    "freq": 13,
    "tier": 2,
-   "rank": 312,
+   "rank": 311,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3812,7 +3800,7 @@
    "gloss": "past; history.",
    "freq": 13,
    "tier": 2,
-   "rank": 313,
+   "rank": 312,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3824,7 +3812,7 @@
    "gloss": "nation; country.",
    "freq": 13,
    "tier": 2,
-   "rank": 314,
+   "rank": 313,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3836,7 +3824,7 @@
    "gloss": "continue; to continue; advance;",
    "freq": 13,
    "tier": 2,
-   "rank": 315,
+   "rank": 314,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3848,7 +3836,7 @@
    "gloss": "love; to love.",
    "freq": 13,
    "tier": 2,
-   "rank": 316,
+   "rank": 315,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3860,7 +3848,7 @@
    "gloss": null,
    "freq": 13,
    "tier": 2,
-   "rank": 317,
+   "rank": 316,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3872,7 +3860,7 @@
    "gloss": "perception; feeling 2 (imperative) to",
    "freq": 13,
    "tier": 2,
-   "rank": 318,
+   "rank": 317,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3884,7 +3872,7 @@
    "gloss": "like; same as.",
    "freq": 13,
    "tier": 2,
-   "rank": 319,
+   "rank": 318,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3896,7 +3884,7 @@
    "gloss": "poor; needy.",
    "freq": 13,
    "tier": 2,
-   "rank": 320,
+   "rank": 319,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3908,7 +3896,7 @@
    "gloss": "radio.",
    "freq": 13,
    "tier": 2,
-   "rank": 321,
+   "rank": 320,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3920,7 +3908,7 @@
    "gloss": "thank you.",
    "freq": 13,
    "tier": 2,
-   "rank": 322,
+   "rank": 321,
    "top1000": true,
    "inDeck": true,
    "cardId": "c5"
@@ -3932,7 +3920,7 @@
    "gloss": "when",
    "freq": 13,
    "tier": 2,
-   "rank": 323,
+   "rank": 322,
    "top1000": false,
    "inDeck": true,
    "cardId": "c278"
@@ -3944,7 +3932,7 @@
    "gloss": "therefore; for this reason.",
    "freq": 13,
    "tier": 2,
-   "rank": 324,
+   "rank": 323,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3956,7 +3944,7 @@
    "gloss": "kitten; cat.",
    "freq": 13,
    "tier": 2,
-   "rank": 325,
+   "rank": 324,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -3968,7 +3956,7 @@
    "gloss": "prepare; prepared.",
    "freq": 12,
    "tier": 2,
-   "rank": 326,
+   "rank": 325,
    "top1000": true,
    "inDeck": true,
    "cardId": "c108"
@@ -3980,7 +3968,7 @@
    "gloss": "grandchild 2 submerge; up to the brim; overflow. 1",
    "freq": 12,
    "tier": 2,
-   "rank": 327,
+   "rank": 326,
    "top1000": true,
    "inDeck": true,
    "cardId": "c426"
@@ -3992,10 +3980,22 @@
    "gloss": "odor; smell(good/bad) 2. foul odor",
    "freq": 12,
    "tier": 2,
-   "rank": 328,
+   "rank": 327,
    "top1000": true,
    "inDeck": false,
    "cardId": null
+  },
+  {
+   "id": "barangay",
+   "waray": "barangay",
+   "pos": "noun",
+   "gloss": "village; the smallest political unit of the community.",
+   "freq": 12,
+   "tier": 2,
+   "rank": 328,
+   "top1000": true,
+   "inDeck": true,
+   "cardId": "c623"
   },
   {
    "id": "buhok",
@@ -4106,25 +4106,13 @@
    "cardId": "c455"
   },
   {
-   "id": "kaya",
-   "waray": "kaya",
-   "pos": "modifier",
-   "gloss": "ability to accomplish; possible; capable.",
-   "freq": 12,
-   "tier": 2,
-   "rank": 338,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "kros",
    "waray": "kros",
    "pos": null,
    "gloss": "cross",
    "freq": 12,
    "tier": 2,
-   "rank": 339,
+   "rank": 338,
    "top1000": false,
    "inDeck": true,
    "cardId": "c536"
@@ -4135,8 +4123,8 @@
    "pos": "verb",
    "gloss": "eat/ate.",
    "freq": 12,
-   "tier": 3,
-   "rank": 340,
+   "tier": 2,
+   "rank": 339,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4148,7 +4136,7 @@
    "gloss": "strength; effort.",
    "freq": 12,
    "tier": 3,
-   "rank": 341,
+   "rank": 340,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4160,7 +4148,7 @@
    "gloss": "chief;superior; above all else; above anything else.",
    "freq": 12,
    "tier": 3,
-   "rank": 342,
+   "rank": 341,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4172,7 +4160,7 @@
    "gloss": "errand; mission",
    "freq": 12,
    "tier": 3,
-   "rank": 343,
+   "rank": 342,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4184,7 +4172,7 @@
    "gloss": "grandmother.",
    "freq": 12,
    "tier": 3,
-   "rank": 344,
+   "rank": 343,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4196,7 +4184,7 @@
    "gloss": "tears.",
    "freq": 12,
    "tier": 3,
-   "rank": 345,
+   "rank": 344,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4208,7 +4196,7 @@
    "gloss": "persons with ugly character.",
    "freq": 12,
    "tier": 3,
-   "rank": 346,
+   "rank": 345,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4220,7 +4208,7 @@
    "gloss": "difficult.",
    "freq": 12,
    "tier": 3,
-   "rank": 347,
+   "rank": 346,
    "top1000": true,
    "inDeck": true,
    "cardId": "c266"
@@ -4232,7 +4220,7 @@
    "gloss": "moor; Muslim; Moslem; Mohammedan.",
    "freq": 12,
    "tier": 3,
-   "rank": 348,
+   "rank": 347,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4244,7 +4232,7 @@
    "gloss": "motorcycle",
    "freq": 12,
    "tier": 3,
-   "rank": 349,
+   "rank": 348,
    "top1000": false,
    "inDeck": true,
    "cardId": "c92"
@@ -4256,7 +4244,7 @@
    "gloss": "utilized; utilization.",
    "freq": 12,
    "tier": 3,
-   "rank": 350,
+   "rank": 349,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4268,7 +4256,7 @@
    "gloss": "to buy; bought.",
    "freq": 12,
    "tier": 3,
-   "rank": 351,
+   "rank": 350,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4280,7 +4268,7 @@
    "gloss": "to eat; eat 2 let",
    "freq": 12,
    "tier": 3,
-   "rank": 352,
+   "rank": 351,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4292,7 +4280,7 @@
    "gloss": "paper; document 2 role. 1",
    "freq": 12,
    "tier": 3,
-   "rank": 353,
+   "rank": 352,
    "top1000": true,
    "inDeck": true,
    "cardId": "c503"
@@ -4304,7 +4292,7 @@
    "gloss": "seven",
    "freq": 12,
    "tier": 3,
-   "rank": 354,
+   "rank": 353,
    "top1000": false,
    "inDeck": true,
    "cardId": "c303"
@@ -4316,7 +4304,7 @@
    "gloss": "red",
    "freq": 12,
    "tier": 3,
-   "rank": 355,
+   "rank": 354,
    "top1000": false,
    "inDeck": true,
    "cardId": "c330"
@@ -4328,7 +4316,7 @@
    "gloss": "shoes",
    "freq": 12,
    "tier": 3,
-   "rank": 356,
+   "rank": 355,
    "top1000": false,
    "inDeck": true,
    "cardId": "c84"
@@ -4340,7 +4328,7 @@
    "gloss": "to write",
    "freq": 12,
    "tier": 3,
-   "rank": 357,
+   "rank": 356,
    "top1000": false,
    "inDeck": true,
    "cardId": "c483"
@@ -4352,7 +4340,7 @@
    "gloss": "correct; right ; appropriate;",
    "freq": 12,
    "tier": 3,
-   "rank": 358,
+   "rank": 357,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4364,7 +4352,7 @@
    "gloss": "doctor; medicine man; faith healer; quack",
    "freq": 12,
    "tier": 3,
-   "rank": 359,
+   "rank": 358,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4376,7 +4364,7 @@
    "gloss": "end, finish, complete; 2 feast",
    "freq": 12,
    "tier": 3,
-   "rank": 360,
+   "rank": 359,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4388,7 +4376,7 @@
    "gloss": "belly; stomach.",
    "freq": 12,
    "tier": 3,
-   "rank": 361,
+   "rank": 360,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4400,7 +4388,7 @@
    "gloss": "up to; till; until; demarcation;",
    "freq": 12,
    "tier": 3,
-   "rank": 362,
+   "rank": 361,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4412,7 +4400,7 @@
    "gloss": "consume; exhaust; to finish",
    "freq": 12,
    "tier": 3,
-   "rank": 363,
+   "rank": 362,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4424,7 +4412,7 @@
    "gloss": "stop; cease; discontinue; halt;",
    "freq": 12,
    "tier": 3,
-   "rank": 364,
+   "rank": 363,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4436,7 +4424,7 @@
    "gloss": "to return home; to return a borrowed thing; 2 to",
    "freq": 12,
    "tier": 3,
-   "rank": 365,
+   "rank": 364,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4448,7 +4436,7 @@
    "gloss": "debt.",
    "freq": 12,
    "tier": 3,
-   "rank": 366,
+   "rank": 365,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4460,7 +4448,7 @@
    "gloss": "language.",
    "freq": 12,
    "tier": 3,
-   "rank": 367,
+   "rank": 366,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4472,7 +4460,7 @@
    "gloss": "reach; to attain; to meet; to happen; to",
    "freq": 11,
    "tier": 3,
-   "rank": 368,
+   "rank": 367,
    "top1000": true,
    "inDeck": true,
    "cardId": "c481"
@@ -4484,7 +4472,7 @@
    "gloss": "to prefer;",
    "freq": 11,
    "tier": 3,
-   "rank": 369,
+   "rank": 368,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4496,7 +4484,7 @@
    "gloss": "return; come back; repeat.",
    "freq": 11,
    "tier": 3,
-   "rank": 370,
+   "rank": 369,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4508,7 +4496,7 @@
    "gloss": "visitor.",
    "freq": 11,
    "tier": 3,
-   "rank": 371,
+   "rank": 370,
    "top1000": true,
    "inDeck": true,
    "cardId": "c53"
@@ -4520,7 +4508,7 @@
    "gloss": "white.",
    "freq": 11,
    "tier": 3,
-   "rank": 372,
+   "rank": 371,
    "top1000": true,
    "inDeck": true,
    "cardId": "c329"
@@ -4532,7 +4520,7 @@
    "gloss": "old 2 in advance.",
    "freq": 11,
    "tier": 3,
-   "rank": 373,
+   "rank": 372,
    "top1000": true,
    "inDeck": true,
    "cardId": "c468"
@@ -4544,7 +4532,7 @@
    "gloss": "leaf 2 page. 1",
    "freq": 11,
    "tier": 3,
-   "rank": 374,
+   "rank": 373,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4556,7 +4544,7 @@
    "gloss": "want; desire;like.",
    "freq": 11,
    "tier": 3,
-   "rank": 375,
+   "rank": 374,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4568,7 +4556,7 @@
    "gloss": "to roost; to perch",
    "freq": 11,
    "tier": 3,
-   "rank": 376,
+   "rank": 375,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4580,7 +4568,7 @@
    "gloss": "opportunity; chance; time.",
    "freq": 11,
    "tier": 3,
-   "rank": 377,
+   "rank": 376,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4592,7 +4580,7 @@
    "gloss": "tamed/trained/domesticated animal 2 cord; rope;",
    "freq": 11,
    "tier": 3,
-   "rank": 378,
+   "rank": 377,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4604,7 +4592,7 @@
    "gloss": "mind; thoughts; thinking .",
    "freq": 11,
    "tier": 3,
-   "rank": 379,
+   "rank": 378,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4616,7 +4604,7 @@
    "gloss": "(imperative) come here; come",
    "freq": 11,
    "tier": 3,
-   "rank": 380,
+   "rank": 379,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4628,7 +4616,7 @@
    "gloss": "parent; parents. Ta, diri makaarawod han ira kag-anak.",
    "freq": 11,
    "tier": 3,
-   "rank": 381,
+   "rank": 380,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4640,7 +4628,7 @@
    "gloss": "situation; state; being; condition.",
    "freq": 11,
    "tier": 3,
-   "rank": 382,
+   "rank": 381,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4652,7 +4640,7 @@
    "gloss": "afterwards; later; later on.",
    "freq": 11,
    "tier": 3,
-   "rank": 383,
+   "rank": 382,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -4662,6 +4650,18 @@
    "waray": "katawhan",
    "pos": "noun",
    "gloss": "people; humanity.",
+   "freq": 11,
+   "tier": 3,
+   "rank": 383,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "kaya",
+   "waray": "kaya",
+   "pos": "modifier",
+   "gloss": "ability to accomplish; possible; capable.",
    "freq": 11,
    "tier": 3,
    "rank": 384,
@@ -5894,25 +5894,13 @@
    "cardId": null
   },
   {
-   "id": "termino",
-   "waray": "término",
-   "pos": "noun",
-   "gloss": "term; word.",
-   "freq": 9,
-   "tier": 3,
-   "rank": 487,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
    "id": "tinuod",
    "waray": "tinúod",
    "pos": "verb",
    "gloss": "true 2 believed",
    "freq": 9,
    "tier": 3,
-   "rank": 488,
+   "rank": 487,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -5924,7 +5912,7 @@
    "gloss": "tone; sound; noise.",
    "freq": 9,
    "tier": 3,
-   "rank": 489,
+   "rank": 488,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -5936,7 +5924,7 @@
    "gloss": "four",
    "freq": 9,
    "tier": 3,
-   "rank": 490,
+   "rank": 489,
    "top1000": false,
    "inDeck": true,
    "cardId": "c300"
@@ -5948,7 +5936,7 @@
    "gloss": "in order to; so that.",
    "freq": 8,
    "tier": 3,
-   "rank": 491,
+   "rank": 490,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -5960,7 +5948,7 @@
    "gloss": "American (male)",
    "freq": 8,
    "tier": 3,
-   "rank": 492,
+   "rank": 491,
    "top1000": false,
    "inDeck": true,
    "cardId": "c43"
@@ -5972,7 +5960,7 @@
    "gloss": "typhoon; tropical storm.",
    "freq": 8,
    "tier": 3,
-   "rank": 493,
+   "rank": 492,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -5984,7 +5972,7 @@
    "gloss": "shore; coast; beach; seashore; riverside.",
    "freq": 8,
    "tier": 3,
-   "rank": 494,
+   "rank": 493,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -5996,7 +5984,7 @@
    "gloss": "cheek; face 2 page (of a book) 3 aspect . 1",
    "freq": 8,
    "tier": 3,
-   "rank": 495,
+   "rank": 494,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6008,7 +5996,7 @@
    "gloss": "did; has/have done; work;",
    "freq": 8,
    "tier": 3,
-   "rank": 496,
+   "rank": 495,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6020,7 +6008,7 @@
    "gloss": "rice .",
    "freq": 8,
    "tier": 3,
-   "rank": 497,
+   "rank": 496,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6032,7 +6020,7 @@
    "gloss": "person given (with something)",
    "freq": 8,
    "tier": 3,
-   "rank": 498,
+   "rank": 497,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6044,7 +6032,7 @@
    "gloss": "was called; summoned.",
    "freq": 8,
    "tier": 3,
-   "rank": 499,
+   "rank": 498,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6056,7 +6044,7 @@
    "gloss": "serious; grave; acute; severe; too ill .",
    "freq": 8,
    "tier": 3,
-   "rank": 500,
+   "rank": 499,
    "top1000": true,
    "inDeck": true,
    "cardId": "c463"
@@ -6068,7 +6056,7 @@
    "gloss": "long; tall; length.",
    "freq": 8,
    "tier": 3,
-   "rank": 501,
+   "rank": 500,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6080,7 +6068,7 @@
    "gloss": "stop.",
    "freq": 8,
    "tier": 3,
-   "rank": 502,
+   "rank": 501,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6092,7 +6080,7 @@
    "gloss": "arrangement; position; situation;state of",
    "freq": 8,
    "tier": 3,
-   "rank": 503,
+   "rank": 502,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6104,7 +6092,7 @@
    "gloss": "bigness; size; dimension; capacity 2 big; huge;",
    "freq": 8,
    "tier": 3,
-   "rank": 504,
+   "rank": 503,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6116,7 +6104,7 @@
    "gloss": "soul.",
    "freq": 8,
    "tier": 3,
-   "rank": 505,
+   "rank": 504,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6128,7 +6116,7 @@
    "gloss": "meat",
    "freq": 8,
    "tier": 3,
-   "rank": 506,
+   "rank": 505,
    "top1000": false,
    "inDeck": true,
    "cardId": "c102"
@@ -6140,7 +6128,7 @@
    "gloss": "grief; sorrow;",
    "freq": 8,
    "tier": 3,
-   "rank": 507,
+   "rank": 506,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6152,7 +6140,7 @@
    "gloss": "friends.",
    "freq": 8,
    "tier": 3,
-   "rank": 508,
+   "rank": 507,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6164,7 +6152,7 @@
    "gloss": "known; well-known; famous;",
    "freq": 8,
    "tier": 3,
-   "rank": 509,
+   "rank": 508,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6176,7 +6164,7 @@
    "gloss": "something, anything, somebody (word used by a person when",
    "freq": 8,
    "tier": 3,
-   "rank": 510,
+   "rank": 509,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6188,7 +6176,7 @@
    "gloss": "culture; way of life.",
    "freq": 8,
    "tier": 3,
-   "rank": 511,
+   "rank": 510,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6200,7 +6188,7 @@
    "gloss": "things done well or, beautifully.",
    "freq": 8,
    "tier": 3,
-   "rank": 512,
+   "rank": 511,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6212,7 +6200,7 @@
    "gloss": "dirty; filthy; nasty; untidy; unsanitary;",
    "freq": 8,
    "tier": 3,
-   "rank": 513,
+   "rank": 512,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6224,7 +6212,7 @@
    "gloss": "will drink",
    "freq": 8,
    "tier": 3,
-   "rank": 514,
+   "rank": 513,
    "top1000": false,
    "inDeck": true,
    "cardId": "c413"
@@ -6236,7 +6224,7 @@
    "gloss": "will see; be able to see 2 will sell; will make",
    "freq": 8,
    "tier": 3,
-   "rank": 515,
+   "rank": 514,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6248,7 +6236,7 @@
    "gloss": "fortune; wealth;",
    "freq": 8,
    "tier": 3,
-   "rank": 516,
+   "rank": 515,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6260,7 +6248,7 @@
    "gloss": "fat",
    "freq": 8,
    "tier": 3,
-   "rank": 517,
+   "rank": 516,
    "top1000": false,
    "inDeck": true,
    "cardId": "c58"
@@ -6272,7 +6260,7 @@
    "gloss": "carries something; brings",
    "freq": 8,
    "tier": 3,
-   "rank": 518,
+   "rank": 517,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6284,7 +6272,7 @@
    "gloss": "brought (something); resulted to; caused something to",
    "freq": 8,
    "tier": 3,
-   "rank": 519,
+   "rank": 518,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6296,7 +6284,7 @@
    "gloss": "wall.",
    "freq": 8,
    "tier": 3,
-   "rank": 520,
+   "rank": 519,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6308,7 +6296,7 @@
    "gloss": "palace.",
    "freq": 8,
    "tier": 3,
-   "rank": 521,
+   "rank": 520,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6320,7 +6308,7 @@
    "gloss": "household; home.",
    "freq": 8,
    "tier": 3,
-   "rank": 522,
+   "rank": 521,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6332,7 +6320,7 @@
    "gloss": "skin; peeling.",
    "freq": 8,
    "tier": 3,
-   "rank": 523,
+   "rank": 522,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6344,7 +6332,7 @@
    "gloss": "to forgive",
    "freq": 8,
    "tier": 3,
-   "rank": 524,
+   "rank": 523,
    "top1000": false,
    "inDeck": true,
    "cardId": "c539"
@@ -6356,7 +6344,7 @@
    "gloss": "bought.",
    "freq": 8,
    "tier": 3,
-   "rank": 525,
+   "rank": 524,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6368,7 +6356,7 @@
    "gloss": "step 2 to step; to take a step;",
    "freq": 8,
    "tier": 3,
-   "rank": 526,
+   "rank": 525,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6380,7 +6368,7 @@
    "gloss": "rich",
    "freq": 8,
    "tier": 3,
-   "rank": 527,
+   "rank": 526,
    "top1000": false,
    "inDeck": true,
    "cardId": "c49"
@@ -6392,7 +6380,7 @@
    "gloss": "dove; pigeon.",
    "freq": 8,
    "tier": 3,
-   "rank": 528,
+   "rank": 527,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6404,7 +6392,7 @@
    "gloss": "mistake.",
    "freq": 8,
    "tier": 3,
-   "rank": 529,
+   "rank": 528,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6416,7 +6404,7 @@
    "gloss": "week.",
    "freq": 8,
    "tier": 3,
-   "rank": 530,
+   "rank": 529,
    "top1000": true,
    "inDeck": true,
    "cardId": "c274"
@@ -6428,7 +6416,7 @@
    "gloss": "tell; say; utter;state.",
    "freq": 8,
    "tier": 3,
-   "rank": 531,
+   "rank": 530,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6440,7 +6428,7 @@
    "gloss": "east.",
    "freq": 8,
    "tier": 3,
-   "rank": 532,
+   "rank": 531,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6450,6 +6438,18 @@
    "waray": "taknà",
    "pos": "noun",
    "gloss": "hour; period of time. Sumisimbolo hira han hayahay ug",
+   "freq": 8,
+   "tier": 3,
+   "rank": 532,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "termino",
+   "waray": "término",
+   "pos": "noun",
+   "gloss": "term; word.",
    "freq": 8,
    "tier": 3,
    "rank": 533,
@@ -6746,25 +6746,13 @@
    "cardId": null
   },
   {
-   "id": "isla",
-   "waray": "isla",
-   "pos": null,
-   "gloss": "island",
-   "freq": 7,
-   "tier": 3,
-   "rank": 558,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c222"
-  },
-  {
    "id": "kaburut-on",
    "waray": "kaburút-on",
    "pos": "noun",
    "gloss": "will; purpose; desire.",
    "freq": 7,
    "tier": 3,
-   "rank": 559,
+   "rank": 558,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6776,7 +6764,7 @@
    "gloss": "old; obsolete; ancient.",
    "freq": 7,
    "tier": 3,
-   "rank": 560,
+   "rank": 559,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6788,7 +6776,7 @@
    "gloss": "pavement; street; road.",
    "freq": 7,
    "tier": 3,
-   "rank": 561,
+   "rank": 560,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6800,7 +6788,7 @@
    "gloss": "a while ago; a few minutes ago; before;",
    "freq": 7,
    "tier": 3,
-   "rank": 562,
+   "rank": 561,
    "top1000": true,
    "inDeck": true,
    "cardId": "c125"
@@ -6812,7 +6800,7 @@
    "gloss": "afterwards;",
    "freq": 7,
    "tier": 3,
-   "rank": 563,
+   "rank": 562,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6824,7 +6812,7 @@
    "gloss": "kitchen",
    "freq": 7,
    "tier": 3,
-   "rank": 564,
+   "rank": 563,
    "top1000": false,
    "inDeck": true,
    "cardId": "c98"
@@ -6836,7 +6824,7 @@
    "gloss": "chair",
    "freq": 7,
    "tier": 3,
-   "rank": 565,
+   "rank": 564,
    "top1000": false,
    "inDeck": true,
    "cardId": "c495"
@@ -6848,7 +6836,7 @@
    "gloss": "tomb; sepulchral; grave.",
    "freq": 7,
    "tier": 3,
-   "rank": 566,
+   "rank": 565,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6860,7 +6848,7 @@
    "gloss": "quick; quickly; brief; briefly; short.",
    "freq": 7,
    "tier": 3,
-   "rank": 567,
+   "rank": 566,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6872,7 +6860,7 @@
    "gloss": "thin",
    "freq": 7,
    "tier": 3,
-   "rank": 568,
+   "rank": 567,
    "top1000": false,
    "inDeck": true,
    "cardId": "c459"
@@ -6884,7 +6872,7 @@
    "gloss": "will bring; will be",
    "freq": 7,
    "tier": 3,
-   "rank": 569,
+   "rank": 568,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6896,7 +6884,7 @@
    "gloss": "handling; treatment; management.",
    "freq": 7,
    "tier": 3,
-   "rank": 570,
+   "rank": 569,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6908,7 +6896,7 @@
    "gloss": "will become something/somebody;",
    "freq": 7,
    "tier": 3,
-   "rank": 571,
+   "rank": 570,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6920,7 +6908,7 @@
    "gloss": "will give; to give.",
    "freq": 7,
    "tier": 3,
-   "rank": 572,
+   "rank": 571,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6932,7 +6920,7 @@
    "gloss": "fond of.",
    "freq": 7,
    "tier": 3,
-   "rank": 573,
+   "rank": 572,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6944,7 +6932,7 @@
    "gloss": "slow.",
    "freq": 7,
    "tier": 3,
-   "rank": 574,
+   "rank": 573,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6956,7 +6944,7 @@
    "gloss": "Almighty; All powerful;",
    "freq": 7,
    "tier": 3,
-   "rank": 575,
+   "rank": 574,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6968,7 +6956,7 @@
    "gloss": "be able to eat.",
    "freq": 7,
    "tier": 3,
-   "rank": 576,
+   "rank": 575,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -6980,7 +6968,7 @@
    "gloss": "sweet.",
    "freq": 7,
    "tier": 3,
-   "rank": 577,
+   "rank": 576,
    "top1000": true,
    "inDeck": true,
    "cardId": "c466"
@@ -6992,7 +6980,7 @@
    "gloss": "arrived (at a place or something); reached.",
    "freq": 7,
    "tier": 3,
-   "rank": 578,
+   "rank": 577,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7004,7 +6992,7 @@
    "gloss": "gave.",
    "freq": 7,
    "tier": 3,
-   "rank": 579,
+   "rank": 578,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7016,7 +7004,7 @@
    "gloss": "waits; waiting; is waiting.",
    "freq": 7,
    "tier": 3,
-   "rank": 580,
+   "rank": 579,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7028,7 +7016,7 @@
    "gloss": "was able to hear (something);",
    "freq": 7,
    "tier": 3,
-   "rank": 581,
+   "rank": 580,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7040,19 +7028,7 @@
    "gloss": null,
    "freq": 7,
    "tier": 3,
-   "rank": 582,
-   "top1000": true,
-   "inDeck": false,
-   "cardId": null
-  },
-  {
-   "id": "nakikita",
-   "waray": "nakikíta",
-   "pos": "verb",
-   "gloss": "visible; is",
-   "freq": 7,
-   "tier": 3,
-   "rank": 583,
+   "rank": 581,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7064,7 +7040,7 @@
    "gloss": "face.",
    "freq": 7,
    "tier": 3,
-   "rank": 584,
+   "rank": 582,
    "top1000": true,
    "inDeck": true,
    "cardId": "c452"
@@ -7076,7 +7052,7 @@
    "gloss": "November",
    "freq": 7,
    "tier": 3,
-   "rank": 585,
+   "rank": 583,
    "top1000": false,
    "inDeck": true,
    "cardId": "c326"
@@ -7088,7 +7064,7 @@
    "gloss": "official.",
    "freq": 7,
    "tier": 3,
-   "rank": 586,
+   "rank": 584,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7100,7 +7076,7 @@
    "gloss": "(be able) to see; saw.",
    "freq": 7,
    "tier": 3,
-   "rank": 587,
+   "rank": 585,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7112,7 +7088,7 @@
    "gloss": "breakfast",
    "freq": 7,
    "tier": 3,
-   "rank": 588,
+   "rank": 586,
    "top1000": false,
    "inDeck": true,
    "cardId": "c238"
@@ -7124,7 +7100,7 @@
    "gloss": "leading; most",
    "freq": 7,
    "tier": 3,
-   "rank": 589,
+   "rank": 587,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7136,7 +7112,7 @@
    "gloss": "events; happenings; news.",
    "freq": 7,
    "tier": 3,
-   "rank": 590,
+   "rank": 588,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7148,7 +7124,7 @@
    "gloss": "poet.",
    "freq": 7,
    "tier": 3,
-   "rank": 591,
+   "rank": 589,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7160,7 +7136,7 @@
    "gloss": "allotment; component; part; share.",
    "freq": 7,
    "tier": 3,
-   "rank": 592,
+   "rank": 590,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7172,7 +7148,7 @@
    "gloss": "oh my!; how painful; alas! .",
    "freq": 7,
    "tier": 3,
-   "rank": 593,
+   "rank": 591,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7184,7 +7160,7 @@
    "gloss": "soup",
    "freq": 7,
    "tier": 3,
-   "rank": 594,
+   "rank": 592,
    "top1000": false,
    "inDeck": true,
    "cardId": "c515"
@@ -7196,7 +7172,7 @@
    "gloss": "fitting; sufficient; enough;",
    "freq": 7,
    "tier": 3,
-   "rank": 595,
+   "rank": 593,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7208,7 +7184,7 @@
    "gloss": "to climb; to climb up; to go upstairs; ascent; to go",
    "freq": 7,
    "tier": 3,
-   "rank": 596,
+   "rank": 594,
    "top1000": true,
    "inDeck": true,
    "cardId": "c477"
@@ -7220,7 +7196,7 @@
    "gloss": "therefore.",
    "freq": 7,
    "tier": 3,
-   "rank": 597,
+   "rank": 595,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7232,7 +7208,7 @@
    "gloss": "vehicle; vessel; transportation.",
    "freq": 7,
    "tier": 3,
-   "rank": 598,
+   "rank": 596,
    "top1000": true,
    "inDeck": true,
    "cardId": "c91"
@@ -7244,7 +7220,7 @@
    "gloss": "pants",
    "freq": 7,
    "tier": 3,
-   "rank": 599,
+   "rank": 597,
    "top1000": false,
    "inDeck": true,
    "cardId": "c500"
@@ -7256,7 +7232,7 @@
    "gloss": "written; wrote; 2 writing;",
    "freq": 7,
    "tier": 3,
-   "rank": 600,
+   "rank": 598,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7268,7 +7244,7 @@
    "gloss": "wear; apparel; garb; regalia 2 to",
    "freq": 7,
    "tier": 3,
-   "rank": 601,
+   "rank": 599,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7280,7 +7256,7 @@
    "gloss": "marker; sign; symbol.",
    "freq": 7,
    "tier": 3,
-   "rank": 602,
+   "rank": 600,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7292,7 +7268,7 @@
    "gloss": "head for a place.",
    "freq": 7,
    "tier": 3,
-   "rank": 603,
+   "rank": 601,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7304,7 +7280,7 @@
    "gloss": "six",
    "freq": 7,
    "tier": 3,
-   "rank": 604,
+   "rank": 602,
    "top1000": false,
    "inDeck": true,
    "cardId": "c302"
@@ -7316,7 +7292,7 @@
    "gloss": "last; late; latest; hindmost; rearmost.",
    "freq": 7,
    "tier": 3,
-   "rank": 605,
+   "rank": 603,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7328,7 +7304,7 @@
    "gloss": "reply; answer to a letter; response 2 reciprocate; return",
    "freq": 6,
    "tier": 3,
-   "rank": 606,
+   "rank": 604,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7340,7 +7316,7 @@
    "gloss": "holy; sacred.",
    "freq": 6,
    "tier": 3,
-   "rank": 607,
+   "rank": 605,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7352,7 +7328,7 @@
    "gloss": "to pay",
    "freq": 6,
    "tier": 3,
-   "rank": 608,
+   "rank": 606,
    "top1000": false,
    "inDeck": true,
    "cardId": "c471"
@@ -7364,7 +7340,7 @@
    "gloss": "blessing; benediction 2 to bless; to",
    "freq": 6,
    "tier": 3,
-   "rank": 609,
+   "rank": 607,
    "top1000": true,
    "inDeck": true,
    "cardId": "c532"
@@ -7376,7 +7352,7 @@
    "gloss": "residue; remnant; remainder 2 heir; person left behind",
    "freq": 6,
    "tier": 3,
-   "rank": 610,
+   "rank": 608,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7388,7 +7364,7 @@
    "gloss": "deeds; doings .",
    "freq": 6,
    "tier": 3,
-   "rank": 611,
+   "rank": 609,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7400,7 +7376,7 @@
    "gloss": "trip / travel",
    "freq": 6,
    "tier": 3,
-   "rank": 612,
+   "rank": 610,
    "top1000": false,
    "inDeck": true,
    "cardId": "c273"
@@ -7412,7 +7388,7 @@
    "gloss": "hurry; hurry up!; quickly!.",
    "freq": 6,
    "tier": 3,
-   "rank": 613,
+   "rank": 611,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7424,7 +7400,7 @@
    "gloss": "Sunday.",
    "freq": 6,
    "tier": 3,
-   "rank": 614,
+   "rank": 612,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7436,7 +7412,7 @@
    "gloss": "bossom; chest; heart.",
    "freq": 6,
    "tier": 3,
-   "rank": 615,
+   "rank": 613,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7448,7 +7424,7 @@
    "gloss": "gate",
    "freq": 6,
    "tier": 3,
-   "rank": 616,
+   "rank": 614,
    "top1000": false,
    "inDeck": true,
    "cardId": "c210"
@@ -7460,7 +7436,7 @@
    "gloss": "went to; gone to.",
    "freq": 6,
    "tier": 3,
-   "rank": 617,
+   "rank": 615,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7472,7 +7448,7 @@
    "gloss": "person told 2 was told;",
    "freq": 6,
    "tier": 3,
-   "rank": 618,
+   "rank": 616,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7484,7 +7460,7 @@
    "gloss": "came out; got out; 2",
    "freq": 6,
    "tier": 3,
-   "rank": 619,
+   "rank": 617,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7496,7 +7472,7 @@
    "gloss": "post; main house post; column; pillar .",
    "freq": 6,
    "tier": 3,
-   "rank": 620,
+   "rank": 618,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7508,7 +7484,7 @@
    "gloss": "lazy",
    "freq": 6,
    "tier": 3,
-   "rank": 621,
+   "rank": 619,
    "top1000": false,
    "inDeck": true,
    "cardId": "c460"
@@ -7520,7 +7496,7 @@
    "gloss": "dream; desire.",
    "freq": 6,
    "tier": 3,
-   "rank": 622,
+   "rank": 620,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7532,7 +7508,7 @@
    "gloss": "enemy.",
    "freq": 6,
    "tier": 3,
-   "rank": 623,
+   "rank": 621,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7544,7 +7520,7 @@
    "gloss": "brothers and sisters.",
    "freq": 6,
    "tier": 3,
-   "rank": 624,
+   "rank": 622,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7556,7 +7532,7 @@
    "gloss": "last night",
    "freq": 6,
    "tier": 3,
-   "rank": 625,
+   "rank": 623,
    "top1000": false,
    "inDeck": true,
    "cardId": "c124"
@@ -7568,7 +7544,7 @@
    "gloss": "hunger; famine. 1",
    "freq": 6,
    "tier": 3,
-   "rank": 626,
+   "rank": 624,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7580,7 +7556,7 @@
    "gloss": "neighbor",
    "freq": 6,
    "tier": 3,
-   "rank": 627,
+   "rank": 625,
    "top1000": false,
    "inDeck": true,
    "cardId": "c433"
@@ -7592,7 +7568,7 @@
    "gloss": "loneliness; silence; stillness;",
    "freq": 6,
    "tier": 3,
-   "rank": 628,
+   "rank": 626,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7604,7 +7580,7 @@
    "gloss": "road",
    "freq": 6,
    "tier": 3,
-   "rank": 629,
+   "rank": 627,
    "top1000": false,
    "inDeck": true,
    "cardId": "c77"
@@ -7616,7 +7592,7 @@
    "gloss": "right.",
    "freq": 6,
    "tier": 3,
-   "rank": 630,
+   "rank": 628,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7628,7 +7604,7 @@
    "gloss": "wisdom; science.",
    "freq": 6,
    "tier": 3,
-   "rank": 631,
+   "rank": 629,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7640,7 +7616,7 @@
    "gloss": "needed; necessary; vital;",
    "freq": 6,
    "tier": 3,
-   "rank": 632,
+   "rank": 630,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7652,7 +7628,7 @@
    "gloss": "Christian",
    "freq": 6,
    "tier": 3,
-   "rank": 633,
+   "rank": 631,
    "top1000": false,
    "inDeck": true,
    "cardId": "c534"
@@ -7664,7 +7640,7 @@
    "gloss": "leader; head.",
    "freq": 6,
    "tier": 3,
-   "rank": 634,
+   "rank": 632,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7676,7 +7652,7 @@
    "gloss": "lion. An koneho nagmiminakaluoy ha liyon nga,",
    "freq": 6,
    "tier": 3,
-   "rank": 635,
+   "rank": 633,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7688,7 +7664,7 @@
    "gloss": "grandfather.",
    "freq": 6,
    "tier": 3,
-   "rank": 636,
+   "rank": 634,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7700,7 +7676,7 @@
    "gloss": "beautiful.",
    "freq": 6,
    "tier": 3,
-   "rank": 637,
+   "rank": 635,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7712,7 +7688,7 @@
    "gloss": "will come back; will return 2 to come back; to",
    "freq": 6,
    "tier": 3,
-   "rank": 638,
+   "rank": 636,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7724,7 +7700,7 @@
    "gloss": "easy / simple",
    "freq": 6,
    "tier": 3,
-   "rank": 639,
+   "rank": 637,
    "top1000": false,
    "inDeck": true,
    "cardId": "c265"
@@ -7736,7 +7712,7 @@
    "gloss": "will end;",
    "freq": 6,
    "tier": 3,
-   "rank": 640,
+   "rank": 638,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7748,7 +7724,7 @@
    "gloss": "municipality.",
    "freq": 6,
    "tier": 3,
-   "rank": 641,
+   "rank": 639,
    "top1000": true,
    "inDeck": true,
    "cardId": "c164"
@@ -7760,7 +7736,7 @@
    "gloss": "what was heard of; was",
    "freq": 6,
    "tier": 3,
-   "rank": 642,
+   "rank": 640,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7772,7 +7748,7 @@
    "gloss": "did; works; things that one has done.",
    "freq": 6,
    "tier": 3,
-   "rank": 643,
+   "rank": 641,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7784,7 +7760,7 @@
    "gloss": "comes alive; comes back to life.",
    "freq": 6,
    "tier": 3,
-   "rank": 644,
+   "rank": 642,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7796,7 +7772,7 @@
    "gloss": "made something; created something.",
    "freq": 6,
    "tier": 3,
-   "rank": 645,
+   "rank": 643,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7808,7 +7784,7 @@
    "gloss": "is/was",
    "freq": 6,
    "tier": 3,
-   "rank": 646,
+   "rank": 644,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7820,7 +7796,7 @@
    "gloss": "appears.",
    "freq": 6,
    "tier": 3,
-   "rank": 647,
+   "rank": 645,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7832,7 +7808,7 @@
    "gloss": "spoke; said.",
    "freq": 6,
    "tier": 3,
-   "rank": 648,
+   "rank": 646,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7844,7 +7820,7 @@
    "gloss": "became (something); turned into (something); (things",
    "freq": 6,
    "tier": 3,
-   "rank": 649,
+   "rank": 647,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7856,7 +7832,19 @@
    "gloss": "was able to find something; found",
    "freq": 6,
    "tier": 3,
-   "rank": 650,
+   "rank": 648,
+   "top1000": true,
+   "inDeck": false,
+   "cardId": null
+  },
+  {
+   "id": "nakikita",
+   "waray": "nakikíta",
+   "pos": "verb",
+   "gloss": "visible; is",
+   "freq": 6,
+   "tier": 3,
+   "rank": 649,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7868,7 +7856,7 @@
    "gloss": "was/were obtained; was/were taken.",
    "freq": 6,
    "tier": 3,
-   "rank": 651,
+   "rank": 650,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7880,7 +7868,7 @@
    "gloss": "walks.",
    "freq": 6,
    "tier": 3,
-   "rank": 652,
+   "rank": 651,
    "top1000": true,
    "inDeck": true,
    "cardId": "c408"
@@ -7892,7 +7880,7 @@
    "gloss": "asked/requested for something (collective",
    "freq": 6,
    "tier": 3,
-   "rank": 653,
+   "rank": 652,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7904,7 +7892,7 @@
    "gloss": "national. Han una gihapon nga tuig may tutulo nga",
    "freq": 6,
    "tier": 3,
-   "rank": 654,
+   "rank": 653,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7916,7 +7904,7 @@
    "gloss": "born.",
    "freq": 6,
    "tier": 3,
-   "rank": 655,
+   "rank": 654,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7928,7 +7916,7 @@
    "gloss": "to give; gave (something).",
    "freq": 6,
    "tier": 3,
-   "rank": 656,
+   "rank": 655,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7940,7 +7928,7 @@
    "gloss": "clothes.",
    "freq": 6,
    "tier": 3,
-   "rank": 657,
+   "rank": 656,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7952,22 +7940,10 @@
    "gloss": "brink; edge (of a cliff); bank (of a river).",
    "freq": 6,
    "tier": 3,
-   "rank": 658,
+   "rank": 657,
    "top1000": true,
    "inDeck": false,
    "cardId": null
-  },
-  {
-   "id": "pasahero",
-   "waray": "pasahero",
-   "pos": null,
-   "gloss": "passenger",
-   "freq": 6,
-   "tier": 3,
-   "rank": 659,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c213"
   },
   {
    "id": "patok",
@@ -7976,7 +7952,7 @@
    "gloss": "opposite; contrary; rival; enemy 2 axe. 1",
    "freq": 6,
    "tier": 3,
-   "rank": 660,
+   "rank": 658,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -7988,7 +7964,7 @@
    "gloss": "princess.",
    "freq": 6,
    "tier": 3,
-   "rank": 661,
+   "rank": 659,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8000,7 +7976,7 @@
    "gloss": "result; effect.",
    "freq": 6,
    "tier": 3,
-   "rank": 662,
+   "rank": 660,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8012,7 +7988,7 @@
    "gloss": "sack.",
    "freq": 6,
    "tier": 3,
-   "rank": 663,
+   "rank": 661,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8024,7 +8000,7 @@
    "gloss": "so called.",
    "freq": 6,
    "tier": 3,
-   "rank": 664,
+   "rank": 662,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8036,7 +8012,7 @@
    "gloss": "review; iterate; quote; repeat; basis; to lead the way; to",
    "freq": 6,
    "tier": 3,
-   "rank": 665,
+   "rank": 663,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8048,7 +8024,7 @@
    "gloss": "according to; based on (something); you",
    "freq": 6,
    "tier": 3,
-   "rank": 666,
+   "rank": 664,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8060,7 +8036,7 @@
    "gloss": "soldier.",
    "freq": 6,
    "tier": 3,
-   "rank": 667,
+   "rank": 665,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8072,7 +8048,7 @@
    "gloss": "helper; maid;household help; assistant.",
    "freq": 6,
    "tier": 3,
-   "rank": 668,
+   "rank": 666,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8084,7 +8060,7 @@
    "gloss": "wine glass; cup; drinking",
    "freq": 6,
    "tier": 3,
-   "rank": 669,
+   "rank": 667,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8096,7 +8072,7 @@
    "gloss": "afterwards/later",
    "freq": 6,
    "tier": 3,
-   "rank": 670,
+   "rank": 668,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8108,7 +8084,7 @@
    "gloss": "plant; garden.",
    "freq": 6,
    "tier": 3,
-   "rank": 671,
+   "rank": 669,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8120,7 +8096,7 @@
    "gloss": "will be given with something 2 the",
    "freq": 6,
    "tier": 3,
-   "rank": 672,
+   "rank": 670,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8132,7 +8108,7 @@
    "gloss": "on the way; about to go there; bound for; intend to go",
    "freq": 6,
    "tier": 3,
-   "rank": 673,
+   "rank": 671,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8144,7 +8120,7 @@
    "gloss": "was called, summoned, named.",
    "freq": 6,
    "tier": 3,
-   "rank": 674,
+   "rank": 672,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8156,7 +8132,7 @@
    "gloss": "please",
    "freq": 5,
    "tier": 3,
-   "rank": 675,
+   "rank": 673,
    "top1000": false,
    "inDeck": true,
    "cardId": "c627"
@@ -8168,7 +8144,7 @@
    "gloss": "sugar",
    "freq": 5,
    "tier": 3,
-   "rank": 676,
+   "rank": 674,
    "top1000": false,
    "inDeck": true,
    "cardId": "c259"
@@ -8180,7 +8156,7 @@
    "gloss": "in front of;",
    "freq": 5,
    "tier": 3,
-   "rank": 677,
+   "rank": 675,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8192,7 +8168,7 @@
    "gloss": "food for a trip/office; spending money; meal.",
    "freq": 5,
    "tier": 3,
-   "rank": 678,
+   "rank": 676,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8203,8 +8179,8 @@
    "pos": null,
    "gloss": "bank",
    "freq": 5,
-   "tier": 4,
-   "rank": 679,
+   "tier": 3,
+   "rank": 677,
    "top1000": false,
    "inDeck": true,
    "cardId": "c160"
@@ -8215,8 +8191,8 @@
    "pos": "noun",
    "gloss": "sand.",
    "freq": 5,
-   "tier": 4,
-   "rank": 680,
+   "tier": 3,
+   "rank": 678,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8228,7 +8204,7 @@
    "gloss": "glass",
    "freq": 5,
    "tier": 4,
-   "rank": 681,
+   "rank": 679,
    "top1000": false,
    "inDeck": true,
    "cardId": "c90"
@@ -8240,7 +8216,7 @@
    "gloss": "virgin; maiden; damsel; lass; Virgin Mary .",
    "freq": 5,
    "tier": 4,
-   "rank": 682,
+   "rank": 680,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8252,7 +8228,7 @@
    "gloss": "voice.",
    "freq": 5,
    "tier": 4,
-   "rank": 683,
+   "rank": 681,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8264,7 +8240,7 @@
    "gloss": "(imperative) to do; to labor; to make; to",
    "freq": 5,
    "tier": 4,
-   "rank": 684,
+   "rank": 682,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8276,7 +8252,7 @@
    "gloss": "owl.",
    "freq": 5,
    "tier": 4,
-   "rank": 685,
+   "rank": 683,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8288,7 +8264,7 @@
    "gloss": "fountain; spring.",
    "freq": 5,
    "tier": 4,
-   "rank": 686,
+   "rank": 684,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8300,7 +8276,7 @@
    "gloss": "(a command, asking someone) to bring",
    "freq": 5,
    "tier": 4,
-   "rank": 687,
+   "rank": 685,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8312,7 +8288,7 @@
    "gloss": "bring; will bring.",
    "freq": 5,
    "tier": 4,
-   "rank": 688,
+   "rank": 686,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8324,7 +8300,7 @@
    "gloss": "hurry; hurry up; go in a hurry; work a thing as fast",
    "freq": 5,
    "tier": 4,
-   "rank": 689,
+   "rank": 687,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8336,7 +8312,7 @@
    "gloss": "go straight.",
    "freq": 5,
    "tier": 4,
-   "rank": 690,
+   "rank": 688,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8348,7 +8324,7 @@
    "gloss": "director",
    "freq": 5,
    "tier": 4,
-   "rank": 691,
+   "rank": 689,
    "top1000": false,
    "inDeck": true,
    "cardId": "c441"
@@ -8360,7 +8336,7 @@
    "gloss": "at the same time; simultaneous; to start at the same",
    "freq": 5,
    "tier": 4,
-   "rank": 692,
+   "rank": 690,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8372,7 +8348,7 @@
    "gloss": "jeepney",
    "freq": 5,
    "tier": 4,
-   "rank": 693,
+   "rank": 691,
    "top1000": false,
    "inDeck": true,
    "cardId": "c172"
@@ -8384,7 +8360,7 @@
    "gloss": "economy .",
    "freq": 5,
    "tier": 4,
-   "rank": 694,
+   "rank": 692,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8396,7 +8372,7 @@
    "gloss": "spirit.",
    "freq": 5,
    "tier": 4,
-   "rank": 695,
+   "rank": 693,
    "top1000": true,
    "inDeck": true,
    "cardId": "c530"
@@ -8408,7 +8384,7 @@
    "gloss": "got out; went out.",
    "freq": 5,
    "tier": 4,
-   "rank": 696,
+   "rank": 694,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8420,7 +8396,7 @@
    "gloss": "was brought; was carried.",
    "freq": 5,
    "tier": 4,
-   "rank": 697,
+   "rank": 695,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8432,7 +8408,7 @@
    "gloss": "advised to stop; reproved;",
    "freq": 5,
    "tier": 4,
-   "rank": 698,
+   "rank": 696,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8444,7 +8420,7 @@
    "gloss": "small; midget (use to modify plural",
    "freq": 5,
    "tier": 4,
-   "rank": 699,
+   "rank": 697,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8456,7 +8432,7 @@
    "gloss": "handsome",
    "freq": 5,
    "tier": 4,
-   "rank": 700,
+   "rank": 698,
    "top1000": false,
    "inDeck": true,
    "cardId": "c55"
@@ -8468,7 +8444,7 @@
    "gloss": "short",
    "freq": 5,
    "tier": 4,
-   "rank": 701,
+   "rank": 699,
    "top1000": false,
    "inDeck": true,
    "cardId": "c458"
@@ -8480,7 +8456,7 @@
    "gloss": "gift; offering.",
    "freq": 5,
    "tier": 4,
-   "rank": 702,
+   "rank": 700,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8492,7 +8468,7 @@
    "gloss": "caress; to rub; to smear with oil; to massage.",
    "freq": 5,
    "tier": 4,
-   "rank": 703,
+   "rank": 701,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8504,7 +8480,7 @@
    "gloss": "far; remote; distant.",
    "freq": 5,
    "tier": 4,
-   "rank": 704,
+   "rank": 702,
    "top1000": true,
    "inDeck": true,
    "cardId": "c170"
@@ -8516,7 +8492,7 @@
    "gloss": "love.",
    "freq": 5,
    "tier": 4,
-   "rank": 705,
+   "rank": 703,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8528,7 +8504,7 @@
    "gloss": "may be/can be",
    "freq": 5,
    "tier": 4,
-   "rank": 706,
+   "rank": 704,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8540,7 +8516,7 @@
    "gloss": "perfect; best; ideal; sublime.",
    "freq": 5,
    "tier": 4,
-   "rank": 707,
+   "rank": 705,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8552,7 +8528,7 @@
    "gloss": "far; distant.",
    "freq": 5,
    "tier": 4,
-   "rank": 708,
+   "rank": 706,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8564,7 +8540,7 @@
    "gloss": "hotel",
    "freq": 5,
    "tier": 4,
-   "rank": 709,
+   "rank": 707,
    "top1000": false,
    "inDeck": true,
    "cardId": "c622"
@@ -8576,7 +8552,7 @@
    "gloss": "to wait",
    "freq": 5,
    "tier": 4,
-   "rank": 710,
+   "rank": 708,
    "top1000": false,
    "inDeck": true,
    "cardId": "c153"
@@ -8588,7 +8564,7 @@
    "gloss": "instead.",
    "freq": 5,
    "tier": 4,
-   "rank": 711,
+   "rank": 709,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8600,7 +8576,7 @@
    "gloss": "drank",
    "freq": 5,
    "tier": 4,
-   "rank": 712,
+   "rank": 710,
    "top1000": false,
    "inDeck": true,
    "cardId": "c415"
@@ -8612,7 +8588,7 @@
    "gloss": "thread; yarn.",
    "freq": 5,
    "tier": 4,
-   "rank": 713,
+   "rank": 711,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8624,7 +8600,7 @@
    "gloss": "station.",
    "freq": 5,
    "tier": 4,
-   "rank": 714,
+   "rank": 712,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8636,7 +8612,7 @@
    "gloss": "experience; story; tale; history.",
    "freq": 5,
    "tier": 4,
-   "rank": 715,
+   "rank": 713,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8648,7 +8624,7 @@
    "gloss": "cows.",
    "freq": 5,
    "tier": 4,
-   "rank": 716,
+   "rank": 714,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8660,7 +8636,7 @@
    "gloss": "mountains; highlands; hills.",
    "freq": 5,
    "tier": 4,
-   "rank": 717,
+   "rank": 715,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8672,7 +8648,7 @@
    "gloss": "rush; emergency; urgent; urgency.",
    "freq": 5,
    "tier": 4,
-   "rank": 718,
+   "rank": 716,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8684,7 +8660,7 @@
    "gloss": "majority; many; multitude. Bisan",
    "freq": 5,
    "tier": 4,
-   "rank": 719,
+   "rank": 717,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8696,7 +8672,7 @@
    "gloss": "go there.",
    "freq": 5,
    "tier": 4,
-   "rank": 720,
+   "rank": 718,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8708,7 +8684,7 @@
    "gloss": "and; plus; addition (used in counting only).",
    "freq": 5,
    "tier": 4,
-   "rank": 721,
+   "rank": 719,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8720,7 +8696,7 @@
    "gloss": "night; time of darkness.",
    "freq": 5,
    "tier": 4,
-   "rank": 722,
+   "rank": 720,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8732,7 +8708,7 @@
    "gloss": "powerful.",
    "freq": 5,
    "tier": 4,
-   "rank": 723,
+   "rank": 721,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8744,7 +8720,7 @@
    "gloss": "will eat.",
    "freq": 5,
    "tier": 4,
-   "rank": 724,
+   "rank": 722,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8756,7 +8732,7 @@
    "gloss": "dread; fear 2 fearsome;",
    "freq": 5,
    "tier": 4,
-   "rank": 725,
+   "rank": 723,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8768,7 +8744,7 @@
    "gloss": "candidate.",
    "freq": 5,
    "tier": 4,
-   "rank": 726,
+   "rank": 724,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8780,7 +8756,7 @@
    "gloss": "food.",
    "freq": 5,
    "tier": 4,
-   "rank": 727,
+   "rank": 725,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8792,7 +8768,7 @@
    "gloss": "twenty",
    "freq": 5,
    "tier": 4,
-   "rank": 728,
+   "rank": 726,
    "top1000": false,
    "inDeck": true,
    "cardId": "c307"
@@ -8804,7 +8780,7 @@
    "gloss": "anger;angry;",
    "freq": 5,
    "tier": 4,
-   "rank": 729,
+   "rank": 727,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8816,7 +8792,7 @@
    "gloss": "grief; sadness.",
    "freq": 5,
    "tier": 4,
-   "rank": 730,
+   "rank": 728,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8828,7 +8804,7 @@
    "gloss": "beginning; start.",
    "freq": 5,
    "tier": 4,
-   "rank": 731,
+   "rank": 729,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8840,7 +8816,7 @@
    "gloss": "kindred; kinsfolk; relative; family ties.",
    "freq": 5,
    "tier": 4,
-   "rank": 732,
+   "rank": 730,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8852,7 +8828,7 @@
    "gloss": "as; like.",
    "freq": 5,
    "tier": 4,
-   "rank": 733,
+   "rank": 731,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8864,7 +8840,7 @@
    "gloss": "fence",
    "freq": 5,
    "tier": 4,
-   "rank": 734,
+   "rank": 732,
    "top1000": false,
    "inDeck": true,
    "cardId": "c497"
@@ -8876,7 +8852,7 @@
    "gloss": "see/saw; look/looked;",
    "freq": 5,
    "tier": 4,
-   "rank": 735,
+   "rank": 733,
    "top1000": true,
    "inDeck": true,
    "cardId": "c227"
@@ -8888,7 +8864,7 @@
    "gloss": "portrait; picture; effigy; image.",
    "freq": 5,
    "tier": 4,
-   "rank": 736,
+   "rank": 734,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8900,7 +8876,7 @@
    "gloss": "deep sea; ocean; water.",
    "freq": 5,
    "tier": 4,
-   "rank": 737,
+   "rank": 735,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8912,7 +8888,7 @@
    "gloss": "cave.",
    "freq": 5,
    "tier": 4,
-   "rank": 738,
+   "rank": 736,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8924,7 +8900,7 @@
    "gloss": "couple; husband and wife.",
    "freq": 5,
    "tier": 4,
-   "rank": 739,
+   "rank": 737,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8936,7 +8912,7 @@
    "gloss": "guardian.",
    "freq": 5,
    "tier": 4,
-   "rank": 740,
+   "rank": 738,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8948,7 +8924,7 @@
    "gloss": "cold; chilly; icy.",
    "freq": 5,
    "tier": 4,
-   "rank": 741,
+   "rank": 739,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8960,7 +8936,7 @@
    "gloss": "will be able to do something; will be able to make",
    "freq": 5,
    "tier": 4,
-   "rank": 742,
+   "rank": 740,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8972,7 +8948,7 @@
    "gloss": "Tuesday",
    "freq": 5,
    "tier": 4,
-   "rank": 743,
+   "rank": 741,
    "top1000": false,
    "inDeck": true,
    "cardId": "c310"
@@ -8984,7 +8960,7 @@
    "gloss": "seem; almost the same; like (that",
    "freq": 5,
    "tier": 4,
-   "rank": 744,
+   "rank": 742,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -8996,7 +8972,7 @@
    "gloss": "tasteless",
    "freq": 5,
    "tier": 4,
-   "rank": 745,
+   "rank": 743,
    "top1000": false,
    "inDeck": true,
    "cardId": "c467"
@@ -9008,7 +8984,7 @@
    "gloss": "beautiful.",
    "freq": 5,
    "tier": 4,
-   "rank": 746,
+   "rank": 744,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9020,7 +8996,7 @@
    "gloss": "sameself; at that time.",
    "freq": 5,
    "tier": 4,
-   "rank": 747,
+   "rank": 745,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9032,7 +9008,7 @@
    "gloss": "member",
    "freq": 5,
    "tier": 4,
-   "rank": 748,
+   "rank": 746,
    "top1000": false,
    "inDeck": true,
    "cardId": "c429"
@@ -9044,7 +9020,7 @@
    "gloss": "is passing; is flowing; is dripping 2 to pass; to flow; to",
    "freq": 5,
    "tier": 4,
-   "rank": 749,
+   "rank": 747,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9056,7 +9032,7 @@
    "gloss": "unwilling; does not want to; dislikes;",
    "freq": 5,
    "tier": 4,
-   "rank": 750,
+   "rank": 748,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9068,7 +9044,7 @@
    "gloss": "makes; is making; is making ways/means; fabricates;",
    "freq": 5,
    "tier": 4,
-   "rank": 751,
+   "rank": 749,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9080,7 +9056,7 @@
    "gloss": "is walking; was walking. Dida han",
    "freq": 5,
    "tier": 4,
-   "rank": 752,
+   "rank": 750,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9092,7 +9068,7 @@
    "gloss": "told someone; disclosed something.",
    "freq": 5,
    "tier": 4,
-   "rank": 753,
+   "rank": 751,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9104,7 +9080,7 @@
    "gloss": "afraid.",
    "freq": 5,
    "tier": 4,
-   "rank": 754,
+   "rank": 752,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9116,7 +9092,7 @@
    "gloss": "is drinking",
    "freq": 5,
    "tier": 4,
-   "rank": 755,
+   "rank": 753,
    "top1000": false,
    "inDeck": true,
    "cardId": "c414"
@@ -9128,7 +9104,7 @@
    "gloss": "was surprised; was",
    "freq": 5,
    "tier": 4,
-   "rank": 756,
+   "rank": 754,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9140,7 +9116,7 @@
    "gloss": "originates; begins.",
    "freq": 5,
    "tier": 4,
-   "rank": 757,
+   "rank": 755,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9152,7 +9128,7 @@
    "gloss": "came first; went ahead; former.",
    "freq": 5,
    "tier": 4,
-   "rank": 758,
+   "rank": 756,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9164,7 +9140,7 @@
    "gloss": "hospital",
    "freq": 5,
    "tier": 4,
-   "rank": 759,
+   "rank": 757,
    "top1000": false,
    "inDeck": true,
    "cardId": "c162"
@@ -9176,7 +9152,7 @@
    "gloss": "to restore; restored; to return;",
    "freq": 5,
    "tier": 4,
-   "rank": 760,
+   "rank": 758,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9188,7 +9164,7 @@
    "gloss": "to carry 2 treatment.",
    "freq": 5,
    "tier": 4,
-   "rank": 761,
+   "rank": 759,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9200,7 +9176,7 @@
    "gloss": "went (somewhere far away).",
    "freq": 5,
    "tier": 4,
-   "rank": 762,
+   "rank": 760,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9212,7 +9188,7 @@
    "gloss": "hope.",
    "freq": 5,
    "tier": 4,
-   "rank": 763,
+   "rank": 761,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9224,7 +9200,7 @@
    "gloss": "procedure; method; methodology; style; strategy;",
    "freq": 5,
    "tier": 4,
-   "rank": 764,
+   "rank": 762,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9236,7 +9212,7 @@
    "gloss": "to look for something; make",
    "freq": 5,
    "tier": 4,
-   "rank": 765,
+   "rank": 763,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9248,7 +9224,7 @@
    "gloss": "atmosphere; firmament; heaven.",
    "freq": 5,
    "tier": 4,
-   "rank": 766,
+   "rank": 764,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9260,7 +9236,7 @@
    "gloss": "chief; head; president.",
    "freq": 5,
    "tier": 4,
-   "rank": 767,
+   "rank": 765,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9272,10 +9248,22 @@
    "gloss": "objective; purpose;",
    "freq": 5,
    "tier": 4,
-   "rank": 768,
+   "rank": 766,
    "top1000": true,
    "inDeck": false,
    "cardId": null
+  },
+  {
+   "id": "pasahero",
+   "waray": "pasahero",
+   "pos": null,
+   "gloss": "passenger",
+   "freq": 5,
+   "tier": 4,
+   "rank": 767,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c213"
   },
   {
    "id": "siyam",
@@ -9284,7 +9272,7 @@
    "gloss": "nine",
    "freq": 5,
    "tier": 4,
-   "rank": 769,
+   "rank": 768,
    "top1000": false,
    "inDeck": true,
    "cardId": "c305"
@@ -9296,7 +9284,7 @@
    "gloss": "ride; rides; rode; board; boarded; mount;",
    "freq": 5,
    "tier": 4,
-   "rank": 770,
+   "rank": 769,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9308,7 +9296,7 @@
    "gloss": "medicine",
    "freq": 5,
    "tier": 4,
-   "rank": 771,
+   "rank": 770,
    "top1000": false,
    "inDeck": true,
    "cardId": "c509"
@@ -9320,7 +9308,7 @@
    "gloss": "maybe; perhaps.",
    "freq": 5,
    "tier": 4,
-   "rank": 772,
+   "rank": 771,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9332,7 +9320,7 @@
    "gloss": "finger; digit.",
    "freq": 5,
    "tier": 4,
-   "rank": 773,
+   "rank": 772,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9344,7 +9332,7 @@
    "gloss": "correct; done properly; settle; settled.",
    "freq": 5,
    "tier": 4,
-   "rank": 774,
+   "rank": 773,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9356,7 +9344,7 @@
    "gloss": "bridge.",
    "freq": 5,
    "tier": 4,
-   "rank": 775,
+   "rank": 774,
    "top1000": true,
    "inDeck": true,
    "cardId": "c220"
@@ -9368,7 +9356,7 @@
    "gloss": "bloodline; consanguinity; lineage; kindred; kinfolk.",
    "freq": 5,
    "tier": 4,
-   "rank": 776,
+   "rank": 775,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9380,7 +9368,7 @@
    "gloss": "slave.",
    "freq": 5,
    "tier": 4,
-   "rank": 777,
+   "rank": 776,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9392,7 +9380,7 @@
    "gloss": "eight",
    "freq": 5,
    "tier": 4,
-   "rank": 778,
+   "rank": 777,
    "top1000": false,
    "inDeck": true,
    "cardId": "c304"
@@ -9404,7 +9392,7 @@
    "gloss": "year; years. \"An duha nga bata an edad mga dose",
    "freq": 4,
    "tier": 4,
-   "rank": 779,
+   "rank": 778,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9416,7 +9404,7 @@
    "gloss": "ass; donkey.",
    "freq": 4,
    "tier": 4,
-   "rank": 780,
+   "rank": 779,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9428,7 +9416,7 @@
    "gloss": "expression that means \"I thought it was\"; used to express",
    "freq": 4,
    "tier": 4,
-   "rank": 781,
+   "rank": 780,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9440,7 +9428,7 @@
    "gloss": "topic; subject matter;thing.",
    "freq": 4,
    "tier": 4,
-   "rank": 782,
+   "rank": 781,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9452,7 +9440,7 @@
    "gloss": "left alone; abandoned; forsaken.",
    "freq": 4,
    "tier": 4,
-   "rank": 783,
+   "rank": 782,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9464,7 +9452,7 @@
    "gloss": "pharmacy",
    "freq": 4,
    "tier": 4,
-   "rank": 784,
+   "rank": 783,
    "top1000": false,
    "inDeck": true,
    "cardId": "c161"
@@ -9476,7 +9464,7 @@
    "gloss": "immediately",
    "freq": 4,
    "tier": 4,
-   "rank": 785,
+   "rank": 784,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9488,7 +9476,7 @@
    "gloss": "condole; to accompany; to sing",
    "freq": 4,
    "tier": 4,
-   "rank": 786,
+   "rank": 785,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9500,7 +9488,7 @@
    "gloss": "exact; complete; right; proper; correct.",
    "freq": 4,
    "tier": 4,
-   "rank": 787,
+   "rank": 786,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9512,7 +9500,7 @@
    "gloss": "will be used; will be utilized; will be using; will be",
    "freq": 4,
    "tier": 4,
-   "rank": 788,
+   "rank": 787,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9524,7 +9512,7 @@
    "gloss": "immediately; instant.",
    "freq": 4,
    "tier": 4,
-   "rank": 789,
+   "rank": 788,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9536,7 +9524,7 @@
    "gloss": "kingdom.",
    "freq": 4,
    "tier": 4,
-   "rank": 790,
+   "rank": 789,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9548,7 +9536,7 @@
    "gloss": "called; named.",
    "freq": 4,
    "tier": 4,
-   "rank": 791,
+   "rank": 790,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9560,7 +9548,7 @@
    "gloss": "small; little; tiny (used to modify plural",
    "freq": 4,
    "tier": 4,
-   "rank": 792,
+   "rank": 791,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9572,7 +9560,7 @@
    "gloss": "rice field; rice paddy.",
    "freq": 4,
    "tier": 4,
-   "rank": 793,
+   "rank": 792,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9584,7 +9572,7 @@
    "gloss": "deep; profound.",
    "freq": 4,
    "tier": 4,
-   "rank": 794,
+   "rank": 793,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9596,7 +9584,7 @@
    "gloss": "to ask a favor",
    "freq": 4,
    "tier": 4,
-   "rank": 795,
+   "rank": 794,
    "top1000": false,
    "inDeck": true,
    "cardId": "c489"
@@ -9608,7 +9596,7 @@
    "gloss": "to lie down; to rest; to couch; to go to bed.",
    "freq": 4,
    "tier": 4,
-   "rank": 796,
+   "rank": 795,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9620,7 +9608,7 @@
    "gloss": "desire; dream; ambition; aspiration; crave.",
    "freq": 4,
    "tier": 4,
-   "rank": 797,
+   "rank": 796,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9632,7 +9620,7 @@
    "gloss": "enough; right; proper; correct.",
    "freq": 4,
    "tier": 4,
-   "rank": 798,
+   "rank": 797,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9644,7 +9632,7 @@
    "gloss": "(imperative, action was completed) was set up; was",
    "freq": 4,
    "tier": 4,
-   "rank": 799,
+   "rank": 798,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9656,7 +9644,7 @@
    "gloss": "(asking someone) to lay, place or put on/down",
    "freq": 4,
    "tier": 4,
-   "rank": 800,
+   "rank": 799,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9668,7 +9656,7 @@
    "gloss": "was sold.",
    "freq": 4,
    "tier": 4,
-   "rank": 801,
+   "rank": 800,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9680,7 +9668,7 @@
    "gloss": "influence.",
    "freq": 4,
    "tier": 4,
-   "rank": 802,
+   "rank": 801,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9692,7 +9680,7 @@
    "gloss": "arrived.",
    "freq": 4,
    "tier": 4,
-   "rank": 803,
+   "rank": 802,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -9704,10 +9692,22 @@
    "gloss": "nose.",
    "freq": 4,
    "tier": 4,
-   "rank": 804,
+   "rank": 803,
    "top1000": true,
    "inDeck": false,
    "cardId": null
+  },
+  {
+   "id": "isla",
+   "waray": "isla",
+   "pos": null,
+   "gloss": "island",
+   "freq": 4,
+   "tier": 4,
+   "rank": 804,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c222"
   },
   {
    "id": "kablas",
@@ -9998,25 +9998,13 @@
    "cardId": null
   },
   {
-   "id": "mangingisda",
-   "waray": "mangingisda",
-   "pos": null,
-   "gloss": "fisherman",
-   "freq": 4,
-   "tier": 4,
-   "rank": 829,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c439"
-  },
-  {
    "id": "mapakadto",
    "waray": "mapakadto",
    "pos": "verb",
    "gloss": "will go there.",
    "freq": 4,
    "tier": 4,
-   "rank": 830,
+   "rank": 829,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10028,7 +10016,7 @@
    "gloss": "ugly",
    "freq": 4,
    "tier": 4,
-   "rank": 831,
+   "rank": 830,
    "top1000": false,
    "inDeck": true,
    "cardId": "c158"
@@ -10040,7 +10028,7 @@
    "gloss": "cold",
    "freq": 4,
    "tier": 4,
-   "rank": 832,
+   "rank": 831,
    "top1000": false,
    "inDeck": true,
    "cardId": "c132"
@@ -10052,7 +10040,7 @@
    "gloss": "vanish; disappear; be gone.",
    "freq": 4,
    "tier": 4,
-   "rank": 833,
+   "rank": 832,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10064,7 +10052,7 @@
    "gloss": "May",
    "freq": 4,
    "tier": 4,
-   "rank": 834,
+   "rank": 833,
    "top1000": false,
    "inDeck": true,
    "cardId": "c320"
@@ -10076,7 +10064,7 @@
    "gloss": "missionary",
    "freq": 4,
    "tier": 4,
-   "rank": 835,
+   "rank": 834,
    "top1000": false,
    "inDeck": true,
    "cardId": "c437"
@@ -10088,7 +10076,7 @@
    "gloss": "music",
    "freq": 4,
    "tier": 4,
-   "rank": 836,
+   "rank": 835,
    "top1000": false,
    "inDeck": true,
    "cardId": "c626"
@@ -10100,7 +10088,7 @@
    "gloss": "what one is hearing; what one",
    "freq": 4,
    "tier": 4,
-   "rank": 837,
+   "rank": 836,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10112,7 +10100,7 @@
    "gloss": "is helping; helps; is assisting; assists; is aiding; aids.",
    "freq": 4,
    "tier": 4,
-   "rank": 838,
+   "rank": 837,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10124,7 +10112,7 @@
    "gloss": "lived.",
    "freq": 4,
    "tier": 4,
-   "rank": 839,
+   "rank": 838,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10136,7 +10124,7 @@
    "gloss": "consumes; consumed; utilizes; utilized; uses;",
    "freq": 4,
    "tier": 4,
-   "rank": 840,
+   "rank": 839,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10148,7 +10136,7 @@
    "gloss": "doing; is doing.",
    "freq": 4,
    "tier": 4,
-   "rank": 841,
+   "rank": 840,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10160,7 +10148,7 @@
    "gloss": "something, anything, somebody (word used by a",
    "freq": 4,
    "tier": 4,
-   "rank": 842,
+   "rank": 841,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10172,7 +10160,7 @@
    "gloss": "asked; was",
    "freq": 4,
    "tier": 4,
-   "rank": 843,
+   "rank": 842,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10184,7 +10172,7 @@
    "gloss": "is starting; was starting.",
    "freq": 4,
    "tier": 4,
-   "rank": 844,
+   "rank": 843,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10196,7 +10184,7 @@
    "gloss": "thing(s) that",
    "freq": 4,
    "tier": 4,
-   "rank": 845,
+   "rank": 844,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10208,7 +10196,7 @@
    "gloss": "knows (the person); recognized (the person);",
    "freq": 4,
    "tier": 4,
-   "rank": 846,
+   "rank": 845,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10220,7 +10208,7 @@
    "gloss": "sitting down.",
    "freq": 4,
    "tier": 4,
-   "rank": 847,
+   "rank": 846,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10232,7 +10220,7 @@
    "gloss": "gave birth; stood as sponsor in a",
    "freq": 4,
    "tier": 4,
-   "rank": 848,
+   "rank": 847,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10244,7 +10232,7 @@
    "gloss": "ate (collective action).",
    "freq": 4,
    "tier": 4,
-   "rank": 849,
+   "rank": 848,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10256,7 +10244,7 @@
    "gloss": "went (there); resorted (to something/somewhere).",
    "freq": 4,
    "tier": 4,
-   "rank": 850,
+   "rank": 849,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10268,7 +10256,7 @@
    "gloss": "enamored; attracted; has liked something/someone.",
    "freq": 4,
    "tier": 4,
-   "rank": 851,
+   "rank": 850,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10280,7 +10268,7 @@
    "gloss": "irritated; angered.",
    "freq": 4,
    "tier": 4,
-   "rank": 852,
+   "rank": 851,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10292,7 +10280,7 @@
    "gloss": "it so happened; it",
    "freq": 4,
    "tier": 4,
-   "rank": 853,
+   "rank": 852,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10304,7 +10292,7 @@
    "gloss": "calf.",
    "freq": 4,
    "tier": 4,
-   "rank": 854,
+   "rank": 853,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10316,7 +10304,7 @@
    "gloss": "businessman",
    "freq": 4,
    "tier": 4,
-   "rank": 855,
+   "rank": 854,
    "top1000": false,
    "inDeck": true,
    "cardId": "c445"
@@ -10328,7 +10316,7 @@
    "gloss": "godfather",
    "freq": 4,
    "tier": 4,
-   "rank": 856,
+   "rank": 855,
    "top1000": false,
    "inDeck": true,
    "cardId": "c449"
@@ -10340,7 +10328,7 @@
    "gloss": "accepted; acceptance; nod; approved.",
    "freq": 4,
    "tier": 4,
-   "rank": 857,
+   "rank": 856,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10352,7 +10340,7 @@
    "gloss": "to pass by; passed by.",
    "freq": 4,
    "tier": 4,
-   "rank": 858,
+   "rank": 857,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10364,7 +10352,7 @@
    "gloss": "to give birth; gave birth.",
    "freq": 4,
    "tier": 4,
-   "rank": 859,
+   "rank": 858,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10376,7 +10364,7 @@
    "gloss": "doubtless; in truth; in reality.",
    "freq": 4,
    "tier": 4,
-   "rank": 860,
+   "rank": 859,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10388,7 +10376,7 @@
    "gloss": "to get;got; to take; took.",
    "freq": 4,
    "tier": 4,
-   "rank": 861,
+   "rank": 860,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10400,7 +10388,7 @@
    "gloss": "to enter; entered; to put something inside another.",
    "freq": 4,
    "tier": 4,
-   "rank": 862,
+   "rank": 861,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10412,7 +10400,7 @@
    "gloss": "(be able) to hear; heard.",
    "freq": 4,
    "tier": 4,
-   "rank": 863,
+   "rank": 862,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10424,7 +10412,7 @@
    "gloss": "handkerchief",
    "freq": 4,
    "tier": 4,
-   "rank": 864,
+   "rank": 863,
    "top1000": false,
    "inDeck": true,
    "cardId": "c81"
@@ -10436,7 +10424,7 @@
    "gloss": "to force; to coerce; to insist; to impose; to press; to",
    "freq": 4,
    "tier": 4,
-   "rank": 865,
+   "rank": 864,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10448,7 +10436,7 @@
    "gloss": "prince.",
    "freq": 4,
    "tier": 4,
-   "rank": 866,
+   "rank": 865,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10460,7 +10448,7 @@
    "gloss": "reason.",
    "freq": 4,
    "tier": 4,
-   "rank": 867,
+   "rank": 866,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10472,7 +10460,7 @@
    "gloss": "bough; branch.",
    "freq": 4,
    "tier": 4,
-   "rank": 868,
+   "rank": 867,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10484,7 +10472,7 @@
    "gloss": "service.",
    "freq": 4,
    "tier": 4,
-   "rank": 869,
+   "rank": 868,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10496,7 +10484,7 @@
    "gloss": "maybe; not sure.",
    "freq": 4,
    "tier": 4,
-   "rank": 870,
+   "rank": 869,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10508,7 +10496,7 @@
    "gloss": "said; talked.",
    "freq": 4,
    "tier": 4,
-   "rank": 871,
+   "rank": 870,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10520,7 +10508,7 @@
    "gloss": "below; under; beneath; underneath.",
    "freq": 4,
    "tier": 4,
-   "rank": 872,
+   "rank": 871,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10532,7 +10520,7 @@
    "gloss": "taxi",
    "freq": 4,
    "tier": 4,
-   "rank": 873,
+   "rank": 872,
    "top1000": false,
    "inDeck": true,
    "cardId": "c173"
@@ -10544,7 +10532,7 @@
    "gloss": "keepsake; remembrance; securely",
    "freq": 4,
    "tier": 4,
-   "rank": 874,
+   "rank": 873,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10556,7 +10544,7 @@
    "gloss": "uncle",
    "freq": 4,
    "tier": 4,
-   "rank": 875,
+   "rank": 874,
    "top1000": false,
    "inDeck": true,
    "cardId": "c609"
@@ -10568,7 +10556,7 @@
    "gloss": "slippers",
    "freq": 4,
    "tier": 4,
-   "rank": 876,
+   "rank": 875,
    "top1000": false,
    "inDeck": true,
    "cardId": "c499"
@@ -10580,7 +10568,7 @@
    "gloss": "before.",
    "freq": 4,
    "tier": 4,
-   "rank": 877,
+   "rank": 876,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10592,7 +10580,7 @@
    "gloss": "son- or daughter-in-law.",
    "freq": 4,
    "tier": 4,
-   "rank": 878,
+   "rank": 877,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10604,7 +10592,7 @@
    "gloss": "stopped; ceased 2 to",
    "freq": 4,
    "tier": 4,
-   "rank": 879,
+   "rank": 878,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10616,7 +10604,7 @@
    "gloss": "flesh; meat; essence; gist .",
    "freq": 4,
    "tier": 4,
-   "rank": 880,
+   "rank": 879,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10628,7 +10616,7 @@
    "gloss": "very; very-very.",
    "freq": 4,
    "tier": 4,
-   "rank": 881,
+   "rank": 880,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10640,7 +10628,7 @@
    "gloss": "sometimes; once in a while.",
    "freq": 4,
    "tier": 4,
-   "rank": 882,
+   "rank": 881,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10652,7 +10640,7 @@
    "gloss": "agency.",
    "freq": 3,
    "tier": 4,
-   "rank": 883,
+   "rank": 882,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10664,7 +10652,7 @@
    "gloss": "irritable.",
    "freq": 3,
    "tier": 4,
-   "rank": 884,
+   "rank": 883,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10676,7 +10664,7 @@
    "gloss": "across / in front of",
    "freq": 3,
    "tier": 4,
-   "rank": 885,
+   "rank": 884,
    "top1000": false,
    "inDeck": true,
    "cardId": "c167"
@@ -10688,7 +10676,7 @@
    "gloss": "whetstone .",
    "freq": 3,
    "tier": 4,
-   "rank": 886,
+   "rank": 885,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10700,7 +10688,7 @@
    "gloss": "cheap",
    "freq": 3,
    "tier": 4,
-   "rank": 887,
+   "rank": 886,
    "top1000": false,
    "inDeck": true,
    "cardId": "c190"
@@ -10712,7 +10700,7 @@
    "gloss": "to read",
    "freq": 3,
    "tier": 4,
-   "rank": 888,
+   "rank": 887,
    "top1000": false,
    "inDeck": true,
    "cardId": "c109"
@@ -10724,7 +10712,7 @@
    "gloss": "green",
    "freq": 3,
    "tier": 4,
-   "rank": 889,
+   "rank": 888,
    "top1000": false,
    "inDeck": true,
    "cardId": "c333"
@@ -10736,7 +10724,7 @@
    "gloss": "window.",
    "freq": 3,
    "tier": 4,
-   "rank": 890,
+   "rank": 889,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10748,7 +10736,7 @@
    "gloss": "tax; public contribution; levy; duty.",
    "freq": 3,
    "tier": 4,
-   "rank": 891,
+   "rank": 890,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10760,7 +10748,7 @@
    "gloss": "dried fish",
    "freq": 3,
    "tier": 4,
-   "rank": 892,
+   "rank": 891,
    "top1000": false,
    "inDeck": true,
    "cardId": "c191"
@@ -10772,7 +10760,7 @@
    "gloss": "multi-colored; spotted.",
    "freq": 3,
    "tier": 4,
-   "rank": 893,
+   "rank": 892,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10784,7 +10772,7 @@
    "gloss": "to run (collective action).",
    "freq": 3,
    "tier": 4,
-   "rank": 894,
+   "rank": 893,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10796,7 +10784,7 @@
    "gloss": "face; shape; feature; form;",
    "freq": 3,
    "tier": 4,
-   "rank": 895,
+   "rank": 894,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10808,7 +10796,7 @@
    "gloss": "young woman",
    "freq": 3,
    "tier": 4,
-   "rank": 896,
+   "rank": 895,
    "top1000": false,
    "inDeck": true,
    "cardId": "c431"
@@ -10820,7 +10808,7 @@
    "gloss": "long run; forever.",
    "freq": 3,
    "tier": 4,
-   "rank": 897,
+   "rank": 896,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10832,7 +10820,7 @@
    "gloss": "power; force; power over others.",
    "freq": 3,
    "tier": 4,
-   "rank": 898,
+   "rank": 897,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10844,7 +10832,7 @@
    "gloss": "highest.",
    "freq": 3,
    "tier": 4,
-   "rank": 899,
+   "rank": 898,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10856,7 +10844,7 @@
    "gloss": "was consecrated; was blessed.",
    "freq": 3,
    "tier": 4,
-   "rank": 900,
+   "rank": 899,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10868,7 +10856,7 @@
    "gloss": "parent; parents.",
    "freq": 3,
    "tier": 4,
-   "rank": 901,
+   "rank": 900,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10880,7 +10868,7 @@
    "gloss": "was told.",
    "freq": 3,
    "tier": 4,
-   "rank": 902,
+   "rank": 901,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10892,7 +10880,7 @@
    "gloss": "gardener",
    "freq": 3,
    "tier": 4,
-   "rank": 903,
+   "rank": 902,
    "top1000": false,
    "inDeck": true,
    "cardId": "c447"
@@ -10904,7 +10892,7 @@
    "gloss": "to lie on one’s back; to lay something face",
    "freq": 3,
    "tier": 4,
-   "rank": 904,
+   "rank": 903,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10916,7 +10904,7 @@
    "gloss": "to find;be able to find; to see while passing by.",
    "freq": 3,
    "tier": 4,
-   "rank": 905,
+   "rank": 904,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10928,7 +10916,7 @@
    "gloss": "take it easy; go very slowly; moderately.",
    "freq": 3,
    "tier": 4,
-   "rank": 906,
+   "rank": 905,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10940,7 +10928,7 @@
    "gloss": "was heard.",
    "freq": 3,
    "tier": 4,
-   "rank": 907,
+   "rank": 906,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10952,7 +10940,7 @@
    "gloss": "to wash (dishes)",
    "freq": 3,
    "tier": 4,
-   "rank": 908,
+   "rank": 907,
    "top1000": false,
    "inDeck": true,
    "cardId": "c86"
@@ -10964,7 +10952,7 @@
    "gloss": "to borrow",
    "freq": 3,
    "tier": 4,
-   "rank": 909,
+   "rank": 908,
    "top1000": false,
    "inDeck": true,
    "cardId": "c229"
@@ -10976,7 +10964,7 @@
    "gloss": "(asking someone) to return; give back; restore",
    "freq": 3,
    "tier": 4,
-   "rank": 910,
+   "rank": 909,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -10988,7 +10976,7 @@
    "gloss": "idea.",
    "freq": 3,
    "tier": 4,
-   "rank": 911,
+   "rank": 910,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11000,7 +10988,7 @@
    "gloss": "will give; will distribute 2 will be given; will be",
    "freq": 3,
    "tier": 4,
-   "rank": 912,
+   "rank": 911,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11012,7 +11000,7 @@
    "gloss": "was born.",
    "freq": 3,
    "tier": 4,
-   "rank": 913,
+   "rank": 912,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11024,7 +11012,7 @@
    "gloss": "was put; was placed; was set up .",
    "freq": 3,
    "tier": 4,
-   "rank": 914,
+   "rank": 913,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11036,7 +11024,7 @@
    "gloss": "was sent for something; tasked to do something;",
    "freq": 3,
    "tier": 4,
-   "rank": 915,
+   "rank": 914,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11048,7 +11036,7 @@
    "gloss": "bury; entomb; inter.",
    "freq": 3,
    "tier": 4,
-   "rank": 916,
+   "rank": 915,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11060,7 +11048,7 @@
    "gloss": "will give.",
    "freq": 3,
    "tier": 4,
-   "rank": 917,
+   "rank": 916,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11072,7 +11060,7 @@
    "gloss": "give (imperative, the action has not begun yet).",
    "freq": 3,
    "tier": 4,
-   "rank": 918,
+   "rank": 917,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11084,7 +11072,7 @@
    "gloss": "to stop; stopped; to idle away time; to",
    "freq": 3,
    "tier": 4,
-   "rank": 919,
+   "rank": 918,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11096,7 +11084,7 @@
    "gloss": "black",
    "freq": 3,
    "tier": 4,
-   "rank": 920,
+   "rank": 919,
    "top1000": false,
    "inDeck": true,
    "cardId": "c328"
@@ -11108,7 +11096,7 @@
    "gloss": "dawn; aurora; early morning.",
    "freq": 3,
    "tier": 4,
-   "rank": 921,
+   "rank": 920,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11120,7 +11108,7 @@
    "gloss": "goat.",
    "freq": 3,
    "tier": 4,
-   "rank": 922,
+   "rank": 921,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11132,7 +11120,7 @@
    "gloss": "field; plane.",
    "freq": 3,
    "tier": 4,
-   "rank": 923,
+   "rank": 922,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11144,7 +11132,7 @@
    "gloss": "tired",
    "freq": 3,
    "tier": 4,
-   "rank": 924,
+   "rank": 923,
    "top1000": false,
    "inDeck": true,
    "cardId": "c461"
@@ -11156,7 +11144,7 @@
    "gloss": "top, a spinning toy.",
    "freq": 3,
    "tier": 4,
-   "rank": 925,
+   "rank": 924,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11168,7 +11156,7 @@
    "gloss": "bed",
    "freq": 3,
    "tier": 4,
-   "rank": 926,
+   "rank": 925,
    "top1000": false,
    "inDeck": true,
    "cardId": "c496"
@@ -11180,7 +11168,7 @@
    "gloss": "querida; mistress.",
    "freq": 3,
    "tier": 4,
-   "rank": 927,
+   "rank": 926,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11192,7 +11180,7 @@
    "gloss": "cake",
    "freq": 3,
    "tier": 4,
-   "rank": 928,
+   "rank": 927,
    "top1000": false,
    "inDeck": true,
    "cardId": "c516"
@@ -11204,7 +11192,7 @@
    "gloss": "went there.",
    "freq": 3,
    "tier": 4,
-   "rank": 929,
+   "rank": 928,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11216,7 +11204,7 @@
    "gloss": "recognized; known; identified.",
    "freq": 3,
    "tier": 4,
-   "rank": 930,
+   "rank": 929,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11228,7 +11216,7 @@
    "gloss": "was seen.",
    "freq": 3,
    "tier": 4,
-   "rank": 931,
+   "rank": 930,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11240,7 +11228,7 @@
    "gloss": "councilman",
    "freq": 3,
    "tier": 4,
-   "rank": 932,
+   "rank": 931,
    "top1000": false,
    "inDeck": true,
    "cardId": "c444"
@@ -11252,7 +11240,7 @@
    "gloss": "take/took something; get/got something.",
    "freq": 3,
    "tier": 4,
-   "rank": 933,
+   "rank": 932,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11264,7 +11252,7 @@
    "gloss": "come/came here; come/came here where we",
    "freq": 3,
    "tier": 4,
-   "rank": 934,
+   "rank": 933,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11276,7 +11264,7 @@
    "gloss": "take/took something in the hand.",
    "freq": 3,
    "tier": 4,
-   "rank": 935,
+   "rank": 934,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11288,7 +11276,7 @@
    "gloss": "to sit",
    "freq": 3,
    "tier": 4,
-   "rank": 936,
+   "rank": 935,
    "top1000": false,
    "inDeck": true,
    "cardId": "c473"
@@ -11300,7 +11288,7 @@
    "gloss": "went",
    "freq": 3,
    "tier": 4,
-   "rank": 937,
+   "rank": 936,
    "top1000": false,
    "inDeck": true,
    "cardId": "c409"
@@ -11312,7 +11300,7 @@
    "gloss": "Monday",
    "freq": 3,
    "tier": 4,
-   "rank": 938,
+   "rank": 937,
    "top1000": false,
    "inDeck": true,
    "cardId": "c309"
@@ -11324,7 +11312,7 @@
    "gloss": "to alight; to climb down; to come downstairs; descend;",
    "freq": 3,
    "tier": 4,
-   "rank": 939,
+   "rank": 938,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11336,7 +11324,7 @@
    "gloss": "will come out.",
    "freq": 3,
    "tier": 4,
-   "rank": 940,
+   "rank": 939,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11348,7 +11336,7 @@
    "gloss": "will give; will provide.",
    "freq": 3,
    "tier": 4,
-   "rank": 941,
+   "rank": 940,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11360,7 +11348,7 @@
    "gloss": "poet(s).",
    "freq": 3,
    "tier": 4,
-   "rank": 942,
+   "rank": 941,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11372,7 +11360,7 @@
    "gloss": "eldest.",
    "freq": 3,
    "tier": 4,
-   "rank": 943,
+   "rank": 942,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11384,7 +11372,7 @@
    "gloss": "about; because of.",
    "freq": 3,
    "tier": 4,
-   "rank": 944,
+   "rank": 943,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11396,7 +11384,7 @@
    "gloss": "fierce; brave; courageous; gallant.",
    "freq": 3,
    "tier": 4,
-   "rank": 945,
+   "rank": 944,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11408,7 +11396,7 @@
    "gloss": "will find (something); will be able to find",
    "freq": 3,
    "tier": 4,
-   "rank": 946,
+   "rank": 945,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11420,7 +11408,7 @@
    "gloss": "will hear; can hear .",
    "freq": 3,
    "tier": 4,
-   "rank": 947,
+   "rank": 946,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11432,7 +11420,7 @@
    "gloss": "able to make; able to fabricate; able to produce;",
    "freq": 3,
    "tier": 4,
-   "rank": 948,
+   "rank": 947,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11444,7 +11432,7 @@
    "gloss": "will see; be able to",
    "freq": 3,
    "tier": 4,
-   "rank": 949,
+   "rank": 948,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11456,7 +11444,7 @@
    "gloss": "to get (something or somebody); will get (something or",
    "freq": 3,
    "tier": 4,
-   "rank": 950,
+   "rank": 949,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -11468,10 +11456,22 @@
    "gloss": "quiet; silent; lonely; noiseless.",
    "freq": 3,
    "tier": 4,
-   "rank": 951,
+   "rank": 950,
    "top1000": true,
    "inDeck": false,
    "cardId": null
+  },
+  {
+   "id": "mangingisda",
+   "waray": "mangingisda",
+   "pos": null,
+   "gloss": "fisherman",
+   "freq": 3,
+   "tier": 4,
+   "rank": 951,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c439"
   },
   {
    "id": "manog-banog",
@@ -12098,25 +12098,13 @@
    "cardId": null
   },
   {
-   "id": "turista",
-   "waray": "turista",
-   "pos": null,
-   "gloss": "tourist",
-   "freq": 3,
-   "tier": 4,
-   "rank": 1004,
-   "top1000": false,
-   "inDeck": true,
-   "cardId": "c44"
-  },
-  {
    "id": "tyempo",
    "waray": "tyémpo",
    "pos": "noun",
    "gloss": "time; period in history.",
    "freq": 3,
    "tier": 4,
-   "rank": 1005,
+   "rank": 1004,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12128,7 +12116,7 @@
    "gloss": "lawyer",
    "freq": 2,
    "tier": 4,
-   "rank": 1006,
+   "rank": 1005,
    "top1000": false,
    "inDeck": true,
    "cardId": "c438"
@@ -12140,7 +12128,7 @@
    "gloss": "very early in the morning.",
    "freq": 2,
    "tier": 4,
-   "rank": 1007,
+   "rank": 1006,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12152,7 +12140,7 @@
    "gloss": "to pray",
    "freq": 2,
    "tier": 4,
-   "rank": 1008,
+   "rank": 1007,
    "top1000": false,
    "inDeck": true,
    "cardId": "c485"
@@ -12164,7 +12152,7 @@
    "gloss": "blue",
    "freq": 2,
    "tier": 4,
-   "rank": 1009,
+   "rank": 1008,
    "top1000": false,
    "inDeck": true,
    "cardId": "c331"
@@ -12176,7 +12164,7 @@
    "gloss": "to walk",
    "freq": 2,
    "tier": 4,
-   "rank": 1010,
+   "rank": 1009,
    "top1000": false,
    "inDeck": true,
    "cardId": "c76"
@@ -12188,7 +12176,7 @@
    "gloss": "replied; responded.",
    "freq": 2,
    "tier": 4,
-   "rank": 1011,
+   "rank": 1010,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12200,7 +12188,7 @@
    "gloss": "returned.",
    "freq": 2,
    "tier": 4,
-   "rank": 1012,
+   "rank": 1011,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12212,7 +12200,7 @@
    "gloss": "so big; biggest; so huge;.",
    "freq": 2,
    "tier": 4,
-   "rank": 1013,
+   "rank": 1012,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12224,7 +12212,7 @@
    "gloss": "ran.",
    "freq": 2,
    "tier": 4,
-   "rank": 1014,
+   "rank": 1013,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12236,7 +12224,7 @@
    "gloss": "came closer; approach; draw",
    "freq": 2,
    "tier": 4,
-   "rank": 1015,
+   "rank": 1014,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12248,7 +12236,7 @@
    "gloss": "idol",
    "freq": 2,
    "tier": 4,
-   "rank": 1016,
+   "rank": 1015,
    "top1000": false,
    "inDeck": true,
    "cardId": "c546"
@@ -12260,7 +12248,7 @@
    "gloss": "juice",
    "freq": 2,
    "tier": 4,
-   "rank": 1017,
+   "rank": 1016,
    "top1000": false,
    "inDeck": true,
    "cardId": "c614"
@@ -12272,7 +12260,7 @@
    "gloss": "during.",
    "freq": 2,
    "tier": 4,
-   "rank": 1018,
+   "rank": 1017,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12284,7 +12272,7 @@
    "gloss": "looking for",
    "freq": 2,
    "tier": 4,
-   "rank": 1019,
+   "rank": 1018,
    "top1000": false,
    "inDeck": true,
    "cardId": "c194"
@@ -12296,7 +12284,7 @@
    "gloss": "came out; showed up.",
    "freq": 2,
    "tier": 4,
-   "rank": 1020,
+   "rank": 1019,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12308,7 +12296,7 @@
    "gloss": "gave; given (by someone to",
    "freq": 2,
    "tier": 4,
-   "rank": 1021,
+   "rank": 1020,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12320,7 +12308,7 @@
    "gloss": "will ponder; will reflect; will",
    "freq": 2,
    "tier": 4,
-   "rank": 1022,
+   "rank": 1021,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12332,7 +12320,7 @@
    "gloss": "idea; belief; notion; mind (short for hunahuna).",
    "freq": 2,
    "tier": 4,
-   "rank": 1023,
+   "rank": 1022,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12344,7 +12332,7 @@
    "gloss": "was given.",
    "freq": 2,
    "tier": 4,
-   "rank": 1024,
+   "rank": 1023,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12356,7 +12344,7 @@
    "gloss": "was buried; was interred; was entombed.",
    "freq": 2,
    "tier": 4,
-   "rank": 1025,
+   "rank": 1024,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12368,7 +12356,7 @@
    "gloss": "was sent (by someone through somebody to",
    "freq": 2,
    "tier": 4,
-   "rank": 1026,
+   "rank": 1025,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12380,7 +12368,7 @@
    "gloss": "(something) was told to somebody.",
    "freq": 2,
    "tier": 4,
-   "rank": 1027,
+   "rank": 1026,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12392,7 +12380,7 @@
    "gloss": "was spoken; was revealed; was",
    "freq": 2,
    "tier": 4,
-   "rank": 1028,
+   "rank": 1027,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12404,7 +12392,7 @@
    "gloss": "was given; hand down.",
    "freq": 2,
    "tier": 4,
-   "rank": 1029,
+   "rank": 1028,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12416,7 +12404,7 @@
    "gloss": "turned over; entrusted; committed; handed",
    "freq": 2,
    "tier": 4,
-   "rank": 1030,
+   "rank": 1029,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12428,7 +12416,7 @@
    "gloss": "birthday",
    "freq": 2,
    "tier": 4,
-   "rank": 1031,
+   "rank": 1030,
    "top1000": false,
    "inDeck": true,
    "cardId": "c538"
@@ -12440,7 +12428,7 @@
    "gloss": "when (past)",
    "freq": 2,
    "tier": 4,
-   "rank": 1032,
+   "rank": 1031,
    "top1000": false,
    "inDeck": true,
    "cardId": "c279"
@@ -12452,7 +12440,7 @@
    "gloss": "tomato",
    "freq": 2,
    "tier": 4,
-   "rank": 1033,
+   "rank": 1032,
    "top1000": false,
    "inDeck": true,
    "cardId": "c512"
@@ -12464,7 +12452,7 @@
    "gloss": "tasty; savory; delicious; sweet; pleasurable .",
    "freq": 2,
    "tier": 4,
-   "rank": 1034,
+   "rank": 1033,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12476,7 +12464,7 @@
    "gloss": "will get; will pick; will harvest; will take; will reap;",
    "freq": 2,
    "tier": 4,
-   "rank": 1035,
+   "rank": 1034,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12488,7 +12476,7 @@
    "gloss": "to pass by",
    "freq": 2,
    "tier": 4,
-   "rank": 1036,
+   "rank": 1035,
    "top1000": false,
    "inDeck": true,
    "cardId": "c493"
@@ -12500,7 +12488,7 @@
    "gloss": "to kneel",
    "freq": 2,
    "tier": 4,
-   "rank": 1037,
+   "rank": 1036,
    "top1000": false,
    "inDeck": true,
    "cardId": "c488"
@@ -12512,7 +12500,7 @@
    "gloss": "to fold (clothes)",
    "freq": 2,
    "tier": 4,
-   "rank": 1038,
+   "rank": 1037,
    "top1000": false,
    "inDeck": true,
    "cardId": "c106"
@@ -12524,7 +12512,7 @@
    "gloss": "easy / quick",
    "freq": 2,
    "tier": 4,
-   "rank": 1039,
+   "rank": 1038,
    "top1000": false,
    "inDeck": true,
    "cardId": "c264"
@@ -12536,7 +12524,7 @@
    "gloss": "excellent",
    "freq": 2,
    "tier": 4,
-   "rank": 1040,
+   "rank": 1039,
    "top1000": false,
    "inDeck": true,
    "cardId": "c159"
@@ -12548,7 +12536,7 @@
    "gloss": "happy",
    "freq": 2,
    "tier": 4,
-   "rank": 1041,
+   "rank": 1040,
    "top1000": false,
    "inDeck": true,
    "cardId": "c46"
@@ -12560,7 +12548,7 @@
    "gloss": "will descend; will climb down; will alight; will come",
    "freq": 2,
    "tier": 4,
-   "rank": 1042,
+   "rank": 1041,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12572,7 +12560,7 @@
    "gloss": "to drive",
    "freq": 2,
    "tier": 4,
-   "rank": 1043,
+   "rank": 1042,
    "top1000": false,
    "inDeck": true,
    "cardId": "c112"
@@ -12584,7 +12572,7 @@
    "gloss": "bad",
    "freq": 2,
    "tier": 4,
-   "rank": 1044,
+   "rank": 1043,
    "top1000": false,
    "inDeck": true,
    "cardId": "c462"
@@ -12596,7 +12584,7 @@
    "gloss": "March",
    "freq": 2,
    "tier": 4,
-   "rank": 1045,
+   "rank": 1044,
    "top1000": false,
    "inDeck": true,
    "cardId": "c318"
@@ -12608,7 +12596,7 @@
    "gloss": "to allow; will allow; be allowed.",
    "freq": 2,
    "tier": 4,
-   "rank": 1046,
+   "rank": 1045,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12620,7 +12608,7 @@
    "gloss": "socks",
    "freq": 2,
    "tier": 4,
-   "rank": 1047,
+   "rank": 1046,
    "top1000": false,
    "inDeck": true,
    "cardId": "c502"
@@ -12632,7 +12620,7 @@
    "gloss": "message",
    "freq": 2,
    "tier": 4,
-   "rank": 1048,
+   "rank": 1047,
    "top1000": false,
    "inDeck": true,
    "cardId": "c508"
@@ -12644,7 +12632,7 @@
    "gloss": "citizen; people; civilian; inhabitants of",
    "freq": 2,
    "tier": 4,
-   "rank": 1049,
+   "rank": 1048,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12656,7 +12644,7 @@
    "gloss": "felt; noticed; seen.",
    "freq": 2,
    "tier": 4,
-   "rank": 1050,
+   "rank": 1049,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12668,7 +12656,7 @@
    "gloss": "gave blessing; gave benediction.",
    "freq": 2,
    "tier": 4,
-   "rank": 1051,
+   "rank": 1050,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12680,7 +12668,7 @@
    "gloss": "something came into existence.",
    "freq": 2,
    "tier": 4,
-   "rank": 1052,
+   "rank": 1051,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12692,7 +12680,7 @@
    "gloss": "born (a collective action); born",
    "freq": 2,
    "tier": 4,
-   "rank": 1053,
+   "rank": 1052,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12704,7 +12692,7 @@
    "gloss": "wandered.",
    "freq": 2,
    "tier": 4,
-   "rank": 1054,
+   "rank": 1053,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12716,7 +12704,7 @@
    "gloss": "became pregnant.",
    "freq": 2,
    "tier": 4,
-   "rank": 1055,
+   "rank": 1054,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12728,7 +12716,7 @@
    "gloss": "shouted; cried.",
    "freq": 2,
    "tier": 4,
-   "rank": 1056,
+   "rank": 1055,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12740,7 +12728,7 @@
    "gloss": "called (someone); summoned",
    "freq": 2,
    "tier": 4,
-   "rank": 1057,
+   "rank": 1056,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12752,7 +12740,7 @@
    "gloss": null,
    "freq": 2,
    "tier": 4,
-   "rank": 1058,
+   "rank": 1057,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12764,7 +12752,7 @@
    "gloss": "was able to hear.",
    "freq": 2,
    "tier": 4,
-   "rank": 1059,
+   "rank": 1058,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12776,7 +12764,7 @@
    "gloss": "how many",
    "freq": 2,
    "tier": 4,
-   "rank": 1060,
+   "rank": 1059,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12788,7 +12776,7 @@
    "gloss": "anything happened; something happened (from the root",
    "freq": 2,
    "tier": 4,
-   "rank": 1061,
+   "rank": 1060,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12800,7 +12788,7 @@
    "gloss": "cry for mercy or, favor.",
    "freq": 2,
    "tier": 4,
-   "rank": 1062,
+   "rank": 1061,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12812,7 +12800,7 @@
    "gloss": "is asking; is inquiring.",
    "freq": 2,
    "tier": 4,
-   "rank": 1063,
+   "rank": 1062,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12824,7 +12812,7 @@
    "gloss": "makes visible; exposes to view; be",
    "freq": 2,
    "tier": 4,
-   "rank": 1064,
+   "rank": 1063,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12836,7 +12824,7 @@
    "gloss": "Overseas Filipino Worker.",
    "freq": 2,
    "tier": 4,
-   "rank": 1065,
+   "rank": 1064,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12848,7 +12836,7 @@
    "gloss": "to wake up; woke up; to awaken.",
    "freq": 2,
    "tier": 4,
-   "rank": 1066,
+   "rank": 1065,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12860,7 +12848,7 @@
    "gloss": "to comprehend;",
    "freq": 2,
    "tier": 4,
-   "rank": 1067,
+   "rank": 1066,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12872,7 +12860,7 @@
    "gloss": "to meet; to welcome; to meet someone at a station; to",
    "freq": 2,
    "tier": 4,
-   "rank": 1068,
+   "rank": 1067,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12884,7 +12872,7 @@
    "gloss": "faith; to believe; believed.",
    "freq": 2,
    "tier": 4,
-   "rank": 1069,
+   "rank": 1068,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12896,7 +12884,7 @@
    "gloss": "dinner",
    "freq": 2,
    "tier": 4,
-   "rank": 1070,
+   "rank": 1069,
    "top1000": false,
    "inDeck": true,
    "cardId": "c240"
@@ -12908,7 +12896,7 @@
    "gloss": "terminal",
    "freq": 2,
    "tier": 4,
-   "rank": 1071,
+   "rank": 1070,
    "top1000": false,
    "inDeck": true,
    "cardId": "c165"
@@ -12920,7 +12908,7 @@
    "gloss": "pineapple",
    "freq": 2,
    "tier": 4,
-   "rank": 1072,
+   "rank": 1071,
    "top1000": false,
    "inDeck": true,
    "cardId": "c616"
@@ -12932,7 +12920,7 @@
    "gloss": "door.",
    "freq": 2,
    "tier": 4,
-   "rank": 1073,
+   "rank": 1072,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12944,7 +12932,7 @@
    "gloss": "Saturday",
    "freq": 2,
    "tier": 4,
-   "rank": 1074,
+   "rank": 1073,
    "top1000": false,
    "inDeck": true,
    "cardId": "c314"
@@ -12956,7 +12944,7 @@
    "gloss": "secretary",
    "freq": 2,
    "tier": 4,
-   "rank": 1075,
+   "rank": 1074,
    "top1000": false,
    "inDeck": true,
    "cardId": "c446"
@@ -12968,7 +12956,7 @@
    "gloss": "cemetery.",
    "freq": 2,
    "tier": 4,
-   "rank": 1076,
+   "rank": 1075,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -12980,7 +12968,7 @@
    "gloss": "to worship",
    "freq": 2,
    "tier": 4,
-   "rank": 1077,
+   "rank": 1076,
    "top1000": false,
    "inDeck": true,
    "cardId": "c486"
@@ -12992,7 +12980,7 @@
    "gloss": "lamp; lantern; illumination.",
    "freq": 2,
    "tier": 4,
-   "rank": 1078,
+   "rank": 1077,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -13004,7 +12992,7 @@
    "gloss": "first born child; eldest.",
    "freq": 2,
    "tier": 4,
-   "rank": 1079,
+   "rank": 1078,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -13016,7 +13004,7 @@
    "gloss": "from the barrio.",
    "freq": 2,
    "tier": 4,
-   "rank": 1080,
+   "rank": 1079,
    "top1000": true,
    "inDeck": false,
    "cardId": null
@@ -13028,7 +13016,7 @@
    "gloss": "blanket",
    "freq": 2,
    "tier": 4,
-   "rank": 1081,
+   "rank": 1080,
    "top1000": false,
    "inDeck": true,
    "cardId": "c85"
@@ -13040,7 +13028,7 @@
    "gloss": "to stand",
    "freq": 2,
    "tier": 4,
-   "rank": 1082,
+   "rank": 1081,
    "top1000": false,
    "inDeck": true,
    "cardId": "c474"
@@ -13052,7 +13040,7 @@
    "gloss": "aunt",
    "freq": 2,
    "tier": 4,
-   "rank": 1083,
+   "rank": 1082,
    "top1000": false,
    "inDeck": true,
    "cardId": "c608"
@@ -13064,7 +13052,7 @@
    "gloss": "soy sauce",
    "freq": 2,
    "tier": 4,
-   "rank": 1084,
+   "rank": 1083,
    "top1000": false,
    "inDeck": true,
    "cardId": "c256"
@@ -13076,10 +13064,22 @@
    "gloss": "tricycle",
    "freq": 2,
    "tier": 4,
-   "rank": 1085,
+   "rank": 1084,
    "top1000": false,
    "inDeck": true,
    "cardId": "c175"
+  },
+  {
+   "id": "turista",
+   "waray": "turista",
+   "pos": null,
+   "gloss": "tourist",
+   "freq": 2,
+   "tier": 4,
+   "rank": 1085,
+   "top1000": false,
+   "inDeck": true,
+   "cardId": "c44"
   },
   {
    "id": "wali",
@@ -45798,7 +45798,7 @@
   },
   {
    "id": "s1621",
-   "text": "Moral Lesson of the Story: Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar.",
+   "text": "Aton tagan hin importansiya an mga mag-upay nga mga panan-awon nga aada nakikita ha aton mga lugar.",
    "sourceId": "bloom",
    "register": "childrens",
    "words": [
@@ -46660,81 +46660,6 @@
   },
   {
    "id": "s1676",
-   "text": "Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "oras",
-    "na"
-   ]
-  },
-  {
-   "id": "s1677",
-   "text": "Sa oras na iyon pagkatapos ng pangyayari ay biglang tumahimik ang buong paligid.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "oras",
-    "na"
-   ]
-  },
-  {
-   "id": "s1678",
-   "text": "Sa kasalukuyan ang pormadong batong ito ay hugis-barko na parang nakalutang lamang sa gitna ng karagatan.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "na"
-   ]
-  },
-  {
-   "id": "s1679",
-   "text": "Ang kuwentong ito ay ayon lamang sa mga taong nagkaroon ng karanasan at batay sa kanilang naranasan, nakita, at narinig.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "mga",
-    "nakita"
-   ]
-  },
-  {
-   "id": "s1680",
-   "text": "Ito’y isang yamang maipagmamalaki ng mga Daramnon sa Pilipinas maging sa buong mundo.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "mga"
-   ]
-  },
-  {
-   "id": "s1681",
-   "text": "Mula sa panulat at pananaliksik ni: BRANDO M.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "ni"
-   ]
-  },
-  {
-   "id": "s1682",
-   "text": "Residente sa Bayan ng Daram ng mahigit 30 taon.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": []
-  },
-  {
-   "id": "s1683",
-   "text": "Isang makapigil-hininga ang ganda ng kandiwata rock formation, na dinarayo ngayon ng mga turista sa mga kalapit na bayan ng Daram.",
-   "sourceId": "bloom",
-   "register": "childrens",
-   "words": [
-    "na",
-    "mga",
-    "turista"
-   ]
-  },
-  {
-   "id": "s1684",
    "text": "Hi Kaha, Kahon Umandar na an bus nga ginsasakyan ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46748,7 +46673,7 @@
    ]
   },
   {
-   "id": "s1685",
+   "id": "s1677",
    "text": "“Kamalipog man hini nga akon pagbiyahe”, reklamo ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46759,7 +46684,7 @@
    ]
   },
   {
-   "id": "s1686",
+   "id": "s1678",
    "text": "Sapit niya an dako nga sako han mga utanon ngan malangsa nga balde han isda.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46777,7 +46702,7 @@
    ]
   },
   {
-   "id": "s1687",
+   "id": "s1679",
    "text": "Usa… duha… tulo… tulo ka oras nga pagbay-og an gin-abat ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46792,7 +46717,7 @@
    ]
   },
   {
-   "id": "s1688",
+   "id": "s1680",
    "text": "Natapos gihap an iya beyahe.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46802,7 +46727,7 @@
    ]
   },
   {
-   "id": "s1689",
+   "id": "s1681",
    "text": "Makakagawas na ako hini nga lugar\", malipayon nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46817,7 +46742,7 @@
    ]
   },
   {
-   "id": "s1690",
+   "id": "s1682",
    "text": "\"Kamakaluluoy ko man kitaon\", masulob-on nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46829,7 +46754,7 @@
    ]
   },
   {
-   "id": "s1691",
+   "id": "s1683",
    "text": "Brown an iya kolor nga may gudti nga mga luho ha ligid niya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46846,7 +46771,7 @@
    ]
   },
   {
-   "id": "s1692",
+   "id": "s1684",
    "text": "Pinaagi han dulaw nga higot, nasisirahan an tapotapohon nga iya abrihan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46860,7 +46785,7 @@
    ]
   },
   {
-   "id": "s1693",
+   "id": "s1685",
    "text": "Dalidali hiya nga ginkuha han iya agaron ha iya kinamumutangan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46875,7 +46800,7 @@
    ]
   },
   {
-   "id": "s1694",
+   "id": "s1686",
    "text": "Ginkaptan an dulaw nga higot nga ginhigot ha iya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46888,7 +46813,7 @@
    ]
   },
   {
-   "id": "s1695",
+   "id": "s1687",
    "text": "Nahipausa hiya han iya nakita-an.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46899,7 +46824,7 @@
    ]
   },
   {
-   "id": "s1696",
+   "id": "s1688",
    "text": "kamaupay man hini nga lugar.”, nalilipay nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46911,7 +46836,7 @@
    ]
   },
   {
-   "id": "s1697",
+   "id": "s1689",
    "text": "Dagko ngan higtaas nga bilding an aada ha iya atubangan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46926,7 +46851,7 @@
    ]
   },
   {
-   "id": "s1698",
+   "id": "s1690",
    "text": "Iba ini ha iya gintikangan nga simple nga balay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46940,7 +46865,7 @@
    ]
   },
   {
-   "id": "s1699",
+   "id": "s1691",
    "text": "Haros usa ka barangay an kahiluag hini ngan baga hin maabot na ngadto ha langit ha subra hin kahitaas.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46959,7 +46884,7 @@
    ]
   },
   {
-   "id": "s1700",
+   "id": "s1692",
    "text": "Ginbutang hiya han iya agaron ha pushcart ngan ginsulod hiya ha maanyag nga bilding.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46975,7 +46900,7 @@
    ]
   },
   {
-   "id": "s1701",
+   "id": "s1693",
    "text": "Puno hiya hin ginhamis nga mga bagol hin lubi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -46989,7 +46914,7 @@
    ]
   },
   {
-   "id": "s1702",
+   "id": "s1694",
    "text": "\"Oy tigda nga umabri an purtahan!\", nahipausa nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47002,7 +46927,7 @@
    ]
   },
   {
-   "id": "s1703",
+   "id": "s1695",
    "text": "Nakita niya an mainggat nga salog.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47015,7 +46940,7 @@
    ]
   },
   {
-   "id": "s1704",
+   "id": "s1696",
    "text": "Makaruruyag pagkit-on an iba-iba nga klase hin mga light.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47029,7 +46954,7 @@
    ]
   },
   {
-   "id": "s1705",
+   "id": "s1697",
    "text": "Iba-iba nga kolor han mga butang an iya nakikita ha kada estante nga ira gin-aagian.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47048,7 +46973,7 @@
    ]
   },
   {
-   "id": "s1706",
+   "id": "s1698",
    "text": "\"Kadadamo man hin tawo ha palibot', yakan ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47062,7 +46987,7 @@
    ]
   },
   {
-   "id": "s1707",
+   "id": "s1699",
    "text": "\"Siguro kay mahagkot ini nga lugar\".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47076,7 +47001,7 @@
    ]
   },
   {
-   "id": "s1708",
+   "id": "s1700",
    "text": "\"Makikita ha ira nawong an kalipay ha pamamasyada, pagkaon ngan pamamalit\", hunahuna ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47094,7 +47019,7 @@
    ]
   },
   {
-   "id": "s1709",
+   "id": "s1701",
    "text": "Ginbutang hiya sulod hin usa nga tindahan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47108,7 +47033,7 @@
    ]
   },
   {
-   "id": "s1710",
+   "id": "s1702",
    "text": "Puno ini hin mag-upay nga mga pandekorasyon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47122,7 +47047,7 @@
    ]
   },
   {
-   "id": "s1711",
+   "id": "s1703",
    "text": "Nakita niya nga gintagan hin kwarta an iya agaron kabalyo ha iya ngan lumakat na.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47143,7 +47068,7 @@
    ]
   },
   {
-   "id": "s1712",
+   "id": "s1704",
    "text": "Nasubo hi Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47152,7 +47077,7 @@
    ]
   },
   {
-   "id": "s1713",
+   "id": "s1705",
    "text": "“Kay ano ako ginbayaan han akon agaron?”, nahihingatangis nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47169,7 +47094,7 @@
    ]
   },
   {
-   "id": "s1714",
+   "id": "s1706",
    "text": "“Waray nagud ada ako pulos ha iya”, tangis ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47183,7 +47108,7 @@
    ]
   },
   {
-   "id": "s1715",
+   "id": "s1707",
    "text": "“Diri ito ungod sangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47194,7 +47119,7 @@
    ]
   },
   {
-   "id": "s1716",
+   "id": "s1708",
    "text": "Tanan kita may ada mga pulos dinhi ha tuna\", isplikar ni Basurahan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47211,7 +47136,7 @@
    ]
   },
   {
-   "id": "s1717",
+   "id": "s1709",
    "text": "“Diri karuyag signgon nga waray ka na pulos kun ginbayaan ka man han imo agaron \".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47228,7 +47153,7 @@
    ]
   },
   {
-   "id": "s1718",
+   "id": "s1710",
    "text": "Malipayon ako kay maaram ako nga dako it akon nahibubulig ha kalibungan\", dugang nga siring ni Basurahan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47248,7 +47173,7 @@
    ]
   },
   {
-   "id": "s1719",
+   "id": "s1711",
    "text": "“Ginbubutang ha amon an mga maghugaw nga mga butang para diri magin mahugaw an kalibungan.\" “Tama hi Basurahan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47267,7 +47192,7 @@
    ]
   },
   {
-   "id": "s1720",
+   "id": "s1712",
    "text": "Kami gihapon imbis nga iglabog aadi kami para magamitan pa”, an siring han mga bagol hin lubi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47287,7 +47212,7 @@
    ]
   },
   {
-   "id": "s1721",
+   "id": "s1713",
    "text": "Ginkuha an iya sulod ngan gintrapohan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47300,7 +47225,7 @@
    ]
   },
   {
-   "id": "s1722",
+   "id": "s1714",
    "text": "“Kailangan ko ikaw kay waray ako nasusudlan hin mga gudtiay nga pantinda”, siring han bata.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47319,7 +47244,7 @@
    ]
   },
   {
-   "id": "s1723",
+   "id": "s1715",
    "text": "Ginputos hiya hin malimpyo ngan bukadbukaron nga papel.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47332,7 +47257,7 @@
    ]
   },
   {
-   "id": "s1724",
+   "id": "s1716",
    "text": "May ada pa ginbutang nga pula nga ribbon ha bawbaw han iya takop.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47349,7 +47274,7 @@
    ]
   },
   {
-   "id": "s1725",
+   "id": "s1717",
    "text": "Nakita niya an iya kalugaringon ha espiho ha tindahan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47364,7 +47289,7 @@
    ]
   },
   {
-   "id": "s1726",
+   "id": "s1718",
    "text": "\"Kamakaruruyag kitaon it akon kalugaringon\", nalilipay nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47378,7 +47303,7 @@
    ]
   },
   {
-   "id": "s1727",
+   "id": "s1719",
    "text": "Tikang hadto, natood na hi Kaha nga tanan nga butang may ada pulos.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47394,7 +47319,7 @@
    ]
   },
   {
-   "id": "s1728",
+   "id": "s1720",
    "text": "Gin-apresyar niya an iya kalugaringon kay diri na hiya makalolooy kitaon ngan diri pa hiya makakahugaw ha kalibungan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47413,7 +47338,7 @@
    ]
   },
   {
-   "id": "s1729",
+   "id": "s1721",
    "text": "\"Damo nga salamat han maduruto ngan maabilidad nga bata\", malipayon nga siring ni Kaha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47430,7 +47355,7 @@
    ]
   },
   {
-   "id": "s1730",
+   "id": "s1722",
    "text": "An Suok nga Magsangkay Magsangkay hi Ela ngan hi Mila.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47442,7 +47367,7 @@
    ]
   },
   {
-   "id": "s1731",
+   "id": "s1723",
    "text": "Suok gud kaupay hira nga magsangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47453,7 +47378,7 @@
    ]
   },
   {
-   "id": "s1732",
+   "id": "s1724",
    "text": "An ira mga maestra gindadayaw hira.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47465,7 +47390,7 @@
    ]
   },
   {
-   "id": "s1733",
+   "id": "s1725",
    "text": "Mga buruhaton ha balay waray kabudlay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47478,7 +47403,7 @@
    ]
   },
   {
-   "id": "s1734",
+   "id": "s1726",
    "text": "Kay hira nga duha nagbibinuligay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47490,7 +47415,7 @@
    ]
   },
   {
-   "id": "s1735",
+   "id": "s1727",
    "text": "Mga kag-anak nira waray problema.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47503,7 +47428,7 @@
    ]
   },
   {
-   "id": "s1736",
+   "id": "s1728",
    "text": "Pangandoy nira dungan nga mapa-uswag.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47514,7 +47439,7 @@
    ]
   },
   {
-   "id": "s1737",
+   "id": "s1729",
    "text": "May nahitabo ha ira kamagsangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47525,7 +47450,7 @@
    ]
   },
   {
-   "id": "s1738",
+   "id": "s1730",
    "text": "Nag usaan nala hi Ela.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47534,7 +47459,7 @@
    ]
   },
   {
-   "id": "s1739",
+   "id": "s1731",
    "text": "Nahingadto hi Mila ha hirayo nga dapit.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47547,7 +47472,7 @@
    ]
   },
   {
-   "id": "s1740",
+   "id": "s1732",
    "text": "Ginpinsar ni Ela an panhitabo.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47558,7 +47483,7 @@
    ]
   },
   {
-   "id": "s1741",
+   "id": "s1733",
    "text": "Ug hi Ela nagkasakit.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47568,7 +47493,7 @@
    ]
   },
   {
-   "id": "s1742",
+   "id": "s1734",
    "text": "Pirmi naghuna-huna hi Ela kan Mila.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47578,7 +47503,7 @@
    ]
   },
   {
-   "id": "s1743",
+   "id": "s1735",
    "text": "Ginhuhulat niya pirmi an pag-abot niya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47589,7 +47514,7 @@
    ]
   },
   {
-   "id": "s1744",
+   "id": "s1736",
    "text": "Iya karawaton nga sakay gihapon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47601,7 +47526,7 @@
    ]
   },
   {
-   "id": "s1745",
+   "id": "s1737",
    "text": "Nahibaro hi Mila han nahitabo.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47611,7 +47536,7 @@
    ]
   },
   {
-   "id": "s1746",
+   "id": "s1738",
    "text": "Nga nasakit an suok niya nga sangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47623,7 +47548,7 @@
    ]
   },
   {
-   "id": "s1747",
+   "id": "s1739",
    "text": "Dali-dali nga bumalik hi Mila.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47635,7 +47560,7 @@
    ]
   },
   {
-   "id": "s1748",
+   "id": "s1740",
    "text": "Nagkita gihapon an magsangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47645,7 +47570,7 @@
    ]
   },
   {
-   "id": "s1749",
+   "id": "s1741",
    "text": "Ginpasaylo ni Ela hi Mila.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47655,7 +47580,7 @@
    ]
   },
   {
-   "id": "s1750",
+   "id": "s1742",
    "text": "Ngan nagpabilin an ira suok nga kamagsangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47667,7 +47592,7 @@
    ]
   },
   {
-   "id": "s1751",
+   "id": "s1743",
    "text": "An Bata nga Mahilig hin Dolce Hi Ynah in usa nga bata nga babayi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47683,7 +47608,7 @@
    ]
   },
   {
-   "id": "s1752",
+   "id": "s1744",
    "text": "Gutiay ngan matambok.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47694,7 +47619,7 @@
    ]
   },
   {
-   "id": "s1753",
+   "id": "s1745",
    "text": "Ayon niya it mga pagkaon nga magtam-is sugad hit cake, ice cream, tsukolate, softdrinks, lollipop, labi na gud it mga dolce.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47710,7 +47635,7 @@
    ]
   },
   {
-   "id": "s1754",
+   "id": "s1746",
    "text": "Kun nalakat na ngani it iya Tatay ngan Nanay para magtrabaho pirmi gud hiya naaro hin singko.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47730,7 +47655,7 @@
    ]
   },
   {
-   "id": "s1755",
+   "id": "s1747",
    "text": "May ada la po ako papaliton ha tindahan Nay, Tay!",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47743,7 +47668,7 @@
    ]
   },
   {
-   "id": "s1756",
+   "id": "s1748",
    "text": "\"Upaya naman nga diri dolce tim paliton, mas maupay kun tinapay nala anak!\" siring han iya nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47762,7 +47687,7 @@
    ]
   },
   {
-   "id": "s1757",
+   "id": "s1749",
    "text": "\"Maupay nala nga waray kumita hi Nanay nak mga ginpamalit sigurado gud nga pagbubusa-an niya ako!\" siring ni Ynah ha iya kalugaringon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47785,7 +47710,7 @@
    ]
   },
   {
-   "id": "s1758",
+   "id": "s1750",
    "text": "Pagkagab-i maupay na an ira pangaturog.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47797,7 +47722,7 @@
    ]
   },
   {
-   "id": "s1759",
+   "id": "s1751",
    "text": "yakan han mga higante nga dolce.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47809,7 +47734,7 @@
    ]
   },
   {
-   "id": "s1760",
+   "id": "s1752",
    "text": "\"Ayawwwww!\" yakan ni Ynah nga sige it pagdinalagan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47822,7 +47747,7 @@
    ]
   },
   {
-   "id": "s1761",
+   "id": "s1753",
    "text": "Tigda nga nakagmata hi Ynah, nahangos ngan nakagtuok.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47834,7 +47759,7 @@
    ]
   },
   {
-   "id": "s1762",
+   "id": "s1754",
    "text": "\"Hin o dawla adi nga nagtitinuok?\" siring han iya Nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47849,7 +47774,7 @@
    ]
   },
   {
-   "id": "s1763",
+   "id": "s1755",
    "text": "Gumawas hiya han ira kwarto para bilngon kun diin tikang an tuok.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47867,7 +47792,7 @@
    ]
   },
   {
-   "id": "s1764",
+   "id": "s1756",
    "text": "\"Nay nag-inop ako nga ginlalanat ako hin higante nga mga dolce makaradlok!.....nay.....",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47881,7 +47806,7 @@
    ]
   },
   {
-   "id": "s1765",
+   "id": "s1757",
    "text": "Tikang yana matuod na ako pirmi ha imo nga diri na magpinalit hin mga dolce.\" yakan pa ni Ynah.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47903,7 +47828,7 @@
    ]
   },
   {
-   "id": "s1766",
+   "id": "s1758",
    "text": "\"Hay naku anak, hinaot unta nga pirmi kana manmamati tam mga sagdon ha imo\".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47916,7 +47841,7 @@
    ]
   },
   {
-   "id": "s1767",
+   "id": "s1759",
    "text": "Tikang hadto nga panhitabo, pirmi na hiya nag-totooth brush kada kakahuman niya pagkaon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47932,7 +47857,7 @@
    ]
   },
   {
-   "id": "s1768",
+   "id": "s1760",
    "text": "“Nanay, masakit it akon tiyan.”, nagtutuok nga sumat ni Lotlot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47947,7 +47872,7 @@
    ]
   },
   {
-   "id": "s1769",
+   "id": "s1761",
    "text": "“Naghunaw ka ba han imo kamot kanina pagkatapos mo magmulay ngan sano ka kumaon han baduya?”, pakiana ni Nanay Lila.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47965,7 +47890,7 @@
    ]
   },
   {
-   "id": "s1770",
+   "id": "s1762",
    "text": "“Waray po.”, baton ni Lotlot “Asya nga nagsakit an imo tiyan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47981,7 +47906,7 @@
    ]
   },
   {
-   "id": "s1771",
+   "id": "s1763",
    "text": "Gin banyosan ni Nanay Lila an tiyan ni Lotlot “Damo nga salamat, Nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -47996,7 +47921,7 @@
    ]
   },
   {
-   "id": "s1772",
+   "id": "s1764",
    "text": "Tikang yana, pirmi na ako maghuhunaw hit akon mga kamot.” malipayon nga baton ni Lotlot An Misay ni Tisay An misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48016,7 +47941,7 @@
    ]
   },
   {
-   "id": "s1773",
+   "id": "s1765",
    "text": "Busag an misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48026,7 +47951,7 @@
    ]
   },
   {
-   "id": "s1774",
+   "id": "s1766",
    "text": "Malimpyo an misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48035,7 +47960,7 @@
    ]
   },
   {
-   "id": "s1775",
+   "id": "s1767",
    "text": "Ginpapakaun ni Tisay, an iya misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48046,7 +47971,7 @@
    ]
   },
   {
-   "id": "s1776",
+   "id": "s1768",
    "text": "Pag nakaturog hi Tisay, nasapit an misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48056,7 +47981,7 @@
    ]
   },
   {
-   "id": "s1777",
+   "id": "s1769",
    "text": "Gamit ni Tisay, ginkutkot han yatot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48067,7 +47992,7 @@
    ]
   },
   {
-   "id": "s1778",
+   "id": "s1770",
    "text": "Nakit-an han misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48077,7 +48002,7 @@
    ]
   },
   {
-   "id": "s1779",
+   "id": "s1771",
    "text": "Iya ini ginhagad.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48087,7 +48012,7 @@
    ]
   },
   {
-   "id": "s1780",
+   "id": "s1772",
    "text": "Naghulat an misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48096,7 +48021,7 @@
    ]
   },
   {
-   "id": "s1781",
+   "id": "s1773",
    "text": "Ginhigugma ni Tisay, an iya misay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48107,7 +48032,7 @@
    ]
   },
   {
-   "id": "s1782",
+   "id": "s1774",
    "text": "Pag-abot nira ha tabi han dagat gin-andam na nira an ira baluto.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48123,7 +48048,7 @@
    ]
   },
   {
-   "id": "s1783",
+   "id": "s1775",
    "text": "Ngan nagtikang na pagbugsay hi Mano Boboy.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48136,7 +48061,7 @@
    ]
   },
   {
-   "id": "s1784",
+   "id": "s1776",
    "text": "\"Tatay, kaupay man ngayan pagsinakay hin baluto hano\", siring ni Jose.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48149,7 +48074,7 @@
    ]
   },
   {
-   "id": "s1785",
+   "id": "s1777",
    "text": "\"Oo naman asay pa kun maupay an panahon\", baton ni Mano Boboy.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48167,7 +48092,7 @@
    ]
   },
   {
-   "id": "s1786",
+   "id": "s1778",
    "text": "Pag-abot nira ha butnga han dagat.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48181,7 +48106,7 @@
    ]
   },
   {
-   "id": "s1787",
+   "id": "s1779",
    "text": "\"Jose i-andam na an pukot kay itutunod ta na\",siring ni Mano Boboy.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48196,7 +48121,7 @@
    ]
   },
   {
-   "id": "s1788",
+   "id": "s1780",
    "text": "Ha di maiha nga oras ginbuligan ni Mano Boboy ngan Jose pag-alsaha an pukot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48214,7 +48139,7 @@
    ]
   },
   {
-   "id": "s1789",
+   "id": "s1781",
    "text": "Nahipausa hira pagkita nga dadamo an sulod nga isda.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48228,7 +48153,7 @@
    ]
   },
   {
-   "id": "s1790",
+   "id": "s1782",
    "text": "\"Hala tatay, kadadamo man han aton dakop yana!",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48241,7 +48166,7 @@
    ]
   },
   {
-   "id": "s1791",
+   "id": "s1783",
    "text": "Damo an aton mahisasakay ha aton baluto\".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48253,7 +48178,7 @@
    ]
   },
   {
-   "id": "s1792",
+   "id": "s1784",
    "text": "Yakan nga malipayon ni Boboy.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48265,7 +48190,7 @@
    ]
   },
   {
-   "id": "s1793",
+   "id": "s1785",
    "text": "Malipayon ngan mahiyum-hiyom hi Mano Boboy ngan Jose samtang nagbubugsay hira han ira baluto tipauli ngadto han ira balay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48282,7 +48207,7 @@
    ]
   },
   {
-   "id": "s1794",
+   "id": "s1786",
    "text": "Waray na kakit-i Han una nga panahon,an aton kagugub an damo an mga kahayupan nga naukoy ngan damo liwat an mga kakahuyan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48303,7 +48228,7 @@
    ]
   },
   {
-   "id": "s1795",
+   "id": "s1787",
    "text": "Napupuno hin kanta hin katamsihan an bug-os nga kagugub an.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48317,7 +48242,7 @@
    ]
   },
   {
-   "id": "s1796",
+   "id": "s1788",
    "text": "Maupay hin duro ini nga lugar.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48331,7 +48256,7 @@
    ]
   },
   {
-   "id": "s1797",
+   "id": "s1789",
    "text": "Lumupad hira, kumadto hira ha harayo nga lugar.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48345,7 +48270,7 @@
    ]
   },
   {
-   "id": "s1798",
+   "id": "s1790",
    "text": "Sanglit kamo nga mga bata ayaw niyu pasagdi it aton kagugub-an, pagtanom kamo hin mga kahoy para mayda maukyan an katamsihan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48366,7 +48291,7 @@
    ]
   },
   {
-   "id": "s1799",
+   "id": "s1791",
    "text": "An Sista Ni Tatay May ada sista hi Tatay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48381,7 +48306,7 @@
    ]
   },
   {
-   "id": "s1800",
+   "id": "s1792",
    "text": "Pinalit ini ni Nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48393,7 +48318,7 @@
    ]
   },
   {
-   "id": "s1801",
+   "id": "s1793",
    "text": "\"Maupay man ini nga sista\", siring ni tatay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48408,7 +48333,7 @@
    ]
   },
   {
-   "id": "s1802",
+   "id": "s1794",
    "text": "Bumaton hi nanay, \"Oo, para may ada naton kaliawan\".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48423,7 +48348,7 @@
    ]
   },
   {
-   "id": "s1803",
+   "id": "s1795",
    "text": "Makarit hi tatay magsista.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48434,7 +48359,7 @@
    ]
   },
   {
-   "id": "s1804",
+   "id": "s1796",
    "text": "Nagkakanta hi nanay kun nagsisista hi tatay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48446,7 +48371,7 @@
    ]
   },
   {
-   "id": "s1805",
+   "id": "s1797",
    "text": "Nagsasarayaw kami nga mga anak, samtang nagsisista hi tatay ngan nagkakanta hi nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48463,7 +48388,7 @@
    ]
   },
   {
-   "id": "s1806",
+   "id": "s1798",
    "text": "Malipayon an amon pamilya tungod han sista.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48478,7 +48403,7 @@
    ]
   },
   {
-   "id": "s1807",
+   "id": "s1799",
    "text": "An Panapuan kan Elay Usa ka adlaw, nahimangno hi Elay han karasikas han iya Nanay Maya ha Kusina.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48496,7 +48421,7 @@
    ]
   },
   {
-   "id": "s1808",
+   "id": "s1800",
    "text": "\"Buhat na dida Elay kay malakat ako\" siring han iya Nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48514,7 +48439,7 @@
    ]
   },
   {
-   "id": "s1809",
+   "id": "s1801",
    "text": "Katima magtima han iya hinigdaan, namahaw hi Elay dungan han iya nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48528,7 +48453,7 @@
    ]
   },
   {
-   "id": "s1810",
+   "id": "s1802",
    "text": "\"An akon panapuan ha?\" mahiyum-hiyom nga yakan ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48542,7 +48467,7 @@
    ]
   },
   {
-   "id": "s1811",
+   "id": "s1803",
    "text": "Naruruyag gud hiya nga an iya paborito an pirmi panapuan ha iya ni iya nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48558,7 +48483,7 @@
    ]
   },
   {
-   "id": "s1812",
+   "id": "s1804",
    "text": "Katapos mo pamahaw panhugas han imo kinaunan ngan pag-alog hin tubig ha?",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48574,7 +48499,7 @@
    ]
   },
   {
-   "id": "s1813",
+   "id": "s1805",
    "text": "Kahuman pamahaw ni Elay, gumawas hiya ngan nag-uyag kaupod an iya sangkay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48592,7 +48517,7 @@
    ]
   },
   {
-   "id": "s1814",
+   "id": "s1806",
    "text": "\"Niyan nala ako manhihimos ngan mag-aalog kahuman mag-uyag\" pinsar ni Elay Naliaw hi Elay samtang nag-uuyag.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48607,7 +48532,7 @@
    ]
   },
   {
-   "id": "s1815",
+   "id": "s1807",
    "text": "Nahingalimot hiya han tugon ni iya Nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48621,7 +48546,7 @@
    ]
   },
   {
-   "id": "s1816",
+   "id": "s1808",
    "text": "ade na hi Nanay, waray pa ako maghimos ngan mag-alog\" nababaraka nga pinsar ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48638,7 +48563,7 @@
    ]
   },
   {
-   "id": "s1817",
+   "id": "s1809",
    "text": "Dali-dali nga umuli hi Elay ha ira balay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48653,7 +48578,7 @@
    ]
   },
   {
-   "id": "s1818",
+   "id": "s1810",
    "text": "Nahingalimot ako paghimo han imo tugon ha akon kay nag-uyag ako\" nagbabasol nga yakan ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48672,7 +48597,7 @@
    ]
   },
   {
-   "id": "s1819",
+   "id": "s1811",
    "text": "\"Halas ige, sunod trabahua anay an akon tugon ha san-o ka mag-uyag.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48688,7 +48613,7 @@
    ]
   },
   {
-   "id": "s1820",
+   "id": "s1812",
    "text": "Adi na an imo panapuan ihahatag ko ha imo katapos mo sumugot\" yakan ni Nanay Maya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48707,7 +48632,7 @@
    ]
   },
   {
-   "id": "s1821",
+   "id": "s1813",
    "text": "Malipayon nga nag-himos ngan nag-alog hi Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48719,7 +48644,7 @@
    ]
   },
   {
-   "id": "s1822",
+   "id": "s1814",
    "text": "\"Diri na ako mautro sunod\" Pinsar ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48732,7 +48657,7 @@
    ]
   },
   {
-   "id": "s1823",
+   "id": "s1815",
    "text": "\"Susugton ko anay an iya tugon san-o ako mag-uyag kay gintatagan ako niya han akon pabotiro nga pasalubong\".",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48752,7 +48677,7 @@
    ]
   },
   {
-   "id": "s1824",
+   "id": "s1816",
    "text": "marasa gud it mani ngan pinyato nga tikang ha buray\" siring ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48768,7 +48693,7 @@
    ]
   },
   {
-   "id": "s1825",
+   "id": "s1817",
    "text": "Sunod masugot anay ako hit imo tugon san-o ako mag-uyag\" siring ni Elay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48784,7 +48709,7 @@
    ]
   },
   {
-   "id": "s1826",
+   "id": "s1818",
    "text": "An Maduruto nga Parapangisda Ha usa nga bungto han Paranas hirani han dagat may naukoy usa nga pamilya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48803,7 +48728,7 @@
    ]
   },
   {
-   "id": "s1827",
+   "id": "s1819",
    "text": "Ha usa nga simple nga balay malipayon nga nagkakaurusa hira Nanay Ondit, Tatay Omi ngan an ira mga anak.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48824,7 +48749,7 @@
    ]
   },
   {
-   "id": "s1828",
+   "id": "s1820",
    "text": "Pangisda an siyahan nga pangabuhi ni Tatay Omi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48836,7 +48761,7 @@
    ]
   },
   {
-   "id": "s1829",
+   "id": "s1821",
    "text": "Tungod kay waray man hiya makatapos han pag iskoyla.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48849,7 +48774,7 @@
    ]
   },
   {
-   "id": "s1830",
+   "id": "s1822",
    "text": "Usa ka adlaw, malain an kaoras han panahon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48862,7 +48787,7 @@
    ]
   },
   {
-   "id": "s1831",
+   "id": "s1823",
    "text": "\"Omi, ayaw la anay pagkadto ha dagat kay diri maupay it panahon\", siring ni Nanay Ondit.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48883,7 +48808,7 @@
    ]
   },
   {
-   "id": "s1832",
+   "id": "s1824",
    "text": "\"Kon diri ngani ako gumikan waray kita igsusura ngan kakaunon niyan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48898,7 +48823,7 @@
    ]
   },
   {
-   "id": "s1833",
+   "id": "s1825",
    "text": "Waray liwat kita igpapalit gamit kanan pag iskoyla hit kabataan\" , baton ni Tatay Omi .",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48914,7 +48839,7 @@
    ]
   },
   {
-   "id": "s1834",
+   "id": "s1826",
    "text": "\"Sigi, basta paghirot la pirmi ngan ayaw na pagkadto hit kalalawdan\",tugon ni nanay Ondit.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48930,7 +48855,7 @@
    ]
   },
   {
-   "id": "s1835",
+   "id": "s1827",
    "text": "\"Oo, ayaw kabaraka kay pirmi ko gin-aampo nga bantayan kita hit makagarahom nga Diyos\", baton ni Tatay Omi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48949,7 +48874,7 @@
    ]
   },
   {
-   "id": "s1836",
+   "id": "s1828",
    "text": "Nagtima hi Tatay Omi han iya mga gamit pangisda.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48963,7 +48888,7 @@
    ]
   },
   {
-   "id": "s1837",
+   "id": "s1829",
    "text": "Nangudos hiya san-o lumakat pakadto ha dagat.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48977,7 +48902,7 @@
    ]
   },
   {
-   "id": "s1838",
+   "id": "s1830",
    "text": "Kun diri ngani hiya nakakagikan ngadto ha dagat, nabulig hiya ha mga trabahuon ha balay ngan naghuhukot han pukot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -48997,7 +48922,7 @@
    ]
   },
   {
-   "id": "s1839",
+   "id": "s1831",
    "text": "Umabot an damo nga kakurian ngan kawaray kwarta.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49011,7 +48936,7 @@
    ]
   },
   {
-   "id": "s1840",
+   "id": "s1832",
    "text": "Pero padayon la gihap hiya han pangisda kay natuod hiya nga makakatalwas hira hit mga kakurian.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49027,7 +48952,7 @@
    ]
   },
   {
-   "id": "s1841",
+   "id": "s1833",
    "text": "Naglabay an mga panahon naging maupay an kabutang han pamilya ni Tatay Omi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49045,7 +48970,7 @@
    ]
   },
   {
-   "id": "s1842",
+   "id": "s1834",
    "text": "Nakatapos pag-iskoyla an iya mga anak ngan may ada na mga trabaho pinaagi han iya paningkamot han pangisda.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49064,7 +48989,7 @@
    ]
   },
   {
-   "id": "s1843",
+   "id": "s1835",
    "text": "\"Tatay, undang na hito nga pagdagat.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49075,7 +49000,7 @@
    ]
   },
   {
-   "id": "s1844",
+   "id": "s1836",
    "text": "Kami naman it magtitimangno ha iyo kay may ada naman kami trabaho\", pulong ni Andy kan iya tatay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49096,7 +49021,7 @@
    ]
   },
   {
-   "id": "s1845",
+   "id": "s1837",
    "text": "\"Damo nga salamat tatay han imo waray kaguol nga pagtimangno ha amon, dugang nga pulong ni Andy kan iya tatay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49118,7 +49043,7 @@
    ]
   },
   {
-   "id": "s1846",
+   "id": "s1838",
    "text": "\"Waray sapayan, anak.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49128,7 +49053,7 @@
    ]
   },
   {
-   "id": "s1847",
+   "id": "s1839",
    "text": "Obligasyon ito namon nga mga kag-anak.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49140,7 +49065,7 @@
    ]
   },
   {
-   "id": "s1848",
+   "id": "s1840",
    "text": "An makagarahom nga Diyos an angay naton pasalamatan ha tanan nga grasya nga iya ginhahatag ha aton,\" baton ni Tatay Omi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49161,7 +49086,7 @@
    ]
   },
   {
-   "id": "s1849",
+   "id": "s1841",
    "text": "Masisiring nga usa nga mahigugmaon nga tatay ngan maduruto nga parapangisda hi Tatay Omi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49174,7 +49099,7 @@
    ]
   },
   {
-   "id": "s1850",
+   "id": "s1842",
    "text": "Apisar han mga kakurian padayon nga naato ha mga problima nga naulpot ha kinabuhi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49188,7 +49113,7 @@
    ]
   },
   {
-   "id": "s1851",
+   "id": "s1843",
    "text": "An ira balay ginbubuhat la tikang ha kahoy ngan yero, pero puno ini hin gugma ngan pagtinabangay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49208,7 +49133,7 @@
    ]
   },
   {
-   "id": "s1852",
+   "id": "s1844",
    "text": "Hi Marites kilala ha ira eskwelahan sugad nga usa nga matinalahuron, matinumanon, ngan maalam nga estudyante.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49226,7 +49151,7 @@
    ]
   },
   {
-   "id": "s1853",
+   "id": "s1845",
    "text": "Pirme hiya nag-aambit ha klase, ngan ginpapabilhan han iya mga maestro an iya kakugi.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49242,7 +49167,7 @@
    ]
   },
   {
-   "id": "s1854",
+   "id": "s1846",
    "text": "Pero ha luyo han iya kalipay, mayda maabot nga pagsulay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49258,7 +49183,7 @@
    ]
   },
   {
-   "id": "s1855",
+   "id": "s1847",
    "text": "Nakilala niya hi Carlo usa nga lalaki nga mas tigulang ha iya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49275,7 +49200,7 @@
    ]
   },
   {
-   "id": "s1856",
+   "id": "s1848",
    "text": "Malambing hi Carlo, ngan pirme hiya naghahatag hin atensyon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49287,7 +49212,7 @@
    ]
   },
   {
-   "id": "s1857",
+   "id": "s1849",
    "text": "Ha murayaw nga edad ngan kakulangan hin eksperyensya, naging duok hira.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49301,7 +49226,7 @@
    ]
   },
   {
-   "id": "s1858",
+   "id": "s1850",
    "text": "Paglabay hin pipira ka semana, napansin niya nga nag-iiba an iya lawas.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49317,7 +49242,7 @@
    ]
   },
   {
-   "id": "s1859",
+   "id": "s1851",
    "text": "An iya kalibutan sugad hin nabungkag.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49330,7 +49255,7 @@
    ]
   },
   {
-   "id": "s1860",
+   "id": "s1852",
    "text": "Damo nga gab-i an iya ginugol ha pag-ukoy ngan pagtinaluha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49346,7 +49271,7 @@
    ]
   },
   {
-   "id": "s1861",
+   "id": "s1853",
    "text": "Tubtob nga usa ka gab-i, nagsumat hiya ha iya nanay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49363,7 +49288,7 @@
    ]
   },
   {
-   "id": "s1862",
+   "id": "s1854",
    "text": "Nasakitan an iya nanay, diri la tungod han nahitabo, kundi tungod han kahadlok para ha tidaraon han iya anak.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49381,7 +49306,7 @@
    ]
   },
   {
-   "id": "s1863",
+   "id": "s1855",
    "text": "Tungod han kaulaw, gin-undang anay ni Marites an iya pag-eskwela.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49395,7 +49320,7 @@
    ]
   },
   {
-   "id": "s1864",
+   "id": "s1856",
    "text": "Pero ha kada adlaw nga naglabay, ginbabatian niya an lihok han bata ha iya tiyan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49415,7 +49340,7 @@
    ]
   },
   {
-   "id": "s1865",
+   "id": "s1857",
    "text": "“An akon anak… diri ko hiya pababayaan,” siring niya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49431,7 +49356,7 @@
    ]
   },
   {
-   "id": "s1866",
+   "id": "s1858",
    "text": "Han adlaw han iya pagpanganak, gin-agian niya an duro nga kasakit.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49447,7 +49372,7 @@
    ]
   },
   {
-   "id": "s1867",
+   "id": "s1859",
    "text": "Pero han iya nakita an iya anak, usa nga matahum nga batang lalaki.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49464,7 +49389,7 @@
    ]
   },
   {
-   "id": "s1868",
+   "id": "s1860",
    "text": "Pinangaranan niya ini nga hi Joshua.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49476,7 +49401,7 @@
    ]
   },
   {
-   "id": "s1869",
+   "id": "s1861",
    "text": "“Marites,” siring han iya nanay, “diri pa huli an tanan.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49492,7 +49417,7 @@
    ]
   },
   {
-   "id": "s1870",
+   "id": "s1862",
    "text": "Pwede ka pa bumalik ha eskwelahan.” Tungod han suporta, nagdesisyon hiya nga magpadayon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49509,7 +49434,7 @@
    ]
   },
   {
-   "id": "s1871",
+   "id": "s1863",
    "text": "Diri ini masayon.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49520,7 +49445,7 @@
    ]
   },
   {
-   "id": "s1872",
+   "id": "s1864",
    "text": "Adlaw-adlaw, ginbubuhat niya an iya pinakamaopay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49531,7 +49456,7 @@
    ]
   },
   {
-   "id": "s1873",
+   "id": "s1865",
    "text": "Usahay ginbibitbit niya hi Joshua kon waray magbantay.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49543,7 +49468,7 @@
    ]
   },
   {
-   "id": "s1874",
+   "id": "s1866",
    "text": "Naglabay an mga tuig, ngan padayon hiya nga naningkamot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49559,7 +49484,7 @@
    ]
   },
   {
-   "id": "s1875",
+   "id": "s1867",
    "text": "Tubtob nga nakaabot hiya ha iya graduation.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49572,7 +49497,7 @@
    ]
   },
   {
-   "id": "s1876",
+   "id": "s1868",
    "text": "Ha entablado, samtang gin-aabot niya an iya diploma, nabati niya an kusog nga palakpak.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49588,7 +49513,7 @@
    ]
   },
   {
-   "id": "s1877",
+   "id": "s1869",
    "text": "Waray hiya kapugong han iya luha.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49601,7 +49526,7 @@
    ]
   },
   {
-   "id": "s1878",
+   "id": "s1870",
    "text": "Pagkahuman, nakatrabaho hiya sugad nga maestra ha ira baryo.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49615,7 +49540,7 @@
    ]
   },
   {
-   "id": "s1879",
+   "id": "s1871",
    "text": "Damo nga kabataan an iya natutdoan, ngan gin-inspirar niya ini pinaagi han iya istorya.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49633,7 +49558,7 @@
    ]
   },
   {
-   "id": "s1880",
+   "id": "s1872",
    "text": "Tikang ini ha gugma ngan determinasyon.” Ha gab-i, samtang nagkakaon hira ni Joshua, ginyakap hiya han bata.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49653,7 +49578,7 @@
    ]
   },
   {
-   "id": "s1881",
+   "id": "s1873",
    "text": "“Nanay, proud ako ha imo.” Naluha hi Marites ngan ginyakap ini hin mahugot.",
    "sourceId": "bloom",
    "register": "childrens",
@@ -49669,7 +49594,7 @@
    ]
   },
   {
-   "id": "s1882",
+   "id": "s1874",
    "text": "Ikaw an akon kusog.”",
    "sourceId": "bloom",
    "register": "childrens",
