@@ -738,6 +738,7 @@ export const SEED = [
   // high-frequency in narration ("ni Nanay" = Nanay's / by Nanay; "kan Mira" = to/for Mira).
   ["mark", "ni", "of / by (before a name)", "personal marker — ni Nanay = Nanay's / by Nanay", "nee"],
   ["mark", "kan", "to / for (before a name)", "personal marker — kan Mira = to / for Mira", "kahn"],
+  ["mark", "mga", "plural marker (the …s)", "marks a plural noun: mga bata = children", "mah-NGAH"],
 ];
 
 // Cards Paul's old tracker logged as "Forgotten" — start these a notch lower.

@@ -255,7 +255,22 @@ function storyCoverage(story, known, roots) {
   }
   return { pct: total ? hit / total : 0, total, unknown: unknown.size };
 }
-const glossFor = (word) => GLOSS[word] || (VARIANTS[word] && GLOSS[VARIANTS[word]]) || GLOSS[word.replace(/o/g, "u").replace(/e/g, "i")] || null;
+const _fold = (w) => w.replace(/o/g, "u").replace(/e/g, "i");
+// light de-inflection (mirrors tools/missing-words.mjs): strip common prefixes, the
+// -um-/-in- infix, and suffixes → candidate roots to look up.
+function _deinflect(t) {
+  const c = [], add = (x) => { if (x && x.length >= 3 && x !== t && !c.includes(x)) c.push(x); };
+  add(t.replace(/^(nakaka|nagka|naka|nagpa|napa|nag|mag|nan|nam|nang|gin|gi|na|ma|pa|pag|pan|ka|i)/, ""));
+  add(t.replace(/^([bcdfghjklmnpqrstvwxyz])(um|in)/, "$1"));
+  for (const b of [t, ...c.slice()]) { const y = b.replace(/(han|hon|nan|an|on|i|a)$/, ""); add(y); add(_fold(y)); }
+  return c;
+}
+const glossFor = (word) => {
+  const direct = GLOSS[word] || (VARIANTS[word] && GLOSS[VARIANTS[word]]) || GLOSS[_fold(word)];
+  if (direct) return direct;
+  for (const cand of _deinflect(word)) if (GLOSS[cand]) return `${GLOSS[cand]}  (from ${cand})`; // inflected → root's gloss
+  return null;
+};
 const MAXCHUNK = Math.max(2, ...Object.keys(CHUNKS).map((k) => k.split(" ").length));
 // Cold type-recalls needed to graduate a missed word off "Needs work". Counts only
 // genuine recall: a typed (non-MC) correct answer that wasn't the remedial type step
