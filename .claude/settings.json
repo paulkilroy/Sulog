@@ -108,7 +108,9 @@
       "Bash(node -e 'const t=require\\(\"./docs/sources/tramp-gloss.json\"\\); for\\(const w of [\"iha\",\"puyo\",\"hira\",\"usa\",\"kila\"]\\) console.log\\(w,\"→\",JSON.stringify\\(t[w]||null\\)\\);')",
       "Bash(node --input-type=module -e \"import {STORIES} from './src/courses/waray/stories.js'; const by={}; STORIES.forEach\\(s=>by[s.source]=\\(by[s.source]||0\\)+1\\); console.log\\('reader stories by source:', JSON.stringify\\(by\\)\\);\")",
       "Bash(open docs/corrections.html)",
-      "Bash(node tools/build-corrections.mjs)"
+      "Bash(node tools/build-corrections.mjs)",
+      "Bash(node tools/make-gloss-request.mjs)",
+      "Bash(open docs/sources/missing-gloss-request.md)"
     ]
   }
 }
