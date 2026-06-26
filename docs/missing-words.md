@@ -5,33 +5,33 @@ root. Proper names excluded. "Complete dictionary" = ~1,000 CHED **roots** + the
 inflected forms and beyond-top-1000 words still fall through._
 
 ## Totals (running tokens)
-- glossed: **4169** (77%) · names: **580** (11%)
-- **inflected (root known, just not shown): 418** tokens · 329 distinct
-- **missing (genuine gap): 250** tokens · 205 distinct
+- glossed: **4211** (78%) · names: **580** (11%)
+- **inflected (root known, just not shown): 419** tokens · 334 distinct
+- **missing (genuine gap): 207** tokens · 173 distinct
 
-## Categories of the still-missing (205) — what each needs
-- **content**: 171
+## Categories of the still-missing (173) — what each needs
+- **content**: 145
 - **function/clitic**: 0
-- **short (clitic/noise)**: 7
+- **short (clitic/noise)**: 5
 - **affix-fragment**: 1
-- **name**: 26
+- **name**: 22
 
-### content (171)
-timprano, pag-iha, pagkit-on, eksperyensya, puydi, kagugub-an, simple, paghirot, dolce, kagugub, suok, ginpakianhan, rock, nagnanabigar, magsarit, gingagarbohan, pandemya, budgyong, puwede, kamu, protocol, bilding, nagtitinuok, paborito, iskoyla, ginyakap, proud, nahinumdum, mamalit, pagkaun, asiti, dayun, bestida, aklo, sapa, nakakaistorbo, sigaw, nagroronda, magsaarangkay, maagsarangkay … +131
+### content (145)
+pag-iha, pagkit-on, kagugub-an, paghirot, dolce, kagugub, suok, ginpakianhan, rock, nagnanabigar, magsarit, gingagarbohan, pandemya, budgyong, nagtitinuok, iskoyla, ginyakap, proud, mamalit, asiti, bestida, aklo, sapa, nakakaistorbo, sigaw, nagroronda, magsaarangkay, maagsarangkay, mag-uutro, uminom, karuayag, sikat, nakikit-an, nangugugli-at, karisyuhan, pag-intrimisan, nagsirom, nagririsyo, residente, pagkaruba … +105
 
 ### function/clitic (0)
 —
 
-### short (clitic/noise) (7)
-anu, lwt, ice, tim, tam, iyu, ige
+### short (clitic/noise) (5)
+lwt, ice, tim, tam, ige
 
 ### affix-fragment (1)
 nag
 
-### name (26)
-pagkaaga, uu, nay, nahingalimot, ginsigawan, iksakto, pagkaada, television, pagmantene, wusssssss, umandar, kamalipog, yeheey, brown, wow, nasubo, gin-apresyar, gin-raut, ginpinsar, aanhun, dumiritso, ginpapakaun, yehey, susugton, hmmmmm, apisar
+### name (22)
+pagkaaga, nay, nahingalimot, ginsigawan, pagkaada, television, pagmantene, wusssssss, umandar, kamalipog, yeheey, brown, wow, nasubo, gin-apresyar, gin-raut, ginpinsar, aanhun, yehey, susugton, hmmmmm, apisar
 
-## INFLECTED — we have the root, the reader just doesn't show it (329)
+## INFLECTED — we have the root, the reader just doesn't show it (334)
 _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `baton`.)_
 
 | word | →root | #stories | freq |
@@ -40,10 +40,8 @@ _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `bat
 | bumaton | baton | 3 | 3 |
 | pagkita | kita | 3 | 3 |
 | lumupad | lupad | 3 | 3 |
-| kalibungan | ngan | 2 | 4 |
-| masulob-on | asul | 2 | 3 |
+| kalibungan | libung | 2 | 4 |
 | nahitabo | hitabo | 2 | 3 |
-| kakaunon | kaunon | 2 | 3 |
 | nakagmata | mata | 2 | 2 |
 | hinigdaan | higdaan | 2 | 2 |
 | ginhatag | hatag | 2 | 2 |
@@ -94,24 +92,22 @@ _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `bat
 | tuga-ok | tugaok | 1 | 1 |
 | pagpasalamat | sala | 1 | 1 |
 | gintipig | tipig | 1 | 1 |
+| nahinumdum | hinumdum | 1 | 1 |
 | gintugon | tugon | 1 | 1 |
 | mag-iha | iha | 1 | 1 |
+| gintapo | tapo | 1 | 1 |
 
-_+269 more._
+_+274 more._
 
-## MISSING — genuine vocabulary gaps to gloss/add (205)
+## MISSING — genuine vocabulary gaps to gloss/add (173)
 _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "entertainment / to not be bored"._
 
 | word | #stories | freq |
 |------|:--:|--:|
 | nag | 4 | 4 |
-| timprano | 2 | 2 |
 | pag-iha | 2 | 2 |
 | pagkit-on | 2 | 2 |
-| eksperyensya | 2 | 2 |
-| puydi | 2 | 2 |
 | kagugub-an | 2 | 2 |
-| simple | 2 | 2 |
 | paghirot | 2 | 2 |
 | dolce | 1 | 8 |
 | kagugub | 1 | 5 |
@@ -124,31 +120,20 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | gingagarbohan | 1 | 2 |
 | pandemya | 1 | 2 |
 | budgyong | 1 | 2 |
-| anu | 1 | 2 |
-| puwede | 1 | 2 |
-| uu | 1 | 2 |
-| kamu | 1 | 2 |
-| protocol | 1 | 2 |
 | nay | 1 | 2 |
-| bilding | 1 | 2 |
 | nagtitinuok | 1 | 2 |
-| paborito | 1 | 2 |
 | nahingalimot | 1 | 2 |
 | iskoyla | 1 | 2 |
 | ginyakap | 1 | 2 |
 | proud | 1 | 2 |
-| nahinumdum | 1 | 1 |
 | mamalit | 1 | 1 |
-| pagkaun | 1 | 1 |
 | asiti | 1 | 1 |
-| dayun | 1 | 1 |
 | bestida | 1 | 1 |
 | aklo | 1 | 1 |
 | sapa | 1 | 1 |
 | nakakaistorbo | 1 | 1 |
 | ginsigawan | 1 | 1 |
 | sigaw | 1 | 1 |
-| iksakto | 1 | 1 |
 | nagroronda | 1 | 1 |
 | magsaarangkay | 1 | 1 |
 | maagsarangkay | 1 | 1 |
@@ -156,26 +141,21 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | uminom | 1 | 1 |
 | karuayag | 1 | 1 |
 | sikat | 1 | 1 |
-| kadtuon | 1 | 1 |
 | nakikit-an | 1 | 1 |
 | nangugugli-at | 1 | 1 |
 | karisyuhan | 1 | 1 |
 | pag-intrimisan | 1 | 1 |
 | nagsirom | 1 | 1 |
-| dalugdug | 1 | 1 |
 | nagririsyo | 1 | 1 |
 | residente | 1 | 1 |
 | pagkaruba | 1 | 1 |
 | pagkasangit | 1 | 1 |
 | makakauli | 1 | 1 |
 | haiyo | 1 | 1 |
-| sasagdunan | 1 | 1 |
 | antis | 1 | 1 |
 | tourist | 1 | 1 |
 | spot | 1 | 1 |
 | gindadayo | 1 | 1 |
-| maidadasig | 1 | 1 |
-| mulopyo | 1 | 1 |
 | pagkaada | 1 | 1 |
 | pagrespeto | 1 | 1 |
 | eksperyensiya | 1 | 1 |
@@ -213,16 +193,36 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | ginsasakyan | 1 | 1 |
 | kamalipog | 1 | 1 |
 | pagbay-og | 1 | 1 |
-| beyahe | 1 | 1 |
 | yeheey | 1 | 1 |
 | brown | 1 | 1 |
 | nasisirahan | 1 | 1 |
 | wow | 1 | 1 |
-| subra | 1 | 1 |
 | pushcart | 1 | 1 |
 | light | 1 | 1 |
 | pamamalit | 1 | 1 |
 | nasubo | 1 | 1 |
 | luma | 1 | 1 |
+| isplikar | 1 | 1 |
+| signgon | 1 | 1 |
+| iglabog | 1 | 1 |
+| pantinda | 1 | 1 |
+| ribbon | 1 | 1 |
+| espiho | 1 | 1 |
+| gin-apresyar | 1 | 1 |
+| nangunguna | 1 | 1 |
+| nagbibinuligay | 1 | 1 |
+| pagpahuway | 1 | 1 |
+| mapa-uswag | 1 | 1 |
+| gin-raut | 1 | 1 |
+| ginpinsar | 1 | 1 |
+| cake | 1 | 1 |
+| ice | 1 | 1 |
+| cream | 1 | 1 |
+| tsukolate | 1 | 1 |
+| softdrinks | 1 | 1 |
+| lollipop | 1 | 1 |
+| singko | 1 | 1 |
+| aanhun | 1 | 1 |
+| tim | 1 | 1 |
 
-_+85 more (full set in the JSON sidecar)._
+_+53 more (full set in the JSON sidecar)._

@@ -41,6 +41,14 @@ export const GLOSS_FIX = {
   opo:   "yes (polite)",          // "oo po" — polite yes
   nala:  "already / just (na la)",// particle fusion na+la
   dawla: "just / only (daw la)",  // particle fusion daw+la
+  // modern Spanish/English loans a 1991 dictionary can't have (verify w/ Ella)
+  puwede: "can / may / allowed",  puydi: "can / may / allowed",  pwede: "can / may / allowed",
+  paborito: "favorite",
+  eksperyensya: "experience",
+  timprano: "early (Sp. temprano)",
+  simple: "simple",
+  protocol: "protocol",
+  bilding: "building",
 };
 
 export const CHUNKS = {
