@@ -107,7 +107,8 @@
       "Bash(node -e 'const d=require\\(\"/tmp/war_books.json\"\\).results; d.filter\\(b=>/kandiwata/i.test\\(b.title\\)\\).forEach\\(b=>{const langs=\\(b.langPointers||[]\\).map\\(l=>l.isoCode\\).join\\(\"+\"\\); console.log\\(`${b.license.padEnd\\(11\\)} [${langs}] https://bloomlibrary.org/book/${b.objectId}  — \"${b.title}\"`\\)}\\);')",
       "Bash(node -e 'const t=require\\(\"./docs/sources/tramp-gloss.json\"\\); for\\(const w of [\"iha\",\"puyo\",\"hira\",\"usa\",\"kila\"]\\) console.log\\(w,\"→\",JSON.stringify\\(t[w]||null\\)\\);')",
       "Bash(node --input-type=module -e \"import {STORIES} from './src/courses/waray/stories.js'; const by={}; STORIES.forEach\\(s=>by[s.source]=\\(by[s.source]||0\\)+1\\); console.log\\('reader stories by source:', JSON.stringify\\(by\\)\\);\")",
-      "Bash(open docs/corrections.html)"
+      "Bash(open docs/corrections.html)",
+      "Bash(node tools/build-corrections.mjs)"
     ]
   }
 }

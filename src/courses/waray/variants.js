@@ -27,6 +27,7 @@ export const VARIANTS = {
   tak:   "akon",    // clitic clip of "akon" ("tak lawas" = my body)
   sigi:  "sige",    // e→i spelling variant of "sige" (okay / go ahead)
   storya: "istorya",// clipped "story" (BFC boilerplate form)
+  karuayag: "karuyag", // scanning-error spelling of "karuyag" (want / like)
 };
 
 // curated glosses that WIN over Tramp/lexicon — for function words Tramp glosses badly,
@@ -49,6 +50,35 @@ export const GLOSS_FIX = {
   simple: "simple",
   protocol: "protocol",
   bilding: "building",
+  residente: "resident",
+  singko: "five (number)",
+
+  // English words set inside a Waray story (code-switching) — flag as English so the
+  // learner reads them as-is and they don't show up as "missing Waray vocabulary".
+  rock: "rock (English)",            proud: "proud (English)",
+  tourist: "tourist (English)",      spot: "spot (English)",
+  television: "television (English)",pushcart: "pushcart (English)",
+  light: "light (English)",          ribbon: "ribbon (English)",
+  cake: "cake (English)",            ice: "ice (English)",
+  cream: "cream (English)",          softdrinks: "soft drinks (English)",
+  lollipop: "lollipop (English)",    brush: "brush (English)",
+  graduation: "graduation (English)",
+  "ma'am": "ma'am (English; polite address, ~po)",
+
+  // onomatopoeia / interjections
+  eeeeennnngggg: "(sound effect)",  eeennngggg: "(sound effect)",
+  wusssssss: "(whoosh)",            rawrrrrrrrr: "(roar)",
+  huhuhu: "(sobbing)",              hmmmmm: "(thinking…) hmm",
+  yehey: "yay! (cheer)",
+
+  // standalone TAM prefixes split from their verb (scanning artifact) — name the tense
+  nag: "(verb prefix — completed/past action)",
+  mag: "(verb prefix — future/intended action)",
+  pag: "(verb prefix — gerund / imperative)",
+
+  // misc fixes from the corrections pass
+  nay: "(woman's nickname; also ma'am / mother)",
+  "nakikit-an": "is seen / visible (from kita = see)",
 };
 
 export const CHUNKS = {
