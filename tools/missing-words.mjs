@@ -22,6 +22,7 @@ const hasGloss = (t) => glossKeys.has(t) || (VARIANTS[t] && glossKeys.has(VARIAN
 function deinflect(t) {
   const c = new Set();
   const add = (x) => { x = x && x.replace(/^[-']+|[-']+$/g, ""); if (x && x.length >= 3 && x !== t) c.add(x); }; // trim hyphen: "pag-iha"→"iha"
+  add(t.replace(/-/g, "")); // de-hyphenate compound: "tabu-an"→"tabuan"
   let s = t.replace(/^(nakaka|nagka|naka|nagpa|napa|nag|mag|nan|nam|nang|gin|gi|na|ma|pa|pag|pan|ka|i)/, ""); add(s);
   // -um-/-in- infix after the first consonant: b+um+aton -> baton ; t+in+ago -> tago
   const inf = t.replace(/^([bcdfghjklmnpqrstvwxyz])(um|in)/, "$1"); add(inf);

@@ -68,6 +68,7 @@ const _fold = (w) => w.replace(/o/g, "u").replace(/e/g, "i");
 // nabanhaw → banhaw — Tramp has bánhaw, but the bare root never appears in the stories)
 function deinflect(t) {
   const c = [], add = (x) => { x = x && x.replace(/^[-']+|[-']+$/g, ""); if (x && x.length >= 3 && x !== t && !c.includes(x)) c.push(x); }; // trim leading/trailing hyphen so "pag-iha"→"iha", "mag-isog"→"isog"
+  add(t.replace(/-/g, "")); // de-hyphenate compound: "tabu-an"→"tabuan" (a Tramp headword)
   add(t.replace(/^(nakaka|nagka|naka|nagpa|napa|nag|mag|nan|nam|nang|gin|gi|na|ma|pa|pag|pan|ka|i)/, ""));
   add(t.replace(/^([bcdfghjklmnpqrstvwxyz])(um|in)/, "$1"));
   for (const b of [t, ...c.slice()]) { const y = b.replace(/(han|hon|nan|an|on|i|a)$/, ""); add(y); add(_fold(y)); }

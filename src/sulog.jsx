@@ -260,6 +260,7 @@ const _fold = (w) => w.replace(/o/g, "u").replace(/e/g, "i");
 // -um-/-in- infix, and suffixes → candidate roots to look up.
 function _deinflect(t) {
   const c = [], add = (x) => { x = x && x.replace(/^[-']+|[-']+$/g, ""); if (x && x.length >= 3 && x !== t && !c.includes(x)) c.push(x); }; // trim hyphen: "pag-iha"→"iha"
+  add(t.replace(/-/g, "")); // de-hyphenate compound: "tabu-an"→"tabuan"
   add(t.replace(/^(nakaka|nagka|naka|nagpa|napa|nag|mag|nan|nam|nang|gin|gi|na|ma|pa|pag|pan|ka|i)/, ""));
   add(t.replace(/^([bcdfghjklmnpqrstvwxyz])(um|in)/, "$1"));
   for (const b of [t, ...c.slice()]) { const y = b.replace(/(han|hon|nan|an|on|i|a)$/, ""); add(y); add(_fold(y)); }

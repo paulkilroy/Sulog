@@ -5,33 +5,33 @@ root. Proper names excluded. "Complete dictionary" = ~1,000 CHED **roots** + the
 inflected forms and beyond-top-1000 words still fall through._
 
 ## Totals (running tokens)
-- glossed: **4148** (77%) · names: **580** (11%)
-- **inflected (root known, just not shown): 412** tokens · 326 distinct
-- **missing (genuine gap): 277** tokens · 213 distinct
+- glossed: **4169** (77%) · names: **580** (11%)
+- **inflected (root known, just not shown): 418** tokens · 329 distinct
+- **missing (genuine gap): 250** tokens · 205 distinct
 
-## Categories of the still-missing (213) — what each needs
-- **content**: 177
+## Categories of the still-missing (205) — what each needs
+- **content**: 171
 - **function/clitic**: 0
-- **short (clitic/noise)**: 8
+- **short (clitic/noise)**: 7
 - **affix-fragment**: 1
-- **name**: 27
+- **name**: 26
 
-### content (177)
-nala, timprano, dawla, pag-iha, pagkit-on, eksperyensya, puydi, kagugub-an, simple, paghirot, mahiyum-hiyom, dolce, kagugub, tabu-an, suok, sano, ginpakianhan, rock, nagnanabigar, magsarit, gingagarbohan, pandemya, budgyong, puwede, kamu, protocol, bilding, nagtitinuok, paborito, iskoyla, ginyakap, proud, tuga-ok, nahinumdum, mamalit, pagkaun, asiti, dayun, bestida, aklo … +137
+### content (171)
+timprano, pag-iha, pagkit-on, eksperyensya, puydi, kagugub-an, simple, paghirot, dolce, kagugub, suok, ginpakianhan, rock, nagnanabigar, magsarit, gingagarbohan, pandemya, budgyong, puwede, kamu, protocol, bilding, nagtitinuok, paborito, iskoyla, ginyakap, proud, nahinumdum, mamalit, pagkaun, asiti, dayun, bestida, aklo, sapa, nakakaistorbo, sigaw, nagroronda, magsaarangkay, maagsarangkay … +131
 
 ### function/clitic (0)
 —
 
-### short (clitic/noise) (8)
-po, anu, lwt, ice, tim, tam, iyu, ige
+### short (clitic/noise) (7)
+anu, lwt, ice, tim, tam, iyu, ige
 
 ### affix-fragment (1)
 nag
 
-### name (27)
-opo, pagkaaga, uu, nay, nahingalimot, ginsigawan, iksakto, pagkaada, television, pagmantene, wusssssss, umandar, kamalipog, yeheey, brown, wow, nasubo, gin-apresyar, gin-raut, ginpinsar, aanhun, dumiritso, ginpapakaun, yehey, susugton, hmmmmm, apisar
+### name (26)
+pagkaaga, uu, nay, nahingalimot, ginsigawan, iksakto, pagkaada, television, pagmantene, wusssssss, umandar, kamalipog, yeheey, brown, wow, nasubo, gin-apresyar, gin-raut, ginpinsar, aanhun, dumiritso, ginpapakaun, yehey, susugton, hmmmmm, apisar
 
-## INFLECTED — we have the root, the reader just doesn't show it (326)
+## INFLECTED — we have the root, the reader just doesn't show it (329)
 _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `baton`.)_
 
 | word | →root | #stories | freq |
@@ -56,9 +56,11 @@ _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `bat
 | paglabay | laba | 2 | 2 |
 | kadadamo | damo | 2 | 2 |
 | pagkagab-i | gab-i | 2 | 2 |
+| mahiyum-hiyom | mahiyumhiyom | 2 | 2 |
 | pormado | porma | 1 | 6 |
 | enkantada | kanta | 1 | 6 |
 | mag-uyag | uyag | 1 | 4 |
+| tabu-an | tabuan | 1 | 3 |
 | nagkamay | may | 1 | 3 |
 | pagkayana | yana | 1 | 3 |
 | nabukad | bukad | 1 | 3 |
@@ -89,26 +91,21 @@ _A stem-gloss fallback would fix all of these for free. (e.g. `bumaton` → `bat
 | nag-uyag | uyag | 1 | 2 |
 | maghimos | himos | 1 | 2 |
 | mag-alog | alog | 1 | 2 |
+| tuga-ok | tugaok | 1 | 1 |
 | pagpasalamat | sala | 1 | 1 |
 | gintipig | tipig | 1 | 1 |
 | gintugon | tugon | 1 | 1 |
 | mag-iha | iha | 1 | 1 |
-| gintapo | tapo | 1 | 1 |
-| palaman | alam | 1 | 1 |
-| nakaputos | putos | 1 | 1 |
 
-_+266 more._
+_+269 more._
 
-## MISSING — genuine vocabulary gaps to gloss/add (213)
+## MISSING — genuine vocabulary gaps to gloss/add (205)
 _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "entertainment / to not be bored"._
 
 | word | #stories | freq |
 |------|:--:|--:|
-| nala | 6 | 10 |
 | nag | 4 | 4 |
-| po | 3 | 4 |
 | timprano | 2 | 2 |
-| dawla | 2 | 2 |
 | pag-iha | 2 | 2 |
 | pagkit-on | 2 | 2 |
 | eksperyensya | 2 | 2 |
@@ -116,13 +113,9 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | kagugub-an | 2 | 2 |
 | simple | 2 | 2 |
 | paghirot | 2 | 2 |
-| opo | 2 | 2 |
-| mahiyum-hiyom | 2 | 2 |
 | dolce | 1 | 8 |
 | kagugub | 1 | 5 |
-| tabu-an | 1 | 3 |
 | suok | 1 | 3 |
-| sano | 1 | 3 |
 | ginpakianhan | 1 | 2 |
 | rock | 1 | 2 |
 | nagnanabigar | 1 | 2 |
@@ -144,7 +137,6 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | iskoyla | 1 | 2 |
 | ginyakap | 1 | 2 |
 | proud | 1 | 2 |
-| tuga-ok | 1 | 1 |
 | nahinumdum | 1 | 1 |
 | mamalit | 1 | 1 |
 | pagkaun | 1 | 1 |
@@ -224,5 +216,13 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. `kaliawan` = "e
 | beyahe | 1 | 1 |
 | yeheey | 1 | 1 |
 | brown | 1 | 1 |
+| nasisirahan | 1 | 1 |
+| wow | 1 | 1 |
+| subra | 1 | 1 |
+| pushcart | 1 | 1 |
+| light | 1 | 1 |
+| pamamalit | 1 | 1 |
+| nasubo | 1 | 1 |
+| luma | 1 | 1 |
 
-_+93 more (full set in the JSON sidecar)._
+_+85 more (full set in the JSON sidecar)._

@@ -36,6 +36,11 @@ export const GLOSS_FIX = {
   man:   "(softener / emphasis)",
   pirmi: "always",
   silot: "punishment",
+  sano:  "when (san-o)",          // function word absent from parsed Tramp
+  po:    "(polite particle)",     // borrowed politeness marker, used in dialogue
+  opo:   "yes (polite)",          // "oo po" — polite yes
+  nala:  "already / just (na la)",// particle fusion na+la
+  dawla: "just / only (daw la)",  // particle fusion daw+la
 };
 
 export const CHUNKS = {
