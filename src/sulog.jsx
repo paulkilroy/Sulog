@@ -2250,7 +2250,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total, results = [] }) {
-  const { setView, setSession, session, cards, markUnitReview, lessons, startLessonPart, setLessonId, setLearnSection } = ctx;
+  const { setView, setSession, session, cards, markUnitReview, lessons, units, startLessonPart, startUnitReview, setLessonId, setLearnSection } = ctx;
   const inLesson = !!session?.lesson;
   const isReview = !!session?.unitReview; // the one graded checkpoint
   const missed = results.filter((r) => !r.correct);
@@ -2281,11 +2281,23 @@ function SessionDone({ ctx, tally, total, results = [] }) {
     if (lesson && pIdx + 1 < parts.length) {
       nextAction = { label: `Next: ${parts[pIdx + 1].label}`, go: () => startLessonPart(lesson, pIdx + 1) };
     } else {
-      const nl = nextLesson(lessons);
-      if (nl && nl.id !== session.lesson.id) {
-        nextAction = { label: `Next lesson: ${nl.title}`, go: () => { setLessonId(nl.id); setLearnSection(nl.section.id); setView("lesson"); } };
+      // finished a lesson's last part. If this was the unit's LAST lesson and the unit has
+      // a graded review you haven't passed yet, send the learner there — don't skip past it.
+      const unit = lesson?.unit;
+      const unitDone = unit && unit.lessons.every((l) => l.id === session.lesson.id || lessonDone(lessons, l.id));
+      if (unit && unitDone && unitHasReview(unit) && !units[unit.id]?.passed) {
+        nextAction = { label: `Unit review: ${unit.name}`, go: () => startUnitReview(unit) };
+      } else {
+        const nl = nextLesson(lessons);
+        if (nl && nl.id !== session.lesson.id) {
+          nextAction = { label: `Next lesson: ${nl.title}`, go: () => { setLessonId(nl.id); setLearnSection(nl.section.id); setView("lesson"); } };
+        }
       }
     }
+  } else if (isReview && passed) {
+    // after passing the review, continue forward to the next unfinished lesson
+    const nl = nextLesson(lessons);
+    if (nl) nextAction = { label: `Next lesson: ${nl.title}`, go: () => { setLessonId(nl.id); setLearnSection(nl.section.id); setView("lesson"); } };
   }
   const shownAt = useRef(Date.now());
   const goNextRef = useRef(null);
