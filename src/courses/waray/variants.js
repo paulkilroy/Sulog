@@ -16,6 +16,23 @@ export const VARIANTS = {
   sa:    "ha",      // dialectal locative marker
   wara:  "waray",   // dialectal "none / nothing" (CHED notes this variant)
   gihap: "gihapon", // common clipping of "also / still"
+  // dialect/clitic variants that fold to a standard form we already gloss (verify w/ Ella)
+  ka:    "ikaw",    // short 2nd-person form
+  sin:   "hin",     // dialectal indefinite marker
+  siya:  "hiya",    // dialectal "he / she"
+  sino:  "hin-o",   // dialectal "who"
+  digto: "didto",   // dialectal "there"
+  aada:  "ada",     // "is present / there is"
+  ak:    "akon",    // clipped "my / mine" (ak')
+};
+
+// curated glosses that WIN over Tramp/lexicon — for function words Tramp glosses badly,
+// and a few common words a 1991 dictionary lacks. (Applied in build-stories.) Verify w/ Ella.
+export const GLOSS_FIX = {
+  la:    "just / only",
+  man:   "(softener / emphasis)",
+  pirmi: "always",
+  silot: "punishment",
 };
 
 export const CHUNKS = {
