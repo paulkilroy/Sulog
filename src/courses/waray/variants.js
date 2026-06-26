@@ -24,6 +24,7 @@ export const VARIANTS = {
   digto: "didto",   // dialectal "there"
   aada:  "ada",     // "is present / there is"
   ak:    "akon",    // clipped "my / mine" (ak')
+  storya: "istorya",// clipped "story" (BFC boilerplate form)
 };
 
 // curated glosses that WIN over Tramp/lexicon — for function words Tramp glosses badly,
