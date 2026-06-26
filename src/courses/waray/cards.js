@@ -372,7 +372,7 @@ export const SEED = [
   ["essent", "Waray ako makabaro", "I don't understand", "", "wah-RIGH ah-KAW mah-kah-BAH-ro"],
   ["essent", "Hain an CR?", "Where is the CR? (bathroom)", "an = the; ang is Tagalog", "HAH-een ahn see-AR"],
   ["essent", "Buligi daw ako", "Please help me", "", "boo-LEE-gee dow ah-KAW"],
-  ["essent", "Pasaylo-a ako", "Excuse me / sorry", "", "pah-sigh-LO-ah ah-KAW"],
+  ["essent", "Pasaylo-a ako", "Forgive me / sorry", "pasaylo = forgive (vs pasensya = excuse me)", "pah-sigh-LO-ah ah-KAW"],
   ["essent", "Sige, sunod na la", "Goodbye (see you next time)", "", "SEE-geh SOO-nod nah lah"],
 
   // ===== Building Blocks — possessives II-class (Peace Corps L4) =====

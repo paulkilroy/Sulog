@@ -1889,16 +1889,26 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const vmListen = () => {
     if (!SpeechRec) return;
     vmStop(); const tok = vmTok.current; setHeard([]); setSttAlts(null); setVmState("starting");
-    const rec = new SpeechRec(); rec.lang = sttLang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
+    // scale the listen window to how long the expected answer is: a one-word answer ends
+    // snappily on the first pause, but a longer phrase keeps listening across mid-phrase
+    // pauses (continuous) and only stops after a length-scaled silence — so it never cuts
+    // you off mid-sentence.
+    const expectWords = (norm(answer || "").split(/\s+/).filter(Boolean).length) || 1;
+    const longPhrase = expectWords >= 2;
+    const endGap = longPhrase ? 1500 + expectWords * 250 : 0; // silence-after-speech to stop
+    const maxListen = 4000 + expectWords * 1600;              // hard cap so it can't run on
+    const rec = new SpeechRec(); rec.lang = sttLang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = longPhrase;
     let settled = false, lastAlts = [], live = false; // keep interim guesses so a no-final end still judges
+    let settleTimer = null, hardStop = null;
+    const bumpSettle = () => { if (!longPhrase || !live) return; clearTimeout(settleTimer); settleTimer = setTimeout(() => { try { rec.stop(); } catch (e) {} }, endGap); };
     // cue the user to speak only when capture is actually live (onaudiostart) — avoids
     // clipping the first ms while the mic warms up; beep gives a precise "go"
-    const goLive = () => { if (tok === vmTok.current && !settled && !live) { live = true; setVmState("listening"); beep(); } };
+    const goLive = () => { if (tok === vmTok.current && !settled && !live) { live = true; setVmState("listening"); beep(); if (longPhrase) hardStop = setTimeout(() => { try { rec.stop(); } catch (e) {} }, maxListen); } };
     rec.onaudiostart = goLive; rec.onstart = goLive;
     const liveFallback = setTimeout(goLive, 800); // in case onaudiostart never fires
     // reach a verdict from a set of guesses (type: always judges; mc: judges only on a match)
     const finish = (a) => {
-      settled = true; clearTimeout(liveFallback); setVmState("idle"); setSttAlts(a);
+      settled = true; clearTimeout(liveFallback); clearTimeout(settleTimer); clearTimeout(hardStop); setVmState("idle"); setSttAlts(a);
       const waray = dir === "etw";
       if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
       else { // mc / listen — pick the CLOSEST-matching option, not the first loose match
@@ -1921,12 +1931,22 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
       }
     };
     rec.onresult = (e) => { if (tok !== vmTok.current) return;
-      const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
-      if (res.isFinal) finish(a);
-      else { lastAlts = a; setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); } };
+      bumpSettle(); // speech heard → push the "you're done" deadline out
+      if (longPhrase) {
+        // continuous: stitch the whole phrase across segments; DON'T finish on a pause —
+        // wait for the silence window / hard cap (onEnd) so long answers complete
+        let full = ""; for (let i = 0; i < e.results.length; i++) full += e.results[i][0].transcript + " ";
+        full = full.trim();
+        if (full) { lastAlts = [full]; setHeard((h) => [...h, full].filter(Boolean).slice(-6)); }
+      } else {
+        const res = e.results[e.results.length - 1]; const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
+        if (res.isFinal) finish(a);
+        else { lastAlts = a; setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6)); }
+      }
+    };
     // ended/errored without a final result: judge on the last interim if we heard anything,
     // so the card always reaches a verdict (and its Continue / "I was right" buttons) — never stuck
-    const onEnd = () => { clearTimeout(liveFallback); if (tok === vmTok.current && !settled) { if (lastAlts.length) finish(lastAlts); else setVmState("idle"); } };
+    const onEnd = () => { clearTimeout(liveFallback); clearTimeout(settleTimer); clearTimeout(hardStop); if (tok === vmTok.current && !settled) { if (lastAlts.length) finish(lastAlts); else setVmState("idle"); } };
     rec.onerror = onEnd; rec.onend = onEnd;
     vmRec.current = rec; try { rec.start(); } catch (e) { clearTimeout(liveFallback); setVmState("idle"); }
   };
