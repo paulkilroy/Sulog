@@ -36,7 +36,11 @@ function parse(file, marker, source, defLicense, mode) {
 
 const raw = [
   ...parse("docs/sources/bloom-waray-stories.txt", "BOOK", "Bloom", "CC", "lines"),
-  ...parse("docs/sources/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
+  // BFC (Bible for Children) is EXCLUDED from the reader — its translation is dialectal/
+  // colloquial Waray (san→han, sira→hira, aron, kumila…), so learners shouldn't read it as
+  // standard Waray. Text kept in bfc-waray-stories.txt, pending Ella's correction; see
+  // docs/ella-todo-bfc-correction.md. Re-include here once standardized.
+  // ...parse("docs/sources/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
 ];
 // merge ChatGPT-authored comprehension data (English title + MC questions), if present
 const qPath = path.join(root, "docs/sources/story-questions.json");
