@@ -1,0 +1,884 @@
+{
+  "phase_id": "p2",
+  "detailed_units": [
+    {
+      "unit_id": "u6",
+      "phase_id": "p2",
+      "title": "Meeting the In-Laws",
+      "theme": "Introduce yourself respectfully to extended family.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "I can respectfully introduce myself and express gladness upon meeting extended family members.",
+      "new_grammar": [
+        {
+          "point": "Respectful Address with 'Apo' and 'Mano/Mana'",
+          "explain_en": "In Samar, addressing older relatives or community elders involves respectful titles. 'Apo' refers to grandparents or elders. 'Mano' (for men) and 'Mana' (for women) are used before a first name for older siblings, cousins, or in-laws to show warm respect.",
+          "examples": [
+            {
+              "war": "Maupay nga aga, Apo.",
+              "en": "Good morning, Grandparent/Elder."
+            },
+            {
+              "war": "Kumusta, Mano Lito?",
+              "en": "How are you, Older Brother Lito?"
+            }
+          ]
+        },
+        {
+          "point": "The Linker 'Nga' with Names and Adjectives",
+          "explain_en": "The particle 'nga' links descriptive words to nouns, and it also appears between greeting words and time modifiers (like 'maupay nga aga'). It helps sentences flow smoothly and sound natural.",
+          "examples": [
+            {
+              "war": "Maupay nga gab-i.",
+              "en": "Good evening."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "apo",
+          "pos": "noun",
+          "gloss": "grandparent",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "apo",
+          "note": "Also used generally for respected family elders."
+        },
+        {
+          "lemma": "mano",
+          "pos": "noun",
+          "gloss": "older brother",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "mano",
+          "note": "Respectful title for an older male relative/in-law."
+        },
+        {
+          "lemma": "mana",
+          "pos": "noun",
+          "gloss": "older sister",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "mana",
+          "note": "Respectful title for an older female relative/in-law."
+        },
+        {
+          "lemma": "nalipay",
+          "pos": "adjective",
+          "gloss": "happy",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "nalipay",
+          "note": "Often used to express being glad to meet someone."
+        },
+        {
+          "lemma": "bana",
+          "pos": "noun",
+          "gloss": "husband",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "bana",
+          "note": "Complements 'asawa' (spouse/wife) learned in Phase 1."
+        },
+        {
+          "lemma": "kila",
+          "pos": "verb",
+          "gloss": "meet",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "kila",
+          "note": "Commonly encountered in the phrase 'makakila' (to get to know/meet)."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u6l1",
+          "title": "Respectful Titles",
+          "type": "words",
+          "teaches": [
+            "apo",
+            "mano",
+            "mana"
+          ],
+          "grammar_focus": "Respectful Address"
+        },
+        {
+          "lesson_id": "u6l2",
+          "title": "Expressing Joy",
+          "type": "words",
+          "teaches": [
+            "nalipay",
+            "bana",
+            "kila"
+          ],
+          "grammar_focus": "The Linker 'Nga'"
+        },
+        {
+          "lesson_id": "u6l3",
+          "title": "Family Introductions",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Respectful Address and Flow"
+        }
+      ],
+      "story": {
+        "story_id": "u6s1",
+        "title": "Ha Balay han In-laws",
+        "title_en": "At the In-laws' House",
+        "sentences": [
+          {
+            "war": "Maupay nga kulop, Apo.",
+            "en": "Good afternoon, Grandparent."
+          },
+          {
+            "war": "Ako hi Tom, an bana ni Maria.",
+            "en": "I am Tom, the husband of Maria."
+          },
+          {
+            "war": "Kumusta, Mana Elena ngan Mano Lito?",
+            "en": "How are you, Older Sister Elena and Older Brother Lito?"
+          },
+          {
+            "war": "Nalipay ako makakila ha iyo.",
+            "en": "I am happy to meet you all."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Who is Tom introducing himself to?",
+            "choices": [
+              "His neighbors",
+              "His wife's extended family",
+              "Store owners"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u7",
+      "phase_id": "p2",
+      "title": "Everyday Objects in the Yard",
+      "theme": "Ask for common household items outside or in the kitchen.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "I can identify and ask for basic daily tools and household items found in the yard or kitchen area.",
+      "new_grammar": [
+        {
+          "point": "The Request Particle 'Aton'",
+          "explain_en": "To politely ask if an item belongs to the household or is shared among 'us' (inclusive), the word 'aton' (our) is used. It softens a request for an item, making it sound communal and polite rather than demanding.",
+          "examples": [
+            {
+              "war": "Hain an aton lingkuran?",
+              "en": "Where is our chair? (Polite way to ask where to sit)"
+            }
+          ]
+        },
+        {
+          "point": "Using 'Kadi' for Bringing/Passing Objects",
+          "explain_en": "'Kadi' means 'come here' or 'bring here'. When paired with an object name, it is a gentle, colloquial way to say 'Please pass me that' or 'Bring that item over.'",
+          "examples": [
+            {
+              "war": "Alayon, kadi an brayong.",
+              "en": "Please, bring the broom here."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "lingkuran",
+          "pos": "noun",
+          "gloss": "chair",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "lingkuran",
+          "note": "Any seat or bench, very common in outdoor yards."
+        },
+        {
+          "lemma": "brayong",
+          "pos": "noun",
+          "gloss": "broom",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "brayong",
+          "note": "Specifically the outdoor broom made of coconut midribs (walis tingting)."
+        },
+        {
+          "lemma": "lamesa",
+          "pos": "noun",
+          "gloss": "table",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "lamesa",
+          "note": "Loanword from Spanish, standard across Samar."
+        },
+        {
+          "lemma": "banga",
+          "pos": "noun",
+          "gloss": "jar",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "banga",
+          "note": "Traditional clay jar used for storing cool drinking water."
+        },
+        {
+          "lemma": "kutsara",
+          "pos": "noun",
+          "gloss": "spoon",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "kutsara",
+          "note": "Essential kitchen tool."
+        },
+        {
+          "lemma": "tinidor",
+          "pos": "noun",
+          "gloss": "fork",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "tinidor",
+          "note": "Commonly paired with kutsara."
+        },
+        {
+          "lemma": "kadi",
+          "pos": "verb",
+          "gloss": "bring",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "kadi",
+          "note": "Literally means 'come here', used to request items to be brought over."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u7l1",
+          "title": "Around the Yard",
+          "type": "words",
+          "teaches": [
+            "lingkuran",
+            "brayong",
+            "lamesa"
+          ],
+          "grammar_focus": "The Request Particle 'Aton'"
+        },
+        {
+          "lesson_id": "u7l2",
+          "title": "Kitchen Utensils",
+          "type": "words",
+          "teaches": [
+            "banga",
+            "kutsara",
+            "tinidor",
+            "kadi"
+          ],
+          "grammar_focus": "Using 'Kadi'"
+        },
+        {
+          "lesson_id": "u7l3",
+          "title": "Yard Gathering",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Locating and Requesting Objects"
+        }
+      ],
+      "story": {
+        "story_id": "u7s1",
+        "title": "Ha Gawas han Balay",
+        "title_en": "Outside the House",
+        "sentences": [
+          {
+            "war": "Hain an aton lingkuran, Maria?",
+            "en": "Where is our chair, Maria?"
+          },
+          {
+            "war": "Aada ha gawas, dapit ha lamesa.",
+            "en": "It is there outside, near the table."
+          },
+          {
+            "war": "Tom, alayon kadi an brayong.",
+            "en": "Tom, please bring the broom here."
+          },
+          {
+            "war": "Gusto ko uminom han tubig tikang ha banga.",
+            "en": "I want to drink water from the clay jar."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Where is the chair located?",
+            "choices": [
+              "Inside the kitchen",
+              "Outside, near the table",
+              "At the neighbor's house"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u8",
+      "phase_id": "p2",
+      "title": "Where are You Going? (Kain ka?)",
+      "theme": "Answer the common neighborhood passing greeting.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "I can understandingly reply to the common casual greeting 'Kain ka?' with everyday neighborhood destinations.",
+      "new_grammar": [
+        {
+          "point": "The Directional Interrogative 'Kain'",
+          "explain_en": "While 'hain' means 'where is something located', 'kain' means 'where are you going?'. In Samar culture, asking 'Kain ka?' is a friendly substitute for 'Hello' when passing someone on the street. It is not considered nosy; a short, general answer is standard.",
+          "examples": [
+            {
+              "war": "Kain ka, Tom?",
+              "en": "Where are you heading, Tom?"
+            }
+          ]
+        },
+        {
+          "point": "The Directional Prefix 'Madto' and 'Pakadto'",
+          "explain_en": "To express where you are going, use 'madto' (will go there/heading to) or 'pakadto' (going towards). This is followed by 'ha' and the destination name.",
+          "examples": [
+            {
+              "war": "Madto ako ha balay.",
+              "en": "I am going to the house."
+            },
+            {
+              "war": "Pakadto ako ha tindahan.",
+              "en": "I am heading towards the store."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "kain",
+          "pos": "question",
+          "gloss": "where heading",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "kain",
+          "note": "Used exclusively for direction of movement."
+        },
+        {
+          "lemma": "madto",
+          "pos": "verb",
+          "gloss": "go",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "madto",
+          "note": "Future/progressive action of going to a distant place."
+        },
+        {
+          "lemma": "pakadto",
+          "pos": "verb",
+          "gloss": "heading to",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "pakadto",
+          "note": "Indicates current movement direction."
+        },
+        {
+          "lemma": "tindahan",
+          "pos": "noun",
+          "gloss": "store",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "tindahan",
+          "note": "Usually refers to the local neighborhood sari-sari store."
+        },
+        {
+          "lemma": "pantalan",
+          "pos": "noun",
+          "gloss": "pier",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "pantalan",
+          "note": "Crucial location in island towns like Daram."
+        },
+        {
+          "lemma": "uma",
+          "pos": "noun",
+          "gloss": "farm",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "uma",
+          "note": "Refers to fields, plantations, or inland farms."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u8l1",
+          "title": "The Passing Greeting",
+          "type": "words",
+          "teaches": [
+            "kain",
+            "madto",
+            "pakadto"
+          ],
+          "grammar_focus": "The Directional Interrogative 'Kain'"
+        },
+        {
+          "lesson_id": "u8l2",
+          "title": "Local Destinations",
+          "type": "words",
+          "teaches": [
+            "tindahan",
+            "pantalan",
+            "uma"
+          ],
+          "grammar_focus": "Directional Prefix with Destinations"
+        },
+        {
+          "lesson_id": "u8l3",
+          "title": "Street Encounters",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Casual Neighborhood Greetings"
+        }
+      ],
+      "story": {
+        "story_id": "u8s1",
+        "title": "Kinasasandat ha Dalan",
+        "title_en": "Meeting on the Street",
+        "sentences": [
+          {
+            "war": "Maupay nga aga, Tom! Kain ka?",
+            "en": "Good morning, Tom! Where are you heading?"
+          },
+          {
+            "war": "Maupay nga aga! Madto ako ha tindahan.",
+            "en": "Good morning! I am going to the store."
+          },
+          {
+            "war": "Ikaw, kain ka pakadto?",
+            "en": "As for you, where are you heading towards?"
+          },
+          {
+            "war": "Pakadto ako ha pantalan han Daram.",
+            "en": "I am heading towards the Daram pier."
+          }
+        ],
+        "questions": [
+          {
+            "q": "What is the meaning of the greeting 'Kain ka?'",
+            "choices": [
+              "How are you?",
+              "Where are you going?",
+              "Have you eaten yet?"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u9",
+      "phase_id": "p2",
+      "title": "Talking About the Weather",
+      "theme": "Comment on heat, rain, and wind.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "I can make simple, safe small-talk comments regarding current weather conditions like heat, rain, and wind.",
+      "new_grammar": [
+        {
+          "point": "Expressing Weather Conditions with 'Masyado'",
+          "explain_en": "To emphasize a weather trait, place 'masyado' (too much / very) before the descriptive word. Unlike English, Waray doesn't need a dummy pronoun like 'it' in 'it is hot'—you simply state the description directly.",
+          "examples": [
+            {
+              "war": "Masyado kamapas.",
+              "en": "It is very humid/stuffy."
+            },
+            {
+              "war": "Muraingpasing an hangin.",
+              "en": "The wind is blowing hard."
+            }
+          ]
+        },
+        {
+          "point": "The Ongoing Aspect 'Umuuran'",
+          "explain_en": "To state that it is currently raining, the root word 'uran' (rain) takes an internal repetition or infix to become 'umuuran' (it is raining right now).",
+          "examples": [
+            {
+              "war": "Umuuran didto.",
+              "en": "It is raining over there."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "mapaso",
+          "pos": "adjective",
+          "gloss": "hot",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "mapaso",
+          "note": "Used for both weather temperatures and hot food/drinks."
+        },
+        {
+          "lemma": "kamapas",
+          "pos": "adjective",
+          "gloss": "humid",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "kamapas",
+          "note": "Refers to that sticky, close heat typical in coastal Samar."
+        },
+        {
+          "lemma": "uran",
+          "pos": "noun",
+          "gloss": "rain",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "uran",
+          "note": "Can act as a noun or turn into a verb."
+        },
+        {
+          "lemma": "umuuran",
+          "pos": "verb",
+          "gloss": "raining",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "umuuran",
+          "note": "The active progressive form for current rainfall."
+        },
+        {
+          "lemma": "hangin",
+          "pos": "noun",
+          "gloss": "wind",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "hangin",
+          "note": "Also means air."
+        },
+        {
+          "lemma": "mahagkot",
+          "pos": "adjective",
+          "gloss": "cold",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "mahagkot",
+          "note": "Used for chilly breezes, cold rain, or cold drinks."
+        },
+        {
+          "lemma": "masyado",
+          "pos": "adjective",
+          "gloss": "very",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "masyado",
+          "note": "Used to amplify adjectives."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u9l1",
+          "title": "The Island Heat",
+          "type": "words",
+          "teaches": [
+            "mapaso",
+            "kamapas",
+            "masyado"
+          ],
+          "grammar_focus": "Expressing Weather Conditions with 'Masyado'"
+        },
+        {
+          "lesson_id": "u9l2",
+          "title": "Rain and Wind",
+          "type": "words",
+          "teaches": [
+            "uran",
+            "umuuran",
+            "hangin",
+            "mahagkot"
+          ],
+          "grammar_focus": "The Ongoing Aspect 'Umuuran'"
+        },
+        {
+          "lesson_id": "u9l3",
+          "title": "Porch Small Talk",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Weather Descriptions"
+        }
+      ],
+      "story": {
+        "story_id": "u9s1",
+        "title": "An Panahon ha Daram",
+        "title_en": "The Weather in Daram",
+        "sentences": [
+          {
+            "war": "Masyado mapaso yana nga aga.",
+            "en": "It is very hot this morning."
+          },
+          {
+            "war": "Oo, kamapas han hangin didni.",
+            "en": "Yes, the air is humid right here."
+          },
+          {
+            "war": "Aadi an uran! Umuuran na.",
+            "en": "Here comes the rain! It is raining now."
+          },
+          {
+            "war": "Mahagkot an tubig yana.",
+            "en": "The water is cold now."
+          }
+        ],
+        "questions": [
+          {
+            "q": "What happens to the weather during the conversation?",
+            "choices": [
+              "It stays dry and hot",
+              "It begins to rain",
+              "It turns completely dark"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u10",
+      "phase_id": "p2",
+      "title": "Time of Day and Simple Tasks",
+      "theme": "Coordinate basic daily times for chores or meetings.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "I can coordinate simple daily activities using words for 'today', 'tomorrow', and basic time-frames.",
+      "new_grammar": [
+        {
+          "point": "Scheduling with 'Nganay' and 'Yana'",
+          "explain_en": "'Yana' means 'now' or 'today'. The particle 'nganay' indicates doing something first before anything else, equivalent to 'for a moment' or 'first'. It is perfect for telling someone you are performing a quick task.",
+          "examples": [
+            {
+              "war": "Kaon nganay kita.",
+              "en": "Let's eat first."
+            },
+            {
+              "war": "Mapalit ako yana.",
+              "en": "I will buy it now."
+            }
+          ]
+        },
+        {
+          "point": "Future Tasks with 'Buwas'",
+          "explain_en": "To set an event for tomorrow, add the word 'buwas'. When combining it with a verb phrase, it shifts the context cleanly into the future without needing heavy grammatical conjugations.",
+          "examples": [
+            {
+              "war": "Madto ako ha uma buwas.",
+              "en": "I will go to the farm tomorrow."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "yana",
+          "pos": "noun",
+          "gloss": "now",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "yana",
+          "note": "Can mean 'now' or 'today' depending on context."
+        },
+        {
+          "lemma": "buwas",
+          "pos": "noun",
+          "gloss": "tomorrow",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "buwas",
+          "note": "Crucial time marker for future planning."
+        },
+        {
+          "lemma": "nganay",
+          "pos": "particle",
+          "gloss": "first",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "nganay",
+          "note": "Drilled here as a standalone adverbial concept for 'just a moment/first'."
+        },
+        {
+          "lemma": "buhat",
+          "pos": "verb",
+          "gloss": "do",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "buhat",
+          "note": "Commonly used for doing tasks, work, or chores."
+        },
+        {
+          "lemma": "trabaho",
+          "pos": "noun",
+          "gloss": "work",
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "trabaho",
+          "note": "Spanish loanword used for general jobs or heavy labor."
+        },
+        {
+          "lemma": "pahuway",
+          "pos": "verb",
+          "gloss": "rest",
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "pahuway",
+          "note": "Highly valued concept during hot early afternoons."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u10l1",
+          "title": "Today and Tomorrow",
+          "type": "words",
+          "teaches": [
+            "yana",
+            "buwas",
+            "nganay"
+          ],
+          "grammar_focus": "Scheduling with 'Nganay' and 'Yana'"
+        },
+        {
+          "lesson_id": "u10l2",
+          "title": "Chores and Chilling",
+          "type": "words",
+          "teaches": [
+            "buhat",
+            "trabaho",
+            "pahuway"
+          ],
+          "grammar_focus": "Future Tasks with 'Buwas'"
+        },
+        {
+          "lesson_id": "u10l3",
+          "title": "Daily Coordination",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Time-based Task Planning"
+        }
+      ],
+      "story": {
+        "story_id": "u10s1",
+        "title": "An Plano Buwas",
+        "title_en": "The Plan Tomorrow",
+        "sentences": [
+          {
+            "war": "Mano Lito, may trabaho ba yana?",
+            "en": "Older Brother Lito, is there work today?"
+          },
+          {
+            "war": "Diri, pahuway nganay kita yana nga kulop.",
+            "en": "No, let's rest for a moment this afternoon."
+          },
+          {
+            "war": "An brayong dadi, magbuhat ako buwas.",
+            "en": "The broom is here, I will do tasks tomorrow."
+          },
+          {
+            "war": "Maupay hira, mapahuway gihapon ako.",
+            "en": "Good for them, I will rest as well."
+          }
+        ],
+        "questions": [
+          {
+            "q": "When will the tasks be done?",
+            "choices": [
+              "Today",
+              "Tomorrow",
+              "In the evening"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u11",
+      "phase_id": "p2",
+      "title": "Phase 2 Review & Celebration",
+      "theme": "Combine early neighborhood conversations smoothly.",
+      "cefr": "A1",
+      "difficulty": 2,
+      "can_do": "I can seamlessly synthesize identity, household requests, direction responses, weather notes, and time-frames in a natural neighborhood conversation.",
+      "new_grammar": [
+        {
+          "point": "Conversational Sentence Stacking",
+          "explain_en": "This lesson synthesizes all structures learned: introducing family status, using markers to point to yard items, explaining where you are heading when greeted casually, and matching it to time or weather constraints.",
+          "examples": [
+            {
+              "war": "Nalipay ako, pakadto ako ha tindahan yana kay mapaso.",
+              "en": "I am glad, I am heading to the store now because it's hot."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [],
+      "lessons": [
+        {
+          "lesson_id": "u11l1",
+          "title": "Neighborhood Flashback",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Recycling Phase 1 + Phase 2 Vocab"
+        },
+        {
+          "lesson_id": "u11l2",
+          "title": "Polite Interactions Mix",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Family Titles and Yard Object Requests"
+        },
+        {
+          "lesson_id": "u11l3",
+          "title": "The Social Neighbor",
+          "type": "practice",
+          "teaches": [],
+          "grammar_focus": "Conversational Fluency and Pacing"
+        }
+      ],
+      "story": {
+        "story_id": "u11s1",
+        "title": "Hurob-hurob ha Daram",
+        "title_en": "Chitchatting in Daram",
+        "sentences": [
+          {
+            "war": "Maupay nga aga, Mana Elena! Kain ka pakadto?",
+            "en": "Good morning, Older Sister Elena! Where are you heading towards?"
+          },
+          {
+            "war": "Madto ako ha pantalan, Tom. Masyado mapaso yana.",
+            "en": "I am going to the pier, Tom. It is very hot today."
+          },
+          {
+            "war": "Oo, kadi nganay ha aton lingkuran han balay.",
+            "en": "Yes, come here for a moment to our house chair."
+          },
+          {
+            "war": "Alayon, uminom kita hin tubig tikang ha banga.",
+            "en": "Please, let's drink water from the clay jar."
+          },
+          {
+            "war": "Nalipay gihapon hi Apo didto.",
+            "en": "Grandparent was also glad over there."
+          }
+        ],
+        "questions": [
+          {
+            "q": "What refreshing invitation does Tom offer Elena?",
+            "choices": [
+              "To go to the farm",
+              "To buy something at the store",
+              "To sit and drink water from the clay jar"
+            ],
+            "answer_index": 2
+          }
+        ]
+      }
+    }
+  ]
+}

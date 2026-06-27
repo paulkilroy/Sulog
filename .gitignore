@@ -3,3 +3,6 @@ node_modules/
 *.log
 .vscode/
 build/
+
+# Playwright MCP scratch (browser snapshots/console logs)
+.playwright-mcp/

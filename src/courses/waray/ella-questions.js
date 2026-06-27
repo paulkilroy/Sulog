@@ -39,4 +39,34 @@ export const ELLA_QUESTIONS = [
     q: "Confirm the Samar/Daram everyday forms we're assuming.",
     detail: "di (for diri), sin (for hin), mayda (= may ada / there is), wara (= waray), gihap (= gihapon). Are these how you'd actually say them in Daram?",
   },
+  {
+    id: "p2-kila",
+    topic: "Challenger · vocabulary (Phase 2)",
+    q: "Is “kila” the right Daram word for “meet/get to know”?",
+    detail: "Gemini taught it via “makakila” (to get to know someone). Is the bare root “kila” natural, or should we teach a different form? Unit 6.",
+  },
+  {
+    id: "p2-brayong",
+    topic: "Challenger · vocabulary (Phase 2)",
+    q: "Is “brayong” the everyday Daram word for the coconut-midrib yard broom?",
+    detail: "Tagalog calls it “walis tingting”. Is “brayong” real Samar Waray, or is it “silhig”/something else? Unit 7.",
+  },
+  {
+    id: "p2-kamapas",
+    topic: "Challenger · vocabulary (Phase 2)",
+    q: "Is “kamapas” a real Waray word for the humid, sticky coastal heat?",
+    detail: "Gemini glossed it “humid”, distinct from “mapaso” (hot). Confirm it exists and isn't a near-duplicate of mapaso. Unit 9.",
+  },
+  {
+    id: "p2-masyado",
+    topic: "Challenger · register (Phase 2)",
+    q: "For “very/too much”, do people in Daram say “masyado”, or is there a more native Waray word?",
+    detail: "“masyado” is a Tagalog/Spanish-flavored loan. Is there a Waray intensifier (e.g. “sobra”, “duro”) we should teach instead/alongside? Unit 9.",
+  },
+  {
+    id: "p2-inflected-lemmas",
+    topic: "Challenger · forms (Phase 2)",
+    q: "Are “nalipay” (glad) and “umuuran” (raining) the right forms to drill as standalone cards?",
+    detail: "These are inflected (nalipay = was/am glad; umuuran = is raining), not bare roots (lipay / uran). Fine for a beginner phrasebook, or should we drill the roots and keep the inflected forms in sentences? Units 6 & 9.",
+  },
 ];
