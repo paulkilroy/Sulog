@@ -2,6 +2,8 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
 import { STORIES, GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
+import { CH_LEVELS } from "./courses/waray/challenger.js";
+import { ELLA_QUESTIONS } from "./courses/waray/ella-questions.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -203,10 +205,11 @@ function buildCards() {
 }
 
 /* ---------------- proficiency (one cross-course CEFR-ish estimate) ----------------
-   Level each word by its rank in the frequency-first curriculum (our best frequency
-   signal), pool mastery across ALL courses (they share the same cards), and roll it
-   up into a single band + progress bar. The band thresholds are a friendly estimate
-   for Waray, not a certified scale. Reads only existing progress — never writes. */
+   Level each word by its rank in the frequency-first curriculum (our frequency
+   signal); words that exist only in the Challenger course use its own CEFR tag.
+   Mastery is pooled across ALL courses BY WORD — so a word known in any course
+   counts once, even across courses with different vocabulary. Friendly estimate,
+   not a certified scale. Reads existing progress only — never writes. */
 const FREQ_RANK = (() => {
   const m = {}; let r = 0;
   const cur = (getCourse("waray-frequency").curriculum) || [];
@@ -215,35 +218,41 @@ const FREQ_RANK = (() => {
   return m;
 })();
 function bandOfRank(rank) {                 // by frequency rank → where each band's vocab begins
-  if (rank == null) return "B1";            // not in the freq curriculum → treat as advanced/rare
   if (rank < 80) return "A0";
   if (rank < 250) return "A1";
   if (rank < 500) return "A2";
   return "B1";
 }
-const levelOfCard = (card) => bandOfRank(FREQ_RANK[card.waray]);
-// pool the BEST mastery (box) per card id across every course's stored progress
-function pooledProg(liveProg) {
+function levelOfWord(w) {
+  if (w in FREQ_RANK) return bandOfRank(FREQ_RANK[w]);
+  if (CH_LEVELS[w]) return CH_LEVELS[w];    // Challenger-only word → its own CEFR tag
+  return "B1";                              // unranked / rare → advanced
+}
+const wordById = (course) => { const m = {}; (course.seed || []).forEach((r, i) => { m[`c${i}`] = r[1]; }); return m; };
+// pool the BEST box per WORD across every course's stored progress (+ live active prog)
+function pooledWords(liveProg) {
   const pooled = {};
-  const take = (p) => { for (const id in p) { const st = p[id]; if (!st) continue;
-    if (!pooled[id] || (st.box || 0) > (pooled[id].box || 0)) pooled[id] = st; } };
+  const bump = (w, box) => { if (w && (pooled[w] == null || box > pooled[w])) pooled[w] = box; };
   for (const c of COURSES) {
-    try { const raw = localStorage.getItem(`sulog:${c.id}:prog`); if (raw) take(JSON.parse(raw)); } catch (e) {}
+    const id2w = wordById(c);
+    try { const raw = localStorage.getItem(`sulog:${c.id}:prog`); if (raw) { const p = JSON.parse(raw);
+      for (const id in p) if (p[id]) bump(id2w[id], p[id].box || 0); } } catch (e) {}
   }
-  if (liveProg) take(liveProg);             // active course's in-memory progress wins if ahead
+  if (liveProg) { const id2w = wordById(ACTIVE); for (const id in liveProg) if (liveProg[id]) bump(id2w[id], liveProg[id].box || 0); }
   return pooled;
 }
-// cumulative "items mastered" milestones per band (friendly estimate — easy to tune)
+// cumulative "words mastered" milestones per band (friendly estimate — easy to tune)
 const BAND_MILESTONE = { A0: 0, A1: 40, A2: 140, B1: 320, B2: 550 };
 const BAND_NEXT = { A0: "A1", A1: "A2", A2: "B1", B1: "B2" };
-function computeProficiency(cards, liveProg) {
-  const pool = pooledProg(liveProg);
+function computeProficiency(liveProg) {
+  const pool = pooledWords(liveProg);
+  const words = new Set([...Object.keys(FREQ_RANK), ...Object.keys(CH_LEVELS)]);
   let mastered = 0;
   const perBand = { A0: { m: 0, t: 0 }, A1: { m: 0, t: 0 }, A2: { m: 0, t: 0 }, B1: { m: 0, t: 0 } };
-  for (const c of cards) {
-    const b = levelOfCard(c); perBand[b].t++;
-    const st = pool[c.id];
-    if (st && (st.box || 0) >= 4) { mastered++; perBand[b].m++; }
+  for (const w of words) {
+    const b = levelOfWord(w); perBand[b].t++;
+    const box = pool[w];
+    if (box != null && box >= 4) { mastered++; perBand[b].m++; }
   }
   let band = "A0";
   for (const b of ["A1", "A2", "B1"]) if (mastered >= BAND_MILESTONE[b]) band = b;
@@ -1065,6 +1074,30 @@ export default function App() {
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "phrasestudio" && <PhraseStudioView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
+      {view === "ella" && <EllaView ctx={ctx} />}
+    </div>
+  );
+}
+
+/* ===================== ASK ELLA (native-review queue) ===================== */
+function EllaView({ ctx }) {
+  const { setView } = ctx;
+  return (
+    <div className="ws-page">
+      <TopBar title="👩 Ask Ella" onBack={() => setView("home")} />
+      <div style={{ padding: "4px 16px 28px", maxWidth: 680, margin: "0 auto" }}>
+        <p style={{ color: "#64748b", fontSize: 14, lineHeight: 1.5 }}>
+          Open questions for a native Daram/Samar speaker. Each answer feeds back into the
+          courses and dialect notes. {ELLA_QUESTIONS.length} open.
+        </p>
+        {ELLA_QUESTIONS.map((q) => (
+          <div key={q.id} style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#9333ea", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
+            <div style={{ fontSize: 15.5, fontWeight: 600, color: "#0f172a", lineHeight: 1.35 }}>{q.q}</div>
+            {q.detail && <div style={{ fontSize: 13.5, color: "#64748b", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -1089,7 +1122,7 @@ function HomeView({ ctx }) {
   const needsWork = cards.filter((c) => needsWorkCard(prog[c.id])).length;
   const voiced = Object.keys(audio).length;
   const streakDays = currentStreak(streak.days);
-  const prof = computeProficiency(cards, prog);
+  const prof = computeProficiency(prog);
 
   const startReview = (deckKeys, dir, mode) => {
     setSession({ deckKeys, dir, mode, limit: 15 });
@@ -1116,6 +1149,9 @@ function HomeView({ ctx }) {
           </button>
           <button className="ws-icon-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases">
             <Pencil size={20} />
+          </button>
+          <button className="ws-icon-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker">
+            <span style={{ fontSize: 18, lineHeight: 1 }}>👩</span>
           </button>
           {SpeechRec && (
             <button className={`ws-icon-btn ${settings.voiceMode ? "vk-on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
