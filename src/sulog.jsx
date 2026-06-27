@@ -1163,40 +1163,25 @@ function HomeView({ ctx }) {
     setView("session");
   };
 
+  const heroActions = (
+    <div className="ws-hero-btns">
+      <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases"><Pencil size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker"><span style={{ fontSize: 17, lineHeight: 1 }}>👩</span></button>
+      {SpeechRec && (
+        <button className={`ws-hero-btn ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
+          onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+          {settings.voiceMode ? <Mic size={18} /> : <Keyboard size={18} />}
+        </button>
+      )}
+    </div>
+  );
+
   return (
     <div className="ws-page">
-      <header className="ws-head">
-        <div>
-          <div className="ws-eyebrow">Aplikasyon han Waray</div>
-          <h1 className="ws-title">Sulog</h1>
-          <div className="ws-sub">Your lessons, between lessons · Daram, Samar</div>
-        </div>
-        <div className="ws-head-btns">
-          <button className="ws-icon-btn" onClick={() => setView("backup")} title="Backup & sync">
-            <Cloud size={20} />
-          </button>
-          <button className="ws-icon-btn" onClick={() => setView("pronounce")} title="Pronunciation guide">
-            <Ear size={20} />
-          </button>
-          <button className="ws-icon-btn" onClick={() => setView("stttest")} title="Waray speech test">
-            <Mic size={20} />
-          </button>
-          <button className="ws-icon-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases">
-            <Pencil size={20} />
-          </button>
-          <button className="ws-icon-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker">
-            <span style={{ fontSize: 18, lineHeight: 1 }}>👩</span>
-          </button>
-          {SpeechRec && (
-            <button className={`ws-icon-btn ${settings.voiceMode ? "vk-on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
-              onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-              {settings.voiceMode ? <Mic size={20} /> : <Keyboard size={20} />}
-            </button>
-          )}
-        </div>
-      </header>
-
-      <TideHero prof={prof} pct={overall} mastered={mastered} total={total} />
+      <TideHero prof={prof} pct={overall} mastered={mastered} total={total} actions={heroActions} />
 
       <DayTracker streak={streak} />
 
@@ -1277,7 +1262,7 @@ function HomeView({ ctx }) {
   );
 }
 
-function TideHero({ prof, pct, mastered, total }) {
+function TideHero({ prof, pct, mastered, total, actions }) {
   const pctN = Math.round((prof?.pct ?? 0) * 100);
   const fill = 100 - pctN; // sea rises with progress to the next band
   return (
@@ -1294,19 +1279,26 @@ function TideHero({ prof, pct, mastered, total }) {
           </linearGradient>
         </defs>
         <rect width="400" height="200" fill="url(#sky)" />
-        <circle cx="320" cy="52" r="26" fill="#f4a53a" opacity="0.95" />
-        <circle cx="320" cy="52" r="40" fill="#f4a53a" opacity="0.18" />
+        <circle cx="316" cy="116" r="22" fill="#f4a53a" opacity="0.95" />
+        <circle cx="316" cy="116" r="34" fill="#f4a53a" opacity="0.18" />
         <g style={{ transform: `translateY(${fill}%)`, transition: "transform 1.1s cubic-bezier(.2,.8,.2,1)" }}>
           <path className="ws-wave1" d="M0,30 C60,12 120,48 200,30 C280,12 340,48 400,30 L400,200 L0,200 Z" fill="url(#sea)" opacity="0.92" />
           <path className="ws-wave2" d="M0,40 C80,22 140,58 200,40 C260,22 340,58 400,40 L400,200 L0,200 Z" fill="#0c6b73" opacity="0.55" />
         </g>
       </svg>
       <div className="ws-tide-overlay">
-        <div className="ws-tide-pct">{prof?.band} <span>→ {prof?.next}</span></div>
-        <div style={{ width: "70%", maxWidth: 240, height: 7, background: "rgba(255,255,255,.22)", borderRadius: 999, overflow: "hidden", margin: "4px auto 0" }}>
-          <div style={{ height: "100%", width: `${pctN}%`, background: "#f4a53a", borderRadius: 999, transition: "width .6s ease" }} />
+        <div className="ws-tide-top">
+          <div className="ws-tide-brand">
+            <h1 className="ws-tide-name">Sulog</h1>
+            <div className="ws-tide-place">Daram, Samar</div>
+          </div>
+          {actions}
         </div>
-        <div className="ws-tide-label">{pctN}% to {prof?.next} · {prof?.mastered} words mastered</div>
+        <div className="ws-tide-band">
+          <div className="ws-tide-pct">{prof?.band} <span>→ {prof?.next}</span></div>
+          <div className="ws-tide-bar"><div style={{ width: `${pctN}%` }} /></div>
+          <div className="ws-tide-label">{pctN}% to {prof?.next} · {prof?.mastered} mastered</div>
+        </div>
       </div>
     </div>
   );
@@ -3559,30 +3551,40 @@ function Styles() {
 .ws-page{padding:18px 16px 90px}
 
 /* header */
-.ws-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.ws-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--tide);font-weight:600}
-.ws-title{font-family:'Fraunces',serif;font-size:46px;line-height:.95;font-weight:600;
-  margin:2px 0 0;color:var(--sea-ink);letter-spacing:-.01em}
-.ws-sub{font-size:13px;color:var(--ink-soft);margin-top:4px}
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
   background:var(--foam);color:var(--sea);display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:.15s}
 .ws-icon-btn:active{transform:scale(.94)}
 
-/* tide hero */
-.ws-tide{position:relative;border-radius:22px;overflow:hidden;height:184px;
+/* tide hero — brand, actions, and progress band all live in the graphic */
+.ws-tide{position:relative;border-radius:22px;overflow:hidden;height:210px;margin-bottom:16px;
   box-shadow:0 10px 30px -12px rgba(10,46,52,.5)}
-.ws-tide-svg{width:100%;height:100%;display:block}
+.ws-tide-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .ws-wave1{animation:wave 7s ease-in-out infinite alternate}
 .ws-wave2{animation:wave 9s ease-in-out infinite alternate-reverse}
 @keyframes wave{from{transform:translateX(-12px)}to{transform:translateX(12px)}}
 .ws-tide-overlay{position:absolute;inset:0;display:flex;flex-direction:column;
-  justify-content:center;padding-left:24px}
-.ws-tide-pct{font-family:'Fraunces',serif;font-size:58px;font-weight:600;color:#fff;
-  line-height:.9;text-shadow:0 2px 14px rgba(0,0,0,.25)}
-.ws-tide-pct span{font-size:24px;opacity:.8}
-.ws-tide-label{color:#eaf7f7;font-size:13px;font-weight:500;margin-top:4px;
+  justify-content:space-between;padding:16px 18px}
+.ws-tide-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ws-tide-brand{min-width:0}
+.ws-tide-name{font-family:'Fraunces',serif;font-size:40px;line-height:.92;font-weight:600;
+  margin:0;color:#fff;letter-spacing:-.01em;text-shadow:0 2px 16px rgba(0,0,0,.3)}
+.ws-tide-place{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:#bfeef0;margin-top:5px;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.ws-hero-btns{display:flex;flex-wrap:nowrap;flex-shrink:0;gap:4px;justify-content:flex-end}
+.ws-hero-btn{width:30px;height:30px;flex-shrink:0;border-radius:9px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.12);color:#eafafb;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.15s;backdrop-filter:blur(3px)}
+.ws-hero-btn:active{transform:scale(.92)}
+.ws-hero-btn.on{background:var(--sun);border-color:var(--sun);color:#fff}
+.ws-tide-band{}
+.ws-tide-pct{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:#fff;
+  line-height:1;text-shadow:0 2px 14px rgba(0,0,0,.25)}
+.ws-tide-pct span{font-size:16px;opacity:.8}
+.ws-tide-bar{width:60%;max-width:220px;height:5px;background:rgba(255,255,255,.22);
+  border-radius:999px;overflow:hidden;margin:6px 0 0}
+.ws-tide-bar>div{height:100%;background:#f4a53a;border-radius:999px;transition:width .6s ease}
+.ws-tide-label{color:#cfeef0;font-size:11px;font-weight:500;margin-top:4px;
   text-shadow:0 1px 8px rgba(0,0,0,.3)}
 
 /* streak chips */
