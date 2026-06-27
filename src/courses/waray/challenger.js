@@ -3,9 +3,10 @@
    phases pending generation. Same card shape as the other Waray courses:
    [deck, waray, english, subtext, respelling]. Curriculum references cards by Waray.
 
-   DIALECT NOTE: Gemini proposed the Samar nominative marker "in"/"it" where standard
-   Waray uses "an". We ingested with the SAFE standard "an" pending Ella's ruling — see
-   the Ask Ella panel ([[ella-questions]]). "hin" (obj marker) kept as Gemini had it. */
+   MARKERS DEFERRED: bare grammatical markers (hi, an/in, hin) make poor standalone
+   flashcards — their only "meaning" is a metalinguistic label, which looked wrong as MC
+   choices. They're pulled from the drilled deck and belong in phrase/grammar practice
+   (not yet ingested). The an-vs-in (Samar) question still stands for Ella — see Ask Ella. */
 
 export const SEED_CH = [
   // u1 — Greetings and Your Name
@@ -15,7 +16,6 @@ export const SEED_CH = [
   ["ch1", "gab-i", "evening / night", "glottal stop before the i", ""],
   ["ch1", "kamusta", "how are you / hello", "also spelled kumusta", ""],
   ["ch1", "ako", "I", "", ""],
-  ["ch1", "hi", "(personal name marker)", "goes right before a person's name", ""],
   ["ch1", "ikaw", "you", "", ""],
   // u2 — Finding People and Saying Yes/No
   ["ch2", "oo", "yes", "", ""],
@@ -32,7 +32,6 @@ export const SEED_CH = [
   ["ch3", "nanay", "mother", "", ""],
   ["ch3", "tatay", "father", "", ""],
   ["ch3", "balay", "house / home", "", ""],
-  ["ch3", "an", "the / a (noun marker)", "standard marker; Gemini suggested 'in' — see Ask Ella", ""],
   ["ch3", "akon", "my / mine", "", ""],
   ["ch3", "Balite", "Balite (a village in Daram)", "place name", ""],
   // u4 — Asking for Food and Drink
@@ -43,7 +42,6 @@ export const SEED_CH = [
   ["ch4", "kaon", "eat", "", ""],
   ["ch4", "inom", "drink", "", ""],
   ["ch4", "kan-on", "cooked rice", "", ""],
-  ["ch4", "hin", "some / (object marker)", "Samar variant: sin", ""],
   // u5 — Counting and Buying Snacks
   ["ch5", "usa", "one", "", ""],
   ["ch5", "duha", "two", "", ""],
@@ -64,7 +62,7 @@ export const CHALLENGER = [
     units: [
       { id: "cu1", name: "Greetings & Your Name", hint: "Greet people and say your name", lessons: [
         { id: "cu1l1", title: "Times of Day", items: ["maupay", "aga", "kulop", "gab-i"] },
-        { id: "cu1l2", title: "Who You Are", items: ["ako", "hi", "ikaw", "kamusta"] },
+        { id: "cu1l2", title: "Who You Are", items: ["ako", "ikaw", "kamusta"] },
       ] },
       { id: "cu2", name: "Finding People & Yes/No", hint: "Answer simply, point out where someone is", lessons: [
         { id: "cu2l1", title: "Yes, No & Where", items: ["oo", "diri", "hain", "hiya"] },
@@ -72,11 +70,11 @@ export const CHALLENGER = [
       ] },
       { id: "cu3", name: "Your House & Family", hint: "Family and the home", lessons: [
         { id: "cu3l1", title: "Family", items: ["asawa", "anak", "nanay", "tatay"] },
-        { id: "cu3l2", title: "At Home", items: ["balay", "an", "akon", "Balite"] },
+        { id: "cu3l2", title: "At Home", items: ["balay", "akon", "Balite"] },
       ] },
       { id: "cu4", name: "Food & Drink", hint: "Ask for water, coffee, food", lessons: [
         { id: "cu4l1", title: "Wants & Politeness", items: ["gusto", "tubig", "kape", "alayon"] },
-        { id: "cu4l2", title: "Mealtime", items: ["kaon", "inom", "kan-on", "hin"] },
+        { id: "cu4l2", title: "Mealtime", items: ["kaon", "inom", "kan-on"] },
       ] },
       { id: "cu5", name: "Counting & Buying", hint: "Count and ask prices", lessons: [
         { id: "cu5l1", title: "One, Two, Three", items: ["usa", "duha", "tulo", "pira"] },
