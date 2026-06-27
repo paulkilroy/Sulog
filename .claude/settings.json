@@ -110,7 +110,9 @@
       "Bash(open docs/corrections.html)",
       "Bash(node tools/build-corrections.mjs)",
       "Bash(node tools/make-gloss-request.mjs)",
-      "Bash(open docs/sources/missing-gloss-request.md)"
+      "Bash(open docs/sources/missing-gloss-request.md)",
+      "Bash(node --input-type=module -e 'let s=\"\";process.stdin.on\\(\"data\",d=>s+=d\\).on\\(\"end\",\\(\\)=>{const r=JSON.parse\\(s\\).results||[];for\\(const b of r\\){console.log\\(\"Bloom page:  https://bloomlibrary.org/book/\"+b.objectId\\);console.log\\(\"Read online: \"+decodeURIComponent\\(b.baseUrl\\).replace\\(/\\\\/$/,\"\"\\)+\"/index.htm\"\\);}}\\);')",
+      "Bash(open \"https://bloomlibrary.org/book/oBcHhnTWFe\")"
     ]
   }
 }

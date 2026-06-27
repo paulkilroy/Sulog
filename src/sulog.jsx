@@ -202,6 +202,56 @@ function buildCards() {
   });
 }
 
+/* ---------------- proficiency (one cross-course CEFR-ish estimate) ----------------
+   Level each word by its rank in the frequency-first curriculum (our best frequency
+   signal), pool mastery across ALL courses (they share the same cards), and roll it
+   up into a single band + progress bar. The band thresholds are a friendly estimate
+   for Waray, not a certified scale. Reads only existing progress — never writes. */
+const FREQ_RANK = (() => {
+  const m = {}; let r = 0;
+  const cur = (getCourse("waray-frequency").curriculum) || [];
+  for (const sec of cur) for (const u of (sec.units || [])) for (const les of (u.lessons || []))
+    for (const w of (les.items || [])) if (!(w in m)) m[w] = r++;
+  return m;
+})();
+function bandOfRank(rank) {                 // by frequency rank → where each band's vocab begins
+  if (rank == null) return "B1";            // not in the freq curriculum → treat as advanced/rare
+  if (rank < 80) return "A0";
+  if (rank < 250) return "A1";
+  if (rank < 500) return "A2";
+  return "B1";
+}
+const levelOfCard = (card) => bandOfRank(FREQ_RANK[card.waray]);
+// pool the BEST mastery (box) per card id across every course's stored progress
+function pooledProg(liveProg) {
+  const pooled = {};
+  const take = (p) => { for (const id in p) { const st = p[id]; if (!st) continue;
+    if (!pooled[id] || (st.box || 0) > (pooled[id].box || 0)) pooled[id] = st; } };
+  for (const c of COURSES) {
+    try { const raw = localStorage.getItem(`sulog:${c.id}:prog`); if (raw) take(JSON.parse(raw)); } catch (e) {}
+  }
+  if (liveProg) take(liveProg);             // active course's in-memory progress wins if ahead
+  return pooled;
+}
+// cumulative "items mastered" milestones per band (friendly estimate — easy to tune)
+const BAND_MILESTONE = { A0: 0, A1: 40, A2: 140, B1: 320, B2: 550 };
+const BAND_NEXT = { A0: "A1", A1: "A2", A2: "B1", B1: "B2" };
+function computeProficiency(cards, liveProg) {
+  const pool = pooledProg(liveProg);
+  let mastered = 0;
+  const perBand = { A0: { m: 0, t: 0 }, A1: { m: 0, t: 0 }, A2: { m: 0, t: 0 }, B1: { m: 0, t: 0 } };
+  for (const c of cards) {
+    const b = levelOfCard(c); perBand[b].t++;
+    const st = pool[c.id];
+    if (st && (st.box || 0) >= 4) { mastered++; perBand[b].m++; }
+  }
+  let band = "A0";
+  for (const b of ["A1", "A2", "B1"]) if (mastered >= BAND_MILESTONE[b]) band = b;
+  const next = BAND_NEXT[band], lo = BAND_MILESTONE[band], hi = BAND_MILESTONE[next];
+  const pct = hi > lo ? Math.min(1, Math.max(0, (mastered - lo) / (hi - lo))) : 1;
+  return { band, next, pct, mastered, perBand };
+}
+
 /* ---------------- spaced repetition (Leitner) ---------------- */
 const BOX_DAYS = [0, 1, 2, 4, 9, 18]; // interval after reaching each box
 const MS_DAY = 86400000;
@@ -1019,6 +1069,25 @@ export default function App() {
   );
 }
 
+/* one pooled, cross-course Waray proficiency band with a progress bar to the next */
+function ProficiencyCard({ prof }) {
+  const { band, next, pct, mastered } = prof;
+  const pctN = Math.round(pct * 100);
+  return (
+    <div style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "12px 0" }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
+        <span style={{ fontSize: 24, fontWeight: 800, color: "#0ea5a4", letterSpacing: ".5px" }}>{band}</span>
+        <span style={{ fontSize: 12.5, color: "#64748b" }}>{mastered} word{mastered === 1 ? "" : "s"} mastered</span>
+        <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 700 }}>{next}</span>
+      </div>
+      <div style={{ height: 9, background: "#eef2f4", borderRadius: 999, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${pctN}%`, background: "linear-gradient(90deg,#0ea5a4,#22c55e)", borderRadius: 999, transition: "width .4s ease" }} />
+      </div>
+      <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 6 }}>Your Waray · {pctN}% to {next}</div>
+    </div>
+  );
+}
+
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
@@ -1039,6 +1108,7 @@ function HomeView({ ctx }) {
   const needsWork = cards.filter((c) => needsWorkCard(prog[c.id])).length;
   const voiced = Object.keys(audio).length;
   const streakDays = currentStreak(streak.days);
+  const prof = computeProficiency(cards, prog);
 
   const startReview = (deckKeys, dir, mode) => {
     setSession({ deckKeys, dir, mode, limit: 15 });
@@ -1086,9 +1156,11 @@ function HomeView({ ctx }) {
           <Target size={15} /><b>{due}</b><span>due now</span>
         </div>
         <div className="ws-chip">
-          <Mic size={15} /><b>{voiced}</b><span>in your voice</span>
+          <Sparkles size={15} /><b>{prof.band}</b><span>level</span>
         </div>
       </div>
+
+      <ProficiencyCard prof={prof} />
 
       <DayTracker streak={streak} />
 
