@@ -69,7 +69,7 @@ const PK = {
   } catch (e) {}
 })();
 
-const DECKS = {
+const DECK_META = {
   greet: { name: "Greetings & Survival", short: "Greetings", hint: "The phrases you reach for every day" },
   week1: { name: "Week 1 — Foundations", short: "Week 1", hint: "Pronouns and equational sentences" },
   verbs: { name: "Verbs, Objects & Time", short: "Verbs & Time", hint: "Mag / Nag / Pag affixes and when things happen" },
@@ -95,7 +95,21 @@ const DECKS = {
   ppl: { name: "People & jobs", short: "People", hint: "family, roles, the body" },
   faith: { name: "Faith & church", short: "Faith", hint: "God, worship, belief" },
   nature: { name: "Nature", short: "Nature", hint: "trees, sea, animals" },
+  // Challenger (Daram) course decks
+  ch1: { name: "Greetings & Your Name", short: "Greetings", hint: "Hellos and your name" },
+  ch2: { name: "Finding People & Yes/No", short: "People", hint: "Yes, no, and where" },
+  ch3: { name: "Your House & Family", short: "Home", hint: "Family and the house" },
+  ch4: { name: "Food & Drink", short: "Food", hint: "Asking for food and drink" },
+  ch5: { name: "Counting & Buying", short: "Counting", hint: "Numbers and small purchases" },
 };
+
+// deck metadata for the ACTIVE course only — built from its cards, with a safe
+// fallback so an unknown deck can never crash a card tag (the Challenger blank page)
+const DECKS = (() => {
+  const out = {};
+  for (const r of SEED) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || { name: d, short: d, hint: "" }; }
+  return out;
+})();
 
 /* ---------------- curriculum (scaffolded lesson path) ----------------
    Units → lessons, ordered so each lesson builds on earlier ones. Lessons list
