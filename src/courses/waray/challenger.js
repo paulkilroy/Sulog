@@ -128,27 +128,82 @@ export const CHALLENGER = [
       { id: "cu6", name: "Meeting the In-Laws", hint: "Introduce yourself respectfully to extended family", lessons: [
         { id: "cu6l1", title: "Respectful Titles", items: ["apo", "mano", "mana"] },
         { id: "cu6l2", title: "Glad to Meet You", items: ["bana", "nalipay", "kila"] },
-      ] },
+      ], story: {
+        id: "cu6s1", title: "Ha Balay han In-laws", titleEn: "At the In-laws' House",
+        lines: [
+          { war: "Maupay nga kulop, Apo.", en: "Good afternoon, Grandparent." },
+          { war: "Ako hi Tom, an bana ni Maria.", en: "I am Tom, the husband of Maria." },
+          { war: "Kumusta, Mana Elena ngan Mano Lito?", en: "How are you, Older Sister Elena and Older Brother Lito?" },
+          { war: "Nalipay ako makakila ha iyo.", en: "I am happy to meet you all." },
+        ],
+        q: { q: "Who is Tom introducing himself to?", options: ["His neighbors", "His wife's extended family", "Store owners"], answer: 1 },
+      } },
       { id: "cu7", name: "Objects in the Yard", hint: "Ask for everyday household items", lessons: [
         { id: "cu7l1", title: "Around the Yard", items: ["lingkuran", "lamesa", "brayong"] },
         { id: "cu7l2", title: "Kitchen Things", items: ["banga", "kutsara", "tinidor", "kadi"] },
-      ] },
+      ], story: {
+        id: "cu7s1", title: "Ha Gawas han Balay", titleEn: "Outside the House",
+        lines: [
+          { war: "Hain an aton lingkuran, Maria?", en: "Where is our chair, Maria?" },
+          { war: "Aada ha gawas, dapit ha lamesa.", en: "It is there outside, near the table." },
+          { war: "Tom, alayon kadi an brayong.", en: "Tom, please bring the broom here." },
+          { war: "Gusto ko uminom han tubig tikang ha banga.", en: "I want to drink water from the clay jar." },
+        ],
+        q: { q: "Where is the chair located?", options: ["Inside the kitchen", "Outside, near the table", "At the neighbor's house"], answer: 1 },
+      } },
       { id: "cu8", name: "Where Are You Going?", hint: "Answer the passing greeting 'Kain ka?'", lessons: [
         { id: "cu8l1", title: "Kain ka?", items: ["kain", "madto", "pakadto"] },
         { id: "cu8l2", title: "Local Destinations", items: ["tindahan", "pantalan", "uma"] },
-      ] },
+      ], story: {
+        id: "cu8s1", title: "Kinasasandat ha Dalan", titleEn: "Meeting on the Street",
+        lines: [
+          { war: "Maupay nga aga, Tom! Kain ka?", en: "Good morning, Tom! Where are you heading?" },
+          { war: "Maupay nga aga! Madto ako ha tindahan.", en: "Good morning! I am going to the store." },
+          { war: "Ikaw, kain ka pakadto?", en: "As for you, where are you heading towards?" },
+          { war: "Pakadto ako ha pantalan han Daram.", en: "I am heading towards the Daram pier." },
+        ],
+        q: { q: "What does the greeting 'Kain ka?' mean?", options: ["How are you?", "Where are you going?", "Have you eaten yet?"], answer: 1 },
+      } },
       { id: "cu9", name: "The Weather", hint: "Comment on heat, rain, and wind", lessons: [
         { id: "cu9l1", title: "Island Heat", items: ["mapaso", "kamapas", "masyado"] },
         { id: "cu9l2", title: "Rain & Wind", items: ["uran", "umuuran", "hangin", "mahagkot"] },
-      ] },
+      ], story: {
+        id: "cu9s1", title: "An Panahon ha Daram", titleEn: "The Weather in Daram",
+        lines: [
+          { war: "Masyado mapaso yana nga aga.", en: "It is very hot this morning." },
+          { war: "Oo, kamapas han hangin didni.", en: "Yes, the air is humid right here." },
+          { war: "Aadi an uran! Umuuran na.", en: "Here comes the rain! It is raining now." },
+          { war: "Mahagkot an tubig yana.", en: "The water is cold now." },
+        ],
+        q: { q: "What happens to the weather during the conversation?", options: ["It stays dry and hot", "It begins to rain", "It turns completely dark"], answer: 1 },
+      } },
       { id: "cu10", name: "Time & Simple Tasks", hint: "Coordinate daily times and chores", lessons: [
         { id: "cu10l1", title: "Today & Tomorrow", items: ["yana", "buwas", "nganay"] },
         { id: "cu10l2", title: "Chores & Rest", items: ["buhat", "trabaho", "pahuway"] },
-      ] },
+      ], story: {
+        id: "cu10s1", title: "An Plano Buwas", titleEn: "The Plan for Tomorrow",
+        lines: [
+          { war: "Mano Lito, may trabaho ba yana?", en: "Older Brother Lito, is there work today?" },
+          { war: "Diri, pahuway nganay kita yana nga kulop.", en: "No, let's rest for a moment this afternoon." },
+          { war: "An brayong dadi, magbuhat ako buwas.", en: "The broom is here; I will do the tasks tomorrow." },
+          { war: "Maupay hira, mapahuway gihapon ako.", en: "Good for them; I will rest as well." },
+        ],
+        q: { q: "When will the tasks be done?", options: ["Today", "Tomorrow", "In the evening"], answer: 1 },
+      } },
       { id: "cu11", name: "Review & Celebration", hint: "Mix neighborhood conversations smoothly", lessons: [
         { id: "cu11l1", title: "Neighborhood Mix A", items: ["kamusta", "apo", "kain", "madto", "tindahan", "yana"] },
         { id: "cu11l2", title: "Neighborhood Mix B", items: ["mapaso", "uran", "lingkuran", "banga", "buwas", "pahuway"] },
-      ] },
+      ], story: {
+        id: "cu11s1", title: "Hurob-hurob ha Daram", titleEn: "Chitchatting in Daram",
+        lines: [
+          { war: "Maupay nga aga, Mana Elena! Kain ka pakadto?", en: "Good morning, Older Sister Elena! Where are you heading?" },
+          { war: "Madto ako ha pantalan, Tom. Masyado mapaso yana.", en: "I am going to the pier, Tom. It is very hot today." },
+          { war: "Oo, kadi nganay ha aton lingkuran han balay.", en: "Yes, come over for a moment to our chair at the house." },
+          { war: "Alayon, uminom kita hin tubig tikang ha banga.", en: "Please, let's drink water from the clay jar." },
+          { war: "Nalipay gihapon hi Apo didto.", en: "Grandparent over there was glad too." },
+        ],
+        q: { q: "What refreshing invitation is offered?", options: ["To go to the farm", "To buy something at the store", "To sit and drink water from the clay jar"], answer: 2 },
+      } },
     ],
   },
 ];

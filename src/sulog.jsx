@@ -54,6 +54,18 @@ const PK = {
   units:   `sulog:${COURSE_ID}:units`,
   history: `sulog:${COURSE_ID}:history`,
   read:    `sulog:${COURSE_ID}:read`,
+  stories: `sulog:${COURSE_ID}:stories`, // unit-capstone stories marked read
+};
+const storyRead = (id) => {
+  try { return new Set(JSON.parse(localStorage.getItem(PK.stories) || "[]")).has(id); } catch (e) { return false; }
+};
+const toggleStoryRead = (id) => {
+  try {
+    const s = new Set(JSON.parse(localStorage.getItem(PK.stories) || "[]"));
+    s.has(id) ? s.delete(id) : s.add(id);
+    localStorage.setItem(PK.stories, JSON.stringify([...s]));
+    return s.has(id);
+  } catch (e) { return false; }
 };
 // one-time migration: the original `waray:*` progress was on the Classic order,
 // so adopt it under waray-classic. Frequency (the new default) starts fresh.
@@ -101,6 +113,11 @@ const DECK_META = {
   ch3: { name: "Your House & Family", short: "Home", hint: "Family and the house" },
   ch4: { name: "Food & Drink", short: "Food", hint: "Asking for food and drink" },
   ch5: { name: "Counting & Buying", short: "Counting", hint: "Numbers and small purchases" },
+  ch6: { name: "Meeting the In-Laws", short: "In-laws", hint: "Respectful family introductions" },
+  ch7: { name: "Objects in the Yard", short: "Yard", hint: "Everyday household items" },
+  ch8: { name: "Where Are You Going?", short: "Going", hint: "The passing greeting Kain ka?" },
+  ch9: { name: "The Weather", short: "Weather", hint: "Heat, rain, and wind" },
+  ch10: { name: "Time & Simple Tasks", short: "Time", hint: "Daily times and chores" },
 };
 
 // deck metadata for the ACTIVE course only — built from its cards, with a safe
@@ -727,6 +744,7 @@ export default function App() {
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
+  const [storyUnit, setStoryUnit] = useState(null); // unit whose capstone story is open
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
@@ -1062,6 +1080,7 @@ export default function App() {
     syncState, connectGist, disconnectGist, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
+    storyUnit, setStoryUnit,
     history, logAttempt, units, startUnitReview, markUnitReview,
   };
 
@@ -1078,6 +1097,7 @@ export default function App() {
       {view === "home" && <HomeView ctx={ctx} />}
       {view === "learn" && <LearnView ctx={ctx} />}
       {view === "lesson" && <LessonView ctx={ctx} />}
+      {view === "story" && <StoryView ctx={ctx} />}
       {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
@@ -2480,7 +2500,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
 
 /* ============================ LEARN PATH ============================ */
 function LearnView({ ctx }) {
-  const { cards, lessons, units, startUnitReview, setView, setLessonId, setLearnSection, learnTarget, learnSection } = ctx;
+  const { cards, lessons, units, startUnitReview, setView, setLessonId, setLearnSection, learnTarget, learnSection, setStoryUnit } = ctx;
   const cur = nextLesson(lessons);
   const s = CURRICULUM.find((x) => x.id === learnSection) || cur.section;
   // scroll to the lesson the user came in on (else the current lesson, if here)
@@ -2565,6 +2585,23 @@ function LearnView({ ctx }) {
                     <ChevronRight size={16} className="ws-lnode-arr" />
                   </button>
                 )}
+                {u.story && (() => {
+                  const unlocked = u.lessons.every((l) => lessonDone(lessons, l.id));
+                  const read = storyRead(u.story.id);
+                  return (
+                    <button className={`ws-lnode ws-story ${read ? "done" : ""} ${unlocked ? "" : "locked"}`} disabled={!unlocked}
+                      onClick={() => { setStoryUnit(u); setLearnSection(s.id); setView("story"); }}>
+                      <div className="ws-lnode-ring">{read ? <Check size={16} /> : <BookOpen size={15} />}</div>
+                      <div className="ws-lnode-body">
+                        <div className="ws-lnode-title">Story · {u.story.title}</div>
+                        <div className="ws-lnode-sub">
+                          {read ? "Read · tap to revisit" : unlocked ? "Read the unit's story" : "Finish the lessons to unlock"}
+                        </div>
+                      </div>
+                      <ChevronRight size={16} className="ws-lnode-arr" />
+                    </button>
+                  );
+                })()}
               </div>
             );
           })}
@@ -2738,6 +2775,55 @@ function NeedsWorkView({ ctx }) {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+/* ===================== UNIT STORY (capstone) ===================== */
+function StoryView({ ctx }) {
+  const { storyUnit, setView, setLearnSection, learnSection, playCard } = ctx;
+  const story = storyUnit?.story;
+  const [answer, setAnswer] = useState(null);
+  const [read, setRead] = useState(() => story ? storyRead(story.id) : false);
+  const back = () => { setLearnSection(learnSection); setView("learn"); };
+  if (!story) { back(); return null; }
+  const q = story.q;
+  return (
+    <div className="ws-page">
+      <TopBar title={storyUnit.name} onBack={back} />
+      <h2 className="ws-lesson-title">{story.title}</h2>
+      <div className="ws-read-meta">{story.titleEn} · {storyUnit.name} story · tap a line to hear it</div>
+      <div className="ws-story-body">
+        {story.lines.map((ln, i) => (
+          <div key={i} className="ws-story-line" onClick={() => playCard({ waray: ln.war, say: "" })}>
+            <div className="ws-story-war">
+              {ln.war}
+              <Volume2 size={14} className="ws-story-play" />
+            </div>
+            <div className="ws-story-en">{ln.en}</div>
+          </div>
+        ))}
+      </div>
+      {q && (
+        <div className="ws-quiz">
+          <SectionLabel text="Check your understanding" />
+          <div className="ws-quiz-q">
+            <div className="ws-quiz-prompt">{q.q}</div>
+            {q.options.map((o, oi) => {
+              let cls = "";
+              if (answer != null) { if (oi === q.answer) cls = "correct"; else if (oi === answer) cls = "incorrect"; }
+              return (
+                <button key={oi} className={`ws-quiz-opt ${cls}`} disabled={answer != null}
+                  onClick={() => setAnswer(oi)}>{o}</button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      <button className={`ws-start ws-full ${read ? "ws-connected" : ""}`} style={{ marginTop: 18 }}
+        onClick={() => setRead(toggleStoryRead(story.id))}>
+        {read ? <><Check size={18} /> Read — tap to unmark</> : <><BookOpen size={18} /> Mark as read</>}
+      </button>
     </div>
   );
 }
@@ -3571,6 +3657,18 @@ function Styles() {
 .ws-lnode.ws-review .ws-lnode-ring{background:var(--sun);color:#fff}
 .ws-lnode.ws-review.done{border-style:solid}
 .ws-lnode.ws-review.done .ws-lnode-ring{background:var(--jade)}
+.ws-lnode.ws-story{margin-top:7px;border-style:dashed;border-color:var(--sun);background:#fffaf1}
+.ws-lnode.ws-story .ws-lnode-ring{background:var(--sun);color:#fff}
+.ws-lnode.ws-story.done{border-style:solid;border-color:var(--jade)}
+.ws-lnode.ws-story.done .ws-lnode-ring{background:var(--jade)}
+/* unit-capstone story */
+.ws-story-body{display:flex;flex-direction:column;gap:8px;margin:6px 0 4px}
+.ws-story-line{padding:11px 13px;border-radius:13px;border:1px solid var(--sand-deep);
+  background:var(--foam);cursor:pointer}
+.ws-story-war{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--sea);
+  display:flex;align-items:center;gap:7px;line-height:1.35}
+.ws-story-play{color:var(--tide);flex-shrink:0;opacity:.7}
+.ws-story-en{font-size:13.5px;color:var(--ink-soft);margin-top:3px;line-height:1.35}
 .ws-unit-mastered{display:inline-flex;align-items:center;gap:3px;margin-left:8px;font-size:10.5px;font-weight:700;
   color:var(--jade);vertical-align:middle}
 
