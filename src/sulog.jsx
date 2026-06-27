@@ -1069,25 +1069,6 @@ export default function App() {
   );
 }
 
-/* one pooled, cross-course Waray proficiency band with a progress bar to the next */
-function ProficiencyCard({ prof }) {
-  const { band, next, pct, mastered } = prof;
-  const pctN = Math.round(pct * 100);
-  return (
-    <div style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "12px 0" }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 8 }}>
-        <span style={{ fontSize: 24, fontWeight: 800, color: "#0ea5a4", letterSpacing: ".5px" }}>{band}</span>
-        <span style={{ fontSize: 12.5, color: "#64748b" }}>{mastered} word{mastered === 1 ? "" : "s"} mastered</span>
-        <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 700 }}>{next}</span>
-      </div>
-      <div style={{ height: 9, background: "#eef2f4", borderRadius: 999, overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${pctN}%`, background: "linear-gradient(90deg,#0ea5a4,#22c55e)", borderRadius: 999, transition: "width .4s ease" }} />
-      </div>
-      <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 6 }}>Your Waray · {pctN}% to {next}</div>
-    </div>
-  );
-}
-
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
@@ -1145,22 +1126,7 @@ function HomeView({ ctx }) {
         </div>
       </header>
 
-      <TideHero pct={overall} mastered={mastered} total={total} />
-
-      <div className="ws-streakrow">
-        <div className="ws-chip ws-chip-flame">
-          <Flame size={16} />
-          <b>{streakDays}</b><span>day{streakDays === 1 ? "" : "s"}</span>
-        </div>
-        <div className="ws-chip">
-          <Target size={15} /><b>{due}</b><span>due now</span>
-        </div>
-        <div className="ws-chip">
-          <Sparkles size={15} /><b>{prof.band}</b><span>level</span>
-        </div>
-      </div>
-
-      <ProficiencyCard prof={prof} />
+      <TideHero prof={prof} pct={overall} mastered={mastered} total={total} />
 
       <DayTracker streak={streak} />
 
@@ -1241,8 +1207,9 @@ function HomeView({ ctx }) {
   );
 }
 
-function TideHero({ pct, mastered, total }) {
-  const fill = 100 - Math.round(pct * 100);
+function TideHero({ prof, pct, mastered, total }) {
+  const pctN = Math.round((prof?.pct ?? 0) * 100);
+  const fill = 100 - pctN; // sea rises with progress to the next band
   return (
     <div className="ws-tide">
       <svg viewBox="0 0 400 200" className="ws-tide-svg" preserveAspectRatio="none">
@@ -1265,8 +1232,11 @@ function TideHero({ pct, mastered, total }) {
         </g>
       </svg>
       <div className="ws-tide-overlay">
-        <div className="ws-tide-pct">{Math.round(pct * 100)}<span>%</span></div>
-        <div className="ws-tide-label">mastered · {mastered}/{total} cards</div>
+        <div className="ws-tide-pct">{prof?.band} <span>→ {prof?.next}</span></div>
+        <div style={{ width: "70%", maxWidth: 240, height: 7, background: "rgba(255,255,255,.22)", borderRadius: 999, overflow: "hidden", margin: "4px auto 0" }}>
+          <div style={{ height: "100%", width: `${pctN}%`, background: "#f4a53a", borderRadius: 999, transition: "width .6s ease" }} />
+        </div>
+        <div className="ws-tide-label">{pctN}% to {prof?.next} · {prof?.mastered} words mastered</div>
       </div>
     </div>
   );
