@@ -1,0 +1,136 @@
+/* Regenerate src/courses/waray/challenger.js from:
+   - docs/sources/challenger-phase1-result.json  (revised Phase 1, Gemini API)
+   - the CURRENT challenger.js exports                (Phase 2, preserved)
+   Phase 1 → decks ch1..ch7; Phase 2 → shifted ch6..ch10 → ch8..ch12 (avoid collision).
+   One-time migration; safe-guards against double-shift. Run: node tools/build-challenger.mjs */
+import fs from "fs";
+import { SEED_CH as OLD_SEED, CHALLENGER as OLD_CUR } from "../src/courses/waray/challenger.js";
+
+const P1 = JSON.parse(fs.readFileSync("docs/sources/challenger-phase1-result.json", "utf8"));
+
+// ---- enclitic normalization: hyphen lemma -> spoken form (the example focus token) ----
+const ENCLITIC = { "-ko": "ko", "-mo": "mo", "-na": "na", "-ta": "ta", "-mi": "mi", "-yo": "niyo", "-ra": "nira" };
+const norm = (s) => ENCLITIC[s] || s.replace(/^-/, "");
+// dialect-uncertain enclitic agent forms → confirm + Ella note (Gemini set none)
+const FLAG = {
+  na:   "3rd-person agent — standard Waray is 'niya'; confirm Daram uses 'na'.",
+  ta:   "inclusive agent enclitic — confirm Daram form.",
+  mi:   "exclusive agent enclitic — standard is 'namon'; confirm 'mi'.",
+  niyo: "plural agent — confirm Daram form.",
+  nira: "their/agent — confirm Daram form.",
+};
+
+const P1_DECKS = {}; // unit_id -> deck
+const seedP1 = [];
+const cp1Units = [];
+const seenWaray = new Set();
+const dups = [];
+const pushCard = (row) => { if (seenWaray.has(row[1])) dups.push(row[1]); else seenWaray.add(row[1]); seedP1.push(row); };
+
+P1.detailed_units.forEach((u, i) => {
+  const deck = `ch${i + 1}`;
+  P1_DECKS[u.unit_id] = deck;
+  // word cards (6-element: deck, waray, english, subtext, say, example)
+  const taughtSet = new Set();
+  for (const v of u.new_vocab) {
+    const w = norm(v.lemma);
+    const ex = v.example ? { war: v.example.war, focus: norm(v.example.focus || ""), en: v.example.en } : null;
+    let note = v.note || "";
+    if (FLAG[w]) note = (note ? note + " " : "") + FLAG[w];
+    pushCard([deck, w, v.gloss, note, "", ex]);
+  }
+  // lessons: words (from teaches) + an apply lesson (phrases become cards)
+  const lessons = [];
+  const wordLessons = (u.lessons || []).filter((l) => l.type === "words");
+  let n = 1;
+  for (const l of wordLessons) {
+    const items = (l.teaches || []).map(norm);
+    items.forEach((w) => taughtSet.add(w));
+    lessons.push({ id: `cu${i + 1}l${n++}`, title: l.title, items });
+  }
+  // orphan vocab not in any words lesson → a trailing "More" words lesson
+  const orphans = u.new_vocab.map((v) => norm(v.lemma)).filter((w) => !taughtSet.has(w));
+  if (orphans.length) lessons.push({ id: `cu${i + 1}l${n++}`, title: "More", items: orphans });
+  // apply lesson(s): phrases as cards + items by waray
+  const applyLessons = (u.lessons || []).filter((l) => l.type === "apply");
+  let ai = 1;
+  for (const al of applyLessons) {
+    const items = [];
+    for (const p of al.phrases || []) { pushCard([deck, p.war, p.en, "", "", null]); items.push(p.war); }
+    lessons.push({ id: `cu${i + 1}a${ai++}`, title: al.title || "Put it together", kind: "apply", items });
+  }
+  // story (match the cp2 inline shape: id,title,titleEn,lines,q)
+  let story = null;
+  if (u.story) {
+    const q0 = (u.story.questions || [])[0];
+    story = {
+      id: u.story.story_id, title: u.story.title, titleEn: u.story.title_en,
+      lines: (u.story.sentences || []).map((s) => ({ war: s.war, en: s.en })),
+    };
+    if (q0) story.q = { q: q0.q, options: q0.choices, answer: q0.answer_index };
+  }
+  const unit = { id: `cu${i + 1}`, name: u.title, hint: u.theme || u.can_do || "", lessons };
+  if (story) unit.story = story;
+  cp1Units.push(unit);
+});
+
+const cp1 = {
+  id: "cp1", name: "First Steps in Daram",
+  hint: "Greetings, people, home, food, buying, time, and pronouns",
+  units: cp1Units,
+};
+
+// ---- Phase 2: preserve, shift decks ch6..ch10 -> ch8..ch12 ----
+const SHIFT = { ch6: "ch8", ch7: "ch9", ch8: "ch10", ch9: "ch11", ch10: "ch12" };
+const cp2 = OLD_CUR.find((p) => p.id === "cp2");
+if (!cp2) throw new Error("cp2 not found in current challenger.js");
+const oldP1DeckSet = new Set(["ch1", "ch2", "ch3", "ch4", "ch5"]);
+const p2Rows = OLD_SEED.filter((r) => !oldP1DeckSet.has(r[0])); // everything not old-Phase-1
+// drop any Phase-2 card whose word Phase 1 now teaches — Phase 1 owns it, Phase 2 recycles
+const recycled = [];
+const seedP2 = [];
+for (const r of p2Rows) {
+  if (seenWaray.has(r[1])) { recycled.push(r[1]); continue; }
+  seenWaray.add(r[1]);
+  const nr = r.slice(); if (SHIFT[nr[0]]) nr[0] = SHIFT[nr[0]];
+  seedP2.push(nr);
+}
+if (recycled.length) console.log("• Phase 2 words now owned by Phase 1 (recycled, card dropped):", recycled.join(", "));
+if (dups.length) console.log("⚠ duplicate waray WITHIN Phase 1:", dups.join(", "));
+
+const SEED_CH = [...seedP1, ...seedP2];
+const CHALLENGER = [cp1, cp2];
+
+// ---- emit ----
+const rowStr = (r) => "  " + JSON.stringify(r);
+const out = `/* Waray (Challenger · Daram) — GENERATED by tools/build-challenger.mjs (do not hand-edit
+   lightly). Phase 1 (revised, Gemini API; decks ch1–ch7, A0) + Phase 2 (decks ch8–ch12, A1).
+   Card shape: [deck, waray, english, subtext, respelling, example?]. example = {war,focus,en}
+   for single-word cards (the in-context flashcard hint); null for phrases.
+   Curriculum references cards by Waray. MARKERS stay out of the deck (taught in apply phrases
+   + stories). Dialect-uncertain forms carry a note + go to the Ask Ella queue. */
+
+export const SEED_CH = [
+${SEED_CH.map(rowStr).join(",\n")},
+];
+
+export const FORGOTTEN_CH = new Set();
+
+export const CHALLENGER = ${JSON.stringify(CHALLENGER, null, 2)};
+
+// CEFR tag per Challenger-only WORD (single tokens only; phrases excluded).
+// Phase 1 decks ch1–ch7 = A0; Phase 2 decks ch8–ch12 = A1.
+const CH_P1_DECKS = new Set(["ch1","ch2","ch3","ch4","ch5","ch6","ch7"]);
+export const CH_LEVELS = {};
+for (const r of SEED_CH) { if (!/\\s/.test(r[1])) CH_LEVELS[r[1]] = CH_P1_DECKS.has(r[0]) ? "A0" : "A1"; }
+`;
+
+fs.writeFileSync("src/courses/waray/challenger.js", out);
+
+// summary
+let p1w = 0, p1p = 0;
+for (const r of seedP1) (/\s/.test(r[1]) ? p1p++ : p1w++);
+console.log(`✓ wrote challenger.js`);
+console.log(`  Phase 1: ${cp1Units.length} units, ${p1w} word cards + ${p1p} phrase cards`);
+console.log(`  Phase 2: ${cp2.units.length} units, ${seedP2.length} cards (decks shifted)`);
+console.log(`  SEED_CH total: ${SEED_CH.length} rows`);

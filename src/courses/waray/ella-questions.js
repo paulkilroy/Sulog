@@ -69,4 +69,16 @@ export const ELLA_QUESTIONS = [
     q: "Are “nalipay” (glad) and “umuuran” (raining) the right forms to drill as standalone cards?",
     detail: "These are inflected (nalipay = was/am glad; umuuran = is raining), not bare roots (lipay / uran). Fine for a beginner phrasebook, or should we drill the roots and keep the inflected forms in sentences? Units 6 & 9.",
   },
+  {
+    id: "p1-enclitic-agents",
+    topic: "Challenger · pronouns (Phase 1)",
+    q: "Are the enclitic (post-posed) agent pronouns we drill the natural Daram forms?",
+    detail: "We teach ko (my/by me) and mo (your/by you) — those feel safe. Less sure about: na (his/her — standard Waray is 'niya'?), ta (our, inclusive), mi (our, exclusive — vs 'namon'?), niyo (your, plural), nira (their). These came from the AI Phase-1 redesign; please correct any that aren't what people say in Daram. Phase 1 units 4 & 7.",
+  },
+  {
+    id: "p1-time-words",
+    topic: "Challenger · time words (Phase 1)",
+    q: "Confirm the everyday Daram time words: udto, yana, adlaw, kahapon, buwas, san-o.",
+    detail: "Glossed noon / now / day(today) / yesterday / tomorrow / when. Are these the natural spoken forms in Daram (e.g. is 'san-o' the everyday 'when', and 'kahapon' the usual 'yesterday')? Phase 1 unit 6.",
+  },
 ];

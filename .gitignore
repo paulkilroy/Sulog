@@ -6,3 +6,6 @@ build/
 
 # Playwright MCP scratch (browser snapshots/console logs)
 .playwright-mcp/
+
+# Gemini API key (local only, never commit)
+.gemini-key

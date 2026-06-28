@@ -107,17 +107,20 @@ const DECK_META = {
   ppl: { name: "People & jobs", short: "People", hint: "family, roles, the body" },
   faith: { name: "Faith & church", short: "Faith", hint: "God, worship, belief" },
   nature: { name: "Nature", short: "Nature", hint: "trees, sea, animals" },
-  // Challenger (Daram) course decks
-  ch1: { name: "Greetings & Your Name", short: "Greetings", hint: "Hellos and your name" },
-  ch2: { name: "Finding People & Yes/No", short: "People", hint: "Yes, no, and where" },
-  ch3: { name: "Your House & Family", short: "Home", hint: "Family and the house" },
-  ch4: { name: "Food & Drink", short: "Food", hint: "Asking for food and drink" },
+  // Challenger (Daram) course — Phase 1 (ch1–ch7)
+  ch1: { name: "Greetings & Your Name", short: "Greetings", hint: "Hellos, times of day, thanks" },
+  ch2: { name: "People, Home & Family", short: "People", hint: "Where things are; family" },
+  ch3: { name: "Food & Drink", short: "Food", hint: "Asking for food and drink" },
+  ch4: { name: "My, Your, His/Her", short: "Possessives", hint: "Possessive & agent pronouns" },
   ch5: { name: "Counting & Buying", short: "Counting", hint: "Numbers and small purchases" },
-  ch6: { name: "Meeting the In-Laws", short: "In-laws", hint: "Respectful family introductions" },
-  ch7: { name: "Objects in the Yard", short: "Yard", hint: "Everyday household items" },
-  ch8: { name: "Where Are You Going?", short: "Going", hint: "The passing greeting Kain ka?" },
-  ch9: { name: "The Weather", short: "Weather", hint: "Heat, rain, and wind" },
-  ch10: { name: "Time & Simple Tasks", short: "Time", hint: "Daily times and chores" },
+  ch6: { name: "Time & When", short: "Time", hint: "Now, today, yesterday, tomorrow" },
+  ch7: { name: "We, You All, They", short: "Groups", hint: "Plural pronouns" },
+  // Challenger — Phase 2 (ch8–ch12)
+  ch8: { name: "Meeting the In-Laws", short: "In-laws", hint: "Respectful family introductions" },
+  ch9: { name: "Objects in the Yard", short: "Yard", hint: "Everyday household items" },
+  ch10: { name: "Where Are You Going?", short: "Going", hint: "The passing greeting Kain ka?" },
+  ch11: { name: "The Weather", short: "Weather", hint: "Heat, rain, and wind" },
+  ch12: { name: "Time & Simple Tasks", short: "Tasks", hint: "Daily times and chores" },
 };
 
 // deck metadata for the ACTIVE course only — built from its cards, with a safe
@@ -224,12 +227,13 @@ function nextLesson(lessons) {
 
 function buildCards() {
   return SEED.map((r, i) => {
-    const [deck, waray, english, subtext, say] = r;
+    const [deck, waray, english, subtext, say, example] = r;
     return {
       id: `c${i}`,
       deck, waray, english,
       subtext: subtext || "",
       say: say || "",
+      example: example || null,   // {war, focus, en} — in-context hint for single-word cards
       forgotten: FORGOTTEN.has(waray),
     };
   });
@@ -2225,6 +2229,14 @@ function PromptBlock({ text, isWaray, say, onPlay }) {
   );
 }
 
+// render a Waray phrase with its focus word highlighted (first, case-insensitive match)
+function FocusPhrase({ war, focus }) {
+  if (!focus) return war;
+  const i = war.toLowerCase().indexOf(focus.toLowerCase());
+  if (i < 0) return war;
+  return <>{war.slice(0, i)}<b className="ws-eg-hi">{war.slice(i, i + focus.length)}</b>{war.slice(i + focus.length)}</>;
+}
+
 function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverride, given, dir, autoMs }) {
   const { playCard, cards } = ctx;
   // Enter advances — same as clicking Continue. Ignore the keypress that opened
@@ -2259,6 +2271,12 @@ function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverrid
       )}
       {youSaid && <div className="ws-verdict-yousaid">you said: {youSaid}</div>}
       {card.subtext && <div className="ws-subtext">{card.subtext}</div>}
+      {card.example?.war && (
+        <button className="ws-verdict-eg" onClick={() => playCard({ waray: card.example.war, say: "" })} title="Hear it in use">
+          <span className="ws-eg-war"><FocusPhrase war={card.example.war} focus={card.example.focus} /> <Volume2 size={12} className="ws-eg-play" /></span>
+          <span className="ws-eg-en">{card.example.en}</span>
+        </button>
+      )}
       <div className="ws-verdict-actions">
         {allowOverride && (
           <button className="ws-ghost-btn" onClick={() => onResult(!correct)}>
@@ -3985,6 +4003,15 @@ function Styles() {
 .ws-verdict-answer{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;
   font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
 .ws-verdict-yousaid{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:4px 0 2px}
+/* in-context example on a single-word card's verdict */
+.ws-verdict-eg{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;
+  margin:9px 0 2px;padding:9px 12px;border:0;border-radius:11px;background:var(--foam);
+  cursor:pointer;font-family:inherit}
+.ws-eg-war{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--sea);
+  display:inline-flex;align-items:center;gap:6px}
+.ws-eg-hi{color:var(--sun-deep,#c8791b);background:rgba(244,165,58,.18);border-radius:5px;padding:0 3px}
+.ws-eg-en{font-size:13px;color:var(--ink-soft)}
+.ws-eg-play{color:var(--tide);opacity:.65;flex-shrink:0}
 /* history */
 .ws-hist-overall{text-align:center;font-size:13px;font-weight:600;color:var(--tide);margin-bottom:16px}
 .ws-hist-day{margin-bottom:14px}
