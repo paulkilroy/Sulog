@@ -2,7 +2,9 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
 import { STORIES, GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
-import { CH_LEVELS } from "./courses/waray/challenger.js";
+import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
+import { CH2_LEVELS } from "./courses/waray/challenger2.js";
+const CH_LEVELS = { ...CH_LEVELS_1, ...CH2_LEVELS };
 import { ELLA_QUESTIONS } from "./courses/waray/ella-questions.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
@@ -126,8 +128,22 @@ const DECK_META = {
 // deck metadata for the ACTIVE course only — built from its cards, with a safe
 // fallback so an unknown deck can never crash a card tag (the Challenger blank page)
 const DECKS = (() => {
+  // A deck's label comes from DECK_META if curated there (the Frequency/Classic
+  // thematic decks, which span units); otherwise it's derived from the curriculum
+  // unit that teaches the deck's cards (unit-aligned courses like Challenger never
+  // need hardcoded labels); otherwise the raw deck id.
+  const cardDeck = {}; for (const r of SEED) cardDeck[r[1]] = r[0];
+  const fromCurriculum = {};
+  for (const sec of (ACTIVE.curriculum || []))
+    for (const u of (sec.units || []))
+      for (const l of (u.lessons || []))
+        for (const it of (l.items || [])) {
+          const d = cardDeck[it];
+          // short = first word of the unit name (keeps the card tag tidy)
+          if (d && !fromCurriculum[d]) fromCurriculum[d] = { name: u.name, short: (u.name || d).split(/[\s,]+/)[0], hint: u.hint || "" };
+        }
   const out = {};
-  for (const r of SEED) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || { name: d, short: d, hint: "" }; }
+  for (const r of SEED) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || fromCurriculum[d] || { name: d, short: d, hint: "" }; }
   return out;
 })();
 

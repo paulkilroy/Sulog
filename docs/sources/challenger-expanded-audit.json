@@ -1,0 +1,293 @@
+{
+  "audit": [
+    {
+      "unit_id": "u1",
+      "location": "yana (vocab example)",
+      "category": "A",
+      "current": "Hiya yana",
+      "proposed": "Maupay hiya yana",
+      "reason": "fragment had no predicate; replaced with a simple equational sentence"
+    },
+    {
+      "unit_id": "u1",
+      "location": "kaina (vocab example)",
+      "category": "A",
+      "current": "Ako kaina",
+      "proposed": "Maupay ako kaina",
+      "reason": "fragment had no predicate; replaced with a simple equational sentence"
+    },
+    {
+      "unit_id": "u1",
+      "location": "unina (vocab example)",
+      "category": "A",
+      "current": "Kita unina",
+      "proposed": "Maupay kita unina",
+      "reason": "fragment had no predicate; replaced with a simple equational sentence"
+    },
+    {
+      "unit_id": "u1",
+      "location": "ako (vocab example)",
+      "category": "B",
+      "current": "Kamusta ako?",
+      "proposed": "Maupay ako",
+      "reason": "illogical to ask 'how am I?' to oneself; replaced with a simple statement"
+    },
+    {
+      "unit_id": "u1",
+      "location": "ko (vocab example)",
+      "category": "D",
+      "current": "Kape ko",
+      "proposed": "Aga ko",
+      "reason": "content word 'kape' not taught in u1; replaced with 'aga' (u1 vocab) as a possessive example, though pragmatically weak"
+    },
+    {
+      "unit_id": "u1",
+      "location": "mo (vocab example)",
+      "category": "D",
+      "current": "Gusto mo",
+      "proposed": "Aga mo",
+      "reason": "content word 'gusto' not taught in u1; replaced with 'aga' (u1 vocab) as a possessive example, though pragmatically weak"
+    },
+    {
+      "unit_id": "u1",
+      "location": "u1l3 (apply phrase)",
+      "category": "D",
+      "current": "Gusto ko.",
+      "proposed": "Maupay ako.",
+      "reason": "content word 'gusto' not taught in u1 or earlier; replaced with a taught predicate"
+    },
+    {
+      "unit_id": "u1",
+      "location": "u1l4 (apply phrase)",
+      "category": "D",
+      "current": "Kape ko, gusto mo?",
+      "proposed": "Aga ko, kamusta ikaw?",
+      "reason": "content words 'kape' and 'gusto' not taught in u1 or earlier; replaced with taught words, using 'aga' for 'kape' and a question for 'gusto mo'"
+    },
+    {
+      "unit_id": "u1",
+      "location": "u1s1 (story sentence)",
+      "category": "D",
+      "current": "Gusto mo kape ko?",
+      "proposed": "Kamusta ikaw yana?",
+      "reason": "content words 'gusto' and 'kape' not taught in u1 or earlier; replaced with taught words"
+    },
+    {
+      "unit_id": "u2",
+      "location": "u2s1 (story sentence)",
+      "category": "D",
+      "current": "Didto hi tatay ko ngan hi apo ko.",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'ngan' is a common conjunction, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u3",
+      "location": "story",
+      "category": "C",
+      "current": "Ha Akon Balay",
+      "proposed": "At My House",
+      "reason": "story missing required 'title_en' field"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3l3 (apply phrase)",
+      "category": "D",
+      "current": "Imo balay ini.",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'ini' is a common demonstrative, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3l3 (apply phrase)",
+      "category": "D",
+      "current": "Akon kusina adto.",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'adto' is a common demonstrative, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3l4 (apply phrase)",
+      "category": "D",
+      "current": "Iyo bintana adto.",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'adto' is a common demonstrative, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3l4 (apply phrase)",
+      "category": "D",
+      "current": "Sulod ha balay, akon sangkay.",
+      "proposed": "Sulod ha balay, akon anak.",
+      "reason": "content word 'sangkay' not taught in u3 or earlier; replaced with 'anak' (u2 vocab)"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3s1 (story sentence)",
+      "category": "D",
+      "current": "Maupay nga adlaw! Ini in akon balay.",
+      "proposed": "Maupay nga aga! Ini in akon balay.",
+      "reason": "content word 'adlaw' not taught in u3 or earlier; replaced with 'aga' (u1 vocab)"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3s1 (story sentence)",
+      "category": "D",
+      "current": "Sulod ha purtahan, tapos lingkod ha pantaw.",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'tapos' is a common conjunction/adverb, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u3",
+      "location": "u3s1 (story sentence)",
+      "category": "D",
+      "current": "Gawas ha natad, mayda kudal didto.",
+      "proposed": "Gawas ha natad, in kudal didto.",
+      "reason": "content word 'mayda' not taught in u3 or earlier; replaced with simpler structure using 'in'"
+    },
+    {
+      "unit_id": "u4",
+      "location": "new_grammar (Gusto ko)",
+      "category": "D",
+      "current": "Gusto niya isda.",
+      "proposed": "No suitable taught agent form for 'hiya'; 'niya' is the correct form but not introduced.",
+      "reason": "pronoun 'niya' (agent form of 'hiya') not taught in u4 or earlier"
+    },
+    {
+      "unit_id": "u4",
+      "location": "u4l4 (apply phrase)",
+      "category": "D",
+      "current": "Kinahanglan mo ba matugnaw nga tubig?",
+      "proposed": "Acceptable exposure.",
+      "reason": "function word 'ba' is a common interrogative particle, acceptable exposure at this level"
+    },
+    {
+      "unit_id": "u4",
+      "location": "u4s1 (story sentence)",
+      "category": "D",
+      "current": "Kinahanglan niya hin kan-on ngan isda.",
+      "proposed": "No suitable taught agent form for 'hiya'; 'niya' is the correct form but not introduced.",
+      "reason": "pronoun 'niya' (agent form of 'hiya') not taught in u4 or earlier"
+    },
+    {
+      "unit_id": "u4",
+      "location": "u4s1 (story sentence)",
+      "category": "D",
+      "current": "Salamat, Lolo Ben malipayon.",
+      "proposed": "Salamat, Lolo Ben maupay.",
+      "reason": "content word 'malipayon' not taught in u4 or earlier; replaced with 'maupay' (u1 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "new_grammar (mapalit)",
+      "category": "D",
+      "current": "Mapalit ka saging?",
+      "proposed": "Mapalit ka isda?",
+      "reason": "content word 'saging' not taught; replaced with 'isda' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "usa (vocab example)",
+      "category": "D",
+      "current": "usa ka mangga",
+      "proposed": "usa ka isda",
+      "reason": "content word 'mangga' not taught; replaced with 'isda' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "tulo (vocab example)",
+      "category": "D",
+      "current": "tulo ka kamatis",
+      "proposed": "tulo ka tinapay",
+      "reason": "content word 'kamatis' not taught; replaced with 'tinapay' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "upat (vocab example)",
+      "category": "D",
+      "current": "upat ka saging",
+      "proposed": "upat ka anak",
+      "reason": "content word 'saging' not taught; replaced with 'anak' (u2 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "lima (vocab example)",
+      "category": "D",
+      "current": "lima ka itlog",
+      "proposed": "lima ka balay",
+      "reason": "content word 'itlog' not taught; replaced with 'balay' (u3 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "unom (vocab example)",
+      "category": "D",
+      "current": "unom ka buko",
+      "proposed": "unom ka anak",
+      "reason": "content word 'buko' not taught; replaced with 'anak' (u2 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "pito (vocab example)",
+      "category": "D",
+      "current": "pito ka pakwan",
+      "proposed": "pito ka tinapay",
+      "reason": "content word 'pakwan' not taught; replaced with 'tinapay' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "siyam (vocab example)",
+      "category": "D",
+      "current": "siyam ka mangga",
+      "proposed": "siyam ka isda",
+      "reason": "content word 'mangga' not taught; replaced with 'isda' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "kwarta (vocab example)",
+      "category": "D",
+      "current": "May kwarta ako",
+      "proposed": "Akon kwarta",
+      "reason": "content word 'may' (short for mayda) not taught; replaced with taught possessive"
+    },
+    {
+      "unit_id": "u5",
+      "location": "u5l3 (apply phrase)",
+      "category": "D",
+      "current": "Mapalit ako tulo ka mangga.",
+      "proposed": "Mapalit ako tulo ka isda.",
+      "reason": "content word 'mangga' not taught; replaced with 'isda' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "u5l3 (apply phrase)",
+      "category": "D",
+      "current": "Barato an saging.",
+      "proposed": "Barato an isda.",
+      "reason": "content word 'saging' not taught; replaced with 'isda' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "u5l4 (apply phrase)",
+      "category": "D",
+      "current": "Mapalit ka napulo ka itlog?",
+      "proposed": "Mapalit ka napulo ka tinapay?",
+      "reason": "content word 'itlog' not taught; replaced with 'tinapay' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "u5l4 (apply phrase)",
+      "category": "D",
+      "current": "Mahal ini nga isda, barato an saging.",
+      "proposed": "Mahal ini nga isda, barato an tinapay.",
+      "reason": "content word 'saging' not taught; replaced with 'tinapay' (u4 vocab)"
+    },
+    {
+      "unit_id": "u5",
+      "location": "u5s1 (story sentence)",
+      "category": "D",
+      "current": "Mahal ini. Barato an saging.",
+      "proposed": "Mahal ini. Barato an isda.",
+      "reason": "content word 'saging' not taught; replaced with 'isda' (u4 vocab)"
+    }
+  ],
+  "summary": "Overall quality is good for a first phase, but there are recurring issues with example sentence construction and vocabulary sequencing. A total of 36 issues were found across the five units, with the majority falling into category D (out-of-vocabulary content words) and category A (fragment examples)."
+}

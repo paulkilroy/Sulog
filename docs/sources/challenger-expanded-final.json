@@ -1,0 +1,2231 @@
+{
+  "phase_id": "p1",
+  "detailed_units": [
+    {
+      "unit_id": "u1",
+      "phase_id": "p1",
+      "title": "Greetings, Time, and Pronouns",
+      "theme": "Basic Social Encounters",
+      "cefr": "A0",
+      "difficulty": 1,
+      "can_do": "I can greet people at any time of day and use basic pronouns.",
+      "new_grammar": [
+        {
+          "point": "Personal name marker 'hi' (before a person's name)",
+          "explain_en": "'Hi' is a common marker used before a person's name in Waray, often indicating the subject of a sentence or simply introducing the name.",
+          "examples": [
+            {
+              "war": "Maupay hi Maria.",
+              "en": "Maria is good."
+            },
+            {
+              "war": "Kamusta hi Juan?",
+              "en": "How is Juan?"
+            }
+          ]
+        },
+        {
+          "point": "Inclusive 'kita' (you+I) vs exclusive 'kami' (not you)",
+          "explain_en": "'Kita' means 'we' and includes the person you are speaking to (you and I). 'Kami' means 'we' but excludes the person you are speaking to (I and others, but not you).",
+          "examples": [
+            {
+              "war": "Maupay kita.",
+              "en": "We are good (you and I)."
+            },
+            {
+              "war": "Maupay kami.",
+              "en": "We are good (not including you)."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "maupay",
+          "pos": "adjective",
+          "gloss": "good",
+          "example": {
+            "war": "Maupay nga aga",
+            "focus": "Maupay",
+            "en": "Good morning"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "aga",
+          "pos": "noun",
+          "gloss": "morning",
+          "example": {
+            "war": "Maupay nga aga",
+            "focus": "aga",
+            "en": "Good morning"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "udto",
+          "pos": "noun",
+          "gloss": "noon",
+          "example": {
+            "war": "Maupay nga udto",
+            "focus": "udto",
+            "en": "Good noon"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kulop",
+          "pos": "noun",
+          "gloss": "afternoon",
+          "example": {
+            "war": "Maupay nga kulop",
+            "focus": "kulop",
+            "en": "Good afternoon"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "gab-i",
+          "pos": "noun",
+          "gloss": "evening/night",
+          "example": {
+            "war": "Maupay nga gab-i",
+            "focus": "gab-i",
+            "en": "Good evening"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "yana",
+          "pos": "adverb",
+          "gloss": "now",
+          "example": {
+            "war": "Maupay kita yana",
+            "focus": "yana",
+            "en": "We are good now"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kaina",
+          "pos": "adverb",
+          "gloss": "earlier (today)",
+          "example": {
+            "war": "Maupay hira kaina",
+            "focus": "kaina",
+            "en": "They were good earlier"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "unina",
+          "pos": "adverb",
+          "gloss": "later (today)",
+          "example": {
+            "war": "Maupay ako unina",
+            "focus": "unina",
+            "en": "I'll be good later"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "nganina",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "kamusta",
+          "pos": "interjection",
+          "gloss": "how are you",
+          "example": {
+            "war": "Kamusta ikaw?",
+            "focus": "Kamusta",
+            "en": "How are you?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "kumusta",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "ako",
+          "pos": "pronoun",
+          "gloss": "I",
+          "example": {
+            "war": "Ako hi Maria",
+            "focus": "Ako",
+            "en": "I am Maria"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "ikaw",
+          "pos": "pronoun",
+          "gloss": "you (sg)",
+          "example": {
+            "war": "Kamusta ikaw?",
+            "focus": "ikaw",
+            "en": "How are you?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hiya",
+          "pos": "pronoun",
+          "gloss": "he/she",
+          "example": {
+            "war": "Maupay hiya",
+            "focus": "hiya",
+            "en": "He/she is good"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hira",
+          "pos": "pronoun",
+          "gloss": "they",
+          "example": {
+            "war": "Maupay hira",
+            "focus": "hira",
+            "en": "They are good"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kami",
+          "pos": "pronoun",
+          "gloss": "we (exclusive)",
+          "example": {
+            "war": "Maupay kami",
+            "focus": "kami",
+            "en": "We are good (not including you)"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kita",
+          "pos": "pronoun",
+          "gloss": "we (inclusive)",
+          "example": {
+            "war": "Maupay kita",
+            "focus": "kita",
+            "en": "We are good (including you)"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u1l1",
+          "title": "Times of Day",
+          "type": "words",
+          "teaches": [
+            "maupay",
+            "aga",
+            "udto",
+            "kulop",
+            "gab-i",
+            "yana",
+            "kaina",
+            "unina"
+          ],
+          "grammar_focus": "Basic greetings and time adverbs"
+        },
+        {
+          "lesson_id": "u1l2",
+          "title": "Pronouns & Identity",
+          "type": "words",
+          "teaches": [
+            "kamusta",
+            "ako",
+            "ikaw",
+            "hiya",
+            "hira",
+            "kami",
+            "kita"
+          ],
+          "grammar_focus": "Subject and possessive pronouns"
+        },
+        {
+          "lesson_id": "u1l3",
+          "title": "Putting it Together",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Maupay nga aga, hi Maria.",
+              "en": "Good morning, Maria."
+            },
+            {
+              "war": "Kamusta ikaw yana?",
+              "en": "How are you now?"
+            },
+            {
+              "war": "Maupay ako yana.",
+              "en": "I am good now."
+            },
+            {
+              "war": "Maupay hira kaina.",
+              "en": "They were good earlier."
+            },
+            {
+              "war": "Maupay kita unina!",
+              "en": "We'll be good later (you and I)!"
+            }
+          ],
+          "teaches": [],
+          "grammar_focus": "Using 'hi' and basic sentence structures"
+        },
+        {
+          "lesson_id": "u1l4",
+          "title": "Unit u1 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Maupay nga gab-i, hi Juan.",
+              "en": "Good evening, Juan."
+            },
+            {
+              "war": "Kamusta hira? Maupay kami.",
+              "en": "How are they? We're good (not you)."
+            },
+            {
+              "war": "Maupay kita yana.",
+              "en": "We are good now (you and I)."
+            }
+          ],
+          "teaches": [],
+          "grammar_focus": "Full Unit Review"
+        }
+      ],
+      "story": {
+        "story_id": "u1s1",
+        "title": "Kamusta Kita?",
+        "title_en": "How Are We?",
+        "sentences": [
+          {
+            "war": "Maupay nga aga. Ako hi Maria.",
+            "en": "Good morning. I am Maria."
+          },
+          {
+            "war": "Kamusta ikaw yana?",
+            "en": "How are you now?"
+          },
+          {
+            "war": "Maupay ako. Maupay kita yana!",
+            "en": "I am good. We are good now!"
+          }
+        ],
+        "questions": [
+          {
+            "q": "What time of day is it?",
+            "choices": [
+              "Morning",
+              "Noon",
+              "Evening"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "How is Maria?",
+            "choices": [
+              "Tired",
+              "Good",
+              "Sad"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u2",
+      "phase_id": "p1",
+      "title": "Family, Respect, and Pointers",
+      "theme": "Basic Locations and Relatives",
+      "cefr": "A0",
+      "difficulty": 1,
+      "can_do": "I can address extended family and pinpoint locations.",
+      "new_grammar": [
+        {
+          "point": "Pointers: aadi, aada, didto",
+          "explain_en": "These adverbs indicate location relative to the speaker and listener. 'Aadi' means 'here, by me'. 'Aada' means 'there, by you'. 'Didto' means 'over there, far from both of us'.",
+          "examples": [
+            {
+              "war": "Aadi an nanay.",
+              "en": "Mother is here (by me)."
+            },
+            {
+              "war": "Aada an asawa mo.",
+              "en": "Your spouse is there (by you)."
+            },
+            {
+              "war": "Didto hi tatay.",
+              "en": "Father is over there (far)."
+            }
+          ]
+        },
+        {
+          "point": "Negator 'diri'",
+          "explain_en": "'Diri' is the general negator in Waray-Waray, meaning 'no' or 'not'. It comes before the word or phrase it negates.",
+          "examples": [
+            {
+              "war": "Diri ako bugto.",
+              "en": "I am not a sibling."
+            },
+            {
+              "war": "Diri hiya aadi.",
+              "en": "He/she is not here."
+            },
+            {
+              "war": "Diri hiya an tatay ko.",
+              "en": "He is not my father."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "nanay",
+          "pos": "noun",
+          "gloss": "mother",
+          "example": {
+            "war": "Maupay hi nanay.",
+            "focus": "nanay",
+            "en": "Mother is good."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tatay",
+          "pos": "noun",
+          "gloss": "father",
+          "example": {
+            "war": "Aadi hi tatay.",
+            "focus": "tatay",
+            "en": "Father is here."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kuya",
+          "pos": "noun",
+          "gloss": "older brother — also any slightly older male",
+          "example": {
+            "war": "Kuya, dadi!",
+            "focus": "kuya",
+            "en": "Older brother, come here!"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "ate",
+          "pos": "noun",
+          "gloss": "older sister — also any slightly older female",
+          "example": {
+            "war": "Ate, hain ka?",
+            "focus": "ate",
+            "en": "Older sister, where are you?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bugto",
+          "pos": "noun",
+          "gloss": "sibling",
+          "example": {
+            "war": "Hiya an bugto ko.",
+            "focus": "bugto",
+            "en": "He/she is my sibling."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "asawa",
+          "pos": "noun",
+          "gloss": "spouse",
+          "example": {
+            "war": "Aada an asawa mo.",
+            "focus": "asawa",
+            "en": "Your spouse is there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "anak",
+          "pos": "noun",
+          "gloss": "child",
+          "example": {
+            "war": "Anak ko hiya.",
+            "focus": "anak",
+            "en": "He/she is my child."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "apo",
+          "pos": "noun",
+          "gloss": "grandchild",
+          "example": {
+            "war": "Didto an apo ko.",
+            "focus": "apo",
+            "en": "My grandchild is over there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "aadi",
+          "pos": "adverb",
+          "gloss": "here",
+          "example": {
+            "war": "Aadi hiya.",
+            "focus": "aadi",
+            "en": "He/she is here."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "aada",
+          "pos": "adverb",
+          "gloss": "there",
+          "example": {
+            "war": "Aada an kape.",
+            "focus": "aada",
+            "en": "The coffee is there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "didto",
+          "pos": "adverb",
+          "gloss": "over there",
+          "example": {
+            "war": "Didto an balay.",
+            "focus": "didto",
+            "en": "The house is over there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hain",
+          "pos": "interrogative",
+          "gloss": "where",
+          "example": {
+            "war": "Hain hi nanay?",
+            "focus": "hain",
+            "en": "Where is mother?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "oo",
+          "pos": "interjection",
+          "gloss": "yes",
+          "example": {
+            "war": "Oo, maupay ako.",
+            "focus": "oo",
+            "en": "Yes, I am good."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "diri",
+          "pos": "adverb",
+          "gloss": "no/not",
+          "example": {
+            "war": "Diri hiya maupay.",
+            "focus": "diri",
+            "en": "He/she is not good."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "di",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "dadi",
+          "pos": "verb",
+          "gloss": "come here",
+          "example": {
+            "war": "Dadi, anak ko.",
+            "focus": "dadi",
+            "en": "Come here, my child."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "kani",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "ngadto",
+          "pos": "verb",
+          "gloss": "go there",
+          "example": {
+            "war": "Ngadto hiya.",
+            "focus": "ngadto",
+            "en": "He/she goes there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u2l1",
+          "title": "Family Members",
+          "type": "words",
+          "teaches": [
+            "nanay",
+            "tatay",
+            "kuya",
+            "ate",
+            "bugto",
+            "asawa",
+            "anak",
+            "apo"
+          ],
+          "grammar_focus": ""
+        },
+        {
+          "lesson_id": "u2l2",
+          "title": "Pointers and Negation",
+          "type": "words",
+          "teaches": [
+            "aadi",
+            "aada",
+            "didto",
+            "hain",
+            "oo",
+            "diri",
+            "dadi",
+            "ngadto"
+          ],
+          "grammar_focus": "Pointers: aadi, aada, didto; Negator 'diri'"
+        },
+        {
+          "lesson_id": "u2l3",
+          "title": "Finding Family and Places",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Hain hi tatay mo?",
+              "en": "Where is your father?"
+            },
+            {
+              "war": "Aadi hi nanay.",
+              "en": "Mother is here."
+            },
+            {
+              "war": "Aada hi kuya.",
+              "en": "Older brother is there."
+            },
+            {
+              "war": "Didto hi ate.",
+              "en": "Older sister is over there."
+            },
+            {
+              "war": "Diri hiya an bugto ko.",
+              "en": "He/she is not my sibling."
+            },
+            {
+              "war": "Oo, dadi hi anak ko.",
+              "en": "Yes, my child, come here."
+            }
+          ],
+          "teaches": [
+            "hain",
+            "tatay",
+            "aadi",
+            "nanay",
+            "aada",
+            "kuya",
+            "didto",
+            "ate",
+            "diri",
+            "bugto",
+            "oo",
+            "dadi",
+            "anak"
+          ],
+          "grammar_focus": "Pointers, Negator 'diri'"
+        },
+        {
+          "lesson_id": "u2l4",
+          "title": "Unit u2 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Hain hi asawa mo?",
+              "en": "Where is your spouse?"
+            },
+            {
+              "war": "Diri hiya aadi, ngadto hiya.",
+              "en": "He/she is not here, he/she goes there."
+            },
+            {
+              "war": "Aada hi apo ko, dadi!",
+              "en": "My grandchild is there, come here!"
+            },
+            {
+              "war": "Oo, hi nanay ko aadi.",
+              "en": "Yes, my mother is here."
+            }
+          ],
+          "teaches": [
+            "hain",
+            "asawa",
+            "diri",
+            "aadi",
+            "ngadto",
+            "aada",
+            "apo",
+            "dadi",
+            "oo",
+            "nanay"
+          ],
+          "grammar_focus": "Full Unit Review"
+        }
+      ],
+      "story": {
+        "story_id": "u2s1",
+        "title": "A Visit to Daram",
+        "title_en": "A Visit to Daram",
+        "sentences": [
+          {
+            "war": "Aadi ako ha Daram.",
+            "en": "I am here in Daram."
+          },
+          {
+            "war": "Hain hi nanay ko?",
+            "en": "Where is my mother?"
+          },
+          {
+            "war": "Aada hi nanay ko. Dadi!",
+            "en": "My mother is there. Come here!"
+          },
+          {
+            "war": "Didto hi tatay ko ngan hi apo ko.",
+            "en": "My father and my grandchild are over there."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Where is the speaker?",
+            "choices": [
+              "Daram",
+              "Samar",
+              "Manila"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Who is over there with the father?",
+            "choices": [
+              "Mother",
+              "Sibling",
+              "Grandchild"
+            ],
+            "answer_index": 2
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u3",
+      "phase_id": "p1",
+      "title": "House and Daily Actions",
+      "theme": "Home Environment in Daram",
+      "cefr": "A0",
+      "difficulty": 1,
+      "can_do": "I can identify house parts and express basic daily actions.",
+      "new_grammar": [
+        {
+          "point": "Common-noun marker 'in' (Samar: 'it') before general nouns",
+          "explain_en": "The marker 'in' is used before general common nouns, similar to 'the' or 'a/an' in English. In Samar Waray, 'it' is often used instead of 'in'.",
+          "examples": [
+            {
+              "war": "in balay",
+              "en": "the house"
+            },
+            {
+              "war": "it kwarto",
+              "en": "the room (Samar variant)"
+            }
+          ]
+        },
+        {
+          "point": "Possession: akon (my), imo (your sg), iyo (your pl)",
+          "explain_en": "To show possession, use 'akon' (my/mine), 'imo' (your/yours, singular), and 'iyo' (your/yours, plural). These come before the noun they possess.",
+          "examples": [
+            {
+              "war": "Akon balay",
+              "en": "My house"
+            },
+            {
+              "war": "Imo kwarto",
+              "en": "Your room (singular)"
+            },
+            {
+              "war": "Iyo kusina",
+              "en": "Your kitchen (plural)"
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "balay",
+          "pos": "noun",
+          "gloss": "house",
+          "example": {
+            "war": "in balay",
+            "focus": "balay",
+            "en": "the house"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kwarto",
+          "pos": "noun",
+          "gloss": "room",
+          "example": {
+            "war": "in kwarto",
+            "focus": "kwarto",
+            "en": "the room"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kusina",
+          "pos": "noun",
+          "gloss": "kitchen",
+          "example": {
+            "war": "in kusina",
+            "focus": "kusina",
+            "en": "the kitchen"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pantaw",
+          "pos": "noun",
+          "gloss": "back porch",
+          "example": {
+            "war": "ha pantaw",
+            "focus": "pantaw",
+            "en": "on the back porch"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Wash area common in Samar homes."
+        },
+        {
+          "lemma": "purtahan",
+          "pos": "noun",
+          "gloss": "door",
+          "example": {
+            "war": "in purtahan",
+            "focus": "purtahan",
+            "en": "the door"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bintana",
+          "pos": "noun",
+          "gloss": "window",
+          "example": {
+            "war": "in bintana",
+            "focus": "bintana",
+            "en": "the window"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "natad",
+          "pos": "noun",
+          "gloss": "yard",
+          "example": {
+            "war": "ha natad",
+            "focus": "natad",
+            "en": "in the yard"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kudal",
+          "pos": "noun",
+          "gloss": "fence",
+          "example": {
+            "war": "in kudal",
+            "focus": "kudal",
+            "en": "the fence"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "akon",
+          "pos": "pronoun",
+          "gloss": "my/mine",
+          "example": {
+            "war": "Akon balay",
+            "focus": "Akon",
+            "en": "My house"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "imo",
+          "pos": "pronoun",
+          "gloss": "your/yours (sg)",
+          "example": {
+            "war": "Imo kwarto",
+            "focus": "Imo",
+            "en": "Your room"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "iyo",
+          "pos": "pronoun",
+          "gloss": "your/yours (pl)",
+          "example": {
+            "war": "Iyo kusina",
+            "focus": "Iyo",
+            "en": "Your kitchen (plural)"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sulod",
+          "pos": "verb",
+          "gloss": "enter",
+          "example": {
+            "war": "Sulod ha balay",
+            "focus": "Sulod",
+            "en": "Enter the house"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "gawas",
+          "pos": "verb",
+          "gloss": "exit / go out",
+          "example": {
+            "war": "Gawas ha natad",
+            "focus": "Gawas",
+            "en": "Go out to the yard"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "lingkod",
+          "pos": "verb",
+          "gloss": "sit",
+          "example": {
+            "war": "Lingkod didto",
+            "focus": "Lingkod",
+            "en": "Sit there"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tindog",
+          "pos": "verb",
+          "gloss": "stand",
+          "example": {
+            "war": "Tindog yana",
+            "focus": "Tindog",
+            "en": "Stand now"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u3l1",
+          "title": "House Parts",
+          "type": "words",
+          "teaches": [
+            "balay",
+            "kwarto",
+            "kusina",
+            "pantaw",
+            "purtahan",
+            "bintana",
+            "natad",
+            "kudal"
+          ],
+          "grammar_focus": "Common-noun marker 'in'"
+        },
+        {
+          "lesson_id": "u3l2",
+          "title": "Possession and Actions",
+          "type": "words",
+          "teaches": [
+            "akon",
+            "imo",
+            "iyo",
+            "sulod",
+            "gawas",
+            "lingkod",
+            "tindog"
+          ],
+          "grammar_focus": "Possession: akon, imo, iyo"
+        },
+        {
+          "lesson_id": "u3l3",
+          "title": "Using House and Actions",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Sulod ha kwarto.",
+              "en": "Enter the room."
+            },
+            {
+              "war": "Lingkod ha pantaw.",
+              "en": "Sit on the back porch."
+            },
+            {
+              "war": "Imo balay ini.",
+              "en": "This is your house."
+            },
+            {
+              "war": "Gawas ha natad.",
+              "en": "Go out to the yard."
+            },
+            {
+              "war": "Akon kusina adto.",
+              "en": "That is my kitchen."
+            }
+          ],
+          "teaches": [],
+          "grammar_focus": "Applying 'in' and possessive pronouns"
+        },
+        {
+          "lesson_id": "u3l4",
+          "title": "Unit u3 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Tindog ha purtahan.",
+              "en": "Stand at the door."
+            },
+            {
+              "war": "Iyo bintana adto.",
+              "en": "That is your (plural) window."
+            },
+            {
+              "war": "in kudal",
+              "en": "the fence"
+            },
+            {
+              "war": "Sulod ha balay, akon anak.",
+              "en": "Enter the house, my friend."
+            }
+          ],
+          "teaches": [],
+          "grammar_focus": "Full Unit Review"
+        }
+      ],
+      "story": {
+        "story_id": "u3s1",
+        "title": "Ha Akon Balay",
+        "title_en": "At My House",
+        "sentences": [
+          {
+            "war": "Maupay nga aga! Ini in akon balay.",
+            "en": "Good day! This is my house."
+          },
+          {
+            "war": "Sulod ha purtahan, tapos lingkod ha pantaw.",
+            "en": "Enter the door, then sit on the back porch."
+          },
+          {
+            "war": "Adto in iyo kwarto, ngan didto in akon kusina.",
+            "en": "That is your (plural) room, and there is my kitchen."
+          },
+          {
+            "war": "Gawas ha natad, in kudal didto.",
+            "en": "Go out to the yard, there is a fence there."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Ano in imo ginsulod?",
+            "choices": [
+              "in bintana",
+              "in purtahan",
+              "in kudal"
+            ],
+            "answer_index": 1
+          },
+          {
+            "q": "Diin ka malingkod?",
+            "choices": [
+              "ha kusina",
+              "ha kwarto",
+              "ha pantaw"
+            ],
+            "answer_index": 2
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u4",
+      "phase_id": "p1",
+      "title": "Food, Drinks, and Requests",
+      "theme": "Staple Needs and Politeness",
+      "cefr": "A0",
+      "difficulty": 1,
+      "can_do": "I can ask for specific foods and make polite requests.",
+      "new_grammar": [
+        {
+          "point": "Wanting with 'Gusto ko ...'",
+          "explain_en": "To express 'I want' or 'I like', use 'Gusto ko...'. 'Gusto' means 'want' or 'like', and 'ko' is the enclitic pronoun for 'I' (as agent/possessor). For 'you want', it's 'Gusto mo...'. The object usually follows.",
+          "examples": [
+            {
+              "war": "Gusto ko kape.",
+              "en": "I want coffee."
+            },
+            {
+              "war": "Gusto mo tubig?",
+              "en": "Do you want water?"
+            },
+            {
+              "war": "Gusto niya isda.",
+              "en": "He/She wants fish."
+            }
+          ]
+        },
+        {
+          "point": "Indefinite object marker 'hin' (Samar: 'sin') = 'some'",
+          "explain_en": "The particle 'hin' (or 'sin' in Samar) marks an indefinite, non-specific direct object. It often translates to 'some' or 'a/an' in English, or is simply implied. It's used when you don't mean a specific item, but rather 'some of it' or 'any of it'.",
+          "examples": [
+            {
+              "war": "Gusto ko hin kan-on.",
+              "en": "I want some rice."
+            },
+            {
+              "war": "Kaon hin isda.",
+              "en": "Eat some fish."
+            },
+            {
+              "war": "Inom sin tubig.",
+              "en": "Drink some water."
+            },
+            {
+              "war": "Gusto mo sin kape?",
+              "en": "Do you want some coffee?"
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "tubig",
+          "pos": "noun",
+          "gloss": "water",
+          "example": {
+            "war": "Inom hin tubig.",
+            "focus": "tubig",
+            "en": "Drink some water."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kape",
+          "pos": "noun",
+          "gloss": "coffee",
+          "example": {
+            "war": "Gusto ko kape.",
+            "focus": "kape",
+            "en": "I want coffee."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kan-on",
+          "pos": "noun",
+          "gloss": "cooked rice",
+          "example": {
+            "war": "Kaon hin kan-on.",
+            "focus": "kan-on",
+            "en": "Eat some rice."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "isda",
+          "pos": "noun",
+          "gloss": "fish",
+          "example": {
+            "war": "Gusto ko isda.",
+            "focus": "isda",
+            "en": "I want fish."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "utan",
+          "pos": "noun",
+          "gloss": "vegetables",
+          "example": {
+            "war": "Kaon hin utan.",
+            "focus": "utan",
+            "en": "Eat some vegetables."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "prutas",
+          "pos": "noun",
+          "gloss": "fruit",
+          "example": {
+            "war": "Gusto ko prutas.",
+            "focus": "prutas",
+            "en": "I want fruit."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tinapay",
+          "pos": "noun",
+          "gloss": "bread",
+          "example": {
+            "war": "Gusto mo tinapay?",
+            "focus": "tinapay",
+            "en": "Do you want bread?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sabaw",
+          "pos": "noun",
+          "gloss": "soup/broth",
+          "example": {
+            "war": "Init nga sabaw.",
+            "focus": "sabaw",
+            "en": "Hot soup."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "gusto",
+          "pos": "verb",
+          "gloss": "want",
+          "example": {
+            "war": "Gusto ko tubig.",
+            "focus": "Gusto",
+            "en": "I want water."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kinahanglan",
+          "pos": "verb",
+          "gloss": "need",
+          "example": {
+            "war": "Kinahanglan ko tubig.",
+            "focus": "Kinahanglan",
+            "en": "I need water."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "alayon",
+          "pos": "interjection",
+          "gloss": "please",
+          "example": {
+            "war": "Alayon, tubig.",
+            "focus": "Alayon",
+            "en": "Please, water."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "salamat",
+          "pos": "interjection",
+          "gloss": "thank you",
+          "example": {
+            "war": "Salamat, amigo.",
+            "focus": "Salamat",
+            "en": "Thank you, friend."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kaon",
+          "pos": "verb",
+          "gloss": "eat",
+          "example": {
+            "war": "Kaon hin isda.",
+            "focus": "Kaon",
+            "en": "Eat some fish."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "inom",
+          "pos": "verb",
+          "gloss": "drink",
+          "example": {
+            "war": "Inom hin kape.",
+            "focus": "Inom",
+            "en": "Drink some coffee."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "init",
+          "pos": "adjective",
+          "gloss": "hot",
+          "example": {
+            "war": "Init nga kape.",
+            "focus": "init",
+            "en": "Hot coffee."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "matugnaw",
+          "pos": "adjective",
+          "gloss": "cold",
+          "example": {
+            "war": "Matugnaw nga tubig.",
+            "focus": "matugnaw",
+            "en": "Cold water."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "ko",
+          "pos": "pronoun",
+          "gloss": "my / by me (enclitic)",
+          "example": {
+            "war": "Kape ko",
+            "focus": "ko",
+            "en": "My coffee"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Post-posed agent/possessor of ako."
+        },
+        {
+          "lemma": "mo",
+          "pos": "pronoun",
+          "gloss": "your / by you (enclitic)",
+          "example": {
+            "war": "Gusto mo?",
+            "focus": "mo",
+            "en": "Do you want it?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Post-posed agent/possessor of ikaw."
+        },
+        {
+          "lemma": "niya",
+          "pos": "pronoun",
+          "gloss": "his/her / by him-her",
+          "example": {
+            "war": "Gusto niya isda",
+            "focus": "niya",
+            "en": "He/she wants fish"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": true,
+          "note": "Agent/possessor of hiya — confirm Daram form."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u4l1",
+          "title": "Kitchen Staples",
+          "type": "words",
+          "teaches": [
+            "tubig",
+            "kape",
+            "kan-on",
+            "isda",
+            "utan",
+            "prutas",
+            "tinapay",
+            "sabaw",
+            "gusto",
+            "kinahanglan"
+          ],
+          "grammar_focus": ""
+        },
+        {
+          "lesson_id": "u4l2",
+          "title": "Wants, Actions & Pronouns",
+          "type": "words",
+          "teaches": [
+            "alayon",
+            "salamat",
+            "kaon",
+            "inom",
+            "init",
+            "matugnaw",
+            "ko",
+            "mo",
+            "niya"
+          ],
+          "grammar_focus": "Gusto ko...; hin/sin"
+        },
+        {
+          "lesson_id": "u4l3",
+          "title": "Making Requests",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Gusto ko hin init nga kape.",
+              "en": "I want some hot coffee."
+            },
+            {
+              "war": "Kinahanglan ko hin tubig, alayon.",
+              "en": "I need some water, please."
+            },
+            {
+              "war": "Kaon hin isda ngan utan.",
+              "en": "Eat some fish and vegetables."
+            },
+            {
+              "war": "Gusto mo matugnaw nga prutas?",
+              "en": "Do you want cold fruit?"
+            },
+            {
+              "war": "Inom sin sabaw.",
+              "en": "Drink some soup."
+            }
+          ],
+          "teaches": [
+            "tubig",
+            "kape",
+            "kan-on",
+            "isda",
+            "utan",
+            "prutas",
+            "tinapay",
+            "sabaw",
+            "gusto",
+            "kinahanglan",
+            "alayon",
+            "salamat",
+            "kaon",
+            "inom",
+            "init",
+            "matugnaw"
+          ],
+          "grammar_focus": "Gusto ko...; hin/sin"
+        },
+        {
+          "lesson_id": "u4l4",
+          "title": "Unit u4 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Salamat, gusto ko hin kan-on.",
+              "en": "Thank you, I want some rice."
+            },
+            {
+              "war": "Alayon, gusto ko hin tinapay.",
+              "en": "Please, I want some bread."
+            },
+            {
+              "war": "Kinahanglan mo ba matugnaw nga tubig?",
+              "en": "Do you need cold water?"
+            },
+            {
+              "war": "Kaon hin prutas ngan inom hin tubig.",
+              "en": "Eat fruit and drink water."
+            }
+          ],
+          "teaches": [
+            "tubig",
+            "kape",
+            "kan-on",
+            "isda",
+            "utan",
+            "prutas",
+            "tinapay",
+            "sabaw",
+            "gusto",
+            "kinahanglan",
+            "alayon",
+            "salamat",
+            "kaon",
+            "inom",
+            "init",
+            "matugnaw"
+          ],
+          "grammar_focus": "Full Unit Review"
+        }
+      ],
+      "story": {
+        "story_id": "u4s1",
+        "title": "Pamahaw ni Lolo Ben",
+        "title_en": "Grandpa Ben's Breakfast",
+        "sentences": [
+          {
+            "war": "Hi Lolo Ben gusto hin kape.",
+            "en": "Grandpa Ben wants coffee."
+          },
+          {
+            "war": "Kinahanglan niya hin kan-on ngan isda.",
+            "en": "He needs some rice and fish."
+          },
+          {
+            "war": "Alayon, gusto niya matugnaw nga tubig.",
+            "en": "Please, he wants cold water."
+          },
+          {
+            "war": "Salamat, Lolo Ben maupay.",
+            "en": "Thank you, Grandpa Ben is happy."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Ano an gusto ni Lolo Ben inumon?",
+            "choices": [
+              "kape",
+              "tubig",
+              "sabaw"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Ano an kinahanglan niya kaonon?",
+            "choices": [
+              "prutas",
+              "kan-on ngan isda",
+              "tinapay"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u5",
+      "phase_id": "p1",
+      "title": "Numbers and Money",
+      "theme": "Small Market Transactions",
+      "cefr": "A0",
+      "difficulty": 1,
+      "can_do": "I can count up to ten and handle basic transactions.",
+      "new_grammar": [
+        {
+          "point": "Asking price with 'Tagpira ini?'",
+          "explain_en": "To ask for the price of an item, use 'Tagpira ini?' (How much is this?). For plural items, you can use 'ini' or 'ira' (these/those).",
+          "examples": [
+            {
+              "war": "Tagpira ini?",
+              "en": "How much is this?"
+            },
+            {
+              "war": "Tagpira an isda?",
+              "en": "How much is the fish?"
+            }
+          ]
+        },
+        {
+          "point": "Future buying with 'mapalit'",
+          "explain_en": "The verb 'mapalit' means 'will buy'. It's commonly used to express an intention or future action of buying.",
+          "examples": [
+            {
+              "war": "Mapalit ako isda.",
+              "en": "I will buy fish."
+            },
+            {
+              "war": "Mapalit ka isda?",
+              "en": "Will you buy bananas?"
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "usa",
+          "pos": "numeral",
+          "gloss": "one",
+          "example": {
+            "war": "usa ka isda",
+            "focus": "usa",
+            "en": "one mango"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "duha",
+          "pos": "numeral",
+          "gloss": "two",
+          "example": {
+            "war": "duha ka isda",
+            "focus": "duha",
+            "en": "two fish"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tulo",
+          "pos": "numeral",
+          "gloss": "three",
+          "example": {
+            "war": "tulo ka tinapay",
+            "focus": "tulo",
+            "en": "three tomatoes"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "upat",
+          "pos": "numeral",
+          "gloss": "four",
+          "example": {
+            "war": "upat ka isda",
+            "focus": "upat",
+            "en": "four bananas"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "lima",
+          "pos": "numeral",
+          "gloss": "five",
+          "example": {
+            "war": "lima ka tinapay",
+            "focus": "lima",
+            "en": "five eggs"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "unom",
+          "pos": "numeral",
+          "gloss": "six",
+          "example": {
+            "war": "unom ka anak",
+            "focus": "unom",
+            "en": "six young coconuts"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pito",
+          "pos": "numeral",
+          "gloss": "seven",
+          "example": {
+            "war": "pito ka tinapay",
+            "focus": "pito",
+            "en": "seven watermelons"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "walo",
+          "pos": "numeral",
+          "gloss": "eight",
+          "example": {
+            "war": "walo ka tinapay",
+            "focus": "walo",
+            "en": "eight breads"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "siyam",
+          "pos": "numeral",
+          "gloss": "nine",
+          "example": {
+            "war": "siyam ka isda",
+            "focus": "siyam",
+            "en": "nine mangoes"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "napulo",
+          "pos": "numeral",
+          "gloss": "ten",
+          "example": {
+            "war": "napulo ka isda",
+            "focus": "napulo",
+            "en": "ten fish"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pira",
+          "pos": "interrogative",
+          "gloss": "how many",
+          "example": {
+            "war": "Pira an isda?",
+            "focus": "Pira",
+            "en": "How many fish?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tagpira",
+          "pos": "interrogative",
+          "gloss": "how much each",
+          "example": {
+            "war": "Tagpira ini?",
+            "focus": "Tagpira",
+            "en": "How much is this?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "palit",
+          "pos": "verb",
+          "gloss": "buy",
+          "example": {
+            "war": "Gusto ko magpalit",
+            "focus": "palit",
+            "en": "I want to buy"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "mapalit",
+          "pos": "verb",
+          "gloss": "will buy",
+          "example": {
+            "war": "Mapalit ako isda",
+            "focus": "mapalit",
+            "en": "I will buy fish"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bayad",
+          "pos": "verb",
+          "gloss": "pay",
+          "example": {
+            "war": "Bayad na!",
+            "focus": "Bayad",
+            "en": "Pay now!"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sukli",
+          "pos": "noun",
+          "gloss": "change (money)",
+          "example": {
+            "war": "Waray sukli?",
+            "focus": "sukli",
+            "en": "No change?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kwarta",
+          "pos": "noun",
+          "gloss": "money",
+          "example": {
+            "war": "Akon kwarta ako",
+            "focus": "kwarta",
+            "en": "I have money"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pesos",
+          "pos": "noun",
+          "gloss": "pesos",
+          "example": {
+            "war": "lima ka pesos",
+            "focus": "pesos",
+            "en": "five pesos"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "mahal",
+          "pos": "adjective",
+          "gloss": "expensive",
+          "example": {
+            "war": "Mahal ini.",
+            "focus": "Mahal",
+            "en": "This is expensive."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "barato",
+          "pos": "adjective",
+          "gloss": "cheap",
+          "example": {
+            "war": "Barato ini.",
+            "focus": "Barato",
+            "en": "This is cheap."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u5l1",
+          "title": "Counting 1-10",
+          "type": "words",
+          "teaches": [
+            "usa",
+            "duha",
+            "tulo",
+            "upat",
+            "lima",
+            "unom",
+            "pito",
+            "walo",
+            "siyam",
+            "napulo"
+          ],
+          "grammar_focus": ""
+        },
+        {
+          "lesson_id": "u5l2",
+          "title": "Asking Price and Money",
+          "type": "words",
+          "teaches": [
+            "pira",
+            "tagpira",
+            "palit",
+            "mapalit",
+            "bayad",
+            "sukli",
+            "kwarta",
+            "pesos",
+            "mahal",
+            "barato"
+          ],
+          "grammar_focus": "Asking price with 'Tagpira ini?'; Future buying with 'mapalit'"
+        },
+        {
+          "lesson_id": "u5l3",
+          "title": "Market Transactions",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Tagpira ini nga isda?",
+              "en": "How much is this fish?"
+            },
+            {
+              "war": "Lima ka pesos.",
+              "en": "Five pesos."
+            },
+            {
+              "war": "Mapalit ako tulo ka isda.",
+              "en": "I will buy three mangoes."
+            },
+            {
+              "war": "Mahal ini.",
+              "en": "This is expensive."
+            },
+            {
+              "war": "Barato an isda.",
+              "en": "The banana is cheap."
+            },
+            {
+              "war": "Waray ako sukli.",
+              "en": "I don't have change."
+            }
+          ],
+          "teaches": [
+            "Asking price with 'Tagpira ini?'",
+            "Future buying with 'mapalit'"
+          ],
+          "grammar_focus": ""
+        },
+        {
+          "lesson_id": "u5l4",
+          "title": "Unit u5 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Pira an kwarta mo?",
+              "en": "How much is your money?"
+            },
+            {
+              "war": "Mapalit ka napulo ka tinapay?",
+              "en": "Will you buy ten eggs?"
+            },
+            {
+              "war": "Bayad na! Waray sukli.",
+              "en": "Pay now! No change."
+            },
+            {
+              "war": "Mahal ini nga isda, barato an isda.",
+              "en": "This fish is expensive, the banana is cheap."
+            }
+          ],
+          "teaches": [],
+          "grammar_focus": "Full Unit Review"
+        }
+      ],
+      "story": {
+        "story_id": "u5s1",
+        "title": "Ha Tiangge",
+        "title_en": "At the Market",
+        "sentences": [
+          {
+            "war": "Mapalit ako isda.",
+            "en": "I will buy fish."
+          },
+          {
+            "war": "Tagpira ini?",
+            "en": "How much is this?"
+          },
+          {
+            "war": "Lima ka pesos.",
+            "en": "Five pesos."
+          },
+          {
+            "war": "Mahal ini. Barato an isda.",
+            "en": "This is expensive. The banana is cheap."
+          }
+        ],
+        "questions": [
+          {
+            "q": "What will the person buy?",
+            "choices": [
+              "Isda",
+              "Saging",
+              "Kwarta"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "What did the person say about the fish?",
+            "choices": [
+              "Barato",
+              "Mahal",
+              "Usa"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    }
+  ]
+}

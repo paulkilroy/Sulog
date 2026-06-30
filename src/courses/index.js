@@ -9,6 +9,7 @@ import { SEED, FORGOTTEN } from "./waray/cards.js";
 import { CLASSIC } from "./waray/classic.js";
 import { FREQUENCY } from "./waray/frequency.js";
 import { SEED_CH, FORGOTTEN_CH, CHALLENGER } from "./waray/challenger.js";
+import { SEED_CH2, FORGOTTEN_CH2, CHALLENGER2 } from "./waray/challenger2.js";
 
 export const COURSES = [
   { id: "waray-frequency", name: "Waray (Frequency)", lang: "war",
@@ -17,6 +18,8 @@ export const COURSES = [
     seed: SEED, forgotten: FORGOTTEN, curriculum: CLASSIC },
   { id: "waray-challenger", name: "Waray (Challenger · Daram)", lang: "war",
     seed: SEED_CH, forgotten: FORGOTTEN_CH, curriculum: CHALLENGER },
+  { id: "waray-challenger2", name: "Waray (Challenger 2 · Expanded)", lang: "war",
+    seed: SEED_CH2, forgotten: FORGOTTEN_CH2, curriculum: CHALLENGER2 },
 ];
 
 export const DEFAULT_COURSE_ID = "waray-frequency";
