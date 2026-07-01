@@ -135,7 +135,7 @@
           "pos": "int",
           "gloss": "hello/how are you",
           "example": {
-            "war": "Kamusta ikaw?",
+            "war": "Kamusta ka?",
             "focus": "Kamusta",
             "en": "How are you?"
           },
@@ -224,7 +224,7 @@
               "en": "Good evening."
             },
             {
-              "war": "Kamusta ikaw?",
+              "war": "Kamusta ka?",
               "en": "How are you?"
             },
             {
@@ -256,7 +256,7 @@
             "en": "I am Maria."
           },
           {
-            "war": "Kamusta ikaw?",
+            "war": "Kamusta ka?",
             "en": "How are you?"
           },
           {
@@ -287,7 +287,7 @@
             "answer_index": 1
           },
           {
-            "q": "If someone says 'Kamusta ikaw?', how might you respond?",
+            "q": "If someone says 'Kamusta ka?', how might you respond?",
             "choices": [
               "Salamat",
               "Maupay",

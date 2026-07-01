@@ -12,15 +12,15 @@ export const SEED_CH = [
   ["ch1","gab-i","evening/night","","",{"war":"Maupay nga gab-i.","focus":"gab-i","en":"Good evening."}],
   ["ch1","ako","I/me","Independent pronoun, usually topic.","",{"war":"Ako hi Juan.","focus":"Ako","en":"I am Juan."}],
   ["ch1","ikaw","you (sg)","Independent pronoun, usually topic.","",{"war":"Ikaw hi Maria?","focus":"Ikaw","en":"Are you Maria?"}],
-  ["ch1","kamusta","hello/how are you","","",{"war":"Kamusta ikaw?","focus":"Kamusta","en":"How are you?"}],
+  ["ch1","kamusta","hello/how are you","","",{"war":"Kamusta ka?","focus":"Kamusta","en":"How are you?"}],
   ["ch1","salamat","thanks","","",{"war":"Salamat, Nanay.","focus":"Salamat","en":"Thanks, Mom."}],
   ["ch1","sige","ok/go ahead","","",{"war":"Sige, maupay nga gab-i.","focus":"Sige","en":"Okay, good night."}],
   ["ch1","Maupay nga aga!","Good morning!","","",null],
   ["ch1","Maupay nga gab-i.","Good evening.","","",null],
-  ["ch1","Kamusta ikaw?","How are you?","","",null],
+  ["ch1","Kamusta ka?","How are you?","","",null],
   ["ch1","Ako hi Ana.","I am Ana.","","",null],
-  ["ch1","Salamat.","Thanks.","","",null],
-  ["ch1","Sige.","Okay.","","",null],
+  ["ch1","Damo nga salamat","Thank you very much","","",null],
+  ["ch1","Sige, salamat.","Okay, thanks.","","",null],
   ["ch2","diri","no/not","","",{"war":"Diri, diri ako.","focus":"Diri","en":"No, not me."}],
   ["ch2","hain","where","","",{"war":"Hain an balay?","focus":"Hain","en":"Where is the house?"}],
   ["ch2","hiya","he/she/it","Independent pronoun, usually topic. Gender-neutral.","",{"war":"Hiya an nanay.","focus":"Hiya","en":"He/she is the mother."}],
@@ -191,10 +191,10 @@ export const CHALLENGER = [
             "items": [
               "Maupay nga aga!",
               "Maupay nga gab-i.",
-              "Kamusta ikaw?",
+              "Kamusta ka?",
               "Ako hi Ana.",
-              "Salamat.",
-              "Sige."
+              "Damo nga salamat",
+              "Sige, salamat."
             ]
           }
         ],
@@ -212,7 +212,7 @@ export const CHALLENGER = [
               "en": "I am Maria."
             },
             {
-              "war": "Kamusta ikaw?",
+              "war": "Kamusta ka?",
               "en": "How are you?"
             },
             {

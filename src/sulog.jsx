@@ -1572,9 +1572,18 @@ function SessionView({ ctx }) {
 
 function pickDistractors(cards, card, dir) {
   const field = dir === "wte" ? "english" : "waray";
-  const same = cards.filter((c) => c.deck === card.deck && c.id !== card.id);
-  const pool = same.length >= 3 ? same : cards.filter((c) => c.id !== card.id);
-  return shuffle(pool).slice(0, 3).map((c) => c[field]);
+  const key = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+  const aW = key(card.waray), aE = key(card.english);
+  // never use a card that IS the same word or the same meaning as the prompt —
+  // that produces ambiguous options ("Sige." vs "sige", "Okay." for "ok/go ahead")
+  const distinct = (c) => c.id !== card.id && key(c.waray) !== aW && key(c.english) !== aE;
+  const same = cards.filter((c) => c.deck === card.deck && distinct(c));
+  const pool = same.length >= 3 ? same : cards.filter(distinct);
+  // collect 3 options that are distinct from the answer AND from each other by value
+  const seen = new Set([key(card[field])]);
+  const out = [];
+  for (const c of shuffle(pool)) { const v = c[field]; if (v && !seen.has(key(v))) { seen.add(key(v)); out.push(v); } if (out.length === 3) break; }
+  return out;
 }
 
 // Browser speech recognition (Web Speech API). There is no Waray locale, so for

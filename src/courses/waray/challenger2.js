@@ -12,15 +12,15 @@ export const SEED_CH2 = [
   ["c2u1","yana","now","","",{"war":"Maupay kita yana","focus":"yana","en":"We are good now"}],
   ["c2u1","kaina","earlier (today)","","",{"war":"Maupay hira kaina","focus":"kaina","en":"They were good earlier"}],
   ["c2u1","unina","later (today)","","",{"war":"Maupay ako unina","focus":"unina","en":"I'll be good later"}],
-  ["c2u1","kamusta","how are you","","",{"war":"Kamusta ikaw?","focus":"Kamusta","en":"How are you?"}],
+  ["c2u1","kamusta","how are you","","",{"war":"Kamusta ka?","focus":"Kamusta","en":"How are you?"}],
   ["c2u1","ako","I","","",{"war":"Ako hi Maria","focus":"Ako","en":"I am Maria"}],
-  ["c2u1","ikaw","you (sg)","","",{"war":"Kamusta ikaw?","focus":"ikaw","en":"How are you?"}],
+  ["c2u1","ikaw","you (sg)","","",{"war":"Kamusta ka?","focus":"ikaw","en":"How are you?"}],
   ["c2u1","hiya","he/she","","",{"war":"Maupay hiya","focus":"hiya","en":"He/she is good"}],
   ["c2u1","hira","they","","",{"war":"Maupay hira","focus":"hira","en":"They are good"}],
   ["c2u1","kami","we (exclusive)","","",{"war":"Maupay kami","focus":"kami","en":"We are good (not including you)"}],
   ["c2u1","kita","we (inclusive)","","",{"war":"Maupay kita","focus":"kita","en":"We are good (including you)"}],
   ["c2u1","Maupay nga aga, hi Maria.","Good morning, Maria.","","",null],
-  ["c2u1","Kamusta ikaw yana?","How are you now?","","",null],
+  ["c2u1","Kamusta ka yana?","How are you now?","","",null],
   ["c2u1","Maupay ako yana.","I am good now.","","",null],
   ["c2u1","Maupay hira kaina.","They were good earlier.","","",null],
   ["c2u1","Maupay kita unina!","We'll be good later (you and I)!","","",null],
@@ -261,7 +261,7 @@ export const SEED_CH2 = [
   ["c2u10","Kuha hin tubig, Nanay.","Get water, Mom.","","",null],
   ["c2u11","malinamnam","delicious","","",{"war":"An kan-on malinamnam.","focus":"malinamnam","en":"The rice is delicious."}],
   ["c2u11","regalo","gift","","",{"war":"Mayda ako regalo.","focus":"regalo","en":"I have a gift."}],
-  ["c2u11","Maupay nga aga! Kamusta ikaw?","Good morning! How are you?","","",null],
+  ["c2u11","Maupay nga aga! Kamusta ka?","Good morning! How are you?","","",null],
   ["c2u11","Gusto mo ba kape?","Do you want coffee?","","",null],
   ["c2u11","Alayon, lingkod didto.","Please, sit there.","","",null],
   ["c2u11","Kami malipayon nga ikaw bisita.","We are happy that you are a visitor.","","",null],
@@ -323,7 +323,7 @@ export const CHALLENGER2 = [
             "kind": "apply",
             "items": [
               "Maupay nga aga, hi Maria.",
-              "Kamusta ikaw yana?",
+              "Kamusta ka yana?",
               "Maupay ako yana.",
               "Maupay hira kaina.",
               "Maupay kita unina!"
@@ -350,7 +350,7 @@ export const CHALLENGER2 = [
               "en": "Good morning. I am Maria."
             },
             {
-              "war": "Kamusta ikaw yana?",
+              "war": "Kamusta ka yana?",
               "en": "How are you now?"
             },
             {
@@ -1203,7 +1203,7 @@ export const CHALLENGER2 = [
             "title": "Warm Greetings and Invitations",
             "kind": "apply",
             "items": [
-              "Maupay nga aga! Kamusta ikaw?",
+              "Maupay nga aga! Kamusta ka?",
               "Gusto mo ba kape?",
               "Alayon, lingkod didto.",
               "Kami malipayon nga ikaw bisita."

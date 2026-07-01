@@ -165,7 +165,7 @@
           "pos": "interjection",
           "gloss": "how are you",
           "example": {
-            "war": "Kamusta ikaw?",
+            "war": "Kamusta ka?",
             "focus": "Kamusta",
             "en": "How are you?"
           },
@@ -195,7 +195,7 @@
           "pos": "pronoun",
           "gloss": "you (sg)",
           "example": {
-            "war": "Kamusta ikaw?",
+            "war": "Kamusta ka?",
             "focus": "ikaw",
             "en": "How are you?"
           },
@@ -308,7 +308,7 @@
               "en": "Good morning, Maria."
             },
             {
-              "war": "Kamusta ikaw yana?",
+              "war": "Kamusta ka yana?",
               "en": "How are you now?"
             },
             {
@@ -359,7 +359,7 @@
             "en": "Good morning. I am Maria."
           },
           {
-            "war": "Kamusta ikaw yana?",
+            "war": "Kamusta ka yana?",
             "en": "How are you now?"
           },
           {
