@@ -1182,12 +1182,12 @@
               "en": "That is your (plural) window."
             },
             {
-              "war": "in kudal",
-              "en": "the fence"
+              "war": "Aadi in kudal.",
+              "en": "Here is the fence."
             },
             {
               "war": "Sulod ha balay, akon anak.",
-              "en": "Enter the house, my friend."
+              "en": "Come in, my child."
             }
           ],
           "teaches": [],
@@ -1790,7 +1790,7 @@
           "example": {
             "war": "usa ka isda",
             "focus": "usa",
-            "en": "one mango"
+            "en": "one fish"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1803,9 +1803,9 @@
           "pos": "numeral",
           "gloss": "two",
           "example": {
-            "war": "duha ka isda",
+            "war": "duha ka tinapay",
             "focus": "duha",
-            "en": "two fish"
+            "en": "two breads"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1818,9 +1818,9 @@
           "pos": "numeral",
           "gloss": "three",
           "example": {
-            "war": "tulo ka tinapay",
+            "war": "tulo ka anak",
             "focus": "tulo",
-            "en": "three tomatoes"
+            "en": "three children"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1833,9 +1833,9 @@
           "pos": "numeral",
           "gloss": "four",
           "example": {
-            "war": "upat ka isda",
+            "war": "upat ka balay",
             "focus": "upat",
-            "en": "four bananas"
+            "en": "four houses"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1848,9 +1848,9 @@
           "pos": "numeral",
           "gloss": "five",
           "example": {
-            "war": "lima ka tinapay",
+            "war": "lima ka pesos",
             "focus": "lima",
-            "en": "five eggs"
+            "en": "five pesos"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1863,9 +1863,9 @@
           "pos": "numeral",
           "gloss": "six",
           "example": {
-            "war": "unom ka anak",
+            "war": "unom ka kwarto",
             "focus": "unom",
-            "en": "six young coconuts"
+            "en": "six rooms"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1878,9 +1878,9 @@
           "pos": "numeral",
           "gloss": "seven",
           "example": {
-            "war": "pito ka tinapay",
+            "war": "pito ka bintana",
             "focus": "pito",
-            "en": "seven watermelons"
+            "en": "seven windows"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1893,9 +1893,9 @@
           "pos": "numeral",
           "gloss": "eight",
           "example": {
-            "war": "walo ka tinapay",
+            "war": "walo ka isda",
             "focus": "walo",
-            "en": "eight breads"
+            "en": "eight fish"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1908,9 +1908,9 @@
           "pos": "numeral",
           "gloss": "nine",
           "example": {
-            "war": "siyam ka isda",
+            "war": "siyam ka tinapay",
             "focus": "siyam",
-            "en": "nine mangoes"
+            "en": "nine breads"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -1923,9 +1923,9 @@
           "pos": "numeral",
           "gloss": "ten",
           "example": {
-            "war": "napulo ka isda",
+            "war": "napulo ka anak",
             "focus": "napulo",
-            "en": "ten fish"
+            "en": "ten children"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -2028,9 +2028,9 @@
           "pos": "noun",
           "gloss": "money",
           "example": {
-            "war": "Akon kwarta ako",
+            "war": "Akon kwarta",
             "focus": "kwarta",
-            "en": "I have money"
+            "en": "My money"
           },
           "difficulty": 1,
           "register": "spoken",
@@ -2136,15 +2136,15 @@
             },
             {
               "war": "Mapalit ako tulo ka isda.",
-              "en": "I will buy three mangoes."
+              "en": "I will buy three fish."
             },
             {
               "war": "Mahal ini.",
               "en": "This is expensive."
             },
             {
-              "war": "Barato an isda.",
-              "en": "The banana is cheap."
+              "war": "Barato an tinapay.",
+              "en": "The bread is cheap."
             },
             {
               "war": "Waray ako sukli.",
@@ -2164,19 +2164,19 @@
           "phrases": [
             {
               "war": "Pira an kwarta mo?",
-              "en": "How much is your money?"
+              "en": "How much money do you have?"
             },
             {
               "war": "Mapalit ka napulo ka tinapay?",
-              "en": "Will you buy ten eggs?"
+              "en": "Will you buy ten breads?"
             },
             {
               "war": "Bayad na! Waray sukli.",
               "en": "Pay now! No change."
             },
             {
-              "war": "Mahal ini nga isda, barato an isda.",
-              "en": "This fish is expensive, the banana is cheap."
+              "war": "Mahal an isda, barato an tinapay.",
+              "en": "The fish is expensive, the bread is cheap."
             }
           ],
           "teaches": [],
@@ -2201,8 +2201,8 @@
             "en": "Five pesos."
           },
           {
-            "war": "Mahal ini. Barato an isda.",
-            "en": "This is expensive. The banana is cheap."
+            "war": "Mahal an isda. Barato an tinapay.",
+            "en": "The fish is expensive. The bread is cheap."
           }
         ],
         "questions": [
@@ -2210,19 +2210,19 @@
             "q": "What will the person buy?",
             "choices": [
               "Isda",
-              "Saging",
+              "Tinapay",
               "Kwarta"
             ],
             "answer_index": 0
           },
           {
-            "q": "What did the person say about the fish?",
+            "q": "How is the bread priced?",
             "choices": [
               "Barato",
               "Mahal",
-              "Usa"
+              "Waray"
             ],
-            "answer_index": 1
+            "answer_index": 0
           }
         ]
       }

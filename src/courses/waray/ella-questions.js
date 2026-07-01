@@ -81,4 +81,16 @@ export const ELLA_QUESTIONS = [
     q: "Confirm the everyday Daram time words: udto, yana, adlaw, kahapon, buwas, san-o.",
     detail: "Glossed noon / now / day(today) / yesterday / tomorrow / when. Are these the natural spoken forms in Daram (e.g. is 'san-o' the everyday 'when', and 'kahapon' the usual 'yesterday')? Phase 1 unit 6.",
   },
+  {
+    id: "c2-inlaw-terms",
+    topic: "Challenger 2 · family (Phase 2)",
+    q: "Confirm the extended-family / in-law terms: ugangan, bayaw, hipag, umangkon.",
+    detail: "Glossed parent-in-law / brother-in-law / sister-in-law / niece-nephew. Also using kuya, ate (older brother/sister), lolo, lola (grandparents). Are these the everyday Daram terms? (from the expanded Challenger 2 build)",
+  },
+  {
+    id: "c2-clock-numbers",
+    topic: "Challenger 2 · telling time (Phase 2)",
+    q: "For clock time, do people in Daram say Spanish numbers (alas sais, alas tres, alas singko) or native (unom, tulo, lima)?",
+    detail: "Challenger 2 teaches native numbers 1-10 but the time unit uses 'alas + Spanish number' for the clock, which is common in the Philippines. Confirm what's natural in Daram so we teach one consistently.",
+  },
 ];

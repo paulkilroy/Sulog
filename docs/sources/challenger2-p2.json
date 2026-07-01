@@ -1,0 +1,2013 @@
+{
+  "phase_id": "p2",
+  "detailed_units": [
+    {
+      "unit_id": "u6",
+      "phase_id": "p2",
+      "title": "Meeting the In-Laws",
+      "theme": "Extended family introductions and respect",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Introduce yourself respectfully to extended family members.",
+      "new_grammar": [],
+      "new_vocab": [
+        {
+          "lemma": "lolo",
+          "pos": "noun",
+          "gloss": "grandfather",
+          "example": {
+            "war": "Hi lolo.",
+            "focus": "lolo",
+            "en": "This is grandfather."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "lola",
+          "pos": "noun",
+          "gloss": "grandmother",
+          "example": {
+            "war": "Hi lola ko.",
+            "focus": "lola",
+            "en": "This is my grandmother."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tiyo",
+          "pos": "noun",
+          "gloss": "uncle",
+          "example": {
+            "war": "Hi tiyo Pido.",
+            "focus": "tiyo",
+            "en": "This is Uncle Pido."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tiya",
+          "pos": "noun",
+          "gloss": "aunt",
+          "example": {
+            "war": "Hi tiya Nena.",
+            "focus": "tiya",
+            "en": "This is Aunt Nena."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "ugangan",
+          "pos": "noun",
+          "gloss": "parent-in-law",
+          "example": {
+            "war": "An akon ugangan.",
+            "focus": "ugangan",
+            "en": "My parent-in-law."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "bayaw",
+          "pos": "noun",
+          "gloss": "brother-in-law",
+          "example": {
+            "war": "Hiya an akon bayaw.",
+            "focus": "bayaw",
+            "en": "He is my brother-in-law."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "hipag",
+          "pos": "noun",
+          "gloss": "sister-in-law",
+          "example": {
+            "war": "An iya hipag.",
+            "focus": "hipag",
+            "en": "His sister-in-law."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "umangkon",
+          "pos": "noun",
+          "gloss": "niece/nephew",
+          "example": {
+            "war": "An akon umangkon.",
+            "focus": "umangkon",
+            "en": "My niece/nephew."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": true,
+          "note": ""
+        },
+        {
+          "lemma": "pamilya",
+          "pos": "noun",
+          "gloss": "family",
+          "example": {
+            "war": "Imo pamilya.",
+            "focus": "pamilya",
+            "en": "Your family."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "buotan",
+          "pos": "adjective",
+          "gloss": "kind, good-natured",
+          "example": {
+            "war": "Hiya buotan.",
+            "focus": "buotan",
+            "en": "She is kind."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "malipayon",
+          "pos": "adjective",
+          "gloss": "happy",
+          "example": {
+            "war": "Ako malipayon.",
+            "focus": "malipayon",
+            "en": "I am happy."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bisita",
+          "pos": "noun",
+          "gloss": "guest",
+          "example": {
+            "war": "Kita bisita.",
+            "focus": "bisita",
+            "en": "We are guests."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "dayaw",
+          "pos": "verb",
+          "gloss": "to praise, to admire",
+          "example": {
+            "war": "Dayaw ko hiya.",
+            "focus": "dayaw",
+            "en": "I praise her."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kaupod",
+          "pos": "noun",
+          "gloss": "companion",
+          "example": {
+            "war": "An akon kaupod.",
+            "focus": "kaupod",
+            "en": "My companion."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u6l1",
+          "title": "New Family Members",
+          "type": "words",
+          "teaches": [
+            "lolo",
+            "lola",
+            "tiyo",
+            "tiya",
+            "ugangan",
+            "bayaw",
+            "hipag"
+          ]
+        },
+        {
+          "lesson_id": "u6l2",
+          "title": "More Family and Feelings",
+          "type": "words",
+          "teaches": [
+            "umangkon",
+            "pamilya",
+            "buotan",
+            "malipayon",
+            "bisita",
+            "dayaw",
+            "kaupod"
+          ]
+        },
+        {
+          "lesson_id": "u6l3",
+          "title": "Meeting the Family",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Maupay nga gab-i, lolo.",
+              "en": "Good evening, grandfather."
+            },
+            {
+              "war": "Hiya an akon ugangan.",
+              "en": "She is my parent-in-law."
+            },
+            {
+              "war": "Kita malipayon nga pamilya.",
+              "en": "We are a happy family."
+            },
+            {
+              "war": "An imo tiyo buotan.",
+              "en": "Your uncle is kind."
+            },
+            {
+              "war": "Salamat, tiya, kaupod kami.",
+              "en": "Thank you, aunt, we are companions."
+            },
+            {
+              "war": "Dayaw ko an imo hipag.",
+              "en": "I admire your sister-in-law."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u6l4",
+          "title": "Unit u6 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Kamusta, lola.",
+              "en": "How are you, grandmother."
+            },
+            {
+              "war": "Hiya an akon bayaw.",
+              "en": "He is my brother-in-law."
+            },
+            {
+              "war": "Aadi an imo umangkon.",
+              "en": "Your niece/nephew is here."
+            },
+            {
+              "war": "Kita bisita yana.",
+              "en": "We are guests today."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u6s1",
+        "title": "An Bisita nga Pamilya",
+        "title_en": "The Guest Family",
+        "sentences": [
+          {
+            "war": "Yana, hi Ana ngan hi Ben bisita ha balay ni lola.",
+            "en": "Today, Ana and Ben are guests at grandmother's house."
+          },
+          {
+            "war": "Aadi hi tiyo, hi tiya, ngan hi bayaw ni Ana.",
+            "en": "Here are Ana's uncle, aunt, and brother-in-law."
+          },
+          {
+            "war": "Malipayon an pamilya ni Ana. Buotan hi lola.",
+            "en": "Ana's family is happy. Grandmother is kind."
+          },
+          {
+            "war": "Dayaw ni Ben an kaupod.",
+            "en": "Ben praises the companion."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Hin-o an bisita?",
+            "choices": [
+              "hi Ana ngan hi Ben",
+              "hi lola",
+              "hi tiyo"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Kamusta an pamilya ni Ana?",
+            "choices": [
+              "malipayon",
+              "matugnaw",
+              "init"
+            ],
+            "answer_index": 0
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u7",
+      "phase_id": "p2",
+      "title": "Everyday Objects in the Yard",
+      "theme": "Household items and chores",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Ask for common household items outside or in the kitchen.",
+      "new_grammar": [],
+      "new_vocab": [
+        {
+          "lemma": "silhig",
+          "pos": "n",
+          "gloss": "broom",
+          "example": {
+            "war": "Aadi an silhig.",
+            "focus": "silhig",
+            "en": "Here is the broom."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "balde",
+          "pos": "n",
+          "gloss": "bucket",
+          "example": {
+            "war": "Hain an balde?",
+            "focus": "balde",
+            "en": "Where is the bucket?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tanom",
+          "pos": "n",
+          "gloss": "plant",
+          "example": {
+            "war": "Usa nga tanom.",
+            "focus": "tanom",
+            "en": "One plant."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kahoy",
+          "pos": "n",
+          "gloss": "tree",
+          "example": {
+            "war": "Usa nga kahoy.",
+            "focus": "kahoy",
+            "en": "One tree."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pinggan",
+          "pos": "n",
+          "gloss": "plate",
+          "example": {
+            "war": "Kinahanglan ko pinggan.",
+            "focus": "pinggan",
+            "en": "I need a plate."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "baso",
+          "pos": "n",
+          "gloss": "glass/cup",
+          "example": {
+            "war": "Gusto mo baso?",
+            "focus": "baso",
+            "en": "Do you want a glass?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sulo",
+          "pos": "n",
+          "gloss": "torch",
+          "example": {
+            "war": "Aada an sulo.",
+            "focus": "sulo",
+            "en": "There is the torch."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kutsara",
+          "pos": "n",
+          "gloss": "spoon",
+          "example": {
+            "war": "Duha nga kutsara.",
+            "focus": "kutsara",
+            "en": "Two spoons."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tinidor",
+          "pos": "n",
+          "gloss": "fork",
+          "example": {
+            "war": "Tulo nga tinidor.",
+            "focus": "tinidor",
+            "en": "Three forks."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kutsilyo",
+          "pos": "n",
+          "gloss": "knife",
+          "example": {
+            "war": "Aadi an kutsilyo.",
+            "focus": "kutsilyo",
+            "en": "Here is the knife."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kaldero",
+          "pos": "n",
+          "gloss": "cooking pot",
+          "example": {
+            "war": "Lima nga kaldero.",
+            "focus": "kaldero",
+            "en": "Five cooking pots."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sabit",
+          "pos": "v",
+          "gloss": "to hang",
+          "example": {
+            "war": "Sabit an imo.",
+            "focus": "sabit",
+            "en": "Hang yours."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "laba",
+          "pos": "v",
+          "gloss": "to wash clothes",
+          "example": {
+            "war": "Laba yana.",
+            "focus": "laba",
+            "en": "Wash clothes now."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hugas",
+          "pos": "v",
+          "gloss": "to wash (dishes)",
+          "example": {
+            "war": "Hugas an pinggan.",
+            "focus": "hugas",
+            "en": "Wash the plate."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pwesto",
+          "pos": "n",
+          "gloss": "spot/place",
+          "example": {
+            "war": "Aadi an pwesto.",
+            "focus": "pwesto",
+            "en": "Here is the spot."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u7l1",
+          "title": "Yard & Kitchen Basics 1",
+          "type": "words",
+          "teaches": [
+            "silhig",
+            "balde",
+            "tanom",
+            "kahoy",
+            "pinggan",
+            "baso",
+            "sulo"
+          ]
+        },
+        {
+          "lesson_id": "u7l2",
+          "title": "Yard & Kitchen Basics 2",
+          "type": "words",
+          "teaches": [
+            "kutsara",
+            "tinidor",
+            "kutsilyo",
+            "kaldero",
+            "sabit",
+            "laba",
+            "hugas",
+            "pwesto"
+          ]
+        },
+        {
+          "lesson_id": "u7l3",
+          "title": "Asking for Things",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Alayon, hain an silhig?",
+              "en": "Please, where is the broom?"
+            },
+            {
+              "war": "Kinahanglan ko usa nga balde.",
+              "en": "I need one bucket."
+            },
+            {
+              "war": "Gusto mo an sulo didto?",
+              "en": "Do you want the torch over there?"
+            },
+            {
+              "war": "Hugas an baso ngan pinggan.",
+              "en": "Wash the glass and plate."
+            },
+            {
+              "war": "Aadi an kutsara ngan tinidor.",
+              "en": "Here are the spoon and fork."
+            },
+            {
+              "war": "Pira nga kaldero an imo?",
+              "en": "How many cooking pots are yours?"
+            }
+          ]
+        },
+        {
+          "lesson_id": "u7l4",
+          "title": "Unit u7 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Laba kita yana, nanay.",
+              "en": "Let's wash clothes now, mother."
+            },
+            {
+              "war": "Hain an kutsilyo ni tatay?",
+              "en": "Where is father's knife?"
+            },
+            {
+              "war": "Aadi an imo pwesto.",
+              "en": "Here is your spot."
+            },
+            {
+              "war": "Salamat, gusto ko an kape.",
+              "en": "Thank you, I want the coffee."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u7s1",
+        "title": "An Balay ni Lolo ug Lola",
+        "title_en": "Lolo and Lola's House",
+        "sentences": [
+          {
+            "war": "Maupay nga aga, lolo. Hain an balde?",
+            "en": "Good morning, grandfather. Where is the bucket?"
+          },
+          {
+            "war": "Aada an balde, apo. Kinahanglan mo an silhig?",
+            "en": "The bucket is over there, grandchild. Do you need the broom?"
+          },
+          {
+            "war": "Oo, lolo. Gusto ko maghugas hin pinggan ngan baso.",
+            "en": "Yes, grandfather. I want to wash plates and glasses."
+          },
+          {
+            "war": "Dayaw, apo! Pagkaon kamo han isda ngan kan-on.",
+            "en": "Good job, grandchild! Eat the fish and rice."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Ano an kinahanglan han apo?",
+            "choices": [
+              "silhig",
+              "balde",
+              "sulo"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Ano an gusto buhaton han apo?",
+            "choices": [
+              "maglaba",
+              "maghugas hin pinggan",
+              "magkaon"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u8",
+      "phase_id": "p2",
+      "title": "Where are You Going? (Kain ka?)",
+      "theme": "Neighborhood greetings and daily activities",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Answer the common neighborhood passing greeting.",
+      "new_grammar": [
+        {
+          "point": "Asking and answering 'Where are you going?' (Kain ka?)",
+          "explain_en": "The question 'Kain ka?' uses 'kain' for destination. Answers often use 'pakadto' (going to) or 'tikang' (coming from) followed by 'ha' and the place.",
+          "examples": [
+            {
+              "war": "Kain ka?",
+              "en": "Where are you going?"
+            },
+            {
+              "war": "Pakadto ako ha merkado.",
+              "en": "I am going to the market."
+            },
+            {
+              "war": "Tikang ako ha simbahan.",
+              "en": "I am coming from the church."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "kain",
+          "pos": "qword",
+          "gloss": "where (to), to what place",
+          "example": {
+            "war": "Kain ka?",
+            "focus": "Kain",
+            "en": "Where are you going?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Used for destination, often with movement verbs."
+        },
+        {
+          "lemma": "kadto",
+          "pos": "verb",
+          "gloss": "to go (to a specific place)",
+          "example": {
+            "war": "Kadto ha merkado.",
+            "focus": "Kadto",
+            "en": "Go to the market."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Often used as an imperative or in future tense constructions."
+        },
+        {
+          "lemma": "pakadto",
+          "pos": "verb",
+          "gloss": "going to, on the way to",
+          "example": {
+            "war": "Ako pakadto ha balay.",
+            "focus": "pakadto",
+            "en": "I am going home."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Indicates current movement towards a place."
+        },
+        {
+          "lemma": "tikang",
+          "pos": "verb",
+          "gloss": "coming from, from",
+          "example": {
+            "war": "Tikang ako ha merkado.",
+            "focus": "Tikang",
+            "en": "I am coming from the market."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Indicates origin or point of departure."
+        },
+        {
+          "lemma": "trabaho",
+          "pos": "verb/noun",
+          "gloss": "to work; work, job",
+          "example": {
+            "war": "Ako trabaho yana.",
+            "focus": "trabaho",
+            "en": "I am working now."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Can function as both a verb and a noun."
+        },
+        {
+          "lemma": "merkado",
+          "pos": "noun",
+          "gloss": "market",
+          "example": {
+            "war": "Ha merkado kami.",
+            "focus": "merkado",
+            "en": "We are at the market."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "A common place for buying food and goods."
+        },
+        {
+          "lemma": "tiangge",
+          "pos": "noun",
+          "gloss": "small store, sari-sari store",
+          "example": {
+            "war": "Palit ha tiangge.",
+            "focus": "tiangge",
+            "en": "Buy at the small store."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "A local neighborhood convenience store."
+        },
+        {
+          "lemma": "eskwelahan",
+          "pos": "noun",
+          "gloss": "school",
+          "example": {
+            "war": "An eskwelahan didto.",
+            "focus": "eskwelahan",
+            "en": "The school is over there."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Place of education."
+        },
+        {
+          "lemma": "simbahan",
+          "pos": "noun",
+          "gloss": "church",
+          "example": {
+            "war": "Kita ha simbahan.",
+            "focus": "simbahan",
+            "en": "We are at the church."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Place of worship."
+        },
+        {
+          "lemma": "opisina",
+          "pos": "noun",
+          "gloss": "office",
+          "example": {
+            "war": "Hiya ha opisina.",
+            "focus": "opisina",
+            "en": "He/She is at the office."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Place of work or administration."
+        },
+        {
+          "lemma": "pahulay",
+          "pos": "verb/noun",
+          "gloss": "to rest; rest",
+          "example": {
+            "war": "Kinahanglan ko pahulay.",
+            "focus": "pahulay",
+            "en": "I need to rest."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Important for relaxation and recovery."
+        },
+        {
+          "lemma": "balik",
+          "pos": "verb",
+          "gloss": "to return, to go back",
+          "example": {
+            "war": "Balik ako dayon.",
+            "focus": "Balik",
+            "en": "I will return right away."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "To go back to a previous location or state."
+        },
+        {
+          "lemma": "limpyo",
+          "pos": "verb/adj",
+          "gloss": "to clean; clean",
+          "example": {
+            "war": "Limpyo an balay.",
+            "focus": "Limpyo",
+            "en": "The house is clean."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Refers to the act of cleaning or the state of being clean."
+        },
+        {
+          "lemma": "dayon",
+          "pos": "adverb",
+          "gloss": "immediately, right away, at once",
+          "example": {
+            "war": "Kadto dayon.",
+            "focus": "dayon",
+            "en": "Go right away."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Indicates promptness or urgency."
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u8l1",
+          "title": "Words for Going and Coming",
+          "type": "words",
+          "teaches": [
+            "kain",
+            "kadto",
+            "pakadto",
+            "tikang",
+            "trabaho",
+            "merkado",
+            "tiangge"
+          ]
+        },
+        {
+          "lesson_id": "u8l2",
+          "title": "Words for Places and Activities",
+          "type": "words",
+          "teaches": [
+            "eskwelahan",
+            "simbahan",
+            "opisina",
+            "pahulay",
+            "balik",
+            "limpyo",
+            "dayon"
+          ]
+        },
+        {
+          "lesson_id": "u8l3",
+          "title": "Apply: Where are You Going?",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Kain ka?",
+              "en": "Where are you going?"
+            },
+            {
+              "war": "Pakadto ako ha merkado.",
+              "en": "I am going to the market."
+            },
+            {
+              "war": "Tikang ako ha simbahan.",
+              "en": "I am coming from the church."
+            },
+            {
+              "war": "Trabaho hiya yana.",
+              "en": "He/She is working now."
+            },
+            {
+              "war": "Balik ako dayon ha balay.",
+              "en": "I will return home right away."
+            },
+            {
+              "war": "Limpyo an balay.",
+              "en": "The house is clean."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u8l4",
+          "title": "Unit u8 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Kain ka pakadto?",
+              "en": "Where are you going (to)?"
+            },
+            {
+              "war": "Pakadto ako ha eskwelahan.",
+              "en": "I am going to the school."
+            },
+            {
+              "war": "Kinahanglan ko trabaho.",
+              "en": "I need work (or: I need to work)."
+            },
+            {
+              "war": "Pahulay kita ha balay.",
+              "en": "Let's rest at home."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u8s1",
+        "title": "An Adlaw ni Lolo",
+        "title_en": "Grandpa's Day",
+        "sentences": [
+          {
+            "war": "Maupay nga aga, Lolo! Kain ka?",
+            "en": "Good morning, Grandpa! Where are you going?"
+          },
+          {
+            "war": "Pakadto ako ha merkado. Mapalit ako isda ngan utan.",
+            "en": "I am going to the market. I will buy fish and vegetables."
+          },
+          {
+            "war": "Tikang ha merkado, pakadto hiya ha tiangge. Nagpalit hiya tinapay.",
+            "en": "From the market, he went to the small store. He bought bread."
+          },
+          {
+            "war": "Didto ha balay, kinahanglan niya pahulay dayon. Limpyo an balay ni Lola.",
+            "en": "At home, he needed to rest right away. Lola's house is clean."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Kain pakadto hi Lolo ha primero?",
+            "choices": [
+              "Ha tiangge",
+              "Ha merkado",
+              "Ha balay"
+            ],
+            "answer_index": 1
+          },
+          {
+            "q": "Ano an kinahanglan ni Lolo didto ha balay?",
+            "choices": [
+              "Tubig",
+              "Pahulay",
+              "Kaon"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u9",
+      "phase_id": "p2",
+      "title": "Talking About the Weather",
+      "theme": "Weather and daily life",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Comment on the heat, rain, and wind with community members.",
+      "new_grammar": [],
+      "new_vocab": [
+        {
+          "lemma": "uran",
+          "pos": "noun",
+          "gloss": "rain",
+          "example": {
+            "war": "makusog nga uran",
+            "focus": "uran",
+            "en": "strong rain"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "nag-uuran",
+          "pos": "verb",
+          "gloss": "raining",
+          "example": {
+            "war": "yana nag-uuran",
+            "focus": "nag-uuran",
+            "en": "it's raining now"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hangin",
+          "pos": "noun",
+          "gloss": "wind",
+          "example": {
+            "war": "bugnaw nga hangin",
+            "focus": "hangin",
+            "en": "cold wind"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "mahangin",
+          "pos": "adjective",
+          "gloss": "windy",
+          "example": {
+            "war": "mahangin yana",
+            "focus": "mahangin",
+            "en": "it's windy now"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sirak",
+          "pos": "noun",
+          "gloss": "sunshine, glare",
+          "example": {
+            "war": "init an sirak",
+            "focus": "sirak",
+            "en": "the sunshine is hot"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "masirak",
+          "pos": "adjective",
+          "gloss": "sunny",
+          "example": {
+            "war": "masirak nga adlaw",
+            "focus": "masirak",
+            "en": "sunny day"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "panahon",
+          "pos": "noun",
+          "gloss": "weather, time",
+          "example": {
+            "war": "maupay an panahon",
+            "focus": "panahon",
+            "en": "the weather is good"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "dampog",
+          "pos": "noun",
+          "gloss": "cloud",
+          "example": {
+            "war": "dako nga dampog",
+            "focus": "dampog",
+            "en": "big cloud"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "madampog",
+          "pos": "adjective",
+          "gloss": "cloudy",
+          "example": {
+            "war": "madampog yana",
+            "focus": "madampog",
+            "en": "it's cloudy now"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bagyo",
+          "pos": "noun",
+          "gloss": "typhoon, storm",
+          "example": {
+            "war": "makusog nga bagyo",
+            "focus": "bagyo",
+            "en": "strong typhoon"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "baha",
+          "pos": "noun",
+          "gloss": "flood",
+          "example": {
+            "war": "dako nga baha",
+            "focus": "baha",
+            "en": "big flood"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "basa",
+          "pos": "adjective",
+          "gloss": "wet",
+          "example": {
+            "war": "basa an balay",
+            "focus": "basa",
+            "en": "the house is wet"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "uga",
+          "pos": "adjective",
+          "gloss": "dry",
+          "example": {
+            "war": "uga an dalan",
+            "focus": "uga",
+            "en": "the road is dry"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Can also mean empty/finished for liquids."
+        },
+        {
+          "lemma": "makusog",
+          "pos": "adjective",
+          "gloss": "strong, loud",
+          "example": {
+            "war": "makusog an hangin",
+            "focus": "makusog",
+            "en": "the wind is strong"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "pirmi",
+          "pos": "adverb",
+          "gloss": "always, constantly",
+          "example": {
+            "war": "pirmi init didto",
+            "focus": "pirmi",
+            "en": "it's always hot there"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u9l1",
+          "title": "Weather Words 1: Sun, Rain & Wind",
+          "type": "words",
+          "teaches": [
+            "uran",
+            "nag-uuran",
+            "hangin",
+            "mahangin",
+            "sirak",
+            "masirak",
+            "panahon"
+          ]
+        },
+        {
+          "lesson_id": "u9l2",
+          "title": "Weather Words 2: Clouds, Storms & States",
+          "type": "words",
+          "teaches": [
+            "dampog",
+            "madampog",
+            "bagyo",
+            "baha",
+            "basa",
+            "uga",
+            "makusog",
+            "pirmi"
+          ]
+        },
+        {
+          "lesson_id": "u9l3",
+          "title": "Commenting on the Weather",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Init gud an panahon yana.",
+              "en": "The weather is really hot now."
+            },
+            {
+              "war": "Nag-uuran na. Basa an natad.",
+              "en": "It's raining already. The yard is wet."
+            },
+            {
+              "war": "Makusog an hangin. Mahangin gud.",
+              "en": "The wind is strong. It's really windy."
+            },
+            {
+              "war": "Masirak yana. Maupay para laba.",
+              "en": "It's sunny now. Good for laundry."
+            },
+            {
+              "war": "Madampog yana. Waray sirak.",
+              "en": "It's cloudy now. No sunshine."
+            },
+            {
+              "war": "Dako nga bagyo an pakadto Daram.",
+              "en": "A big typhoon is coming to Daram."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u9l4",
+          "title": "Unit u9 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Kamusta an panahon ha Daram?",
+              "en": "How's the weather in Daram?"
+            },
+            {
+              "war": "Pirmi ba init didto?",
+              "en": "Is it always hot there?"
+            },
+            {
+              "war": "Unina, nag-uuran na.",
+              "en": "Later, it will be raining."
+            },
+            {
+              "war": "Kinahanglan uga an balay tikang ha baha.",
+              "en": "The house needs to be dry from the flood."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u9s1",
+        "title": "An Panahon ha Daram",
+        "title_en": "The Weather in Daram",
+        "sentences": [
+          {
+            "war": "Maupay nga aga! Init an panahon yana.",
+            "en": "Good morning! The weather is hot now."
+          },
+          {
+            "war": "Kaina, nag-uuran hin makusog. Basa an natad.",
+            "en": "Earlier, it rained strong. The yard is wet."
+          },
+          {
+            "war": "Pero yana, masirak na. Maupay para laba.",
+            "en": "But now, it's sunny already. Good for laundry."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Ano an panahon yana?",
+            "choices": [
+              "Masirak",
+              "Nag-uuran",
+              "Madampog"
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Ano an natabo kaina?",
+            "choices": [
+              "Masirak an adlaw",
+              "Nag-uuran hin makusog",
+              "Mahangin gud"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u10",
+      "phase_id": "p2",
+      "title": "Time of Day and Simple Tasks",
+      "theme": "Daily routines and coordinating activities in a rural island setting.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Coordinate basic daily times for chores or casual meetings.",
+      "new_grammar": [
+        {
+          "point": "Telling time with 'Alas'",
+          "explain_en": "'Alas' is used before a number (from 'usa' to 'napulo', 'dose') to indicate a specific hour of the day. It functions like 'at [time] o'clock'.",
+          "examples": [
+            {
+              "war": "Alas dose na.",
+              "en": "It's twelve o'clock already."
+            },
+            {
+              "war": "Alas singko kami mabangon.",
+              "en": "We will wake up at five o'clock."
+            }
+          ]
+        }
+      ],
+      "new_vocab": [
+        {
+          "lemma": "oras",
+          "pos": "noun",
+          "gloss": "hour; time",
+          "example": {
+            "war": "Pira ka oras?",
+            "focus": "oras",
+            "en": "How many hours?"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "minuto",
+          "pos": "noun",
+          "gloss": "minute",
+          "example": {
+            "war": "Lima ka minuto",
+            "focus": "minuto",
+            "en": "Five minutes"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "alas",
+          "pos": "prep",
+          "gloss": "at (time)",
+          "example": {
+            "war": "Alas otso",
+            "focus": "Alas",
+            "en": "At eight o'clock"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "Used before a number to tell time."
+        },
+        {
+          "lemma": "sayu",
+          "pos": "adj",
+          "gloss": "early",
+          "example": {
+            "war": "Sayu ako mabangon.",
+            "focus": "sayu",
+            "en": "I will wake up early."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "urhi",
+          "pos": "adj",
+          "gloss": "late",
+          "example": {
+            "war": "Urhi hiya bumalik.",
+            "focus": "urhi",
+            "en": "He returned late."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "buwas",
+          "pos": "adv",
+          "gloss": "tomorrow",
+          "example": {
+            "war": "Buwas kita magkita.",
+            "focus": "Buwas",
+            "en": "Tomorrow we will meet."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kagab-i",
+          "pos": "adv",
+          "gloss": "last night",
+          "example": {
+            "war": "Kagab-i nagkaon kami.",
+            "focus": "Kagab-i",
+            "en": "Last night we ate."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sunod",
+          "pos": "adj",
+          "gloss": "next",
+          "example": {
+            "war": "Sunod nga adlaw",
+            "focus": "sunod",
+            "en": "Next day"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "bangon",
+          "pos": "verb",
+          "gloss": "wake up; get up",
+          "example": {
+            "war": "Bangon na, Nanay!",
+            "focus": "Bangon",
+            "en": "Wake up now, Mom!"
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "luto",
+          "pos": "verb",
+          "gloss": "cook",
+          "example": {
+            "war": "Magluto isda.",
+            "focus": "luto",
+            "en": "Cook fish."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "magkita",
+          "pos": "verb",
+          "gloss": "meet",
+          "example": {
+            "war": "Magkita kita ha merkado",
+            "focus": "Magkita",
+            "en": "Let's meet at the market"
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": "to meet up (root kita = see); distinct from the pronoun kita = we"
+        },
+        {
+          "lemma": "pasyada",
+          "pos": "verb",
+          "gloss": "stroll; walk around",
+          "example": {
+            "war": "Mapasyada kita.",
+            "focus": "pasyada",
+            "en": "Let's go for a stroll."
+          },
+          "difficulty": 2,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "tapos",
+          "pos": "verb",
+          "gloss": "finish",
+          "example": {
+            "war": "Tapos na an trabaho.",
+            "focus": "Tapos",
+            "en": "The work is finished."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "sugod",
+          "pos": "verb",
+          "gloss": "start",
+          "example": {
+            "war": "Sugod na kita.",
+            "focus": "Sugod",
+            "en": "Let's start now."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "hatag",
+          "pos": "verb",
+          "gloss": "give",
+          "example": {
+            "war": "Hatag tubig.",
+            "focus": "Hatag",
+            "en": "Give water."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "kuha",
+          "pos": "verb",
+          "gloss": "get; take",
+          "example": {
+            "war": "Kuha kape.",
+            "focus": "Kuha",
+            "en": "Get coffee."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u10l1",
+          "title": "Times and Dates",
+          "type": "words",
+          "teaches": [
+            "oras",
+            "minuto",
+            "alas",
+            "sayu",
+            "urhi",
+            "buwas",
+            "kagab-i",
+            "sunod"
+          ]
+        },
+        {
+          "lesson_id": "u10l2",
+          "title": "Daily Actions",
+          "type": "words",
+          "teaches": [
+            "bangon",
+            "luto",
+            "magkita",
+            "pasyada",
+            "tapos",
+            "sugod",
+            "hatag",
+            "kuha"
+          ]
+        },
+        {
+          "lesson_id": "u10l3",
+          "title": "Apply: Daily Coordination",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Alas sais ako mabangon buwas.",
+              "en": "I will wake up at six tomorrow."
+            },
+            {
+              "war": "Tapos na an trabaho ko yana.",
+              "en": "My work is finished now."
+            },
+            {
+              "war": "Sayu ka magluto hin isda.",
+              "en": "You cook fish early."
+            },
+            {
+              "war": "Magkita kita ha merkado alas tres.",
+              "en": "Let's meet at the market at three o'clock."
+            },
+            {
+              "war": "Urhi hiya bumalik tikang ha balay.",
+              "en": "He returned late from the house."
+            },
+            {
+              "war": "Hatag kape, alayon.",
+              "en": "Give coffee, please."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u10l4",
+          "title": "Unit u10 Review",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Pira ka oras ka mapasyada?",
+              "en": "How many hours will you stroll?"
+            },
+            {
+              "war": "Kagab-i kami nagluto utan.",
+              "en": "Last night we cooked vegetables."
+            },
+            {
+              "war": "Sunod nga adlaw, sugod kita paglimpyo.",
+              "en": "Next day, let's start cleaning."
+            },
+            {
+              "war": "Kuha hin tubig, Nanay.",
+              "en": "Get water, Mom."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u10s1",
+        "title": "An Adlaw ni Nanay",
+        "title_en": "Mom's Day",
+        "sentences": [
+          {
+            "war": "Alas singko, sayu bumangon hi Nanay. Nagluto hiya kape ngan kan-on para ha pamilya.",
+            "en": "At five o'clock, Mom woke up early. She cooked coffee and rice for the family."
+          },
+          {
+            "war": "Pagkatapos, nagpasyada hiya ha natad. Limpyo an ira balay pirmi.",
+            "en": "Afterwards, she strolled in the yard. Their house is always clean."
+          },
+          {
+            "war": "Buwas, magkita hira ni Tatay ha merkado para magpalit isda.",
+            "en": "Tomorrow, she and Dad will meet at the market to buy fish."
+          }
+        ],
+        "questions": [
+          {
+            "q": "San-o bumangon hi Nanay?",
+            "choices": [
+              "Alas sais",
+              "Alas singko",
+              "Alas kwatro"
+            ],
+            "answer_index": 1
+          },
+          {
+            "q": "Hain magkita hi Nanay ngan hi Tatay buwas?",
+            "choices": [
+              "Ha balay",
+              "Ha merkado",
+              "Ha kusina"
+            ],
+            "answer_index": 1
+          }
+        ]
+      }
+    },
+    {
+      "unit_id": "u11",
+      "phase_id": "p2",
+      "title": "Phase 2 Review & Celebration",
+      "theme": "A small neighborhood celebration with food and friends.",
+      "cefr": "A1",
+      "difficulty": 1,
+      "can_do": "Combine early neighborhood conversations smoothly.",
+      "new_grammar": [],
+      "new_vocab": [
+        {
+          "lemma": "malinamnam",
+          "pos": "adjective",
+          "gloss": "delicious",
+          "example": {
+            "war": "An kan-on malinamnam.",
+            "focus": "malinamnam",
+            "en": "The rice is delicious."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        },
+        {
+          "lemma": "regalo",
+          "pos": "noun",
+          "gloss": "gift",
+          "example": {
+            "war": "Mayda ako regalo.",
+            "focus": "regalo",
+            "en": "I have a gift."
+          },
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "note": ""
+        }
+      ],
+      "lessons": [
+        {
+          "lesson_id": "u11l1",
+          "title": "New Flavors, New Gifts",
+          "type": "words",
+          "teaches": [
+            "malinamnam",
+            "regalo"
+          ]
+        },
+        {
+          "lesson_id": "u11l2",
+          "title": "Warm Greetings and Invitations",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Maupay nga aga! Kamusta ikaw?",
+              "en": "Good morning! How are you?"
+            },
+            {
+              "war": "Gusto mo ba kape?",
+              "en": "Do you want coffee?"
+            },
+            {
+              "war": "Alayon, lingkod didto.",
+              "en": "Please, sit there."
+            },
+            {
+              "war": "Kami malipayon nga ikaw bisita.",
+              "en": "We are happy that you are a visitor."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u11l3",
+          "title": "Sharing Food and Compliments",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "An kan-on malinamnam!",
+              "en": "The rice is delicious!"
+            },
+            {
+              "war": "An isda init ngan malinamnam.",
+              "en": "The fish is hot and delicious."
+            },
+            {
+              "war": "Gusto mo ba sabaw?",
+              "en": "Do you want soup?"
+            },
+            {
+              "war": "Salamat ha imo!",
+              "en": "Thank you to you!"
+            },
+            {
+              "war": "Hatag ko ha imo an prutas.",
+              "en": "I give the fruit to you."
+            }
+          ]
+        },
+        {
+          "lesson_id": "u11l4",
+          "title": "Reviewing Daily Life & Island Talk",
+          "type": "apply",
+          "phrases": [
+            {
+              "war": "Nag-uuran yana. Buwas masirak.",
+              "en": "It's raining now. Tomorrow it will be sunny."
+            },
+            {
+              "war": "Pira an oras yana?",
+              "en": "What time is it now?"
+            },
+            {
+              "war": "Malipayon ako didto ha Daram.",
+              "en": "I am happy there in Daram."
+            },
+            {
+              "war": "An trabaho tapos.",
+              "en": "The work is finished."
+            },
+            {
+              "war": "Hatag ko ha imo an regalo.",
+              "en": "I give the gift to you."
+            }
+          ]
+        }
+      ],
+      "story": {
+        "story_id": "u11s1",
+        "title": "Selebrasyon ha Balay ni Nanay",
+        "title_en": "Celebration at Nanay's House",
+        "sentences": [
+          {
+            "war": "Maupay nga kulop! Dayon ha balay ni Nanay.",
+            "en": "Good afternoon! Come in to Nanay's house."
+          },
+          {
+            "war": "Hi Nanay ngan hi Lola nagluto hin kan-on ngan isda. An isda malinamnam!",
+            "en": "Nanay and Lola cooked rice and fish. The fish is delicious!"
+          },
+          {
+            "war": "Kami malipayon nga ikaw kaupod.",
+            "en": "We are happy that you are a companion."
+          },
+          {
+            "war": "Gusto mo ba tubig? Gusto mo ba kape? Aadi an prutas.",
+            "en": "Do you want water? Do you want coffee? Here is the fruit."
+          }
+        ],
+        "questions": [
+          {
+            "q": "Ano an ginluto ni Nanay ngan ni Lola?",
+            "choices": [
+              "Kan-on ngan isda.",
+              "Tinapay ngan kape.",
+              "Utan ngan sabaw."
+            ],
+            "answer_index": 0
+          },
+          {
+            "q": "Kamusta an isda?",
+            "choices": [
+              "Malinamnam.",
+              "Init.",
+              "Mahal."
+            ],
+            "answer_index": 0
+          }
+        ]
+      }
+    }
+  ]
+}
