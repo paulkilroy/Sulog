@@ -112,9 +112,9 @@ h1{font-family:Georgia,serif;margin:0 0 4px;font-size:21px}
 </style></head><body>
 <header>
 <h1>Challenger 2 (Expanded) — content review</h1>
-<div class="panels"><b>Hierarchy:</b>
- <b>Course</b> (Waray · Challenger 2) › <b>Phase</b> (${phasesData.length}) › <b>Unit</b> (a theme + "I can…" goal) › <b>Lesson</b> (Words / Apply) › <b>Card</b> (a word or phrase) · <b>Story</b> (reading capstone).
- <i>Two things say "review":</i> the <b>"Unit N Review" lesson</b> = practice (shown in ② Apply); the graded <b>Unit Review</b> (column ③) = the auto mastery test.</div>
+<div class="panels"><b>Hierarchy (locked):</b>
+ <b>Course</b> (Waray · Challenger 2) › <b>Phase</b> (${phasesData.length}) › <b>Unit</b> (a theme + "I can…" goal) › then each Unit has <b>Lessons</b> (Words + Apply), a graded <b>Review</b>, and a <b>Story</b>. <span style="color:#9aa1a6">(A Lesson drills <b>Cards</b> — individual words or phrases.)</span>
+ <i>Heads-up on "review":</i> the <b>"Unit N Review" lesson</b> is practice (② Apply); the <b>Review</b> in column ③ is the graded mastery test.</div>
 <div class="panels" style="margin-top:5px"><b>Color</b> &nbsp;
  <span class="key"><span class="sw" style="background:#2f8f4e"></span>new this unit</span>
  <span class="key"><span class="sw" style="background:#8a9499"></span>taught earlier</span>

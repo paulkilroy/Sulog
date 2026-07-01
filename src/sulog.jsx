@@ -1241,7 +1241,7 @@ function HomeView({ ctx }) {
         </button>
       </div>
 
-      <SectionLabel icon={<Layers size={14} />} text="Units" />
+      <SectionLabel icon={<Layers size={14} />} text="Phases" />
       <div className="ws-units">
         {CURRICULUM.map((s) => {
           const sc = sectionCards(cards, s);
