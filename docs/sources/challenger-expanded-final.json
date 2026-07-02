@@ -322,16 +322,7 @@
             {
               "war": "Maupay kita niyan!",
               "en": "We'll be good later (you and I)!"
-            }
-          ],
-          "teaches": [],
-          "grammar_focus": "Using 'hi' and basic sentence structures"
-        },
-        {
-          "lesson_id": "u1l4",
-          "title": "Unit u1 Review",
-          "type": "apply",
-          "phrases": [
+            },
             {
               "war": "Maupay nga gab-i, hi Juan.",
               "en": "Good evening, Juan."
@@ -346,7 +337,7 @@
             }
           ],
           "teaches": [],
-          "grammar_focus": "Full Unit Review"
+          "grammar_focus": "Using 'hi' and basic sentence structures"
         }
       ],
       "story": {
@@ -738,30 +729,7 @@
             {
               "war": "Oo, dadi hi anak ko.",
               "en": "Yes, my child, come here."
-            }
-          ],
-          "teaches": [
-            "hain",
-            "tatay",
-            "aadi",
-            "nanay",
-            "aada",
-            "kuya",
-            "didto",
-            "ate",
-            "diri",
-            "bugto",
-            "oo",
-            "dadi",
-            "anak"
-          ],
-          "grammar_focus": "Pointers, Negator 'diri'"
-        },
-        {
-          "lesson_id": "u2l4",
-          "title": "Unit u2 Review",
-          "type": "apply",
-          "phrases": [
+            },
             {
               "war": "Hain hi asawa mo?",
               "en": "Where is your spouse?"
@@ -781,17 +749,20 @@
           ],
           "teaches": [
             "hain",
-            "asawa",
-            "diri",
+            "tatay",
             "aadi",
-            "ngadto",
+            "nanay",
             "aada",
-            "apo",
-            "dadi",
+            "kuya",
+            "didto",
+            "ate",
+            "diri",
+            "bugto",
             "oo",
-            "nanay"
+            "dadi",
+            "anak"
           ],
-          "grammar_focus": "Full Unit Review"
+          "grammar_focus": "Pointers, Negator 'diri'"
         }
       ],
       "story": {
@@ -1163,16 +1134,7 @@
             {
               "war": "Akon kusina adto.",
               "en": "That is my kitchen."
-            }
-          ],
-          "teaches": [],
-          "grammar_focus": "Applying 'in' and possessive pronouns"
-        },
-        {
-          "lesson_id": "u3l4",
-          "title": "Unit u3 Review",
-          "type": "apply",
-          "phrases": [
+            },
             {
               "war": "Tindog ha purtahan.",
               "en": "Stand at the door."
@@ -1191,7 +1153,7 @@
             }
           ],
           "teaches": [],
-          "grammar_focus": "Full Unit Review"
+          "grammar_focus": "Applying 'in' and possessive pronouns"
         }
       ],
       "story": {
@@ -1635,33 +1597,7 @@
             {
               "war": "Inom sin sabaw.",
               "en": "Drink some soup."
-            }
-          ],
-          "teaches": [
-            "tubig",
-            "kape",
-            "kan-on",
-            "isda",
-            "utan",
-            "prutas",
-            "tinapay",
-            "sabaw",
-            "gusto",
-            "kinahanglan",
-            "alayon",
-            "salamat",
-            "kaon",
-            "inom",
-            "init",
-            "matugnaw"
-          ],
-          "grammar_focus": "Gusto ko...; hin/sin"
-        },
-        {
-          "lesson_id": "u4l4",
-          "title": "Unit u4 Review",
-          "type": "apply",
-          "phrases": [
+            },
             {
               "war": "Salamat, gusto ko hin kan-on.",
               "en": "Thank you, I want some rice."
@@ -1697,7 +1633,7 @@
             "init",
             "matugnaw"
           ],
-          "grammar_focus": "Full Unit Review"
+          "grammar_focus": "Gusto ko...; hin/sin"
         }
       ],
       "story": {
@@ -2149,19 +2085,7 @@
             {
               "war": "Waray ako sukli.",
               "en": "I don't have change."
-            }
-          ],
-          "teaches": [
-            "Asking price with 'Tagpira ini?'",
-            "Future buying with 'mapalit'"
-          ],
-          "grammar_focus": ""
-        },
-        {
-          "lesson_id": "u5l4",
-          "title": "Unit u5 Review",
-          "type": "apply",
-          "phrases": [
+            },
             {
               "war": "Pira an kwarta mo?",
               "en": "How much money do you have?"
@@ -2179,8 +2103,11 @@
               "en": "The fish is expensive, the bread is cheap."
             }
           ],
-          "teaches": [],
-          "grammar_focus": "Full Unit Review"
+          "teaches": [
+            "Asking price with 'Tagpira ini?'",
+            "Future buying with 'mapalit'"
+          ],
+          "grammar_focus": ""
         }
       ],
       "story": {
