@@ -1577,8 +1577,14 @@ function pickDistractors(cards, card, dir) {
   // never use a card that IS the same word or the same meaning as the prompt —
   // that produces ambiguous options ("Sige." vs "sige", "Okay." for "ok/go ahead")
   const distinct = (c) => c.id !== card.id && key(c.waray) !== aW && key(c.english) !== aE;
-  const same = cards.filter((c) => c.deck === card.deck && distinct(c));
-  const pool = same.length >= 3 ? same : cards.filter(distinct);
+  // match the answer's SHAPE — a phrase prompt must get phrase options, not lone
+  // words (a full-sentence answer next to one-word distractors gives itself away)
+  const isPhrase = (c) => /\s/.test((c.waray || "").trim());
+  const want = isPhrase(card);
+  const shaped = (c) => isPhrase(c) === want;
+  let pool = cards.filter((c) => distinct(c) && shaped(c) && c.deck === card.deck);
+  if (pool.length < 3) pool = cards.filter((c) => distinct(c) && shaped(c)); // widen: any deck, same shape
+  if (pool.length < 3) pool = cards.filter(distinct);                        // last resort: anything distinct
   // collect 3 options that are distinct from the answer AND from each other by value
   const seen = new Set([key(card[field])]);
   const out = [];

@@ -131,12 +131,12 @@
           "note": ""
         },
         {
-          "lemma": "kaina",
+          "lemma": "kanina",
           "pos": "adverb",
-          "gloss": "earlier (today)",
+          "gloss": "earlier",
           "example": {
-            "war": "Maupay hira kaina",
-            "focus": "kaina",
+            "war": "Maupay hira kanina",
+            "focus": "kanina",
             "en": "They were good earlier"
           },
           "difficulty": 2,
@@ -146,18 +146,18 @@
           "note": ""
         },
         {
-          "lemma": "unina",
+          "lemma": "niyan",
           "pos": "adverb",
-          "gloss": "later (today)",
+          "gloss": "later",
           "example": {
-            "war": "Maupay ako unina",
-            "focus": "unina",
+            "war": "Maupay ako niyan",
+            "focus": "niyan",
             "en": "I'll be good later"
           },
           "difficulty": 2,
           "register": "spoken",
-          "samar_variant": "nganina",
-          "confirm": true,
+          "samar_variant": "",
+          "confirm": false,
           "note": ""
         },
         {
@@ -278,8 +278,8 @@
             "kulop",
             "gab-i",
             "yana",
-            "kaina",
-            "unina"
+            "kanina",
+            "niyan"
           ],
           "grammar_focus": "Basic greetings and time adverbs"
         },
@@ -316,11 +316,11 @@
               "en": "I am good now."
             },
             {
-              "war": "Maupay hira kaina.",
+              "war": "Maupay hira kanina.",
               "en": "They were good earlier."
             },
             {
-              "war": "Maupay kita unina!",
+              "war": "Maupay kita niyan!",
               "en": "We'll be good later (you and I)!"
             }
           ],

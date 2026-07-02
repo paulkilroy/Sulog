@@ -10,8 +10,8 @@ export const SEED_CH2 = [
   ["c2u1","kulop","afternoon","","",{"war":"Maupay nga kulop","focus":"kulop","en":"Good afternoon"}],
   ["c2u1","gab-i","evening/night","","",{"war":"Maupay nga gab-i","focus":"gab-i","en":"Good evening"}],
   ["c2u1","yana","now","","",{"war":"Maupay kita yana","focus":"yana","en":"We are good now"}],
-  ["c2u1","kaina","earlier (today)","","",{"war":"Maupay hira kaina","focus":"kaina","en":"They were good earlier"}],
-  ["c2u1","unina","later (today)","","",{"war":"Maupay ako unina","focus":"unina","en":"I'll be good later"}],
+  ["c2u1","kanina","earlier","","",{"war":"Maupay hira kanina","focus":"kanina","en":"They were good earlier"}],
+  ["c2u1","niyan","later","","",{"war":"Maupay ako niyan","focus":"niyan","en":"I'll be good later"}],
   ["c2u1","kamusta","how are you","","",{"war":"Kamusta ka?","focus":"Kamusta","en":"How are you?"}],
   ["c2u1","ako","I","","",{"war":"Ako hi Maria","focus":"Ako","en":"I am Maria"}],
   ["c2u1","ikaw","you (sg)","","",{"war":"Kamusta ka?","focus":"ikaw","en":"How are you?"}],
@@ -22,8 +22,8 @@ export const SEED_CH2 = [
   ["c2u1","Maupay nga aga, hi Maria.","Good morning, Maria.","","",null],
   ["c2u1","Kamusta ka yana?","How are you now?","","",null],
   ["c2u1","Maupay ako yana.","I am good now.","","",null],
-  ["c2u1","Maupay hira kaina.","They were good earlier.","","",null],
-  ["c2u1","Maupay kita unina!","We'll be good later (you and I)!","","",null],
+  ["c2u1","Maupay hira kanina.","They were good earlier.","","",null],
+  ["c2u1","Maupay kita niyan!","We'll be good later (you and I)!","","",null],
   ["c2u1","Maupay nga gab-i, hi Juan.","Good evening, Juan.","","",null],
   ["c2u1","Kamusta hira? Maupay kami.","How are they? We're good (not you).","","",null],
   ["c2u1","Maupay kita yana.","We are good now (you and I).","","",null],
@@ -300,8 +300,8 @@ export const CHALLENGER2 = [
               "kulop",
               "gab-i",
               "yana",
-              "kaina",
-              "unina"
+              "kanina",
+              "niyan"
             ]
           },
           {
@@ -325,8 +325,8 @@ export const CHALLENGER2 = [
               "Maupay nga aga, hi Maria.",
               "Kamusta ka yana?",
               "Maupay ako yana.",
-              "Maupay hira kaina.",
-              "Maupay kita unina!"
+              "Maupay hira kanina.",
+              "Maupay kita niyan!"
             ]
           },
           {
@@ -1271,4 +1271,4 @@ export const CHALLENGER2 = [
   }
 ];
 
-export const CH2_LEVELS = {"maupay":"A0","aga":"A0","udto":"A0","kulop":"A0","gab-i":"A0","yana":"A0","kaina":"A0","unina":"A0","kamusta":"A0","ako":"A0","ikaw":"A0","hiya":"A0","hira":"A0","kami":"A0","kita":"A0","nanay":"A0","tatay":"A0","kuya":"A0","ate":"A0","bugto":"A0","asawa":"A0","anak":"A0","apo":"A0","aadi":"A0","aada":"A0","didto":"A0","hain":"A0","oo":"A0","diri":"A0","dadi":"A0","ngadto":"A0","balay":"A0","kwarto":"A0","kusina":"A0","pantaw":"A0","purtahan":"A0","bintana":"A0","natad":"A0","kudal":"A0","akon":"A0","imo":"A0","iyo":"A0","sulod":"A0","gawas":"A0","lingkod":"A0","tindog":"A0","tubig":"A0","kape":"A0","kan-on":"A0","isda":"A0","utan":"A0","prutas":"A0","tinapay":"A0","sabaw":"A0","gusto":"A0","kinahanglan":"A0","alayon":"A0","salamat":"A0","kaon":"A0","inom":"A0","init":"A0","matugnaw":"A0","ko":"A0","mo":"A0","niya":"A0","usa":"A0","duha":"A0","tulo":"A0","upat":"A0","lima":"A0","unom":"A0","pito":"A0","walo":"A0","siyam":"A0","napulo":"A0","pira":"A0","tagpira":"A0","palit":"A0","mapalit":"A0","bayad":"A0","sukli":"A0","kwarta":"A0","pesos":"A0","mahal":"A0","barato":"A0","lolo":"A1","lola":"A1","tiyo":"A1","tiya":"A1","ugangan":"A1","bayaw":"A1","hipag":"A1","umangkon":"A1","pamilya":"A1","buotan":"A1","malipayon":"A1","bisita":"A1","dayaw":"A1","kaupod":"A1","silhig":"A1","balde":"A1","tanom":"A1","kahoy":"A1","pinggan":"A1","baso":"A1","sulo":"A1","kutsara":"A1","tinidor":"A1","kutsilyo":"A1","kaldero":"A1","sabit":"A1","laba":"A1","hugas":"A1","pwesto":"A1","kain":"A1","kadto":"A1","pakadto":"A1","tikang":"A1","trabaho":"A1","merkado":"A1","tiangge":"A1","eskwelahan":"A1","simbahan":"A1","opisina":"A1","pahulay":"A1","balik":"A1","limpyo":"A1","dayon":"A1","uran":"A1","nag-uuran":"A1","hangin":"A1","mahangin":"A1","sirak":"A1","masirak":"A1","panahon":"A1","dampog":"A1","madampog":"A1","bagyo":"A1","baha":"A1","basa":"A1","uga":"A1","makusog":"A1","pirmi":"A1","oras":"A1","minuto":"A1","alas":"A1","sayu":"A1","urhi":"A1","buwas":"A1","kagab-i":"A1","sunod":"A1","bangon":"A1","luto":"A1","magkita":"A1","pasyada":"A1","tapos":"A1","sugod":"A1","hatag":"A1","kuha":"A1","malinamnam":"A1","regalo":"A1"};
+export const CH2_LEVELS = {"maupay":"A0","aga":"A0","udto":"A0","kulop":"A0","gab-i":"A0","yana":"A0","kanina":"A0","niyan":"A0","kamusta":"A0","ako":"A0","ikaw":"A0","hiya":"A0","hira":"A0","kami":"A0","kita":"A0","nanay":"A0","tatay":"A0","kuya":"A0","ate":"A0","bugto":"A0","asawa":"A0","anak":"A0","apo":"A0","aadi":"A0","aada":"A0","didto":"A0","hain":"A0","oo":"A0","diri":"A0","dadi":"A0","ngadto":"A0","balay":"A0","kwarto":"A0","kusina":"A0","pantaw":"A0","purtahan":"A0","bintana":"A0","natad":"A0","kudal":"A0","akon":"A0","imo":"A0","iyo":"A0","sulod":"A0","gawas":"A0","lingkod":"A0","tindog":"A0","tubig":"A0","kape":"A0","kan-on":"A0","isda":"A0","utan":"A0","prutas":"A0","tinapay":"A0","sabaw":"A0","gusto":"A0","kinahanglan":"A0","alayon":"A0","salamat":"A0","kaon":"A0","inom":"A0","init":"A0","matugnaw":"A0","ko":"A0","mo":"A0","niya":"A0","usa":"A0","duha":"A0","tulo":"A0","upat":"A0","lima":"A0","unom":"A0","pito":"A0","walo":"A0","siyam":"A0","napulo":"A0","pira":"A0","tagpira":"A0","palit":"A0","mapalit":"A0","bayad":"A0","sukli":"A0","kwarta":"A0","pesos":"A0","mahal":"A0","barato":"A0","lolo":"A1","lola":"A1","tiyo":"A1","tiya":"A1","ugangan":"A1","bayaw":"A1","hipag":"A1","umangkon":"A1","pamilya":"A1","buotan":"A1","malipayon":"A1","bisita":"A1","dayaw":"A1","kaupod":"A1","silhig":"A1","balde":"A1","tanom":"A1","kahoy":"A1","pinggan":"A1","baso":"A1","sulo":"A1","kutsara":"A1","tinidor":"A1","kutsilyo":"A1","kaldero":"A1","sabit":"A1","laba":"A1","hugas":"A1","pwesto":"A1","kain":"A1","kadto":"A1","pakadto":"A1","tikang":"A1","trabaho":"A1","merkado":"A1","tiangge":"A1","eskwelahan":"A1","simbahan":"A1","opisina":"A1","pahulay":"A1","balik":"A1","limpyo":"A1","dayon":"A1","uran":"A1","nag-uuran":"A1","hangin":"A1","mahangin":"A1","sirak":"A1","masirak":"A1","panahon":"A1","dampog":"A1","madampog":"A1","bagyo":"A1","baha":"A1","basa":"A1","uga":"A1","makusog":"A1","pirmi":"A1","oras":"A1","minuto":"A1","alas":"A1","sayu":"A1","urhi":"A1","buwas":"A1","kagab-i":"A1","sunod":"A1","bangon":"A1","luto":"A1","magkita":"A1","pasyada":"A1","tapos":"A1","sugod":"A1","hatag":"A1","kuha":"A1","malinamnam":"A1","regalo":"A1"};
