@@ -326,14 +326,7 @@ export const CHALLENGER2 = [
               "Kamusta ka yana?",
               "Maupay ako yana.",
               "Maupay hira kanina.",
-              "Maupay kita niyan!"
-            ]
-          },
-          {
-            "id": "u1l4",
-            "title": "Unit u1 Review",
-            "kind": "apply",
-            "items": [
+              "Maupay kita niyan!",
               "Maupay nga gab-i, hi Juan.",
               "Kamusta hira? Maupay kami.",
               "Maupay kita yana."
@@ -412,14 +405,7 @@ export const CHALLENGER2 = [
               "Aada hi kuya.",
               "Didto hi ate.",
               "Diri hiya an bugto ko.",
-              "Oo, dadi hi anak ko."
-            ]
-          },
-          {
-            "id": "u2l4",
-            "title": "Unit u2 Review",
-            "kind": "apply",
-            "items": [
+              "Oo, dadi hi anak ko.",
               "Hain hi asawa mo?",
               "Diri hiya aadi, ngadto hiya.",
               "Aada hi apo ko, dadi!",
@@ -501,14 +487,7 @@ export const CHALLENGER2 = [
               "Lingkod ha pantaw.",
               "Imo balay ini.",
               "Gawas ha natad.",
-              "Akon kusina adto."
-            ]
-          },
-          {
-            "id": "u3l4",
-            "title": "Unit u3 Review",
-            "kind": "apply",
-            "items": [
+              "Akon kusina adto.",
               "Tindog ha purtahan.",
               "Iyo bintana adto.",
               "Aadi in kudal.",
@@ -594,14 +573,7 @@ export const CHALLENGER2 = [
               "Kinahanglan ko hin tubig, alayon.",
               "Kaon hin isda ngan utan.",
               "Gusto mo matugnaw nga prutas?",
-              "Inom sin sabaw."
-            ]
-          },
-          {
-            "id": "u4l4",
-            "title": "Unit u4 Review",
-            "kind": "apply",
-            "items": [
+              "Inom sin sabaw.",
               "Salamat, gusto ko hin kan-on.",
               "Alayon, gusto ko hin tinapay.",
               "Kinahanglan mo ba matugnaw nga tubig?",
@@ -689,14 +661,7 @@ export const CHALLENGER2 = [
               "Mapalit ako tulo ka isda.",
               "Mahal ini.",
               "Barato an tinapay.",
-              "Waray ako sukli."
-            ]
-          },
-          {
-            "id": "u5l4",
-            "title": "Unit u5 Review",
-            "kind": "apply",
-            "items": [
+              "Waray ako sukli.",
               "Pira an kwarta mo?",
               "Mapalit ka napulo ka tinapay?",
               "Bayad na! Waray sukli.",
@@ -785,14 +750,7 @@ export const CHALLENGER2 = [
               "Kita malipayon nga pamilya.",
               "An imo tiyo buotan.",
               "Salamat, tiya, kaupod kami.",
-              "Dayaw ko an imo hipag."
-            ]
-          },
-          {
-            "id": "u6l4",
-            "title": "Unit u6 Review",
-            "kind": "apply",
-            "items": [
+              "Dayaw ko an imo hipag.",
               "Kamusta, lola.",
               "Hiya an akon bayaw.",
               "Aadi an imo umangkon.",
@@ -875,14 +833,7 @@ export const CHALLENGER2 = [
               "Gusto mo an sulo didto?",
               "Hugas an baso ngan pinggan.",
               "Aadi an kutsara ngan tinidor.",
-              "Pira nga kaldero an imo?"
-            ]
-          },
-          {
-            "id": "u7l4",
-            "title": "Unit u7 Review",
-            "kind": "apply",
-            "items": [
+              "Pira nga kaldero an imo?",
               "Laba kita yana, nanay.",
               "Hain an kutsilyo ni tatay?",
               "Aadi an imo pwesto.",
@@ -964,14 +915,7 @@ export const CHALLENGER2 = [
               "Tikang ako ha simbahan.",
               "Trabaho hiya yana.",
               "Balik ako dayon ha balay.",
-              "Limpyo an balay."
-            ]
-          },
-          {
-            "id": "u8l4",
-            "title": "Unit u8 Review",
-            "kind": "apply",
-            "items": [
+              "Limpyo an balay.",
               "Kain ka pakadto?",
               "Pakadto ako ha eskwelahan.",
               "Kinahanglan ko trabaho.",
@@ -1054,14 +998,7 @@ export const CHALLENGER2 = [
               "Makusog an hangin. Mahangin gud.",
               "Masirak yana. Maupay para laba.",
               "Madampog yana. Waray sirak.",
-              "Dako nga bagyo an pakadto Daram."
-            ]
-          },
-          {
-            "id": "u9l4",
-            "title": "Unit u9 Review",
-            "kind": "apply",
-            "items": [
+              "Dako nga bagyo an pakadto Daram.",
               "Kamusta an panahon ha Daram?",
               "Pirmi ba init didto?",
               "Unina, nag-uuran na.",
@@ -1141,14 +1078,7 @@ export const CHALLENGER2 = [
               "Sayu ka magluto hin isda.",
               "Magkita kita ha merkado alas tres.",
               "Urhi hiya bumalik tikang ha balay.",
-              "Hatag kape, alayon."
-            ]
-          },
-          {
-            "id": "u10l4",
-            "title": "Unit u10 Review",
-            "kind": "apply",
-            "items": [
+              "Hatag kape, alayon.",
               "Pira ka oras ka mapasyada?",
               "Kagab-i kami nagluto utan.",
               "Sunod nga adlaw, sugod kita paglimpyo.",

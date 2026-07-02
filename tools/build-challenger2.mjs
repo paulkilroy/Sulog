@@ -71,7 +71,20 @@ for (const [phase, meta] of [[P1, { id: "c2p1", name: "First Steps in Daram (Exp
     for (const v of u.new_vocab) { pushCard([deck, v.lemma, v.gloss, v.note || "", "", v.example ? { war: v.example.war, focus: v.example.focus, en: v.example.en } : null]); if (!/\s/.test(v.lemma)) levels[v.lemma] = phase === P1 ? "A0" : "A1"; }
     const lessons = [];
     for (const l of u.lessons.filter((x) => x.type === "words")) lessons.push({ id: l.lesson_id, title: l.title, items: l.teaches || [] });
-    for (const l of u.lessons.filter((x) => x.type === "apply")) { for (const p of l.phrases || []) pushCard([deck, p.war, p.en, "", "", null]); lessons.push({ id: l.lesson_id, title: l.title, kind: "apply", items: (l.phrases || []).map((p) => p.war) }); }
+    // Merge the redundant "Unit X Review" apply lesson into the unit's themed apply
+    // lesson (keep the themed name + all phrases). Units without a "Unit X Review"
+    // (e.g. u11's celebration lessons) are left as separate themed apply lessons.
+    const applyAll = u.lessons.filter((x) => x.type === "apply");
+    const isUnitReview = (l) => /^unit\s+\S+\s+review$/i.test((l.title || "").trim());
+    const themed = applyAll.filter((l) => !isUnitReview(l));
+    const reviews = applyAll.filter(isUnitReview);
+    let finalApply = themed.length ? themed.map((l) => ({ ...l })) : reviews.map((l) => ({ ...l }));
+    if (themed.length && reviews.length) finalApply[0].phrases = [...(finalApply[0].phrases || []), ...reviews.flatMap((r) => r.phrases || [])];
+    for (const l of finalApply) {
+      const seenPh = new Set(), phrases = [];
+      for (const p of (l.phrases || [])) { if (!seenPh.has(p.war)) { seenPh.add(p.war); phrases.push(p); pushCard([deck, p.war, p.en, "", "", null]); } }
+      lessons.push({ id: l.lesson_id, title: l.title, kind: "apply", items: phrases.map((p) => p.war) });
+    }
     const uu = { id: u.unit_id, name: u.title, hint: u.theme || u.can_do || "", lessons };
     if (u.story) { const q0 = (u.story.questions || [])[0]; uu.story = { id: u.story.story_id, title: u.story.title, titleEn: u.story.title_en || u.story.title, lines: (u.story.sentences || []).map((s) => ({ war: s.war, en: s.en })) }; if (q0) uu.story.q = { q: q0.q, options: q0.choices, answer: q0.answer_index }; }
     units.push(uu);
