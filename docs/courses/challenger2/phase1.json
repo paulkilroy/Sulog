@@ -354,6 +354,65 @@
           ],
           "teaches": [],
           "grammar_focus": "Using 'hi' and basic sentence structures"
+        },
+        {
+          "lesson_id": "u1l4",
+          "type": "apply",
+          "title": "When you're stuck",
+          "phrases": [
+            {
+              "war": "Diri ako maaram",
+              "en": "I don't know"
+            },
+            {
+              "war": "Waray ako makabaro",
+              "en": "I don't understand"
+            },
+            {
+              "war": "Naintindihan ko",
+              "en": "I understand"
+            },
+            {
+              "war": "Naintindihan nimo?",
+              "en": "Do you understand?"
+            },
+            {
+              "war": "Oo, klaro",
+              "en": "Yes, it's clear"
+            },
+            {
+              "war": "Diri klaro",
+              "en": "No, it's not clear"
+            },
+            {
+              "war": "Hinay-hinay la",
+              "en": "Slowly, please"
+            },
+            {
+              "war": "Damo nga salamat",
+              "en": "Thank you very much"
+            },
+            {
+              "war": "Pasensya na",
+              "en": "Sorry / excuse me"
+            },
+            {
+              "war": "Walang anuman",
+              "en": "You're welcome"
+            },
+            {
+              "war": "Sige, sunod na la",
+              "en": "Goodbye (see you next time)"
+            },
+            {
+              "war": "Pwede magpakiana?",
+              "en": "May I ask a question?"
+            },
+            {
+              "war": "Pwede mo ako buligan?",
+              "en": "Can you help me?"
+            }
+          ]
         }
       ],
       "story": {

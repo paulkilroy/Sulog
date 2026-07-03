@@ -28,6 +28,19 @@ export const SEED_CH2 = [
   ["c2u1","Maupay nga gab-i, hi Juan.","Good evening, Juan.","","mah-OO-pigh ngah GAB-ee hee JOO-an",null],
   ["c2u1","Kamusta hira? Maupay kami.","How are they? We're good (not you).","","kah-moos-TAH HEE-rah mah-OO-pigh kah-MEE",null],
   ["c2u1","Maupay kita yana.","We are good now (you and I).","","mah-OO-pigh kee-TAH YAH-nah",null],
+  ["c2u1","Diri ako maaram","I don't know","","DEE-ree ah-KAW mah-AH-ram",null],
+  ["c2u1","Waray ako makabaro","I don't understand","","wah-RIGH ah-KAW mah-kah-BAH-ro",null],
+  ["c2u1","Naintindihan ko","I understand","","nah-een-tin-dee-HAHN ko",null],
+  ["c2u1","Naintindihan nimo?","Do you understand?","","nah-een-tin-dee-HAHN NEE-mo",null],
+  ["c2u1","Oo, klaro","Yes, it's clear","","AW-aw KLAH-ro",null],
+  ["c2u1","Diri klaro","No, it's not clear","","DEE-ree KLAH-ro",null],
+  ["c2u1","Hinay-hinay la","Slowly, please","","HEE-nigh HEE-nigh lah",null],
+  ["c2u1","Damo nga salamat","Thank you very much","","DAH-mo ngah sah-LAH-mat",null],
+  ["c2u1","Pasensya na","Sorry / excuse me","","pah-SEN-syah nah",null],
+  ["c2u1","Walang anuman","You're welcome","","wah-LANG ah-noo-MAN",null],
+  ["c2u1","Sige, sunod na la","Goodbye (see you next time)","","SEE-geh SOO-nod nah lah",null],
+  ["c2u1","Pwede magpakiana?","May I ask a question?","","PWEH-deh mag-pah-kee-AH-na",null],
+  ["c2u1","Pwede mo ako buligan?","Can you help me?","","PWEH-deh mo ah-KAW boo-LEE-gan",null],
   ["c2u2","nanay","mother","","NAH-nigh",{"war":"Maupay hi nanay.","focus":"nanay","en":"Mother is good."}],
   ["c2u2","tatay","father","","TAH-tigh",{"war":"Aadi hi tatay.","focus":"tatay","en":"Father is here."}],
   ["c2u2","kuya","older brother — also any slightly older male","","KOO-yah",{"war":"Kuya, dadi!","focus":"kuya","en":"Older brother, come here!"}],
@@ -336,6 +349,26 @@ export const CHALLENGER2 = [
               "Maupay nga gab-i, hi Juan.",
               "Kamusta hira? Maupay kami.",
               "Maupay kita yana."
+            ]
+          },
+          {
+            "id": "u1l4",
+            "title": "When you're stuck",
+            "kind": "apply",
+            "items": [
+              "Diri ako maaram",
+              "Waray ako makabaro",
+              "Naintindihan ko",
+              "Naintindihan nimo?",
+              "Oo, klaro",
+              "Diri klaro",
+              "Hinay-hinay la",
+              "Damo nga salamat",
+              "Pasensya na",
+              "Walang anuman",
+              "Sige, sunod na la",
+              "Pwede magpakiana?",
+              "Pwede mo ako buligan?"
             ]
           }
         ],

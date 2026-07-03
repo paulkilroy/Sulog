@@ -155,7 +155,15 @@ function loadTramp(path = "docs/sources/dictionaries/tramp-zorc-waray-english-di
 }
 // hand overrides where the penultimate default & dictionaries are known-wrong
 // (native-ear corrections; e.g. init is unmarked in Tramp but is inít = ee-NIT)
-const OVERRIDE = { kamusta: "kah-moos-TAH", kumusta: "kah-moos-TAH", init: "ee-NIT" };
+const OVERRIDE = { kamusta: "kah-moos-TAH", kumusta: "kah-moos-TAH", init: "ee-NIT", walang: "wah-LANG", anuman: "ah-noo-MAN" };
+// whole-PHRASE vetted pronunciations from the Frequency course (its multi-word cards),
+// so a phrase reused in another course gets the exact vetted form, not a per-word rebuild
+function loadFreqPhrases() {
+  const m = new Map();
+  const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
+  for (const r of SEED) if (/\s/.test(r[1]) && (r[4] || "").trim()) m.set(norm(r[1]), r[4]);
+  return m;
+}
 // root-strip fallback: an inflected surface form isn't a dict headword, but its ROOT
 // is. Locate the root as a substring (this transparently handles CV-reduplication,
 // e.g. umuuran ⊃ uran) and transfer the root's stressed-vowel ordinal to the surface
@@ -200,10 +208,13 @@ function fillSay(word, freq, dict) {
 //        review= tramptok|rootstrip|default    (OCR example accent / derived / penult guess)
 const CONF = { override: "high", freq: "high", first1k: "high", tramp: "high", tramptok: "review", rootstrip: "review", default: "review" };
 function fillSeedRespellings(seed, opts = {}) {
-  const freq = opts.freq || loadFreq(), dict = opts.dict || loadStress();
+  const freq = opts.freq || loadFreq(), dict = opts.dict || loadStress(), phr = opts.phrases || loadFreqPhrases();
+  const normP = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
   const counts = {}, flagged = new Map(); let filled = 0;
   for (const row of seed) {
     if ((row[4] || "").trim()) continue;
+    const whole = phr.get(normP(row[1]));                     // exact vetted phrase pronunciation?
+    if (whole) { row[4] = whole; counts.freqphrase = (counts.freqphrase || 0) + 1; filled++; continue; }
     const parts = row[1].trim().split(/\s+/).map((w) => ({ w, ...fillSay(w, freq, dict) }));
     row[4] = parts.map((p) => p.say).join(" ");
     filled++;

@@ -89,6 +89,28 @@ for (const [uid, lid, src, v] of HARVEST) {
   if (les && Array.isArray(les.teaches) && !les.teaches.includes(v.lemma)) les.teaches.push(v.lemma);
 }
 
+// ---------- survival / "getting unstuck" phrases — vetted from the Frequency course,
+// added as a day-one apply lesson in u1. Idempotent (skip if u1l4 exists). "Walang
+// anuman" is Ella-confirmed "you're welcome" (Frequency still teaches the wrong "Waray
+// sapayan"). Bare "Klaro?" omitted (single word, inferable). Whole-phrase pronunciations
+// reuse the vetted Frequency forms via fillSeedRespellings.
+const STUCK = { lesson_id: "u1l4", type: "apply", title: "When you're stuck", phrases: [
+  { war: "Diri ako maaram", en: "I don't know" },
+  { war: "Waray ako makabaro", en: "I don't understand" },
+  { war: "Naintindihan ko", en: "I understand" },
+  { war: "Naintindihan nimo?", en: "Do you understand?" },
+  { war: "Oo, klaro", en: "Yes, it's clear" },
+  { war: "Diri klaro", en: "No, it's not clear" },
+  { war: "Hinay-hinay la", en: "Slowly, please" },
+  { war: "Damo nga salamat", en: "Thank you very much" },
+  { war: "Pasensya na", en: "Sorry / excuse me" },
+  { war: "Walang anuman", en: "You're welcome" },
+  { war: "Sige, sunod na la", en: "Goodbye (see you next time)" },
+  { war: "Pwede magpakiana?", en: "May I ask a question?" },
+  { war: "Pwede mo ako buligan?", en: "Can you help me?" },
+] };
+{ const u1s = unit(P1, "u1"); if (!u1s.lessons.some((l) => l.lesson_id === "u1l4")) u1s.lessons.push(STUCK); }
+
 // ============ emit ============
 const seed = [], phases = [], levels = {};
 const seen = new Set(), dups = [];

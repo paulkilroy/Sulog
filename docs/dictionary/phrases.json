@@ -1,0 +1,15 @@
+[
+  { "waray": "Diri ako maaram",       "kind": "phrase", "meaning": "I don't know",             "pronunciation": "DEE-ree ah-KAW mah-AH-ram",      "tags": ["essential", "unstuck"] },
+  { "waray": "Waray ako makabaro",    "kind": "phrase", "meaning": "I don't understand",       "pronunciation": "wah-RIGH ah-KAW mah-kah-BAH-ro", "tags": ["essential", "unstuck"] },
+  { "waray": "Naintindihan ko",       "kind": "phrase", "meaning": "I understand",             "pronunciation": "nah-een-tin-dee-HAHN ko",        "tags": ["essential", "unstuck"] },
+  { "waray": "Naintindihan nimo?",    "kind": "phrase", "meaning": "Do you understand?",       "pronunciation": "nah-een-tin-dee-HAHN NEE-mo",    "tags": ["unstuck"] },
+  { "waray": "Oo, klaro",             "kind": "phrase", "meaning": "Yes, it's clear",          "pronunciation": "AW-aw KLAH-ro",                  "tags": ["unstuck"] },
+  { "waray": "Diri klaro",            "kind": "phrase", "meaning": "No, it's not clear",        "pronunciation": "DEE-ree KLAH-ro",                "tags": ["unstuck"] },
+  { "waray": "Hinay-hinay la",        "kind": "phrase", "meaning": "Slowly, please",           "pronunciation": "HEE-nigh HEE-nigh lah",          "tags": ["essential", "unstuck"] },
+  { "waray": "Damo nga salamat",      "kind": "phrase", "meaning": "Thank you very much",      "pronunciation": "DAH-mo ngah sah-LAH-mat",        "tags": ["essential", "courtesy"] },
+  { "waray": "Pasensya na",           "kind": "phrase", "meaning": "Sorry / excuse me",        "pronunciation": "pah-SEN-syah nah",               "tags": ["essential", "courtesy"] },
+  { "waray": "Walang anuman",         "kind": "phrase", "meaning": "You're welcome",           "pronunciation": "wah-LANG ah-noo-MAN", "loan": "Tagalog", "tags": ["essential", "courtesy"], "note": "Ella-confirmed. The Frequency course still teaches 'Waray sapayan' — not what people actually say; pronunciation pending Ella." },
+  { "waray": "Sige, sunod na la",     "kind": "phrase", "meaning": "Goodbye (see you next time)", "pronunciation": "SEE-geh SOO-nod nah lah",     "tags": ["courtesy"] },
+  { "waray": "Pwede magpakiana?",     "kind": "phrase", "meaning": "May I ask a question?",    "pronunciation": "PWEH-deh mag-pah-kee-AH-na",     "tags": ["asking"] },
+  { "waray": "Pwede mo ako buligan?", "kind": "phrase", "meaning": "Can you help me?",         "pronunciation": "PWEH-deh mo ah-KAW boo-LEE-gan", "tags": ["essential", "asking"] }
+]
