@@ -444,6 +444,17 @@ function norm(s) {
   return (s || "")
     .toLowerCase()
     .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    // expand English contractions BEFORE the apostrophe is stripped, so "We'll" and
+    // "we will" grade the same (else "we'll" glues to "well" and the edit distance
+    // rejects the spelled-out form). won't/can't first \u2014 they contain "n't".
+    .replace(/\bwon't\b/g, "will not")
+    .replace(/\bcan't\b/g, "cannot")
+    .replace(/n't\b/g, " not")
+    .replace(/'ll\b/g, " will")
+    .replace(/'re\b/g, " are")
+    .replace(/'ve\b/g, " have")
+    .replace(/'m\b/g, " am")
+    .replace(/let's\b/g, "let us")
     .replace(/\(.*?\)/g, "")
     .replace(/[.,!?;:"']/g, "")
     .replace(/\s+/g, " ")
