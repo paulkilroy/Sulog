@@ -4,6 +4,7 @@
    Phase 1 → decks ch1..ch7; Phase 2 → shifted ch6..ch10 → ch8..ch12 (avoid collision).
    One-time migration; safe-guards against double-shift. Run: node tools/build-challenger.mjs */
 import fs from "fs";
+import { fillSeedRespellings } from "./build-respellings.mjs";
 import { SEED_CH as OLD_SEED, CHALLENGER as OLD_CUR } from "../src/courses/waray/challenger.js";
 
 const P1 = JSON.parse(fs.readFileSync("docs/sources/challenger-phase1-result.json", "utf8"));
@@ -100,6 +101,12 @@ if (dups.length) console.log("⚠ duplicate waray WITHIN Phase 1:", dups.join(",
 
 const SEED_CH = [...seedP1, ...seedP2];
 const CHALLENGER = [cp1, cp2];
+
+// fill pronunciation respellings (reuse Frequency > dict accent > root-strip > penult)
+const rp = fillSeedRespellings(SEED_CH);
+console.log(`• respellings filled on ${rp.filled} cards —`, Object.entries(rp.counts).map(([k, v]) => `${k}:${v}`).join(" "));
+fs.writeFileSync("docs/sources/challenger-say-review.json", JSON.stringify(rp.flagged, null, 2));
+console.log(`• ${rp.flagged.length} words flagged for Ella → docs/sources/challenger-say-review.json`);
 
 // ---- emit ----
 const rowStr = (r) => "  " + JSON.stringify(r);
