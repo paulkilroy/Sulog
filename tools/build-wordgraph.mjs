@@ -1,7 +1,7 @@
 /* Build a self-contained interactive word graph for the Challenger course.
    Nodes = words (colored by unit); edges = co-occurrence in apply phrases,
    stories, and per-word examples. Layout is force-simulated here in Node and
-   baked into the SVG; the page just adds hover/drag. Output: wordgraph.html
+   baked into the SVG; the page just adds hover/drag. Output: docs/courses/frequency/wordgraph.html
    Run: node tools/build-wordgraph.mjs */
 import fs from "fs";
 import { SEED_CH, CHALLENGER } from "../src/courses/waray/challenger.js";
@@ -175,8 +175,8 @@ nodeG.forEach((o,i)=>{
 });
 </script></body></html>`;
 
-fs.writeFileSync("wordgraph.html", html);
-console.log(`✓ wrote wordgraph.html — ${nodes.length} nodes, ${links.length} links`);
+fs.writeFileSync("docs/courses/frequency/wordgraph.html", html);
+console.log(`✓ wrote docs/courses/frequency/wordgraph.html — ${nodes.length} nodes, ${links.length} links`);
 // top hubs
 const top = [...nodes].sort((a, b) => b.deg - a.deg).slice(0, 8).map((n) => `${n.w}(${n.deg})`);
 console.log("  most-connected:", top.join(", "));

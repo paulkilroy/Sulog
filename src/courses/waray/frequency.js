@@ -2,9 +2,9 @@
    highest-frequency grammatical glue (markers, pronouns, demonstratives,
    questions, numbers) leads, and loan-heavy themes trail. Units are reused from
    Classic (same lesson ids + items) and renamed to Duolingo-style can-do goals,
-   regrouped into 4 phases. See docs/frequency-first-structure.md.
+   regrouped into 4 phases. See docs/courses/frequency/frequency-first-structure.md.
 
-   Lesson model (docs/lesson-retool-proposal.md): each lesson is tagged
+   Lesson model (docs/courses/frequency/lesson-retool-proposal.md): each lesson is tagged
    kind "words" (learn vocab — full 4-step drill) or "apply" (phrases — type the
    Waray, one step). The unit page shows ① Words then ② Apply; the graded unit
    review tests the ② phrases. Pure-vocab units have only ① Words. */
@@ -34,7 +34,7 @@ const REPLACE = {
 };
 
 // New ② Apply lessons appended to units that lacked any (mined from sources;
-// every line attested — Peace Corps course / CHED. See docs/phrase-expansion-proposal.md).
+// every line attested — Peace Corps course / CHED. See docs/courses/frequency/phrase-expansion-proposal.md).
 const ADD = {
   u4:  [{ id: "u4a1",  title: "Family & friends", kind: "apply",
     items: ["nanay niya", "sangkay nira"] }],

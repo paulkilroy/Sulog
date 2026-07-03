@@ -56,9 +56,9 @@ try { parsed = JSON.parse(text); }
 catch (e) {
   // salvage: slice to outermost braces
   const s = text.slice(text.indexOf("{"), text.lastIndexOf("}")+1);
-  try { parsed = JSON.parse(s); } catch (e2) { console.log("PARSE FAILED:", e2.message); fs.writeFileSync("docs/sources/challenger-phase1-result.json", text); console.log("(raw text written for inspection)"); process.exit(1); }
+  try { parsed = JSON.parse(s); } catch (e2) { console.log("PARSE FAILED:", e2.message); fs.writeFileSync("docs/courses/challenger/challenger-phase1-result.json", text); console.log("(raw text written for inspection)"); process.exit(1); }
 }
-fs.writeFileSync("docs/sources/challenger-phase1-result.json", JSON.stringify(parsed, null, 2));
+fs.writeFileSync("docs/courses/challenger/challenger-phase1-result.json", JSON.stringify(parsed, null, 2));
 let total=0; const rows=[];
 for (const u of parsed.detailed_units||[]) {
   const v=(u.new_vocab||[]); total+=v.length;

@@ -1,7 +1,7 @@
 /* Reinforcement table for Challenger Phase 1: each lesson's new words, how often
    each is practiced IN its unit and REUSED in LATER units (apply phrases + stories
    + examples), vs a simple spiral goal. Prints markdown + writes
-   docs/challenger-reinforcement.md.  Run: node tools/build-reinforcement.mjs */
+   docs/courses/challenger/challenger-reinforcement.md.  Run: node tools/build-reinforcement.mjs */
 import { SEED_CH, CHALLENGER } from "../src/courses/waray/challenger.js";
 
 const PHASE = CHALLENGER[0];
@@ -65,5 +65,5 @@ UNITS.forEach((u, ui) => {
 md += `\n**Spiral coverage:** ${totals.met}/${totals.words} new words (excluding the final unit) meet their later-reuse goal — ${Math.round(100 * totals.met / (totals.words || 1))}%.\n`;
 
 import fs from "fs";
-fs.writeFileSync("docs/challenger-reinforcement.md", md);
+fs.writeFileSync("docs/courses/challenger/challenger-reinforcement.md", md);
 console.log(md);

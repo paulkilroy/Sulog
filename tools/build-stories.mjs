@@ -10,7 +10,7 @@ import { GLOSS_EXTRA } from "../src/courses/waray/gloss-extra.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 
-const lex = JSON.parse(read("docs/sources/waray-lexicon.json"));
+const lex = JSON.parse(read("docs/sources/dictionaries/waray-lexicon.json"));
 const GLOSS = {};
 for (const l of lex.lexemes) if (l.gloss) GLOSS[l.id] = l.gloss; // curated (deck/CHED) — wins
 
@@ -36,15 +36,15 @@ function parse(file, marker, source, defLicense, mode) {
 }
 
 const raw = [
-  ...parse("docs/sources/bloom-waray-stories.txt", "BOOK", "Bloom", "CC", "lines"),
+  ...parse("docs/sources/bloom-waray/bloom-waray-stories.txt", "BOOK", "Bloom", "CC", "lines"),
   // BFC (Bible for Children) is EXCLUDED from the reader — its translation is dialectal/
   // colloquial Waray (san→han, sira→hira, aron, kumila…), so learners shouldn't read it as
   // standard Waray. Text kept in bfc-waray-stories.txt, pending Ella's correction; see
-  // docs/ella-todo-bfc-correction.md. Re-include here once standardized.
-  // ...parse("docs/sources/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
+  // docs/courses/frequency/ella-todo-bfc-correction.md. Re-include here once standardized.
+  // ...parse("docs/sources/bfc-waray/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
 ];
 // merge ChatGPT-authored comprehension data (English title + MC questions), if present
-const qPath = path.join(root, "docs/sources/story-questions.json");
+const qPath = path.join(root, "docs/word-bank/story-questions.json");
 const QA = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, "utf8")) : {};
 for (const s of raw) {
   const q = QA[s.id];
@@ -63,7 +63,7 @@ const STORIES = [...byId.values()].map(({ _len, ...s }) => s);
 // fill remaining story words from the full Tramp & Zorc dictionary (26k entries), as a
 // FALLBACK after the curated glosses. Only words that actually appear in the stories, so
 // the bundle stays small. This is what makes most of the "missing" words glossable.
-const trampPath = path.join(root, "docs/sources/tramp-gloss.json");
+const trampPath = path.join(root, "docs/sources/dictionaries/tramp-gloss.json");
 const _fold = (w) => w.replace(/o/g, "u").replace(/e/g, "i");
 // de-inflect a surface word to candidate roots (so we also pull the ROOT's gloss, e.g.
 // nabanhaw → banhaw — Tramp has bánhaw, but the bare root never appears in the stories)

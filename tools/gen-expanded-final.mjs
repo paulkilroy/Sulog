@@ -3,7 +3,7 @@
    listed content word, moves markers (hi/in/hin) out of vocab into grammar/phrases,
    adds a per-word example, fills apply lessons with phrases, and writes a story.
    Validates each unit (re-tries once if words were dropped) and merges to
-   docs/sources/challenger-expanded-final.json. Does NOT touch challenger.js.
+   docs/courses/challenger2/phase1.json. Does NOT touch challenger.js.
    Run: node tools/gen-expanded-final.mjs */
 import fs from "fs";
 const KEY = fs.readFileSync(".gemini-key", "utf8").trim();
@@ -103,6 +103,6 @@ for (const u of BLUEPRINT) {
 }
 
 const merged = { phase_id: "p1", detailed_units: results };
-fs.writeFileSync("docs/sources/challenger-expanded-final.json", JSON.stringify(merged, null, 2));
+fs.writeFileSync("docs/courses/challenger2/phase1.json", JSON.stringify(merged, null, 2));
 let total = 0; for (const u of results) total += (u.new_vocab || []).length;
-console.log(`\n✓ saved docs/sources/challenger-expanded-final.json — ${results.length} units, ${total} words`);
+console.log(`\n✓ saved docs/courses/challenger2/phase1.json — ${results.length} units, ${total} words`);

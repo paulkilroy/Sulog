@@ -2,7 +2,7 @@
    its real story sentence(s) (so GPT has context), and GPT is constrained to four verdicts:
    scanning-error / Waray definition / other-language definition / unknown. The reply is a
    JSON array we ingest with tools/ingest-gloss.mjs. Run: node tools/make-gloss-request.mjs
-   Output: docs/sources/missing-gloss-request.md  (paste into ChatGPT). */
+   Output: docs/word-bank/missing-gloss-request.md  (paste into ChatGPT). */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -10,7 +10,7 @@ import { STORIES } from "../src/courses/waray/stories.js";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
-const missing = JSON.parse(read("docs/sources/missing-words.json")).missing;
+const missing = JSON.parse(read("docs/word-bank/missing-words.json")).missing;
 
 const norm = (t) => (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
   .replace(/[’`]/g, "'").replace(/^[^a-z'\-]+|[^a-z'\-]+$/g, "");
@@ -73,5 +73,5 @@ Leave unused fields as empty strings. Keep \`def\` short (a few words).
 ${items}
 `;
 
-fs.writeFileSync(path.join(root, "docs/sources/missing-gloss-request.md"), out);
-console.log(`wrote docs/sources/missing-gloss-request.md — ${missing.length} words`);
+fs.writeFileSync(path.join(root, "docs/word-bank/missing-gloss-request.md"), out);
+console.log(`wrote docs/word-bank/missing-gloss-request.md — ${missing.length} words`);

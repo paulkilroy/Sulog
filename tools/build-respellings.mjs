@@ -68,7 +68,7 @@ function loadFreq() {
   return m;
 }
 // (b) stress from the CHED First-1000 dictionary: acute-accented headword -> stress syllable index
-function loadDict(path = "docs/sources/waray-first-1000-words-2013.txt") {
+function loadDict(path = "docs/sources/dictionaries/waray-first-1000-words-2013.txt") {
   const m = new Map();
   const strip = (s) => s.normalize("NFD").replace(/[̀-́]/g, ""); // drop combining acute/grave
   const txt = fs.existsSync(path) ? fs.readFileSync(path, "utf8") : "";
@@ -101,7 +101,7 @@ function stressOrdinal(token) {
   }
   return { stress, nVowels: vi };
 }
-function loadTrampTokens(path = "docs/sources/tramp-zorc-waray-english-dictionary-1991.txt") {
+function loadTrampTokens(path = "docs/sources/dictionaries/tramp-zorc-waray-english-dictionary-1991.txt") {
   const votes = new Map(); // plain -> Map(stressIdx -> count)
   const txt = fs.existsSync(path) ? fs.readFileSync(path, "utf8") : "";
   for (const tok of txt.split(/[^A-Za-zÀ-ÿ'-]+/)) {
@@ -133,7 +133,7 @@ function loadStress() {
 }
 // (c) stress from the Zorc/Tramp 1991 dictionary — clean headword,POS lines survive
 //     the noisy OCR; the accented vowel (acute/grave/circumflex) marks stress.
-function loadTramp(path = "docs/sources/tramp-zorc-waray-english-dictionary-1991.txt") {
+function loadTramp(path = "docs/sources/dictionaries/tramp-zorc-waray-english-dictionary-1991.txt") {
   const m = new Map();
   const strip = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
   const txt = fs.existsSync(path) ? fs.readFileSync(path, "utf8") : "";

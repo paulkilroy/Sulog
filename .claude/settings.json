@@ -113,7 +113,27 @@
       "Bash(open docs/sources/missing-gloss-request.md)",
       "Bash(node --input-type=module -e 'let s=\"\";process.stdin.on\\(\"data\",d=>s+=d\\).on\\(\"end\",\\(\\)=>{const r=JSON.parse\\(s\\).results||[];for\\(const b of r\\){console.log\\(\"Bloom page:  https://bloomlibrary.org/book/\"+b.objectId\\);console.log\\(\"Read online: \"+decodeURIComponent\\(b.baseUrl\\).replace\\(/\\\\/$/,\"\"\\)+\"/index.htm\"\\);}}\\);')",
       "Bash(open \"https://bloomlibrary.org/book/oBcHhnTWFe\")",
-      "Bash(open docs/sources/challenger-phase2-request.md)"
+      "Bash(open docs/sources/challenger-phase2-request.md)",
+      "Bash(command -v node)",
+      "Bash(command -v npx)",
+      "Bash(echo \"node: $\\(command -v node\\) npx: $\\(command -v npx\\)\")",
+      "Bash(command -v claude)",
+      "Read(//usr/local/bin/**)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_type",
+      "Bash(git check-ignore *)",
+      "Bash(node _gen-phase1.mjs gemini-2.5-pro)",
+      "Bash(node _gen-phase1.mjs gemini-2.5-flash)",
+      "Bash(node tools/build-challenger.mjs)",
+      "Bash(gh api *)",
+      "Bash(node -e 'let s=\"\";process.stdin.on\\(\"data\",d=>s+=d\\).on\\(\"end\",\\(\\)=>{try{const j=JSON.parse\\(s\\);console.log\\(\"source:\",JSON.stringify\\(j.source\\),\"| status:\",j.status,\"| url:\",j.html_url,\"| built:\",j.updated_at||j.built_at\\);}catch\\(e\\){console.log\\(\"\\(no pages info / not accessible\\)\"\\);}}\\)')",
+      "Bash(node tools/build-wordgraph.mjs)",
+      "Bash(node tools/build-reinforcement.mjs)"
     ]
   }
 }

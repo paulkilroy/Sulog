@@ -8,7 +8,7 @@
    - STEM: also counts a story token as known if a taught root (≥4 chars) is inside it
      (morphological containment — closer to real comprehension)
 
-   Run: node tools/reading-coverage.mjs   →   docs/reading-coverage.md */
+   Run: node tools/reading-coverage.mjs   →   docs/courses/frequency/reading-coverage.md */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -65,8 +65,8 @@ function stories(file, marker) {
   return parts.map((p, i) => ({ title: titles[i] || `#${i}`, raw: p, toks: tokens(p) })).filter((s) => s.toks.length > 20);
 }
 const all = [
-  ...stories("docs/sources/bloom-waray-stories.txt", "BOOK").map((s) => ({ ...s, src: "Bloom" })),
-  ...stories("docs/sources/bfc-waray-stories.txt", "STORY").map((s) => ({ ...s, src: "BFC" })),
+  ...stories("docs/sources/bloom-waray/bloom-waray-stories.txt", "BOOK").map((s) => ({ ...s, src: "Bloom" })),
+  ...stories("docs/sources/bfc-waray/bfc-waray-stories.txt", "STORY").map((s) => ({ ...s, src: "BFC" })),
 ];
 
 const fullRoots = rootsOf(fullDeck);
@@ -123,7 +123,7 @@ story tops out at 70%, it needs ~30% glossing no matter what — that's the "lea
 story" tier, not "flow." Raw vs stem gap shows how much Waray inflection hides.
 `;
 // ---- cross-story leverage: which UNKNOWN words recur across the most stories ----
-const lex = JSON.parse(read("docs/sources/waray-lexicon.json"));
+const lex = JSON.parse(read("docs/sources/dictionaries/waray-lexicon.json"));
 const glossOf = new Map(lex.lexemes.map((l) => [l.id, l.gloss]));
 const top1000 = new Set(lex.lexemes.filter((l) => l.top1000).map((l) => l.id));
 const knownStem = (t) => fullDeck.has(t) || (t.length >= 4 && fullRoots.some((r) => t.includes(r)));
@@ -166,7 +166,7 @@ for (const l of leverage.slice(0, 45)) {
 }
 md += `\n_${leverage.length} distinct unknown words total. The long tail (appears in 1 story) is genuinely story-specific — gloss it in the reader rather than teach it._\n`;
 
-fs.writeFileSync(path.join(root, "docs/reading-coverage.md"), md);
+fs.writeFileSync(path.join(root, "docs/courses/frequency/reading-coverage.md"), md);
 console.log(`\ncross-story leverage: ${leverage.length} unknown words | lift top-12 avg: ${pct(lift.base)}% → +40w ${pct(lift.a40)}%`);
 console.log(`top spread:`); leverage.slice(0, 12).forEach((l) => console.log(`  ${l.docs} stories ·${String(l.freq).padStart(3)}× ${l.w.padEnd(14)} ${l.top1000 ? "[1000]" : ""} ${l.gloss || ""}`));
 

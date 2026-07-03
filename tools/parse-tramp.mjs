@@ -1,7 +1,7 @@
 /* Parse the Tramp & Zorc Waray-English dictionary (already in the repo, only ever used for
    frequency) into a headword→gloss lookup. This is a FULL dictionary — far past the CHED
    top-1000 — so it should cover most of the stories' "missing" words without asking an LLM.
-   Output: docs/sources/tramp-gloss.json  + a coverage report vs the missing list.
+   Output: docs/sources/dictionaries/tramp-gloss.json  + a coverage report vs the missing list.
    Run: node tools/parse-tramp.mjs */
 import fs from "fs";
 import path from "path";
@@ -16,7 +16,7 @@ const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,
 // every compound-tagged entry (all the pronouns, etc.).
 const ENTRY = /^([A-Za-zÀ-ÿ'’\-][^,\n]{0,28}),\s*([a-z][a-z.]*\.)\s*(.*)$/;
 
-const lines = read("docs/sources/tramp-zorc-waray-english-dictionary-1991.txt").split(/\r?\n/);
+const lines = read("docs/sources/dictionaries/tramp-zorc-waray-english-dictionary-1991.txt").split(/\r?\n/);
 const gloss = {};
 let cur = null;
 const flush = () => {
@@ -41,13 +41,13 @@ for (const line of lines) {
 }
 flush();
 
-fs.writeFileSync(path.join(root, "docs/sources/tramp-gloss.json"), JSON.stringify(gloss, null, 0));
+fs.writeFileSync(path.join(root, "docs/sources/dictionaries/tramp-gloss.json"), JSON.stringify(gloss, null, 0));
 const keys = Object.keys(gloss);
 console.log(`parsed Tramp/Zorc → ${keys.length.toLocaleString()} headword glosses`);
 
 // coverage vs the missing list
 try {
-  const miss = JSON.parse(read("docs/sources/missing-words.json")).missing;
+  const miss = JSON.parse(read("docs/word-bank/missing-words.json")).missing;
   const covered = miss.filter((m) => gloss[m.w]);
   console.log(`missing words covered by Tramp: ${covered.length}/${miss.length} (${Math.round(100 * covered.length / miss.length)}%)`);
   console.log(`sample now-glossable:`);

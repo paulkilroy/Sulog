@@ -9,3 +9,4 @@ build/
 
 # Gemini API key (local only, never commit)
 .gemini-key
+**/.DS_Store

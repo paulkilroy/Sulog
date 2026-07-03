@@ -2,7 +2,7 @@
    (1) INFLECTED — we have the root (found by containment OR light de-inflection incl. the
        -um-/-in- infix), the reader just doesn't show it → fixable with a stem-gloss fallback.
    (2) MISSING — no recoverable root → a genuine vocabulary gap to gloss/add (Ella triage).
-   Proper names are excluded. Run: node tools/missing-words.mjs  →  docs/missing-words.md */
+   Proper names are excluded. Run: node tools/missing-words.mjs  →  docs/word-bank/missing-words.md */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -113,8 +113,8 @@ _Sorted by story spread. These need a real gloss (Ella) — e.g. \`kaliawan\` = 
 ${mis.slice(0, 120).map((r) => `| ${r.w} | ${r.docs} | ${r.freq} |`).join("\n")}
 ${mis.length > 120 ? `\n_+${mis.length - 120} more (full set in the JSON sidecar)._` : ""}
 `;
-fs.writeFileSync(path.join(root, "docs/missing-words.md"), md);
-fs.writeFileSync(path.join(root, "docs/sources/missing-words.json"), JSON.stringify({ inflected: inf, missing: mis }, null, 0));
+fs.writeFileSync(path.join(root, "docs/word-bank/missing-words.md"), md);
+fs.writeFileSync(path.join(root, "docs/word-bank/missing-words.json"), JSON.stringify({ inflected: inf, missing: mis }, null, 0));
 
 console.log(`tokens ${total} | glossed ${pct(glossed)}% | names ${pct(nameTok)}% | inflected ${inf.length} distinct | MISSING ${mis.length} distinct`);
 console.log(`\nstill-missing (${mis.length}) by category:`);

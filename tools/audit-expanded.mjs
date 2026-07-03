@@ -1,11 +1,11 @@
 /* Ask Gemini to self-audit the finalized expanded Phase 1: feed it the JSON + the
    issue PATTERNS we found, and have it scan ALL units for the same/similar problems
    and report a structured list of proposed changes (NOT a rewrite). Saves the report
-   to docs/sources/challenger-expanded-audit.json. Run: node tools/audit-expanded.mjs */
+   to docs/courses/challenger2/phase1-audit.json. Run: node tools/audit-expanded.mjs */
 import fs from "fs";
 const KEY = fs.readFileSync(".gemini-key", "utf8").trim();
 const MODEL = "gemini-2.5-flash";
-const COURSE = fs.readFileSync("docs/sources/challenger-expanded-final.json", "utf8");
+const COURSE = fs.readFileSync("docs/courses/challenger2/phase1.json", "utf8");
 
 const prompt = `You produced this finalized Phase 1 of a Waray-Waray (Winaray) course for older US adults in Daram, Samar. I reviewed it and found the specific issues below. Your job: (1) propose a fix for EACH of these exact issues, and (2) SCAN ALL FIVE UNITS for the same patterns and report any others. Do NOT rewrite the whole course — just report a structured change list.
 
@@ -42,7 +42,7 @@ console.log(`← ${res.status} in ${((Date.now() - t0) / 1000).toFixed(0)}s`);
 if (j.error) { console.log("API ERROR:", j.error.code, j.error.status, j.error.message); process.exit(1); }
 const text = j.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "";
 let rep; try { rep = JSON.parse(text); } catch (e) { rep = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)); }
-fs.writeFileSync("docs/sources/challenger-expanded-audit.json", JSON.stringify(rep, null, 2));
+fs.writeFileSync("docs/courses/challenger2/phase1-audit.json", JSON.stringify(rep, null, 2));
 
 const byCat = {};
 for (const a of rep.audit || []) byCat[a.category] = (byCat[a.category] || 0) + 1;

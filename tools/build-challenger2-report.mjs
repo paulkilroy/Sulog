@@ -2,13 +2,13 @@
    carry grammar / cefr / difficulty / per-word examples) so the report can show them.
    Per unit: New Words (+example) | Apply phrases | Graded Unit Review | Story — every
    word color-coded. Per-phase summary band, unit header with CEFR/difficulty/grammar,
-   terminology panel. Output: challenger2-report.html.
+   terminology panel. Output: docs/courses/challenger2/overview-report.html.
    Run: node tools/build-challenger2-report.mjs */
 import fs from "fs";
 import { SEED_CH2 } from "../src/courses/waray/challenger2.js";
 
-const P1 = JSON.parse(fs.readFileSync("docs/sources/challenger-expanded-final.json", "utf8"));
-const P2 = JSON.parse(fs.readFileSync("docs/sources/challenger2-p2.json", "utf8"));
+const P1 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase1.json", "utf8"));
+const P2 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase2.json", "utf8"));
 const PHASES = [
   { id: "p1", name: "First Steps in Daram (Expanded)", hint: "Denser greetings, family, home, food, numbers", units: P1.detailed_units },
   { id: "p2", name: "Daily Life in the Neighborhood", hint: "In-laws, the yard, going places, weather, daily time", units: P2.detailed_units },
@@ -78,7 +78,7 @@ const phasesData = PHASES.map((ph) => {
 });
 
 // ---- frequency-coverage validator (against the corpus) ----
-const corpus = fs.readFileSync("docs/sources/waray-frequency-corpus.tsv", "utf8").split(/\r?\n/).slice(1).filter(Boolean)
+const corpus = fs.readFileSync("docs/sources/corpus/waray-frequency-corpus.tsv", "utf8").split(/\r?\n/).slice(1).filter(Boolean)
   .map((l, i) => { const c = l.split("\t"); return { rank: i + 1, word: norm(c[0] || ""), disp: (c[0] || "").trim(), count: +c[1] || 0, mean: (c[2] || "").trim(), pos: ((c[3] || "") + " " + (c[4] || "")).trim() }; })
   .filter((e) => e.word);
 const taughtCards = new Set(), usedCtx = new Set();
@@ -167,7 +167,7 @@ ${phasesData.map((ph) => `<div class="phase"><h2>${esc(ph.name)}</h2><span class
 ${freqSection}
 </body></html>`;
 
-fs.writeFileSync("challenger2-report.html", html);
+fs.writeFileSync("docs/courses/challenger2/overview-report.html", html);
 const flags = phasesData.reduce((a, ph) => a + ph.pFlags, 0);
-console.log(`✓ challenger2-report.html — ${phasesData.reduce((a, ph) => a + ph.units.length, 0)} units, ${flags} flags`);
+console.log(`✓ docs/courses/challenger2/overview-report.html — ${phasesData.reduce((a, ph) => a + ph.units.length, 0)} units, ${flags} flags`);
 for (const ph of phasesData) for (const u of ph.units) if (u.pad) console.log(`   padding: ${u.id} pads ${u.pad}`);

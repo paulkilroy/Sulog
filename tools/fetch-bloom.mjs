@@ -1,7 +1,7 @@
 /* Fetch the Waray (war) children's books from Bloom Library and extract their text.
    Bloom books are Creative-Commons licensed (mostly cc-by-nc-sa) — so unlike the Bible
    we can keep the text, with attribution. Output:
-   - docs/sources/bloom-waray-stories.txt   (combined Waray text, ===BOOK=== separated)
+   - docs/sources/bloom-waray/bloom-waray-stories.txt   (combined Waray text, ===BOOK=== separated)
    - docs/sources/bloom-waray/SOURCES.md     (per-book title, copyright, license, url)
    Read-only against Bloom's public Parse API + S3. Run: node tools/fetch-bloom.mjs */
 import fs from "fs";
@@ -66,7 +66,7 @@ for (const b of final) {
 }
 
 fs.mkdirSync(path.join(root, "docs/sources/bloom-waray"), { recursive: true });
-fs.writeFileSync(path.join(root, "docs/sources/bloom-waray-stories.txt"), corpus.trim() + "\n");
+fs.writeFileSync(path.join(root, "docs/sources/bloom-waray/bloom-waray-stories.txt"), corpus.trim() + "\n");
 
 let md = `# Bloom Library — Waray books (provenance + license)
 
@@ -82,4 +82,4 @@ for (const r of rows) md += `| ${r.title.replace(/\|/g, "/")} | ${(r.copyright |
 md += `\nText extracted from each book's \`.htm\` (lang="war" blocks) into \`../bloom-waray-stories.txt\`.\nRe-fetch: \`node tools/fetch-bloom.mjs\`.\n`;
 fs.writeFileSync(path.join(root, "docs/sources/bloom-waray/SOURCES.md"), md);
 
-console.log(`\nwrote ${rows.length} books → docs/sources/bloom-waray-stories.txt (${corpus.length} chars)`);
+console.log(`\nwrote ${rows.length} books → docs/sources/bloom-waray/bloom-waray-stories.txt (${corpus.length} chars)`);

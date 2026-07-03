@@ -1,5 +1,5 @@
 /* Mine attested Waray sentences for the uncovered words from all 3 sources.
-   Emits docs/phrase-mining.md (verification doc) + a summary. Run: node tools/mine-sources.mjs */
+   Emits docs/courses/frequency/phrase-mining.md (verification doc) + a summary. Run: node tools/mine-sources.mjs */
 import fs from "fs";
 import { RECORDING_PROMPTS } from "../src/courses/waray/recording-prompts.js";
 import { SEED } from "../src/courses/waray/cards.js";
@@ -21,7 +21,7 @@ const GLOSS={}; SEED.filter(r=>!/\s/.test(r[1])&&!r[1].includes("/")).forEach(r=
 const corresponds=(w,e)=>{ const el=" "+e.toLowerCase()+" "; return w.split(/\s+/).some(t=>{const g=GLOSS[fold(t)]; return g&&g.some(x=>el.includes(" "+x));}); };
 let m;
 // ---- source 1: Peace Corps — full-PDF OCR, paired Waray line → English line ----
-const ocr=fs.readFileSync("docs/sources/peace-corps-full-ocr.txt","utf8").split("\n").map(s=>s.trim());
+const ocr=fs.readFileSync("docs/sources/peace-corps/peace-corps-full-ocr.txt","utf8").split("\n").map(s=>s.trim());
 const pcPairs=[]; const seenPC=new Set();
 for(let i=0;i<ocr.length-1;i++){
   const a=ocr[i], b=ocr[i+1];
@@ -33,20 +33,20 @@ for(let i=0;i<ocr.length-1;i++){
   }
 }
 // also the hand-transcribed .md "Waray (english)" pairs
-const pcmd=(fs.readFileSync("docs/peace-corps-transcript.md","utf8")+fs.readFileSync("docs/peace-corps-extract.md","utf8")).replace(/\s+/g," ");
+const pcmd=(fs.readFileSync("docs/sources/peace-corps/peace-corps-transcript.md","utf8")+fs.readFileSync("docs/sources/peace-corps/peace-corps-extract.md","utf8")).replace(/\s+/g," ");
 const reP=/([A-ZÁÉÍÓÚ][A-Za-z'’\- ]{2,40}?)\s*\(([a-z][^)]{2,50})\)/g;
 while((m=reP.exec(pcmd))){ const w=m[1].trim().replace(/\s+/g," "); const e=m[2].trim();
   const n=w.split(/\s+/).length; if(n>=2&&n<=8 && !/[.:]/.test(w) && isWarayLine(w)){ const k=fold(w); if(!seenPC.has(k)){seenPC.add(k);pcPairs.push({w,e});} } }
 
 // ---- source 2: CHED (Waray-only example sentences) ----
 // join wrapped lines so sentences spanning a line break are captured whole
-const ched=fs.readFileSync("docs/sources/waray-first-1000-words-2013.txt","utf8").replace(/\n/g," ").replace(/\s+/g," ");
+const ched=fs.readFileSync("docs/sources/dictionaries/waray-first-1000-words-2013.txt","utf8").replace(/\n/g," ").replace(/\s+/g," ");
 const chedEx=new Set();
 const reC=/‘\s*([A-ZÁÉÍÓÚÀÈÌÒÙ][^’‘]{4,110}?[.!?])/g;
 while((m=reC.exec(ched))){ let s=m[1].trim().replace(/\s+/g," "); const n=s.split(/\s+/).length; if(n>=2&&n<=11) chedEx.add(s); }
 
 // ---- source 3: Tramp/Zorc (Waray sentence + quoted English) ----
-const tz=fs.readFileSync("docs/sources/tramp-zorc-waray-english-dictionary-1991.txt","utf8");
+const tz=fs.readFileSync("docs/sources/dictionaries/tramp-zorc-waray-english-dictionary-1991.txt","utf8");
 const tzPairs=[];
 const reT=/‘([A-Za-zÁÉÍÓÚ][^’.]{4,70}[.?])’?\s*[""“]([^""”]{3,60})[""”]/g;
 while((m=reT.exec(tz))){ const w=m[1].trim(), e=m[2].trim(); if(w.split(/\s+/).length<=9) tzPairs.push({w,e}); }
@@ -95,12 +95,12 @@ md+=`\n## ✏️ CHED — Waray attested, English is a rough gloss to fix (${che
 rows.ched.forEach(([w,g,wa,k,dr])=>md+=`| **${w}** _(${g})_ | ${wa} | _${dr}_ | ${k}% |\n`);
 md+=`\n## 🎤 No attested match — record these (${none})\n\n`;
 md+=rows.none.map(([w,g])=>`- **${w}** _(${g})_`).join("\n")+"\n";
-fs.writeFileSync("docs/phrase-mining.md", md);
+fs.writeFileSync("docs/courses/frequency/phrase-mining.md", md);
 // structured data for integration (unit per word from the recording prompts)
 const unitOf={}; RECORDING_PROMPTS.forEach(d=>unitOf[d.word]=unitOf[d.word]||{unit:d.unit,unitName:d.unitName});
 const strip=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,""); // drop diacritics for the card
 const J={pc:[], ched:[]};
 rows.pc.forEach(([w,g,wa,e])=>J.pc.push({word:w, ...unitOf[w], waray:strip(wa).replace(/\s+/g," ").trim(), english:e}));
 rows.ched.forEach(([w,g,wa,k,dr])=>J.ched.push({word:w, ...unitOf[w], waray:strip(wa).replace(/\s+/g," ").trim(), gloss:dr, known:k}));
-fs.writeFileSync("docs/phrase-mining-data.json", JSON.stringify(J,null,1));
-console.log("\nwrote docs/phrase-mining.md + phrase-mining-data.json");
+fs.writeFileSync("docs/courses/frequency/phrase-mining-data.json", JSON.stringify(J,null,1));
+console.log("\nwrote docs/courses/frequency/phrase-mining.md + phrase-mining-data.json");

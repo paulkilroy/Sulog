@@ -34,7 +34,7 @@ for (const s of STORIES) {
   out += `\n===== ${s.id} =====\nTITLE (Waray): ${s.title}\n\n${s.paras.join("\n")}\n`;
 }
 
-fs.writeFileSync(path.join(root, "docs/mc-request.txt"), out);
+fs.writeFileSync(path.join(root, "docs/word-bank/mc-request.txt"), out);
 const words = out.split(/\s+/).length;
-console.log(`wrote docs/mc-request.txt — ${STORIES.length} stories, ~${words.toLocaleString()} words, ${out.length.toLocaleString()} chars`);
+console.log(`wrote docs/word-bank/mc-request.txt — ${STORIES.length} stories, ~${words.toLocaleString()} words, ${out.length.toLocaleString()} chars`);
 console.log(`(if it's too big for one paste, split on the "=====" lines — each block is self-contained)`);

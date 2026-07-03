@@ -4,8 +4,8 @@
    times for variety. Run: node tools/gen-prompts.mjs   (regenerate when content
    changes). Emits:
      src/courses/waray/recording-prompts.js
-     docs/phrase-recording-sheet.md
-     docs/phrase-reinforcement.md  */
+     docs/courses/frequency/phrase-recording-sheet.md
+     docs/courses/frequency/phrase-reinforcement.md  */
 import fs from "fs";
 import { FREQUENCY } from "../src/courses/waray/frequency.js";
 import { SEED } from "../src/courses/waray/cards.js";
@@ -52,7 +52,7 @@ const knownOf = id => unitsInOrder.find(u=>u.id===id).known;
 // ---- goals (frequency-weighted target reuse) + word types, computed up front ----
 const normEn = s => s.toLowerCase().replace(/\(.*?\)/g,"").replace(/^(to |the |a |an )/,"").replace(/[^a-z ]/g,"").trim();
 const duoRank = {}; { let dr=0;
-  for (const line of fs.readFileSync("docs/sources/duolingo-spanish-vocab.txt","utf8").split("\n")) {
+  for (const line of fs.readFileSync("docs/sources/duolingo/duolingo-spanish-vocab.txt","utf8").split("\n")) {
     if (line.startsWith("#") || !line.trim()) continue;
     line.split(" | ").forEach(p=>{ const en=(p.split("=")[1]||"").trim(); if(en){ dr++; const n=normEn(en); if(n && !(n in duoRank)) duoRank[n]=dr; } });
   } }
@@ -185,7 +185,7 @@ fs.writeFileSync("src/courses/waray/recording-prompts.js",
 let sheet = `# Phrase recording sheet — cover the uncovered words\n\n_${data.length} words. Each has an English target sentence built only from words already taught. **Say/record the Waray**; send back as \`Waray = English\`. If a prompt is odd, say a better short sentence with the word._\n`;
 let cur="";
 for (const d of data){ if(d.unitName!==cur){cur=d.unitName; sheet+=`\n### ${cur}\n`;} sheet+=`- **${d.word}** _(${d.gloss})_ → “${d.prompt}”  \n  Waray: ____________________\n`; }
-fs.writeFileSync("docs/phrase-recording-sheet.md", sheet);
+fs.writeFileSync("docs/courses/frequency/phrase-recording-sheet.md", sheet);
 
 // ---- reinforcement table: keyed on each unit's NEW words ----
 // Corpus of phrases (each = a Set of deck words it contains), in curriculum order,
@@ -224,6 +224,6 @@ for (const u of newWordsByUnit){
   rows.forEach(r=>reinf+=`| ${r.w} | ${eng[r.w]||""} | ${r.here?"✓":"✗"} | ${r.goal} | ${r.later} | ${r.need?("**+"+r.need+"**"):"✓"} |\n`);
 }
 reinf = reinf.replace("(with goal)\n", `(with goal)\n\n_${totNew} new words · ${totMet} meet their reuse goal · ${totNew-totMet} fall short by a total of **${totDeficit}** reuses (the recombination backlog)._\n`);
-fs.writeFileSync("docs/phrase-reinforcement.md", reinf);
+fs.writeFileSync("docs/courses/frequency/phrase-reinforcement.md", reinf);
 
 console.log(`prompts: ${data.length} · new words: ${totNew} · meet goal: ${totMet}/${totNew} · total deficit: ${totDeficit}`);

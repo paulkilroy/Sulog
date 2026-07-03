@@ -3,7 +3,7 @@
    lessons. PC = attested both sides; CHED ≥70% = my draft English (verify).
    Run once: node tools/integrate-mined.mjs */
 import fs from "fs";
-const J = JSON.parse(fs.readFileSync("docs/phrase-mining-data.json","utf8"));
+const J = JSON.parse(fs.readFileSync("docs/courses/frequency/phrase-mining-data.json","utf8"));
 const SEEDtext = fs.readFileSync("src/courses/waray/cards.js","utf8");
 
 // my English for the CHED sentences I'm folding in (keyed by the exact data waray)

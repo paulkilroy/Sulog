@@ -1,5 +1,5 @@
 /* Regenerate src/courses/waray/challenger.js from:
-   - docs/sources/challenger-phase1-result.json  (revised Phase 1, Gemini API)
+   - docs/courses/challenger/challenger-phase1-result.json  (revised Phase 1, Gemini API)
    - the CURRENT challenger.js exports                (Phase 2, preserved)
    Phase 1 → decks ch1..ch7; Phase 2 → shifted ch6..ch10 → ch8..ch12 (avoid collision).
    One-time migration; safe-guards against double-shift. Run: node tools/build-challenger.mjs */
@@ -7,7 +7,7 @@ import fs from "fs";
 import { fillSeedRespellings } from "./build-respellings.mjs";
 import { SEED_CH as OLD_SEED, CHALLENGER as OLD_CUR } from "../src/courses/waray/challenger.js";
 
-const P1 = JSON.parse(fs.readFileSync("docs/sources/challenger-phase1-result.json", "utf8"));
+const P1 = JSON.parse(fs.readFileSync("docs/courses/challenger/challenger-phase1-result.json", "utf8"));
 
 // ---- enclitic normalization: hyphen lemma -> spoken form (the example focus token) ----
 const ENCLITIC = { "-ko": "ko", "-mo": "mo", "-na": "na", "-ta": "ta", "-mi": "mi", "-yo": "niyo", "-ra": "nira" };
@@ -105,8 +105,8 @@ const CHALLENGER = [cp1, cp2];
 // fill pronunciation respellings (reuse Frequency > dict accent > root-strip > penult)
 const rp = fillSeedRespellings(SEED_CH);
 console.log(`• respellings filled on ${rp.filled} cards —`, Object.entries(rp.counts).map(([k, v]) => `${k}:${v}`).join(" "));
-fs.writeFileSync("docs/sources/challenger-say-review.json", JSON.stringify(rp.flagged, null, 2));
-console.log(`• ${rp.flagged.length} words flagged for Ella → docs/sources/challenger-say-review.json`);
+fs.writeFileSync("docs/courses/challenger/say-review.json", JSON.stringify(rp.flagged, null, 2));
+console.log(`• ${rp.flagged.length} words flagged for Ella → docs/courses/challenger/say-review.json`);
 
 // ---- emit ----
 const rowStr = (r) => "  " + JSON.stringify(r);

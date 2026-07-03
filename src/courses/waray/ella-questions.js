@@ -31,7 +31,7 @@ export const ELLA_QUESTIONS = [
     id: "bfc-stories",
     topic: "Reader · correction set",
     q: "Correct the 7 Bible-for-Children stories from dialectal to standard Waray.",
-    detail: "Machine-translated, came out dialectal (san→han, sira→hira, aron, kumila…). Pulled from the Read tab until fixed. Full list + guesses in docs/ella-todo-bfc-correction.md.",
+    detail: "Machine-translated, came out dialectal (san→han, sira→hira, aron, kumila…). Pulled from the Read tab until fixed. Full list + guesses in docs/courses/frequency/ella-todo-bfc-correction.md.",
   },
   {
     id: "samar-variants",

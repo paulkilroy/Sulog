@@ -2,7 +2,7 @@
    For each unglossed word it shows the actual story sentence(s) it appears in (word
    highlighted) + a per-word action box, with a "copy all actions" button so Paul can
    review in context and paste the actions back. Run: node tools/build-corrections.mjs
-   Output: docs/corrections.html (open in a browser). */
+   Output: docs/word-bank/corrections.html (open in a browser). */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -11,8 +11,8 @@ import { STORIES } from "../src/courses/waray/stories.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 
-const missing = JSON.parse(read("docs/sources/missing-words.json")).missing;
-const tramp = JSON.parse(read("docs/sources/tramp-gloss.json"));
+const missing = JSON.parse(read("docs/word-bank/missing-words.json")).missing;
+const tramp = JSON.parse(read("docs/sources/dictionaries/tramp-gloss.json"));
 
 // --- normalization (matches the reader's tokenizer) ---
 const norm = (t) => (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -125,6 +125,6 @@ function copyActions(){
 </script>
 </body></html>`;
 
-fs.writeFileSync(path.join(root, "docs/corrections.html"), out);
+fs.writeFileSync(path.join(root, "docs/word-bank/corrections.html"), out);
 const withCtx = missing.filter((m) => contexts(m.w).length).length;
-console.log(`wrote docs/corrections.html — ${missing.length} words, ${withCtx} with story context`);
+console.log(`wrote docs/word-bank/corrections.html — ${missing.length} words, ${withCtx} with story context`);

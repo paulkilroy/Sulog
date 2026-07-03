@@ -2,7 +2,7 @@
    the vocabulary too (the map only has titles/can-dos). Recycles already-taught words,
    keeps our standards (markers out of vocab, per-word example, apply phrases, a review,
    a story), and forbids out-of-vocab CONTENT words in phrases so nothing needs post-hoc
-   swapping. Writes docs/sources/challenger2-<phase>.json (display first; ingest later).
+   swapping. Writes docs/courses/challenger2/gen-<phase>.json (display first; ingest later).
    Run: node tools/gen-challenger2-phase.mjs p2 */
 import fs from "fs";
 import { SEED_CH2 } from "../src/courses/waray/challenger2.js";
@@ -114,6 +114,6 @@ for (const u of PHASE.units) {
   for (const w of (best.new_vocab || []).map((x) => x.lemma)) if (!known.includes(w)) known.push(w);
 }
 
-fs.writeFileSync(`docs/sources/challenger2-${phaseId}.json`, JSON.stringify({ phase_id: phaseId, detailed_units: results }, null, 2));
+fs.writeFileSync(`docs/courses/challenger2/gen-${phaseId}.json`, JSON.stringify({ phase_id: phaseId, detailed_units: results }, null, 2));
 let total = 0; for (const u of results) total += (u.new_vocab || []).length;
-console.log(`\n✓ saved docs/sources/challenger2-${phaseId}.json — ${results.length} units, ${total} new words`);
+console.log(`\n✓ saved docs/courses/challenger2/gen-${phaseId}.json — ${results.length} units, ${total} new words`);
