@@ -44,7 +44,7 @@ const raw = [
   // ...parse("docs/sources/bfc-waray/bfc-waray-stories.txt", "STORY", "BFC", "free to copy, not for sale", "sentences"),
 ];
 // merge ChatGPT-authored comprehension data (English title + MC questions), if present
-const qPath = path.join(root, "docs/word-bank/story-questions.json");
+const qPath = path.join(root, "docs/courses/frequency/story-questions.json");
 const QA = fs.existsSync(qPath) ? JSON.parse(fs.readFileSync(qPath, "utf8")) : {};
 for (const s of raw) {
   const q = QA[s.id];

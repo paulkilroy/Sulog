@@ -1,5 +1,5 @@
-/* Ingest a ChatGPT MC reply (docs/word-bank/mc-reply.json) into the persistent
-   docs/word-bank/story-questions.json (map keyed by story id), MERGING so batches accumulate.
+/* Ingest a ChatGPT MC reply (docs/courses/frequency/mc-reply.json) into the persistent
+   docs/courses/frequency/story-questions.json (map keyed by story id), MERGING so batches accumulate.
    Validates ids against the stories and sanity-checks each question. build-stories.mjs then
    folds these into stories.js. Run: node tools/ingest-mc.mjs */
 import fs from "fs";
@@ -11,10 +11,10 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 const ids = new Set(STORIES.map((s) => s.id));
 
-let raw = read("docs/word-bank/mc-reply.json").trim().replace(/^```(?:json)?/i, "").replace(/```$/i, "").trim();
+let raw = read("docs/courses/frequency/mc-reply.json").trim().replace(/^```(?:json)?/i, "").replace(/```$/i, "").trim();
 const incoming = JSON.parse(raw);
 
-const store = "docs/word-bank/story-questions.json";
+const store = "docs/courses/frequency/story-questions.json";
 const cur = fs.existsSync(path.join(root, store)) ? JSON.parse(read(store)) : {};
 
 let added = 0, skipped = [];
