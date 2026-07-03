@@ -1,11 +1,9 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
-import { RECORDING_PROMPTS } from "./courses/waray/recording-prompts.js";
-import { STORIES, GLOSS } from "./courses/waray/stories.js";
+import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
 import { CH2_LEVELS } from "./courses/waray/challenger2.js";
 const CH_LEVELS = { ...CH_LEVELS_1, ...CH2_LEVELS };
-import { ELLA_QUESTIONS } from "./courses/waray/ella-questions.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -1188,7 +1186,6 @@ export default function App() {
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
-      {view === "phrasestudio" && <PhraseStudioView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
     </div>
@@ -1204,9 +1201,9 @@ function EllaView({ ctx }) {
       <div style={{ padding: "4px 16px 28px", maxWidth: 680, margin: "0 auto" }}>
         <p style={{ color: "#64748b", fontSize: 14, lineHeight: 1.5 }}>
           Open questions for a native Daram/Samar speaker. Each answer feeds back into the
-          courses and dialect notes. {ELLA_QUESTIONS.length} open.
+          courses and dialect notes. {ACTIVE.review.length} open.
         </p>
-        {ELLA_QUESTIONS.map((q) => (
+        {ACTIVE.review.map((q) => (
           <div key={q.id} style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#9333ea", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
             <div style={{ fontSize: 15.5, fontWeight: 600, color: "#0f172a", lineHeight: 1.35 }}>{q.q}</div>
@@ -1250,7 +1247,6 @@ function HomeView({ ctx }) {
       <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
-      <button className="ws-hero-btn" onClick={() => setView("phrasestudio")} title="Phrase Studio — record phrases"><Pencil size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker"><span style={{ fontSize: 17, lineHeight: 1 }}>👩</span></button>
       {SpeechRec && (
         <button className={`ws-hero-btn ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
@@ -1877,164 +1873,6 @@ function SttTestView({ ctx }) {
         Say the Waray word shown. On a correct match it auto-advances and listens for
         the next — hands-free until a miss. Listening in <b>{lang}</b> (no Waray locale
         exists), o/u and e/i folded. Misses show the speech debug to tune the matcher.
-      </div>
-    </div>
-  );
-}
-
-/* Phrase Studio — collect new ② Apply phrases by voice. Walks the uncovered-word
-   prompts: shows an English target sentence, listens (fil-PH) and drops the rough
-   transcript into an editable box; you tap-fix the Waray and save. Exports the
-   collected lines as "Waray = English" to hand back for ingestion. No answer key —
-   the recognizer just transcribes; the edit step is where the Waray gets correct. */
-const PHRASE_SAVE = "sulog:phrasedraft";
-const PHRASE_IDX = "sulog:phraseidx";
-const PHRASE_FLAG = "sulog:phraseflag";
-function PhraseStudioView({ ctx }) {
-  const { settings, setView } = ctx;
-  const lang = settings.sttLang || "fil-PH";
-  const prompts = RECORDING_PROMPTS;
-  const [i, setI] = useState(() => { try { return Math.min(+localStorage.getItem(PHRASE_IDX) || 0, prompts.length - 1); } catch (e) { return 0; } });
-  const [saved, setSaved] = useState(() => { try { return JSON.parse(localStorage.getItem(PHRASE_SAVE) || "{}"); } catch (e) { return {}; } });
-  const [flagged, setFlagged] = useState(() => { try { return JSON.parse(localStorage.getItem(PHRASE_FLAG) || "{}"); } catch (e) { return {}; } });
-  const [phase, setPhase] = useState("ready"); // ready | listening | review
-  const [interim, setInterim] = useState("");
-  const [draft, setDraft] = useState("");
-  const [exporting, setExporting] = useState(false);
-  const recRef = useRef(null);
-  const tokRef = useRef(0);
-  const p = prompts[i];
-  const key = (idx) => prompts[idx].unit + "#" + prompts[idx].word;
-
-  const persistIdx = (idx) => { try { localStorage.setItem(PHRASE_IDX, String(idx)); } catch (e) {} };
-  const stopRec = () => { tokRef.current++; try { recRef.current && recRef.current.abort(); } catch (e) {} recRef.current = null; };
-  useEffect(() => () => stopRec(), []);
-
-  const listen = (idx) => {
-    if (!SpeechRec) { setPhase("review"); setDraft(saved[key(idx)]?.waray || ""); return; }
-    stopRec();
-    const tok = tokRef.current;
-    setInterim(""); setDraft(saved[key(idx)]?.waray || ""); setPhase("listening");
-    const rec = new SpeechRec();
-    rec.lang = lang; rec.interimResults = true; rec.maxAlternatives = 1; rec.continuous = false;
-    let settled = false;
-    rec.onresult = (e) => {
-      if (tok !== tokRef.current) return;
-      const res = e.results[e.results.length - 1];
-      const t = res[0] ? res[0].transcript.trim() : "";
-      if (res.isFinal) { settled = true; setDraft(t); setPhase("review"); }
-      else setInterim(t);
-    };
-    rec.onerror = () => { if (tok === tokRef.current && !settled) { settled = true; setPhase("review"); } };
-    rec.onend = () => { if (tok === tokRef.current && !settled) { settled = true; setPhase("review"); } };
-    recRef.current = rec;
-    try { rec.start(); } catch (e) { setPhase("review"); }
-  };
-
-  const go = (idx) => {
-    if (idx < 0 || idx >= prompts.length) { stopRec(); setPhase("ready"); setExporting(true); return; }
-    setI(idx); persistIdx(idx); listen(idx);
-  };
-  const save = () => {
-    const w = draft.trim();
-    if (w) {
-      const ns = { ...saved, [key(i)]: { word: p.word, gloss: p.gloss, prompt: p.prompt, unit: p.unit, unitName: p.unitName, waray: w } };
-      setSaved(ns);
-      try { localStorage.setItem(PHRASE_SAVE, JSON.stringify(ns)); } catch (e) {}
-    }
-    go(i + 1);
-  };
-  // mark the current prompt as "doesn't make sense" → we'll substitute it later
-  const flag = () => {
-    const ns = { ...flagged, [key(i)]: { word: p.word, gloss: p.gloss, prompt: p.prompt, unit: p.unit, unitName: p.unitName } };
-    setFlagged(ns);
-    try { localStorage.setItem(PHRASE_FLAG, JSON.stringify(ns)); } catch (e) {}
-    go(i + 1);
-  };
-
-  const exportText = () => {
-    const byUnit = {};
-    for (const k of Object.keys(saved)) { const r = saved[k]; (byUnit[r.unitName] = byUnit[r.unitName] || []).push(r); }
-    let s = "# Recorded phrases (Waray = English)\n";
-    for (const u of Object.keys(byUnit)) { s += `\n## ${u}\n`; byUnit[u].forEach((r) => { s += `${r.waray} = ${r.prompt}\n`; }); }
-    const fl = Object.values(flagged);
-    if (fl.length) {
-      s += `\n\n# Flagged — prompts that don't make sense (replace these)\n`;
-      const fb = {};
-      fl.forEach((r) => (fb[r.unitName] = fb[r.unitName] || []).push(r));
-      for (const u of Object.keys(fb)) { s += `\n## ${u}\n`; fb[u].forEach((r) => { s += `- ${r.word} (${r.gloss}) — prompt was: “${r.prompt}”\n`; }); }
-    }
-    return s;
-  };
-
-  const doneCount = Object.keys(saved).length;
-  const flagCount = Object.keys(flagged).length;
-
-  if (!SpeechRec) {
-    return (<div className="ws-page"><TopBar title="Phrase Studio" onBack={() => setView("home")} />
-      <div className="ws-pron-intro">Speech recognition isn't available in this browser. Try Chrome or Edge.</div></div>);
-  }
-  if (exporting) {
-    const text = exportText();
-    return (
-      <div className="ws-page">
-        <TopBar title="Phrase Studio — export" onBack={() => setExporting(false)} />
-        <div className="ws-pron-intro">{doneCount} phrases recorded. Copy this and send it back — I'll add them as ② Apply cards.</div>
-        <textarea className="ws-phrase-export" readOnly value={text} onFocus={(e) => e.target.select()} />
-        <div className="ws-stt-controls">
-          <button className="ws-stt-btn primary" onClick={() => { try { navigator.clipboard.writeText(text); } catch (e) {} }}>Copy all</button>
-          <button className="ws-stt-btn" onClick={() => setExporting(false)}>Back to recording</button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="ws-page">
-      <TopBar title="Phrase Studio" onBack={() => { stopRec(); setView("home"); }} />
-      <div className="ws-stt-meter">
-        <span><b>{i + 1}</b> / {prompts.length}</span>
-        <span className="ws-stt-hit"><Check size={13} /> {doneCount} saved</span>
-        {flagCount > 0 && <span className="ws-stt-mis"><X size={13} /> {flagCount} flagged</span>}
-        <button className="ws-phrase-exp" onClick={() => { stopRec(); setExporting(true); }}>Export</button>
-      </div>
-
-      <div className="ws-phrase-card">
-        <div className="ws-phrase-unit">{p.unitName}</div>
-        <div className="ws-phrase-prompt">{p.prompt}</div>
-        <div className="ws-phrase-hint">say it in Waray · target word: <b>{p.word}</b> <span>({p.gloss})</span></div>
-
-        {phase === "listening" && (
-          <div className="ws-stt-live"><span className="ws-stt-dot" /> listening… <div className="ws-stt-heard">{interim}</div></div>
-        )}
-        {phase !== "listening" && (
-          <div className="ws-phrase-edit">
-            <label>Waray (fix the guess):</label>
-            <textarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="speak, or type the Waray here" rows={2} />
-          </div>
-        )}
-      </div>
-
-      <div className="ws-stt-controls">
-        {phase === "ready" && <button className="ws-stt-btn primary" onClick={() => listen(i)}><Mic size={18} /> Start</button>}
-        {phase === "listening" && <button className="ws-stt-btn" onClick={() => { stopRec(); setPhase("review"); }}>Stop</button>}
-        {phase === "review" && (
-          <>
-            <button className="ws-stt-btn primary" onClick={save}>Save & next <ChevronRight size={16} /></button>
-            <button className="ws-stt-btn" onClick={() => listen(i)}><RotateCcw size={16} /> Re-listen</button>
-            <button className="ws-stt-btn" onClick={() => go(i + 1)}>Skip</button>
-          </>
-        )}
-        <button className={`ws-stt-btn flag ${flagged[key(i)] ? "on" : ""}`} onClick={flag}>
-          🚩 {flagged[key(i)] ? "Flagged — next" : "Doesn't make sense"}
-        </button>
-        <button className="ws-stt-btn ghost" onClick={() => go(i - 1)} disabled={i === 0}>← previous</button>
-      </div>
-
-      <div className="ws-pron-intro" style={{ marginTop: 14 }}>
-        Read the English, say the Waray. The rough guess appears above — tap to fix it,
-        then <b>Save &amp; next</b>. Listening in <b>{lang}</b>. Progress is saved; you can
-        stop and resume anytime. Hit <b>Export</b> to send the batch back.
       </div>
     </div>
   );
@@ -3047,7 +2885,7 @@ function ReadView({ ctx }) {
   // ---------- story list ----------
   // sort: most-known first; ties (e.g. a fresh learner at 0%) break to the EASIEST —
   // fewest new words, then shortest — so there's always a sensible "start here".
-  const rows = STORIES
+  const rows = ACTIVE.stories
     .map((s) => ({ s, cov: storyCoverage(s, known, roots) }))
     .sort((a, b) => b.cov.pct - a.cov.pct || a.cov.unknown - b.cov.unknown || a.cov.total - b.cov.total);
   const tier = (p) => p >= 0.85 ? { c: "ok", t: "ready" } : p >= 0.7 ? { c: "mid", t: "a stretch" } : { c: "hard", t: "hard" };
