@@ -1,0 +1,132 @@
+{
+  "idioms": [
+    {
+      "war": "Ayaw na la",
+      "en": "Never mind / Let it be",
+      "literal": "Don't already just",
+      "category": "Discourse/Pragmatic",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ikaw an bahala",
+      "en": "It's up to you / You decide",
+      "literal": "You the responsible/in charge",
+      "category": "Discourse/Pragmatic",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Waray problema",
+      "en": "No problem",
+      "literal": "No problem",
+      "category": "Discourse/Pragmatic",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Swertihon ka unta",
+      "en": "Good luck",
+      "literal": "Lucky you hopefully",
+      "category": "Social Formula",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Pag-amping",
+      "en": "Be careful",
+      "literal": "Take care (imperative)",
+      "category": "Advice/Warning",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Maiha na kita waray magkita",
+      "en": "Long time no see",
+      "literal": "Long already we none to see each other",
+      "category": "Social Formula",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Makaluluoy man",
+      "en": "What a pity / How sad",
+      "literal": "How pitiful indeed",
+      "category": "Expression of emotion",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Siguro",
+      "en": "Maybe / Perhaps",
+      "literal": "Perhaps",
+      "category": "Discourse/Pragmatic",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Mas o menus",
+      "en": "More or less",
+      "literal": "More or less",
+      "category": "Discourse/Pragmatic",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Tigda-tigda",
+      "en": "Little by little / Gradually",
+      "literal": "Piece by piece",
+      "category": "Manner/Adverbial",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Kon karuyag han Ginoo",
+      "en": "God willing / If God wills it",
+      "literal": "If wishes of the Lord",
+      "category": "Social Formula/Religious",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Diri man maupay, diri man maraot",
+      "en": "So-so / Not bad, not good",
+      "literal": "Not indeed good, not indeed bad",
+      "category": "Discourse/Pragmatic",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Igo na",
+      "en": "That's enough",
+      "literal": "Enough already",
+      "category": "Command/Pragmatic",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pagdali",
+      "en": "Hurry up",
+      "literal": "Hurry (imperative)",
+      "category": "Command",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pag-amping la",
+      "en": "Take care (as a farewell)",
+      "literal": "Just take care",
+      "category": "Social Formula/Farewell",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ngan pala",
+      "en": "By the way",
+      "literal": "And by the way (Tagalog particle)",
+      "category": "Discourse Marker",
+      "loan": "Tagalog",
+      "confirm": true
+    }
+  ]
+}
