@@ -1296,6 +1296,36 @@
           "samar_variant": "",
           "confirm": false,
           "note": ""
+        },
+        {
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "lemma": "mauran",
+          "pos": "adjective",
+          "gloss": "rainy; will rain",
+          "note": "ma- + uran; the everyday form, vs. the progressive nag-uuran",
+          "example": {
+            "war": "Mauran buwas.",
+            "focus": "mauran",
+            "en": "It will rain tomorrow."
+          }
+        },
+        {
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "lemma": "mapaso",
+          "pos": "adjective",
+          "gloss": "hot (weather)",
+          "note": "of the sun/day; cf. init (hot to the touch)",
+          "example": {
+            "war": "Mapaso an adlaw.",
+            "focus": "mapaso",
+            "en": "The sun is hot."
+          }
         }
       ],
       "lessons": [
@@ -1310,7 +1340,8 @@
             "mahangin",
             "sirak",
             "masirak",
-            "panahon"
+            "panahon",
+            "mauran"
           ]
         },
         {
@@ -1325,7 +1356,8 @@
             "basa",
             "uga",
             "makusog",
-            "pirmi"
+            "pirmi",
+            "mapaso"
           ]
         },
         {
@@ -1680,6 +1712,21 @@
           "samar_variant": "",
           "confirm": false,
           "note": ""
+        },
+        {
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "lemma": "adlaw",
+          "pos": "noun",
+          "gloss": "day; sun",
+          "note": "",
+          "example": {
+            "war": "Maupay nga adlaw.",
+            "focus": "adlaw",
+            "en": "Good day."
+          }
         }
       ],
       "lessons": [
@@ -1695,7 +1742,8 @@
             "urhi",
             "buwas",
             "kagab-i",
-            "sunod"
+            "sunod",
+            "adlaw"
           ]
         },
         {

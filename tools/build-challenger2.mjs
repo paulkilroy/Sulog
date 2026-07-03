@@ -69,6 +69,26 @@ const u10 = unit(P2, "u10");
 for (const v of u10.new_vocab) if (v.lemma === "kita") { v.lemma = "magkita"; v.gloss = "meet"; v.example = { war: "Magkita kita ha merkado", focus: "Magkita", en: "Let's meet at the market" }; v.note = "to meet up (root kita = see); distinct from the pronoun kita = we"; }
 for (const l of u10.lessons) if (l.teaches) l.teaches = l.teaches.map((w) => w === "kita" ? "magkita" : w);
 
+// ---------- harvest: basics the expanded course was missing, folded in from
+// Challenger 1 (plural pronoun, inclusive possessive, day/sun, the two everyday
+// weather adjectives). Appended to the unit's new_vocab + the target word-lesson's
+// teaches. Idempotent — skip a lemma already present. Card ids are the Waray word now,
+// so inserting these mid-course does NOT disturb saved SRS progress. umuuran is
+// intentionally NOT harvested (mauran is the commoner everyday form — Paul's call).
+const HARVEST = [
+  ["u1", "u1l2", P1, { lemma: "kamo", pos: "pronoun", gloss: "you (plural)", note: "you-all — the plural of ikaw", example: { war: "Kamusta kamo?", focus: "kamo", en: "How are you (all)?" } }],
+  ["u3", "u3l2", P1, { lemma: "aton", pos: "pronoun", gloss: "our (inclusive)", note: "ours — includes the person you're talking to", example: { war: "Aton balay ini.", focus: "aton", en: "This is our house." } }],
+  ["u10", "u10l1", P2, { lemma: "adlaw", pos: "noun", gloss: "day; sun", note: "", example: { war: "Maupay nga adlaw.", focus: "adlaw", en: "Good day." } }],
+  ["u9", "u9l1", P2, { lemma: "mauran", pos: "adjective", gloss: "rainy; will rain", note: "ma- + uran; the everyday form, vs. the progressive nag-uuran", example: { war: "Mauran buwas.", focus: "mauran", en: "It will rain tomorrow." } }],
+  ["u9", "u9l2", P2, { lemma: "mapaso", pos: "adjective", gloss: "hot (weather)", note: "of the sun/day; cf. init (hot to the touch)", example: { war: "Mapaso an adlaw.", focus: "mapaso", en: "The sun is hot." } }],
+];
+for (const [uid, lid, src, v] of HARVEST) {
+  const u = unit(src, uid);
+  if (!u.new_vocab.some((x) => x.lemma === v.lemma)) u.new_vocab.push({ difficulty: 1, register: "spoken", samar_variant: "", confirm: false, ...v });
+  const les = u.lessons.find((l) => l.lesson_id === lid);
+  if (les && Array.isArray(les.teaches) && !les.teaches.includes(v.lemma)) les.teaches.push(v.lemma);
+}
+
 // ============ emit ============
 const seed = [], phases = [], levels = {};
 const seen = new Set(), dups = [];

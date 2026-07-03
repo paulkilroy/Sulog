@@ -264,6 +264,21 @@
           "samar_variant": "",
           "confirm": false,
           "note": ""
+        },
+        {
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "lemma": "kamo",
+          "pos": "pronoun",
+          "gloss": "you (plural)",
+          "note": "you-all — the plural of ikaw",
+          "example": {
+            "war": "Kamusta kamo?",
+            "focus": "kamo",
+            "en": "How are you (all)?"
+          }
         }
       ],
       "lessons": [
@@ -294,7 +309,8 @@
             "hiya",
             "hira",
             "kami",
-            "kita"
+            "kita",
+            "kamo"
           ],
           "grammar_focus": "Subject and possessive pronouns"
         },
@@ -1076,6 +1092,21 @@
           "samar_variant": "",
           "confirm": false,
           "note": ""
+        },
+        {
+          "difficulty": 1,
+          "register": "spoken",
+          "samar_variant": "",
+          "confirm": false,
+          "lemma": "aton",
+          "pos": "pronoun",
+          "gloss": "our (inclusive)",
+          "note": "ours — includes the person you're talking to",
+          "example": {
+            "war": "Aton balay ini.",
+            "focus": "aton",
+            "en": "This is our house."
+          }
         }
       ],
       "lessons": [
@@ -1106,7 +1137,8 @@
             "sulod",
             "gawas",
             "lingkod",
-            "tindog"
+            "tindog",
+            "aton"
           ],
           "grammar_focus": "Possession: akon, imo, iyo"
         },
