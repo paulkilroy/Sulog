@@ -65,7 +65,7 @@ const lines = [`# Gloss ingest report`, ``, `verdicts: ${JSON.stringify(tally)}`
   `## Scan-fixes APPLIED to bloom-waray-stories.txt`, ...scans.filter((r) => !SCAN_HOLD.has(r.w)).map((r) => `- \`${r.w}\` → \`${r.fix}\`  (${counts[r.w] || 0}×)`), ``,
   `## Scan-fixes HELD for review (not applied)`, ...scans.filter((r) => SCAN_HOLD.has(r.w)).map((r) => `- \`${r.w}\` → \`${r.fix}\` ?`), ``,
   `## Our corrections over ChatGPT`, ...Object.entries(CORRECTIONS).map(([w, c]) => `- \`${w}\`: GPT said other/Tagalog → we say ${c.verdict}: ${c.def}`)];
-fs.writeFileSync(rp("docs/sources/gloss-ingest-report.md"), lines.join("\n") + "\n");
+fs.writeFileSync(rp("docs/word-bank/gloss-ingest-report.md"), lines.join("\n") + "\n");
 
 console.log(`gloss-extra: ${Object.keys(extra).length} entries`);
 console.log(`scan-fixes applied: ${[...fixMap.keys()].join(", ")}`);
