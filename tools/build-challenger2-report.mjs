@@ -77,6 +77,35 @@ const phasesData = PHASES.map((ph) => {
   return { ...ph, units, pWords, pPhrases, pFlags };
 });
 
+// ---- frequency-coverage validator (against the corpus) ----
+const corpus = fs.readFileSync("docs/sources/waray-frequency-corpus.tsv", "utf8").split(/\r?\n/).slice(1).filter(Boolean)
+  .map((l, i) => { const c = l.split("\t"); return { rank: i + 1, word: norm(c[0] || ""), disp: (c[0] || "").trim(), count: +c[1] || 0, mean: (c[2] || "").trim(), pos: ((c[3] || "") + " " + (c[4] || "")).trim() }; })
+  .filter((e) => e.word);
+const taughtCards = new Set(), usedCtx = new Set();
+for (const ph of PHASES) for (const u of ph.units) {
+  for (const v of u.new_vocab) taughtCards.add(norm(v.lemma));
+  const wars = [];
+  for (const v of u.new_vocab) if (v.example?.war) wars.push(v.example.war);
+  for (const l of u.lessons) for (const p of (l.phrases || [])) wars.push(p.war);
+  if (u.story) for (const s of (u.story.sentences || [])) wars.push(s.war);
+  for (const w of wars) for (const t of w.split(/\s+/)) { const n = norm(t); if (n) usedCtx.add(n); }
+}
+const stat = (w) => taughtCards.has(w) ? "taught" : (usedCtx.has(w) ? "ctx" : "miss");
+const TOPN = 120;
+const strip = corpus.slice(0, TOPN).map((e) => ({ ...e, st: stat(e.word) }));
+const nT = strip.filter((s) => s.st === "taught").length, nC = strip.filter((s) => s.st === "ctx").length, nM = strip.filter((s) => s.st === "miss").length;
+const missed = corpus.slice(0, 300).filter((e) => !taughtCards.has(e.word));
+const chip = (s) => `<span class="chip ${s.st}" title="#${s.rank} (${s.count}) — ${esc(s.mean)}">${s.rank}. ${esc(s.disp)}</span>`;
+const missRow = (e) => `<tr class="${usedCtx.has(e.word) ? "ctxrow" : "absrow"}"><td>${e.rank}</td><td><b>${esc(e.disp)}</b></td><td>${e.count}</td><td>${esc(e.pos)}</td><td>${esc(e.mean.slice(0, 70))}</td><td>${usedCtx.has(e.word) ? "used in phrases" : "✗ absent"}</td></tr>`;
+const freqSection = `<div class="phase"><h2>Frequency coverage <span style="font-size:13px;color:#9aa1a6">— corpus validator</span></h2>
+<span class="sumband">of the top <b>${TOPN}</b> most-common Waray words: <b style="color:#2f8f4e">${nT}</b> taught · <b style="color:#8a9499">${nC}</b> used in phrases only · <b style="color:#c2384b">${nM}</b> missing</span></div>
+<div class="unit"><div style="padding:12px 14px">
+<h4>Top ${TOPN} corpus words &nbsp;<span style="font-weight:400;color:#9aa1a6">(rank. word — green taught · grey only in phrases · red missing)</span></h4>
+<div class="chips">${strip.map(chip).join("")}</div>
+<h4 style="margin-top:16px">Top frequency words we don't teach as a card &nbsp;<span style="font-weight:400;color:#9aa1a6">(✗ absent = never taught or used — the real gaps)</span></h4>
+<table class="miss"><thead><tr><th>rank</th><th>word</th><th>freq</th><th>POS</th><th>gloss</th><th>status</th></tr></thead><tbody>
+${missed.slice(0, 60).map(missRow).join("")}</tbody></table></div></div>`;
+
 const html = `<!doctype html><html><head><meta charset="utf-8"><title>Challenger 2 — review report</title><style>
 :root{--sand:#f7f1e6;--ink:#22303a;--soft:#5e6b70}
 *{box-sizing:border-box} body{margin:0;background:var(--sand);color:var(--ink);font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:13.5px}
@@ -109,6 +138,10 @@ h1{font-family:Georgia,serif;margin:0 0 4px;font-size:21px}
 .w.new{color:#2f8f4e;font-weight:600}.w.old{color:#8a9499}
 .w.red{color:#c2384b;font-weight:700;background:#fbe6e9;border-radius:3px;padding:0 2px}
 .w.mkr{color:#b9b0a0;font-style:italic}.w.name{color:#6a5aa8}.w.inf{text-decoration:underline dotted}
+.chips{display:flex;flex-wrap:wrap;gap:5px} .chip{font-size:11.5px;padding:2px 7px;border-radius:11px;border:1px solid #e3dccd}
+.chip.taught{background:#eef7f0;color:#2f8f4e;border-color:#cfe8d6} .chip.ctx{background:#f2f0ec;color:#8a9499} .chip.miss{background:#fbe6e9;color:#c2384b;border-color:#f0cdd2;font-weight:600}
+table.miss{border-collapse:collapse;width:100%;font-size:12px;margin-top:6px} table.miss th{text-align:left;color:var(--soft);font-weight:600;border-bottom:1px solid #e3dccd;padding:3px 8px}
+table.miss td{padding:3px 8px;border-bottom:1px dotted #f0ead9} table.miss tr.absrow td:last-child{color:#c2384b;font-weight:700} table.miss tr.absrow b{color:#c2384b} table.miss tr.ctxrow td:last-child{color:#8a9499}
 </style></head><body>
 <header>
 <h1>Challenger 2 (Expanded) — content review</h1>
@@ -131,6 +164,7 @@ ${phasesData.map((ph) => `<div class="phase"><h2>${esc(ph.name)}</h2><span class
 <div class="col"><h4>③ Graded unit review</h4>${u.reviewCell}</div>
 <div class="col"><h4>④ Story</h4>${u.storyCell}</div>
 </div></div>`).join("")).join("")}
+${freqSection}
 </body></html>`;
 
 fs.writeFileSync("challenger2-report.html", html);
