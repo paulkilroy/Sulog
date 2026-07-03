@@ -71,26 +71,35 @@ insert into lessons values
   ('u1-rev','u1',5,'Unit Review'),
   ('u1-story','u1',6,'Story');
 
--- ---- lesson_blocks: the shared drill tail, per lesson ----
-insert into lesson_blocks (lesson_id,ord,type,payload) values
- -- u1l1 Times of Day
- ('u1l1',1,'vocab', '{"entries":["maupay","aga","udto","kulop","gab-i","yana","kanina","niyan"],"position":"pre"}'),
- ('u1l1',2,'drill', '{"kind":"recognition","modality":"mc","hint":"peek","items":[{"k":"dict","w":"aga"},{"k":"dict","w":"udto"}],"references":["vocab"]}'),
- ('u1l1',3,'drill', '{"kind":"production","modality":"type","hint":"partial","direction":"etw","items":[{"k":"dict","w":"aga"}],"references":["vocab"]}'),
- -- u1l2 Pronouns
- ('u1l2',1,'vocab', '{"entries":["kamusta","ako","ikaw","hiya","hira","kami","kita","kamo"],"position":"pre"}'),
- ('u1l2',2,'drill', '{"kind":"recognition","modality":"mc","hint":"peek","items":[{"k":"dict","w":"ako"},{"k":"dict","w":"kita"}],"references":["vocab"]}'),
- ('u1l2',3,'drill', '{"kind":"production","modality":"type","hint":"partial","direction":"etw","items":[{"k":"dict","w":"kamo"}],"references":["vocab"]}'),
- -- u1l3 apply greetings (items are EXPRESSIONS)
- ('u1l3',1,'phrases','{"items":[{"k":"expr","id":1},{"k":"expr","id":2},{"k":"expr","id":3},{"k":"expr","id":4},{"k":"expr","id":5},{"k":"expr","id":6}]}'),
- ('u1l3',2,'drill', '{"kind":"recognition","modality":"mc","hint":"peek","items":[{"k":"expr","id":2}],"references":["phrases"]}'),
- ('u1l3',3,'drill', '{"kind":"production","modality":"voice","hint":"none","direction":"etw","items":[{"k":"expr","id":1}],"references":["phrases"]}'),
- -- u1l4 survival (items are DICTIONARY phrases)
- ('u1l4',1,'phrases','{"items":[{"k":"dict","w":"Diri ako maaram"},{"k":"dict","w":"Waray ako makabaro"},{"k":"dict","w":"Walang anuman"}]}'),
- ('u1l4',2,'drill', '{"kind":"recognition","modality":"mc","hint":"peek","items":[{"k":"dict","w":"Diri ako maaram"}],"references":["phrases"]}'),
- -- u1 review (the gate) + story
- ('u1-rev',1,'assessment','{"scope":"unit","pool":"apply-phrases","select":"hardest","n":10,"threshold":0.8,"gate":true,"hint":"none","references":[]}'),
- ('u1-story',1,'story','{"story_id":"u1s1"}');
+-- ---- lesson_blocks (explicit ids so block_items can FK them) ----
+insert into lesson_blocks (id,lesson_id,ord,type) values
+  (1,'u1l1',1,'vocab'), (4,'u1l2',1,'vocab'), (7,'u1l3',1,'phrases'), (10,'u1l4',1,'phrases');
+insert into lesson_blocks (id,lesson_id,ord,type,drill_kind,drill_modality,drill_hint,drill_direction) values
+  (2 ,'u1l1',2,'drill','recognition','mc'  ,'peek'   ,null ),
+  (3 ,'u1l1',3,'drill','production' ,'type','partial','etw'),
+  (5 ,'u1l2',2,'drill','recognition','mc'  ,'peek'   ,null ),
+  (6 ,'u1l2',3,'drill','production' ,'type','partial','etw'),
+  (8 ,'u1l3',2,'drill','recognition','mc'  ,'peek'   ,null ),
+  (9 ,'u1l3',3,'drill','production' ,'voice','none'  ,'etw'),
+  (11,'u1l4',2,'drill','recognition','mc'  ,'peek'   ,null );
+insert into lesson_blocks (id,lesson_id,ord,type,assess_scope,assess_pool,assess_select,assess_n,assess_threshold,assess_gate) values
+  (12,'u1-rev',1,'assessment','unit','apply-phrases','hardest',10,0.8,true);
+insert into lesson_blocks (id,lesson_id,ord,type,story_id) values
+  (13,'u1-story',1,'story','u1s1');
 
--- u2..u5: same three-block tail per word/apply lesson + a unit-review assessment + a story.
--- (omitted for brevity — mechanical.)
+-- ---- block_items: every word/sentence a block uses, via REAL foreign keys ----
+insert into block_items (block_id,ord,dict_waray,role) values          -- u1l1 vocab (teach)
+  (1,1,'maupay','teach'),(1,2,'aga','teach'),(1,3,'udto','teach'),(1,4,'kulop','teach'),
+  (1,5,'gab-i','teach'),(1,6,'yana','teach'),(1,7,'kanina','teach'),(1,8,'niyan','teach'),
+  (2,1,'aga','item'),(2,2,'udto','item'),   (3,1,'aga','item'),                          -- u1l1 drills
+  (4,1,'kamusta','teach'),(4,2,'ako','teach'),(4,3,'ikaw','teach'),(4,4,'hiya','teach'),  -- u1l2 vocab
+  (4,5,'hira','teach'),(4,6,'kami','teach'),(4,7,'kita','teach'),(4,8,'kamo','teach'),
+  (5,1,'ako','item'),(5,2,'kita','item'),   (6,1,'kamo','item'),                          -- u1l2 drills
+  (10,1,'Diri ako maaram','phrase'),(10,2,'Waray ako makabaro','phrase'),(10,3,'Walang anuman','phrase'), -- u1l4 survival phrases (dict)
+  (11,1,'Diri ako maaram','item');
+insert into block_items (block_id,ord,expr_id,role) values             -- u1l3 greetings are EXPRESSIONS
+  (7,1,1,'phrase'),(7,2,2,'phrase'),(7,3,3,'phrase'),(7,4,4,'phrase'),(7,5,5,'phrase'),(7,6,6,'phrase'),
+  (8,1,2,'item'),   (9,1,1,'item');
+-- assessment (12) pool is dynamic (learner's hardest); story (13) via story_id — neither uses block_items.
+
+-- u2..u5: identical shape. (omitted — mechanical.)

@@ -68,32 +68,56 @@ create table lessons (
 );
 
 -- ============================================================
--- THE FLEXIBLE LESSON BODY  (the load-bearing table)
+-- THE FLEXIBLE LESSON BODY  (the load-bearing table) — fully relational, no jsonb.
+-- Single-table inheritance: one row per block; only the columns for its `type` are used.
+-- The one genuinely list-shaped thing (which words/sentences a block uses) is a real
+-- child table with real FKs -> block_items.
 -- ============================================================
 create table lesson_blocks (
-  id bigserial primary key,
+  id        bigserial primary key,
   lesson_id text not null references lessons(id),
-  ord int not null,
-  type text not null check (type in
+  ord       int  not null,
+  type      text not null check (type in
     ('review','grammar','examples','note','vocab','phrases','drill','story','assessment')),
-  payload jsonb not null default '{}'
+  -- GUIDE content (grammar / examples / note) — a chart is just a markdown table in body_md
+  title     text,
+  body_md   text,
+  formula   text,
+  about     text references dictionary(waray),          -- note is "about" a lexeme (e.g. mga)
+  -- DRILL config
+  drill_kind      text check (drill_kind      in ('recognition','production','transform')),
+  drill_modality  text check (drill_modality  in ('mc','listen','type','voice')),
+  drill_hint      text check (drill_hint      in ('peek','partial','none')),
+  drill_direction text check (drill_direction in ('wte','etw','both')),
+  -- ASSESSMENT config (the gate)
+  assess_scope     text check (assess_scope in ('unit','phase')),
+  assess_pool      text,
+  assess_select    text,
+  assess_n         int,
+  assess_threshold numeric,
+  assess_gate      boolean,
+  -- REVIEW (points back at a prior block) / STORY
+  review_target bigint references lesson_blocks(id),
+  review_mode   text,
+  story_id      text references stories(id),
+  unique (lesson_id, ord)
 );
--- payload shapes (documented; validated in the app layer):
---  vocab      {"entries":["maupay","aga"], "position":"pre"|"post"}
---  phrases    {"items":[{"k":"dict","w":"Diri ako maaram"}|{"k":"expr","id":12}]}
---  grammar    {"point":"...","prose":"...","formula":"..."}
---  examples   {"expr":[12,13,14]}
---  note       {"text":"...","about":"mga"}
---  drill      {"kind":"recognition"|"production"|"transform",
---              "modality":"mc"|"listen"|"type"|"voice","hint":"peek"|"partial"|"none",
---              "direction":"wte"|"etw",
---              "items":[{"k":"dict","w":"..."}|{"k":"expr","id":..}],   -- recognition/production
---              "pairs":[{"from":12,"op":"->question","to":13}],         -- transform only
---              "references":["grammar","examples","note","vocab"]}
---  review     {"scope":"prev-lesson"|"prev-unit","items":[...]}
---  story      {"story_id":"u1s1"}
---  assessment {"scope":"unit"|"phase","pool":"apply-phrases"|"all","select":"hardest",
---              "n":10,"threshold":0.8,"gate":true,"hint":"none"}
+-- Practice drills expose their lesson's guide blocks as reference buttons BY DEFAULT
+-- (derived, not stored); the assessment gate exposes none (drill_hint / assess handles it).
+
+-- items a block uses: vocab entries, drill items, example refs, phrase refs.
+-- EXACTLY ONE of dict_waray / expr_id is set — both are REAL foreign keys, DB-enforced.
+create table block_items (
+  id         bigserial primary key,
+  block_id   bigint not null references lesson_blocks(id) on delete cascade,
+  ord        int not null,
+  dict_waray text   references dictionary(waray),      -- a word or idiomatic phrase
+  expr_id    bigint references expressions(id),        -- a composed sentence
+  role       text check (role in ('teach','item','example','phrase')),
+  check ( (dict_waray is not null)::int + (expr_id is not null)::int = 1 ),
+  unique (block_id, ord)
+);
+-- (transform drills, when we add them, get a from/to pair: add pair_expr_id to block_items.)
 
 -- ============================================================
 -- PER-USER  (keyed by the Waray string — the stable id we already adopted)
