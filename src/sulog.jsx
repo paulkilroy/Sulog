@@ -242,10 +242,14 @@ function nextLesson(lessons) {
 
 
 function buildCards() {
-  return SEED.map((r, i) => {
+  return SEED.map((r) => {
     const [deck, waray, english, subtext, say, example] = r;
     return {
-      id: `c${i}`,
+      // Stable id = the Waray string. Unique per course (verified: 0 dup waray in any
+      // course) and, unlike a positional `cN`, it survives reordering, appends, and
+      // moving a word between units — so editing curriculum never disturbs saved SRS
+      // progress. Legacy positional ids are migrated on load (see migrateProgIds).
+      id: waray,
       deck, waray, english,
       subtext: subtext || "",
       say: say || "",
@@ -279,7 +283,10 @@ function levelOfWord(w) {
   if (CH_LEVELS[w]) return CH_LEVELS[w];    // Challenger-only word → its own CEFR tag
   return "B1";                              // unranked / rare → advanced
 }
-const wordById = (course) => { const m = {}; (course.seed || []).forEach((r, i) => { m[`c${i}`] = r[1]; }); return m; };
+// map a stored-prog key → its Waray word. Tolerates BOTH the new stable id (the Waray
+// string itself) and the legacy positional `cN`, so cross-course pooling works whether
+// or not a given course's stored progress has been migrated yet.
+const wordById = (course) => { const m = {}; (course.seed || []).forEach((r, i) => { m[`c${i}`] = r[1]; m[r[1]] = r[1]; }); return m; };
 // pool the BEST box per WORD across every course's stored progress (+ live active prog)
 function pooledWords(liveProg) {
   const pooled = {};
@@ -420,6 +427,30 @@ function applyResult(st, correct, mode) {
   else if (s.recall == null) s.recall = 0;
   s.due = now() + BOX_DAYS[s.box] * MS_DAY;
   return s;
+}
+// Card ids moved from a positional `cN` to the Waray string (stable across reorder /
+// append / unit-move). Remap any legacy positional keys in a stored stat map to the
+// Waray id via the current seed order. Idempotent — Waray keys pass straight through —
+// so it's safe to run on every load, backup import, and cloud merge (an un-updated
+// device may still send `cN`). MUST run against the seed order that produced those cN
+// ids: this is why id-stabilization ships BEFORE any card is added/reordered.
+function migrateProgIds(prog, seed = SEED) {
+  if (!prog || typeof prog !== "object") return prog;
+  let changed = false;
+  const out = {};
+  for (const k in prog) {
+    const mm = /^c(\d+)$/.exec(k);
+    if (mm && seed[+mm[1]]) { out[seed[+mm[1]][1]] = prog[k]; changed = true; }
+    else out[k] = prog[k];
+  }
+  return changed ? out : prog;
+}
+// remap the keys of an audio map ({id: dataURL}) the same way
+function migrateAudioKeys(audioMap, seed = SEED) {
+  if (!audioMap) return audioMap;
+  const out = {};
+  for (const k in audioMap) { const mm = /^c(\d+)$/.exec(k); out[mm && seed[+mm[1]] ? seed[+mm[1]][1] : k] = audioMap[k]; }
+  return out;
 }
 // One-time backfill for `recall` (added after launch): reconstruct each card's trailing
 // cold type-recall streak from the attempt history, so Needs-work dots reflect real past
@@ -797,19 +828,37 @@ export default function App() {
       const un = await store.get(PK.units);
       const parsedHist = hist ? JSON.parse(hist) : [];
       if (hist) setHistory(parsedHist);
-      if (p) {
-        const pp = backfillRecall(JSON.parse(p), parsedHist, cards);
+      const oldProg = p ? JSON.parse(p) : null;
+      if (oldProg) {
+        const pp = backfillRecall(migrateProgIds(oldProg), parsedHist, cards);
         setProg(pp);
-        store.set(PK.prog, JSON.stringify(pp)); // persist the one-time recall backfill
+        store.set(PK.prog, JSON.stringify(pp)); // persist migrated ids + recall backfill
       }
       if (s) setStreak(JSON.parse(s));
       if (les) setLessons(JSON.parse(les));
       if (un) setUnits(JSON.parse(un));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
       if (aIdx) {
-        const ids = JSON.parse(aIdx);
+        // migrate this course's recordings from positional to Waray ids. Only remap a
+        // `cN` that the active course's own progress marks hasAudio, so a recording made
+        // in a different course (audio keys aren't course-namespaced) is left untouched
+        // for that course to migrate when it loads.
+        const posToWaray = {}; SEED.forEach((r, i) => { posToWaray[`c${i}`] = r[1]; });
+        const rawIds = JSON.parse(aIdx);
+        const ids = [];
+        let idxChanged = false;
+        for (const id of rawIds) {
+          const w = posToWaray[id];
+          if (w && /^c\d+$/.test(id) && oldProg && oldProg[id] && oldProg[id].hasAudio) {
+            const d = await store.get("waray:audio:" + id);
+            if (d && !(await store.get("waray:audio:" + w))) await store.set("waray:audio:" + w, d);
+            ids.push(w); idxChanged = true;
+          } else ids.push(id);
+        }
+        const uniq = [...new Set(ids)];
+        if (idxChanged) await store.set("waray:audioIndex", JSON.stringify(uniq));
         const a = {};
-        for (const id of ids) {
+        for (const id of uniq) {
           const d = await store.get("waray:audio:" + id);
           if (d) a[id] = d;
         }
@@ -941,8 +990,8 @@ export default function App() {
   // ---- backup: load a JSON object back in ----
   const importData = useCallback(async (data, mode) => {
     if (!data || data.app !== "sulog-waray") throw new Error("That doesn't look like a Sulog backup file.");
-    // progress + streak: replace
-    if (data.prog) { setProg(data.prog); await store.set(PK.prog, JSON.stringify(data.prog)); }
+    // progress + streak: replace (migrate legacy positional ids from an older export)
+    if (data.prog) { const mp = migrateProgIds(data.prog); setProg(mp); await store.set(PK.prog, JSON.stringify(mp)); }
     if (data.streak) { setStreak(data.streak); await store.set(PK.streak, JSON.stringify(data.streak)); }
     // lessons/units: merge (furthest progress wins) so importing never undoes lessons
     // you've finished on this device
@@ -950,7 +999,7 @@ export default function App() {
     if (data.units) { const m = mergeUnits(units, data.units); setUnits(m); await store.set(PK.units, JSON.stringify(m)); }
     if (data.history) { setHistory(data.history); await store.set(PK.history, JSON.stringify(data.history)); }
     // recordings: merge so we never lose voice you already saved
-    const incoming = data.audio || {};
+    const incoming = migrateAudioKeys(data.audio || {});
     if (Object.keys(incoming).length) {
       const merged = mode === "replace" ? { ...incoming } : { ...audio, ...incoming };
       setAudio(merged);
@@ -977,7 +1026,9 @@ export default function App() {
   const applyCloud = useCallback(async (cloud) => {
     if (!cloud || cloud.app !== "sulog-waray") throw new Error("The gist didn't contain Sulog data.");
     const cur = stateRef.current;
-    const np = mergeProg(cur.prog, cloud.prog || {});
+    // migrate legacy positional ids in the cloud snapshot before merging (the other
+    // device may not have updated yet)
+    const np = mergeProg(cur.prog, migrateProgIds(cloud.prog || {}));
     const ns = mergeStreak(cur.streak, cloud.streak || {});
     setProg(np); await store.set(PK.prog, JSON.stringify(np));
     setStreak(ns); await store.set(PK.streak, JSON.stringify(ns));
@@ -993,7 +1044,7 @@ export default function App() {
       .sort((a, b) => a.ts - b.ts);
     if (mh.length > 6000) mh.splice(0, mh.length - 6000);
     setHistory(mh); await store.set(PK.history, JSON.stringify(mh));
-    const cloudAudio = cloud.audio || {};
+    const cloudAudio = migrateAudioKeys(cloud.audio || {});
     if (Object.keys(cloudAudio).length) {
       const merged = { ...cloudAudio, ...cur.audio }; // local wins
       setAudio(merged);
