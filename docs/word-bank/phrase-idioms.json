@@ -127,6 +127,926 @@
       "category": "Discourse Marker",
       "loan": "Tagalog",
       "confirm": true
+    },
+    {
+      "war": "Pwede pa makabarato?",
+      "en": "Can I still get a discount? / Is there a lower price?",
+      "literal": "Can still get cheaper?",
+      "category": "Haggling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Igo na ini.",
+      "en": "That's my final offer (price). / I'll take it at this price.",
+      "literal": "Enough already this.",
+      "category": "Haggling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-menos daw.",
+      "en": "Please lower the price (a bit). / Can you give a small discount?",
+      "literal": "Please lessen/reduce.",
+      "category": "Haggling",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw na la pagbarato.",
+      "en": "Don't haggle anymore (this is the lowest price).",
+      "literal": "Don't anymore just make cheaper.",
+      "category": "Haggling (Vendor's response)",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-dugang daw.",
+      "en": "Please add a little more (to the quantity).",
+      "literal": "Please add.",
+      "category": "Shopping/Haggling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Waray na kapin.",
+      "en": "I have no exact change. / No more excess (money for change).",
+      "literal": "No more excess.",
+      "category": "Money/Transaction",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-sukli daw.",
+      "en": "Please give me my change.",
+      "literal": "Please change.",
+      "category": "Money/Transaction",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pakyawon ko na la.",
+      "en": "I'll buy it all (wholesale/the whole lot).",
+      "literal": "I'll just buy it all.",
+      "category": "Buying/Selling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bilihin ko na la.",
+      "en": "I'll take it (I've decided to buy it).",
+      "literal": "I'll just buy it.",
+      "category": "Buying/Selling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mayda ka ba baratohon?",
+      "en": "Do you have anything cheaper? / Do you have a cheaper option?",
+      "literal": "Do you have anything cheap/cheaper?",
+      "category": "Shopping/Haggling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-timbang daw.",
+      "en": "Please weigh it (for me).",
+      "literal": "Please weigh.",
+      "category": "Shopping (Market)",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Waray na presyo.",
+      "en": "It's practically free. / No fixed price (very cheap).",
+      "literal": "No more price.",
+      "category": "Shopping/Haggling",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Paki-balot daw.",
+      "en": "Please wrap/pack it (for me).",
+      "literal": "Please wrap.",
+      "category": "Shopping",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pwede ba utang?",
+      "en": "Can I buy on credit? / Can I pay later?",
+      "literal": "Can (it be) debt?",
+      "category": "Money/Transaction",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-lista daw.",
+      "en": "Please list it (as a debt).",
+      "literal": "Please list.",
+      "category": "Money/Transaction",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Bumalik ako unina.",
+      "en": "I'll come back later (to buy).",
+      "literal": "I'll return later.",
+      "category": "Shopping/Future Action",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-abot daw.",
+      "en": "Please pass it (to me). / Please hand it over.",
+      "literal": "Please reach/pass.",
+      "category": "Shopping (interacting with vendor)",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-pili daw.",
+      "en": "Please choose (the good ones for me).",
+      "literal": "Please choose.",
+      "category": "Shopping (Market)",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mahal an presyo.",
+      "en": "The price is too high. / It's expensive.",
+      "literal": "Expensive the price.",
+      "category": "Haggling",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Barato la ini.",
+      "en": "This is very cheap (come on, buy it). / It's just cheap.",
+      "literal": "Cheap just this.",
+      "category": "Selling/Haggling",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-hulog daw.",
+      "en": "Please bring it down (from up there).",
+      "literal": "Please drop/lower.",
+      "category": "Shopping (Market)",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Makuri an dagat",
+      "en": "The sea is rough / The weather at sea is bad",
+      "literal": "Difficult the sea",
+      "category": "Weather/Sea",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Malmo an dagat",
+      "en": "The sea is calm / The weather at sea is good",
+      "literal": "Calm the sea",
+      "category": "Weather/Sea",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Baga hin uuran",
+      "en": "It looks like it's going to rain",
+      "literal": "Looks like of rain",
+      "category": "Weather",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pag-usa han kamot",
+      "en": "To work together / To cooperate",
+      "literal": "Uniting of hand",
+      "category": "Rural Life/Community",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Para han buwas",
+      "en": "For the future / Save for later / Save for a rainy day",
+      "literal": "For the tomorrow",
+      "category": "Rural Life/Planning",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Adlaw-adlaw",
+      "en": "Everyday / Daily",
+      "literal": "Day-day",
+      "category": "Daily Life",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Panahon na",
+      "en": "It's time / Time to go / It's about time",
+      "literal": "Time already",
+      "category": "Daily Life/Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Diri na",
+      "en": "Not anymore / No longer",
+      "literal": "Not already",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Anay la",
+      "en": "Just a moment / Wait a bit / Hold on",
+      "literal": "First just",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ambot la",
+      "en": "I don't know / Who knows?",
+      "literal": "I don't know just",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Sige na",
+      "en": "Go on / Come on / Please (used for urging, giving permission, or encouragement)",
+      "literal": "Okay already",
+      "category": "Discourse",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Kun sugad",
+      "en": "In that case / Then",
+      "literal": "If so",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ha pagkamatuod",
+      "en": "Actually / In fact / To tell the truth",
+      "literal": "In the truth",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bisan ano",
+      "en": "Whatever / Anything",
+      "literal": "Even what",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bisan diin",
+      "en": "Wherever / Anywhere",
+      "literal": "Even where",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bisan san-o",
+      "en": "Whenever / Anytime",
+      "literal": "Even when",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bisan hin-o",
+      "en": "Whoever / Anyone",
+      "literal": "Even who",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Diri la",
+      "en": "Not only",
+      "literal": "Not just",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Kun diri",
+      "en": "Otherwise",
+      "literal": "If not",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Waray labot",
+      "en": "None of your business / It's irrelevant / It doesn't matter",
+      "literal": "No concern",
+      "category": "Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Opo",
+      "en": "Yes (respectful response to an elder or superior)",
+      "literal": "Yes (sir/ma'am)",
+      "category": "Respect for Elders",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Mano po",
+      "en": "May I kiss your hand (a traditional gesture of respect to elders)",
+      "literal": "Hand sir/ma'am",
+      "category": "Respect for Elders",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Tabi po",
+      "en": "Excuse me (when passing in front of elders, or asking permission to pass, or acknowledging unseen spirits)",
+      "literal": "Side sir/ma'am",
+      "category": "Respect for Elders, Social Relationships",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Dayon kamo!",
+      "en": "Welcome! Come in!",
+      "literal": "Enter you (plural)!",
+      "category": "Hospitality",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pag-alang-alang",
+      "en": "Make yourself at home / Don't hesitate to ask for anything",
+      "literal": "Don't hesitate",
+      "category": "Hospitality",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pakaonon ta an aton bisita",
+      "en": "Let's prepare food for our guest (a strong expression of hospitality)",
+      "literal": "Let's feed our visitor",
+      "category": "Hospitality",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mag-istorya kita",
+      "en": "Let's chat / Let's talk",
+      "literal": "Let's tell stories",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Dugo an katubtuban",
+      "en": "Blood is thicker than water / Family ties are paramount",
+      "literal": "Blood is the end",
+      "category": "Family",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bungto-bungto",
+      "en": "Widespread gossip / Rumors spreading everywhere",
+      "literal": "town-town",
+      "category": "Gossip",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Igsinggit an imo ngaran",
+      "en": "To speak highly of someone / To praise someone's good reputation",
+      "literal": "Shout your name",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Nawawara an ulo",
+      "en": "Confused / Panicking / Losing one's mind",
+      "literal": "Head is lost",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Malipayon an kasingkasing",
+      "en": "Feeling joyful / Contented",
+      "literal": "Heart is happy",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pag-abat",
+      "en": "Don't take it to heart / Don't be too sensitive",
+      "literal": "Don't feel",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Waray pulos",
+      "en": "Useless / Pointless / Worthless",
+      "literal": "No use",
+      "category": "General Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pangumusta",
+      "en": "To extend greetings (on behalf of someone or generally)",
+      "literal": "To ask how",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Panginano",
+      "en": "To inquire / To ask for details (often about someone's well-being or situation)",
+      "literal": "To ask what",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Hala bira!",
+      "en": "Go for it! / Let's go! / Full speed ahead! (an encouragement)",
+      "literal": "Go pull!",
+      "category": "General Discourse, Social Relationships",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Baga hin nag-iihap",
+      "en": "Looks like someone is calculating (often implying stinginess or being overly cautious with resources)",
+      "literal": "Looks like counting",
+      "category": "Social Relationships, Gossip",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ginsisikreto",
+      "en": "Something is being hidden / It's a secret",
+      "literal": "Being kept secret",
+      "category": "Gossip, Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Naabot an balita",
+      "en": "Word got around / The news spread",
+      "literal": "The news arrived",
+      "category": "Gossip, Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mag-iringgitan",
+      "en": "To argue / To bicker / To have a disagreement",
+      "literal": "To make noise at each other",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pag-istoryahi",
+      "en": "Don't gossip about him/her / Don't spread rumors",
+      "literal": "Don't talk about him/her",
+      "category": "Gossip",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pag-upod-upod",
+      "en": "To socialize / To spend time together / To hang out",
+      "literal": "Accompany-accompany",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Paki-tagay daw",
+      "en": "Please pour a drink (implies sharing in a social setting)",
+      "literal": "Please pour (drink)",
+      "category": "Hospitality, Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Usa ka pamilya",
+      "en": "A united family / We are one family",
+      "literal": "One family",
+      "category": "Family",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Balay-balay",
+      "en": "Playing house (children's game)",
+      "literal": "House-house",
+      "category": "Family",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mag-asawa",
+      "en": "Married couple",
+      "literal": "To be husband and wife",
+      "category": "Family",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "An imo pagka-tawo",
+      "en": "Your character / Your personality (often in a moral sense)",
+      "literal": "Your being a person",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ika-duha nga hunahuna",
+      "en": "Second thought / Reconsideration",
+      "literal": "Second thought",
+      "category": "General Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Diri nakikita",
+      "en": "Invisible / Hidden (often implies something is being kept secret or is not obvious)",
+      "literal": "Not seen",
+      "category": "General Discourse, Gossip",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ihap an mga bituon",
+      "en": "To do something impossible / To waste time on a futile task",
+      "literal": "Count the stars",
+      "category": "General Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Parayaw",
+      "en": "Boasting / Showing off (often with a negative connotation of arrogance)",
+      "literal": "Show off",
+      "category": "Social Relationships, Gossip",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Magsinabutay kita",
+      "en": "Let's come to an agreement / Let's reconcile",
+      "literal": "Let's understand each other",
+      "category": "Social Relationships",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ngan ano man?",
+      "en": "So what? / What's the big deal?",
+      "literal": "And what then?",
+      "category": "Annoyance, Dismissal",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Aba!",
+      "en": "Oh my! / Wow! / Goodness!",
+      "literal": "Aba! (Exclamation)",
+      "category": "Surprise, Exclamation",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ay!",
+      "en": "Oh! / Ouch! / Goodness!",
+      "literal": "Ay! (Exclamation)",
+      "category": "Surprise, Pain, Exclamation",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Susmaryosep!",
+      "en": "Oh my God! / Good heavens!",
+      "literal": "Jesus, Mary, Joseph!",
+      "category": "Surprise, Exasperation",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Aray!",
+      "en": "Ouch!",
+      "literal": "Aray! (Exclamation of pain)",
+      "category": "Pain, Exclamation",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Hay naku!",
+      "en": "Oh dear! / Good grief! / For goodness sake!",
+      "literal": "Hay naku! (Exclamation)",
+      "category": "Annoyance, Exasperation",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Ano ba!",
+      "en": "What the heck! / Come on! / What is it now?!",
+      "literal": "What then!",
+      "category": "Annoyance, Impatience",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Ginoo ko!",
+      "en": "Oh my God!",
+      "literal": "My Lord!",
+      "category": "Surprise, Exasperation",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Makuri an dughan",
+      "en": "Heartbroken / Feeling heavy-hearted",
+      "literal": "Difficult the chest",
+      "category": "Emotion, Sadness",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Nalukso an kasingkasing ko",
+      "en": "My heart skipped a beat",
+      "literal": "Jumped the heart my",
+      "category": "Emotion, Surprise, Fear",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Nalumoy an tuhod ko",
+      "en": "My knees felt weak",
+      "literal": "Softened the knees my",
+      "category": "Emotion, Fear, Shock",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Sige la!",
+      "en": "Go for it! / Keep going! / Never mind, just do it!",
+      "literal": "Go just!",
+      "category": "Encouragement, Dismissal",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Hala sige!",
+      "en": "Come on, go ahead! / You can do it!",
+      "literal": "Hala go!",
+      "category": "Encouragement",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Basta!",
+      "en": "Just because! / That's it! / No more discussion!",
+      "literal": "Enough! / Provided that!",
+      "category": "Dismissal, Annoyance",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Pa-cute",
+      "en": "Flirting / Trying to be endearing / Acting cute",
+      "literal": "To make cute",
+      "category": "Teasing, Social",
+      "loan": "Tagalog",
+      "confirm": true
+    },
+    {
+      "war": "Palihug la",
+      "en": "Just please / Come on, please",
+      "literal": "Please just",
+      "category": "Encouragement, Teasing, Impatience",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mata-mata",
+      "en": "Be vigilant / Watch out carefully",
+      "literal": "Eye-eye",
+      "category": "Warning, Caution",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pagpabaya",
+      "en": "Don't be careless / Don't neglect your duties/responsibilities",
+      "literal": "Don't neglect",
+      "category": "Warning, Advice",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Delikado",
+      "en": "It's dangerous / Be careful",
+      "literal": "Dangerous",
+      "category": "Warning, Caution",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Bantay!",
+      "en": "Watch out! / Look out! / Be on guard!",
+      "literal": "Guard!",
+      "category": "Warning, Caution",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pagpasobra",
+      "en": "Don't go too far / Don't exaggerate / Don't overdo it",
+      "literal": "Don't overdo",
+      "category": "Warning, Advice",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ayaw pagduhaduha",
+      "en": "Don't hesitate",
+      "literal": "Don't doubt",
+      "category": "Encouragement, Advice",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Kitaon ta la",
+      "en": "Let's see / We'll see",
+      "literal": "See we just",
+      "category": "Discourse/Plans",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Depende",
+      "en": "It depends",
+      "literal": "Depend",
+      "category": "Discourse/Plans",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Bisan ano man an matabo",
+      "en": "Whatever happens / Come what may",
+      "literal": "Even anything also that happen",
+      "category": "Discourse/Plans",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Maatraso",
+      "en": "To be delayed / To be late (for an appointment/event)",
+      "literal": "Will be delayed",
+      "category": "Time/Being Late",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Igsibog",
+      "en": "To postpone / To put off (an event, task)",
+      "literal": "To move back",
+      "category": "Plans/Procrastination",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Unina na la, unina na la",
+      "en": "Later, later (expression of procrastination)",
+      "literal": "Later just, later just",
+      "category": "Procrastination",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Panapanahon",
+      "en": "From time to time / Occasionally",
+      "literal": "Time-time",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Hitaas na an gab-i",
+      "en": "Late at night",
+      "literal": "High already the night",
+      "category": "Time/Daily Routine",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Igsayang an oras",
+      "en": "To waste time (as an action)",
+      "literal": "To waste the time",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Sakto la an pag-abot",
+      "en": "Just in time (for arrival)",
+      "literal": "Exact just the arrival",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Sakto ha oras",
+      "en": "To be punctual / On time",
+      "literal": "Exact in time",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Bawi-on an nawawara nga oras",
+      "en": "To make up for lost time",
+      "literal": "To recover the lost time",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Iglabay an oras",
+      "en": "To kill time / To pass the time (while waiting)",
+      "literal": "To pass the time",
+      "category": "Time/Waiting",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Mauna",
+      "en": "To be early / To arrive first",
+      "literal": "Will be first",
+      "category": "Time/Being Late",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ha pagkayana la",
+      "en": "For now / Temporarily",
+      "literal": "In the now just",
+      "category": "Time/Discourse",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Ha katapusan nga minuto",
+      "en": "At the last minute",
+      "literal": "At the last minute",
+      "category": "Time",
+      "loan": "Spanish",
+      "confirm": true
+    },
+    {
+      "war": "Maiha",
+      "en": "To take a long time / To be slow",
+      "literal": "Long time",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Pagdali-dali",
+      "en": "To rush things / To do things hastily",
+      "literal": "Hurry-hurry",
+      "category": "Daily Routine/Procrastination",
+      "loan": "",
+      "confirm": true
+    },
+    {
+      "war": "Sayu pa",
+      "en": "It's still early (in the day/event)",
+      "literal": "Early still",
+      "category": "Time",
+      "loan": "",
+      "confirm": true
     }
   ]
 }

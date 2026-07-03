@@ -11,7 +11,12 @@ const cards = (await import("../src/courses/waray/cards.js")).SEED;
 const P1 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase1.json", "utf8"));
 const P2 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase2.json", "utf8"));
 
-// every multi-word phrase we already teach, across BOTH courses (the "don't repeat" anchor)
+const ANGLE = process.argv[2] || ""; // optional vein to mine this batch, e.g. "market, haggling, money"
+// accumulate across batches: keep idioms already mined, and anchor on them so we never repeat
+const OUT = "docs/word-bank/phrase-idioms.json";
+const prior = fs.existsSync(OUT) ? (JSON.parse(fs.readFileSync(OUT, "utf8")).idioms || []) : [];
+
+// every multi-word phrase we already teach, across BOTH courses + prior idioms (the "don't repeat" anchor)
 const existing = new Set();
 for (const r of cards) if (/\s/.test(r[1])) existing.add(r[1].trim());
 for (const P of [P1, P2]) for (const u of P.detailed_units) {
@@ -19,6 +24,7 @@ for (const P of [P1, P2]) for (const u of P.detailed_units) {
   for (const l of (u.lessons || [])) for (const p of (l.phrases || [])) if (/\s/.test(p.war)) existing.add(p.war.trim());
   if (u.story) for (const s of (u.story.sentences || [])) if (/\s/.test(s.war)) existing.add(s.war.trim());
 }
+for (const x of prior) if (x.war) existing.add(x.war.trim());
 
 const prompt = `You are a Waray-Waray (Winaray) expert building a phrasebook DICTIONARY for older US
 English-speaking adults relocating to Daram, Samar, Philippines. Everyday SPOKEN Daram/Samar Waray.
@@ -52,7 +58,7 @@ For EACH return: { "war", "en" (meaning), "literal" (word-for-word gloss), "cate
 Set "confirm": true on ALL of them (a native speaker verifies everything).
 
 Return STRICT JSON, no prose: { "idioms": [ ... ] }
-
+${ANGLE ? `\nFOCUS THIS BATCH on idioms about: ${ANGLE}. Reach for expressions specific to that world.\n` : ""}
 EXISTING — do NOT repeat or compete with these (${existing.size}):
 ${[...existing].join("\n")}`;
 
@@ -65,9 +71,10 @@ if (!res.ok || !j.candidates) { console.error("API error:", JSON.stringify(j).sl
 let data; try { data = JSON.parse(j.candidates[0].content.parts[0].text); }
 catch (e) { fs.writeFileSync("docs/word-bank/phrase-idioms.raw.txt", j.candidates[0].content.parts[0].text); console.error("parse failed — raw saved"); process.exit(1); }
 
-const idioms = (data.idioms || []).filter((x) => x.war && !existing.has(x.war.trim())); // drop any that echo existing
-fs.writeFileSync("docs/word-bank/phrase-idioms.json", JSON.stringify({ idioms }, null, 2));
+const fresh = (data.idioms || []).filter((x) => x.war && !existing.has(x.war.trim())); // drop any that echo existing/prior
+const idioms = [...prior, ...fresh];
+fs.writeFileSync(OUT, JSON.stringify({ idioms }, null, 2));
 const cats = {}, loans = {}; for (const x of idioms) { cats[x.category] = (cats[x.category] || 0) + 1; if (x.loan) loans[x.loan] = (loans[x.loan] || 0) + 1; }
-console.log(`✓ phrase-idioms.json — ${idioms.length} idioms (anchored on ${existing.size} existing phrases)`);
+console.log(`✓ phrase-idioms.json — +${fresh.length} new${ANGLE ? " (" + ANGLE + ")" : ""}, ${idioms.length} total (anchored on ${existing.size})`);
 console.log(`  loans: ${Object.entries(loans).map(([k, v]) => k + ":" + v).join(" ") || "none"}`);
 console.log(`  by category:`); for (const [c, n] of Object.entries(cats).sort((a, b) => b[1] - a[1])) console.log(`    ${String(n).padStart(3)}  ${c}`);
