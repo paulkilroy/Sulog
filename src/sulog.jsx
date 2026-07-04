@@ -1,6 +1,6 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin } from "./supabase.js";
-import { fetchCourse } from "./data/remote.js";
+import { fetchCourse, fetchCourses } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -1269,18 +1269,31 @@ function DbBlock({ block, guides }) {
 }
 function DbCourseView({ ctx }) {
   const { setView } = ctx;
+  const [courseId, setCourseId] = useState("waray");
+  const [courses, setCourses] = useState([]);
   const [st, setSt] = useState({ loading: true });
   const [open, setOpen] = useState({});
+  useEffect(() => { fetchCourses().then(setCourses).catch(() => {}); }, []);
   useEffect(() => {
-    let alive = true;
-    fetchCourse("waray").then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
+    let alive = true; setSt({ loading: true }); setOpen({});
+    fetchCourse(courseId).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
     return () => { alive = false; };
-  }, []);
+  }, [courseId]);
   const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
   return (
     <div className="ws-page">
       <TopBar title="Course · from database (beta)" onBack={() => setView("home")} />
       <div style={{ padding: "4px 14px 40px", maxWidth: 720, margin: "0 auto" }}>
+        {courses.length > 1 && (
+          <div style={{ display: "flex", gap: 6, margin: "2px 0 10px", flexWrap: "wrap" }}>
+            {courses.map((c) => (
+              <button key={c.id} onClick={() => setCourseId(c.id)}
+                style={{ border: "1px solid " + (c.id === courseId ? "#0a2e34" : "#e3dccd"), background: c.id === courseId ? "#0a2e34" : "#fff", color: c.id === courseId ? "#fff" : "#22303a", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+                {c.name}
+              </button>
+            ))}
+          </div>
+        )}
         {st.loading && <p style={{ color: "#64748b" }}>Loading course from Supabase…</p>}
         {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
         {st.course && (
