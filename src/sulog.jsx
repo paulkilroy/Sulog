@@ -1,4 +1,5 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
+import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin } from "./supabase.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -10,7 +11,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -808,6 +809,14 @@ export default function App() {
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
+  const [user, setUser] = useState(null); // Supabase-authed Google user (null = signed out)
+
+  // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
+  useEffect(() => {
+    getUser().then(setUser).catch(() => {});
+    const sub = onAuth(setUser);
+    return () => { try { sub?.data?.subscription?.unsubscribe?.(); } catch (e) {} };
+  }, []);
 
   // keep the module-level chosen voice that speak() reads in sync with settings
   useEffect(() => {
@@ -1162,6 +1171,7 @@ export default function App() {
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
     history, logAttempt, units, startUnitReview, markUnitReview,
+    user, signIn: signInWithGoogle, signOut: sbSignOut, admin: isAdmin(user),
   };
 
   return (
@@ -1244,6 +1254,11 @@ function HomeView({ ctx }) {
 
   const heroActions = (
     <div className="ws-hero-btns">
+      <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`}
+        title={ctx.user ? `Signed in: ${ctx.user.email}${ctx.admin ? " · admin" : ""} — tap to sign out` : "Sign in with Google"}
+        onClick={() => ctx.user ? ctx.signOut() : ctx.signIn()}>
+        {ctx.user ? <LogOut size={18} /> : <User size={18} />}
+      </button>
       <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
