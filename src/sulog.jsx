@@ -1,5 +1,6 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin } from "./supabase.js";
+import { fetchCourse } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -11,7 +12,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle, User, LogOut,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1204,6 +1205,117 @@ export default function App() {
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
+      {view === "dbcourse" && <DbCourseView ctx={ctx} />}
+    </div>
+  );
+}
+
+/* ============ COURSE FROM DATABASE (beta) — renders the Supabase block model ============
+   Reads the whole course live from Supabase (fetchCourse) and renders it as the typed-block
+   model: guides · vocab · drills · phrases · gate · story. Read-only for now (proves CH2 is
+   migrated + hooked up); interactive drilling + progress writes come next. Additive — does
+   not touch the bundled-course app. */
+const BLK_COLOR = { grammar: "#3f6ea5", examples: "#3f6ea5", note: "#3f6ea5", vocab: "#2f8f4e", phrases: "#b5791d", drill: "#b5791d", assessment: "#c2384b", story: "#7a5aa8", review: "#3f6ea5" };
+function renderMd(md) {
+  if (!md) return null;
+  const out = []; let tbl = null;
+  const flush = () => { if (tbl) { out.push(tbl); tbl = null; } };
+  for (const ln of md.split("\n")) {
+    if (/^\s*\|.*\|\s*$/.test(ln)) {
+      const cells = ln.trim().replace(/^\||\|$/g, "").split("|").map((s) => s.trim());
+      if (cells.every((c) => /^:?-+:?$/.test(c))) continue;
+      (tbl || (tbl = { rows: [] })).rows.push(cells);
+    } else { flush(); if (ln.trim()) out.push({ p: ln }); }
+  }
+  flush();
+  return out.map((o, i) => o.rows
+    ? <table key={i} style={{ borderCollapse: "collapse", margin: "6px 0", fontSize: 12.5 }}><tbody>{o.rows.map((r, ri) => <tr key={ri}>{r.map((c, ci) => <td key={ci} style={{ border: "1px solid #e3dccd", padding: "3px 8px" }}>{c}</td>)}</tr>)}</tbody></table>
+    : <p key={i} style={{ margin: "3px 0", fontSize: 13.5, lineHeight: 1.5 }}>{o.p}</p>);
+}
+function DbItem({ it }) {
+  const meaning = it.meaning || it.translation || "";
+  const pron = it.pronunciation;
+  return (
+    <div onClick={() => speak({ waray: it.waray, say: pron || "", english: meaning })}
+      style={{ cursor: "pointer", padding: "3px 0", borderBottom: "1px dotted #efe7d9", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}
+      title="Tap to hear">
+      <b style={{ fontFamily: "Georgia,serif", fontSize: 15 }}>{it.waray}</b>
+      <span style={{ color: "#64748b", fontSize: 12.5 }}>{meaning}</span>
+      {pron && <span style={{ marginLeft: "auto", fontFamily: "ui-monospace,monospace", fontSize: 11, color: "#8a9499" }}>{pron}</span>}
+    </div>
+  );
+}
+function DbBlock({ block, guides }) {
+  const c = BLK_COLOR[block.type] || "#8a9499";
+  const items = block.items || [];
+  const head = (label) => <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700, color: c, marginBottom: 4 }}>{label}</div>;
+  let body;
+  if (block.type === "grammar" || block.type === "examples" || block.type === "note") {
+    body = <>{head(block.type + (block.title ? " · " + block.title : ""))}{block.body_md && <div>{renderMd(block.body_md)}</div>}{block.formula && <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 12, background: "#eef3f8", border: "1px solid #d6e2ef", borderRadius: 6, padding: "5px 8px", margin: "5px 0" }}>{block.formula}</div>}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
+  } else if (block.type === "vocab" || block.type === "phrases") {
+    body = <>{head((block.type === "vocab" ? "Words" : "Phrases") + " · " + items.length)}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
+  } else if (block.type === "drill") {
+    body = <>{head("Drill · " + (block.drill_kind || "") + "/" + (block.drill_modality || "") + (block.drill_hint ? " · " + block.drill_hint : ""))}
+      {items.map((it, i) => <DbItem key={i} it={it} />)}
+      {guides.length > 0 && <div style={{ marginTop: 5, display: "flex", gap: 5, flexWrap: "wrap" }}>{guides.map((g) => <span key={g} style={{ fontSize: 10, background: "#eef3f8", color: "#3f6ea5", border: "1px solid #d6e2ef", borderRadius: 10, padding: "1px 7px" }}>{g}</span>)}</div>}</>;
+  } else if (block.type === "assessment") {
+    body = <div style={{ color: "#c2384b", fontSize: 13 }}>🔒 Graded review · {block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>;
+  } else if (block.type === "story") {
+    body = <div style={{ color: "#7a5aa8", fontSize: 13 }}>📖 Story · {block.story_id}</div>;
+  } else if (block.type === "review") {
+    body = <div style={{ color: c, fontSize: 13 }}>↻ Review — {block.review_mode || "recall prior"}</div>;
+  } else body = head(block.type);
+  return <div style={{ borderLeft: "3px solid " + c, paddingLeft: 10, margin: "8px 0" }}>{body}</div>;
+}
+function DbCourseView({ ctx }) {
+  const { setView } = ctx;
+  const [st, setSt] = useState({ loading: true });
+  const [open, setOpen] = useState({});
+  useEffect(() => {
+    let alive = true;
+    fetchCourse("waray").then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
+    return () => { alive = false; };
+  }, []);
+  const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
+  return (
+    <div className="ws-page">
+      <TopBar title="Course · from database (beta)" onBack={() => setView("home")} />
+      <div style={{ padding: "4px 14px 40px", maxWidth: 720, margin: "0 auto" }}>
+        {st.loading && <p style={{ color: "#64748b" }}>Loading course from Supabase…</p>}
+        {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
+        {st.course && (
+          <>
+            <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>Live from the database — {units.length} units, rendered as the block model. Tap any word to hear it.</p>
+            {units.map((u) => {
+              const isOpen = open[u.id];
+              return (
+                <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
+                  <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
+                    style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+                    <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
+                    <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
+                    <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
+                  </button>
+                  {isOpen && (
+                    <div style={{ padding: "6px 14px 12px" }}>
+                      {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
+                      {(u.lessons || []).map((l) => {
+                        const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type)).map((b) => b.type);
+                        return (
+                          <div key={l.id} style={{ margin: "10px 0" }}>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: "#b5761f", marginBottom: 2 }}>{l.title}</div>
+                            {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} />)}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -1265,6 +1377,7 @@ function HomeView({ ctx }) {
         onClick={() => ctx.user ? ctx.signOut() : ctx.signIn()}>
         {ctx.user ? <LogOut size={18} /> : <User size={18} />}
       </button>
+      <button className="ws-hero-btn" onClick={() => setView("dbcourse")} title="Course from database (beta)"><Database size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
