@@ -11,3 +11,4 @@ build/
 .gemini-key
 **/.DS_Store
 .env.local
+dist/

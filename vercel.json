@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build && rm -rf dist && mkdir dist && cp index.html dist/index.html",
+  "outputDirectory": "dist",
+  "framework": null
+}
