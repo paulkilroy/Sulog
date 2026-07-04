@@ -17,8 +17,14 @@ STAMP_ISO="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 GIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo nogit)"
 git diff --quiet 2>/dev/null || GIT_HASH="${GIT_HASH}+"
 BUILD_STAMP="${STAMP_ISO}|${GIT_HASH}"
+# Supabase URL + publishable key (public by design). Overridable via env (Vercel);
+# defaults to the live project so local builds work with no config.
+SUPABASE_URL="${SUPABASE_URL:-https://kdtzfaobcgprivsxkger.supabase.co}"
+SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY:-sb_publishable_mVYVK10OZfARWUl3PcfhHQ_zHa7bVpS}"
 npx esbuild "$SRC" --bundle --jsx=automatic --format=iife --minify \
-  --define:__BUILD__="\"$BUILD_STAMP\"" --outfile="$BUNDLE"
+  --define:__BUILD__="\"$BUILD_STAMP\"" \
+  --define:__SUPABASE_URL__="\"$SUPABASE_URL\"" \
+  --define:__SUPABASE_KEY__="\"$SUPABASE_ANON_KEY\"" --outfile="$BUNDLE"
 
 # Safety: the bundle must not contain a literal </script> (would break inlining)
 if grep -q '</script' "$BUNDLE"; then
