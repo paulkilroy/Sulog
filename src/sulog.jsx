@@ -1,6 +1,6 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin } from "./supabase.js";
-import { fetchCourse, fetchCourses } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -1206,6 +1206,7 @@ export default function App() {
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "dbcourse" && <DbCourseView ctx={ctx} />}
+      {view === "dbreview" && <DbReviewView ctx={ctx} />}
     </div>
   );
 }
@@ -1333,6 +1334,69 @@ function DbCourseView({ ctx }) {
   );
 }
 
+/* ============ ADMIN REVIEW QUEUE — confirm/fix the flagged dictionary entries ============
+   Lists dictionary rows with confirmed=false (Ella's queue). Editing meaning/pronunciation +
+   Confirm writes to Supabase (RLS allows the admin only). Row drops off on confirm. */
+function DbReviewRow({ entry, onConfirmed }) {
+  const [meaning, setMeaning] = useState(entry.meaning || "");
+  const [pron, setPron] = useState(entry.pronunciation || "");
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState("");
+  const confirm = async () => {
+    setSaving(true); setErr("");
+    try { await confirmEntry(entry.waray, { confirmed: true, meaning, pronunciation: pron || null }); onConfirmed(entry.waray); }
+    catch (e) { setErr(e.message || "save failed"); setSaving(false); }
+  };
+  return (
+    <div style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "10px 12px", margin: "8px 0" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+        <b style={{ fontFamily: "Georgia,serif", fontSize: 16, cursor: "pointer" }} onClick={() => speak({ waray: entry.waray, say: pron, english: meaning })} title="Tap to hear">{entry.waray}</b>
+        <span style={{ fontSize: 10.5, background: "#f1ece0", color: "#8a7a55", borderRadius: 10, padding: "1px 7px" }}>{entry.kind}</span>
+        {entry.loan && <span style={{ fontSize: 10.5, background: "#f0eaf6", color: "#6a5aa8", borderRadius: 10, padding: "1px 7px" }}>{entry.loan}</span>}
+      </div>
+      <div style={{ display: "flex", gap: 8, marginTop: 7, flexWrap: "wrap" }}>
+        <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="meaning"
+          style={{ flex: "1 1 180px", border: "1px solid #dfe3e8", borderRadius: 7, padding: "6px 8px", fontSize: 13.5 }} />
+        <input value={pron} onChange={(e) => setPron(e.target.value)} placeholder="pronunciation"
+          style={{ flex: "1 1 130px", border: "1px solid #dfe3e8", borderRadius: 7, padding: "6px 8px", fontSize: 12.5, fontFamily: "ui-monospace,monospace" }} />
+        <button onClick={confirm} disabled={saving}
+          style={{ background: "#2f8f4e", color: "#fff", border: 0, borderRadius: 7, padding: "6px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", opacity: saving ? .6 : 1 }}>
+          {saving ? "…" : "✓ Confirm"}
+        </button>
+      </div>
+      {err && <div style={{ color: "#c2384b", fontSize: 12, marginTop: 4 }}>{err}</div>}
+    </div>
+  );
+}
+function DbReviewView({ ctx }) {
+  const { setView, admin } = ctx;
+  const [st, setSt] = useState({ loading: true });
+  const [done, setDone] = useState(0);
+  useEffect(() => {
+    let alive = true;
+    fetchReviewList().then((list) => alive && setSt({ list })).catch((e) => alive && setSt({ error: e.message }));
+    return () => { alive = false; };
+  }, []);
+  const onConfirmed = (waray) => { setSt((s) => ({ list: (s.list || []).filter((e) => e.waray !== waray) })); setDone((d) => d + 1); };
+  return (
+    <div className="ws-page">
+      <TopBar title="👩 Review queue" onBack={() => setView("home")} />
+      <div style={{ padding: "4px 14px 40px", maxWidth: 680, margin: "0 auto" }}>
+        {!admin && <p style={{ color: "#c2384b" }}>Admin only — sign in as the admin to confirm entries.</p>}
+        {st.loading && <p style={{ color: "#64748b" }}>Loading the review queue…</p>}
+        {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
+        {st.list && (
+          <>
+            <p style={{ color: "#64748b", fontSize: 13 }}>{st.list.length} entries still need a native speaker's confirmation{done > 0 ? ` · ${done} confirmed this session` : ""}. Fix the meaning/pronunciation if needed, then Confirm — it saves straight to the database.</p>
+            {st.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={onConfirmed} />)}
+            {st.list.length === 0 && <p style={{ color: "#2f8f4e" }}>🎉 All confirmed!</p>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ===================== ASK ELLA (native-review queue) ===================== */
 function EllaView({ ctx }) {
   const { setView } = ctx;
@@ -1391,6 +1455,7 @@ function HomeView({ ctx }) {
         {ctx.user ? <LogOut size={18} /> : <User size={18} />}
       </button>
       <button className="ws-hero-btn" onClick={() => setView("dbcourse")} title="Course from database (beta)"><Database size={18} /></button>
+      {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("dbreview")} title="Review queue — confirm flagged entries (admin)"><Check size={18} /></button>}
       <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
