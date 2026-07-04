@@ -206,10 +206,20 @@ function unitReviewPool(cards, unit) {
 }
 // does this unit have a graded review? (only if it has ② Apply phrases)
 const unitHasReview = (unit) => (unit.lessons || []).some((l) => l.kind === "apply");
+// all cards taught in this unit or any EARLIER unit (never a later one) — the only legal
+// pool to pad a unit review from, so the graded test can't quiz words the learner hasn't
+// reached yet. Walks the curriculum in order and stops after the target unit (inclusive).
+function cardsThroughUnit(cards, unit) {
+  const out = [], seen = new Set();
+  for (const ph of (ACTIVE.curriculum || [])) for (const u of (ph.units || [])) {
+    for (const c of unitCards(cards, u)) if (!seen.has(c.id)) { seen.add(c.id); out.push(c); }
+    if (u.id === unit.id) return out;
+  }
+  return out;
+}
 // the words to test in a unit review (up to n): your HARDEST in this unit first
-// (most-missed, then weakest box, then lowest accuracy, then longest word). If
-// the unit is small or you've barely missed anything, pad with the words you've
-// missed most ANYWHERE so the review still hits real struggle spots.
+// (most-missed, then weakest box, then lowest accuracy, then longest word). If the unit
+// is small, pad with your hardest cards from THIS unit or earlier — NEVER a future unit.
 function unitReviewCards(cards, prog, unit, n = 10) {
   const rank = (c) => {
     const st = prog[c.id];
@@ -222,12 +232,8 @@ function unitReviewCards(cards, prog, unit, n = 10) {
   };
   const picked = [], used = new Set();
   const add = (c) => { if (c && !used.has(c.id)) { used.add(c.id); picked.push(c); } };
-  unitReviewPool(cards, unit).slice().sort(cmp).forEach(add); // unit's phrases, hardest first
-  if (picked.length < n) { // pad with the most-missed words from anywhere
-    cards.filter((c) => (prog[c.id]?.wrong || 0) > 0)
-      .sort((a, b) => (prog[b.id]?.wrong || 0) - (prog[a.id]?.wrong || 0))
-      .forEach(add);
-  }
+  unitReviewPool(cards, unit).slice().sort(cmp).forEach(add);            // the unit's Apply phrases, hardest first
+  if (picked.length < n) cardsThroughUnit(cards, unit).slice().sort(cmp).forEach(add); // pad backward-only (this unit + earlier)
   return picked.slice(0, n);
 }
 // parts completed for a lesson; "done" when all its parts (kind-dependent) are cleared
