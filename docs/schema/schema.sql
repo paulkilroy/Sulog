@@ -78,7 +78,7 @@ create table lesson_blocks (
   lesson_id text not null references lessons(id),
   ord       int  not null,
   type      text not null check (type in
-    ('review','grammar','examples','note','vocab','phrases','drill','story','assessment')),
+    ('review','grammar','note','vocab','phrases','drill','story','assessment')),  -- 'examples' removed: book examples become recognition drills, never their own block
   -- GUIDE content (grammar / examples / note) — a chart is just a markdown table in body_md
   title     text,
   body_md   text,
@@ -86,7 +86,7 @@ create table lesson_blocks (
   about     text references dictionary(waray),          -- note is "about" a lexeme (e.g. mga)
   -- DRILL config
   drill_kind      text check (drill_kind      in ('recognition','production','transform')),
-  drill_modality  text check (drill_modality  in ('mc','listen','type','voice')),
+  drill_modality  text check (drill_modality  in ('mc','listen','type','voice','cloze')),  -- cloze = pick the marker/particle
   drill_hint      text check (drill_hint      in ('peek','partial','none')),
   drill_direction text check (drill_direction in ('wte','etw','both')),
   -- ASSESSMENT config (the gate)
