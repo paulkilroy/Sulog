@@ -828,6 +828,14 @@ export default function App() {
     setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", limit: picks.length, only: picks.map((c) => c.id), unitReview: { id: unit.id, name: unit.name } });
     setView("session");
   }, [cards, prog]);
+  // an end-of-lesson gate (DB courses): a graded test over its EXACT recall items (produce Waray,
+  // typed, no hints). Pass is sticky, tracked in the same units map as unit reviews.
+  const startGate = useCallback((gate) => {
+    const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
+    if (!ids.length) return;
+    setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", limit: ids.length, only: ids, gate: { id: gate.id, name: gate.name } });
+    setView("session");
+  }, [cards]);
   // record a unit-review result; "passed" is sticky (once mastered, stays so)
   const markUnitReview = useCallback((id, pct, passed) => {
     setUnits((prev) => {
@@ -1000,7 +1008,7 @@ export default function App() {
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
-    history, logAttempt, units, startUnitReview, markUnitReview,
+    history, logAttempt, units, startUnitReview, markUnitReview, startGate,
     user, signIn: signInWithGoogle, signOut: sbSignOut, admin: isAdmin(user),
   };
 
@@ -2388,7 +2396,10 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 function SessionDone({ ctx, tally, total, results = [] }) {
   const { setView, setSession, session, cards, markUnitReview, lessons, units, startLessonPart, startUnitReview, setLessonId, setLearnSection } = ctx;
   const inLesson = !!session?.lesson;
-  const isReview = !!session?.unitReview; // the one graded checkpoint
+  const isUnitReview = !!session?.unitReview; // the unit's graded checkpoint
+  const isGate = !!session?.gate;             // an end-of-lesson gate
+  const isReview = isUnitReview || isGate;    // any graded, pass/fail checkpoint
+  const gradedId = session?.unitReview?.id || session?.gate?.id;
   const missed = results.filter((r) => !r.correct);
   const allIds = results.map((r) => r.id);
   const missedIds = missed.map((r) => r.id);
@@ -2399,8 +2410,8 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   const acc = effTotal ? Math.round((effRight / effTotal) * 100) : 0;
   const passed = acc >= PASS_PCT * 100;
 
-  // record the unit-review result once (pass is sticky in markUnitReview)
-  useEffect(() => { if (isReview && effTotal > 0) markUnitReview(session.unitReview.id, acc, passed); }, []);
+  // record the graded result once (pass is sticky in markUnitReview; gates share the same store)
+  useEffect(() => { if (isReview && effTotal > 0) markUnitReview(gradedId, acc, passed); }, []);
 
   // Review missed keeps the whole-set frame (base); Review all is a fresh full run.
   const reviewMissed = () => { setSession({ ...session, only: missedIds, limit: missedIds.length, base: { total: effTotal, priorRight: effRight }, nonce: Date.now() }); setView("session"); };
@@ -2448,7 +2459,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const heading = isReview ? (passed ? "Mastered!" : "Liwat anay") : inLesson ? "Human na!" : "Human na!";
+  const heading = isReview ? (passed ? (isGate ? "Passed!" : "Mastered!") : "Liwat anay") : inLesson ? "Human na!" : "Human na!";
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
@@ -2458,7 +2469,9 @@ function SessionDone({ ctx, tally, total, results = [] }) {
         <h2>{heading}</h2>
         {isReview && (
           <div className={`ws-passpill ${passed ? "ok" : "no"}`}>
-            {passed ? <><Check size={14} /> Passed · unit mastered</> : <><X size={14} /> Score {PASS_PCT * 100}% to master this unit</>}
+            {passed
+              ? <><Check size={14} /> Passed · {isGate ? "test cleared" : "unit mastered"}</>
+              : <><X size={14} /> Score {PASS_PCT * 100}% to {isGate ? "pass this test" : "master this unit"}</>}
           </div>
         )}
         <p className="ws-done-sub">{total === 0 ? "Nothing here yet — come back later." : `${effRight}/${effTotal} correct${effTotal - effRight > 0 ? ` · ${effTotal - effRight} to revisit` : ""}`}</p>
@@ -2508,7 +2521,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
 
 /* ============================ LEARN PATH ============================ */
 function LearnView({ ctx }) {
-  const { cards, lessons, units, startUnitReview, setView, setLessonId, setLearnSection, learnTarget, learnSection, setStoryUnit } = ctx;
+  const { cards, lessons, units, startUnitReview, startGate, setView, setLessonId, setLearnSection, learnTarget, learnSection, setStoryUnit } = ctx;
   const cur = nextLesson(lessons);
   const s = CURRICULUM.find((x) => x.id === learnSection) || cur.section;
   // scroll to the lesson the user came in on (else the current lesson, if here)
@@ -2546,9 +2559,6 @@ function LearnView({ ctx }) {
                 </div>
                 <div className="ws-lessons">
                   {(() => {
-                    const wl = u.lessons.filter((l) => l.kind !== "apply");
-                    const al = u.lessons.filter((l) => l.kind === "apply");
-                    const split = wl.length > 0 && al.length > 0;
                     const node = (l) => {
                       const done = lessons[l.id] || 0;
                       const total = partCountById(l.id);
@@ -2571,6 +2581,32 @@ function LearnView({ ctx }) {
                         </button>
                       );
                     };
+                    // end-of-lesson gate node (DB courses): graded, sits right after its lesson
+                    const gateNode = (g) => {
+                      const gp = units[g.id];
+                      return (
+                        <button key={g.id} className={`ws-lnode ws-gate ${gp?.passed ? "done" : ""}`} onClick={() => startGate(g)}>
+                          <div className="ws-lnode-ring">{gp?.passed ? <Check size={16} /> : <span style={{ fontSize: 14 }}>🔒</span>}</div>
+                          <div className="ws-lnode-body">
+                            <div className="ws-lnode-title">{g.name}</div>
+                            <div className="ws-lnode-sub">
+                              {gp?.passed ? `Passed · best ${gp.best}%` : `Recall test · ${(g.items || []).length} items · 80% to pass`}
+                            </div>
+                          </div>
+                          <ChevronRight size={16} className="ws-lnode-arr" />
+                        </button>
+                      );
+                    };
+                    const gates = u.gates || [];
+                    // gate-bearing courses (Peace Corps) render in book order with the test after each
+                    // lesson; bundled courses keep the ①Words / ②Apply grouping.
+                    if (gates.length) {
+                      const byAfter = {}; for (const g of gates) (byAfter[g.after] = byAfter[g.after] || []).push(g);
+                      return u.lessons.map((l) => <React.Fragment key={l.id}>{node(l)}{(byAfter[l.id] || []).map(gateNode)}</React.Fragment>);
+                    }
+                    const wl = u.lessons.filter((l) => l.kind !== "apply");
+                    const al = u.lessons.filter((l) => l.kind === "apply");
+                    const split = wl.length > 0 && al.length > 0;
                     return (
                       <>
                         {split && <div className="ws-lblock">① Words</div>}
@@ -3474,6 +3510,11 @@ function Styles() {
 .ws-lnode.ws-review .ws-lnode-ring{background:var(--sun);color:#fff}
 .ws-lnode.ws-review.done{border-style:solid}
 .ws-lnode.ws-review.done .ws-lnode-ring{background:var(--jade)}
+.ws-lnode.ws-gate{margin:1px 0 4px 22px;border-color:var(--sun);background:#fff7ea}
+.ws-lnode.ws-gate .ws-lnode-ring{background:#fff7ea;border:1px solid var(--sun)}
+.ws-lnode.ws-gate .ws-lnode-title{color:var(--sun-deep)}
+.ws-lnode.ws-gate.done{border-color:var(--jade)}
+.ws-lnode.ws-gate.done .ws-lnode-ring{background:var(--jade);color:#fff;border:0}
 .ws-lnode.ws-story{margin-top:7px;border-style:dashed;border-color:var(--sun);background:#fffaf1}
 .ws-lnode.ws-story .ws-lnode-ring{background:var(--sun);color:#fff}
 .ws-lnode.ws-story.done{border-style:solid;border-color:var(--jade)}

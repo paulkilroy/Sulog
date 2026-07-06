@@ -9,9 +9,14 @@
 
 insert into courses values ('pc','Peace Corps Waray','war','grammar-spine') on conflict (id) do nothing;
 
-insert into phases values ('pc-p1','pc',1,'Foundations (Lessons 1–10)','equational sentences & the pronoun classes') on conflict (id) do nothing;
+insert into phases values ('pc-p1','pc',1,'Foundations','the Peace Corps Phase-1 grammar spine — pronouns, verbs, particles, negation, questions') on conflict (id) do nothing;
 
-insert into units values ('pc-u1','pc-p1',1,'Pronoun classes & verbs',null,null) on conflict (id) do nothing;
+insert into units values
+  ('pc-u1','pc-p1',1,'Personal pronouns & markers',null,null),
+  ('pc-u2','pc-p1',2,'Actor-focus verbs & III-class pronouns',null,null),
+  ('pc-u3','pc-p1',3,'Linkers & particles',null,null),
+  ('pc-u4','pc-p1',4,'Negation',null,null),
+  ('pc-u5','pc-p1',5,'Commands, special verbs & questions',null,null) on conflict (id) do nothing;
 
 insert into lessons (id,unit_id,ord,title) values
   ('pc-l1a','pc-u1',1,'Lesson 1a · Personal Pronouns (I Class)'),
@@ -22,28 +27,28 @@ insert into lessons (id,unit_id,ord,title) values
   ('pc-l3b','pc-u1',6,'Lesson 3b · Vocabulary & sentences'),
   ('pc-l4a','pc-u1',7,'Lesson 4a · II Class Personal Pronouns and II Class Markers'),
   ('pc-l4b','pc-u1',8,'Lesson 4b · Vocabulary & sentences'),
-  ('pc-l5','pc-u1',9,'Lesson 5 — Ma- Actor Focus (verbs)'),
-  ('pc-l6a','pc-u1',10,'Lesson 6a · II Class General Pronouns'),
-  ('pc-l6b','pc-u1',11,'Lesson 6b · Vocabulary & sentences'),
-  ('pc-l7a','pc-u1',12,'Lesson 7a · III Class General Pronouns'),
-  ('pc-l7b','pc-u1',13,'Lesson 7b · Vocabulary & sentences'),
-  ('pc-l8','pc-u1',14,'Lesson 8 — III-Class Personal Pronouns'),
-  ('pc-l9a','pc-u1',15,'Lesson 9a · II Class Personal Pronouns (cont.)'),
-  ('pc-l9b','pc-u1',16,'Lesson 9b · Vocabulary & sentences'),
-  ('pc-l10','pc-u1',17,'Lesson 10 — Review & Test'),
-  ('pc-l11','pc-u1',18,'Lesson 11'),
-  ('pc-l12','pc-u1',19,'Lesson 12'),
-  ('pc-l13','pc-u1',20,'Lesson 13'),
-  ('pc-l14','pc-u1',21,'Lesson 14'),
-  ('pc-l15','pc-u1',22,'Lesson 15'),
-  ('pc-l16','pc-u1',23,'Lesson 16'),
-  ('pc-l17','pc-u1',24,'Lesson 17'),
-  ('pc-l18','pc-u1',25,'Lesson 18'),
-  ('pc-l19','pc-u1',26,'Lesson 19'),
-  ('pc-l20','pc-u1',27,'Lesson 20 — Review Test'),
-  ('pc-l21','pc-u1',28,'Lesson 21'),
-  ('pc-l22','pc-u1',29,'Lesson 22'),
-  ('pc-l23','pc-u1',30,'Lesson 23') on conflict (id) do nothing;
+  ('pc-l5','pc-u2',9,'Lesson 5 — Ma- Actor Focus (verbs)'),
+  ('pc-l6a','pc-u2',10,'Lesson 6a · II Class General Pronouns'),
+  ('pc-l6b','pc-u2',11,'Lesson 6b · Vocabulary & sentences'),
+  ('pc-l7a','pc-u2',12,'Lesson 7a · III Class General Pronouns'),
+  ('pc-l7b','pc-u2',13,'Lesson 7b · Vocabulary & sentences'),
+  ('pc-l8','pc-u2',14,'Lesson 8 — III-Class Personal Pronouns'),
+  ('pc-l9a','pc-u2',15,'Lesson 9a · II Class Personal Pronouns (cont.)'),
+  ('pc-l9b','pc-u2',16,'Lesson 9b · Vocabulary & sentences'),
+  ('pc-l10','pc-u2',17,'Lesson 10 — Review & Test'),
+  ('pc-l11','pc-u3',18,'Lesson 11'),
+  ('pc-l12','pc-u3',19,'Lesson 12'),
+  ('pc-l13','pc-u3',20,'Lesson 13'),
+  ('pc-l14','pc-u3',21,'Lesson 14'),
+  ('pc-l15','pc-u3',22,'Lesson 15'),
+  ('pc-l16','pc-u4',23,'Lesson 16'),
+  ('pc-l17','pc-u4',24,'Lesson 17'),
+  ('pc-l18','pc-u4',25,'Lesson 18'),
+  ('pc-l19','pc-u4',26,'Lesson 19'),
+  ('pc-l20','pc-u4',27,'Lesson 20 — Review Test'),
+  ('pc-l21','pc-u5',28,'Lesson 21'),
+  ('pc-l22','pc-u5',29,'Lesson 22'),
+  ('pc-l23','pc-u5',30,'Lesson 23') on conflict (id) do nothing;
 
 insert into dictionary (waray,kind,meaning,pos,confirmed) values
   ('ako','word','I','pron',false),

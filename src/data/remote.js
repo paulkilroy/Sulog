@@ -63,11 +63,21 @@ export function dbCourseToBundled(db, name) {
     const units = [];
     for (const u of ph.units || []) {
       const deck = u.id;                  // one deck per unit; DECKS labels it from the unit name
-      const lessons = [];
+      const lessons = [], gates = [];     // gates = end-of-lesson tests, attached to the lesson they follow
       for (const l of u.lessons || []) {
         const items = [], seen = new Set();
+        const gateItems = [], gseen = new Set();
         let words = 0, sentences = 0;
         for (const b of l.blocks || []) {
+          if (b.type === "assessment" && b.assess_gate) {   // the book's graded exit gate — its exact recall items
+            for (const it of b.items || []) {
+              const waray = it.waray, english = it.meaning || it.translation || "";
+              if (!waray || !english) continue;
+              if (!seed.has(waray)) seed.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
+              if (!gseen.has(waray)) { gseen.add(waray); gateItems.push(waray); }
+            }
+            continue;
+          }
           if (!["vocab", "phrases", "drill"].includes(b.type)) continue;   // only drillable blocks yield cards
           for (const it of b.items || []) {
             const waray = it.waray, english = it.meaning || it.translation || "";
@@ -78,8 +88,12 @@ export function dbCourseToBundled(db, name) {
           }
         }
         if (items.length) lessons.push({ id: l.id, name: l.title, title: l.title, kind: sentences > words ? "apply" : "words", items });
+        if (gateItems.length) {
+          const num = (/l(\d+)/i.exec(l.id) || [])[1];
+          gates.push({ id: l.id + "-gate", after: l.id, name: num ? `Test · Lesson ${num}` : "Test", items: gateItems });
+        }
       }
-      if (lessons.length) units.push({ id: u.id, name: u.name, hint: "", can_do: u.can_do || "", lessons });
+      if (lessons.length) units.push({ id: u.id, name: u.name, hint: "", can_do: u.can_do || "", lessons, gates });
     }
     if (units.length) sections.push({ name: ph.name, hint: "", units });
   }
