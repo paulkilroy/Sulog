@@ -1028,7 +1028,7 @@ export default function App() {
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
-      {view === "dbcourse" && <DbCourseView ctx={ctx} />}
+      {view === "courses" && <CoursesView ctx={ctx} />}
       {view === "dbreview" && <DbReviewView ctx={ctx} />}
     </div>
   );
@@ -1091,71 +1091,153 @@ function DbBlock({ block, guides }) {
   } else body = head(block.type);
   return <div style={{ borderLeft: "3px solid " + c, paddingLeft: 10, margin: "8px 0" }}>{body}</div>;
 }
-function DbCourseView({ ctx }) {
+// bundled-course overview: sections › units › lessons (the DB block model isn't available for these)
+function BundledOverview({ course, open, setOpen }) {
+  const secs = course.curriculum || [];
+  const nU = secs.flatMap((s) => s.units).length;
+  return (
+    <>
+      <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>{nU} unit{nU === 1 ? "" : "s"} · bundled course.</p>
+      {secs.flatMap((s) => s.units).map((u) => {
+        const isOpen = open[u.id];
+        return (
+          <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
+            <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
+              style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+              <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
+              <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
+              <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
+            </button>
+            {isOpen && (
+              <div style={{ padding: "6px 14px 12px" }}>
+                {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
+                {(u.lessons || []).map((l) => (
+                  <div key={l.id} style={{ display: "flex", alignItems: "baseline", gap: 6, margin: "5px 0", borderBottom: "1px dotted #efe7d9", paddingBottom: 4 }}>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "#b5761f", flex: 1 }}>{l.title || l.name}</span>
+                    <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(l.items || []).length} items · {l.kind === "apply" ? "phrases" : "words"}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/* ============ COURSES — language/course selector + overview ============
+   Lists every course (bundled + database), previews the selected one's overview
+   (block model for DB courses, unit list for bundled), and switches the active
+   course. Switching a DB course fetches + transforms + caches it first. */
+function CoursesView({ ctx }) {
   const { setView } = ctx;
-  const [courseId, setCourseId] = useState(null);   // set from the DB's own course list (no hardcoded guess)
-  const [courses, setCourses] = useState([]);
-  const [st, setSt] = useState({ loading: true });
+  const [dbCourses, setDbCourses] = useState([]);        // courses that live only in Supabase
+  const [selected, setSelected] = useState(COURSE_ID);   // previewed course (defaults to active)
+  const [st, setSt] = useState({ loading: false });      // DB-course overview fetch
   const [open, setOpen] = useState({});
+  const [switching, setSwitching] = useState(false);
+  const [err, setErr] = useState("");
+
   useEffect(() => {
     fetchCourses()
-      .then((cs) => { setCourses(cs); setCourseId((cur) => (cur && cs.some((c) => c.id === cur)) ? cur : (cs[0]?.id || null)); })
-      .catch((e) => setSt({ error: e.message || String(e) }));
+      .then((cs) => setDbCourses((cs || []).filter((c) => !COURSES.some((b) => b.id === c.id))))
+      .catch(() => {});
   }, []);
+
+  const isDb = !COURSES.some((c) => c.id === selected);
+  // fetch the DB block model to preview a DB course (bundled courses render from their curriculum)
   useEffect(() => {
-    if (!courseId) return;
+    if (!isDb) { setSt({ loading: false }); setOpen({}); return; }
     let alive = true; setSt({ loading: true }); setOpen({});
-    fetchCourse(courseId).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
+    fetchCourse(selected).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
     return () => { alive = false; };
-  }, [courseId]);
+  }, [selected, isDb]);
+
+  const switchTo = async (id) => {
+    if (id === COURSE_ID) return;
+    if (COURSES.some((c) => c.id === id)) { try { localStorage.setItem("sulog:course", id); } catch (e) {} location.reload(); return; }
+    setSwitching(true); setErr("");
+    try {
+      const meta = dbCourses.find((c) => c.id === id);
+      const bundled = await fetchCourseBundled(id, meta?.name || id);
+      if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
+      cacheDbCourse(bundled);
+      try { localStorage.setItem("sulog:course", id); } catch (e) {}
+      location.reload();
+    } catch (e) { setSwitching(false); setErr("Couldn't load that course: " + (e.message || e)); }
+  };
+
+  const all = [
+    ...COURSES.map((c) => ({ id: c.id, name: c.name })),
+    ...dbCourses.map((c) => ({ id: c.id, name: c.name })),
+  ];
+  if (!all.some((c) => c.id === COURSE_ID)) all.push({ id: COURSE_ID, name: ACTIVE.name }); // active DB course before the list lands
   const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
+
   return (
     <div className="ws-page">
-      <TopBar title="Course · from database (beta)" onBack={() => setView("home")} />
+      <TopBar title="Courses" onBack={() => setView("home")} />
       <div style={{ padding: "4px 14px 40px", maxWidth: 720, margin: "0 auto" }}>
-        {courses.length > 1 && (
-          <div style={{ display: "flex", gap: 6, margin: "2px 0 10px", flexWrap: "wrap" }}>
-            {courses.map((c) => (
-              <button key={c.id} onClick={() => setCourseId(c.id)}
-                style={{ border: "1px solid " + (c.id === courseId ? "#0a2e34" : "#e3dccd"), background: c.id === courseId ? "#0a2e34" : "#fff", color: c.id === courseId ? "#fff" : "#22303a", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
-                {c.name}
-              </button>
-            ))}
-          </div>
-        )}
-        {st.loading && <p style={{ color: "#64748b" }}>Loading course from Supabase…</p>}
-        {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
-        {st.course && (
+        <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 10px" }}>Pick a course to preview it, then switch to make it active. Each course keeps its own progress.</p>
+        <div style={{ display: "flex", gap: 6, margin: "2px 0 12px", flexWrap: "wrap" }}>
+          {all.map((c) => (
+            <button key={c.id} onClick={() => setSelected(c.id)}
+              style={{ border: "1px solid " + (c.id === selected ? "#0a2e34" : "#e3dccd"), background: c.id === selected ? "#0a2e34" : "#fff", color: c.id === selected ? "#fff" : "#22303a", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+              {c.name}{c.id === COURSE_ID ? " ·  active" : ""}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "0 0 14px" }}>
+          {selected === COURSE_ID
+            ? <span style={{ fontSize: 12.5, color: "#2f8f4e", fontWeight: 600 }}>✓ Your active course</span>
+            : <button onClick={() => switchTo(selected)} disabled={switching}
+                style={{ background: "#16a3ab", color: "#fff", border: 0, borderRadius: 999, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: switching ? "default" : "pointer", opacity: switching ? 0.7 : 1 }}>
+                {switching ? "Loading…" : "Switch to this course"}
+              </button>}
+        </div>
+        {err && <p style={{ color: "#c2384b", fontSize: 12.5 }}>{err}</p>}
+
+        {isDb ? (
           <>
-            <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>Live from the database — {units.length} unit{units.length === 1 ? "" : "s"}, rendered as the block model. Tap any word to hear it.</p>
-            {units.map((u) => {
-              const isOpen = open[u.id];
-              return (
-                <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
-                  <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-                    style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
-                    <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
-                    <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
-                    <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
-                  </button>
-                  {isOpen && (
-                    <div style={{ padding: "6px 14px 12px" }}>
-                      {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
-                      {(u.lessons || []).map((l) => {
-                        const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type)).map((b) => b.type);
-                        return (
-                          <div key={l.id} style={{ margin: "10px 0" }}>
-                            <div style={{ fontSize: 12, fontWeight: 700, color: "#b5761f", marginBottom: 2 }}>{l.title}</div>
-                            {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} />)}
-                          </div>
-                        );
-                      })}
+            {st.loading && <p style={{ color: "#64748b" }}>Loading course from the database…</p>}
+            {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
+            {st.course && (
+              <>
+                <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, gates &amp; stories included). Tap any word to hear it.</p>
+                {units.map((u) => {
+                  const isOpen = open[u.id];
+                  return (
+                    <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
+                      <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
+                        style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+                        <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
+                        <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
+                        <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
+                      </button>
+                      {isOpen && (
+                        <div style={{ padding: "6px 14px 12px" }}>
+                          {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
+                          {(u.lessons || []).map((l) => {
+                            const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type)).map((b) => b.type);
+                            return (
+                              <div key={l.id} style={{ margin: "10px 0" }}>
+                                <div style={{ fontSize: 12, fontWeight: 700, color: "#b5761f", marginBottom: 2 }}>{l.title}</div>
+                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} />)}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  );
+                })}
+              </>
+            )}
           </>
+        ) : (
+          <BundledOverview course={getCourse(selected)} open={open} setOpen={setOpen} />
         )}
       </div>
     </div>
@@ -1276,14 +1358,12 @@ function HomeView({ ctx }) {
 
   const heroActions = (
     <div className="ws-hero-btns">
-      <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`}
-        title={ctx.user ? `Signed in: ${ctx.user.email}${ctx.admin ? " · admin" : ""} — tap to sign out` : "Sign in with Google"}
-        onClick={() => ctx.user ? ctx.signOut() : ctx.signIn()}>
-        {ctx.user ? <LogOut size={18} /> : <User size={18} />}
-      </button>
-      <button className="ws-hero-btn" onClick={() => setView("dbcourse")} title="Course from database (beta)"><Database size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("courses")} title="Courses — pick a language / course"><Layers size={18} /></button>
       {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("dbreview")} title="Review queue — confirm flagged entries (admin)"><Check size={18} /></button>}
-      <button className="ws-hero-btn" onClick={() => setView("backup")} title="Backup & sync"><Cloud size={18} /></button>
+      <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
+        title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
+        {ctx.user ? <User size={18} /> : <Cloud size={18} />}
+      </button>
       <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker"><span style={{ fontSize: 17, lineHeight: 1 }}>👩</span></button>
@@ -2965,16 +3045,7 @@ function BackupView({ ctx }) {
   const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signOut } = ctx;
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
-  const [dbCourses, setDbCourses] = useState([]); // courses that live in Supabase (e.g. Peace Corps)
-  const [switching, setSwitching] = useState(false);
   const fileRef = useRef(null);
-
-  // list DB courses (ones not already bundled) so they can be picked here
-  useEffect(() => {
-    fetchCourses()
-      .then((cs) => setDbCourses((cs || []).filter((c) => !COURSES.some((b) => b.id === c.id))))
-      .catch(() => {});
-  }, []);
 
   const download = () => {
     try {
@@ -3012,52 +3083,11 @@ function BackupView({ ctx }) {
     }
   };
 
-  const switchCourse = async (id) => {
-    if (id === COURSE_ID) return;
-    // bundled course: just switch. DB course: fetch it, transform to the engine's shape,
-    // cache it (module load reads the cache synchronously), then switch.
-    if (COURSES.some((c) => c.id === id)) {
-      try { localStorage.setItem("sulog:course", id); } catch (e) {}
-      location.reload();
-      return;
-    }
-    setSwitching(true); setMsg(null);
-    try {
-      const meta = dbCourses.find((c) => c.id === id);
-      const bundled = await fetchCourseBundled(id, meta?.name || id);
-      if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
-      cacheDbCourse(bundled);
-      try { localStorage.setItem("sulog:course", id); } catch (e) {}
-      location.reload();
-    } catch (e) {
-      setSwitching(false);
-      setMsg({ kind: "err", text: "Couldn't load that course: " + (e.message || e) });
-    }
-  };
-
   return (
     <div className="ws-page">
-      <TopBar title="Backup & sync" onBack={() => setView("home")} />
+      <TopBar title="Account" onBack={() => setView("home")} />
 
-      <SectionLabel icon={<BookOpen size={14} />} text="Course" />
-      <div className="ws-course-switch">
-        <select className="ws-course-sel" value={COURSE_ID} disabled={switching} onChange={(e) => switchCourse(e.target.value)}>
-          {COURSES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-          {/* the active DB course, guaranteed present even before the async list lands */}
-          {!COURSES.some((c) => c.id === COURSE_ID) && !dbCourses.some((c) => c.id === COURSE_ID) &&
-            <option value={COURSE_ID}>{ACTIVE.name}</option>}
-          {dbCourses.length > 0 && (
-            <optgroup label="From the database">
-              {dbCourses.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </optgroup>
-          )}
-        </select>
-        <p className="ws-course-note">
-          {switching ? "Loading the course from the database…" : "Each course keeps its own progress. Switching reloads the app."}
-        </p>
-      </div>
-
-      <SectionLabel icon={<Cloud size={14} />} text="Sync across devices" />
+      <SectionLabel icon={<Cloud size={14} />} text="Sign in &amp; sync" />
       <div className="ws-gist">
         {user ? (
           <>
