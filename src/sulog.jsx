@@ -12,7 +12,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1472,28 +1472,40 @@ function HomeView({ ctx }) {
       </div>
 
       <SectionLabel icon={<Layers size={14} />} text="Phases" />
+      {/* one aggregate status for the whole course (was repeated per phase) */}
+      {(() => {
+        let f = 0, l = 0, m = 0, w = 0;
+        cards.forEach((c) => {
+          const st = prog[c.id];
+          if (!st || st.seen === 0) { f++; return; }
+          const p = masteryPct(st);
+          if (p >= 0.8) m++; else if (p >= 0.4) l++; else w++;
+        });
+        return <div className="ws-phase-summary"><Distribution fresh={f} learning={l} mastered={m} weak={w} /></div>;
+      })()}
       <div className="ws-units">
-        {CURRICULUM.map((s) => {
-          const sc = sectionCards(cards, s);
-          let f = 0, l = 0, m = 0, w = 0;
-          sc.forEach((c) => {
-            const st = prog[c.id];
-            if (!st || st.seen === 0) { f++; return; }
-            const p = masteryPct(st); // match the grid's buckets
-            if (p >= 0.8) m++; else if (p >= 0.4) l++; else w++; // w = weak/struggling (red)
-          });
-          const lessonsDone = s.units.flatMap((u) => u.lessons).filter((l2) => lessonDone(lessons, l2.id)).length;
-          const lessonsTot = s.units.flatMap((u) => u.lessons).length;
+        {CURRICULUM.map((s, i) => {
+          const allL = s.units.flatMap((u) => u.lessons);
+          const lessonsDone = allL.filter((l2) => lessonDone(lessons, l2.id)).length;
+          const lessonsTot = allL.length;
+          const pct = lessonsTot ? Math.round((lessonsDone / lessonsTot) * 100) : 0;
           const mUnits = s.units.filter((u) => units[u.id]?.passed).length;
+          // a phase unlocks once the phase before it is finished (first is always open)
+          const locked = i > 0 && !CURRICULUM[i - 1].units.flatMap((u) => u.lessons).every((l2) => lessonDone(lessons, l2.id));
           return (
-            <button key={s.id} className="ws-unit-tile" onClick={() => openSection(s.id)}>
+            <button key={s.id} className={`ws-unit-tile ${locked ? "locked" : ""}`} disabled={locked} onClick={() => !locked && openSection(s.id)}>
               <div className="ws-unit-tile-top">
                 <span className="ws-unit-tile-name">{s.name}</span>
-                <span className="ws-unit-tile-meta">{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></span>
+                <span className="ws-unit-tile-meta">
+                  {locked ? <Lock size={14} /> : <>{lessonsDone}/{lessonsTot} lessons<ChevronRight size={15} /></>}
+                </span>
               </div>
-              <div className="ws-unit-tile-sub">{mUnits > 0 ? `${mUnits}/${s.units.length} units mastered` : "tap to review or re-learn"}</div>
-              <Distribution fresh={f} learning={l} mastered={m} weak={w} />
-              <ConstellationGrid cards={sc} prog={prog} />
+              <div className="ws-unit-tile-sub">
+                {locked ? "Finish the phase above to unlock"
+                  : mUnits > 0 ? `${mUnits}/${s.units.length} units mastered`
+                  : `${s.units.length} unit${s.units.length === 1 ? "" : "s"} · tap to learn`}
+              </div>
+              {!locked && <div className="ws-phase-bar"><span style={{ width: pct + "%" }} /></div>}
             </button>
           );
         })}
@@ -3517,6 +3529,12 @@ function Styles() {
 .ws-unit-tile-meta{display:inline-flex;align-items:center;gap:2px;flex-shrink:0;font-size:12px;font-weight:700;
   color:var(--tide);font-variant-numeric:tabular-nums}
 .ws-unit-tile-sub{font-size:11.5px;color:var(--ink-soft);margin:2px 0 2px}
+.ws-unit-tile.locked{opacity:.6;cursor:not-allowed;background:transparent;border-style:dashed}
+.ws-unit-tile.locked .ws-unit-tile-name{color:var(--ink-soft)}
+.ws-unit-tile.locked .ws-unit-tile-meta{color:var(--sand-deep)}
+.ws-phase-summary{margin:0 0 12px}
+.ws-phase-bar{height:6px;border-radius:4px;background:var(--sand);overflow:hidden;margin-top:9px}
+.ws-phase-bar span{display:block;height:100%;background:var(--tide);border-radius:4px;transition:width .2s}
 
 /* learn path */
 .ws-learn{padding-bottom:30px}
