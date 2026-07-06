@@ -16,7 +16,7 @@ const norm = (s) => (s || "").trim();
 const lemma = (s) => norm(s).replace(/^-+/, ""); // strip the book's verb-root hyphen
 // canonical dictionary headword: lowercase, accents stripped (Waray isn't typed with accents;
 // stress lives in the pronunciation guide, sourced from Tramp). Keeps PC words from duplicating CH2's.
-const canon = (s) => lemma(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const canon = (s) => lemma(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/^[^a-z0-9]+/, "").replace(/[^a-z0-9]+$/, "");
 
 const dict = new Map();          // waray -> {meaning,pos}
 const expr = new Map();          // sentence -> id

@@ -7,7 +7,7 @@ import fs from "fs";
 import pg from "/Users/paulkilroy/dev/Sulog/node_modules/pg/lib/index.js";
 const SP = "/private/tmp/claude-501/-Users-paulkilroy-dev-Sulog/2ec9156d-452e-4eed-b759-f98650a29e43/scratchpad";
 const APPLY = process.argv.includes("--apply");
-const canon = (s) => (s || "").trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const canon = (s) => (s || "").trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/^[^a-z0-9]+/, "").replace(/[^a-z0-9]+$/, "");  // + strip leading/trailing punctuation (klaro? → klaro)
 if (!process.env.SUPABASE_DB_URL) { console.error("Set SUPABASE_DB_URL first."); process.exit(1); }
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
