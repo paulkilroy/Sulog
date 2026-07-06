@@ -26,7 +26,7 @@ const expr = new Map();          // sentence -> id
 let eid = 20000, bid = 20000;
 const blocks = [], items = [];
 const exprRows = [];
-const putExpr = (war, en) => { const w = norm(war); if (!w) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: en || "" }); return id; };
+const putExpr = (war, en) => { const w = norm(war), e = norm(en); if (!w || !e) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };
 
@@ -205,36 +205,41 @@ const emitRecognize = (ctx, r) => r.mode === "marker" ? emitMarkerChoice(ctx, [r
 // The book opens lesson N with a review of lesson N-1 — which is really a TEST of N-1. So we attach it
 // to the END of lesson N-1 as its exit GATE (a graded checkpoint you must pass to continue), rather than
 // a passive warm-up on N. Lesson 1 has no incoming review, so no gate before it.
-function emitGate(ctx, reviewBlocks) {
-  for (const b of reviewBlocks) {
-    const [dkind, dmod] = isMarkerChoice(b) ? ["recognition", "cloze"] : isTranslation(b) ? ["production", "type"] : ["recognition", "mc"];
-    const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind, dmod, dhint: "none", ddir: dkind === "production" ? "both" : null, athresh: 0.8, agate: true });
-    (b.items || []).forEach((e, i) => {
-      const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
-      const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" });
-    });
-  }
+function emitGate(ctx, reviewBlocks, recallWords) {
+  const src = reviewBlocks.flatMap((b) => b.items || []);   // one gate per lesson — merge all review items
+  if (!src.length && !(recallWords && recallWords.length)) return;
+  const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true });
+  let ord = 0;
+  src.forEach((e) => {
+    const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
+    const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: ++ord, expr: id, role: "item" });
+  });
+  // the book's dropped "write the paradigm from memory" review (Gemini fabricated its answers) — instead
+  // test the prior lesson's paradigm from OUR known-good words, so the gate survives.
+  (recallWords || []).forEach((w) => items.push({ b: bl, ord: ++ord, dict: w, role: "item" }));
 }
 
-let prevLast = null;   // ctx of the last sub-lesson emitted for the PREVIOUS source lesson (gets its gate)
+let prevLast = null, prevParadigm = [];   // the last sub-lesson ctx + paradigm words of the PREVIOUS lesson
 for (const L of lessons) {
   const src = L.data.blocks || [];
   const firstGrammar = src.findIndex((b) => b.type === "grammar");
   const B = { grammar: [], note: [], examples: [], oral: [], written: [], vocab: [] };
   const review = [];
+  let recallFab = false;   // the opener was a fabricated "write the paradigm from memory" review
   src.forEach((b, idx) => {
     const k = { grammar: "grammar", note: "note", examples: "examples", oral_exercise: "oral", written_exercise: "written", vocab: "vocab" }[b.type];
     if (!k) return;
-    // exercises BEFORE the first grammar block are the book's review of the prior lesson (drop fabricated fills)
+    // exercises BEFORE the first grammar block are the book's review of the prior lesson
     if (firstGrammar > 0 && idx < firstGrammar && (b.type === "oral_exercise" || b.type === "written_exercise")) {
-      if (!isFabricatedFill(b)) review.push(b);
+      if (isFabricatedFill(b)) recallFab = true; else review.push(b);   // fabricated → recall the paradigm instead
     } else B[k].push(b);
   });
-  // this lesson's review-of-the-prior-lesson becomes the PRIOR lesson's exit gate
-  if (prevLast && review.length) emitGate(prevLast, review);
   const paraGrammar = B.grammar.find((g) => chartItems(g).length);   // pronoun/demonstrative OR marker chart
   const hasContent = B.vocab.length || B.examples.length || B.written.length;
   const { recognize, produce } = routeDrills(B);
+  // this lesson's review-of-the-prior-lesson becomes the PRIOR lesson's exit gate (translation sentences,
+  // plus a recall of the prior paradigm if the book's opener was a fabricated "write from memory" fill)
+  if (prevLast) emitGate(prevLast, review, recallFab ? prevParadigm : []);
 
   if (paraGrammar && hasContent) {
     // ---- SPLIT: Na = the paradigm (recognition), Nb = the vocabulary in use (production) ----
@@ -250,6 +255,7 @@ for (const L of lessons) {
     recognize.forEach((r) => emitRecognize(c, r)); produce.forEach((p) => emitProd(c, [p.b], p.dmod));
     prevLast = c;
   }
+  prevParadigm = [...new Set(B.grammar.flatMap((g) => chartItems(g).map((p) => p.waray)))];   // for the NEXT lesson's recall gate
 }
 
 const out = [];
