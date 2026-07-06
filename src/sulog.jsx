@@ -1209,7 +1209,7 @@ function LanguageView({ ctx }) {
         <div style={{ display: "flex", gap: 6, margin: "2px 0 12px", flexWrap: "wrap" }}>
           {all.map((c) => (
             <button key={c.id} onClick={() => setSelected(c.id)}
-              style={{ border: "1px solid " + (c.id === selected ? "var(--tide)" : "var(--sand-deep)"), background: c.id === selected ? "var(--tide)" : "var(--foam)", color: c.id === selected ? "#052024" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+              style={{ border: "1px solid " + (c.id === selected ? "var(--tide)" : "var(--sand-deep)"), background: c.id === selected ? "var(--tide)" : "var(--foam)", color: c.id === selected ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
               {c.name}{c.id === COURSE_ID ? " ·  active" : ""}
             </button>
           ))}
