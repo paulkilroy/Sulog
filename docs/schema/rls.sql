@@ -21,7 +21,12 @@ begin
   end loop;
 end $$;
 
--- progress: each signed-in learner reads & writes ONLY their own rows
-alter table progress enable row level security;
-create policy progress_self on progress for all to authenticated
-  using (user_id = auth.uid()) with check (user_id = auth.uid());
+-- per-user tables: each signed-in learner reads & writes ONLY their own rows
+do $$
+declare t text;
+begin
+  foreach t in array array['progress','lesson_progress','unit_progress','user_streak'] loop
+    execute format('alter table %I enable row level security', t);
+    execute format('create policy %I on %I for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid())', t||'_self', t);
+  end loop;
+end $$;

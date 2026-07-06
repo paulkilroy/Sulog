@@ -1,5 +1,5 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
-import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin } from "./supabase.js";
+import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
@@ -350,7 +350,7 @@ const currentStreak = (days) => {
 function freshStat(forgotten) {
   return {
     box: forgotten ? 0 : 0, seen: 0, right: 0, wrong: 0,
-    streak: 0, last: 0, due: 0, hasAudio: false, pinned: false, recall: 0,
+    streak: 0, last: 0, due: 0, pinned: false, recall: 0,
   };
 }
 function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
@@ -450,13 +450,6 @@ function migrateProgIds(prog, seed = SEED) {
     else out[k] = prog[k];
   }
   return changed ? out : prog;
-}
-// remap the keys of an audio map ({id: dataURL}) the same way
-function migrateAudioKeys(audioMap, seed = SEED) {
-  if (!audioMap) return audioMap;
-  const out = {};
-  for (const k in audioMap) { const mm = /^c(\d+)$/.exec(k); out[mm && seed[+mm[1]] ? seed[+mm[1]][1] : k] = audioMap[k]; }
-  return out;
 }
 // One-time backfill for `recall` (added after launch): reconstruct each card's trailing
 // cold type-recall streak from the attempt history, so Needs-work dots reflect real past
@@ -596,65 +589,10 @@ const store = {
   },
 };
 
-/* ---------------- GitHub Gist cloud sync ----------------
-   Uses a personal access token (scope: gist) the user pastes in. GitHub's API
-   sends permissive CORS headers, so this can run from the browser directly.
-   One secret gist holds a single JSON file with progress + streak + recordings. */
-const GIST_FILE = "sulog-progress.json";
-const GIST_DESC = "Sulog — Waray review progress (autosync)";
-
-// Tokens pasted on a phone often pick up a trailing newline, a non-breaking/zero-width
-// space, or a BOM. Any of those makes "Bearer <token>" an illegal HTTP header value, so
-// fetch throws a bare "TypeError" before it ever hits the network (looks like "can't
-// reach GitHub"). Strip the usual invisible offenders before we ever build the header.
-const cleanToken = (t) => (t || "").replace(/[\s\u00A0\u200B-\u200D\uFEFF]/g, "");
-
-async function gistApi(token, path, method, body) {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 15000);
-  let res;
-  try {
-    res = await fetch("https://api.github.com" + path, {
-      method: method || "GET",
-      signal: ctrl.signal,
-      headers: {
-        Authorization: "Bearer " + token,
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-        ...(body ? { "Content-Type": "application/json" } : {}),
-      },
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  } catch (e) {
-    if (e.name === "AbortError") throw new Error("GitHub didn't respond in time. Check your connection.");
-    throw new Error("Couldn't reach GitHub from here — this frame may be blocking the request. The hosted version won't have this limit.");
-  } finally {
-    clearTimeout(timer);
-  }
-  if (!res.ok) {
-    if (res.status === 401) throw new Error("GitHub rejected the token (401). Check it has the 'gist' scope.");
-    if (res.status === 403) throw new Error("GitHub says forbidden (403) — rate limit or missing scope.");
-    if (res.status === 404) throw new Error("That gist wasn't found (404).");
-    const t = await res.text().catch(() => "");
-    throw new Error("GitHub error " + res.status + (t ? ": " + t.slice(0, 100) : ""));
-  }
-  if (res.status === 204) return null;
-  return res.json();
-}
-
-async function gistReadContent(token, gistId) {
-  const g = await gistApi(token, "/gists/" + gistId);
-  const f = g.files && g.files[GIST_FILE];
-  if (!f) return null;
-  if (f.truncated && f.raw_url) {
-    // file too big for the inline payload — fetch the raw blob
-    const r = await fetch(f.raw_url);
-    if (!r.ok) throw new Error("Couldn't fetch the full backup blob (" + r.status + ").");
-    return r.text();
-  }
-  return f.content;
-}
-
+/* ---------------- cloud sync (Supabase, per signed-in user) ----------------
+   Progress syncs to Supabase when signed in with Google. The transport lives in
+   supabase.js (pullProgress/pushProgress); the merge below stays client-side so an
+   offline device never clobbers a newer record. */
 // merge two progress maps, keeping whichever record was touched most recently
 function mergeProg(local, cloud) {
   const out = { ...(local || {}) };
@@ -804,7 +742,6 @@ export default function App() {
   const cards = useRef(buildCards()).current;
   const [view, setView] = useState("home");
   const [prog, setProg] = useState({});
-  const [audio, setAudio] = useState({});   // id -> base64 dataURL
   const [streak, setStreak] = useState({ count: 0, last: "", days: {} });
   const [loaded, setLoaded] = useState(false);
   const [session, setSession] = useState(null);
@@ -835,7 +772,6 @@ export default function App() {
     (async () => {
       const p = await store.get(PK.prog);
       const s = await store.get(PK.streak);
-      const aIdx = await store.get("waray:audioIndex");
       const cfg = await store.get("waray:settings");
       const les = await store.get(PK.lessons);
       const hist = await store.get(PK.history);
@@ -852,32 +788,6 @@ export default function App() {
       if (les) setLessons(JSON.parse(les));
       if (un) setUnits(JSON.parse(un));
       if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
-      if (aIdx) {
-        // migrate this course's recordings from positional to Waray ids. Only remap a
-        // `cN` that the active course's own progress marks hasAudio, so a recording made
-        // in a different course (audio keys aren't course-namespaced) is left untouched
-        // for that course to migrate when it loads.
-        const posToWaray = {}; SEED.forEach((r, i) => { posToWaray[`c${i}`] = r[1]; });
-        const rawIds = JSON.parse(aIdx);
-        const ids = [];
-        let idxChanged = false;
-        for (const id of rawIds) {
-          const w = posToWaray[id];
-          if (w && /^c\d+$/.test(id) && oldProg && oldProg[id] && oldProg[id].hasAudio) {
-            const d = await store.get("waray:audio:" + id);
-            if (d && !(await store.get("waray:audio:" + w))) await store.set("waray:audio:" + w, d);
-            ids.push(w); idxChanged = true;
-          } else ids.push(id);
-        }
-        const uniq = [...new Set(ids)];
-        if (idxChanged) await store.set("waray:audioIndex", JSON.stringify(uniq));
-        const a = {};
-        for (const id of uniq) {
-          const d = await store.get("waray:audio:" + id);
-          if (d) a[id] = d;
-        }
-        setAudio(a);
-      }
       setLoaded(true);
     })();
   }, []);
@@ -945,21 +855,7 @@ export default function App() {
     setProg((prev) => {
       const card = cards.find((c) => c.id === id);
       const st = prev[id] || freshStat(card?.forgotten);
-      const np = { ...prev, [id]: { ...applyResult(st, correct, mode), hasAudio: !!audio[id] } };
-      store.set(PK.prog, JSON.stringify(np));
-      return np;
-    });
-  }, [audio, cards]);
-
-  const saveAudio = useCallback(async (id, dataURL) => {
-    setAudio((prev) => ({ ...prev, [id]: dataURL }));
-    await store.set("waray:audio:" + id, dataURL);
-    const idx = await store.get("waray:audioIndex");
-    const ids = idx ? JSON.parse(idx) : [];
-    if (!ids.includes(id)) { ids.push(id); await store.set("waray:audioIndex", JSON.stringify(ids)); }
-    setProg((prev) => {
-      const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
-      const np = { ...prev, [id]: { ...st, hasAudio: true } };
+      const np = { ...prev, [id]: applyResult(st, correct, mode) };
       store.set(PK.prog, JSON.stringify(np));
       return np;
     });
@@ -975,8 +871,6 @@ export default function App() {
   }, [cards]);
 
   const playCard = useCallback((card) => {
-    const a = audio[card.id];
-    if (a) { try { new Audio(a).play(); return; } catch (e) {} }
     let rate = settings.rate;
     if (settings.adaptive) {
       // gradually speed up as a card is mastered: box 0 -> base, box 5 -> +0.35
@@ -984,10 +878,10 @@ export default function App() {
       rate = Math.min(1.25, (settings.rate - 0.1) + (box / 5) * 0.45);
     }
     speak(card, rate);
-  }, [audio, settings, prog]);
+  }, [settings, prog]);
 
   // ---- backup: export everything to a portable JSON object ----
-  const exportData = useCallback((includeAudio) => {
+  const exportData = useCallback(() => {
     return {
       app: "sulog-waray",
       v: 1,
@@ -997,9 +891,8 @@ export default function App() {
       lessons,
       units,
       history,
-      audio: includeAudio ? audio : {},
     };
-  }, [prog, streak, lessons, units, audio, history]);
+  }, [prog, streak, lessons, units, history]);
 
   // ---- backup: load a JSON object back in ----
   const importData = useCallback(async (data, mode) => {
@@ -1012,36 +905,26 @@ export default function App() {
     if (data.lessons) { const m = mergeLessons(lessons, data.lessons); setLessons(m); await store.set(PK.lessons, JSON.stringify(m)); }
     if (data.units) { const m = mergeUnits(units, data.units); setUnits(m); await store.set(PK.units, JSON.stringify(m)); }
     if (data.history) { setHistory(data.history); await store.set(PK.history, JSON.stringify(data.history)); }
-    // recordings: merge so we never lose voice you already saved
-    const incoming = migrateAudioKeys(data.audio || {});
-    if (Object.keys(incoming).length) {
-      const merged = mode === "replace" ? { ...incoming } : { ...audio, ...incoming };
-      setAudio(merged);
-      for (const id of Object.keys(incoming)) {
-        await store.set("waray:audio:" + id, incoming[id]);
-      }
-      await store.set("waray:audioIndex", JSON.stringify(Object.keys(merged)));
-    }
     return true;
-  }, [audio, lessons, units]);
+  }, [lessons, units]);
 
   /* ---------------- cloud sync state & ops ---------------- */
   const stateRef = useRef({});
-  stateRef.current = { prog, streak, audio, settings, history, lessons, units };
+  stateRef.current = { prog, streak, settings, history, lessons, units, user };
   const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
   const pushTimer = useRef(null);
   const didInitialPull = useRef(false);
   // gate: never auto-push until the first pull has merged the cloud in. Without this a
-  // fresh/behind device pushes its empty state ~2.5s after launch and clobbers the gist
+  // fresh/behind device pushes its empty state ~2.5s after launch and clobbers the cloud
   // before its pull lands (cell is slower than the debounce). See sync-clobber fix.
   const [initialPulled, setInitialPulled] = useState(false);
 
-  // merge a cloud snapshot into local (local wins on audio so fresh recordings survive)
+  // merge a cloud snapshot (from Supabase) into local. Per-record recency wins, so a device
+  // that was offline never clobbers a newer record. History is a local-only analytics log.
   const applyCloud = useCallback(async (cloud) => {
-    if (!cloud || cloud.app !== "sulog-waray") throw new Error("The gist didn't contain Sulog data.");
+    if (!cloud) return;
     const cur = stateRef.current;
-    // migrate legacy positional ids in the cloud snapshot before merging (the other
-    // device may not have updated yet)
+    // migrate legacy positional ids in the cloud snapshot before merging (an older device may not have)
     const np = mergeProg(cur.prog, migrateProgIds(cloud.prog || {}));
     const ns = mergeStreak(cur.streak, cloud.streak || {});
     setProg(np); await store.set(PK.prog, JSON.stringify(np));
@@ -1051,29 +934,14 @@ export default function App() {
     setLessons(nl); await store.set(PK.lessons, JSON.stringify(nl));
     const nu = mergeUnits(cur.units, cloud.units || {});
     setUnits(nu); await store.set(PK.units, JSON.stringify(nu));
-    // history: union local + cloud by timestamp, keep chronological, cap
-    const seenTs = new Set();
-    const mh = [...(cur.history || []), ...(cloud.history || [])]
-      .filter((e) => { const k = e.ts + "|" + e.waray + "|" + e.given; if (seenTs.has(k)) return false; seenTs.add(k); return true; })
-      .sort((a, b) => a.ts - b.ts);
-    if (mh.length > 6000) mh.splice(0, mh.length - 6000);
-    setHistory(mh); await store.set(PK.history, JSON.stringify(mh));
-    const cloudAudio = migrateAudioKeys(cloud.audio || {});
-    if (Object.keys(cloudAudio).length) {
-      const merged = { ...cloudAudio, ...cur.audio }; // local wins
-      setAudio(merged);
-      for (const id in cloudAudio) if (!cur.audio[id]) await store.set("waray:audio:" + id, cloudAudio[id]);
-      await store.set("waray:audioIndex", JSON.stringify(Object.keys(merged)));
-    }
   }, []);
 
   const syncPull = useCallback(async () => {
-    const s = stateRef.current.settings.sync;
-    if (!s?.token || !s?.gistId) return;
+    if (!stateRef.current.user) return;
     setSyncState({ status: "syncing", at: "", error: "" });
     try {
-      const txt = await gistReadContent(s.token, s.gistId);
-      if (txt) await applyCloud(JSON.parse(txt));
+      const cloud = await pullProgress(COURSE_ID);
+      await applyCloud(cloud);
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
     } catch (e) {
       setSyncState({ status: "error", at: "", error: e.message });
@@ -1082,82 +950,37 @@ export default function App() {
 
   const syncPush = useCallback(async () => {
     const cur = stateRef.current;
-    const s = cur.settings.sync;
-    if (!s?.token || !s?.gistId) return;
+    if (!cur.user) return;
     setSyncState((p) => ({ ...p, status: "syncing", error: "" }));
     try {
-      const payload = JSON.stringify({
-        app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
-        prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units, audio: cur.audio, history: cur.history,
-      });
-      await gistApi(s.token, "/gists/" + s.gistId, "PATCH", { files: { [GIST_FILE]: { content: payload } } });
+      await pushProgress(cur.user.id, COURSE_ID, { prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units });
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
     } catch (e) {
       setSyncState({ status: "error", at: "", error: e.message });
     }
   }, []);
 
-  // connect: validate token, find an existing Sulog gist or create one, then pull
-  const connectGist = useCallback(async (token) => {
-    token = cleanToken(token);
-    if (!token) throw new Error("Paste a token first.");
-    if (!/^[\x21-\x7e]+$/.test(token)) throw new Error("That token has unexpected characters — re-copy just the ghp_… value from GitHub (no surrounding spaces).");
-    setSyncState({ status: "syncing", at: "", error: "" });
-    try {
-      const list = await gistApi(token, "/gists?per_page=100");
-      let gid = null;
-      for (const g of list || []) if (g.files && g.files[GIST_FILE]) { gid = g.id; break; }
-      if (!gid) {
-        const cur = stateRef.current;
-        const payload = JSON.stringify({
-          app: "sulog-waray", v: 1, exportedAt: new Date().toISOString(),
-          prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units, audio: cur.audio, history: cur.history,
-        });
-        const created = await gistApi(token, "/gists", "POST", {
-          description: GIST_DESC, public: false, files: { [GIST_FILE]: { content: payload } },
-        });
-        gid = created.id;
-      }
-      const ns = { ...stateRef.current.settings, sync: { provider: "gist", token, gistId: gid, enabled: true } };
-      saveSettings(ns);
-      // pull whatever is in the cloud now (covers the "found existing" case)
-      const txt = await gistReadContent(token, gid);
-      if (txt) await applyCloud(JSON.parse(txt));
-      setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
-      return gid;
-    } catch (e) {
-      setSyncState({ status: "error", at: "", error: e.message });
-      throw e;
-    }
-  }, [applyCloud, saveSettings]);
-
-  const disconnectGist = useCallback(() => {
-    const ns = { ...stateRef.current.settings, sync: { provider: "gist", token: "", gistId: "", enabled: false } };
-    saveSettings(ns);
-    setSyncState({ status: "idle", at: "", error: "" });
-  }, [saveSettings]);
-
-  // pull once when the app opens (if already connected); only then unblock auto-push
-  useEffect(() => {
-    if (!loaded || didInitialPull.current) return;
-    if (settings.sync?.enabled && settings.sync?.gistId) {
-      didInitialPull.current = true;
-      syncPull().finally(() => setInitialPulled(true));
-    } else {
-      setInitialPulled(true); // nothing to pull → auto-push is free to run
-    }
-  }, [loaded, settings.sync, syncPull]);
-
-  // auto-push on changes (debounced) — held until the initial pull has merged cloud in,
-  // so we never overwrite the gist with this device's un-synced (possibly empty) state
+  // pull once when signed in; only then unblock auto-push (so a fresh device never
+  // overwrites the cloud with its empty state before the pull lands). Re-arm on sign-out.
   useEffect(() => {
     if (!loaded) return;
-    if (!settings.sync?.enabled || !settings.sync?.gistId) return;
-    if (!initialPulled) return;
+    if (user && !didInitialPull.current) {
+      didInitialPull.current = true;
+      syncPull().finally(() => setInitialPulled(true));
+    } else if (!user) {
+      didInitialPull.current = false;
+      setInitialPulled(false);
+      setSyncState({ status: "idle", at: "", error: "" });
+    }
+  }, [loaded, user, syncPull]);
+
+  // auto-push on changes (debounced) — held until the initial pull has merged the cloud in
+  useEffect(() => {
+    if (!loaded || !user || !initialPulled) return;
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => syncPush(), 2500);
     return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
-  }, [prog, streak, lessons, units, audio, history, loaded, settings.sync, initialPulled, syncPush]);
+  }, [prog, streak, lessons, units, loaded, user, initialPulled, syncPush]);
 
   if (!loaded) {
     return (
@@ -1170,10 +993,10 @@ export default function App() {
   }
 
   const ctx = {
-    cards, prog, audio, streak, view, setView, session, setSession,
-    recordCard, saveAudio, togglePin, playCard, bumpStreak, saveProg,
+    cards, prog, streak, view, setView, session, setSession,
+    recordCard, togglePin, playCard, bumpStreak, saveProg,
     exportData, importData, settings, saveSettings,
-    syncState, connectGist, disconnectGist, syncPull, syncPush,
+    syncState, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
@@ -1422,7 +1245,7 @@ function EllaView({ ctx }) {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, audio, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
+  const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
   const curLesson = nextLesson(lessons);
   // open a section's own page; optionally scroll to a lesson within it
   const openSection = (sid, lessonId = null) => { setLearnSection(sid); setLearnTarget(lessonId); setView("learn"); };
@@ -1438,7 +1261,6 @@ function HomeView({ ctx }) {
   });
   const overall = total ? sumPct / total : 0;
   const needsWork = cards.filter((c) => needsWorkCard(prog[c.id])).length;
-  const voiced = Object.keys(audio).length;
   const streakDays = currentStreak(streak.days);
   const prof = computeProficiency(prog);
 
@@ -2112,7 +1934,7 @@ function VoiceOrb({ vmState, heard, onTap, onRepeat, onSkip, compact }) {
 }
 
 function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
-  const { playCard, saveAudio, audio, settings } = ctx;
+  const { playCard, settings } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
   const answerField = dir === "wte" ? "english" : "waray";
   const prompt = card[promptField];
@@ -2234,7 +2056,6 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
         {listening ? (
           <button className="ws-listen-big" onClick={() => playCard(card)}>
             <Volume2 size={30} /><span>Tap to hear</span>
-            {audio[card.id] && <em>your voice</em>}
           </button>
         ) : (
           <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
@@ -2444,48 +2265,12 @@ function SelfGrade({ onResult }) {
   );
 }
 
-/* ---------- speak mode with recording ---------- */
+/* ---------- speak mode: say it aloud, then reveal & self-grade ---------- */
 function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) {
-  const { playCard, saveAudio, audio } = ctx;
+  const { playCard } = ctx;
   const wantWaray = dir === "etw"; // produce Waray
   const target = wantWaray ? answer : prompt;
-  const [rec, setRec] = useState(false);
-  const [blobURL, setBlobURL] = useState(null);
   const [revealed, setRevealed] = useState(false);
-  const [err, setErr] = useState("");
-  const mr = useRef(null);
-  const chunks = useRef([]);
-  const dataURLRef = useRef(null);
-
-  const start = async () => {
-    setErr("");
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const m = new MediaRecorder(stream);
-      chunks.current = [];
-      m.ondataavailable = (e) => chunks.current.push(e.data);
-      m.onstop = () => {
-        const blob = new Blob(chunks.current, { type: "audio/webm" });
-        const url = URL.createObjectURL(blob);
-        setBlobURL(url);
-        const fr = new FileReader();
-        fr.onload = () => { dataURLRef.current = fr.result; };
-        fr.readAsDataURL(blob);
-        stream.getTracks().forEach((t) => t.stop());
-      };
-      mr.current = m;
-      m.start();
-      setRec(true);
-    } catch (e) {
-      setErr("Mic isn't available here. You can still say it aloud and self-grade.");
-    }
-  };
-  const stop = () => { try { mr.current && mr.current.stop(); } catch (e) {} setRec(false); };
-
-  const saveAsVoice = () => {
-    const dataURL = dataURLRef.current;
-    if (dataURL) saveAudio(card.id, dataURL);
-  };
 
   return (
     <div className="ws-card">
@@ -2494,21 +2279,6 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
         <div className="ws-speak-instr">Say this in Waray:</div>
         <div className="ws-prompt-eng">{wantWaray ? prompt : answer}</div>
       </div>
-
-      <div className="ws-speak-controls">
-        {!rec ? (
-          <button className="ws-rec-btn" onClick={start}><Mic size={22} /> Record yourself</button>
-        ) : (
-          <button className="ws-rec-btn recording" onClick={stop}><Square size={18} /> Stop</button>
-        )}
-        {blobURL && (
-          <div className="ws-rec-playback">
-            <button className="ws-mini-play" onClick={() => new Audio(blobURL).play()}><Play size={15} /> your take</button>
-            <button className="ws-mini-play" onClick={saveAsVoice}><Star size={14} /> save as this card's voice</button>
-          </div>
-        )}
-      </div>
-      {err && <div className="ws-mic-err">{err}</div>}
 
       {!revealed ? (
         <button className="ws-reveal" onClick={() => { setRevealed(true); playCard(card); }}>
@@ -2519,7 +2289,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
           <div className="ws-answer-reveal">
             <span className="ws-answer-text">{target}</span>
             <button className="ws-mini-play" onClick={() => playCard(card)}>
-              <Volume2 size={16} />{audio[card.id] ? " your saved voice" : " reference"}
+              <Volume2 size={16} /> reference
             </button>
           </div>
           {card.say && <div className="ws-say">/ {card.say} /</div>}
@@ -3132,7 +2902,7 @@ function ReadView({ ctx }) {
 
 /* ============================ BROWSE ============================ */
 function BrowseView({ ctx }) {
-  const { cards, prog, setView, playCard, saveAudio, audio, togglePin } = ctx;
+  const { cards, prog, setView } = ctx;
   const [deck, setDeck] = useState("all");
   const [q, setQ] = useState("");
   const list = cards.filter((c) =>
@@ -3159,44 +2929,19 @@ function BrowseView({ ctx }) {
 }
 
 function BrowseRow({ card, st, ctx }) {
-  const { playCard, saveAudio, audio, togglePin } = ctx;
-  const [rec, setRec] = useState(false);
-  const mr = useRef(null); const chunks = useRef([]);
+  const { playCard, togglePin } = ctx;
   const p = masteryPct(st);
-
-  const recordVoice = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const m = new MediaRecorder(stream);
-      chunks.current = [];
-      m.ondataavailable = (e) => chunks.current.push(e.data);
-      m.onstop = () => {
-        const blob = new Blob(chunks.current, { type: "audio/webm" });
-        const fr = new FileReader();
-        fr.onload = () => saveAudio(card.id, fr.result);
-        fr.readAsDataURL(blob);
-        stream.getTracks().forEach((t) => t.stop());
-      };
-      mr.current = m; m.start(); setRec(true);
-    } catch (e) { alert("Mic isn't available in this view."); }
-  };
-  const stop = () => { try { mr.current.stop(); } catch (e) {} setRec(false); };
 
   return (
     <div className="ws-brow">
       <div className="ws-brow-dot" style={{ background: masteryColor(p, st) }} />
       <div className="ws-brow-body">
-        <div className="ws-brow-waray">{card.waray}{audio[card.id] && <span className="ws-voiced">●</span>}</div>
+        <div className="ws-brow-waray">{card.waray}</div>
         <div className="ws-brow-eng">{card.english}</div>
         {card.say && <div className="ws-brow-say">/ {card.say} /</div>}
       </div>
       <div className="ws-brow-actions">
         <button className="ws-mini-play sq" onClick={() => playCard(card)}><Volume2 size={15} /></button>
-        {!rec ? (
-          <button className="ws-mini-play sq" onClick={recordVoice} title="Record your pronunciation"><Mic size={15} /></button>
-        ) : (
-          <button className="ws-mini-play sq rec" onClick={stop}><Square size={13} /></button>
-        )}
         <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(card.id)}><Star size={14} /></button>
       </div>
     </div>
@@ -3212,78 +2957,24 @@ function masteryColor(p, st) {
 
 /* ============================ BACKUP & SYNC ============================ */
 function BackupView({ ctx }) {
-  const { setView, exportData, importData, prog, audio, settings, syncState, connectGist, disconnectGist, syncPull, syncPush } = ctx;
+  const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signOut } = ctx;
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
-  const [token, setToken] = useState("");
-  const [connecting, setConnecting] = useState(false);
-  const [showToken, setShowToken] = useState(false); // reveal the stored sync token
-  const [copied, setCopied] = useState(false);
   const fileRef = useRef(null);
 
-  const sync = settings.sync || {};
-  const connected = sync.enabled && sync.gistId;
-
-  const copyToken = async () => {
-    try { await navigator.clipboard.writeText(sync.token || ""); setCopied(true); setTimeout(() => setCopied(false), 1500); }
-    catch (e) { setMsg({ kind: "err", text: "Couldn't copy automatically — tap the field, select all, and copy." }); }
-  };
-
-  // connection diagnostics: fire three probes and show which class of request dies.
-  // (1) plain GET — a "simple" CORS request, NO preflight. (2) + a custom header,
-  // which forces a CORS preflight but no auth. (3) + Authorization — preflight + auth,
-  // exactly what sync does. Pinpoints blocker (all fail) vs preflight/auth-only failure.
-  const [diag, setDiag] = useState(null);
-  const [diagBusy, setDiagBusy] = useState(false);
-  const runDiag = async () => {
-    setDiagBusy(true); setMsg(null);
-    const out = [];
-    const probe = async (name, opts) => {
-      const t0 = Date.now();
-      try { const r = await fetch("https://api.github.com/rate_limit", opts); out.push({ name, ok: true, detail: `HTTP ${r.status} · ${Date.now() - t0}ms` }); }
-      catch (e) { out.push({ name, ok: false, detail: `${e.name}: ${e.message || ""}`.slice(0, 80) }); }
-      setDiag([...out]);
-    };
-    await probe("Plain fetch — no preflight", {});
-    await probe("Fetch + custom header — forces preflight", { headers: { "X-GitHub-Api-Version": "2022-11-28" } });
-    // dummy CLEAN token: if this returns HTTP 401 (a real response), auth requests work
-    // and the issue is your token's characters; if it TypeErrors too, it's deeper.
-    await probe("Fetch + dummy clean token — expect HTTP 401", { headers: { Authorization: "Bearer ghp_0000000000000000000000000000000000" } });
-    const raw = (sync.token || token || ""), clean = cleanToken(raw);
-    const asciiOk = /^[\x21-\x7e]*$/.test(clean), stray = raw.trim().length - clean.length;
-    out.push({ name: "Your token format", ok: clean.length > 0 && asciiOk && stray === 0,
-      detail: clean.length === 0 ? "none entered" : `len ${clean.length}${stray > 0 ? `, ${stray} stray char(s)` : ""}, ${asciiOk ? "ascii ok" : "NON-ASCII"}` });
-    setDiag([...out]);
-    if (clean) await probe("Fetch + your token (cleaned)", { headers: { Authorization: "Bearer " + clean } });
-    setDiagBusy(false);
-  };
-
-  const doConnect = async () => {
-    setConnecting(true);
-    try { await connectGist(token); setToken(""); }
-    catch (e) { /* error shown via syncState */ }
-    finally { setConnecting(false); }
-  };
-
-  const cardsWithProgress = Object.values(prog).filter((s) => s && s.seen > 0).length;
-  const recordings = Object.keys(audio).length;
-
-  const download = (includeAudio) => {
+  const download = () => {
     try {
-      const data = exportData(includeAudio);
+      const data = exportData();
       const json = JSON.stringify(data);
       const blob = new Blob([json], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const stamp = localDay();
       const a = document.createElement("a");
-      a.href = url;
-      a.download = `sulog-backup-${stamp}${includeAudio ? "-with-voice" : ""}.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      a.href = url; a.download = `sulog-backup-${stamp}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 2000);
       const kb = Math.max(1, Math.round(json.length / 1024));
-      setMsg({ kind: "ok", text: `Saved sulog-backup-${stamp}.json (${kb} KB). Drop it in your Drive folder to keep it in the cloud.` });
+      setMsg({ kind: "ok", text: `Saved sulog-backup-${stamp}.json (${kb} KB).` });
     } catch (e) {
       setMsg({ kind: "err", text: "Couldn't create the file here. Try from your own browser tab." });
     }
@@ -3298,8 +2989,7 @@ function BackupView({ ctx }) {
       const data = JSON.parse(text);
       await importData(data, "merge");
       const n = data.prog ? Object.keys(data.prog).length : 0;
-      const r = data.audio ? Object.keys(data.audio).length : 0;
-      setMsg({ kind: "ok", text: `Restored ${n} cards${r ? ` and ${r} recordings` : ""}. Your progress is back.` });
+      setMsg({ kind: "ok", text: `Restored ${n} cards. Your progress is back.` });
     } catch (err) {
       setMsg({ kind: "err", text: err.message || "That file couldn't be read." });
     } finally {
@@ -3324,36 +3014,60 @@ function BackupView({ ctx }) {
           {COURSES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
         <p className="ws-course-note">
-          Each course keeps its own progress. <b>Frequency</b> is the new
-          frequency-first order; <b>Classic</b> is the original. Switching reloads the app.
+          Each course keeps its own progress. Switching reloads the app.
         </p>
       </div>
 
-      <div className="ws-pron-intro">
-        Your progress lives in this browser only. Export it to a file to keep a backup,
-        move it to another device, or park it in the cloud. Save that file to your
-        Google Drive and it's safe and reachable anywhere.
-      </div>
-
-      <div className="ws-backup-stat">
-        <div><b>{cardsWithProgress}</b><span>cards in progress</span></div>
-        <div><b>{recordings}</b><span>voice recordings</span></div>
+      <SectionLabel icon={<Cloud size={14} />} text="Sync across devices" />
+      <div className="ws-gist">
+        {user ? (
+          <>
+            <div className="ws-drive-note" style={{ marginBottom: 10 }}>
+              Signed in as <b>{user.email}</b>. Your progress syncs automatically — it saves a
+              few seconds after each change and pulls when Sulog opens. Sign in on another device
+              with the same Google account and it'll be there.
+            </div>
+            {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
+              <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
+                <span className="ws-sync-dot" />
+                <span>
+                  {syncState.status === "syncing" ? "Syncing…"
+                    : syncState.status === "error" ? "Couldn't sync"
+                    : syncState.at ? `Synced ${syncState.at}` : "Synced"}
+                </span>
+              </div>
+            )}
+            {syncState.status === "error" && (
+              <div className="ws-backup-msg err" style={{ marginBottom: 10 }}>
+                <AlertCircle size={16} /><span>{syncState.error}</span>
+              </div>
+            )}
+            <div className="ws-sync-btns">
+              <button className="ws-backup-row compact" onClick={() => syncPull()}><Download size={16} /> Pull now</button>
+              <button className="ws-backup-row compact" onClick={() => syncPush()}><Upload size={16} /> Push now</button>
+            </div>
+            <button className="ws-backup-row compact" style={{ marginTop: 8 }} onClick={() => signOut()}>
+              <X size={16} /> Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <div className="ws-drive-note" style={{ marginBottom: 12 }}>
+              Sign in with Google and your progress follows you to every device — no tokens, no files.
+            </div>
+            <button className="ws-start ws-full" onClick={() => signIn()}>
+              <Cloud size={18} /> Sign in with Google
+            </button>
+          </>
+        )}
       </div>
 
       <SectionLabel icon={<Download size={14} />} text="Export" />
-      <button className="ws-backup-row" onClick={() => download(false)}>
+      <button className="ws-backup-row" onClick={download}>
         <div className="ws-backup-ic"><Download size={18} /></div>
         <div className="ws-backup-txt">
-          <b>Progress only</b>
-          <i>Small file — mastery, streak, what needs work</i>
-        </div>
-        <ChevronRight size={18} className="ws-cta-arrow" />
-      </button>
-      <button className="ws-backup-row" onClick={() => download(true)}>
-        <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
-        <div className="ws-backup-txt">
-          <b>Everything, incl. your voice</b>
-          <i>Larger file — also bundles your recordings</i>
+          <b>Download a backup</b>
+          <i>A small JSON file — mastery, streak, what needs work</i>
         </div>
         <ChevronRight size={18} className="ws-cta-arrow" />
       </button>
@@ -3363,7 +3077,7 @@ function BackupView({ ctx }) {
         <div className="ws-backup-ic ws-ic-coral"><Upload size={18} /></div>
         <div className="ws-backup-txt">
           <b>{busy ? "Restoring…" : "Import a backup file"}</b>
-          <i>Merges in — your current recordings are kept</i>
+          <i>Merges in — furthest progress wins</i>
         </div>
         <ChevronRight size={18} className="ws-cta-arrow" />
       </button>
@@ -3376,134 +3090,6 @@ function BackupView({ ctx }) {
         </div>
       )}
 
-      <SectionLabel icon={<Cloud size={14} />} text="Auto-sync — GitHub Gist" />
-      <div className="ws-gist">
-        {!connected && (
-          <div className="ws-drive-note" style={{ marginBottom: 12 }}>
-            Sync across devices automatically with a private GitHub gist — no hosting, no file shuffling.
-            Paste a token with the <b>gist</b> scope and Sulog will pull on open and save as you go.
-          </div>
-        )}
-
-        {!connected && (
-          <input
-            className="ws-search" type="password" placeholder="GitHub token (ghp_…)"
-            value={token} onChange={(e) => setToken(e.target.value)} style={{ marginBottom: 10 }}
-          />
-        )}
-
-        {/* the connect/disconnect toggle */}
-        <button
-          className={`ws-start ws-full ${connected ? "ws-connected" : ""}`}
-          disabled={connecting || (!connected && !token.trim())}
-          onClick={connected ? disconnectGist : doConnect}
-        >
-          {connecting
-            ? <><Cloud size={18} /> Connecting…</>
-            : connected
-              ? <><Check size={18} /> Connected — tap to disconnect</>
-              : <><Cloud size={18} /> Connect &amp; sync</>}
-        </button>
-
-        {/* status line — visible whether connected or not */}
-        {(connected || syncState.status === "syncing" || syncState.status === "error") && (
-          <div className={`ws-sync-status ${syncState.status}`} style={{ marginTop: 10, marginBottom: 0 }}>
-            <span className="ws-sync-dot" />
-            <span>
-              {syncState.status === "syncing" ? "Syncing…"
-                : syncState.status === "error" ? "Couldn't sync"
-                : syncState.at ? `Synced ${syncState.at}` : "Connected"}
-            </span>
-            {connected && sync.gistId && <code>{sync.gistId.slice(0, 8)}</code>}
-          </div>
-        )}
-        {syncState.status === "error" && (
-          <div className="ws-backup-msg err" style={{ marginTop: 8 }}>
-            <AlertCircle size={16} /><span>{syncState.error}</span>
-          </div>
-        )}
-
-        {connected && (
-          <div className="ws-sync-btns" style={{ marginTop: 10 }}>
-            <button className="ws-backup-row compact" onClick={() => syncPull()}>
-              <Download size={16} /> Pull now
-            </button>
-            <button className="ws-backup-row compact" onClick={() => syncPush()}>
-              <Upload size={16} /> Push now
-            </button>
-          </div>
-        )}
-
-        {connected && (
-          <div style={{ marginTop: 10 }}>
-            {!showToken ? (
-              <button className="ws-backup-row compact" onClick={() => setShowToken(true)}>
-                <Eye size={16} /> Reveal sync token
-              </button>
-            ) : (
-              <>
-                <div className="ws-backup-msg err">
-                  <AlertTriangle size={16} />
-                  <span>This is a secret. It grants read &amp; write to your synced gist —
-                    anyone who has it can read and overwrite your progress. Don't paste it
-                    into chats, screenshots, or anywhere public.</span>
-                </div>
-                <input className="ws-search" readOnly value={sync.token || "(no token stored)"}
-                  onFocus={(e) => e.target.select()} style={{ marginTop: 8 }} />
-                <div className="ws-sync-btns" style={{ marginTop: 8 }}>
-                  <button className="ws-backup-row compact" onClick={copyToken} disabled={!sync.token}>
-                    {copied ? <><Check size={16} /> Copied</> : <><Copy size={16} /> Copy</>}
-                  </button>
-                  <button className="ws-backup-row compact" onClick={() => { setShowToken(false); setCopied(false); }}>
-                    <EyeOff size={16} /> Hide
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        {!connected && (
-          <details className="ws-gist-help">
-            <summary>How to get a token (1 min)</summary>
-            <ol>
-              <li>GitHub → Settings → Developer settings → Personal access tokens → <b>Tokens (classic)</b></li>
-              <li>Generate new token (classic). Note: "Sulog". Expiration: your call.</li>
-              <li>Tick the single <b>gist</b> scope — nothing else.</li>
-              <li>Generate, copy the <b>ghp_…</b> value, paste it above.</li>
-            </ol>
-            The token is stored only in this browser and used solely to read/write your one private gist. Revoke it on GitHub anytime.
-          </details>
-        )}
-
-        {connected && (
-          <div className="ws-pron-note" style={{ marginTop: 12 }}>
-            Auto-saves a few seconds after each change, and pulls when Sulog opens. Open it on another device, paste the same token, and it'll find this gist.
-          </div>
-        )}
-
-        <div style={{ marginTop: 12 }}>
-          <button className="ws-backup-row compact" onClick={runDiag} disabled={diagBusy}>
-            <AlertCircle size={16} /> {diagBusy ? "Testing…" : "Run connection diagnostics"}
-          </button>
-          {diag && (
-            <div className="ws-diag">
-              {diag.map((d, i) => (
-                <div key={i} className={`ws-diag-row ${d.ok === true ? "ok" : d.ok === false ? "err" : "skip"}`}>
-                  <span className="ws-diag-ic">{d.ok === true ? <Check size={14} /> : d.ok === false ? <X size={14} /> : "–"}</span>
-                  <span className="ws-diag-name">{d.name}</span>
-                  <code className="ws-diag-detail">{d.detail}</code>
-                </div>
-              ))}
-              <div className="ws-pron-note" style={{ marginTop: 6 }}>
-                If row 1 fails too, something on this device is blocking all scripted
-                requests to GitHub. If only the token row fails, it's the preflight/auth.
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
       <div className="ws-pron-note" style={{ marginTop: 18 }}>
         Backups are plain JSON — you own the file and can read or keep it anywhere.
       </div>
@@ -3511,7 +3097,6 @@ function BackupView({ ctx }) {
   );
 }
 
-/* ============================ PRONOUNCE ============================ */
 function PronounceView({ ctx }) {
   const { setView, settings, saveSettings } = ctx;
   const SPEEDS = [
@@ -3547,7 +3132,7 @@ function PronounceView({ ctx }) {
     ["-aw → \u201cow\u201d", "The ending -aw sounds like \u201cnow.\u201d  ikaw = ee-KOW, sayaw = sah-YOW."],
     ["ng is one sound", "ng is a single nasal, like the end of \u201csing\u201d — even at the start of a word.  hangin = HAH-ngin."],
     ["d \u2194 r", "Between vowels, d often softens toward r. You'll hear both; don't worry about it."],
-    ["Stress moves", "Stress isn't fixed and it can change meaning. Lean on the CAPS in each card's respelling, and on your own recordings."],
+    ["Stress moves", "Stress isn't fixed and it can change meaning. Lean on the CAPS in each card's pronunciation guide, and on the reference audio."],
   ];
   const examples = [
     ["Maupay nga aga", "mah-OO-pigh ngah AH-gah", "Good morning"],

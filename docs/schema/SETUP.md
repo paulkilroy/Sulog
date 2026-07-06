@@ -33,4 +33,6 @@ All three have been validated loading into Postgres (via `docs/schema/validate.m
 
 **What this gives you:** a live database holding the whole Waray dictionary + CH2 course, world-readable, with you as the only editor and each user's progress private. **The 132 `confirmed=false` rows are Ella's review queue** — she signs in with Google (as a non-admin she can read; grant her edit by adding her email to `is_admin()` if/when you want her editing directly).
 
-**Not done here (next code step):** pointing the *app* at Supabase — a small `supabase-js` client that reads courses/blocks from the DB instead of the bundled JS files, and writes `progress`. That's an app change, separate from this provisioning.
+**Per-user progress sync is wired** (`src/supabase.js` + `src/sulog.jsx`): signing in with Google syncs each learner's `progress` / `lesson_progress` / `unit_progress` / `user_streak` (per course) — it pulls on open and auto-saves a few seconds after each change. This replaced the old GitHub-Gist sync. Run the four per-user tables' DDL + RLS from the updated `schema.sql` / `rls.sql` (or the `progress` tables migration) before signing in.
+
+**Not done here (next code step):** having the *app read course content* (courses/blocks/dictionary) from the DB instead of the bundled `src/courses` JS files. That's a larger app change, separate from this provisioning.

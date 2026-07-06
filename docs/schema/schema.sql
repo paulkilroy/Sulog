@@ -143,14 +143,55 @@ create table block_items (
 
 -- ============================================================
 -- PER-USER  (keyed by the Waray string — the stable id we already adopted)
+-- Progress is namespaced per course (a word can sit in two courses' decks with
+-- independent SRS state). All four tables mirror the app's localStorage records
+-- 1:1 so the sync layer is a straight column<->field map (no lossy JSON blobs).
+-- `last`/`due` are ms-epoch integers (the app's clock), not timestamptz.
 -- ============================================================
 create table progress (
-  user_id uuid not null,
-  waray   text not null,          -- word | phrase | sentence — the item's Waray form
+  user_id   uuid not null,
+  course_id text not null,        -- which course's deck (per-course SRS)
+  waray     text not null,        -- word | phrase | sentence — the item's Waray form (stable card id)
   box int not null default 0, seen int not null default 0,
-  wrong int not null default 0, recall int not null default 0,
-  due timestamptz,
-  primary key (user_id, waray)
+  n_right int not null default 0, -- correct count ("right" is a SQL reserved word)
+  wrong int not null default 0, streak int not null default 0, recall int not null default 0,
+  last bigint not null default 0, -- ms epoch of last attempt (merge/recency key)
+  due  bigint not null default 0, -- ms epoch when the card is next due
+  pinned boolean not null default false,
+  primary key (user_id, course_id, waray)
+);
+
+-- lesson completion: parts cleared (monotonic 0..N). id is the app's course lesson id.
+create table lesson_progress (
+  user_id uuid not null,
+  course_id text not null,
+  lesson_id text not null,
+  parts int not null default 0,
+  last bigint not null default 0,
+  primary key (user_id, course_id, lesson_id)
+);
+
+-- unit review results: best score, sticky pass, last run.
+create table unit_progress (
+  user_id uuid not null,
+  course_id text not null,
+  unit_id text not null,
+  best int not null default 0,
+  passed boolean not null default false,
+  last int not null default 0,    -- last run's score
+  at text not null default '',    -- 'YYYY-MM-DD' of last run
+  primary key (user_id, course_id, unit_id)
+);
+
+-- day-streak: count + last active day + the per-day activity set. `days` is genuinely
+-- a set of dates, so jsonb is its natural shape (not an opaque state blob).
+create table user_streak (
+  user_id uuid not null,
+  course_id text not null,
+  count int not null default 0,
+  last text not null default '',  -- 'YYYY-MM-DD' of last active day
+  days jsonb not null default '{}',
+  primary key (user_id, course_id)
 );
 
 create table review_questions (   -- native-speaker (Ella) queue
