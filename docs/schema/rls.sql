@@ -12,7 +12,7 @@ do $$
 declare t text;
 begin
   foreach t in array array[
-    'dictionary','expressions','stories','story_lines','story_questions',
+    'dictionary','meanings','expressions','stories','story_lines','story_questions',
     'courses','phases','units','lessons','lesson_blocks','block_items','review_questions'
   ] loop
     execute format('alter table %I enable row level security', t);

@@ -42,7 +42,6 @@ if (!process.env.SUPABASE_DB_URL) { console.error("Set SUPABASE_DB_URL (the post
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
 const dict = (await c.query("select waray,meaning,confirmed,kind,pos from dictionary order by waray")).rows;
-await c.end();
 
 // grammar/function words live in the PDF front matter, not the A-Z body — they're KNOWN, not gaps.
 const FUNC_POS = new Set(["pron", "marker", "dem", "conj", "linker", "num", "det", "prep"]);
@@ -82,3 +81,29 @@ const show = (a, k) => a.slice(0, 8).map((x) => `${x.waray}=${(x.meaning || "").
 console.log(`\n  variants:   ${show(out.variant, "suggest")}`);
 console.log(`\n  native-alt: ${show(out.nativeAlt, "suggest")}`);
 console.log(`\n  gaps:       ${out.gap.slice(0, 16).map((x) => x.waray).join(", ")}`);
+
+// ---- --apply: populate the meanings table (course words = source of truth) ----
+if (process.argv.includes("--apply")) {
+  const qy = async (s, p) => (await c.query(s, p)).rows;
+  // a word's own meaning is auto-confirmed when Tramp agrees, it's a spelling variant, or it's a
+  // known grammar word (pronoun/marker). Diverge / native-alt / gap keep their existing confirmed flag.
+  const autoConfirm = new Set([...out.agree, ...out.variant, ...out.grammar].map((x) => x.waray));
+  const trampAgrees = new Set([...out.agree, ...out.variant].map((x) => x.waray));
+  // who asserts a sense = the courses that drill the word (word_usage) + 'tramp' when it agreed
+  const courses = new Map((await qy("select waray, courses from word_usage")).map((r) => [r.waray, r.courses || []]));
+  await qy("begin");
+  for (const d of dict) {
+    const conf = autoConfirm.has(d.waray) || d.confirmed;
+    const sources = [...new Set([...(courses.get(d.waray) || []), ...(trampAgrees.has(d.waray) ? ["tramp"] : [])])];
+    await qy(`insert into meanings (waray,meaning,pos,sources,confirmed,ord) values ($1,$2,$3,$4,$5,1)
+              on conflict (waray,meaning) do update set confirmed = meanings.confirmed or excluded.confirmed,
+                sources = (select array(select distinct unnest(meanings.sources || excluded.sources))), pos = coalesce(meanings.pos, excluded.pos)`,
+      [d.waray, d.meaning, d.pos, sources, conf]);
+    if (autoConfirm.has(d.waray) && !d.confirmed) await qy("update dictionary set confirmed=true where waray=$1", [d.waray]);
+  }
+  for (const v of out.variant) await qy("update dictionary set variants=(select array(select distinct unnest(variants || $2::text[]))) where waray=$1", [v.waray, [v.suggest]]);
+  await qy("commit");
+  const stats = (await qy("select count(*) n, count(*) filter (where confirmed) c from meanings"))[0];
+  console.log(`\n✓ meanings populated — ${stats.n} sense rows, ${stats.c} confirmed`);
+}
+await c.end();

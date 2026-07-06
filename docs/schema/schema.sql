@@ -2,6 +2,9 @@
 -- Core idea (proven against CH2 phrase-first + PC grammar-first): a lesson is an ordered
 -- list of typed BLOCKS. Courses differ only in which blocks, in what order. See the two
 -- load files (ch2-phase1.sql, pc-phase1.sql) for both mapped onto these tables.
+--
+-- WHERE THE DATA COMES FROM and how it's loaded (sources of truth, the seed pipeline, the
+-- dictionary-is-a-lexicon rule, Tramp reconciliation): see docs/schema/DATA-SOURCES.md.
 
 -- ============================================================
 -- SHARED WARAY CONTENT  (language-level; every course references it)
@@ -18,6 +21,25 @@ create table dictionary (
   variants      text[]  not null default '{}',   -- alt / dialect spellings
   loan          text,                            -- null | 'Tagalog' | 'Spanish'
   confirmed     boolean not null default false   -- native-speaker (Ella) verified
+);
+
+-- one row per SENSE of a word. The dictionary holds the headword (+ canonical spelling and
+-- pronunciation); meanings hold WHAT IT MEANS. A word may carry several confirmed senses (homographs).
+-- Meanings are MERGED (one row per distinct gloss) — but a merged gloss can be asserted by MANY
+-- sources at once, so `sources` is an ARRAY, not a scalar (a single column would clobber: if PC and
+-- CH2 both wrote "father", last-write-wins loses that both agree). Sources: course ids ('pc','waray'),
+-- 'tramp' (the authoritative dictionary agreed), 'ella' (native-speaker confirmed). More independent
+-- sources = higher confidence. Reconciliation = confirming a row, never a second definition in `dictionary`.
+-- To ask "which courses DRILL this word / where", use the word_usage view (bottom of file).
+create table meanings (
+  id        bigserial primary key,
+  waray     text not null references dictionary(waray) on delete cascade,
+  meaning   text not null,
+  pos       text,
+  sources   text[] not null default '{}',        -- who asserts this sense (course ids, 'tramp', 'ella')
+  confirmed boolean not null default false,       -- this sense is native-speaker verified
+  ord       int not null default 1,               -- display order; 1 = primary
+  unique (waray, meaning)
 );
 
 -- composed sentences: worked examples, model sentences, drill items, story lines.
@@ -137,3 +159,25 @@ create table review_questions (   -- native-speaker (Ella) queue
   topic text, q text not null, detail text,
   resolved boolean not null default false
 );
+
+-- ============================================================
+-- CONVENIENCE VIEW
+-- ============================================================
+
+-- "where is this word?" — which courses drill it, in which lessons, how often. The dictionary is a
+-- LEXICON (superset of the lessons); a row with courses = '{}' is a real word no current lesson drills
+-- (a phrase, story gloss, or legacy deck word), not junk. Usage here ≈ where a word's meaning came from.
+--   e.g.  select * from word_usage where waray = 'ako';   -> courses {pc,waray}, lessons {...}, drilled 5x
+create or replace view word_usage as
+  select d.waray, d.meaning, d.kind, d.confirmed, d.variants,
+    array_remove(array_agg(distinct co.id), null) as courses,
+    array_remove(array_agg(distinct l.id),  null) as lessons,
+    count(bi.*)                                    as times_drilled
+  from dictionary d
+  left join block_items   bi on bi.dict_waray = d.waray
+  left join lesson_blocks lb on lb.id = bi.block_id
+  left join lessons       l  on l.id  = lb.lesson_id
+  left join units         u  on u.id  = l.unit_id
+  left join phases        p  on p.id  = u.phase_id
+  left join courses       co on co.id = p.course_id
+  group by d.waray, d.meaning, d.kind, d.confirmed, d.variants;
