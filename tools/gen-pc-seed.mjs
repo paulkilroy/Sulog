@@ -202,10 +202,13 @@ function routeDrills(B) {
 const emitRecognize = (ctx, r) => r.mode === "marker" ? emitMarkerChoice(ctx, [r.b]) : emitSentenceMC(ctx, [r.b]);
 // Warm-up review of the PRIOR lesson (the exercises the book puts before this lesson's first grammar block).
 // Emitted as `review` blocks at the lesson start, carrying their natural modality so the app can drill them.
-function emitReview(ctx, reviewBlocks) {
+// The book opens lesson N with a review of lesson N-1 — which is really a TEST of N-1. So we attach it
+// to the END of lesson N-1 as its exit GATE (a graded checkpoint you must pass to continue), rather than
+// a passive warm-up on N. Lesson 1 has no incoming review, so no gate before it.
+function emitGate(ctx, reviewBlocks) {
   for (const b of reviewBlocks) {
     const [dkind, dmod] = isMarkerChoice(b) ? ["recognition", "cloze"] : isTranslation(b) ? ["production", "type"] : ["recognition", "mc"];
-    const bl = addBlock(ctx.id, ++ctx.ord, "review", { dkind, dmod, dhint: "peek", ddir: dkind === "production" ? "both" : null });
+    const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind, dmod, dhint: "none", ddir: dkind === "production" ? "both" : null, athresh: 0.8, agate: true });
     (b.items || []).forEach((e, i) => {
       const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
       const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" });
@@ -213,6 +216,7 @@ function emitReview(ctx, reviewBlocks) {
   }
 }
 
+let prevLast = null;   // ctx of the last sub-lesson emitted for the PREVIOUS source lesson (gets its gate)
 for (const L of lessons) {
   const src = L.data.blocks || [];
   const firstGrammar = src.findIndex((b) => b.type === "grammar");
@@ -226,21 +230,25 @@ for (const L of lessons) {
       if (!isFabricatedFill(b)) review.push(b);
     } else B[k].push(b);
   });
+  // this lesson's review-of-the-prior-lesson becomes the PRIOR lesson's exit gate
+  if (prevLast && review.length) emitGate(prevLast, review);
   const paraGrammar = B.grammar.find((g) => chartItems(g).length);   // pronoun/demonstrative OR marker chart
   const hasContent = B.vocab.length || B.examples.length || B.written.length;
   const { recognize, produce } = routeDrills(B);
 
   if (paraGrammar && hasContent) {
-    // ---- SPLIT: Na = warm-up review + the paradigm (recognition), Nb = the vocabulary in use (production) ----
+    // ---- SPLIT: Na = the paradigm (recognition), Nb = the vocabulary in use (production) ----
     const a = newLesson(`pc-l${L.num}a`, `Lesson ${L.num}a · ${paraGrammar.title || "The paradigm"}`);
-    const aw = []; emitReview(a, review); emitGuide(a, B.grammar, aw); emitNotes(a, B.note); emitExtras(a, EXTRAS[L.num], aw); emitMC(a, aw); recognize.forEach((r) => emitRecognize(a, r));
+    const aw = []; emitGuide(a, B.grammar, aw); emitNotes(a, B.note); emitExtras(a, EXTRAS[L.num], aw); emitMC(a, aw); recognize.forEach((r) => emitRecognize(a, r));
     const b = newLesson(`pc-l${L.num}b`, `Lesson ${L.num}b · Vocabulary & sentences`);
     const bw = []; emitVocab(b, B.vocab, bw); emitMC(b, bw); produce.forEach((p) => emitProd(b, [p.b], p.dmod));
+    prevLast = b;
   } else {
-    // ---- SINGLE: no paradigm to peel off (verb / review lessons) — review, learn, recognize, then produce ----
+    // ---- SINGLE: no paradigm to peel off (verb / review lessons) — learn, recognize, then produce ----
     const c = newLesson(`pc-l${L.num}`, L.name);
-    const w = []; emitReview(c, review); emitGuide(c, B.grammar, w); emitExtras(c, EXTRAS[L.num], w); emitNotes(c, B.note); emitVocab(c, B.vocab, w); emitMC(c, w);
+    const w = []; emitGuide(c, B.grammar, w); emitExtras(c, EXTRAS[L.num], w); emitNotes(c, B.note); emitVocab(c, B.vocab, w); emitMC(c, w);
     recognize.forEach((r) => emitRecognize(c, r)); produce.forEach((p) => emitProd(c, [p.b], p.dmod));
+    prevLast = c;
   }
 }
 
@@ -258,8 +266,8 @@ out.push("insert into lessons (id,unit_id,ord,title) values\n" + emitted.map((l,
 out.push("insert into dictionary (waray,kind,meaning,pos,confirmed) values\n" + [...dict].map(([w, d]) => `  (${S(w)},'word',${S(d.meaning)},${S(d.pos)},false)`).join(",\n") +
   "\n  on conflict (waray) do update set meaning = excluded.meaning, pos = excluded.pos where dictionary.confirmed = false;");
 if (exprRows.length) out.push("insert into expressions (id,waray,translation) values\n" + exprRows.map((e) => `  (${e.id},${S(e.war)},${S(e.en)})`).join(",\n") + " on conflict (id) do nothing;");
-out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction) values\n" +
-  blocks.map((b) => `  (${b.id},${S(b.lid)},${b.ord},${S(b.type)},${S(b.title)},${S(b.body)},${S(b.formula)},${S(b.dkind)},${S(b.dmod)},${S(b.dhint)},${S(b.ddir)})`).join(",\n") + " on conflict (id) do nothing;");
+out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate) values\n" +
+  blocks.map((b) => `  (${b.id},${S(b.lid)},${b.ord},${S(b.type)},${S(b.title)},${S(b.body)},${S(b.formula)},${S(b.dkind)},${S(b.dmod)},${S(b.dhint)},${S(b.ddir)},${b.athresh ?? "null"},${b.agate ?? "null"})`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into block_items (block_id,ord,dict_waray,expr_id,role) values\n" +
   items.map((it) => `  (${it.b},${it.ord},${S(it.dict)},${it.expr ?? "null"},${S(it.role)})`).join(",\n") + ";");
 

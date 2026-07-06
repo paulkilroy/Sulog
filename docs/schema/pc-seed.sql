@@ -687,7 +687,7 @@ insert into expressions (id,waray,translation) values
   (20437,'Nangkaon an mga bisita hin isda ngan prutas, ngan inminom hin gatas.','The visitors ate fish(pl) and fruit, and drank milk.'),
   (20438,'Naglibot-libot hira Gener ngan hi Ging didto ha Victoria Plaza, ngan pinmalit hi Ging hin tsinelas para ha iya nanay ngan ha iya bugto.','Gener and Ging roamed around there(far) at Victoria Plaza, and Ging bought slippers(pl) for her mother and her brother.') on conflict (id) do nothing;
 
-insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction) values
+insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate) values
   (20001,'pc-l1a',1,'grammar','Personal Pronouns (I Class)','In Waray-Waray there are two kinds of pronouns:
 1) Personal Pronouns (I, you, we, my, your, etc.)
 2) General Pronouns (this, that, those, here, there, etc.)
@@ -705,43 +705,43 @@ The personal pronoun `Ikaw` only has the short form which is `ka`. The personal 
 
 A I Class Personal Pronoun marks the TOPIC of the sentence. The topic is the most important thing in the sentence. In English the speaker usually emphasizes particular words by saying it louder, or by his intonation or pitch. In Waray-Waray words in a sentences are given relative importance by "marking" them with a I Class word. Sometimes these I Class words are the subject of the sentence; at other times they are the object of the action, or the recipient or beneficiary of the action.
 
-The latter will be learned in a later lesson.',null,null,null,null,null),
-  (20002,'pc-l1a',2,'vocab','Personal Pronouns (I Class)',null,null,null,null,null,null),
-  (20003,'pc-l1a',3,'note',null,'`mga` is a pluralizer, indicating a plural form of the noun following.',null,null,null,null,null),
-  (20004,'pc-l1a',4,'note',null,'These Waray sentences are called equational sentences. There is no verb in these Waray sentences. The noun or adjective is "equated"(=) with the pronoun. The English translation uses the ''to be'' verb.',null,null,null,null,null),
+The latter will be learned in a later lesson.',null,null,null,null,null,null,null),
+  (20002,'pc-l1a',2,'vocab','Personal Pronouns (I Class)',null,null,null,null,null,null,null,null),
+  (20003,'pc-l1a',3,'note',null,'`mga` is a pluralizer, indicating a plural form of the noun following.',null,null,null,null,null,null,null),
+  (20004,'pc-l1a',4,'note',null,'These Waray sentences are called equational sentences. There is no verb in these Waray sentences. The noun or adjective is "equated"(=) with the pronoun. The English translation uses the ''to be'' verb.',null,null,null,null,null,null,null),
   (20005,'pc-l1a',5,'note',null,'It will help as you hear Filipinos say new words to mark the accent, or stress. The accent is important in the Waray language. The standardized way of marking accents is as follows:
 *   Accented syllable: Tátay
 *   Unaccented syllable w/ glottal stop: Amerikáno
-*   Accented syllable w/ glottal stop: Asáwa',null,null,null,null,null),
-  (20006,'pc-l1a',6,'drill',null,null,null,'recognition','mc','peek',null),
-  (20007,'pc-l1a',7,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20008,'pc-l1b',1,'vocab',null,null,null,null,null,null,null),
-  (20009,'pc-l1b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20010,'pc-l1b',3,'drill',null,null,null,'production','voice','none','both'),
-  (20011,'pc-l1b',4,'drill',null,null,null,'production','type','none','both'),
-  (20012,'pc-l2a',1,'review',null,null,null,'production','type','peek','both'),
-  (20013,'pc-l2a',2,'grammar','I Class Markers','Just as there are three classes of personal pronouns in Waray-waray, there are also three classes of markers. A I Class Marker "marks" the TOPIC, or the emphasized word, of the sentence. Markers are used with proper nouns (people''s names) and common nouns.
+*   Accented syllable w/ glottal stop: Asáwa',null,null,null,null,null,null,null),
+  (20006,'pc-l1a',6,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20007,'pc-l1a',7,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20008,'pc-l1b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20009,'pc-l1b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20010,'pc-l1b',3,'drill',null,null,null,'production','voice','none','both',null,null),
+  (20011,'pc-l1b',4,'drill',null,null,null,'production','type','none','both',null,null),
+  (20012,'pc-l1b',5,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20013,'pc-l2a',1,'grammar','I Class Markers','Just as there are three classes of personal pronouns in Waray-waray, there are also three classes of markers. A I Class Marker "marks" the TOPIC, or the emphasized word, of the sentence. Markers are used with proper nouns (people''s names) and common nouns.
 
 ### I Class Markers
 
 | | Singular | Plural |
 |---|---|---|
 | w/ Proper Nouns | Hi | hira |
-| w/ Common Nouns | an | an mga |',null,null,null,null,null),
-  (20014,'pc-l2a',3,'vocab','I Class Markers',null,null,null,null,null,null),
-  (20015,'pc-l2a',4,'note',null,'* Ngan is a connector similar to the English conjunction and.
+| w/ Common Nouns | an | an mga |',null,null,null,null,null,null,null),
+  (20014,'pc-l2a',2,'vocab','I Class Markers',null,null,null,null,null,null,null,null),
+  (20015,'pc-l2a',3,'note',null,'* Ngan is a connector similar to the English conjunction and.
 * Remember that mga indicates the noun which follows is plural.
-Like the previous lesson, these are equational sentences which do not need a verb. The English translation uses the to be verb.',null,null,null,null,null),
-  (20016,'pc-l2a',5,'vocab','Also in this lesson',null,null,null,null,null,null),
-  (20017,'pc-l2a',6,'drill',null,null,null,'recognition','mc','peek',null),
-  (20018,'pc-l2a',7,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20019,'pc-l2a',8,'drill',null,null,null,'recognition','cloze','peek',null),
-  (20020,'pc-l2b',1,'vocab',null,null,null,null,null,null,null),
-  (20021,'pc-l2b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20022,'pc-l2b',3,'drill',null,null,null,'production','type','none','both'),
-  (20023,'pc-l3a',1,'review',null,null,null,'recognition','cloze','peek',null),
-  (20024,'pc-l3a',2,'review',null,null,null,'production','type','peek','both'),
-  (20025,'pc-l3a',3,'grammar','I Class General Pronouns','There are also three classes of general pronouns. The general pronouns are sometimes called demonstrative pronouns. In English, these are the pronouns this, that, these, and those. In Waray these pronouns are based upon their relative location from the speaker.
+Like the previous lesson, these are equational sentences which do not need a verb. The English translation uses the to be verb.',null,null,null,null,null,null,null),
+  (20016,'pc-l2a',4,'vocab','Also in this lesson',null,null,null,null,null,null,null,null),
+  (20017,'pc-l2a',5,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20018,'pc-l2a',6,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20019,'pc-l2a',7,'drill',null,null,null,'recognition','cloze','peek',null,null,null),
+  (20020,'pc-l2b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20021,'pc-l2b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20022,'pc-l2b',3,'drill',null,null,null,'production','type','none','both',null,null),
+  (20023,'pc-l2b',4,'assessment','Checkpoint — pass to continue',null,null,'recognition','cloze','none',null,0.8,true),
+  (20024,'pc-l2b',5,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20025,'pc-l3a',1,'grammar','I Class General Pronouns','There are also three classes of general pronouns. The general pronouns are sometimes called demonstrative pronouns. In English, these are the pronouns this, that, these, and those. In Waray these pronouns are based upon their relative location from the speaker.
 
 ### I CLASS GENERAL PRONOUNS
 
@@ -751,9 +751,9 @@ Like the previous lesson, these are equational sentences which do not need a ver
 | Iton/Ito   | that (near the speaker)                  |
 | Adto       | that "over there" (far from the speaker) |
 
-A I Class General Pronoun functions as the TOPIC, or the emphasized word, of the sentence.',null,null,null,null,null),
-  (20026,'pc-l3a',4,'vocab','I Class General Pronouns',null,null,null,null,null,null),
-  (20027,'pc-l3a',5,'grammar','Showing Emphasis','In Emphasis the topic is I Class and the New Information also. Thus, it will start From the topic then to the New Information. When the I Class General Pronoun precedes the I Class Marker, it adds emphasis as in the following:
+A I Class General Pronoun functions as the TOPIC, or the emphasized word, of the sentence.',null,null,null,null,null,null,null),
+  (20026,'pc-l3a',2,'vocab','I Class General Pronouns',null,null,null,null,null,null,null,null),
+  (20027,'pc-l3a',3,'grammar','Showing Emphasis','In Emphasis the topic is I Class and the New Information also. Thus, it will start From the topic then to the New Information. When the I Class General Pronoun precedes the I Class Marker, it adds emphasis as in the following:
 
 1. Ini an tubig. - This is the water.
 2. Iton an lamesa. - That is the table.
@@ -761,22 +761,22 @@ A I Class General Pronoun functions as the TOPIC, or the emphasized word, of the
 4. Ini an adlaw. - This is the day.
 5. Ito an problema. - That is the problem.
 6. Ini hi Pastor Vecino. - This is Pastor Vecino.
-7. Iton hi Emmanuel. - That is Emmanuel.',null,null,null,null,null),
-  (20028,'pc-l3a',6,'grammar','nga linker','The general pronouns are also many times linked with another noun by using a nga "linker".
+7. Iton hi Emmanuel. - That is Emmanuel.',null,null,null,null,null,null,null),
+  (20028,'pc-l3a',4,'grammar','nga linker','The general pronouns are also many times linked with another noun by using a nga "linker".
 
 * ini nga babaye - this woman
 * iton nga lalake - that man
-* adto nga bata - that child "over there"',null,null,null,null,null),
-  (20029,'pc-l3a',7,'note',null,'We put "g" in the first syllable of hataas to show plurality.',null,null,null,null,null),
-  (20030,'pc-l3a',8,'note',null,'In Waray there are not different general pronouns for singular and plural. The mga or plural pronouns show that it is plural. Thus, the English translation also changes to plural (these, those).',null,null,null,null,null),
-  (20031,'pc-l3a',9,'drill',null,null,null,'recognition','mc','peek',null),
-  (20032,'pc-l3a',10,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20033,'pc-l3a',11,'drill',null,null,null,'recognition','mc','peek',null),
-  (20034,'pc-l3b',1,'vocab',null,null,null,null,null,null,null),
-  (20035,'pc-l3b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20036,'pc-l3b',3,'drill',null,null,null,'production','type','none','both'),
-  (20037,'pc-l4a',1,'review',null,null,null,'production','type','peek','both'),
-  (20038,'pc-l4a',2,'grammar','II Class Personal Pronouns and II Class Markers','In Lesson 1 you learned the I Class Personal Pronouns. In this lesson you will learn the II Class Personal Pronouns and the II Class Markers.
+* adto nga bata - that child "over there"',null,null,null,null,null,null,null),
+  (20029,'pc-l3a',5,'note',null,'We put "g" in the first syllable of hataas to show plurality.',null,null,null,null,null,null,null),
+  (20030,'pc-l3a',6,'note',null,'In Waray there are not different general pronouns for singular and plural. The mga or plural pronouns show that it is plural. Thus, the English translation also changes to plural (these, those).',null,null,null,null,null,null,null),
+  (20031,'pc-l3a',7,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20032,'pc-l3a',8,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20033,'pc-l3a',9,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20034,'pc-l3b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20035,'pc-l3b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20036,'pc-l3b',3,'drill',null,null,null,'production','type','none','both',null,null),
+  (20037,'pc-l3b',4,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20038,'pc-l4a',1,'grammar','II Class Personal Pronouns and II Class Markers','In Lesson 1 you learned the I Class Personal Pronouns. In this lesson you will learn the II Class Personal Pronouns and the II Class Markers.
 
 ### II CLASS PERSONAL PRONOUNS
 
@@ -787,9 +787,9 @@ A I Class General Pronoun functions as the TOPIC, or the emphasized word, of the
 | Níya (his/hers) | Niyo (your)   |
 |               | Níra (their)  |
 
-The II Class Personal Pronouns function as a POSSESSOR when they are attached to a noun.',null,null,null,null,null),
-  (20039,'pc-l4a',3,'vocab','II Class Personal Pronouns and II Class Markers',null,null,null,null,null,null),
-  (20040,'pc-l4a',4,'grammar','II CLASS MARKERS','In lesson 2 you learned the I Class Markers (hi, hira, an, an mga). These mark the topic of the sentence. The II Class Markers, like the II Class Personal Pronouns above, also function many times as POSSESSORS. The hin marker marks the object of a verb. (This will be learned in a later lesson.)
+The II Class Personal Pronouns function as a POSSESSOR when they are attached to a noun.',null,null,null,null,null,null,null),
+  (20039,'pc-l4a',2,'vocab','II Class Personal Pronouns and II Class Markers',null,null,null,null,null,null,null,null),
+  (20040,'pc-l4a',3,'grammar','II CLASS MARKERS','In lesson 2 you learned the I Class Markers (hi, hira, an, an mga). These mark the topic of the sentence. The II Class Markers, like the II Class Personal Pronouns above, also function many times as POSSESSORS. The hin marker marks the object of a verb. (This will be learned in a later lesson.)
 
 ### II CLASS MARKERS
 
@@ -799,17 +799,17 @@ The II Class Personal Pronouns function as a POSSESSOR when they are attached to
 | w/COMMON NOUNS | han/hin*  | han mga / hin mga |
 
 han - equivalent to the English definite article "the" in a verbal sentence, and it shows possession
-hin - equivalent to the English indefinite article "a" in a verbal sentence, and it shows possession also and marks the object of a verb.',null,null,null,null,null),
-  (20041,'pc-l4a',5,'vocab','II CLASS MARKERS',null,null,null,null,null,null),
-  (20042,'pc-l4a',6,'note',null,'* You can use it interchangeably. It depends upon the context and the place.',null,null,null,null,null),
-  (20043,'pc-l4a',7,'drill',null,null,null,'recognition','mc','peek',null),
-  (20044,'pc-l4a',8,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20045,'pc-l4a',9,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20046,'pc-l4a',10,'drill',null,null,null,'recognition','cloze','peek',null),
-  (20047,'pc-l4b',1,'vocab',null,null,null,null,null,null,null),
-  (20048,'pc-l4b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20049,'pc-l4b',3,'drill',null,null,null,'production','voice','none','both'),
-  (20050,'pc-l4b',4,'drill',null,null,null,'production','type','none','both'),
+hin - equivalent to the English indefinite article "a" in a verbal sentence, and it shows possession also and marks the object of a verb.',null,null,null,null,null,null,null),
+  (20041,'pc-l4a',4,'vocab','II CLASS MARKERS',null,null,null,null,null,null,null,null),
+  (20042,'pc-l4a',5,'note',null,'* You can use it interchangeably. It depends upon the context and the place.',null,null,null,null,null,null,null),
+  (20043,'pc-l4a',6,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20044,'pc-l4a',7,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20045,'pc-l4a',8,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20046,'pc-l4a',9,'drill',null,null,null,'recognition','cloze','peek',null,null,null),
+  (20047,'pc-l4b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20048,'pc-l4b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20049,'pc-l4b',3,'drill',null,null,null,'production','voice','none','both',null,null),
+  (20050,'pc-l4b',4,'drill',null,null,null,'production','type','none','both',null,null),
   (20051,'pc-l5',1,'grammar','Verbal Sentences / Focuses and ma-Actor Focus','In the first four lessons you have learned how to make equational sentences. These sentences do not have a verb.
 
 In this lesson you will begin learning how to make Waray sentences which use a verb. We call these verbal sentences. Verbal sentences, which contain a subject (an actor) and a verb, are expanded by adding an object, a direction/location, a beneficiary, or an an instrument.
@@ -843,16 +843,16 @@ The following chart shows the verb root, the past, present form, and the future 
 | -sunod  | sinmunod   | nasunod       | Masunod      |
 | -kadto  | kinmadto   | nakadto       | Makadto      |
 | -simba  | sinmimba   | nasimba       | Masimba      |
-| -balhin | binmalhin  | nabalhin      | Mabalhin     |','Ma-verb + I Class Actor',null,null,null,null),
-  (20052,'pc-l5',2,'note',null,'The ma- prefix is generally used with verbs of motion or movement. It usually refers to an instantaneous action, or "short-lived" action. Later, you will learn the nag-actor focus which is usually used with verbs whose action extends over a longer period of time.',null,null,null,null,null),
-  (20053,'pc-l5',3,'vocab',null,null,null,null,null,null,null),
-  (20054,'pc-l5',4,'drill',null,null,null,'recognition','mc','peek',null),
-  (20055,'pc-l5',5,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20056,'pc-l5',6,'drill',null,null,null,'recognition','cloze','peek',null),
-  (20057,'pc-l5',7,'drill',null,null,null,'production','type','none','both'),
-  (20058,'pc-l6a',1,'review',null,null,null,'production','type','peek','both'),
-  (20059,'pc-l6a',2,'grammar','Ma- Actor Focus (w/ Object and Location)','Many times, ma- actor focus verbs have an OBJECT. These objects will be marked by the II Class Markers han or hin. There will also sometimes be a LOCATION/DIRECTION, or BENEFICIARY (L/D/B) added. The word order of the sentence will usually be as follows:','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null),
-  (20060,'pc-l6a',3,'grammar','han and hin','In the example sentences above, the word han and the word hin are used in different ways. Before the objects (saging, libro, tinapay), the hin and the han mark the object. The hin is translated "a" (like an indefinite article), and the han is translated "the" (like a definite article).
+| -balhin | binmalhin  | nabalhin      | Mabalhin     |','Ma-verb + I Class Actor',null,null,null,null,null,null),
+  (20052,'pc-l5',2,'note',null,'The ma- prefix is generally used with verbs of motion or movement. It usually refers to an instantaneous action, or "short-lived" action. Later, you will learn the nag-actor focus which is usually used with verbs whose action extends over a longer period of time.',null,null,null,null,null,null,null),
+  (20053,'pc-l5',3,'vocab',null,null,null,null,null,null,null,null,null),
+  (20054,'pc-l5',4,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20055,'pc-l5',5,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20056,'pc-l5',6,'drill',null,null,null,'recognition','cloze','peek',null,null,null),
+  (20057,'pc-l5',7,'drill',null,null,null,'production','type','none','both',null,null),
+  (20058,'pc-l5',8,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20059,'pc-l6a',1,'grammar','Ma- Actor Focus (w/ Object and Location)','Many times, ma- actor focus verbs have an OBJECT. These objects will be marked by the II Class Markers han or hin. There will also sometimes be a LOCATION/DIRECTION, or BENEFICIARY (L/D/B) added. The word order of the sentence will usually be as follows:','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null,null,null),
+  (20060,'pc-l6a',2,'grammar','han and hin','In the example sentences above, the word han and the word hin are used in different ways. Before the objects (saging, libro, tinapay), the hin and the han mark the object. The hin is translated "a" (like an indefinite article), and the han is translated "the" (like a definite article).
 
 BEFORE AN OBJECT:
 hin - "a"
@@ -860,8 +860,8 @@ han - "the"
 
 [However, hin and han are often used interchangeably by Waray.]
 
-The ha before the location word (tindahan, eskwelahan, balay) shows location. It functions like a preposition and is usually translated "in, on, or at."',null,null,null,null,null),
-  (20061,'pc-l6a',4,'grammar','II Class General Pronouns','In lesson 3 you learned the I Class General Pronouns (ini, iton, adto). These mark the topic. In this lesson you will learn the II Class General Pronouns.
+The ha before the location word (tindahan, eskwelahan, balay) shows location. It functions like a preposition and is usually translated "in, on, or at."',null,null,null,null,null,null,null),
+  (20061,'pc-l6a',3,'grammar','II Class General Pronouns','In lesson 3 you learned the I Class General Pronouns (ini, iton, adto). These mark the topic. In this lesson you will learn the II Class General Pronouns.
 
 II CLASS GENERAL PRONOUNS
 
@@ -871,27 +871,27 @@ II CLASS GENERAL PRONOUNS
 | Hiton | that* (near) |
 | Hadto | that* "over there" (far) |
 
-* The meaning is the same as the I Class (ini, iton, adto), but the usage is different. The II Class functions either like a direct object or a possession word in ma-actor focus.',null,null,null,null,null),
-  (20062,'pc-l6a',5,'vocab','II Class General Pronouns',null,null,null,null,null,null),
-  (20063,'pc-l6a',6,'note',null,'This is the usual pattern though not every sentence will have all of these parts. Some will not have an object; others will not have a location/direction or beneficiary. Sometimes modifiers or time cues are also added.',null,null,null,null,null),
-  (20064,'pc-l6a',7,'drill',null,null,null,'recognition','mc','peek',null),
-  (20065,'pc-l6a',8,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20066,'pc-l6a',9,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20067,'pc-l6b',1,'vocab',null,null,null,null,null,null,null),
-  (20068,'pc-l6b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20069,'pc-l6b',3,'drill',null,null,null,'production','voice','none','both'),
-  (20070,'pc-l6b',4,'drill',null,null,null,'production','type','none','both'),
-  (20071,'pc-l7a',1,'review',null,null,null,'production','type','peek','both'),
-  (20072,'pc-l7a',2,'grammar','Ma- Actor Focus w/ Location & Beneficiary','In the previous lesson you learned the formula for ma- actor focus. The formula is:','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null),
-  (20073,'pc-l7a',3,'grammar','III Class General Pronouns','You learned that ma-actor focus sentences often have a location, or direction (ha tindahan, ha balay, ha eskwelahan). These locations are often accompanied by the following III Class General Pronouns:
+* The meaning is the same as the I Class (ini, iton, adto), but the usage is different. The II Class functions either like a direct object or a possession word in ma-actor focus.',null,null,null,null,null,null,null),
+  (20062,'pc-l6a',4,'vocab','II Class General Pronouns',null,null,null,null,null,null,null,null),
+  (20063,'pc-l6a',5,'note',null,'This is the usual pattern though not every sentence will have all of these parts. Some will not have an object; others will not have a location/direction or beneficiary. Sometimes modifiers or time cues are also added.',null,null,null,null,null,null,null),
+  (20064,'pc-l6a',6,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20065,'pc-l6a',7,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20066,'pc-l6a',8,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20067,'pc-l6b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20068,'pc-l6b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20069,'pc-l6b',3,'drill',null,null,null,'production','voice','none','both',null,null),
+  (20070,'pc-l6b',4,'drill',null,null,null,'production','type','none','both',null,null),
+  (20071,'pc-l6b',5,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20072,'pc-l7a',1,'grammar','Ma- Actor Focus w/ Location & Beneficiary','In the previous lesson you learned the formula for ma- actor focus. The formula is:','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null,null,null),
+  (20073,'pc-l7a',2,'grammar','III Class General Pronouns','You learned that ma-actor focus sentences often have a location, or direction (ha tindahan, ha balay, ha eskwelahan). These locations are often accompanied by the following III Class General Pronouns:
 
 | FULL WORD | SHORT | MEANING |
 |---|---|---|
 | Dínhi | didi | here (very near) |
 | Dida | | there (near) |
-| Dídto | | there (far) |',null,null,null,null,null),
-  (20074,'pc-l7a',4,'vocab','III Class General Pronouns',null,null,null,null,null,null),
-  (20075,'pc-l7a',5,'grammar','III Class Markers','The ma-actor focus sentences not only have a location, but they also sometimes have a BENEFICIARY, that is, a recipient of the action (someone for whom the action is done).
+| Dídto | | there (far) |',null,null,null,null,null,null,null),
+  (20074,'pc-l7a',3,'vocab','III Class General Pronouns',null,null,null,null,null,null,null,null),
+  (20075,'pc-l7a',4,'grammar','III Class Markers','The ma-actor focus sentences not only have a location, but they also sometimes have a BENEFICIARY, that is, a recipient of the action (someone for whom the action is done).
 
 In the formula you learned, the last part of the formula is the III Class Location/Direction/Beneficiary (III C1 L/D/B). The beneficiary of the action is marked by the III Class Markers below:
 
@@ -900,18 +900,18 @@ In the formula you learned, the last part of the formula is the III Class Locati
 | SINGULAR | kan | ha |
 | PLURAL | kan ngan kan | ha mga |
 
-The kan and the ha function somewhat like the English preposition "for". They are sometimes preceded by the Waray words which means "for", or "in the behalf of." This word is para.',null,null,null,null,null),
-  (20076,'pc-l7a',6,'vocab','III Class Markers',null,null,null,null,null,null),
-  (20077,'pc-l7a',7,'note',null,'The III Class General Pronouns above may be used alone (by themselves) to show a location or direction, or with another location word. When it is combined with another location, the general pronoun gives added emphasis.',null,null,null,null,null),
-  (20078,'pc-l7a',8,'drill',null,null,null,'recognition','mc','peek',null),
-  (20079,'pc-l7a',9,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20080,'pc-l7a',10,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20081,'pc-l7a',11,'drill',null,null,null,'recognition','cloze','peek',null),
-  (20082,'pc-l7b',1,'vocab',null,null,null,null,null,null,null),
-  (20083,'pc-l7b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20084,'pc-l7b',3,'drill',null,null,null,'production','type','none','both'),
-  (20085,'pc-l8',1,'review',null,null,null,'production','type','peek','both'),
-  (20086,'pc-l8',2,'grammar','III Class Personal Pronouns','In the previous lesson, you learned how to add a beneficiary in a ma-actor focus using the III Class Markers `kan` and `ha`. The word `para` is also sometimes added. In this lesson you will learn how to use the III Class Personal Pronouns as a BENEFICIARY. These also function as a POSSESSOR. In their simplest form, they are as follows:
+The kan and the ha function somewhat like the English preposition "for". They are sometimes preceded by the Waray words which means "for", or "in the behalf of." This word is para.',null,null,null,null,null,null,null),
+  (20076,'pc-l7a',5,'vocab','III Class Markers',null,null,null,null,null,null,null,null),
+  (20077,'pc-l7a',6,'note',null,'The III Class General Pronouns above may be used alone (by themselves) to show a location or direction, or with another location word. When it is combined with another location, the general pronoun gives added emphasis.',null,null,null,null,null,null,null),
+  (20078,'pc-l7a',7,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20079,'pc-l7a',8,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20080,'pc-l7a',9,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20081,'pc-l7a',10,'drill',null,null,null,'recognition','cloze','peek',null,null,null),
+  (20082,'pc-l7b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20083,'pc-l7b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20084,'pc-l7b',3,'drill',null,null,null,'production','type','none','both',null,null),
+  (20085,'pc-l7b',4,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20086,'pc-l8',1,'grammar','III Class Personal Pronouns','In the previous lesson, you learned how to add a beneficiary in a ma-actor focus using the III Class Markers `kan` and `ha`. The word `para` is also sometimes added. In this lesson you will learn how to use the III Class Personal Pronouns as a BENEFICIARY. These also function as a POSSESSOR. In their simplest form, they are as follows:
 
 ### III CLASS PERSONAL PRONOUNS
 
@@ -962,14 +962,14 @@ Either way is acceptable, but the last is more common. Notice that the II Class 
 | aton Diyos   | our(incl) God   |
 | amon apoy    | our(excl) grandmother |
 | iyo uma      | your(pl) farm   |
-| ira kaharani | their neighbor  |',null,null,null,null,null),
-  (20087,'pc-l8',3,'vocab',null,null,null,null,null,null,null),
-  (20088,'pc-l8',4,'drill',null,null,null,'recognition','mc','peek',null),
-  (20089,'pc-l8',5,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20090,'pc-l8',6,'drill',null,null,null,'recognition','mc','peek',null),
-  (20091,'pc-l8',7,'drill',null,null,null,'production','type','none','both'),
-  (20092,'pc-l9a',1,'review',null,null,null,'production','type','peek','both'),
-  (20093,'pc-l9a',2,'grammar','II Class Personal Pronouns (cont.)','In lesson 8 you learned how to use the III Class Personal Pronouns below in column I. These pronouns are used to show possession. In this lesson you will learn how to use the pronouns in column II. These pronouns show the BENEFICIARY or the DIRECTION of the action of the verb. These column II pronouns are formed by adding ''Ha'' before the corresponding column I pronoun. For example, ''Ha akon'' (column II) means ''to (at, with, from) me'' or ''to (at, with, from) my...''.
+| ira kaharani | their neighbor  |',null,null,null,null,null,null,null),
+  (20087,'pc-l8',2,'vocab',null,null,null,null,null,null,null,null,null),
+  (20088,'pc-l8',3,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20089,'pc-l8',4,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20090,'pc-l8',5,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20091,'pc-l8',6,'drill',null,null,null,'production','type','none','both',null,null),
+  (20092,'pc-l8',7,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
+  (20093,'pc-l9a',1,'grammar','II Class Personal Pronouns (cont.)','In lesson 8 you learned how to use the III Class Personal Pronouns below in column I. These pronouns are used to show possession. In this lesson you will learn how to use the pronouns in column II. These pronouns show the BENEFICIARY or the DIRECTION of the action of the verb. These column II pronouns are formed by adding ''Ha'' before the corresponding column I pronoun. For example, ''Ha akon'' (column II) means ''to (at, with, from) me'' or ''to (at, with, from) my...''.
 
 | I | II |
 |---|---|
@@ -979,14 +979,14 @@ Either way is acceptable, but the last is more common. Notice that the II Class 
 | aton (incl) | Ha aton |
 | amon (excl) | Ha amon |
 | iyo | Ha iyo |
-| ira | Ha ira |',null,null,null,null,null),
-  (20094,'pc-l9a',3,'vocab','II Class Personal Pronouns (cont.)',null,null,null,null,null,null),
-  (20095,'pc-l9a',4,'drill',null,null,null,'recognition','mc','peek',null),
-  (20096,'pc-l9a',5,'drill','Examples',null,null,'recognition','mc','peek',null),
-  (20097,'pc-l9a',6,'drill',null,null,null,'recognition','mc','peek',null),
-  (20098,'pc-l9b',1,'vocab',null,null,null,null,null,null,null),
-  (20099,'pc-l9b',2,'drill',null,null,null,'recognition','mc','peek',null),
-  (20100,'pc-l9b',3,'drill',null,null,null,'production','type','none','both'),
+| ira | Ha ira |',null,null,null,null,null,null,null),
+  (20094,'pc-l9a',2,'vocab','II Class Personal Pronouns (cont.)',null,null,null,null,null,null,null,null),
+  (20095,'pc-l9a',3,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20096,'pc-l9a',4,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
+  (20097,'pc-l9a',5,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20098,'pc-l9b',1,'vocab',null,null,null,null,null,null,null,null,null),
+  (20099,'pc-l9b',2,'drill',null,null,null,'recognition','mc','peek',null,null,null),
+  (20100,'pc-l9b',3,'drill',null,null,null,'production','type','none','both',null,null),
   (20101,'pc-l10',1,'grammar','SUMMARY OF PRONOUNS AND MARKERS','The chart below is a summary of all the I, II, and III Class personal pronouns, markers, and general pronouns you have now learned.
 
 ### Personal Pronouns
@@ -1015,9 +1015,9 @@ Either way is acceptable, but the last is more common. Notice that the II Class 
 | Demonstrative Pronoun | iní          | iton          | adto  |
 | Demonstrative (han/hin) | hini         | hiton         | hadto |
 | Adverb of Place       | dínhi/didi   | dida          | didto |
-',null,null,null,null,null),
-  (20102,'pc-l10',2,'grammar','Ma-Actor Focus Formula','In the previous lesson you learned the formula for ma-actor focus.','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null),
-  (20103,'pc-l10',3,'drill',null,null,null,'production','type','none','both') on conflict (id) do nothing;
+',null,null,null,null,null,null,null),
+  (20102,'pc-l10',2,'grammar','Ma-Actor Focus Formula','In the previous lesson you learned the formula for ma-actor focus.','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null,null,null),
+  (20103,'pc-l10',3,'drill',null,null,null,'production','type','none','both',null,null) on conflict (id) do nothing;
 
 insert into block_items (block_id,ord,dict_waray,expr_id,role) values
   (20002,1,'ako',null,'teach'),
