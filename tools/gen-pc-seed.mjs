@@ -44,6 +44,9 @@ const EXTRAS = {
     { waray: "iyo", meaning: "your / yours (pl)", pos: "pron" },
     { waray: "ira", meaning: "their / theirs", pos: "pron" },
   ],
+  // Core teaching particles taught only in grammar prose/formulas (never in a vocab list), so the parser misses them.
+  11: [{ waray: "nga", meaning: "linker (joins a descriptive word to a noun)", pos: "marker" }],
+  21: [{ waray: "ayaw", meaning: "don't (negative command)", pos: "marker" }],
 };
 
 // Pull "word (gloss)" cells out of any markdown chart in a grammar block — the pronoun/marker/
@@ -71,7 +74,9 @@ function parseParadigm(prose) {
   if (rows.length >= 2) {
     const h = rows[0], wc = h.findIndex((x) => HW.test(x)), mc = h.findIndex((x) => HM.test(x)), sc = h.findIndex((x) => HS.test(x));
     if (wc >= 0 && mc >= 0) {
-      for (let r = 1; r < rows.length; r++) { const m = (rows[r][mc] || "").trim(); if (!m) continue; for (const col of [wc, sc]) if (col >= 0 && rows[r][col]) add(rows[r][col], m); }
+      // guard: only single Waray tokens are headwords — a "| Waray | English |" header also fits an
+      // EXAMPLE-sentence table (L11 "Hataas nga babaye hi Ruth. | Ruth is a tall woman."); don't ingest sentences.
+      for (let r = 1; r < rows.length; r++) { const m = (rows[r][mc] || "").trim(); if (!m) continue; for (const col of [wc, sc]) if (col >= 0 && rows[r][col] && single(rows[r][col])) add(rows[r][col], m); }
       if (out.length) return out;
     }
   }
@@ -109,7 +114,7 @@ function parseMarkers(prose) {
       const pl = /plural/i.test(header[c] || "") ? ", plural" : "";
       for (const tok of grid[r][c].replace(/\(.*/, "").split("/")) {   // split slashed marker forms: han/hin → han, hin
         const w = canon(tok.trim());
-        if (!w || EN_STOP.has(w) || /singular|plural|noun/.test(w)) continue;
+        if (!w || /\s/.test(w) || EN_STOP.has(w) || /singular|plural|noun/.test(w)) continue;   // a marker is one token; skip garbled multi-word OCR cells ("kan ngan kan")
         if (seen.has(w)) continue; seen.add(w);
         out.push({ waray: w, meaning: `the (${where}${pl})` });   // learner-friendly gloss, not meta-jargon
       }
