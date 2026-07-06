@@ -14,6 +14,9 @@ const lessons = JSON.parse(fs.readFileSync(SRC, "utf8")).sort((a, b) => a.num - 
 const S = (v) => v == null || v === "" ? "null" : "'" + String(v).replace(/'/g, "''") + "'";
 const norm = (s) => (s || "").trim();
 const lemma = (s) => norm(s).replace(/^-+/, ""); // strip the book's verb-root hyphen
+// canonical dictionary headword: lowercase, accents stripped (Waray isn't typed with accents;
+// stress lives in the pronunciation guide, sourced from Tramp). Keeps PC words from duplicating CH2's.
+const canon = (s) => lemma(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 const dict = new Map();          // waray -> {meaning,pos}
 const expr = new Map();          // sentence -> id
@@ -42,7 +45,7 @@ function parseParadigm(prose) {
     if (cells.every((c) => c === "" || /^:?-+:?$/.test(c))) continue;   // skip md separator row
     rows.push(cells);
   }
-  const add = (tokens, gloss) => { for (const tok of tokens.split("/")) { const w = lemma(tok); if (w && !seen.has(w)) { seen.add(w); out.push({ waray: w, meaning: gloss }); } } };
+  const add = (tokens, gloss) => { for (const tok of tokens.split("/")) { const w = canon(tok); if (w && !seen.has(w)) { seen.add(w); out.push({ waray: w, meaning: gloss }); } } };
   const HEADER = /^(full|short|long)?\s*(form|meaning|word|pronoun|pronouns|marker|markers|singular|plural|english|waray)$/i;
   const single = (s) => s && !/\s/.test(s.replace(/\s*\/\s*/g, "/"));   // a single Waray token, or A/B alternates
   const dataRows = rows.filter((r) => !(r.length && HEADER.test(r[0])));
@@ -77,7 +80,7 @@ function parseMarkers(prose) {
   for (let r = 1; r < grid.length; r++) {
     const rowLabel = grid[r][0];
     for (let c = 1; c < grid[r].length; c++) {
-      const w = lemma(grid[r][c].replace(/\(.*/, "").trim()).toLowerCase();  // markers are particles → lowercase
+      const w = canon(grid[r][c].replace(/\(.*/, "").trim());  // markers are particles → canonical lowercase
       if (!w || /singular|plural|noun|^w\//i.test(w)) continue;
       if (seen.has(w)) continue; seen.add(w);
       const where = /proper/i.test(rowLabel) ? "before a name" : /common/i.test(rowLabel) ? "before a common noun" : "particle";
@@ -109,7 +112,7 @@ function emitGuide(ctx, grammarBlocks, wordsAccum) {    // grammar prose + lift 
 function emitVocab(ctx, vocabBlocks, wordsAccum) {
   for (const b of vocabBlocks) {
     const bl = addBlock(ctx.id, ++ctx.ord, "vocab");
-    (b.items || []).forEach((v, i) => { const w = lemma(v.waray); if (!w) return; if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
+    (b.items || []).forEach((v, i) => { const w = canon(v.waray); if (!w) return; if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
   }
 }
 const emitNotes = (ctx, notes) => notes.forEach((b) => addBlock(ctx.id, ++ctx.ord, "note", { body: b.text }));
@@ -134,7 +137,7 @@ function emitProd(ctx, drillBlocks, dmod) {             // production drill (spe
 function emitExtras(ctx, extras, wordsAccum) {          // hand-added function words explained in the intro
   if (!extras || !extras.length) return;
   const bl = addBlock(ctx.id, ++ctx.ord, "vocab", { title: "Also in this lesson" });
-  extras.forEach((v, i) => { const w = lemma(v.waray); if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
+  extras.forEach((v, i) => { const w = canon(v.waray); if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
 }
 // Marker-choice drill: the book gives a noun and asks which marker fits (hi/an/hira…). Modality "cloze" —
 // the app blanks the marker and offers the lesson's markers as choices. Item stores the answered phrase
