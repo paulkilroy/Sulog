@@ -1,6 +1,6 @@
-import { getCourse, COURSES, DEFAULT_COURSE_ID } from "./courses/index.js";
+import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -2965,7 +2965,16 @@ function BackupView({ ctx }) {
   const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signOut } = ctx;
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
+  const [dbCourses, setDbCourses] = useState([]); // courses that live in Supabase (e.g. Peace Corps)
+  const [switching, setSwitching] = useState(false);
   const fileRef = useRef(null);
+
+  // list DB courses (ones not already bundled) so they can be picked here
+  useEffect(() => {
+    fetchCourses()
+      .then((cs) => setDbCourses((cs || []).filter((c) => !COURSES.some((b) => b.id === c.id))))
+      .catch(() => {});
+  }, []);
 
   const download = () => {
     try {
@@ -3003,10 +3012,27 @@ function BackupView({ ctx }) {
     }
   };
 
-  const switchCourse = (id) => {
+  const switchCourse = async (id) => {
     if (id === COURSE_ID) return;
-    try { localStorage.setItem("sulog:course", id); } catch (e) {}
-    location.reload();
+    // bundled course: just switch. DB course: fetch it, transform to the engine's shape,
+    // cache it (module load reads the cache synchronously), then switch.
+    if (COURSES.some((c) => c.id === id)) {
+      try { localStorage.setItem("sulog:course", id); } catch (e) {}
+      location.reload();
+      return;
+    }
+    setSwitching(true); setMsg(null);
+    try {
+      const meta = dbCourses.find((c) => c.id === id);
+      const bundled = await fetchCourseBundled(id, meta?.name || id);
+      if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
+      cacheDbCourse(bundled);
+      try { localStorage.setItem("sulog:course", id); } catch (e) {}
+      location.reload();
+    } catch (e) {
+      setSwitching(false);
+      setMsg({ kind: "err", text: "Couldn't load that course: " + (e.message || e) });
+    }
   };
 
   return (
@@ -3015,11 +3041,19 @@ function BackupView({ ctx }) {
 
       <SectionLabel icon={<BookOpen size={14} />} text="Course" />
       <div className="ws-course-switch">
-        <select className="ws-course-sel" value={COURSE_ID} onChange={(e) => switchCourse(e.target.value)}>
+        <select className="ws-course-sel" value={COURSE_ID} disabled={switching} onChange={(e) => switchCourse(e.target.value)}>
           {COURSES.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          {/* the active DB course, guaranteed present even before the async list lands */}
+          {!COURSES.some((c) => c.id === COURSE_ID) && !dbCourses.some((c) => c.id === COURSE_ID) &&
+            <option value={COURSE_ID}>{ACTIVE.name}</option>}
+          {dbCourses.length > 0 && (
+            <optgroup label="From the database">
+              {dbCourses.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </optgroup>
+          )}
         </select>
         <p className="ws-course-note">
-          Each course keeps its own progress. Switching reloads the app.
+          {switching ? "Loading the course from the database…" : "Each course keeps its own progress. Switching reloads the app."}
         </p>
       </div>
 

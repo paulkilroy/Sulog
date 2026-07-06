@@ -50,6 +50,45 @@ export async function fetchCourse(courseId) {
   return { id: courseId, phases: phases.map((p) => ({ ...p, units: unitsByPhase.get(p.id) || [] })) };
 }
 
+/* ---- adapt a DB course into the bundled shape the learning engine consumes ----
+   The engine runs on { seed:[[deck,waray,english,sub,say]], curriculum:[sections] }.
+   We flatten the block model: every drillable item (vocab word or drilled sentence)
+   becomes a card; each DB lesson becomes a curriculum lesson listing those items by
+   Waray. Guides/gates/stories aren't cards — the engine supplies its own unit review.
+   A sentence-heavy lesson is tagged "apply" (its cards are the review pool), else "words". */
+export function dbCourseToBundled(db, name) {
+  const seed = new Map();                 // waray -> [deck, waray, english, subtext, say]
+  const sections = [];
+  for (const ph of db.phases || []) {
+    const units = [];
+    for (const u of ph.units || []) {
+      const deck = u.id;                  // one deck per unit; DECKS labels it from the unit name
+      const lessons = [];
+      for (const l of u.lessons || []) {
+        const items = [], seen = new Set();
+        let words = 0, sentences = 0;
+        for (const b of l.blocks || []) {
+          if (!["vocab", "phrases", "drill"].includes(b.type)) continue;   // only drillable blocks yield cards
+          for (const it of b.items || []) {
+            const waray = it.waray, english = it.meaning || it.translation || "";
+            if (!waray || !english) continue;
+            (it._ref === "expr" || /\s/.test(waray)) ? sentences++ : words++;
+            if (!seed.has(waray)) seed.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
+            if (!seen.has(waray)) { seen.add(waray); items.push(waray); }
+          }
+        }
+        if (items.length) lessons.push({ id: l.id, name: l.title, title: l.title, kind: sentences > words ? "apply" : "words", items });
+      }
+      if (lessons.length) units.push({ id: u.id, name: u.name, hint: "", can_do: u.can_do || "", lessons });
+    }
+    if (units.length) sections.push({ name: ph.name, hint: "", units });
+  }
+  return { id: db.id, name, seed: [...seed.values()], forgotten: [], curriculum: sections };
+}
+
+// fetch a course from the DB and return it in the engine's bundled shape
+export const fetchCourseBundled = async (courseId, name) => dbCourseToBundled(await fetchCourse(courseId), name);
+
 // ---- per-user progress (RLS: only your own rows) ----
 export async function loadProgress(userId) {
   const data = await rows(supabase.from("progress").select("*").eq("user_id", userId));
