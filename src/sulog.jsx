@@ -1093,12 +1093,17 @@ function DbBlock({ block, guides }) {
 }
 function DbCourseView({ ctx }) {
   const { setView } = ctx;
-  const [courseId, setCourseId] = useState("waray");
+  const [courseId, setCourseId] = useState(null);   // set from the DB's own course list (no hardcoded guess)
   const [courses, setCourses] = useState([]);
   const [st, setSt] = useState({ loading: true });
   const [open, setOpen] = useState({});
-  useEffect(() => { fetchCourses().then(setCourses).catch(() => {}); }, []);
   useEffect(() => {
+    fetchCourses()
+      .then((cs) => { setCourses(cs); setCourseId((cur) => (cur && cs.some((c) => c.id === cur)) ? cur : (cs[0]?.id || null)); })
+      .catch((e) => setSt({ error: e.message || String(e) }));
+  }, []);
+  useEffect(() => {
+    if (!courseId) return;
     let alive = true; setSt({ loading: true }); setOpen({});
     fetchCourse(courseId).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
     return () => { alive = false; };
@@ -1122,7 +1127,7 @@ function DbCourseView({ ctx }) {
         {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
         {st.course && (
           <>
-            <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>Live from the database — {units.length} units, rendered as the block model. Tap any word to hear it.</p>
+            <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>Live from the database — {units.length} unit{units.length === 1 ? "" : "s"}, rendered as the block model. Tap any word to hear it.</p>
             {units.map((u) => {
               const isOpen = open[u.id];
               return (
