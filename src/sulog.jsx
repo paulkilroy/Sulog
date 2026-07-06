@@ -3627,16 +3627,16 @@ function Styles() {
 /* CTAs */
 .ws-cta-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
 .ws-cta{display:flex;align-items:center;gap:13px;padding:15px 16px;border-radius:16px;
-  border:1px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;
+  border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);cursor:pointer;text-align:left;
   transition:.15s;width:100%}
 .ws-cta:active{transform:scale(.99)}
 .ws-cta-primary{background:linear-gradient(135deg,var(--sea),var(--tide));border:none;color:#fff}
 .ws-cta-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
   justify-content:center;background:var(--sand);color:var(--sea);flex-shrink:0}
 .ws-cta-primary .ws-cta-ic{background:rgba(255,255,255,.2);color:#fff}
-.ws-ic-tide{background:#dcefef;color:var(--tide)}
-.ws-ic-coral{background:#fae3de;color:var(--coral)}
-.ws-ic-jade{background:#e0f3ea;color:var(--jade)}
+.ws-ic-tide{background:color-mix(in srgb,var(--tide) 22%,var(--foam));color:var(--tide)}
+.ws-ic-coral{background:color-mix(in srgb,var(--coral) 22%,var(--foam));color:var(--coral)}
+.ws-ic-jade{background:color-mix(in srgb,var(--jade) 22%,var(--foam));color:var(--jade)}
 /* Read tab — story list */
 .ws-read-list{display:flex;flex-direction:column;gap:9px}
 .ws-read-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
