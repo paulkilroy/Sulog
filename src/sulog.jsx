@@ -1047,7 +1047,7 @@ export default function App() {
    model: guides · vocab · drills · phrases · gate · story. Read-only for now (proves CH2 is
    migrated + hooked up); interactive drilling + progress writes come next. Additive — does
    not touch the bundled-course app. */
-const BLK_COLOR = { grammar: "#3f6ea5", examples: "#3f6ea5", note: "#3f6ea5", vocab: "#2f8f4e", phrases: "#b5791d", drill: "#b5791d", assessment: "#c2384b", story: "#7a5aa8", review: "#3f6ea5" };
+const BLK_COLOR = { grammar: "var(--tide)", examples: "var(--tide)", note: "var(--tide)", vocab: "#2f8f4e", phrases: "#b5791d", drill: "#b5791d", assessment: "var(--coral)", story: "#7a5aa8", review: "var(--tide)" };
 function renderMd(md) {
   if (!md) return null;
   const out = []; let tbl = null;
@@ -1072,7 +1072,7 @@ function DbItem({ it }) {
       style={{ cursor: "pointer", padding: "3px 0", borderBottom: "1px dotted #efe7d9", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}
       title="Tap to hear">
       <b style={{ fontFamily: "Georgia,serif", fontSize: 15 }}>{it.waray}</b>
-      <span style={{ color: "#64748b", fontSize: 12.5 }}>{meaning}</span>
+      <span style={{ color: "var(--ink-soft)", fontSize: 12.5 }}>{meaning}</span>
       {pron && <span style={{ marginLeft: "auto", fontFamily: "ui-monospace,monospace", fontSize: 11, color: "#8a9499" }}>{pron}</span>}
     </div>
   );
@@ -1083,15 +1083,15 @@ function DbBlock({ block, guides }) {
   const head = (label) => <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700, color: c, marginBottom: 4 }}>{label}</div>;
   let body;
   if (block.type === "grammar" || block.type === "examples" || block.type === "note") {
-    body = <>{head(block.type + (block.title ? " · " + block.title : ""))}{block.body_md && <div>{renderMd(block.body_md)}</div>}{block.formula && <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 12, background: "#eef3f8", border: "1px solid #d6e2ef", borderRadius: 6, padding: "5px 8px", margin: "5px 0" }}>{block.formula}</div>}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
+    body = <>{head(block.type + (block.title ? " · " + block.title : ""))}{block.body_md && <div>{renderMd(block.body_md)}</div>}{block.formula && <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 12, background: "var(--sand)", border: "1px solid #d6e2ef", borderRadius: 6, padding: "5px 8px", margin: "5px 0" }}>{block.formula}</div>}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
   } else if (block.type === "vocab" || block.type === "phrases") {
     body = <>{head((block.type === "vocab" ? "Words" : "Phrases") + " · " + items.length)}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
   } else if (block.type === "drill") {
     body = <>{head("Drill · " + (block.drill_kind || "") + "/" + (block.drill_modality || "") + (block.drill_hint ? " · " + block.drill_hint : ""))}
       {items.map((it, i) => <DbItem key={i} it={it} />)}
-      {guides.length > 0 && <div style={{ marginTop: 5, display: "flex", gap: 5, flexWrap: "wrap" }}>{guides.map((g) => <span key={g} style={{ fontSize: 10, background: "#eef3f8", color: "#3f6ea5", border: "1px solid #d6e2ef", borderRadius: 10, padding: "1px 7px" }}>{g}</span>)}</div>}</>;
+      {guides.length > 0 && <div style={{ marginTop: 5, display: "flex", gap: 5, flexWrap: "wrap" }}>{guides.map((g) => <span key={g} style={{ fontSize: 10, background: "var(--sand)", color: "var(--tide)", border: "1px solid #d6e2ef", borderRadius: 10, padding: "1px 7px" }}>{g}</span>)}</div>}</>;
   } else if (block.type === "assessment") {
-    body = <div style={{ color: "#c2384b", fontSize: 13 }}>🔒 Graded review · {block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>;
+    body = <div style={{ color: "var(--coral)", fontSize: 13 }}>🔒 Graded review · {block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>;
   } else if (block.type === "story") {
     body = <div style={{ color: "#7a5aa8", fontSize: 13 }}>📖 Story · {block.story_id}</div>;
   } else if (block.type === "review") {
@@ -1105,24 +1105,24 @@ function BundledOverview({ course, open, setOpen }) {
   const nU = secs.flatMap((s) => s.units).length;
   return (
     <>
-      <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>{nU} unit{nU === 1 ? "" : "s"} · bundled course.</p>
+      <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>{nU} unit{nU === 1 ? "" : "s"} · bundled course.</p>
       {secs.flatMap((s) => s.units).map((u) => {
         const isOpen = open[u.id];
         return (
-          <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
+          <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
             <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-              style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+              style={{ width: "100%", textAlign: "left", background: "var(--sand)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
               <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
-              <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
-              <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
+              <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
+              <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
             </button>
             {isOpen && (
               <div style={{ padding: "6px 14px 12px" }}>
-                {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
+                {u.can_do && <div style={{ fontSize: 12, color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
                 {(u.lessons || []).map((l) => (
                   <div key={l.id} style={{ display: "flex", alignItems: "baseline", gap: 6, margin: "5px 0", borderBottom: "1px dotted #efe7d9", paddingBottom: 4 }}>
-                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "#b5761f", flex: 1 }}>{l.title || l.name}</span>
-                    <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(l.items || []).length} items · {l.kind === "apply" ? "phrases" : "words"}</span>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "var(--sun-deep)", flex: 1 }}>{l.title || l.name}</span>
+                    <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(l.items || []).length} items · {l.kind === "apply" ? "phrases" : "words"}</span>
                   </div>
                 ))}
               </div>
@@ -1139,7 +1139,7 @@ function BundledOverview({ course, open, setOpen }) {
    (pronunciation, answer-by-voice, speech test) · Ask Ella. Switching a DB course fetches +
    transforms + caches it first. */
 function LanguageView({ ctx }) {
-  const { setView, settings, saveSettings } = ctx;
+  const { setView, settings, saveSettings, admin } = ctx;
   const [dbCourses, setDbCourses] = useState([]);        // courses that live only in Supabase
   const [selected, setSelected] = useState(COURSE_ID);   // previewed course (defaults to active)
   const [st, setSt] = useState({ loading: false });      // DB-course overview fetch
@@ -1209,7 +1209,7 @@ function LanguageView({ ctx }) {
         <div style={{ display: "flex", gap: 6, margin: "2px 0 12px", flexWrap: "wrap" }}>
           {all.map((c) => (
             <button key={c.id} onClick={() => setSelected(c.id)}
-              style={{ border: "1px solid " + (c.id === selected ? "var(--sea-ink)" : "var(--sand-deep)"), background: c.id === selected ? "var(--sea-ink)" : "var(--foam)", color: c.id === selected ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+              style={{ border: "1px solid " + (c.id === selected ? "var(--tide)" : "var(--sand-deep)"), background: c.id === selected ? "var(--tide)" : "var(--foam)", color: c.id === selected ? "#052024" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
               {c.name}{c.id === COURSE_ID ? " ·  active" : ""}
             </button>
           ))}
@@ -1235,7 +1235,7 @@ function LanguageView({ ctx }) {
             <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
             <div className="ws-backup-txt"><b>Answer by voice</b><i>{settings.voiceMode ? "On — speak your answers" : "Off — type your answers"}</i></div>
             <span style={{ width: 36, height: 21, borderRadius: 21, background: settings.voiceMode ? "var(--tide)" : "var(--sand-deep)", position: "relative", flex: "none" }}>
-              <span style={{ position: "absolute", top: 2, left: settings.voiceMode ? 17 : 2, width: 17, height: 17, borderRadius: "50%", background: "#fff", transition: "left .15s" }} />
+              <span style={{ position: "absolute", top: 2, left: settings.voiceMode ? 17 : 2, width: 17, height: 17, borderRadius: "50%", background: "var(--foam)", transition: "left .15s" }} />
             </span>
           </button>
         )}
@@ -1253,33 +1253,40 @@ function LanguageView({ ctx }) {
           <div className="ws-backup-txt"><b>Ask Ella</b><i>Questions for a native speaker</i></div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
+        {admin && (
+          <button className="ws-backup-row" onClick={() => setView("dbreview")}>
+            <div className="ws-backup-ic"><Check size={18} /></div>
+            <div className="ws-backup-txt"><b>Review queue</b><i>Confirm flagged dictionary entries · admin</i></div>
+            <ChevronRight size={18} className="ws-cta-arrow" />
+          </button>
+        )}
 
         <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
         {isDb ? (
           <>
-            {st.loading && <p style={{ color: "#64748b" }}>Loading course from the database…</p>}
-            {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
+            {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading course from the database…</p>}
+            {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
             {st.course && (
               <>
-                <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, gates &amp; stories included). Tap any word to hear it.</p>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, gates &amp; stories included). Tap any word to hear it.</p>
                 {units.map((u) => {
                   const isOpen = open[u.id];
                   return (
-                    <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "#fff", margin: "8px 0", overflow: "hidden" }}>
+                    <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
                       <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-                        style={{ width: "100%", textAlign: "left", background: "#fbf7ef", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+                        style={{ width: "100%", textAlign: "left", background: "var(--sand)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
                         <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
-                        <span style={{ fontSize: 11, color: "#9aa1a6" }}>{(u.lessons || []).length} lessons</span>
-                        <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "#9aa1a6" }} />
+                        <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
+                        <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
                       </button>
                       {isOpen && (
                         <div style={{ padding: "6px 14px 12px" }}>
-                          {u.can_do && <div style={{ fontSize: 12, color: "#5e6b70", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
+                          {u.can_do && <div style={{ fontSize: 12, color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
                           {(u.lessons || []).map((l) => {
                             const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type)).map((b) => b.type);
                             return (
                               <div key={l.id} style={{ margin: "10px 0" }}>
-                                <div style={{ fontSize: 12, fontWeight: 700, color: "#b5761f", marginBottom: 2 }}>{l.title}</div>
+                                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
                                 {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} />)}
                               </div>
                             );
@@ -1314,7 +1321,7 @@ function DbReviewRow({ entry, onConfirmed }) {
     catch (e) { setErr(e.message || "save failed"); setSaving(false); }
   };
   return (
-    <div style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "10px 12px", margin: "8px 0" }}>
+    <div style={{ background: "var(--foam)", border: "1px solid #e4e6ea", borderRadius: 12, padding: "10px 12px", margin: "8px 0" }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
         <b style={{ fontFamily: "Georgia,serif", fontSize: 16, cursor: "pointer" }} onClick={() => speak({ waray: entry.waray, say: pron, english: meaning })} title="Tap to hear">{entry.waray}</b>
         <span style={{ fontSize: 10.5, background: "#f1ece0", color: "#8a7a55", borderRadius: 10, padding: "1px 7px" }}>{entry.kind}</span>
@@ -1330,7 +1337,7 @@ function DbReviewRow({ entry, onConfirmed }) {
           {saving ? "…" : "✓ Confirm"}
         </button>
       </div>
-      {err && <div style={{ color: "#c2384b", fontSize: 12, marginTop: 4 }}>{err}</div>}
+      {err && <div style={{ color: "var(--coral)", fontSize: 12, marginTop: 4 }}>{err}</div>}
     </div>
   );
 }
@@ -1348,12 +1355,12 @@ function DbReviewView({ ctx }) {
     <div className="ws-page">
       <TopBar title="👩 Review queue" onBack={() => setView("home")} />
       <div style={{ padding: "4px 14px 40px", maxWidth: 680, margin: "0 auto" }}>
-        {!admin && <p style={{ color: "#c2384b" }}>Admin only — sign in as the admin to confirm entries.</p>}
-        {st.loading && <p style={{ color: "#64748b" }}>Loading the review queue…</p>}
-        {st.error && <p style={{ color: "#c2384b" }}>Couldn't load: {st.error}</p>}
+        {!admin && <p style={{ color: "var(--coral)" }}>Admin only — sign in as the admin to confirm entries.</p>}
+        {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading the review queue…</p>}
+        {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
         {st.list && (
           <>
-            <p style={{ color: "#64748b", fontSize: 13 }}>{st.list.length} entries still need a native speaker's confirmation{done > 0 ? ` · ${done} confirmed this session` : ""}. Fix the meaning/pronunciation if needed, then Confirm — it saves straight to the database.</p>
+            <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>{st.list.length} entries still need a native speaker's confirmation{done > 0 ? ` · ${done} confirmed this session` : ""}. Fix the meaning/pronunciation if needed, then Confirm — it saves straight to the database.</p>
             {st.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={onConfirmed} />)}
             {st.list.length === 0 && <p style={{ color: "#2f8f4e" }}>🎉 All confirmed!</p>}
           </>
@@ -1370,15 +1377,15 @@ function EllaView({ ctx }) {
     <div className="ws-page">
       <TopBar title="👩 Ask Ella" onBack={() => setView("home")} />
       <div style={{ padding: "4px 16px 28px", maxWidth: 680, margin: "0 auto" }}>
-        <p style={{ color: "#64748b", fontSize: 14, lineHeight: 1.5 }}>
+        <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.5 }}>
           Open questions for a native Daram/Samar speaker. Each answer feeds back into the
           courses and dialect notes. {ACTIVE.review.length} open.
         </p>
         {ACTIVE.review.map((q) => (
-          <div key={q.id} style={{ background: "#fff", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
+          <div key={q.id} style={{ background: "var(--foam)", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#9333ea", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
             <div style={{ fontSize: 15.5, fontWeight: 600, color: "#0f172a", lineHeight: 1.35 }}>{q.q}</div>
-            {q.detail && <div style={{ fontSize: 13.5, color: "#64748b", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
+            {q.detail && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
           </div>
         ))}
       </div>
@@ -1415,7 +1422,6 @@ function HomeView({ ctx }) {
   const heroActions = (
     <div className="ws-hero-btns">
       <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
-      {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("dbreview")} title="Review queue — confirm flagged entries (admin)"><Check size={18} /></button>}
       <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
         title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
         {ctx.user ? <User size={18} /> : <Cloud size={18} />}
@@ -3444,15 +3450,15 @@ function Styles() {
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root{
-  --sea-ink:#0a2e34; --sea:#0c6b73; --tide:#16a3ab; --tide-soft:#3fa9b0;
-  --sun:#f4a53a; --sun-deep:#e0892a; --coral:#e2604a; --jade:#189f8f;
-  --shell:#f7f1e6; --sand:#efe6d4; --sand-deep:#e6dcc9;
-  --ink:#0e2b2f; --ink-soft:#4a5d5f; --foam:#fffdf7;
+  --sea-ink:#0a2226; --sea:#5fc9cf; --tide:#1cb0b8; --tide-soft:#2f8f95;
+  --sun:#f4a53a; --sun-deep:#f0b968; --coral:#f07a66; --jade:#1fb89f;
+  --shell:#0b1f23; --sand:#16333a; --sand-deep:#2b4f56;
+  --ink:#eaf3f2; --ink-soft:#9db3b5; --foam:#102a2f;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 .ws-root{font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
-  background:var(--shell);min-height:100%;max-width:480px;margin:0 auto;
-  position:relative;line-height:1.45}
+  background:radial-gradient(135% 80% at 50% -8%, #123a3f 0%, var(--shell) 52%);
+  min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
 .ws-root *::selection{background:var(--tide);color:#fff}
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
@@ -3548,7 +3554,7 @@ function Styles() {
 .ws-unit-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
 .ws-unit-name{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink)}
 .ws-unit-hint{font-size:12px;color:var(--ink-soft);margin-top:1px}
-.ws-unit-prog{flex-shrink:0;font-size:11px;font-weight:700;color:var(--tide);background:#eef8f8;
+.ws-unit-prog{flex-shrink:0;font-size:11px;font-weight:700;color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam));
   border-radius:20px;padding:4px 9px;font-variant-numeric:tabular-nums}
 .ws-lessons{display:flex;flex-direction:column;gap:8px}
 .ws-lblock{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tide);
@@ -3556,7 +3562,7 @@ function Styles() {
 .ws-lnode{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;
   border-radius:14px;border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;
   font-family:inherit;transition:.15s}
-.ws-lnode.cur{border-color:var(--tide);background:#eef8f8}
+.ws-lnode.cur{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-lnode.done{border-color:var(--jade)}
 .ws-lnode.locked{opacity:.5;cursor:not-allowed}
 .ws-lnode-ring{flex-shrink:0;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
@@ -3569,16 +3575,16 @@ function Styles() {
 .ws-lnode-title{font-size:14.5px;font-weight:600;color:var(--ink)}
 .ws-lnode-sub{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
 .ws-lnode-arr{color:var(--sand-deep);flex-shrink:0}
-.ws-lnode.ws-review{margin-top:7px;border-style:dashed;border-color:var(--tide);background:#f3fbfb}
+.ws-lnode.ws-review{margin-top:7px;border-style:dashed;border-color:var(--tide);background:color-mix(in srgb, var(--tide) 12%, var(--foam))}
 .ws-lnode.ws-review .ws-lnode-ring{background:var(--sun);color:#fff}
 .ws-lnode.ws-review.done{border-style:solid}
 .ws-lnode.ws-review.done .ws-lnode-ring{background:var(--jade)}
-.ws-lnode.ws-gate{margin:1px 0 4px 22px;border-color:var(--sun);background:#fff7ea}
-.ws-lnode.ws-gate .ws-lnode-ring{background:#fff7ea;border:1px solid var(--sun)}
+.ws-lnode.ws-gate{margin:1px 0 4px 22px;border-color:var(--sun);background:color-mix(in srgb, var(--sun) 15%, var(--foam))}
+.ws-lnode.ws-gate .ws-lnode-ring{background:color-mix(in srgb, var(--sun) 15%, var(--foam));border:1px solid var(--sun)}
 .ws-lnode.ws-gate .ws-lnode-title{color:var(--sun-deep)}
 .ws-lnode.ws-gate.done{border-color:var(--jade)}
 .ws-lnode.ws-gate.done .ws-lnode-ring{background:var(--jade);color:#fff;border:0}
-.ws-lnode.ws-story{margin-top:7px;border-style:dashed;border-color:var(--sun);background:#fffaf1}
+.ws-lnode.ws-story{margin-top:7px;border-style:dashed;border-color:var(--sun);background:color-mix(in srgb, var(--sun) 10%, var(--foam))}
 .ws-lnode.ws-story .ws-lnode-ring{background:var(--sun);color:#fff}
 .ws-lnode.ws-story.done{border-style:solid;border-color:var(--jade)}
 .ws-lnode.ws-story.done .ws-lnode-ring{background:var(--jade)}
@@ -3606,7 +3612,7 @@ function Styles() {
 .ws-part{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 13px;
   border-radius:14px;border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;
   font-family:inherit;transition:.15s}
-.ws-part.cur{border-color:var(--tide);background:#eef8f8}
+.ws-part.cur{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-part.done{border-color:var(--jade)}
 .ws-part:disabled{opacity:.45;cursor:not-allowed}
 .ws-part-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
@@ -3692,7 +3698,7 @@ function Styles() {
   padding:14px 15px;cursor:pointer;text-align:left;transition:.15s}
 .ws-deck:active{transform:scale(.99)}
 .ws-deck-top{display:flex;justify-content:space-between;align-items:center}
-.ws-deck-name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--sea-ink)}
+.ws-deck-name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink)}
 .ws-deck-count{font-size:12px;color:var(--ink-soft);background:var(--sand);border-radius:20px;
   padding:2px 9px;font-weight:600}
 .ws-deck-hint{font-size:12px;color:var(--ink-soft);margin:2px 0 9px}
@@ -3726,7 +3732,7 @@ function Styles() {
 .ws-build{text-align:center;font-size:10.5px;color:var(--sand-deep);letter-spacing:.04em;
   font-variant-numeric:tabular-nums;margin:18px 0 84px}
 .ws-bottombar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
-  background:rgba(247,241,230,.92);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
+  background:rgba(9,24,28,.92);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
   display:flex;padding:8px 0 10px;z-index:20}
 .ws-bb{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
   font-size:10.5px;color:var(--ink-soft);cursor:pointer;font-weight:500;font-family:inherit}
@@ -3735,13 +3741,13 @@ function Styles() {
 
 /* topbar */
 .ws-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--sea-ink)}
+.ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--ink)}
 
 /* setup */
 .ws-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
 .ws-pick{display:flex;align-items:center;gap:8px;padding:12px 12px;border-radius:13px;
   border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;transition:.15s;text-align:left}
-.ws-pick.on{border-color:var(--tide);background:#eef8f8}
+.ws-pick.on{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-pick-check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--sand-deep);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
 .ws-pick.on .ws-pick-check{background:var(--tide);border-color:var(--tide)}
@@ -3760,7 +3766,7 @@ function Styles() {
 .ws-mode-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
 .ws-mode{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:13px;
   border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;transition:.15s}
-.ws-mode.on{border-color:var(--tide);background:#eef8f8}
+.ws-mode.on{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-mode-ic{width:36px;height:36px;border-radius:10px;background:var(--sand);color:var(--sea);
   display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ws-mode.on .ws-mode-ic{background:var(--tide);color:#fff}
@@ -3821,7 +3827,7 @@ function Styles() {
 .ws-drillmode{display:flex;gap:6px;justify-content:center;margin:-12px 0 18px}
 .ws-drillmode button{padding:6px 18px;border-radius:999px;border:1.5px solid var(--sand-deep);
   background:var(--foam);color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer}
-.ws-drillmode button.on{border-color:var(--tide);background:#eef8f8;color:var(--sea)}
+.ws-drillmode button.on{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam));color:var(--sea)}
 .ws-voice{display:flex;flex-direction:column;align-items:center;gap:14px;padding:18px 0 8px}
 .ws-voice-orb{display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;
   background:var(--foam);border:2px solid var(--sand-deep);color:var(--tide);cursor:pointer;transition:all .15s}
@@ -3848,9 +3854,9 @@ function Styles() {
   font-weight:600;margin-bottom:18px}
 
 .ws-prompt{text-align:center;margin-bottom:22px}
-.ws-prompt-waray{font-family:'Fraunces',serif;font-size:33px;font-weight:600;color:var(--sea-ink);
+.ws-prompt-waray{font-family:'Fraunces',serif;font-size:33px;font-weight:600;color:var(--ink);
   line-height:1.15}
-.ws-prompt-eng{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--sea-ink);line-height:1.2}
+.ws-prompt-eng{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--ink);line-height:1.2}
 .ws-say{font-size:14px;color:var(--tide);font-weight:500;margin-top:7px;letter-spacing:.02em}
 .ws-mini-play{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:var(--sand);
   border:none;border-radius:20px;padding:6px 13px;font-size:12.5px;color:var(--sea);font-weight:600;
@@ -3879,7 +3885,7 @@ function Styles() {
 .ws-listen-big:active{transform:scale(.98)}
 
 .ws-input{width:100%;padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);
-  font-size:17px;font-family:'Fraunces',serif;color:var(--sea-ink);background:var(--shell);outline:none;
+  font-size:17px;font-family:'Fraunces',serif;color:var(--ink);background:var(--shell);outline:none;
   transition:.15s}
 .ws-input:focus{border-color:var(--tide);background:#fff}
 .ws-check{width:100%;margin-top:12px;padding:14px;border-radius:13px;border:none;background:var(--sea);
@@ -3891,9 +3897,9 @@ function Styles() {
 .ws-yourans.right{color:#1f6b46}.ws-yourans.wrong{color:#a33422;text-decoration:line-through;opacity:.7}
 
 .ws-reveal{width:100%;padding:15px;border-radius:13px;border:1.5px dashed var(--tide);
-  background:#eef8f8;color:var(--sea);font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit}
+  background:color-mix(in srgb, var(--tide) 16%, var(--foam));color:var(--sea);font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit}
 .ws-answer-reveal{text-align:center;margin-bottom:6px;animation:rise .3s ease}
-.ws-answer-text{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--sea-ink)}
+.ws-answer-text{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink)}
 .ws-subtext{text-align:center;font-size:13px;color:var(--ink-soft);font-style:italic;margin:8px 0;
   background:var(--sand);padding:8px 12px;border-radius:10px}
 
@@ -3902,7 +3908,7 @@ function Styles() {
 .ws-verdict.ok .ws-verdict-head{color:var(--jade)}
 .ws-verdict.no .ws-verdict-head{color:var(--coral)}
 .ws-verdict-answer{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;
-  font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
+  font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--ink)}
 .ws-verdict-yousaid{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:4px 0 2px}
 /* in-context example on a single-word card's verdict */
 .ws-verdict-eg{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;
@@ -3966,9 +3972,9 @@ function Styles() {
 .ws-passpill.no{background:#fae3de;color:var(--coral)}
 .ws-done-ring span{width:92px;height:92px;border-radius:50%;background:var(--foam);display:flex;
   align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;
-  color:var(--sea-ink)}
+  color:var(--ink)}
 .ws-done-ring i{font-style:normal;font-size:16px;color:var(--ink-soft)}
-.ws-done-card h2{font-family:'Fraunces',serif;font-size:26px;color:var(--sea-ink);margin:0 0 4px}
+.ws-done-card h2{font-family:'Fraunces',serif;font-size:26px;color:var(--ink);margin:0 0 4px}
 .ws-done-sub{font-size:13.5px;color:var(--ink-soft);margin-bottom:22px}
 .ws-missed{text-align:left;width:100%;background:var(--shell);border:1px solid var(--sand-deep);
   border-radius:14px;padding:10px 12px;margin-bottom:18px;max-height:260px;overflow-y:auto}
@@ -3994,7 +4000,7 @@ function Styles() {
 .ws-nw{display:flex;align-items:center;gap:11px;background:var(--foam);border:1px solid var(--sand-deep);
   border-radius:13px;padding:11px 13px}
 .ws-nw-body{flex:1;min-width:0}
-.ws-nw-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea-ink)}
+.ws-nw-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--ink)}
 .ws-nw-eng{font-size:12.5px;color:var(--ink-soft)}
 .ws-nw-meta{display:flex;align-items:center;gap:8px}
 .ws-nw-recover{display:flex;align-items:center;gap:3px}
@@ -4020,7 +4026,7 @@ function Styles() {
   border-radius:13px;padding:11px 13px}
 .ws-brow-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .ws-brow-body{flex:1;min-width:0}
-.ws-brow-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea-ink);
+.ws-brow-waray{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--ink);
   display:flex;align-items:center;gap:6px}
 .ws-voiced{color:var(--jade);font-size:9px}
 .ws-brow-eng{font-size:12.5px;color:var(--ink-soft)}
@@ -4084,7 +4090,7 @@ function Styles() {
   border-radius:13px;padding:13px 15px;cursor:pointer;text-align:left;font-family:inherit;transition:.15s}
 .ws-pron-row:active{transform:scale(.99)}
 .ws-pron-row svg{color:var(--tide);flex-shrink:0}
-.ws-pron-w{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--sea-ink)}
+.ws-pron-w{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink)}
 .ws-pron-s{font-size:12.5px;color:var(--ink-soft)}
 .ws-pron-note{font-size:11px;color:var(--sand-deep);text-align:center;line-height:1.5;padding:0 10px}
 
@@ -4105,13 +4111,13 @@ function Styles() {
   background:var(--foam);font-family:inherit;font-size:13px;color:var(--ink);cursor:pointer}
 .ws-voice-note{font-size:11.5px;line-height:1.5;color:var(--ink-soft);background:var(--foam);
   border:1px solid var(--sand-deep);border-radius:10px;padding:9px 11px;margin-bottom:12px}
-.ws-voice-note.good{color:var(--ink);border-color:var(--tide);background:#eef8f8}
+.ws-voice-note.good{color:var(--ink);border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-speed-val{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--tide);
   min-width:52px;text-align:right}
 .ws-speed-adapt{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;border-radius:13px;
   border:1.5px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;font-family:inherit;
   transition:.15s}
-.ws-speed-adapt.on{border-color:var(--tide);background:#eef8f8}
+.ws-speed-adapt.on{border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
 .ws-speed-adapt-box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--sand-deep);flex-shrink:0;
   display:flex;align-items:center;justify-content:center;color:#fff;margin-top:1px}
 .ws-speed-adapt.on .ws-speed-adapt-box{background:var(--tide);border-color:var(--tide)}
@@ -4122,7 +4128,7 @@ function Styles() {
 .ws-backup-stat{display:flex;gap:10px;margin-bottom:20px}
 .ws-backup-stat>div{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;
   padding:14px 10px;text-align:center;display:flex;flex-direction:column;gap:2px}
-.ws-backup-stat b{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--sea-ink)}
+.ws-backup-stat b{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--ink)}
 .ws-backup-stat span{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em}
 .ws-backup-row{display:flex;align-items:center;gap:13px;width:100%;padding:14px 15px;border-radius:14px;
   border:1px solid var(--sand-deep);background:var(--foam);cursor:pointer;text-align:left;transition:.15s;
@@ -4141,7 +4147,7 @@ function Styles() {
 .ws-backup-msg.err{background:#fbe7e2;color:#a33422}
 .ws-drive-note{font-size:13px;color:var(--ink-soft);line-height:1.6;background:var(--foam);
   border:1px solid var(--sand-deep);border-left:3px solid var(--sun);border-radius:12px;padding:13px 15px;}
-.ws-drive-note b{color:var(--sea-ink)}
+.ws-drive-note b{color:var(--ink)}
 
 /* gist sync */
 .ws-gist-help{margin-top:12px;font-size:12.5px;color:var(--ink-soft);background:var(--foam);
@@ -4149,7 +4155,7 @@ function Styles() {
 .ws-gist-help summary{font-weight:600;color:var(--sea);cursor:pointer;font-size:13px}
 .ws-gist-help ol{margin:10px 0 8px;padding-left:18px;line-height:1.6}
 .ws-gist-help li{margin-bottom:4px}
-.ws-gist-help b{color:var(--sea-ink)}
+.ws-gist-help b{color:var(--ink)}
 .ws-diag{margin-top:8px;display:flex;flex-direction:column;gap:6px}
 .ws-diag-row{display:flex;align-items:center;gap:8px;font-size:12.5px;background:var(--foam);
   border:1px solid var(--sand-deep);border-radius:10px;padding:8px 10px}
