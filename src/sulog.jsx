@@ -12,7 +12,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1036,7 +1036,7 @@ export default function App() {
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
-      {view === "courses" && <CoursesView ctx={ctx} />}
+      {view === "language" && <LanguageView ctx={ctx} />}
       {view === "dbreview" && <DbReviewView ctx={ctx} />}
     </div>
   );
@@ -1134,12 +1134,12 @@ function BundledOverview({ course, open, setOpen }) {
   );
 }
 
-/* ============ COURSES — language/course selector + overview ============
-   Lists every course (bundled + database), previews the selected one's overview
-   (block model for DB courses, unit list for bundled), and switches the active
-   course. Switching a DB course fetches + transforms + caches it first. */
-function CoursesView({ ctx }) {
-  const { setView } = ctx;
+/* ============ LANGUAGE & COURSE — one door for everything about what you're learning ============
+   Language picker (Waray now; more later) · course selector + preview overview · sound & speech
+   (pronunciation, answer-by-voice, speech test) · Ask Ella. Switching a DB course fetches +
+   transforms + caches it first. */
+function LanguageView({ ctx }) {
+  const { setView, settings, saveSettings } = ctx;
   const [dbCourses, setDbCourses] = useState([]);        // courses that live only in Supabase
   const [selected, setSelected] = useState(COURSE_ID);   // previewed course (defaults to active)
   const [st, setSt] = useState({ loading: false });      // DB-course overview fetch
@@ -1183,30 +1183,78 @@ function CoursesView({ ctx }) {
   if (!all.some((c) => c.id === COURSE_ID)) all.push({ id: COURSE_ID, name: ACTIVE.name }); // active DB course before the list lands
   const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
 
+  const langPill = (label, on, soon) => (
+    <span style={{ fontSize: 12.5, border: "1px " + (soon ? "dashed" : "solid") + " " + (on ? "var(--tide)" : "var(--sand-deep)"),
+      background: on ? "var(--tide)" : "transparent", color: on ? "#fff" : soon ? "var(--ink-soft)" : "var(--ink)",
+      borderRadius: 999, padding: "5px 12px" }}>{label}</span>
+  );
+  const selName = (all.find((c) => c.id === selected) || {}).name || "";
+
   return (
     <div className="ws-page">
-      <TopBar title="Courses" onBack={() => setView("home")} />
+      <TopBar title="Language & course" onBack={() => setView("home")} />
       <div style={{ padding: "4px 14px 40px", maxWidth: 720, margin: "0 auto" }}>
-        <p style={{ color: "#64748b", fontSize: 13, margin: "2px 0 10px" }}>Pick a course to preview it, then switch to make it active. Each course keeps its own progress.</p>
+
+        <SectionLabel icon={<Globe size={14} />} text="Language" />
+        <div className="ws-course-switch">
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {langPill("🌊 Waray (Winaray)", true, false)}
+            {langPill("Cebuano — soon", false, true)}
+            {langPill("Tagalog — soon", false, true)}
+          </div>
+          <p className="ws-course-note" style={{ marginTop: 8 }}>More languages are on the way — your account &amp; progress carry across all of them.</p>
+        </div>
+
+        <SectionLabel icon={<Layers size={14} />} text="Course" />
         <div style={{ display: "flex", gap: 6, margin: "2px 0 12px", flexWrap: "wrap" }}>
           {all.map((c) => (
             <button key={c.id} onClick={() => setSelected(c.id)}
-              style={{ border: "1px solid " + (c.id === selected ? "#0a2e34" : "#e3dccd"), background: c.id === selected ? "#0a2e34" : "#fff", color: c.id === selected ? "#fff" : "#22303a", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+              style={{ border: "1px solid " + (c.id === selected ? "var(--sea-ink)" : "var(--sand-deep)"), background: c.id === selected ? "var(--sea-ink)" : "var(--foam)", color: c.id === selected ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
               {c.name}{c.id === COURSE_ID ? " ·  active" : ""}
             </button>
           ))}
         </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "0 0 14px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "0 0 4px" }}>
           {selected === COURSE_ID
-            ? <span style={{ fontSize: 12.5, color: "#2f8f4e", fontWeight: 600 }}>✓ Your active course</span>
+            ? <span style={{ fontSize: 12.5, color: "var(--jade)", fontWeight: 600 }}>✓ Your active course</span>
             : <button onClick={() => switchTo(selected)} disabled={switching}
-                style={{ background: "#16a3ab", color: "#fff", border: 0, borderRadius: 999, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: switching ? "default" : "pointer", opacity: switching ? 0.7 : 1 }}>
+                style={{ background: "var(--tide)", color: "#fff", border: 0, borderRadius: 999, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: switching ? "default" : "pointer", opacity: switching ? 0.7 : 1 }}>
                 {switching ? "Loading…" : "Switch to this course"}
               </button>}
         </div>
-        {err && <p style={{ color: "#c2384b", fontSize: 12.5 }}>{err}</p>}
+        {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
+        <SectionLabel icon={<Volume2 size={14} />} text="Sound & speech" />
+        <button className="ws-backup-row" onClick={() => setView("pronounce")}>
+          <div className="ws-backup-ic"><Ear size={18} /></div>
+          <div className="ws-backup-txt"><b>Pronunciation guide</b><i>How Waray sounds · voice &amp; speed</i></div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        {SpeechRec && (
+          <button className="ws-backup-row" onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+            <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
+            <div className="ws-backup-txt"><b>Answer by voice</b><i>{settings.voiceMode ? "On — speak your answers" : "Off — type your answers"}</i></div>
+            <span style={{ width: 36, height: 21, borderRadius: 21, background: settings.voiceMode ? "var(--tide)" : "var(--sand-deep)", position: "relative", flex: "none" }}>
+              <span style={{ position: "absolute", top: 2, left: settings.voiceMode ? 17 : 2, width: 17, height: 17, borderRadius: "50%", background: "#fff", transition: "left .15s" }} />
+            </span>
+          </button>
+        )}
+        {SpeechRec && (
+          <button className="ws-backup-row" onClick={() => setView("stttest")}>
+            <div className="ws-backup-ic"><Mic size={18} /></div>
+            <div className="ws-backup-txt"><b>Test speech recognition</b><i>Check if your device can hear Waray</i></div>
+            <ChevronRight size={18} className="ws-cta-arrow" />
+          </button>
+        )}
+
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native speaker" />
+        <button className="ws-backup-row" onClick={() => setView("ella")}>
+          <div className="ws-backup-ic ws-ic-coral"><span style={{ fontSize: 16 }}>👩</span></div>
+          <div className="ws-backup-txt"><b>Ask Ella</b><i>Questions for a native speaker</i></div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+
+        <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
         {isDb ? (
           <>
             {st.loading && <p style={{ color: "#64748b" }}>Loading course from the database…</p>}
@@ -1366,15 +1414,12 @@ function HomeView({ ctx }) {
 
   const heroActions = (
     <div className="ws-hero-btns">
-      <button className="ws-hero-btn" onClick={() => setView("courses")} title="Courses — pick a language / course"><Layers size={18} /></button>
+      <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
       {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("dbreview")} title="Review queue — confirm flagged entries (admin)"><Check size={18} /></button>}
       <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
         title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
         {ctx.user ? <User size={18} /> : <Cloud size={18} />}
       </button>
-      <button className="ws-hero-btn" onClick={() => setView("pronounce")} title="Pronunciation guide"><Ear size={18} /></button>
-      <button className="ws-hero-btn" onClick={() => setView("stttest")} title="Waray speech test"><Mic size={18} /></button>
-      <button className="ws-hero-btn" onClick={() => setView("ella")} title="Ask Ella — questions for a native speaker"><span style={{ fontSize: 17, lineHeight: 1 }}>👩</span></button>
       {SpeechRec && (
         <button className={`ws-hero-btn ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
           onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
@@ -3388,9 +3433,9 @@ function Styles() {
 
 :root{
   --sea-ink:#0a2e34; --sea:#0c6b73; --tide:#16a3ab; --tide-soft:#3fa9b0;
-  --sun:#f4a53a; --sun-deep:#e0892a; --coral:#e2604a; --jade:#4fb286;
-  --shell:#f7f1e6; --sand:#ece2cf; --sand-deep:#ddcfb4;
-  --ink:#15282b; --ink-soft:#4a5d5f; --foam:#ffffff;
+  --sun:#f4a53a; --sun-deep:#e0892a; --coral:#e2604a; --jade:#189f8f;
+  --shell:#f7f1e6; --sand:#efe6d4; --sand-deep:#e6dcc9;
+  --ink:#0e2b2f; --ink-soft:#4a5d5f; --foam:#fffdf7;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 .ws-root{font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
