@@ -17,6 +17,9 @@ const lemma = (s) => norm(s).replace(/^-+/, ""); // strip the book's verb-root h
 // canonical dictionary headword: lowercase, accents stripped (Waray isn't typed with accents;
 // stress lives in the pronunciation guide, sourced from Tramp). Keeps PC words from duplicating CH2's.
 const canon = (s) => lemma(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/^[^a-z0-9]+/, "").replace(/[^a-z0-9]+$/, "");
+// English category/label words that appear in chart headers & row-labels — never valid Waray headwords.
+// Guards against a mis-parsed table cell (e.g. "Demonstrative (han/hin)") leaking in as a "word".
+const EN_STOP = new Set("this that these those here there near far demonstrative demonstratives marker markers pronoun pronouns subject plural singular type adverb place form word meaning class listener speaker possessive object location direction beneficiary full short long proper common noun nouns english waray".split(" "));
 
 const dict = new Map();          // waray -> {meaning,pos}
 const expr = new Map();          // sentence -> id
@@ -45,7 +48,7 @@ function parseParadigm(prose) {
     if (cells.every((c) => c === "" || /^:?-+:?$/.test(c))) continue;   // skip md separator row
     rows.push(cells);
   }
-  const add = (tokens, gloss) => { for (const tok of tokens.split("/")) { const w = canon(tok); if (w && !seen.has(w)) { seen.add(w); out.push({ waray: w, meaning: gloss }); } } };
+  const add = (tokens, gloss) => { for (const tok of tokens.split("/")) { const w = canon(tok); if (w && !seen.has(w) && !EN_STOP.has(w)) { seen.add(w); out.push({ waray: w, meaning: gloss }); } } };
   const HEADER = /^(full|short|long)?\s*(form|meaning|word|pronoun|pronouns|marker|markers|singular|plural|english|waray)$/i;
   const single = (s) => s && !/\s/.test(s.replace(/\s*\/\s*/g, "/"));   // a single Waray token, or A/B alternates
   const dataRows = rows.filter((r) => !(r.length && HEADER.test(r[0])));
@@ -91,12 +94,14 @@ function parseMarkers(prose) {
   for (let r = 1; r < grid.length; r++) {
     const rowLabel = grid[r][0];
     for (let c = 1; c < grid[r].length; c++) {
-      const w = canon(grid[r][c].replace(/\(.*/, "").trim());  // markers are particles → canonical lowercase
-      if (!w || /singular|plural|noun|^w\//i.test(w)) continue;
-      if (seen.has(w)) continue; seen.add(w);
       const where = /proper/i.test(rowLabel) ? "before a name" : /common/i.test(rowLabel) ? "before a common noun" : "particle";
       const pl = /plural/i.test(header[c] || "") ? ", plural" : "";
-      out.push({ waray: w, meaning: `the (${where}${pl})` });   // learner-friendly gloss, not meta-jargon
+      for (const tok of grid[r][c].replace(/\(.*/, "").split("/")) {   // split slashed marker forms: han/hin → han, hin
+        const w = canon(tok.trim());
+        if (!w || EN_STOP.has(w) || /singular|plural|noun/.test(w)) continue;
+        if (seen.has(w)) continue; seen.add(w);
+        out.push({ waray: w, meaning: `the (${where}${pl})` });   // learner-friendly gloss, not meta-jargon
+      }
     }
   }
   return out;
@@ -104,7 +109,12 @@ function parseMarkers(prose) {
 // pos for a paradigm, from the lesson/grammar title
 const paradigmPos = (title = "") => /demonstrative|general pronoun/i.test(title) ? "dem" : /marker/i.test(title) ? "marker" : "pron";
 // the drillable items a grammar chart yields — glossed pronoun/demonstrative table, else a marker grid
-const chartItems = (b) => { const p = parseParadigm(b.prose); return p.length ? p : (/marker/i.test(b.title || "") ? parseMarkers(b.prose) : []); };
+const chartItems = (b) => {
+  // multiple markdown tables in one block = a summary/recap (e.g. L10), not a single teaching paradigm — skip
+  const seps = (b.prose || "").split("\n").filter((l) => /^\s*\|[\s:|-]+\|\s*$/.test(l)).length;
+  if (seps > 1) return [];
+  const p = parseParadigm(b.prose); return p.length ? p : (/marker/i.test(b.title || "") ? parseMarkers(b.prose) : []);
+};
 
 const emitted = [];                                    // ordered {id,title} for the lessons INSERT
 const newLesson = (id, title) => { emitted.push({ id, title }); return { id, ord: 0 }; };
