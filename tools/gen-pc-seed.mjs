@@ -49,6 +49,19 @@ const EXTRAS = {
   21: [{ waray: "ayaw", meaning: "don't (negative command)", pos: "marker" }],
 };
 
+// Canonical learner-facing glosses for the closed set of case markers & demonstratives. The marker/paradigm
+// parser auto-glosses these generically ("the (particle)", "this* (very near)"); this map supersedes that so a
+// from-scratch rebuild produces the same vetted, jargon-free glosses the live DB carries. (Waray case system:
+// an/hi=subject, han/hin/ni=object·genitive, ha/kan=locative; ini/iton/adto=subject dems, h-series=oblique "of".)
+const MARKER_GLOSS = {
+  an: "the (subject marker)", hi: "the (before a name)", ni: "of / by (before a name)",
+  han: "of / the (object marker)", hin: "a / some (object marker)", ha: "to / at / in",
+  kan: "to / for (before a name)", ngan: "and", mga: "plural marker (the …s)", ba: "(yes/no question marker)",
+  ini: "this (near)", iton: "that (near you)", adto: "that (over there)",
+  hini: "of this (very near)", hiton: "of that (near you)", hadto: "of that (far, over there)",
+};
+const glossOf = (w, fallback) => MARKER_GLOSS[w] ?? fallback;
+
 // Pull "word (gloss)" cells out of any markdown chart in a grammar block — the pronoun/marker/
 // demonstrative paradigm. "ikáw / ka (you)" yields BOTH ikáw and ka. Single-token words only,
 // so sentence rows in example charts aren't mistaken for vocabulary.
@@ -142,14 +155,14 @@ function emitGuide(ctx, grammarBlocks, wordsAccum) {    // grammar prose + lift 
     if (para.length) {
       const pos = paradigmPos(b.title);
       const bl = addBlock(ctx.id, ++ctx.ord, "vocab", { title: b.title || "Paradigm" });
-      para.forEach((p, i) => { if (!dict.has(p.waray)) dict.set(p.waray, { meaning: p.meaning, pos }); teach(bl, p.waray, i, wordsAccum); });
+      para.forEach((p, i) => { if (!dict.has(p.waray)) dict.set(p.waray, { meaning: glossOf(p.waray, p.meaning), pos }); teach(bl, p.waray, i, wordsAccum); });
     }
   }
 }
 function emitVocab(ctx, vocabBlocks, wordsAccum) {
   for (const b of vocabBlocks) {
     const bl = addBlock(ctx.id, ++ctx.ord, "vocab");
-    (b.items || []).forEach((v, i) => { const w = canon(v.waray); if (!w) return; if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
+    (b.items || []).forEach((v, i) => { const w = canon(v.waray); if (!w) return; if (!dict.has(w)) dict.set(w, { meaning: glossOf(w, v.meaning), pos: v.pos }); teach(bl, w, i, wordsAccum); });
   }
 }
 const emitNotes = (ctx, notes) => notes.forEach((b) => addBlock(ctx.id, ++ctx.ord, "note", { body: b.text }));
@@ -174,7 +187,7 @@ function emitProd(ctx, drillBlocks, dmod) {             // production drill (spe
 function emitExtras(ctx, extras, wordsAccum) {          // hand-added function words explained in the intro
   if (!extras || !extras.length) return;
   const bl = addBlock(ctx.id, ++ctx.ord, "vocab", { title: "Also in this lesson" });
-  extras.forEach((v, i) => { const w = canon(v.waray); if (!dict.has(w)) dict.set(w, { meaning: v.meaning, pos: v.pos }); teach(bl, w, i, wordsAccum); });
+  extras.forEach((v, i) => { const w = canon(v.waray); if (!dict.has(w)) dict.set(w, { meaning: glossOf(w, v.meaning), pos: v.pos }); teach(bl, w, i, wordsAccum); });
 }
 // Marker-choice drill: the book gives a noun and asks which marker fits (hi/an/hira…). Modality "cloze" —
 // the app blanks the marker and offers the lesson's markers as choices. Item stores the answered phrase
