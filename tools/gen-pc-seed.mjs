@@ -50,7 +50,18 @@ function parseParadigm(prose) {
   const single = (s) => s && !/\s/.test(s.replace(/\s*\/\s*/g, "/"));   // a single Waray token, or A/B alternates
   const dataRows = rows.filter((r) => !(r.length && HEADER.test(r[0])));
 
-  // Mode 2 FIRST — a two-column "word | meaning" table (Full Form | Meaning: Ini | this very near…),
+  // Mode 0 — a HEADER row that NAMES a Waray-word column and a Meaning column (e.g. "Full Word | Short
+  // | Meaning"). Handles 3-column charts (L7 locatives Dínhi/Dida/Dídto) and must beat Mode 1 so the
+  // English MEANING cells ("here (very near)") aren't misread as the Waray headwords.
+  const HW = /full\s*(word|form)|^word$|waray|pronoun/i, HM = /mean|english|gloss/i, HS = /short/i;
+  if (rows.length >= 2) {
+    const h = rows[0], wc = h.findIndex((x) => HW.test(x)), mc = h.findIndex((x) => HM.test(x)), sc = h.findIndex((x) => HS.test(x));
+    if (wc >= 0 && mc >= 0) {
+      for (let r = 1; r < rows.length; r++) { const m = (rows[r][mc] || "").trim(); if (!m) continue; for (const col of [wc, sc]) if (col >= 0 && rows[r][col]) add(rows[r][col], m); }
+      if (out.length) return out;
+    }
+  }
+  // Mode 2 — a two-column "word | meaning" table (Full Form | Meaning: Ini | this very near…),
   // where column 1 is a bare Waray token. Must win over Mode 1 so the English gloss isn't read as the word.
   if (rows.every((r) => r.length === 2) && dataRows.every((r) => single(r[0]) && !/\(/.test(r[0]))) {
     for (const [c0, c1] of dataRows) if (c0 && c1) add(c0, c1);
