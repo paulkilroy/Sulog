@@ -12,3 +12,7 @@ build/
 **/.DS_Store
 .env.local
 dist/
+
+# never commit DB credentials
+.dburl
+*.dburl
