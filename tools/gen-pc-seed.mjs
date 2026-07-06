@@ -33,6 +33,17 @@ const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, 
 // Function words explained in a lesson's intro prose but not in its chart — added by hand as we vet lessons.
 const EXTRAS = {
   2: [{ waray: "ngan", meaning: "and", pos: "conj" }, { waray: "mga", meaning: "plural marker (before a noun)", pos: "marker" }],
+  // L8's III-Class pronoun chart is glossless + multi-table, so the parser can't extract it — add the
+  // known set by hand (their meanings come from the book's examples: "akon uyab" = my girlfriend, etc.).
+  8: [
+    { waray: "akon", meaning: "my / mine", pos: "pron" },
+    { waray: "imo", meaning: "your / yours (sg)", pos: "pron" },
+    { waray: "iya", meaning: "his / her", pos: "pron" },
+    { waray: "aton", meaning: "our / ours (incl)", pos: "pron" },
+    { waray: "amon", meaning: "our / ours (excl)", pos: "pron" },
+    { waray: "iyo", meaning: "your / yours (pl)", pos: "pron" },
+    { waray: "ira", meaning: "their / theirs", pos: "pron" },
+  ],
 };
 
 // Pull "word (gloss)" cells out of any markdown chart in a grammar block — the pronoun/marker/
