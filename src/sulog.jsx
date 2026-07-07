@@ -887,11 +887,9 @@ export default function App() {
   // an end-of-lesson gate (DB courses): a graded test over its EXACT recall items (produce Waray,
   // typed, no hints). Pass is sticky, tracked in the same units map as unit reviews.
   const startGate = useCallback((gate) => {
-    const present = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
-    // test the paradigm TABLE first, then the applied sentences — the book teaches the
-    // pronoun/marker/demonstrative table (single words) before drilling it in full sentences,
-    // so single-token items lead. Stable sort keeps each group's authored order.
-    const ids = [...present].sort((a, b) => (/\s/.test(a) ? 1 : 0) - (/\s/.test(b) ? 1 : 0));
+    // items are stored in exam order (paradigm table first, then applied sentences — see
+    // emitGate in tools/gen-pc-seed.mjs); play them as-is.
+    const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
     if (!ids.length) return;
     // graded both ways too (first half Waray→English, second half English→Waray)
     const half = Math.ceil(ids.length / 2);

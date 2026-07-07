@@ -239,13 +239,15 @@ function emitGate(ctx, reviewBlocks, recallWords) {
   if (!src.length && !(recallWords && recallWords.length)) return;
   const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true });
   let ord = 0;
+  // Order the exam as the book teaches: the paradigm TABLE first, THEN the applied review sentences.
+  // The book's own "write the paradigm from memory" drill was fabricated by the extraction and dropped,
+  // so this recalls the prior lesson's paradigm from OUR known-good words — placed first to match the
+  // lesson's own sequence (paradigm before sentences), not appended as a synthetic afterthought.
+  (recallWords || []).forEach((w) => items.push({ b: bl, ord: ++ord, dict: w, role: "item" }));
   src.forEach((e) => {
     const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
     const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: ++ord, expr: id, role: "item" });
   });
-  // the book's dropped "write the paradigm from memory" review (Gemini fabricated its answers) — instead
-  // test the prior lesson's paradigm from OUR known-good words, so the gate survives.
-  (recallWords || []).forEach((w) => items.push({ b: bl, ord: ++ord, dict: w, role: "item" }));
 }
 
 let prevLast = null, prevParadigm = [];   // the last sub-lesson ctx + paradigm words of the PREVIOUS lesson
