@@ -73,15 +73,18 @@ for (const l of lessons) for (const b of (byLesson.get(l.id) || [])) for (const 
   cards.push({ waray: i.waray, en: i.en, deck: l.uid, phrase: /\s/.test(i.waray.trim()) });
 }
 const key = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
-function distractors(item, deck) { // replicate pickDistractors: 3 English options, same shape, distinct meaning, prefer same deck
+// replicate pickDistractors: 3 English options, same shape, distinct meaning. `section` (this drill's
+// items) is tried first so wrong answers stay inside the section, then the unit deck, then anywhere.
+function distractors(item, deck, section) {
   const aW = key(item.waray), aE = key(item.en), want = /\s/.test(item.waray.trim());
   const distinct = (c) => c.waray !== item.waray && key(c.waray) !== aW && key(c.en) !== aE;
-  const shaped = (c) => c.phrase === want;
-  let pool = cards.filter((c) => distinct(c) && shaped(c) && c.deck === deck);
-  if (pool.length < 3) pool = cards.filter((c) => distinct(c) && shaped(c));
-  if (pool.length < 3) pool = cards.filter(distinct);
+  const shaped = (c) => /\s/.test((c.waray || "").trim()) === want;
   const seen = new Set([aE]), out = [];
-  for (const c of pool.sort((a, b) => a.waray.localeCompare(b.waray))) { if (c.en && !seen.has(key(c.en))) { seen.add(key(c.en)); out.push(c.en); } if (out.length === 3) break; }
+  const fill = (list) => { for (const c of list.slice().sort((a, b) => a.waray.localeCompare(b.waray))) { if (out.length === 3) break; if (!distinct(c)) continue; if (c.en && !seen.has(key(c.en))) { seen.add(key(c.en)); out.push(c.en); } } };
+  fill((section || []).filter(shaped));                                    // this section first
+  if (out.length < 3) fill(cards.filter((c) => shaped(c) && c.deck === deck)); // this unit
+  if (out.length < 3) fill(cards.filter(shaped));                          // any unit, same shape
+  if (out.length < 3) fill(cards);                                         // last resort
   return out;
 }
 
@@ -110,7 +113,7 @@ for (const l of lessons) {
     for (const i of its) {
       let verd = null, choices = null;
       if ((b.type === "drill" || b.type === "assessment") && isSent(i.waray)) { stats.sentTotal++; verd = inBook(i.waray); if (!verd) stats.synth++; }
-      if (B.mc) { choices = distractors(i, l.uid); stats.mc++; }
+      if (B.mc) { choices = distractors(i, l.uid, its); stats.mc++; } // its = this drill's items = the section
       B.items.push({ waray: i.waray, en: i.en, dir: i.dir, verbatim: verd, choices });
     }
     L.blocks.push(B);

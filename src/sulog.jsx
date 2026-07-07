@@ -1192,9 +1192,11 @@ function DbBlock({ block, guides, pool, deck }) {
   const c = BLK_COLOR[block.type] || "#8a9499";
   const items = block.items || [];
   const isMC = block.type === "drill" && block.drill_kind === "recognition" && block.drill_modality === "mc";
+  // this drill's own items are the section — wrong answers come from here first
+  const section = items.map((it) => ({ id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", deck }));
   const mcChoices = (it) => {
     const card = { id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", deck };
-    return [{ t: card.english, ans: true }, ...pickDistractors(pool || [], card, "wte").map((x) => ({ t: x, ans: false }))];
+    return [{ t: card.english, ans: true }, ...pickDistractors(pool || [], card, "wte", section).map((x) => ({ t: x, ans: false }))];
   };
   const renderItem = (it, i) => <DbItem key={i} it={it} dir={dbItemDir(block, items, i, it)} choices={isMC ? mcChoices(it) : null} />;
   const head = (label) => <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700, color: c, marginBottom: 4 }}>{label}</div>;
@@ -1920,7 +1922,7 @@ function SessionView({ ctx }) {
   if (done) return <SessionDone ctx={ctx} tally={tally} total={base.length} results={results} />;
   if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} results={results} />;
 
-  const distractors = pickDistractors(cards, card, cardDir);
+  const distractors = pickDistractors(cards, card, cardDir, base); // base = this session's/section's cards
   const scoredDone = results.length;
   return (
     <div className="ws-page ws-session">
@@ -1958,7 +1960,11 @@ function SessionView({ ctx }) {
   );
 }
 
-function pickDistractors(cards, card, dir) {
+// `prefer` = the cards of the CURRENT section (this drill / lesson step). Wrong answers are drawn
+// from the tightest scope first — other items just taught in this same section — then widened to
+// the unit deck, then any deck (same shape), then anything. That keeps distractors relevant instead
+// of pulling correct answers from lessons the learner hasn't reached yet.
+function pickDistractors(cards, card, dir, prefer) {
   const field = dir === "wte" ? "english" : "waray";
   const key = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
   const aW = key(card.waray), aE = key(card.english);
@@ -1970,13 +1976,14 @@ function pickDistractors(cards, card, dir) {
   const isPhrase = (c) => /\s/.test((c.waray || "").trim());
   const want = isPhrase(card);
   const shaped = (c) => isPhrase(c) === want;
-  let pool = cards.filter((c) => distinct(c) && shaped(c) && c.deck === card.deck);
-  if (pool.length < 3) pool = cards.filter((c) => distinct(c) && shaped(c)); // widen: any deck, same shape
-  if (pool.length < 3) pool = cards.filter(distinct);                        // last resort: anything distinct
-  // collect 3 options that are distinct from the answer AND from each other by value
+  // accumulate up to 3 options across widening tiers (a small section still fills out)
   const seen = new Set([key(card[field])]);
   const out = [];
-  for (const c of shuffle(pool)) { const v = c[field]; if (v && !seen.has(key(v))) { seen.add(key(v)); out.push(v); } if (out.length === 3) break; }
+  const fill = (list) => { for (const c of shuffle(list)) { if (out.length === 3) break; if (!distinct(c)) continue; const v = c[field]; if (v && !seen.has(key(v))) { seen.add(key(v)); out.push(v); } } };
+  fill((prefer || []).filter(shaped));                                       // this section first
+  if (out.length < 3) fill(cards.filter((c) => shaped(c) && c.deck === card.deck)); // this unit
+  if (out.length < 3) fill(cards.filter(shaped));                            // any unit, same shape
+  if (out.length < 3) fill(cards);                                           // last resort: relax shape
   return out;
 }
 
