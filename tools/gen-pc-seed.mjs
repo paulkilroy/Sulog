@@ -293,19 +293,19 @@ out.push("-- noisy OCR — everything confirmed=false (needs review). Load AFTER
 out.push("-- Paradigm lessons SPLIT: Na (pronoun/marker chart → MC → substitution drill), Nb (vocab → MC → examples → translate).");
 out.push("-- Verb/review lessons stay single (learn then practice).\n");
 out.push("insert into courses values ('pc','Peace Corps Waray','war','grammar-spine') on conflict (id) do nothing;");
-// The whole 114-page book is one phase ("Foundations"). Inside it, the 30 sub-lessons split into
-// 5 content-based UNITS (by book-lesson number) — each carries its lessons + end-of-lesson gates +
-// a review. This matches the approved mockup: one course → 5 units. Names ≈ the grammar theme.
-const UNITS = [
-  { id: "pc-u1", name: "Personal pronouns & markers", lo: 1, hi: 4 },
-  { id: "pc-u2", name: "Actor-focus verbs & III-class pronouns", lo: 5, hi: 10 },
-  { id: "pc-u3", name: "Linkers & particles", lo: 11, hi: 15 },
-  { id: "pc-u4", name: "Negation", lo: 16, hi: 20 },
-  { id: "pc-u5", name: "Commands, special verbs & questions", lo: 21, hi: 23 },
+// Each of the 5 content groups (by book-lesson number) is its own PHASE, so all 5 show on the home
+// page and unlock in order. Each phase holds a single unit that carries its lessons + end-of-lesson
+// gates + a review. Names ≈ the grammar theme.
+const GROUPS = [
+  { pid: "pc-p1", uid: "pc-u1", name: "Personal pronouns & markers", lo: 1, hi: 4 },
+  { pid: "pc-p2", uid: "pc-u2", name: "Actor-focus verbs & III-class pronouns", lo: 5, hi: 10 },
+  { pid: "pc-p3", uid: "pc-u3", name: "Linkers & particles", lo: 11, hi: 15 },
+  { pid: "pc-p4", uid: "pc-u4", name: "Negation", lo: 16, hi: 20 },
+  { pid: "pc-p5", uid: "pc-u5", name: "Commands, special verbs & questions", lo: 21, hi: 23 },
 ];
-const unitFor = (id) => { const n = +(/^pc-l(\d+)/.exec(id)?.[1] || 0); return (UNITS.find((u) => n >= u.lo && n <= u.hi) || UNITS[UNITS.length - 1]).id; };
-out.push("insert into phases values ('pc-p1','pc',1,'Foundations','the complete 114-page Peace Corps Phase-1 book — pronouns, verbs, particles, negation, questions') on conflict (id) do nothing;");
-out.push("insert into units values\n" + UNITS.map((u, i) => `  ('${u.id}','pc-p1',${i + 1},${S(u.name)},null,null)`).join(",\n") + " on conflict (id) do nothing;");
+const unitFor = (id) => { const n = +(/^pc-l(\d+)/.exec(id)?.[1] || 0); return (GROUPS.find((g) => n >= g.lo && n <= g.hi) || GROUPS[GROUPS.length - 1]).uid; };
+out.push("insert into phases values\n" + GROUPS.map((g, i) => `  ('${g.pid}','pc',${i + 1},${S(g.name)},null)`).join(",\n") + " on conflict (id) do nothing;");
+out.push("insert into units values\n" + GROUPS.map((g) => `  ('${g.uid}','${g.pid}',1,${S(g.name)},null,null)`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into lessons (id,unit_id,ord,title) values\n" + emitted.map((l, i) => `  (${S(l.id)},'${unitFor(l.id)}',${i + 1},${S(l.title)})`).join(",\n") + " on conflict (id) do nothing;");
 // Refresh the gloss/pos of any UNCONFIRMED row (PC's own, re-generated each run) but never touch a
 // human-confirmed entry — so the generator stays the source of truth until Ella signs off.
