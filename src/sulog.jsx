@@ -516,15 +516,28 @@ function lev(a, b) {
 // (loanwords + the recognizer spell /k/ as "c", e.g. "Rico" for "riko")
 const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i").replace(/c/g, "k");
 const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
-function checkAnswer(input, target, waray) {
+// `spoken` = the input came from speech recognition (noisy: it splits/joins words and
+// hallucinates syllables), which unlocks the lenient whole-phrase / space-insensitive /
+// containment matching below. TYPED input gets only exact + per-word matching, so a short
+// critical word (pronoun/marker — "ka" you-sg vs "kamo" you-pl, "an" vs "in") can never be
+// waved through by a whole-phrase edit-distance budget that its neighbours' length paid for.
+function checkAnswer(input, target, waray, spoken) {
   let got = norm(input);
   if (!got) return false;
   const targets = alts(target);
   if (waray) got = warayFold(got);
   const gotC = got.replace(/ /g, ""); // space-stripped: the recognizer splits/joins words freely
+  const gotW = got.split(" ");
   for (let t of targets) {
     if (waray) t = warayFold(t);
     if (got === t) return true;
+    // per-word: same word count, and EACH word within its own length-scaled tolerance.
+    // Short words get 0 tolerance (_tol), so pronoun/marker distinctions are preserved
+    // while long words keep their typo slack. This is the only fuzzy path for typed input.
+    const tW = t.split(" ");
+    if (gotW.length === tW.length && gotW.every((w, i) => lev(w, tW[i]) <= _tol(tW[i].length))) return true;
+    if (!spoken) continue;
+    // --- speech-only leniency (recognizer mangling) ---
     if (lev(got, t) <= _tol(t.length)) return true;
     if (waray) {
       // Filipino/Tagalog recognition mangles Waray: it splits one word into several
@@ -1159,7 +1172,7 @@ function BundledOverview({ course, open, setOpen }) {
         return (
           <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
             <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-              style={{ width: "100%", textAlign: "left", background: "var(--sand)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+              style={{ width: "100%", textAlign: "left", background: "var(--sand)", color: "var(--ink)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
               <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
               <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
               <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
@@ -1322,7 +1335,7 @@ function LanguageView({ ctx }) {
                   return (
                     <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
                       <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-                        style={{ width: "100%", textAlign: "left", background: "var(--sand)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+                        style={{ width: "100%", textAlign: "left", background: "var(--sand)", color: "var(--ink)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
                         <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
                         <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
                         <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
@@ -1902,7 +1915,7 @@ const SpeechRec = typeof window !== "undefined" && (window.SpeechRecognition || 
 // true if ANY recognition alternative passes the lenient check (STT is noisy, so
 // give credit if any of the hypotheses matches)
 function speechMatches(alts, answer, waray) {
-  return (alts || []).some((a) => checkAnswer(a, answer, waray));
+  return (alts || []).some((a) => checkAnswer(a, answer, waray, true));
 }
 
 // mic button that transcribes one spoken phrase; feeds interim text live and the
@@ -2210,7 +2223,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     const finish = (a) => {
       settled = true; clearTimeout(liveFallback); clearTimeout(settleTimer); clearTimeout(hardStop); setVmState("idle"); setSttAlts(a);
       const waray = dir === "etw";
-      if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
+      if (mode === "type") { const m = a.find((x) => checkAnswer(x, answer, waray, true)); setTyped(m ? answer : (a[0] || "")); judge(!!m); }
       else { // mc / listen — pick the CLOSEST-matching option, not the first loose match
         // (e.g. "waray pa" contains "waray", but should select "Waray pa" exactly, not "Waray")
         let best = -1, bestD = Infinity;
