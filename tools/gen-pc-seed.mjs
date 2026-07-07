@@ -26,7 +26,14 @@ const expr = new Map();          // sentence -> id
 let eid = 20000, bid = 20000;
 const blocks = [], items = [];
 const exprRows = [];
-const putExpr = (war, en) => { const w = norm(war), e = norm(en); if (!w || !e) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
+// Gemini hallucinations to reject: sentences it invented for a substitution drill that are NOT in the
+// book OCR AND are linguistically wrong. "Madig-on hiya" applies madig-on — glossed "strong (things)" —
+// to a PERSON pronoun; the book only ever pairs madig-on with things ("Madig-on an mga lingkuran",
+// "Madig-on adto nga bangko"). Verified absent from docs/sources/peace-corps/*. (makusog + a person is
+// fine, so those generated sentences stay.)
+const FABRICATED = new Set(["madig-on hiya"]);
+const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
+const putExpr = (war, en) => { const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };
 
