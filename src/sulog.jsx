@@ -3943,8 +3943,8 @@ function Styles() {
 
 /* session */
 .ws-session{padding-top:16px}
-.ws-remedy{margin:-10px 0 16px;padding:9px 13px;border-radius:11px;background:#fff5e6;border:1px solid var(--sun);
-  color:#9a6300;font-size:12.5px;font-weight:600;text-align:center}
+.ws-remedy{margin:-10px 0 16px;padding:9px 13px;border-radius:11px;background:color-mix(in srgb,var(--sun) 15%,var(--foam));border:1px solid var(--sun);
+  color:var(--sun-deep);font-size:12.5px;font-weight:600;text-align:center}
 .ws-auto-bar{height:3px;border-radius:3px;background:currentColor;opacity:.35;margin-top:11px;
   transform-origin:left;animation:wsAuto linear forwards}
 @keyframes wsAuto{from{transform:scaleX(1)}to{transform:scaleX(0)}}
@@ -4040,7 +4040,7 @@ function Styles() {
 .ws-input{width:100%;padding:15px 16px;border-radius:13px;border:1.5px solid var(--sand-deep);
   font-size:17px;font-family:'Fraunces',serif;color:var(--ink);background:var(--shell);outline:none;
   transition:.15s}
-.ws-input:focus{border-color:var(--tide);background:#fff}
+.ws-input:focus{border-color:var(--tide);background:color-mix(in srgb,var(--tide) 8%,var(--foam))}
 .ws-check{width:100%;margin-top:12px;padding:14px;border-radius:13px;border:none;background:var(--sea);
   color:#fff;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;transition:.15s}
 .ws-check:active{transform:scale(.99)}
@@ -4229,9 +4229,9 @@ function Styles() {
 .ws-phrase-edit{margin-top:14px}
 .ws-phrase-edit label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
 .ws-phrase-edit textarea{width:100%;box-sizing:border-box;margin-top:5px;font-size:18px;font-weight:600;color:var(--ink);
-  background:#fff;border:1px solid var(--sand-deep);border-radius:12px;padding:11px 13px;resize:vertical}
+  background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:11px 13px;resize:vertical}
 .ws-phrase-export{width:100%;box-sizing:border-box;height:46vh;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;
-  border:1px solid var(--sand-deep);border-radius:12px;padding:12px;margin-bottom:14px;background:#fff;color:var(--ink)}
+  border:1px solid var(--sand-deep);border-radius:12px;padding:12px;margin-bottom:14px;background:var(--foam);color:var(--ink)}
 .ws-stt-btn.flag{flex:0 0 100%;background:transparent;border:1px dashed var(--sand-deep);color:var(--ink-soft);font-weight:600}
 .ws-stt-btn.flag.on{background:#fdf0ec;border-color:#d8745c;color:#c0432b}
 .ws-rules{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
