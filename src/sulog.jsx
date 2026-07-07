@@ -1136,36 +1136,82 @@ function renderMd(md) {
     ? <table key={i} style={{ borderCollapse: "collapse", margin: "6px 0", fontSize: 12.5 }}><tbody>{o.rows.map((r, ri) => <tr key={ri}>{r.map((c, ci) => <td key={ci} style={{ border: "1px solid #e3dccd", padding: "3px 8px" }}>{c}</td>)}</tr>)}</tbody></table>
     : <p key={i} style={{ margin: "3px 0", fontSize: 13.5, lineHeight: 1.5 }}>{o.p}</p>);
 }
-function DbItem({ it }) {
+const isSentW = (w) => /\s/.test((w || "").trim());
+// the quiz direction the preview shows for an item, mirroring the lesson player: recognition
+// drills go Waray→English; production drills split half/half; the exam tests the paradigm TABLE
+// (single words) Waray→English and the applied SENTENCES English→Waray.
+function dbItemDir(block, items, idx, it) {
+  if (block.type === "assessment" && block.assess_gate) {
+    const hasW = items.some((x) => !isSentW(x.waray)), hasS = items.some((x) => isSentW(x.waray));
+    if (hasW && hasS) return isSentW(it.waray) ? "etw" : "wte";
+    return idx < Math.ceil(items.length / 2) ? "wte" : "etw";
+  }
+  if (block.type === "drill" && block.drill_kind === "production") return idx < Math.ceil(items.length / 2) ? "wte" : "etw";
+  if (block.type === "drill") return "wte";
+  return null;
+}
+const DirBadge = ({ d }) => !d ? null : (
+  <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: ".04em", padding: "1px 5px", borderRadius: 5, whiteSpace: "nowrap", flex: "0 0 auto",
+    ...(d === "wte" ? { background: "rgba(28,176,184,.18)", color: "var(--sea)", border: "1px solid rgba(28,176,184,.4)" }
+                    : { background: "rgba(244,165,58,.16)", color: "var(--sun)", border: "1px solid rgba(244,165,58,.4)" }) }}>
+    {d === "wte" ? "WAR→ENG" : "ENG→WAR"}
+  </span>
+);
+function DbItem({ it, dir, choices }) {
   const meaning = it.meaning || it.translation || "";
   const pron = it.pronunciation;
+  if (choices) { // multiple-choice drill: show the prompt + all options (correct one in green)
+    return (
+      <div style={{ background: "rgba(197,138,42,.06)", borderRadius: 8, padding: "6px 8px", margin: "3px 0", display: "flex", flexDirection: "column", gap: 5 }}>
+        <div style={{ display: "flex", gap: 7, alignItems: "baseline", flexWrap: "wrap" }}>
+          <DirBadge d={dir} />
+          <b onClick={() => speak({ waray: it.waray, say: pron || "", english: meaning })} style={{ fontFamily: "Georgia,serif", fontSize: 15, cursor: "pointer" }} title="Tap to hear">{it.waray}</b>
+        </div>
+        <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+          {choices.map((ch, k) => (
+            <span key={k} style={{ fontSize: 11.5, borderRadius: 8, padding: "2px 8px",
+              ...(ch.ans ? { background: "var(--jade)", color: "#0b1f23", fontWeight: 700, border: "1px solid var(--jade)" }
+                         : { background: "var(--sand)", color: "var(--ink-soft)", border: "1px solid var(--sand-deep)" }) }}>{ch.t}</span>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div onClick={() => speak({ waray: it.waray, say: pron || "", english: meaning })}
-      style={{ cursor: "pointer", padding: "3px 0", borderBottom: "1px dotted #efe7d9", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}
+      style={{ cursor: "pointer", padding: "3px 0", borderBottom: "1px dotted #24454b", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}
       title="Tap to hear">
+      <DirBadge d={dir} />
       <b style={{ fontFamily: "Georgia,serif", fontSize: 15 }}>{it.waray}</b>
       <span style={{ color: "var(--ink-soft)", fontSize: 12.5 }}>{meaning}</span>
       {pron && <span style={{ marginLeft: "auto", fontFamily: "ui-monospace,monospace", fontSize: 11, color: "#8a9499" }}>{pron}</span>}
     </div>
   );
 }
-function DbBlock({ block, guides }) {
+function DbBlock({ block, guides, pool, deck }) {
   const c = BLK_COLOR[block.type] || "#8a9499";
   const items = block.items || [];
+  const isMC = block.type === "drill" && block.drill_kind === "recognition" && block.drill_modality === "mc";
+  const mcChoices = (it) => {
+    const card = { id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", deck };
+    return [{ t: card.english, ans: true }, ...pickDistractors(pool || [], card, "wte").map((x) => ({ t: x, ans: false }))];
+  };
+  const renderItem = (it, i) => <DbItem key={i} it={it} dir={dbItemDir(block, items, i, it)} choices={isMC ? mcChoices(it) : null} />;
   const head = (label) => <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", fontWeight: 700, color: c, marginBottom: 4 }}>{label}</div>;
   let body;
   if (block.type === "grammar" || block.type === "examples" || block.type === "note") {
-    body = <>{head(block.type + (block.title ? " · " + block.title : ""))}{block.body_md && <div>{renderMd(block.body_md)}</div>}{block.formula && <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 12, background: "var(--sand)", border: "1px solid #d6e2ef", borderRadius: 6, padding: "5px 8px", margin: "5px 0" }}>{block.formula}</div>}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
+    body = <>{head(block.type + (block.title ? " · " + block.title : ""))}{block.body_md && <div>{renderMd(block.body_md)}</div>}{block.formula && <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 12, background: "var(--sand)", border: "1px solid #d6e2ef", borderRadius: 6, padding: "5px 8px", margin: "5px 0" }}>{block.formula}</div>}{items.map(renderItem)}</>;
   } else if (block.type === "vocab" || block.type === "phrases") {
-    body = <>{head((block.type === "vocab" ? "Words" : "Phrases") + " · " + items.length)}{items.map((it, i) => <DbItem key={i} it={it} />)}</>;
+    body = <>{head((block.type === "vocab" ? "Words" : "Phrases") + " · " + items.length)}{items.map(renderItem)}</>;
   } else if (block.type === "drill") {
-    body = <>{head("Drill · " + (block.drill_kind || "") + "/" + (block.drill_modality || "") + (block.drill_hint ? " · " + block.drill_hint : ""))}
-      {items.map((it, i) => <DbItem key={i} it={it} />)}
+    const dirLabel = block.drill_kind === "production" ? "Produce · both ways" : block.drill_kind === "recognition" ? "Recognize · Waray→English" : block.drill_kind;
+    body = <>{head("Drill · " + dirLabel + (isMC ? " · multiple choice" : ""))}
+      {items.map(renderItem)}
       {guides.length > 0 && <div style={{ marginTop: 5, display: "flex", gap: 5, flexWrap: "wrap" }}>{guides.map((g) => <span key={g} style={{ fontSize: 10, background: "var(--sand)", color: "var(--tide)", border: "1px solid #d6e2ef", borderRadius: 10, padding: "1px 7px" }}>{g}</span>)}</div>}</>;
   } else if (block.type === "assessment") {
     body = <>
-      <div style={{ color: "var(--coral)", fontSize: 13, marginBottom: items.length ? 5 : 0 }}>🔒 Graded review · {items.length || block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>
-      {items.map((it, i) => <DbItem key={i} it={it} />)}
+      <div style={{ color: "var(--coral)", fontSize: 13, marginBottom: items.length ? 5 : 0 }}>🔒 Graded review · both ways · {items.length || block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>
+      {items.map(renderItem)}
     </>;
   } else if (block.type === "story") {
     body = <div style={{ color: "#7a5aa8", fontSize: 13 }}>📖 Story · {block.story_id}</div>;
@@ -1257,6 +1303,18 @@ function LanguageView({ ctx }) {
   ];
   if (!all.some((c) => c.id === COURSE_ID)) all.push({ id: COURSE_ID, name: ACTIVE.name }); // active DB course before the list lands
   const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
+  // flat card pool for the preview's multiple-choice distractors (deck = unit id) — scoped to the
+  // PREVIEWED course, not the active deck, so options come from the right vocabulary
+  const previewPool = React.useMemo(() => {
+    if (!st.course) return [];
+    const out = [], seen = new Set();
+    for (const p of st.course.phases || []) for (const u of p.units || []) for (const l of u.lessons || []) for (const b of l.blocks || []) for (const it of b.items || []) {
+      const eng = it.meaning || it.translation || "";
+      if (!it.waray || !eng || seen.has(it.waray)) continue;
+      seen.add(it.waray); out.push({ id: it.waray, waray: it.waray, english: eng, deck: u.id });
+    }
+    return out;
+  }, [st.course]);
 
   const langPill = (label, on, soon) => (
     <span style={{ fontSize: 12.5, border: "1px " + (soon ? "dashed" : "solid") + " " + (on ? "var(--tide)" : "var(--sand-deep)"),
@@ -1362,7 +1420,7 @@ function LanguageView({ ctx }) {
                             return (
                               <div key={l.id} style={{ margin: "10px 0" }}>
                                 <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
-                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} />)}
+                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} deck={u.id} />)}
                               </div>
                             );
                           })}
