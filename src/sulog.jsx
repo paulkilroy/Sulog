@@ -1397,6 +1397,12 @@ function LanguageView({ ctx }) {
         )}
 
         <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
+        {isDb && (
+          <a href="/verify.html" target="_blank" rel="noopener"
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 600, color: "var(--tide)", textDecoration: "none", margin: "0 0 10px" }}>
+            <BookOpen size={13} /> Open the full book comparison ↗
+          </a>
+        )}
         {isDb ? (
           <>
             {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading course from the database…</p>}
