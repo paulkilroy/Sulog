@@ -164,7 +164,12 @@ const LESSON_PARTS = [
 // (see startUnitReview). `kind: "apply"` still marks a phrase lesson (for the ①/②
 // grouping and which cards the review tests) — it no longer shortens the drill.
 const partsFor = () => LESSON_PARTS;
-const partCountById = (id) => partsFor(LESSON_FLOW.find((l) => l.id === id)).length;
+// DB (grammar-spine) lessons play their own block STEPS; bundled lessons play the 4-step ladder.
+const partCountById = (id) => { const l = LESSON_FLOW.find((x) => x.id === id); return l?.steps ? l.steps.length : partsFor(l).length; };
+// a drill step's session direction + mode, from the book block's kind/modality
+const drillParams = (step) => step.kind === "production"
+  ? [step.modality === "voice" ? "etw" : "etw", step.modality === "voice" ? "voice" : "type"]
+  : ["wte", "mc"]; // recognition (mc / cloze) → recognize Waray→English
 
 // Top tier = sections; each section holds units; each unit holds lessons.
 const CURRICULUM = ACTIVE.curriculum;
@@ -747,6 +752,7 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [lessons, setLessons] = useState({}); // lessonId -> parts completed (0–4)
   const [lessonId, setLessonId] = useState(null); // lesson open in LessonView
+  const [stepIdx, setStepIdx] = useState(0); // which teach/vocab step is open in TeachView (DB lessons)
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [storyUnit, setStoryUnit] = useState(null); // unit whose capstone story is open
@@ -839,6 +845,18 @@ export default function App() {
     setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx }, remediate: part.mode === "type" });
     setView("session");
   }, [cards]);
+  // DB (grammar-spine) lesson STEP: teach/vocab open a reading screen; a drill runs the book's
+  // specific items in that block's own format (recognition MC, produce typed/spoken) — no 4-step ladder.
+  const startStep = useCallback((lesson, idx) => {
+    const step = lesson.steps[idx];
+    if (step.type === "drill") {
+      const [dir, mode] = drillParams(step);
+      setSession({ deckKeys: Object.keys(DECKS), dir, mode, limit: step.items.length, only: step.items, lesson: { id: lesson.id, part: idx } });
+      setView("session");
+    } else {
+      setLessonId(lesson.id); setStepIdx(idx); setView("teach");
+    }
+  }, []);
   // the unit review — the one graded checkpoint: 10 of your hardest words in the
   // unit, English→Waray typed, no remediation (it's a real test). Pass = 80%.
   const startUnitReview = useCallback((unit) => {
@@ -1023,7 +1041,7 @@ export default function App() {
     recordCard, togglePin, playCard, bumpStreak, saveProg,
     exportData, importData, settings, saveSettings,
     syncState, syncPull, syncPush,
-    lessons, lessonId, setLessonId, completeLessonPart, startLessonPart,
+    lessons, lessonId, setLessonId, completeLessonPart, startLessonPart, startStep, stepIdx,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
     history, logAttempt, units, startUnitReview, markUnitReview, startGate,
@@ -1043,6 +1061,7 @@ export default function App() {
       {view === "home" && <HomeView ctx={ctx} />}
       {view === "learn" && <LearnView ctx={ctx} />}
       {view === "lesson" && <LessonView ctx={ctx} />}
+      {view === "teach" && <TeachView ctx={ctx} />}
       {view === "story" && <StoryView ctx={ctx} />}
       {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
@@ -1109,7 +1128,10 @@ function DbBlock({ block, guides }) {
       {items.map((it, i) => <DbItem key={i} it={it} />)}
       {guides.length > 0 && <div style={{ marginTop: 5, display: "flex", gap: 5, flexWrap: "wrap" }}>{guides.map((g) => <span key={g} style={{ fontSize: 10, background: "var(--sand)", color: "var(--tide)", border: "1px solid #d6e2ef", borderRadius: 10, padding: "1px 7px" }}>{g}</span>)}</div>}</>;
   } else if (block.type === "assessment") {
-    body = <div style={{ color: "var(--coral)", fontSize: 13 }}>🔒 Graded review · {block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>;
+    body = <>
+      <div style={{ color: "var(--coral)", fontSize: 13, marginBottom: items.length ? 5 : 0 }}>🔒 Graded review · {items.length || block.assess_n || 10} items · {Math.round((block.assess_threshold || 0.8) * 100)}% to pass · no hints</div>
+      {items.map((it, i) => <DbItem key={i} it={it} />)}
+    </>;
   } else if (block.type === "story") {
     body = <div style={{ color: "#7a5aa8", fontSize: 13 }}>📖 Story · {block.story_id}</div>;
   } else if (block.type === "review") {
@@ -2476,7 +2498,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 }
 
 function SessionDone({ ctx, tally, total, results = [] }) {
-  const { setView, setSession, session, cards, markUnitReview, lessons, units, startLessonPart, startUnitReview, setLessonId, setLearnSection } = ctx;
+  const { setView, setSession, session, cards, markUnitReview, lessons, units, startLessonPart, startStep, startUnitReview, setLessonId, setLearnSection } = ctx;
   const inLesson = !!session?.lesson;
   const isUnitReview = !!session?.unitReview; // the unit's graded checkpoint
   const isGate = !!session?.gate;             // an end-of-lesson gate
@@ -2503,7 +2525,14 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   // lesson. The default — Enter triggers it (after a short guard so the Enter
   // that finished the last card doesn't carry through and skip this screen).
   let nextAction = null;
-  if (inLesson) {
+  if (inLesson && LESSON_FLOW.find((l) => l.id === session.lesson.id)?.steps) {
+    // DB block lesson: advance to the next step (drill or reading), else back to the lesson
+    const lesson = LESSON_FLOW.find((l) => l.id === session.lesson.id);
+    const pIdx = session.lesson.part;
+    nextAction = pIdx + 1 < lesson.steps.length
+      ? { label: `Next: ${stepMeta(lesson.steps[pIdx + 1]).label}`, go: () => startStep(lesson, pIdx + 1) }
+      : { label: "Back to lesson", go: () => { setLessonId(lesson.id); setLearnSection(lesson.section.id); setView("lesson"); } };
+  } else if (inLesson) {
     const lesson = LESSON_FLOW.find((l) => l.id === session.lesson.id);
     const pIdx = session.lesson.part;
     const parts = partsFor(lesson);
@@ -2740,11 +2769,53 @@ function LearnView({ ctx }) {
   );
 }
 
+// label/hint/CTA for a DB-lesson block step
+function stepMeta(step) {
+  if (step.type === "teach") return { label: (step.parts && step.parts[0] && step.parts[0].title) || "Grammar", hint: "Read the explanation", cta: "Read" };
+  if (step.type === "vocab") return { label: "Learn the words", hint: `${step.items.length} to learn`, cta: "Learn" };
+  if (step.kind === "production") return step.modality === "voice"
+    ? { label: "Say it", hint: "Speak each one aloud", cta: "Start" }
+    : { label: "Write it", hint: "Type the Waray", cta: "Start" };
+  return { label: step.title === "Examples" ? "Examples" : "Recognize", hint: "Pick the meaning", cta: "Start" };
+}
+
 function LessonView({ ctx }) {
-  const { cards, lessons, lessonId, setView, setLearnSection, startLessonPart, playCard } = ctx;
+  const { cards, lessons, lessonId, setView, setLearnSection, startLessonPart, startStep, playCard } = ctx;
   const lesson = LESSON_FLOW.find((l) => l.id === lessonId) || nextLesson(lessons);
-  const items = lessonCards(cards, lesson);
   const done = lessons[lesson.id] || 0;
+
+  // DB (grammar-spine) lessons: walk the book's blocks as steps — teach, learn words, then each
+  // specific drill in its own format. No 4-step ladder.
+  if (lesson.steps) {
+    return (
+      <div className="ws-page">
+        <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }} />
+        <h2 className="ws-lesson-title">{lesson.title}</h2>
+        <SectionLabel text="Work through each part" />
+        <div className="ws-parts">
+          {lesson.steps.map((step, k) => {
+            const m = stepMeta(step);
+            const completed = done > k;
+            const available = done >= k;
+            return (
+              <button key={k} className={`ws-part ${completed ? "done" : ""} ${done === k ? "cur" : ""}`}
+                disabled={!available} onClick={() => startStep(lesson, k)}>
+                <div className="ws-part-num">{completed ? <Check size={15} /> : k + 1}</div>
+                <div className="ws-part-body">
+                  <div className="ws-part-label">{m.label}</div>
+                  <div className="ws-part-hint">{m.hint}</div>
+                </div>
+                <span className="ws-part-cta">{completed ? "Again" : done === k ? m.cta : ""}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // bundled courses: the flat 4-step ladder over the lesson's cards
+  const items = lessonCards(cards, lesson);
   const parts = partsFor(lesson);
   const isApply = lesson.kind === "apply";
   return (
@@ -2783,6 +2854,45 @@ function LessonView({ ctx }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/* Teach / Learn screen for a DB-lesson step: grammar prose or the vocab words, then "Got it". */
+function TeachView({ ctx }) {
+  const { cards, lessons, lessonId, stepIdx, completeLessonPart, setView, playCard } = ctx;
+  const lesson = LESSON_FLOW.find((l) => l.id === lessonId);
+  const step = lesson && lesson.steps && lesson.steps[stepIdx];
+  if (!step) { setView("lesson"); return null; }
+  const byId = {}; cards.forEach((c) => { byId[c.id] = c; });
+  const gotIt = () => { completeLessonPart(lesson.id, stepIdx); setView("lesson"); };
+  return (
+    <div className="ws-page">
+      <TopBar title={lesson.title} onBack={() => setView("lesson")} />
+      {step.type === "teach" ? (
+        <>
+          {step.parts.map((p, i) => (
+            <div key={i} className="ws-teach">
+              {p.title && <h3 className="ws-teach-title">{p.title}</h3>}
+              {renderMd(p.prose)}
+              {p.formula && <div className="ws-teach-formula">{p.formula}</div>}
+            </div>
+          ))}
+        </>
+      ) : (
+        <>
+          <SectionLabel text={`Learn these ${step.items.length} words`} />
+          <div className="ws-lwords">
+            {step.items.map((id) => { const c = byId[id]; if (!c) return null; return (
+              <button key={id} className="ws-lword" onClick={() => playCard(c)}>
+                <div><div className="ws-lword-w">{c.waray}</div>{c.say && <div className="ws-lword-say">/ {c.say} /</div>}</div>
+                <div className="ws-lword-e">{c.english}</div>
+              </button>
+            ); })}
+          </div>
+        </>
+      )}
+      <button className="ws-start ws-full" style={{ marginTop: 18 }} onClick={gotIt}><Check size={18} /> Got it</button>
     </div>
   );
 }
@@ -3623,6 +3733,12 @@ function Styles() {
 
 /* lesson screen */
 .ws-lesson-title{font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:var(--ink);margin:4px 0 4px}
+.ws-teach{background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 16px;margin:8px 0}
+.ws-teach-title{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea);margin:0 0 6px}
+.ws-teach p{margin:6px 0;font-size:14.5px;line-height:1.55;color:var(--ink)}
+.ws-teach table{border-collapse:collapse;margin:8px 0;font-size:13px}
+.ws-teach td{border:1px solid var(--sand-deep);padding:4px 9px;color:var(--ink)}
+.ws-teach-formula{font-family:ui-monospace,monospace;font-size:12.5px;background:color-mix(in srgb,var(--tide) 12%,var(--foam));border:1px solid var(--sand-deep);border-radius:8px;padding:6px 9px;margin-top:8px;color:var(--ink)}
 .ws-lwords{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
 .ws-lword{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;
   padding:10px 13px;border-radius:12px;border:1px solid var(--sand-deep);background:var(--foam);

@@ -65,10 +65,27 @@ export function dbCourseToBundled(db, name) {
       const deck = u.id;                  // one deck per unit; DECKS labels it from the unit name
       const lessons = [], gates = [];     // gates = end-of-lesson tests, attached to the lesson they follow
       for (const l of u.lessons || []) {
-        const items = [], seen = new Set();
+        const items = [], seen = new Set();          // flat list (home counts / card resolution)
         const gateItems = [], gseen = new Set();
-        let words = 0, sentences = 0;
+        const steps = [];                            // the ORDERED lesson flow: teach / vocab / drill blocks
+        let pendingTeach = null, words = 0, sentences = 0;
+        // add a drillable item to the seed + flat list, return its waray id
+        const addItem = (it) => {
+          const waray = it.waray, english = it.meaning || it.translation || "";
+          if (!waray || !english) return null;
+          (it._ref === "expr" || /\s/.test(waray)) ? sentences++ : words++;
+          if (!seed.has(waray)) seed.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
+          if (!seen.has(waray)) { seen.add(waray); items.push(waray); }
+          return waray;
+        };
+        const flushTeach = () => { if (pendingTeach) { steps.push(pendingTeach); pendingTeach = null; } };
         for (const b of l.blocks || []) {
+          // grammar + notes → a teaching step (consecutive ones merge into one screen)
+          if (b.type === "grammar" || b.type === "note") {
+            (pendingTeach || (pendingTeach = { type: "teach", parts: [] })).parts.push({ title: b.title || "", prose: b.body_md || "", formula: b.formula || "" });
+            continue;
+          }
+          flushTeach();
           if (b.type === "assessment" && b.assess_gate) {   // the book's graded exit gate — its exact recall items
             for (const it of b.items || []) {
               const waray = it.waray, english = it.meaning || it.translation || "";
@@ -78,16 +95,20 @@ export function dbCourseToBundled(db, name) {
             }
             continue;
           }
-          if (!["vocab", "phrases", "drill"].includes(b.type)) continue;   // only drillable blocks yield cards
-          for (const it of b.items || []) {
-            const waray = it.waray, english = it.meaning || it.translation || "";
-            if (!waray || !english) continue;
-            (it._ref === "expr" || /\s/.test(waray)) ? sentences++ : words++;
-            if (!seed.has(waray)) seed.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
-            if (!seen.has(waray)) { seen.add(waray); items.push(waray); }
+          if (b.type === "vocab" || b.type === "phrases") {
+            const ids = (b.items || []).map(addItem).filter(Boolean);
+            if (ids.length) steps.push({ type: "vocab", title: b.title || "", items: ids });
+            continue;
           }
+          if (b.type === "drill") {
+            const ids = (b.items || []).map(addItem).filter(Boolean);
+            if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", title: b.title || "", items: ids });
+            continue;
+          }
+          // story / other → not a playable step
         }
-        if (items.length) lessons.push({ id: l.id, name: l.title, title: l.title, kind: sentences > words ? "apply" : "words", items });
+        flushTeach();
+        if (steps.length) lessons.push({ id: l.id, name: l.title, title: l.title, kind: sentences > words ? "apply" : "words", items, steps });
         if (gateItems.length) {
           const num = (/l(\d+)/i.exec(l.id) || [])[1];
           gates.push({ id: l.id + "-gate", after: l.id, name: num ? `Test · Lesson ${num}` : "Test", items: gateItems });
