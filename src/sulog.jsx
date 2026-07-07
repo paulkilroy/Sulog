@@ -168,7 +168,7 @@ const partsFor = () => LESSON_PARTS;
 const partCountById = (id) => { const l = LESSON_FLOW.find((x) => x.id === id); return l?.steps ? l.steps.length : partsFor(l).length; };
 // a drill step's session direction + mode, from the book block's kind/modality
 const drillParams = (step) => step.kind === "production"
-  ? [step.modality === "voice" ? "etw" : "etw", step.modality === "voice" ? "voice" : "type"]
+  ? ["etw", step.modality === "voice" ? "speak" : "type"] // say it aloud (SpeakCard) or type it
   : ["wte", "mc"]; // recognition (mc / cloze) → recognize Waray→English
 
 // Top tier = sections; each section holds units; each unit holds lessons.
