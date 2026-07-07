@@ -516,18 +516,17 @@ function lev(a, b) {
 // (loanwords + the recognizer spell /k/ as "c", e.g. "Rico" for "riko")
 const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i").replace(/c/g, "k");
 const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
-// Grading is asymmetric by DIRECTION, not by input method:
-//  · Answering in WARAY (waray=true) is the course's production goal, and Waray's grammar
-//    lives in tiny words — pronouns (ka you-sg / kamo you-pl / kami / kita), case markers
-//    (an/in/it/han/hin/sin/san), particles (na/pa/nga). A dropped or swapped syllable there
-//    CHANGES THE MEANING, so we grade word-by-word: each word must land within its own
-//    length-scaled tolerance (short words → 0 slack). No whole-phrase budget can spend a long
-//    neighbour's length to wave a wrong pronoun through — typed OR spoken.
-//  · Answering in ENGLISH (waray=false) is recall, English varies naturally ("it's"/"it is",
-//    a dropped article, looser word order) and has no ka/kamo number trap — so it keeps the
-//    forgiving whole-phrase edit-distance match.
-// `spoken` only unlocks the recognizer-mangle forgiveness for Waray (split/join, a stray
-// hallucinated syllable) — never a fuzzy budget, which is what re-opens the ka/kamo leak.
+// Fuzziness is unlocked only for inputs we don't fully trust — never for a TYPED Waray answer.
+//  · TYPED Waray: the learner chose every character, and Waray grammar lives in tiny words —
+//    pronouns (ka you-sg / kamo you-pl / kami / kita), case markers (an/in/it/han/hin/sin/san),
+//    particles (na/pa/nga). So we grade word-by-word: each word within its own length-scaled
+//    tolerance (short words → 0 slack). "ka" is never accepted for "kamo".
+//  · ENGLISH recall (waray=false): English varies naturally ("it's"/"it is", a dropped article,
+//    looser order) and has no number trap → keep the forgiving whole-phrase match.
+//  · SPOKEN Waray: the Filipino/Tagalog recognizer has no Waray locale, so it splits/joins words
+//    and mangles short particles — word-by-word alignment falls apart on it. So we match at the
+//    PHRASE level and forgive (this is why voice grading stays lenient). The cost: a spoken "ka"
+//    for "kamo" passes — but the recognizer often can't tell them apart, and voice is secondary.
 function checkAnswer(input, target, waray, spoken) {
   let got = norm(input);
   if (!got) return false;
@@ -535,25 +534,24 @@ function checkAnswer(input, target, waray, spoken) {
   if (waray) got = warayFold(got);
   const gotC = got.replace(/ /g, ""); // space-stripped: the recognizer splits/joins words freely
   const gotW = got.split(" ");
+  const fuzzy = !waray || spoken;     // typed Waray = strict word-by-word; everything else forgives
   for (let t of targets) {
     if (waray) t = warayFold(t);
     if (got === t) return true;
     // per-word: same word count, EACH word within its own length-scaled tolerance
     const tW = t.split(" ");
     if (gotW.length === tW.length && gotW.every((w, i) => lev(w, tW[i]) <= _tol(tW[i].length))) return true;
-    if (!waray) {
-      // English recall: forgiving whole-phrase match (natural variation, no number trap)
-      if (lev(got, t) <= _tol(t.length)) return true;
-      continue;
+    if (!fuzzy) continue;
+    // whole-phrase edit distance (natural variation / recognizer noise)
+    if (lev(got, t) <= _tol(t.length)) return true;
+    if (waray) {
+      // recognizer splits one word into several, joins words, or hallucinates a leading/
+      // trailing syllable (e.g. "ulitawo" → "huli tawo"). Compare space-insensitively, and
+      // accept when the whole target sits inside the heard string (≤2 stray chars).
+      const tC = t.replace(/ /g, "");
+      if (gotC === tC || lev(gotC, tC) <= _tol(tC.length)) return true;
+      if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) return true;
     }
-    if (!spoken) continue;
-    // Waray speech only: the Filipino/Tagalog recognizer has no Waray locale, so it splits one
-    // word into several, joins words, or hallucinates a leading/trailing syllable (e.g.
-    // "ulitawo" → "huli tawo"). Forgive THOSE exactly — but not a dropped meaningful syllable
-    // (indistinguishable from saying "ka" for "kamo"), so still no fuzzy phrase budget.
-    const tC = t.replace(/ /g, "");
-    if (gotC === tC) return true;                                                       // pure split/join
-    if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) return true; // stray syllable
   }
   return false;
 }
@@ -889,7 +887,11 @@ export default function App() {
   // an end-of-lesson gate (DB courses): a graded test over its EXACT recall items (produce Waray,
   // typed, no hints). Pass is sticky, tracked in the same units map as unit reviews.
   const startGate = useCallback((gate) => {
-    const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
+    const present = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
+    // test the paradigm TABLE first, then the applied sentences — the book teaches the
+    // pronoun/marker/demonstrative table (single words) before drilling it in full sentences,
+    // so single-token items lead. Stable sort keeps each group's authored order.
+    const ids = [...present].sort((a, b) => (/\s/.test(a) ? 1 : 0) - (/\s/.test(b) ? 1 : 0));
     if (!ids.length) return;
     // graded both ways too (first half Waray→English, second half English→Waray)
     const half = Math.ceil(ids.length / 2);
