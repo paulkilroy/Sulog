@@ -103,6 +103,10 @@ export function dbCourseToBundled(db, name) {
 // fetch a course from the DB and return it in the engine's bundled shape
 export const fetchCourseBundled = async (courseId, name) => dbCourseToBundled(await fetchCourse(courseId), name);
 
+// the course's content version (bumped on every reload) — a cheap check for "is my cache stale?"
+export const fetchCourseVersion = async (courseId) =>
+  Number((await rows(supabase.from("courses").select("version").eq("id", courseId)))[0]?.version) || 0;
+
 // ---- per-user progress (RLS: only your own rows) ----
 export async function loadProgress(userId) {
   const data = await rows(supabase.from("progress").select("*").eq("user_id", userId));

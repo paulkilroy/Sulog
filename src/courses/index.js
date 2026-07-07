@@ -38,8 +38,8 @@ export const DEFAULT_COURSE_ID = "waray-frequency";
    synchronous. The async fetch+cache happens once, at course-selection time (see the
    course switcher); every boot after that reads the cache here. */
 const DB_COURSE_KEY = (id) => "sulog:dbcourse:" + id;
-export function cacheDbCourse(bundled) {
-  try { localStorage.setItem(DB_COURSE_KEY(bundled.id), JSON.stringify(bundled)); } catch (e) {}
+export function cacheDbCourse(bundled, version = 0) {
+  try { localStorage.setItem(DB_COURSE_KEY(bundled.id), JSON.stringify({ ...bundled, _v: Number(version) || 0 })); } catch (e) {}
 }
 function readDbCourse(id) {
   try {
@@ -51,6 +51,8 @@ function readDbCourse(id) {
   } catch (e) { return null; }
 }
 export const isDbCourseCached = (id) => { try { return !!localStorage.getItem(DB_COURSE_KEY(id)); } catch (e) { return false; } };
+// the version of the currently-cached DB course (0 if none) — compared against the DB to detect staleness
+export const cachedDbVersion = (id) => { try { return Number(JSON.parse(localStorage.getItem(DB_COURSE_KEY(id)) || "{}")._v) || 0; } catch (e) { return 0; } };
 
 export const getCourse = (id) =>
   COURSES.find((c) => c.id === id) ||

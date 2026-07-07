@@ -74,7 +74,8 @@ create table story_questions (
 -- ============================================================
 create table courses (
   id text primary key, name text not null, lang text not null default 'war',
-  methodology text                               -- 'phrase-first' | 'grammar-spine'
+  methodology text,                              -- 'phrase-first' | 'grammar-spine'
+  version bigint not null default 0              -- bumped on every reload; the app auto-refreshes its cache when this grows
 );
 create table phases (
   id text primary key, course_id text not null references courses(id),

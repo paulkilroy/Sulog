@@ -1,6 +1,6 @@
-import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse } from "./courses/index.js";
+import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -762,6 +762,24 @@ export default function App() {
     return () => { try { sub?.data?.subscription?.unsubscribe?.(); } catch (e) {} };
   }, []);
 
+  // Auto-refresh a database course when the DB has a newer version than our cache — so a reloaded
+  // course propagates on the next open, with no manual re-switch. Offline/transient errors keep the cache.
+  useEffect(() => {
+    if (COURSES.some((c) => c.id === COURSE_ID)) return; // bundled course — nothing to check
+    let cancelled = false;
+    (async () => {
+      try {
+        const v = await fetchCourseVersion(COURSE_ID);
+        if (cancelled || v <= cachedDbVersion(COURSE_ID)) return;
+        const bundled = await fetchCourseBundled(COURSE_ID, ACTIVE.name);
+        if (cancelled || !bundled.curriculum.length) return;
+        cacheDbCourse(bundled, v);
+        location.reload();
+      } catch (e) { /* keep the cached course */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   // keep the module-level chosen voice that speak() reads in sync with settings
   useEffect(() => {
     _voiceURI = settings.voiceURI || null;
@@ -1168,9 +1186,9 @@ function LanguageView({ ctx }) {
     setSwitching(true); setErr("");
     try {
       const meta = dbCourses.find((c) => c.id === id);
-      const bundled = await fetchCourseBundled(id, meta?.name || id);
+      const [bundled, version] = await Promise.all([fetchCourseBundled(id, meta?.name || id), fetchCourseVersion(id).catch(() => 0)]);
       if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
-      cacheDbCourse(bundled);
+      cacheDbCourse(bundled, version);
       try { localStorage.setItem("sulog:course", id); } catch (e) {}
       location.reload();
     } catch (e) { setSwitching(false); setErr("Couldn't load that course: " + (e.message || e)); }
