@@ -2,9 +2,13 @@
   "name": "sulog",
   "version": "1.0.0",
   "private": true,
-  "description": "Sulog — Waray-Waray review app (single-file, self-hosted)",
+  "description": "Sulog \u2014 Waray-Waray review app (single-file, self-hosted)",
   "scripts": {
-    "build": "bash build.sh"
+    "build": "bash build.sh",
+    "seed": "node tools/gen-pc-seed.mjs",
+    "reload": "node --env-file=.env.local tools/reload-pc.mjs",
+    "preview": "node --env-file=.env.local tools/gen-course-preview.mjs",
+    "all": "npm run seed && npm run reload && npm run build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",
