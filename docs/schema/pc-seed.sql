@@ -9,19 +9,14 @@
 
 insert into courses values ('pc','Peace Corps Waray','war','grammar-spine') on conflict (id) do nothing;
 
-insert into phases values
-  ('pc-p1','pc',1,'Personal pronouns & markers',null),
-  ('pc-p2','pc',2,'Actor-focus verbs & III-class pronouns',null),
-  ('pc-p3','pc',3,'Linkers & particles',null),
-  ('pc-p4','pc',4,'Negation',null),
-  ('pc-p5','pc',5,'Commands, special verbs & questions',null) on conflict (id) do nothing;
+insert into phases values ('pc-p1','pc',1,'Foundations','the complete 114-page Peace Corps Phase-1 book — pronouns, verbs, particles, negation, questions') on conflict (id) do nothing;
 
 insert into units values
   ('pc-u1','pc-p1',1,'Personal pronouns & markers',null,null),
-  ('pc-u2','pc-p2',1,'Actor-focus verbs & III-class pronouns',null,null),
-  ('pc-u3','pc-p3',1,'Linkers & particles',null,null),
-  ('pc-u4','pc-p4',1,'Negation',null,null),
-  ('pc-u5','pc-p5',1,'Commands, special verbs & questions',null,null) on conflict (id) do nothing;
+  ('pc-u2','pc-p1',2,'Actor-focus verbs & III-class pronouns',null,null),
+  ('pc-u3','pc-p1',3,'Linkers & particles',null,null),
+  ('pc-u4','pc-p1',4,'Negation',null,null),
+  ('pc-u5','pc-p1',5,'Commands, special verbs & questions',null,null) on conflict (id) do nothing;
 
 insert into lessons (id,unit_id,ord,title) values
   ('pc-l1a','pc-u1',1,'Lesson 1a · Personal Pronouns (I Class)'),
