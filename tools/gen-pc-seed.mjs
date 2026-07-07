@@ -234,8 +234,28 @@ const emitRecognize = (ctx, r) => r.mode === "marker" ? emitMarkerChoice(ctx, [r
 // The book opens lesson N with a review of lesson N-1 — which is really a TEST of N-1. So we attach it
 // to the END of lesson N-1 as its exit GATE (a graded checkpoint you must pass to continue), rather than
 // a passive warm-up on N. Lesson 1 has no incoming review, so no gate before it.
+// PROXIMITY GUARD: an exit exam must only test vocabulary INTRODUCED by that lesson. Pre-compute the
+// lesson number where each content word is first taught (vocab item / paradigm chart / hand-added extra),
+// so a gate can drop review sentences that lean on a word taught only in a LATER lesson (e.g. the book's
+// Lesson-2 review of Lesson 1 used "Madig-on hiya", but madig-on isn't taught until Lesson 2b).
+// Only CONTENT vocabulary counts here — not paradigm-chart words (pronouns/markers/demonstratives)
+// or particle extras (nga, ayaw). Function words appear pervasively across the course before their
+// "formal" lesson and don't block a learner; an untaught CONTENT word (an adjective/noun you can't
+// know, like madig-on) is what makes an exam item unanswerable. So guard on vocab blocks alone.
+const firstTaught = new Map();
+for (const L of lessons)
+  for (const b of (L.data.blocks || []))
+    if (b.type === "vocab")
+      for (const v of (b.items || [])) { const w = canon(v.waray); if (w && !firstTaught.has(w)) firstTaught.set(w, L.num); }
+// hyphen-preserving tokenizer so multi-part headwords ("madig-on") stay whole and match firstTaught keys
+const gateToks = (s) => (s || "").toLowerCase().split(/[^a-zà-ÿ'’-]+/).map(canon).filter(Boolean);
+const gateDrops = [];
+
 function emitGate(ctx, reviewBlocks, recallWords) {
-  const src = reviewBlocks.flatMap((b) => b.items || []);   // one gate per lesson — merge all review items
+  const gateNum = +(/pc-l(\d+)/.exec(ctx.id)?.[1] || 0);
+  const usesUntaught = (war) => gateToks(war).some((t) => { const f = firstTaught.get(t); return f != null && f > gateNum; });
+  const src = reviewBlocks.flatMap((b) => b.items || [])   // one gate per lesson — merge all review items
+    .filter((e) => { if (usesUntaught(e.war || "")) { gateDrops.push(`L${gateNum}: ${e.war}`); return false; } return true; });
   if (!src.length && !(recallWords && recallWords.length)) return;
   const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true });
   let ord = 0;
@@ -322,3 +342,4 @@ out.push("insert into block_items (block_id,ord,dict_waray,expr_id,role) values\
 fs.writeFileSync("docs/schema/pc-seed.sql", out.join("\n\n") + "\n");
 const paraCt = blocks.filter((b) => b.type === "vocab" && b.title).length;
 console.log(`✓ pc-seed.sql — ${lessons.length} lessons · dictionary +${dict.size} · expressions +${exprRows.length} · blocks +${blocks.length} (${paraCt} paradigm) · items +${items.length}`);
+if (gateDrops.length) console.log(`\n⚠ dropped ${gateDrops.length} exam sentence(s) that tested a not-yet-taught word (proximity guard):\n  ` + gateDrops.join("\n  "));
