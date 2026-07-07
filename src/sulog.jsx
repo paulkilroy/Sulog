@@ -3630,7 +3630,8 @@ function Styles() {
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);cursor:pointer;text-align:left;
   transition:.15s;width:100%}
 .ws-cta:active{transform:scale(.99)}
-.ws-cta-primary{background:linear-gradient(135deg,var(--sea),var(--tide));border:none;color:#fff}
+.ws-cta-primary{background:linear-gradient(140deg,color-mix(in srgb,var(--tide) 52%,#081b1f) 0%,color-mix(in srgb,var(--tide) 26%,#081b1f) 100%);
+  border:1px solid color-mix(in srgb,var(--tide) 42%,transparent);color:#fff}
 .ws-cta-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
   justify-content:center;background:var(--sand);color:var(--sea);flex-shrink:0}
 .ws-cta-primary .ws-cta-ic{background:rgba(255,255,255,.2);color:#fff}
