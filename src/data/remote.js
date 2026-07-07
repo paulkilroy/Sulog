@@ -5,8 +5,22 @@ import { supabase } from "../supabase.js";
 
 const rows = async (q) => { const { data, error } = await q; if (error) throw error; return data || []; };
 
+// Page through ALL rows — Supabase/PostgREST caps a single response at ~1000, so tables like
+// expressions (1000+) and block_items (1900+) MUST be fetched in ranges or the block model
+// silently loses items (e.g. a 21-word vocab block comes back with only 7). makeQuery() must
+// rebuild the query each page so .range() applies fresh.
+async function fetchAll(makeQuery) {
+  const out = []; const size = 1000;
+  for (let from = 0; ; from += size) {
+    const { data, error } = await makeQuery().range(from, from + size - 1);
+    if (error) throw new Error(error.message);
+    out.push(...(data || []));
+    if (!data || data.length < size) return out;
+  }
+}
+
 // full lexicon (words + phrases). idiomatic set-phrases + words alike.
-export const fetchDictionary = () => rows(supabase.from("dictionary").select("*"));
+export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").select("*"));
 
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
@@ -19,16 +33,16 @@ export async function fetchCourse(courseId) {
   const [phases, dict, exprs] = await Promise.all([
     rows(supabase.from("phases").select("*").eq("course_id", courseId).order("ord")),
     fetchDictionary(),
-    rows(supabase.from("expressions").select("*")),
+    fetchAll(() => supabase.from("expressions").select("*")),
   ]);
   const phaseIds = phases.map((p) => p.id);
   const units = await rows(supabase.from("units").select("*").in("phase_id", phaseIds).order("ord"));
   const unitIds = units.map((u) => u.id);
   const lessons = await rows(supabase.from("lessons").select("*").in("unit_id", unitIds).order("ord"));
   const lessonIds = lessons.map((l) => l.id);
-  const blocks = await rows(supabase.from("lesson_blocks").select("*").in("lesson_id", lessonIds).order("ord"));
+  const blocks = await fetchAll(() => supabase.from("lesson_blocks").select("*").in("lesson_id", lessonIds).order("lesson_id").order("ord"));
   const blockIds = blocks.map((b) => b.id);
-  const items = blockIds.length ? await rows(supabase.from("block_items").select("*").in("block_id", blockIds).order("ord")) : [];
+  const items = blockIds.length ? await fetchAll(() => supabase.from("block_items").select("*").in("block_id", blockIds).order("block_id").order("ord")) : [];
 
   const dByW = new Map(dict.map((d) => [d.waray, d]));
   const eById = new Map(exprs.map((e) => [e.id, e]));
