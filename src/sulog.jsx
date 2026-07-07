@@ -1446,7 +1446,7 @@ function HomeView({ ctx }) {
           <div className="ws-cta-ic"><BookOpen size={20} /></div>
           <div>
             <div className="ws-cta-t">Continue learning</div>
-            <div className="ws-cta-d">{curLesson.section.name} · {curLesson.unit.name}</div>
+            <div className="ws-cta-d">{curLesson.unit.name === curLesson.section.name ? curLesson.section.name : `${curLesson.section.name} · ${curLesson.unit.name}`}</div>
             <div className="ws-cta-sub">{curLesson.title}</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
@@ -1508,8 +1508,9 @@ function HomeView({ ctx }) {
               </div>
               <div className="ws-unit-tile-sub">
                 {locked ? "Finish the phase above to unlock"
-                  : mUnits > 0 ? `${mUnits}/${s.units.length} units mastered`
-                  : `${s.units.length} unit${s.units.length === 1 ? "" : "s"} · tap to learn`}
+                  : s.units.length > 1
+                    ? (mUnits > 0 ? `${mUnits}/${s.units.length} units mastered` : `${s.units.length} units · tap to learn`)
+                    : (lessonsDone > 0 ? "In progress · tap to continue" : "Tap to start")}
               </div>
               {!locked && <div className="ws-phase-bar"><span style={{ width: pct + "%" }} /></div>}
             </button>
@@ -2613,13 +2614,16 @@ function LearnView({ ctx }) {
             const hasCards = unitCards(cards, u).length > 0;
             return (
               <div key={u.id} id={"ln-" + u.id} className="ws-unit">
-                <div className="ws-unit-head">
-                  <div>
-                    <div className="ws-unit-name">{u.name}{ur?.passed && <span className="ws-unit-mastered"><Check size={12} /> mastered</span>}</div>
-                    <div className="ws-unit-hint">{u.hint}</div>
+                {/* skip the unit header when the phase has a single unit — its name duplicates the phase title */}
+                {s.units.length > 1 && (
+                  <div className="ws-unit-head">
+                    <div>
+                      <div className="ws-unit-name">{u.name}{ur?.passed && <span className="ws-unit-mastered"><Check size={12} /> mastered</span>}</div>
+                      <div className="ws-unit-hint">{u.hint}</div>
+                    </div>
+                    <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
                   </div>
-                  <div className="ws-unit-prog">{uDone}/{u.lessons.length}</div>
-                </div>
+                )}
                 <div className="ws-lessons">
                   {(() => {
                     const node = (l) => {
