@@ -891,9 +891,19 @@ export default function App() {
     // emitGate in tools/gen-pc-seed.mjs); play them as-is.
     const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
     if (!ids.length) return;
-    // graded both ways too (first half Waray→English, second half English→Waray)
-    const half = Math.ceil(ids.length / 2);
-    const dirMap = {}; ids.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
+    // graded both ways. The direction split follows the CONTENT boundary, not a blind midpoint:
+    // recognize the paradigm TABLE (single words → Waray→English), produce the applied SENTENCES
+    // (English→Waray). A blind ceil(n/2) split stranded a sentence in the recognition half when the
+    // table and sentence counts were unequal. A homogeneous exam falls back to first-half W→E.
+    const words = ids.filter((id) => !/\s/.test(id)), sents = ids.filter((id) => /\s/.test(id));
+    const dirMap = {};
+    if (words.length && sents.length) {
+      words.forEach((id) => { dirMap[id] = "wte"; });
+      sents.forEach((id) => { dirMap[id] = "etw"; });
+    } else {
+      const half = Math.ceil(ids.length / 2);
+      ids.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
+    }
     setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: ids.length, only: ids, dirMap, gate: { id: gate.id, name: gate.name } });
     setView("session");
   }, [cards]);
