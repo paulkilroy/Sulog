@@ -115,8 +115,11 @@ export function dbCourseToBundled(db, name) {
             continue;
           }
           if (b.type === "drill") {
+            // drop the oral (production/voice) exercise — it's a teacher-led substitution drill that
+            // doesn't self-study well; speaking stays available via the answer-by-voice toggle.
+            if (b.drill_kind === "production" && b.drill_modality === "voice") continue;
             const ids = (b.items || []).map(addItem).filter(Boolean);
-            if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", title: b.title || "", items: ids });
+            if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", dir: b.drill_direction || null, title: b.title || "", items: ids });
             continue;
           }
           // story / other → not a playable step

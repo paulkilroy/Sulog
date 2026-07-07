@@ -849,13 +849,18 @@ export default function App() {
   // specific items in that block's own format (recognition MC, produce typed/spoken) — no 4-step ladder.
   const startStep = useCallback((lesson, idx) => {
     const step = lesson.steps[idx];
-    if (step.type === "drill") {
+    if (step.type !== "drill") { setLessonId(lesson.id); setStepIdx(idx); setView("teach"); return; }
+    if (step.kind === "production" && step.dir === "both") {
+      // the written exam: one part, both ways — first half Waray→English, second half English→Waray (the
+      // book's two sections). dirMap keys direction to the card so it survives shuffling; order is kept.
+      const half = Math.ceil(step.items.length / 2);
+      const dirMap = {}; step.items.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
+      setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: step.items.length, only: step.items, dirMap, lesson: { id: lesson.id, part: idx } });
+    } else {
       const [dir, mode] = drillParams(step);
       setSession({ deckKeys: Object.keys(DECKS), dir, mode, limit: step.items.length, only: step.items, lesson: { id: lesson.id, part: idx } });
-      setView("session");
-    } else {
-      setLessonId(lesson.id); setStepIdx(idx); setView("teach");
     }
+    setView("session");
   }, []);
   // the unit review — the one graded checkpoint: 10 of your hardest words in the
   // unit, English→Waray typed, no remediation (it's a real test). Pass = 80%.
@@ -869,7 +874,10 @@ export default function App() {
   const startGate = useCallback((gate) => {
     const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
     if (!ids.length) return;
-    setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", limit: ids.length, only: ids, gate: { id: gate.id, name: gate.name } });
+    // graded both ways too (first half Waray→English, second half English→Waray)
+    const half = Math.ceil(ids.length / 2);
+    const dirMap = {}; ids.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
+    setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: ids.length, only: ids, dirMap, gate: { id: gate.id, name: gate.name } });
     setView("session");
   }, [cards]);
   // record a unit-review result; "passed" is sticky (once mastered, stays so)
@@ -1774,7 +1782,11 @@ function SessionView({ ctx }) {
   // base = the cards to study once (first attempt is what scores). Each becomes a
   // "step"; a missed written step splices in extra (unscored) MC→type steps so
   // you keep at it until you clear it.
-  const base = useRef(buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
+  // a bidirectional drill (dirMap) keeps the book order so the W→E section comes before E→W; other
+  // sessions shuffle as usual.
+  const base = useRef(session.dirMap
+    ? (session.only || []).map((id) => cards.find((c) => c.id === id)).filter(Boolean)
+    : buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
   const [steps, setSteps] = useState(() => base.map((c) => ({ card: c, mode: session.mode, scored: true })));
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
@@ -1786,6 +1798,8 @@ function SessionView({ ctx }) {
 
   const step = steps[i];
   const card = step?.card;
+  // per-card direction for bidirectional drills (dirMap); everything else uses the session's dir
+  const cardDir = (session.dirMap && card && session.dirMap[card.id]) || session.dir;
   // remedial steps keep their forced mc→type sequence; a drill's scored steps follow
   // the sticky drillMode; everything else uses the step's own mode.
   const mode = step?.remedial ? step.mode : (session.drill ? drillMode : (step?.mode || session.mode));
@@ -1800,9 +1814,9 @@ function SessionView({ ctx }) {
     if (step.scored) { // only the first encounter feeds the SRS, history and grade
       recordCard(card.id, correct, mode);
       bumpStreak();
-      const prompt = session.dir === "wte" ? card.waray : card.english;
-      const answer = session.dir === "wte" ? card.english : card.waray;
-      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: session.dir, mode });
+      const prompt = cardDir === "wte" ? card.waray : card.english;
+      const answer = cardDir === "wte" ? card.english : card.waray;
+      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: cardDir, mode });
       setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
       setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     }
@@ -1821,7 +1835,7 @@ function SessionView({ ctx }) {
   if (done) return <SessionDone ctx={ctx} tally={tally} total={base.length} results={results} />;
   if (!card) return <SessionDone ctx={ctx} tally={tally} total={0} results={results} />;
 
-  const distractors = pickDistractors(cards, card, session.dir);
+  const distractors = pickDistractors(cards, card, cardDir);
   const scoredDone = results.length;
   return (
     <div className="ws-page ws-session">
@@ -1851,7 +1865,7 @@ function SessionView({ ctx }) {
       )}
       <CardReview
         key={i + ":" + card.id + ":" + mode}
-        card={card} dir={session.dir} mode={mode}
+        card={card} dir={cardDir} mode={mode}
         distractors={distractors} ctx={ctx} onResult={onResult}
         onSkip={step.remedial ? advance : null}
       />
@@ -2773,8 +2787,8 @@ function LearnView({ ctx }) {
 function stepMeta(step) {
   if (step.type === "teach") return { label: (step.parts && step.parts[0] && step.parts[0].title) || "Grammar", hint: "Read the explanation", cta: "Read" };
   if (step.type === "vocab") return { label: "Learn the words", hint: `${step.items.length} to learn`, cta: "Learn" };
-  if (step.kind === "production") return step.modality === "voice"
-    ? { label: "Say it", hint: "Speak each one aloud", cta: "Start" }
+  if (step.kind === "production") return step.dir === "both"
+    ? { label: "Translate", hint: "Both ways — Waray ↔ English", cta: "Start" }
     : { label: "Write it", hint: "Type the Waray", cta: "Start" };
   return { label: step.title === "Examples" ? "Examples" : "Recognize", hint: "Pick the meaning", cta: "Start" };
 }
