@@ -516,11 +516,18 @@ function lev(a, b) {
 // (loanwords + the recognizer spell /k/ as "c", e.g. "Rico" for "riko")
 const warayFold = (s) => s.replace(/o/g, "u").replace(/e/g, "i").replace(/c/g, "k");
 const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
-// `spoken` = the input came from speech recognition (noisy: it splits/joins words and
-// hallucinates syllables), which unlocks the lenient whole-phrase / space-insensitive /
-// containment matching below. TYPED input gets only exact + per-word matching, so a short
-// critical word (pronoun/marker — "ka" you-sg vs "kamo" you-pl, "an" vs "in") can never be
-// waved through by a whole-phrase edit-distance budget that its neighbours' length paid for.
+// Grading is asymmetric by DIRECTION, not by input method:
+//  · Answering in WARAY (waray=true) is the course's production goal, and Waray's grammar
+//    lives in tiny words — pronouns (ka you-sg / kamo you-pl / kami / kita), case markers
+//    (an/in/it/han/hin/sin/san), particles (na/pa/nga). A dropped or swapped syllable there
+//    CHANGES THE MEANING, so we grade word-by-word: each word must land within its own
+//    length-scaled tolerance (short words → 0 slack). No whole-phrase budget can spend a long
+//    neighbour's length to wave a wrong pronoun through — typed OR spoken.
+//  · Answering in ENGLISH (waray=false) is recall, English varies naturally ("it's"/"it is",
+//    a dropped article, looser word order) and has no ka/kamo number trap — so it keeps the
+//    forgiving whole-phrase edit-distance match.
+// `spoken` only unlocks the recognizer-mangle forgiveness for Waray (split/join, a stray
+// hallucinated syllable) — never a fuzzy budget, which is what re-opens the ka/kamo leak.
 function checkAnswer(input, target, waray, spoken) {
   let got = norm(input);
   if (!got) return false;
@@ -531,25 +538,22 @@ function checkAnswer(input, target, waray, spoken) {
   for (let t of targets) {
     if (waray) t = warayFold(t);
     if (got === t) return true;
-    // per-word: same word count, and EACH word within its own length-scaled tolerance.
-    // Short words get 0 tolerance (_tol), so pronoun/marker distinctions are preserved
-    // while long words keep their typo slack. This is the only fuzzy path for typed input.
+    // per-word: same word count, EACH word within its own length-scaled tolerance
     const tW = t.split(" ");
     if (gotW.length === tW.length && gotW.every((w, i) => lev(w, tW[i]) <= _tol(tW[i].length))) return true;
-    if (!spoken) continue;
-    // --- speech-only leniency (recognizer mangling) ---
-    if (lev(got, t) <= _tol(t.length)) return true;
-    if (waray) {
-      // Filipino/Tagalog recognition mangles Waray: it splits one word into several
-      // and hallucinates a leading/trailing syllable (e.g. "ulitawo" → "huli tawo").
-      // Compare space-insensitively, and accept when the whole target sits inside the
-      // heard string for non-trivial words.
-      const tC = t.replace(/ /g, "");
-      if (gotC === tC || lev(gotC, tC) <= _tol(tC.length)) return true;
-      // containment is only for a hallucinated syllable (≤2 extra chars), NOT a
-      // whole phrase swallowing a short word — keep it tight to avoid false matches
-      if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) return true;
+    if (!waray) {
+      // English recall: forgiving whole-phrase match (natural variation, no number trap)
+      if (lev(got, t) <= _tol(t.length)) return true;
+      continue;
     }
+    if (!spoken) continue;
+    // Waray speech only: the Filipino/Tagalog recognizer has no Waray locale, so it splits one
+    // word into several, joins words, or hallucinates a leading/trailing syllable (e.g.
+    // "ulitawo" → "huli tawo"). Forgive THOSE exactly — but not a dropped meaningful syllable
+    // (indistinguishable from saying "ka" for "kamo"), so still no fuzzy phrase budget.
+    const tC = t.replace(/ /g, "");
+    if (gotC === tC) return true;                                                       // pure split/join
+    if (tC.length >= 5 && gotC.includes(tC) && gotC.length - tC.length <= 2) return true; // stray syllable
   }
   return false;
 }
