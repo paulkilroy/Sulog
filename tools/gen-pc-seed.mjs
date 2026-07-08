@@ -339,7 +339,7 @@ out.push("insert into lessons (id,unit_id,ord,title) values\n" + emitted.map((l,
 // Refresh the gloss/pos of any UNCONFIRMED row (PC's own, re-generated each run) but never touch a
 // human-confirmed entry — so the generator stays the source of truth until Ella signs off.
 out.push("insert into dictionary (waray,kind,meaning,pos,confirmed) values\n" + [...dict].map(([w, d]) => `  (${S(w)},'word',${S(d.meaning)},${S(d.pos)},false)`).join(",\n") +
-  "\n  on conflict (waray) do update set meaning = excluded.meaning, pos = excluded.pos where dictionary.confirmed = false;");
+  "\n  on conflict (waray) do nothing;");   // NEVER clobber a shared headword's gloss — the word bank / CH2 own it; PC's sense lives in `meanings` (sources[])
 if (exprRows.length) out.push("insert into expressions (id,waray,translation) values\n" + exprRows.map((e) => `  (${e.id},${S(e.war)},${S(e.en)})`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate) values\n" +
   blocks.map((b) => `  (${b.id},${S(b.lid)},${b.ord},${S(b.type)},${S(b.title)},${S(b.body)},${S(b.formula)},${S(b.dkind)},${S(b.dmod)},${S(b.dhint)},${S(b.ddir)},${b.athresh ?? "null"},${b.agate ?? "null"})`).join(",\n") + " on conflict (id) do nothing;");

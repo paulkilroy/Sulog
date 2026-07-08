@@ -22,6 +22,13 @@ console.log("BEFORE:", await one(counts));
 
 try {
   await c.query("begin");
+  // remember which dictionary rows the OUTGOING pc load referenced — the post-load purge is scoped to
+  // exactly this set, so it can only ever remove stale PC words, never the shared word bank / other courses'
+  // lexicon entries (a broad "unconfirmed and unreferenced" sweep once deleted 415 word-bank rows).
+  await c.query(`create temp table _pc_dict on commit drop as
+      select distinct bi.dict_waray as waray from block_items bi
+      join lesson_blocks lb on lb.id = bi.block_id
+      where lb.lesson_id like 'pc-%' and bi.dict_waray is not null`);
   await c.query("update lesson_blocks set review_target=null where lesson_id like 'pc-%'"); // drop self-refs first
   await c.query("delete from block_items where block_id in (select id from lesson_blocks where lesson_id like 'pc-%')");
   await c.query("delete from lesson_blocks where lesson_id like 'pc-%'");
@@ -32,12 +39,16 @@ try {
   await c.query("delete from courses where id='pc'");
   await c.query("delete from dictionary where waray like '-%' and confirmed=false"); // stale hyphen roots from a buggy load
   await c.query(seed); // fresh pc-seed.sql
-  // purge unconfirmed dictionary rows no lesson references anymore — parser artifacts (leaked example
-  // sentences, garbled multi-word marker cells). confirmed rows are safe.
+  // purge dictionary rows the old PC load referenced that the new one no longer does (words dropped
+  // from the seed). Scoped to _pc_dict so nothing outside PC can ever be touched; still requires
+  // unconfirmed + unreferenced anywhere; and a word whose `meanings` carry any non-PC source
+  // (word bank, tramp, ella…) is protected — deleting it would cascade those senses away.
   const purged = await c.query(`delete from dictionary d where confirmed=false
+      and d.waray in (select waray from _pc_dict)
       and not exists (select 1 from block_items   bi where bi.dict_waray=d.waray)
       and not exists (select 1 from expressions    e where e.focus=d.waray)
       and not exists (select 1 from lesson_blocks lb where lb.about=d.waray)
+      and not exists (select 1 from meanings m where m.waray=d.waray and (m.confirmed or not (m.sources <@ array['pc']::text[])))
       returning waray`);
   console.log("purged", purged.rowCount, "orphaned dict rows:", purged.rows.map((r) => r.waray).join(", "));
   // bump the course version so every connected app auto-refreshes its cached copy on next load

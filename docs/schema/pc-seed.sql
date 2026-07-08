@@ -480,7 +480,7 @@ insert into dictionary (waray,kind,meaning,pos,confirmed) values
   ('sekretarya','word','secretary','noun',false),
   ('tag-iya','word','owner','noun',false),
   ('ano','word','what','marker',false)
-  on conflict (waray) do update set meaning = excluded.meaning, pos = excluded.pos where dictionary.confirmed = false;
+  on conflict (waray) do nothing;
 
 insert into expressions (id,waray,translation) values
   (20001,'Pilipino ka.','You are a Filipino.'),
