@@ -144,6 +144,9 @@ create table block_items (
 
 -- ============================================================
 -- PER-USER  (keyed by the Waray string — the stable id we already adopted)
+-- NOTE: after creating these tables, ALSO run sync-guards.sql (stale-write triggers — the client
+-- pushes blind upserts, and the guards stop an out-of-date device from regressing any row) and
+-- rls.sql (row-level security). Both are idempotent.
 -- Progress is namespaced per course (a word can sit in two courses' decks with
 -- independent SRS state). All four tables mirror the app's localStorage records
 -- 1:1 so the sync layer is a straight column<->field map (no lossy JSON blobs).

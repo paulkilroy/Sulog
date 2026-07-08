@@ -20,7 +20,10 @@ async function fetchAll(makeQuery) {
 }
 
 // full lexicon (words + phrases). idiomatic set-phrases + words alike.
-export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").select("*"));
+// .order() is REQUIRED under fetchAll: each page is a separate request, and without a stable
+// total order Postgres may return rows differently per page — silently dropping/duplicating
+// rows at page boundaries. Order by the primary key.
+export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").select("*").order("waray"));
 
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
@@ -33,7 +36,7 @@ export async function fetchCourse(courseId) {
   const [phases, dict, exprs] = await Promise.all([
     rows(supabase.from("phases").select("*").eq("course_id", courseId).order("ord")),
     fetchDictionary(),
-    fetchAll(() => supabase.from("expressions").select("*")),
+    fetchAll(() => supabase.from("expressions").select("*").order("id")), // stable page order (see fetchDictionary)
   ]);
   const phaseIds = phases.map((p) => p.id);
   const units = await rows(supabase.from("units").select("*").in("phase_id", phaseIds).order("ord"));

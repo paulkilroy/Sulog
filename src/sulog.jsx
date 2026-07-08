@@ -1032,6 +1032,8 @@ export default function App() {
     try {
       const cloud = await pullProgress(COURSE_ID);
       await applyCloud(cloud);
+      setInitialPulled(true); // cloud is merged in — ONLY now is auto-push safe (a push before a
+                              // successful pull would upsert this device's stale/empty state over the cloud)
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
     } catch (e) {
       setSyncState({ status: "error", at: "", error: e.message });
@@ -1050,13 +1052,14 @@ export default function App() {
     }
   }, []);
 
-  // pull once when signed in; only then unblock auto-push (so a fresh device never
-  // overwrites the cloud with its empty state before the pull lands). Re-arm on sign-out.
+  // pull once when signed in; auto-push unblocks INSIDE syncPull's success path — a FAILED pull
+  // (offline, 5xx) must keep push disarmed, else this device upserts stale/empty state (incl. a
+  // zeroed streak row) over the cloud. A later manual Pull retries and unblocks. Re-arm on sign-out.
   useEffect(() => {
     if (!loaded) return;
     if (user && !didInitialPull.current) {
       didInitialPull.current = true;
-      syncPull().finally(() => setInitialPulled(true));
+      syncPull();
     } else if (!user) {
       didInitialPull.current = false;
       setInitialPulled(false);
