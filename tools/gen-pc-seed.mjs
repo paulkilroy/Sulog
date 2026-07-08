@@ -26,14 +26,51 @@ const expr = new Map();          // sentence -> id
 let eid = 20000, bid = 20000;
 const blocks = [], items = [];
 const exprRows = [];
-// Gemini hallucinations to reject: sentences it invented for a substitution drill that are NOT in the
-// book OCR AND are linguistically wrong. "Madig-on hiya" applies madig-on — glossed "strong (things)" —
-// to a PERSON pronoun; the book only ever pairs madig-on with things ("Madig-on an mga lingkuran",
-// "Madig-on adto nga bangko"). Verified absent from docs/sources/peace-corps/*. (makusog + a person is
-// fine, so those generated sentences stay.)
-const FABRICATED = new Set(["madig-on hiya"]);
+// Gemini hallucinations to reject: sentences it invented that are NOT in the book OCR AND are
+// linguistically wrong. "Madig-on hiya" applies madig-on — glossed "strong (things)" — to a PERSON
+// pronoun. The ten "hin duró …" sentences are the L16 review of L15: the book gives ONLY English
+// prompts ("Translate the following using hin duro"), and the extraction invented scrambled Waray for
+// them — hin duro must FOLLOW the adjective (every book example: "Aslum hin duro an mangga"), so a
+// sentence can't OPEN with it. Rejecting them empties that review; the L15 gate falls back gracefully.
+const FABRICATED = new Set([
+  "madig-on hiya",
+  "hin duró na liwat hin hinog an nangka",
+  "hin duró hin humot hi jasper, ngan gwapo hiya",
+  "hin duró ka pa ba hin kapoy",
+  "hin duró na hin manamit iton nga sabaw",
+  "hin duró na ba liwat hin malinaw an iyo pamilya",
+  "susunod an mga tawo han hin duró nga matadong nga dalan",
+  "hin duró pa hin humok ini nga lingkuranan",
+  "hin duró na liwat hin maluloy-on an aton dios",
+  "hin duró na hin dulom",
+  "hin duró pa ba hin maluya an iya anak nga babaye",
+]);
 const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
-const putExpr = (war, en) => { const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
+
+// ---- expression text repair — extraction/OCR defects fixed at the single funnel (putExpr) ----
+// Language hints for detecting swapped fields. "an/it/a/i" are deliberately absent from the English
+// set (they're Waray markers too); scores compare function-word density per side.
+const EN_HINT = new Set("the is are was were will did do does at in on of and to my his her their there they she he we you am this that these those now still very again buy eat go read drink cook want".split(" "));
+const WAR_HINT = new Set("hin han ha hi hira hiya nga ba ka kami kita kamo ako ini iton adto hini hiton hadto didto dinhi dida ngan mga waray diri kan liwat nakon nimo niya nira".split(" "));
+const langScore = (s, set) => { const t = s.toLowerCase().replace(/[^a-zà-ÿ'’ -]/g, " ").split(/\s+/).filter(Boolean); return t.length ? t.filter((w) => set.has(w)).length / t.length : 0; };
+function repairExpr(war, en) {
+  war = norm(war); en = norm(en);
+  // exercise numbering the extraction kept from the book ("1. Nag-ühaw…") — not part of the sentence
+  war = war.replace(/^\s*\d+[.)]\s*/, ""); en = en.replace(/^\s*\d+[.)]\s*/, "");
+  // Q&A dialog rows ("Q: …\nR: …"): keep the QUESTION as the card — the R side is the learner's job
+  // (and is sometimes empty). Applied to both sides so the translation stays aligned.
+  const qa = (s) => { const m = /^Q:\s*([^\n]*)/.exec(s); return m ? m[1].trim() : s; };
+  if (/^Q:/.test(war) || /^Q:/.test(en)) { war = qa(war); en = qa(en); }
+  // "[or]" answer-key alternates → keep the first form (one canonical sentence per card)
+  war = war.split(/\s*\[or\]\s*/i)[0].trim(); en = en.split(/\s*\[or\]\s*/i)[0].trim();
+  // OCR typos verified against the scan/book usage
+  war = war.replace(/\bKaryyag\b/g, "Karuyag");
+  // swapped fields: the book's ENG→WAR exercises sometimes extracted with the English prompt in the
+  // waray slot and the Waray answer in the translation slot — detect by function words, swap back
+  if (langScore(war, EN_HINT) > langScore(war, WAR_HINT) && langScore(en, WAR_HINT) > langScore(en, EN_HINT)) { const t = war; war = en; en = t; }
+  return [war, en];
+}
+const putExpr = (war0, en0) => { const [war, en] = repairExpr(war0, en0); const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };
 
