@@ -4,7 +4,7 @@
    Output: docs/sources/dictionaries/tramp.json
    Run: node tools/parse-tramp-vision.mjs [path-to-ndjson] */
 import fs from "fs";
-const SRC = process.argv[2] || "/private/tmp/claude-501/-Users-paulkilroy-dev-Sulog/2ec9156d-452e-4eed-b759-f98650a29e43/scratchpad/tramp-ocr.ndjson";
+const SRC = process.argv[2] || "docs/sources/dictionaries/tramp-ocr.ndjson";
 const OUT = "/Users/paulkilroy/dev/Sulog/docs/sources/dictionaries/tramp.json";
 
 // A headword line: "word, pos. definition" — pos may be compound (v.f.l.pass., nom.pron., v.stat.)

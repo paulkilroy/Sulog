@@ -1,0 +1,1537 @@
+[
+ {
+  "war": "Maupay nga aga",
+  "en": "Good morning",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga udto",
+  "en": "Good noon",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga kulop",
+  "en": "Good afternoon",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga gab-i",
+  "en": "Good evening",
+  "src": "example"
+ },
+ {
+  "war": "Maupay kita yana",
+  "en": "We are good now",
+  "src": "example"
+ },
+ {
+  "war": "Maupay hira kanina",
+  "en": "They were good earlier",
+  "src": "example"
+ },
+ {
+  "war": "Maupay ako niyan",
+  "en": "I'll be good later",
+  "src": "example"
+ },
+ {
+  "war": "Kamusta ka?",
+  "en": "How are you?",
+  "src": "example"
+ },
+ {
+  "war": "Ako hi Maria",
+  "en": "I am Maria",
+  "src": "example"
+ },
+ {
+  "war": "Maupay hiya",
+  "en": "He/she is good",
+  "src": "example"
+ },
+ {
+  "war": "Maupay hira",
+  "en": "They are good",
+  "src": "example"
+ },
+ {
+  "war": "Maupay kami",
+  "en": "We are good (not including you)",
+  "src": "example"
+ },
+ {
+  "war": "Maupay kita",
+  "en": "We are good (including you)",
+  "src": "example"
+ },
+ {
+  "war": "Kamusta kamo?",
+  "en": "How are you (all)?",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga aga, hi Maria.",
+  "en": "Good morning, Maria.",
+  "src": "apply"
+ },
+ {
+  "war": "Kamusta ka yana?",
+  "en": "How are you now?",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay ako yana.",
+  "en": "I am good now.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay hira kanina.",
+  "en": "They were good earlier.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay kita niyan!",
+  "en": "We'll be good later (you and I)!",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga gab-i, hi Juan.",
+  "en": "Good evening, Juan.",
+  "src": "apply"
+ },
+ {
+  "war": "Kamusta hira? Maupay kami.",
+  "en": "How are they? We're good (not you).",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay kita yana.",
+  "en": "We are good now (you and I).",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga aga. Ako hi Maria.",
+  "en": "Good morning. I am Maria.",
+  "src": "story"
+ },
+ {
+  "war": "Maupay ako. Maupay kita yana!",
+  "en": "I am good. We are good now!",
+  "src": "story"
+ },
+ {
+  "war": "Maupay hi nanay.",
+  "en": "Mother is good.",
+  "src": "example"
+ },
+ {
+  "war": "Aadi hi tatay.",
+  "en": "Father is here.",
+  "src": "example"
+ },
+ {
+  "war": "Kuya, dadi!",
+  "en": "Older brother, come here!",
+  "src": "example"
+ },
+ {
+  "war": "Ate, hain ka?",
+  "en": "Older sister, where are you?",
+  "src": "example"
+ },
+ {
+  "war": "Hiya an bugto ko.",
+  "en": "He/she is my sibling.",
+  "src": "example"
+ },
+ {
+  "war": "Aada an asawa mo.",
+  "en": "Your spouse is there.",
+  "src": "example"
+ },
+ {
+  "war": "Anak ko hiya.",
+  "en": "He/she is my child.",
+  "src": "example"
+ },
+ {
+  "war": "Didto an apo ko.",
+  "en": "My grandchild is over there.",
+  "src": "example"
+ },
+ {
+  "war": "Aadi hiya.",
+  "en": "He/she is here.",
+  "src": "example"
+ },
+ {
+  "war": "Aada an kape.",
+  "en": "The coffee is there.",
+  "src": "example"
+ },
+ {
+  "war": "Didto an balay.",
+  "en": "The house is over there.",
+  "src": "example"
+ },
+ {
+  "war": "Hain hi nanay?",
+  "en": "Where is mother?",
+  "src": "example"
+ },
+ {
+  "war": "Oo, maupay ako.",
+  "en": "Yes, I am good.",
+  "src": "example"
+ },
+ {
+  "war": "Diri hiya maupay.",
+  "en": "He/she is not good.",
+  "src": "example"
+ },
+ {
+  "war": "Dadi, anak ko.",
+  "en": "Come here, my child.",
+  "src": "example"
+ },
+ {
+  "war": "Ngadto hiya.",
+  "en": "He/she goes there.",
+  "src": "example"
+ },
+ {
+  "war": "Hain hi tatay mo?",
+  "en": "Where is your father?",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi hi nanay.",
+  "en": "Mother is here.",
+  "src": "apply"
+ },
+ {
+  "war": "Aada hi kuya.",
+  "en": "Older brother is there.",
+  "src": "apply"
+ },
+ {
+  "war": "Didto hi ate.",
+  "en": "Older sister is over there.",
+  "src": "apply"
+ },
+ {
+  "war": "Diri hiya an bugto ko.",
+  "en": "He/she is not my sibling.",
+  "src": "apply"
+ },
+ {
+  "war": "Oo, dadi hi anak ko.",
+  "en": "Yes, my child, come here.",
+  "src": "apply"
+ },
+ {
+  "war": "Hain hi asawa mo?",
+  "en": "Where is your spouse?",
+  "src": "apply"
+ },
+ {
+  "war": "Diri hiya aadi, ngadto hiya.",
+  "en": "He/she is not here, he/she goes there.",
+  "src": "apply"
+ },
+ {
+  "war": "Aada hi apo ko, dadi!",
+  "en": "My grandchild is there, come here!",
+  "src": "apply"
+ },
+ {
+  "war": "Oo, hi nanay ko aadi.",
+  "en": "Yes, my mother is here.",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi ako ha Daram.",
+  "en": "I am here in Daram.",
+  "src": "story"
+ },
+ {
+  "war": "Hain hi nanay ko?",
+  "en": "Where is my mother?",
+  "src": "story"
+ },
+ {
+  "war": "Aada hi nanay ko. Dadi!",
+  "en": "My mother is there. Come here!",
+  "src": "story"
+ },
+ {
+  "war": "Didto hi tatay ko ngan hi apo ko.",
+  "en": "My father and my grandchild are over there.",
+  "src": "story"
+ },
+ {
+  "war": "in balay",
+  "en": "the house",
+  "src": "example"
+ },
+ {
+  "war": "in kwarto",
+  "en": "the room",
+  "src": "example"
+ },
+ {
+  "war": "in kusina",
+  "en": "the kitchen",
+  "src": "example"
+ },
+ {
+  "war": "ha pantaw",
+  "en": "on the back porch",
+  "src": "example"
+ },
+ {
+  "war": "in purtahan",
+  "en": "the door",
+  "src": "example"
+ },
+ {
+  "war": "in bintana",
+  "en": "the window",
+  "src": "example"
+ },
+ {
+  "war": "ha natad",
+  "en": "in the yard",
+  "src": "example"
+ },
+ {
+  "war": "in kudal",
+  "en": "the fence",
+  "src": "example"
+ },
+ {
+  "war": "Akon balay",
+  "en": "My house",
+  "src": "example"
+ },
+ {
+  "war": "Imo kwarto",
+  "en": "Your room",
+  "src": "example"
+ },
+ {
+  "war": "Iyo kusina",
+  "en": "Your kitchen (plural)",
+  "src": "example"
+ },
+ {
+  "war": "Sulod ha balay",
+  "en": "Enter the house",
+  "src": "example"
+ },
+ {
+  "war": "Gawas ha natad",
+  "en": "Go out to the yard",
+  "src": "example"
+ },
+ {
+  "war": "Lingkod didto",
+  "en": "Sit there",
+  "src": "example"
+ },
+ {
+  "war": "Tindog yana",
+  "en": "Stand now",
+  "src": "example"
+ },
+ {
+  "war": "Aton balay ini.",
+  "en": "This is our house.",
+  "src": "example"
+ },
+ {
+  "war": "Sulod ha kwarto.",
+  "en": "Enter the room.",
+  "src": "apply"
+ },
+ {
+  "war": "Lingkod ha pantaw.",
+  "en": "Sit on the back porch.",
+  "src": "apply"
+ },
+ {
+  "war": "Imo balay ini.",
+  "en": "This is your house.",
+  "src": "apply"
+ },
+ {
+  "war": "Gawas ha natad.",
+  "en": "Go out to the yard.",
+  "src": "apply"
+ },
+ {
+  "war": "Akon kusina adto.",
+  "en": "That is my kitchen.",
+  "src": "apply"
+ },
+ {
+  "war": "Tindog ha purtahan.",
+  "en": "Stand at the door.",
+  "src": "apply"
+ },
+ {
+  "war": "Iyo bintana adto.",
+  "en": "That is your (plural) window.",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi in kudal.",
+  "en": "Here is the fence.",
+  "src": "apply"
+ },
+ {
+  "war": "Sulod ha balay, akon anak.",
+  "en": "Come in, my child.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga aga! Ini in akon balay.",
+  "en": "Good day! This is my house.",
+  "src": "story"
+ },
+ {
+  "war": "Sulod ha purtahan, tapos lingkod ha pantaw.",
+  "en": "Enter the door, then sit on the back porch.",
+  "src": "story"
+ },
+ {
+  "war": "Adto in iyo kwarto, ngan didto in akon kusina.",
+  "en": "That is your (plural) room, and there is my kitchen.",
+  "src": "story"
+ },
+ {
+  "war": "Gawas ha natad, in kudal didto.",
+  "en": "Go out to the yard, there is a fence there.",
+  "src": "story"
+ },
+ {
+  "war": "Inom hin tubig.",
+  "en": "Drink some water.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko kape.",
+  "en": "I want coffee.",
+  "src": "example"
+ },
+ {
+  "war": "Kaon hin kan-on.",
+  "en": "Eat some rice.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko isda.",
+  "en": "I want fish.",
+  "src": "example"
+ },
+ {
+  "war": "Kaon hin utan.",
+  "en": "Eat some vegetables.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko prutas.",
+  "en": "I want fruit.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto mo tinapay?",
+  "en": "Do you want bread?",
+  "src": "example"
+ },
+ {
+  "war": "Init nga sabaw.",
+  "en": "Hot soup.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko tubig.",
+  "en": "I want water.",
+  "src": "example"
+ },
+ {
+  "war": "Kinahanglan ko tubig.",
+  "en": "I need water.",
+  "src": "example"
+ },
+ {
+  "war": "Alayon, tubig.",
+  "en": "Please, water.",
+  "src": "example"
+ },
+ {
+  "war": "Salamat, amigo.",
+  "en": "Thank you, friend.",
+  "src": "example"
+ },
+ {
+  "war": "Kaon hin isda.",
+  "en": "Eat some fish.",
+  "src": "example"
+ },
+ {
+  "war": "Inom hin kape.",
+  "en": "Drink some coffee.",
+  "src": "example"
+ },
+ {
+  "war": "Init nga kape.",
+  "en": "Hot coffee.",
+  "src": "example"
+ },
+ {
+  "war": "Matugnaw nga tubig.",
+  "en": "Cold water.",
+  "src": "example"
+ },
+ {
+  "war": "Kape ko",
+  "en": "My coffee",
+  "src": "example"
+ },
+ {
+  "war": "Gusto mo?",
+  "en": "Do you want it?",
+  "src": "example"
+ },
+ {
+  "war": "Gusto niya isda",
+  "en": "He/she wants fish",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko hin init nga kape.",
+  "en": "I want some hot coffee.",
+  "src": "apply"
+ },
+ {
+  "war": "Kinahanglan ko hin tubig, alayon.",
+  "en": "I need some water, please.",
+  "src": "apply"
+ },
+ {
+  "war": "Kaon hin isda ngan utan.",
+  "en": "Eat some fish and vegetables.",
+  "src": "apply"
+ },
+ {
+  "war": "Gusto mo matugnaw nga prutas?",
+  "en": "Do you want cold fruit?",
+  "src": "apply"
+ },
+ {
+  "war": "Inom sin sabaw.",
+  "en": "Drink some soup.",
+  "src": "apply"
+ },
+ {
+  "war": "Salamat, gusto ko hin kan-on.",
+  "en": "Thank you, I want some rice.",
+  "src": "apply"
+ },
+ {
+  "war": "Alayon, gusto ko hin tinapay.",
+  "en": "Please, I want some bread.",
+  "src": "apply"
+ },
+ {
+  "war": "Kinahanglan mo ba matugnaw nga tubig?",
+  "en": "Do you need cold water?",
+  "src": "apply"
+ },
+ {
+  "war": "Kaon hin prutas ngan inom hin tubig.",
+  "en": "Eat fruit and drink water.",
+  "src": "apply"
+ },
+ {
+  "war": "Hi Lolo Ben gusto hin kape.",
+  "en": "Grandpa Ben wants coffee.",
+  "src": "story"
+ },
+ {
+  "war": "Kinahanglan niya hin kan-on ngan isda.",
+  "en": "He needs some rice and fish.",
+  "src": "story"
+ },
+ {
+  "war": "Alayon, gusto niya matugnaw nga tubig.",
+  "en": "Please, he wants cold water.",
+  "src": "story"
+ },
+ {
+  "war": "Salamat, Lolo Ben maupay.",
+  "en": "Thank you, Grandpa Ben is happy.",
+  "src": "story"
+ },
+ {
+  "war": "usa ka isda",
+  "en": "one fish",
+  "src": "example"
+ },
+ {
+  "war": "duha ka tinapay",
+  "en": "two breads",
+  "src": "example"
+ },
+ {
+  "war": "tulo ka anak",
+  "en": "three children",
+  "src": "example"
+ },
+ {
+  "war": "upat ka balay",
+  "en": "four houses",
+  "src": "example"
+ },
+ {
+  "war": "lima ka pesos",
+  "en": "five pesos",
+  "src": "example"
+ },
+ {
+  "war": "unom ka kwarto",
+  "en": "six rooms",
+  "src": "example"
+ },
+ {
+  "war": "pito ka bintana",
+  "en": "seven windows",
+  "src": "example"
+ },
+ {
+  "war": "walo ka isda",
+  "en": "eight fish",
+  "src": "example"
+ },
+ {
+  "war": "siyam ka tinapay",
+  "en": "nine breads",
+  "src": "example"
+ },
+ {
+  "war": "napulo ka anak",
+  "en": "ten children",
+  "src": "example"
+ },
+ {
+  "war": "Pira an isda?",
+  "en": "How many fish?",
+  "src": "example"
+ },
+ {
+  "war": "Tagpira ini?",
+  "en": "How much is this?",
+  "src": "example"
+ },
+ {
+  "war": "Gusto ko magpalit",
+  "en": "I want to buy",
+  "src": "example"
+ },
+ {
+  "war": "Mapalit ako isda",
+  "en": "I will buy fish",
+  "src": "example"
+ },
+ {
+  "war": "Bayad na!",
+  "en": "Pay now!",
+  "src": "example"
+ },
+ {
+  "war": "Waray sukli?",
+  "en": "No change?",
+  "src": "example"
+ },
+ {
+  "war": "Akon kwarta",
+  "en": "My money",
+  "src": "example"
+ },
+ {
+  "war": "Mahal ini.",
+  "en": "This is expensive.",
+  "src": "example"
+ },
+ {
+  "war": "Barato ini.",
+  "en": "This is cheap.",
+  "src": "example"
+ },
+ {
+  "war": "Tagpira ini nga isda?",
+  "en": "How much is this fish?",
+  "src": "apply"
+ },
+ {
+  "war": "Lima ka pesos.",
+  "en": "Five pesos.",
+  "src": "apply"
+ },
+ {
+  "war": "Mapalit ako tulo ka isda.",
+  "en": "I will buy three fish.",
+  "src": "apply"
+ },
+ {
+  "war": "Barato an tinapay.",
+  "en": "The bread is cheap.",
+  "src": "apply"
+ },
+ {
+  "war": "Waray ako sukli.",
+  "en": "I don't have change.",
+  "src": "apply"
+ },
+ {
+  "war": "Pira an kwarta mo?",
+  "en": "How much money do you have?",
+  "src": "apply"
+ },
+ {
+  "war": "Mapalit ka napulo ka tinapay?",
+  "en": "Will you buy ten breads?",
+  "src": "apply"
+ },
+ {
+  "war": "Bayad na! Waray sukli.",
+  "en": "Pay now! No change.",
+  "src": "apply"
+ },
+ {
+  "war": "Mahal an isda, barato an tinapay.",
+  "en": "The fish is expensive, the bread is cheap.",
+  "src": "apply"
+ },
+ {
+  "war": "Mapalit ako isda.",
+  "en": "I will buy fish.",
+  "src": "story"
+ },
+ {
+  "war": "Mahal an isda. Barato an tinapay.",
+  "en": "The fish is expensive. The bread is cheap.",
+  "src": "story"
+ },
+ {
+  "war": "Hi lolo.",
+  "en": "This is grandfather.",
+  "src": "example"
+ },
+ {
+  "war": "Hi lola ko.",
+  "en": "This is my grandmother.",
+  "src": "example"
+ },
+ {
+  "war": "Hi tiyo Pido.",
+  "en": "This is Uncle Pido.",
+  "src": "example"
+ },
+ {
+  "war": "Hi tiya Nena.",
+  "en": "This is Aunt Nena.",
+  "src": "example"
+ },
+ {
+  "war": "An akon ugangan.",
+  "en": "My parent-in-law.",
+  "src": "example"
+ },
+ {
+  "war": "Hiya an akon bayaw.",
+  "en": "He is my brother-in-law.",
+  "src": "example"
+ },
+ {
+  "war": "An iya hipag.",
+  "en": "His sister-in-law.",
+  "src": "example"
+ },
+ {
+  "war": "An akon umangkon.",
+  "en": "My niece/nephew.",
+  "src": "example"
+ },
+ {
+  "war": "Imo pamilya.",
+  "en": "Your family.",
+  "src": "example"
+ },
+ {
+  "war": "Hiya buotan.",
+  "en": "She is kind.",
+  "src": "example"
+ },
+ {
+  "war": "Ako malipayon.",
+  "en": "I am happy.",
+  "src": "example"
+ },
+ {
+  "war": "Kita bisita.",
+  "en": "We are guests.",
+  "src": "example"
+ },
+ {
+  "war": "Dayaw ko hiya.",
+  "en": "I praise her.",
+  "src": "example"
+ },
+ {
+  "war": "An akon kaupod.",
+  "en": "My companion.",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga gab-i, lolo.",
+  "en": "Good evening, grandfather.",
+  "src": "apply"
+ },
+ {
+  "war": "Hiya an akon ugangan.",
+  "en": "She is my parent-in-law.",
+  "src": "apply"
+ },
+ {
+  "war": "Kita malipayon nga pamilya.",
+  "en": "We are a happy family.",
+  "src": "apply"
+ },
+ {
+  "war": "An imo tiyo buotan.",
+  "en": "Your uncle is kind.",
+  "src": "apply"
+ },
+ {
+  "war": "Salamat, tiya, kaupod kami.",
+  "en": "Thank you, aunt, we are companions.",
+  "src": "apply"
+ },
+ {
+  "war": "Dayaw ko an imo hipag.",
+  "en": "I admire your sister-in-law.",
+  "src": "apply"
+ },
+ {
+  "war": "Kamusta, lola.",
+  "en": "How are you, grandmother.",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi an imo umangkon.",
+  "en": "Your niece/nephew is here.",
+  "src": "apply"
+ },
+ {
+  "war": "Kita bisita yana.",
+  "en": "We are guests today.",
+  "src": "apply"
+ },
+ {
+  "war": "Yana, hi Ana ngan hi Ben bisita ha balay ni lola.",
+  "en": "Today, Ana and Ben are guests at grandmother's house.",
+  "src": "story"
+ },
+ {
+  "war": "Aadi hi tiyo, hi tiya, ngan hi bayaw ni Ana.",
+  "en": "Here are Ana's uncle, aunt, and brother-in-law.",
+  "src": "story"
+ },
+ {
+  "war": "Malipayon an pamilya ni Ana. Buotan hi lola.",
+  "en": "Ana's family is happy. Grandmother is kind.",
+  "src": "story"
+ },
+ {
+  "war": "Dayaw ni Ben an kaupod.",
+  "en": "Ben praises the companion.",
+  "src": "story"
+ },
+ {
+  "war": "Aadi an silhig.",
+  "en": "Here is the broom.",
+  "src": "example"
+ },
+ {
+  "war": "Hain an balde?",
+  "en": "Where is the bucket?",
+  "src": "example"
+ },
+ {
+  "war": "Usa nga tanom.",
+  "en": "One plant.",
+  "src": "example"
+ },
+ {
+  "war": "Usa nga kahoy.",
+  "en": "One tree.",
+  "src": "example"
+ },
+ {
+  "war": "Kinahanglan ko pinggan.",
+  "en": "I need a plate.",
+  "src": "example"
+ },
+ {
+  "war": "Gusto mo baso?",
+  "en": "Do you want a glass?",
+  "src": "example"
+ },
+ {
+  "war": "Aada an sulo.",
+  "en": "There is the torch.",
+  "src": "example"
+ },
+ {
+  "war": "Duha nga kutsara.",
+  "en": "Two spoons.",
+  "src": "example"
+ },
+ {
+  "war": "Tulo nga tinidor.",
+  "en": "Three forks.",
+  "src": "example"
+ },
+ {
+  "war": "Aadi an kutsilyo.",
+  "en": "Here is the knife.",
+  "src": "example"
+ },
+ {
+  "war": "Lima nga kaldero.",
+  "en": "Five cooking pots.",
+  "src": "example"
+ },
+ {
+  "war": "Sabit an imo.",
+  "en": "Hang yours.",
+  "src": "example"
+ },
+ {
+  "war": "Laba yana.",
+  "en": "Wash clothes now.",
+  "src": "example"
+ },
+ {
+  "war": "Hugas an pinggan.",
+  "en": "Wash the plate.",
+  "src": "example"
+ },
+ {
+  "war": "Aadi an pwesto.",
+  "en": "Here is the spot.",
+  "src": "example"
+ },
+ {
+  "war": "Alayon, hain an silhig?",
+  "en": "Please, where is the broom?",
+  "src": "apply"
+ },
+ {
+  "war": "Kinahanglan ko usa nga balde.",
+  "en": "I need one bucket.",
+  "src": "apply"
+ },
+ {
+  "war": "Gusto mo an sulo didto?",
+  "en": "Do you want the torch over there?",
+  "src": "apply"
+ },
+ {
+  "war": "Hugas an baso ngan pinggan.",
+  "en": "Wash the glass and plate.",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi an kutsara ngan tinidor.",
+  "en": "Here are the spoon and fork.",
+  "src": "apply"
+ },
+ {
+  "war": "Pira nga kaldero an imo?",
+  "en": "How many cooking pots are yours?",
+  "src": "apply"
+ },
+ {
+  "war": "Laba kita yana, nanay.",
+  "en": "Let's wash clothes now, mother.",
+  "src": "apply"
+ },
+ {
+  "war": "Hain an kutsilyo ni tatay?",
+  "en": "Where is father's knife?",
+  "src": "apply"
+ },
+ {
+  "war": "Aadi an imo pwesto.",
+  "en": "Here is your spot.",
+  "src": "apply"
+ },
+ {
+  "war": "Salamat, gusto ko an kape.",
+  "en": "Thank you, I want the coffee.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga aga, lolo. Hain an balde?",
+  "en": "Good morning, grandfather. Where is the bucket?",
+  "src": "story"
+ },
+ {
+  "war": "Aada an balde, apo. Kinahanglan mo an silhig?",
+  "en": "The bucket is over there, grandchild. Do you need the broom?",
+  "src": "story"
+ },
+ {
+  "war": "Oo, lolo. Gusto ko maghugas hin pinggan ngan baso.",
+  "en": "Yes, grandfather. I want to wash plates and glasses.",
+  "src": "story"
+ },
+ {
+  "war": "Dayaw, apo! Pagkaon kamo han isda ngan kan-on.",
+  "en": "Good job, grandchild! Eat the fish and rice.",
+  "src": "story"
+ },
+ {
+  "war": "Kain ka?",
+  "en": "Where are you going?",
+  "src": "example"
+ },
+ {
+  "war": "Kadto ha merkado.",
+  "en": "Go to the market.",
+  "src": "example"
+ },
+ {
+  "war": "Ako pakadto ha balay.",
+  "en": "I am going home.",
+  "src": "example"
+ },
+ {
+  "war": "Tikang ako ha merkado.",
+  "en": "I am coming from the market.",
+  "src": "example"
+ },
+ {
+  "war": "Ako trabaho yana.",
+  "en": "I am working now.",
+  "src": "example"
+ },
+ {
+  "war": "Ha merkado kami.",
+  "en": "We are at the market.",
+  "src": "example"
+ },
+ {
+  "war": "Palit ha tiangge.",
+  "en": "Buy at the small store.",
+  "src": "example"
+ },
+ {
+  "war": "An eskwelahan didto.",
+  "en": "The school is over there.",
+  "src": "example"
+ },
+ {
+  "war": "Kita ha simbahan.",
+  "en": "We are at the church.",
+  "src": "example"
+ },
+ {
+  "war": "Hiya ha opisina.",
+  "en": "He/She is at the office.",
+  "src": "example"
+ },
+ {
+  "war": "Kinahanglan ko pahulay.",
+  "en": "I need to rest.",
+  "src": "example"
+ },
+ {
+  "war": "Balik ako dayon.",
+  "en": "I will return right away.",
+  "src": "example"
+ },
+ {
+  "war": "Limpyo an balay.",
+  "en": "The house is clean.",
+  "src": "example"
+ },
+ {
+  "war": "Kadto dayon.",
+  "en": "Go right away.",
+  "src": "example"
+ },
+ {
+  "war": "Pakadto ako ha merkado.",
+  "en": "I am going to the market.",
+  "src": "apply"
+ },
+ {
+  "war": "Tikang ako ha simbahan.",
+  "en": "I am coming from the church.",
+  "src": "apply"
+ },
+ {
+  "war": "Trabaho hiya yana.",
+  "en": "He/She is working now.",
+  "src": "apply"
+ },
+ {
+  "war": "Balik ako dayon ha balay.",
+  "en": "I will return home right away.",
+  "src": "apply"
+ },
+ {
+  "war": "Kain ka pakadto?",
+  "en": "Where are you going (to)?",
+  "src": "apply"
+ },
+ {
+  "war": "Pakadto ako ha eskwelahan.",
+  "en": "I am going to the school.",
+  "src": "apply"
+ },
+ {
+  "war": "Kinahanglan ko trabaho.",
+  "en": "I need work (or: I need to work).",
+  "src": "apply"
+ },
+ {
+  "war": "Pahulay kita ha balay.",
+  "en": "Let's rest at home.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga aga, Lolo! Kain ka?",
+  "en": "Good morning, Grandpa! Where are you going?",
+  "src": "story"
+ },
+ {
+  "war": "Pakadto ako ha merkado. Mapalit ako isda ngan utan.",
+  "en": "I am going to the market. I will buy fish and vegetables.",
+  "src": "story"
+ },
+ {
+  "war": "Tikang ha merkado, pakadto hiya ha tiangge. Nagpalit hiya tinapay.",
+  "en": "From the market, he went to the small store. He bought bread.",
+  "src": "story"
+ },
+ {
+  "war": "Didto ha balay, kinahanglan niya pahulay dayon. Limpyo an balay ni Lola.",
+  "en": "At home, he needed to rest right away. Lola's house is clean.",
+  "src": "story"
+ },
+ {
+  "war": "makusog nga uran",
+  "en": "strong rain",
+  "src": "example"
+ },
+ {
+  "war": "yana nag-uuran",
+  "en": "it's raining now",
+  "src": "example"
+ },
+ {
+  "war": "bugnaw nga hangin",
+  "en": "cold wind",
+  "src": "example"
+ },
+ {
+  "war": "mahangin yana",
+  "en": "it's windy now",
+  "src": "example"
+ },
+ {
+  "war": "init an sirak",
+  "en": "the sunshine is hot",
+  "src": "example"
+ },
+ {
+  "war": "masirak nga adlaw",
+  "en": "sunny day",
+  "src": "example"
+ },
+ {
+  "war": "maupay an panahon",
+  "en": "the weather is good",
+  "src": "example"
+ },
+ {
+  "war": "dako nga dampog",
+  "en": "big cloud",
+  "src": "example"
+ },
+ {
+  "war": "madampog yana",
+  "en": "it's cloudy now",
+  "src": "example"
+ },
+ {
+  "war": "makusog nga bagyo",
+  "en": "strong typhoon",
+  "src": "example"
+ },
+ {
+  "war": "dako nga baha",
+  "en": "big flood",
+  "src": "example"
+ },
+ {
+  "war": "basa an balay",
+  "en": "the house is wet",
+  "src": "example"
+ },
+ {
+  "war": "uga an dalan",
+  "en": "the road is dry",
+  "src": "example"
+ },
+ {
+  "war": "makusog an hangin",
+  "en": "the wind is strong",
+  "src": "example"
+ },
+ {
+  "war": "pirmi init didto",
+  "en": "it's always hot there",
+  "src": "example"
+ },
+ {
+  "war": "Mauran buwas.",
+  "en": "It will rain tomorrow.",
+  "src": "example"
+ },
+ {
+  "war": "Mapaso an adlaw.",
+  "en": "The sun is hot.",
+  "src": "example"
+ },
+ {
+  "war": "Init gud an panahon yana.",
+  "en": "The weather is really hot now.",
+  "src": "apply"
+ },
+ {
+  "war": "Nag-uuran na. Basa an natad.",
+  "en": "It's raining already. The yard is wet.",
+  "src": "apply"
+ },
+ {
+  "war": "Makusog an hangin. Mahangin gud.",
+  "en": "The wind is strong. It's really windy.",
+  "src": "apply"
+ },
+ {
+  "war": "Masirak yana. Maupay para laba.",
+  "en": "It's sunny now. Good for laundry.",
+  "src": "apply"
+ },
+ {
+  "war": "Madampog yana. Waray sirak.",
+  "en": "It's cloudy now. No sunshine.",
+  "src": "apply"
+ },
+ {
+  "war": "Dako nga bagyo an pakadto Daram.",
+  "en": "A big typhoon is coming to Daram.",
+  "src": "apply"
+ },
+ {
+  "war": "Kamusta an panahon ha Daram?",
+  "en": "How's the weather in Daram?",
+  "src": "apply"
+ },
+ {
+  "war": "Pirmi ba init didto?",
+  "en": "Is it always hot there?",
+  "src": "apply"
+ },
+ {
+  "war": "Unina, nag-uuran na.",
+  "en": "Later, it will be raining.",
+  "src": "apply"
+ },
+ {
+  "war": "Kinahanglan uga an balay tikang ha baha.",
+  "en": "The house needs to be dry from the flood.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga aga! Init an panahon yana.",
+  "en": "Good morning! The weather is hot now.",
+  "src": "story"
+ },
+ {
+  "war": "Kaina, nag-uuran hin makusog. Basa an natad.",
+  "en": "Earlier, it rained strong. The yard is wet.",
+  "src": "story"
+ },
+ {
+  "war": "Pero yana, masirak na. Maupay para laba.",
+  "en": "But now, it's sunny already. Good for laundry.",
+  "src": "story"
+ },
+ {
+  "war": "Pira ka oras?",
+  "en": "How many hours?",
+  "src": "example"
+ },
+ {
+  "war": "Lima ka minuto",
+  "en": "Five minutes",
+  "src": "example"
+ },
+ {
+  "war": "Alas otso",
+  "en": "At eight o'clock",
+  "src": "example"
+ },
+ {
+  "war": "Sayu ako mabangon.",
+  "en": "I will wake up early.",
+  "src": "example"
+ },
+ {
+  "war": "Urhi hiya bumalik.",
+  "en": "He returned late.",
+  "src": "example"
+ },
+ {
+  "war": "Buwas kita magkita.",
+  "en": "Tomorrow we will meet.",
+  "src": "example"
+ },
+ {
+  "war": "Kagab-i nagkaon kami.",
+  "en": "Last night we ate.",
+  "src": "example"
+ },
+ {
+  "war": "Sunod nga adlaw",
+  "en": "Next day",
+  "src": "example"
+ },
+ {
+  "war": "Bangon na, Nanay!",
+  "en": "Wake up now, Mom!",
+  "src": "example"
+ },
+ {
+  "war": "Magluto isda.",
+  "en": "Cook fish.",
+  "src": "example"
+ },
+ {
+  "war": "Magkita kita ha merkado",
+  "en": "Let's meet at the market",
+  "src": "example"
+ },
+ {
+  "war": "Mapasyada kita.",
+  "en": "Let's go for a stroll.",
+  "src": "example"
+ },
+ {
+  "war": "Tapos na an trabaho.",
+  "en": "The work is finished.",
+  "src": "example"
+ },
+ {
+  "war": "Sugod na kita.",
+  "en": "Let's start now.",
+  "src": "example"
+ },
+ {
+  "war": "Hatag tubig.",
+  "en": "Give water.",
+  "src": "example"
+ },
+ {
+  "war": "Kuha kape.",
+  "en": "Get coffee.",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga adlaw.",
+  "en": "Good day.",
+  "src": "example"
+ },
+ {
+  "war": "Alas sais ako mabangon buwas.",
+  "en": "I will wake up at six tomorrow.",
+  "src": "apply"
+ },
+ {
+  "war": "Tapos na an trabaho ko yana.",
+  "en": "My work is finished now.",
+  "src": "apply"
+ },
+ {
+  "war": "Sayu ka magluto hin isda.",
+  "en": "You cook fish early.",
+  "src": "apply"
+ },
+ {
+  "war": "Magkita kita ha merkado alas tres.",
+  "en": "Let's meet at the market at three o'clock.",
+  "src": "apply"
+ },
+ {
+  "war": "Urhi hiya bumalik tikang ha balay.",
+  "en": "He returned late from the house.",
+  "src": "apply"
+ },
+ {
+  "war": "Hatag kape, alayon.",
+  "en": "Give coffee, please.",
+  "src": "apply"
+ },
+ {
+  "war": "Pira ka oras ka mapasyada?",
+  "en": "How many hours will you stroll?",
+  "src": "apply"
+ },
+ {
+  "war": "Kagab-i kami nagluto utan.",
+  "en": "Last night we cooked vegetables.",
+  "src": "apply"
+ },
+ {
+  "war": "Sunod nga adlaw, sugod kita paglimpyo.",
+  "en": "Next day, let's start cleaning.",
+  "src": "apply"
+ },
+ {
+  "war": "Kuha hin tubig, Nanay.",
+  "en": "Get water, Mom.",
+  "src": "apply"
+ },
+ {
+  "war": "Alas singko, sayu bumangon hi Nanay. Nagluto hiya kape ngan kan-on para ha pamilya.",
+  "en": "At five o'clock, Mom woke up early. She cooked coffee and rice for the family.",
+  "src": "story"
+ },
+ {
+  "war": "Pagkatapos, nagpasyada hiya ha natad. Limpyo an ira balay pirmi.",
+  "en": "Afterwards, she strolled in the yard. Their house is always clean.",
+  "src": "story"
+ },
+ {
+  "war": "Buwas, magkita hira ni Tatay ha merkado para magpalit isda.",
+  "en": "Tomorrow, she and Dad will meet at the market to buy fish.",
+  "src": "story"
+ },
+ {
+  "war": "An kan-on malinamnam.",
+  "en": "The rice is delicious.",
+  "src": "example"
+ },
+ {
+  "war": "Mayda ako regalo.",
+  "en": "I have a gift.",
+  "src": "example"
+ },
+ {
+  "war": "Maupay nga aga! Kamusta ka?",
+  "en": "Good morning! How are you?",
+  "src": "apply"
+ },
+ {
+  "war": "Gusto mo ba kape?",
+  "en": "Do you want coffee?",
+  "src": "apply"
+ },
+ {
+  "war": "Alayon, lingkod didto.",
+  "en": "Please, sit there.",
+  "src": "apply"
+ },
+ {
+  "war": "Kami malipayon nga ikaw bisita.",
+  "en": "We are happy that you are a visitor.",
+  "src": "apply"
+ },
+ {
+  "war": "An kan-on malinamnam!",
+  "en": "The rice is delicious!",
+  "src": "apply"
+ },
+ {
+  "war": "An isda init ngan malinamnam.",
+  "en": "The fish is hot and delicious.",
+  "src": "apply"
+ },
+ {
+  "war": "Gusto mo ba sabaw?",
+  "en": "Do you want soup?",
+  "src": "apply"
+ },
+ {
+  "war": "Salamat ha imo!",
+  "en": "Thank you to you!",
+  "src": "apply"
+ },
+ {
+  "war": "Hatag ko ha imo an prutas.",
+  "en": "I give the fruit to you.",
+  "src": "apply"
+ },
+ {
+  "war": "Nag-uuran yana. Buwas masirak.",
+  "en": "It's raining now. Tomorrow it will be sunny.",
+  "src": "apply"
+ },
+ {
+  "war": "Pira an oras yana?",
+  "en": "What time is it now?",
+  "src": "apply"
+ },
+ {
+  "war": "Malipayon ako didto ha Daram.",
+  "en": "I am happy there in Daram.",
+  "src": "apply"
+ },
+ {
+  "war": "An trabaho tapos.",
+  "en": "The work is finished.",
+  "src": "apply"
+ },
+ {
+  "war": "Hatag ko ha imo an regalo.",
+  "en": "I give the gift to you.",
+  "src": "apply"
+ },
+ {
+  "war": "Maupay nga kulop! Dayon ha balay ni Nanay.",
+  "en": "Good afternoon! Come in to Nanay's house.",
+  "src": "story"
+ },
+ {
+  "war": "Hi Nanay ngan hi Lola nagluto hin kan-on ngan isda. An isda malinamnam!",
+  "en": "Nanay and Lola cooked rice and fish. The fish is delicious!",
+  "src": "story"
+ },
+ {
+  "war": "Kami malipayon nga ikaw kaupod.",
+  "en": "We are happy that you are a companion.",
+  "src": "story"
+ },
+ {
+  "war": "Gusto mo ba tubig? Gusto mo ba kape? Aadi an prutas.",
+  "en": "Do you want water? Do you want coffee? Here is the fruit.",
+  "src": "story"
+ }
+]

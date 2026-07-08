@@ -9,7 +9,7 @@
    Expression/block ids are offset by 20000 to avoid colliding with the CH2 seed.
    Run: node tools/gen-pc-seed.mjs <path-to-pc-blocks.json>  */
 import fs from "fs";
-const SRC = process.argv[2] || "/private/tmp/claude-501/-Users-paulkilroy-dev-Sulog/2ec9156d-452e-4eed-b759-f98650a29e43/scratchpad/pc-blocks.json";
+const SRC = process.argv[2] || "docs/sources/peace-corps/pc-blocks.json";
 const lessons = JSON.parse(fs.readFileSync(SRC, "utf8")).sort((a, b) => a.num - b.num);
 const S = (v) => v == null || v === "" ? "null" : "'" + String(v).replace(/'/g, "''") + "'";
 const norm = (s) => (s || "").trim();
