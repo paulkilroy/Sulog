@@ -949,6 +949,17 @@ export default function App() {
     });
   }, [cards]);
 
+  // manually clear a card off "Needs work": unpin it and mark its cold-recall counter satisfied so
+  // needsWorkCard() drops it. If you miss it again later, recall resets and it returns (normal graduation).
+  const dismissNeedsWork = useCallback((id) => {
+    setProg((prev) => {
+      const st = prev[id] || freshStat(cards.find((c) => c.id === id)?.forgotten);
+      const np = { ...prev, [id]: { ...st, pinned: false, recall: NW_RECOVER } };
+      store.set(PK.prog, JSON.stringify(np));
+      return np;
+    });
+  }, [cards]);
+
   const playCard = useCallback((card) => {
     let rate = settings.rate;
     if (settings.adaptive) {
@@ -1073,7 +1084,7 @@ export default function App() {
 
   const ctx = {
     cards, prog, streak, view, setView, session, setSession,
-    recordCard, togglePin, playCard, bumpStreak, saveProg,
+    recordCard, togglePin, dismissNeedsWork, playCard, bumpStreak, saveProg,
     exportData, importData, settings, saveSettings,
     syncState, syncPull, syncPush,
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart, startStep, stepIdx,
@@ -3066,7 +3077,7 @@ function HistoryView({ ctx }) {
 
 /* ============================ NEEDS WORK ============================ */
 function NeedsWorkView({ ctx }) {
-  const { cards, prog, setView, setSession, playCard, togglePin } = ctx;
+  const { cards, prog, setView, setSession, playCard, togglePin, dismissNeedsWork } = ctx;
   // rank by how much you struggle: most-missed first, then lowest accuracy
   const items = cards.filter((c) => needsWorkCard(prog[c.id]))
     .sort((a, b) => {
@@ -3118,6 +3129,9 @@ function NeedsWorkView({ ctx }) {
                     <span className="ws-nw-miss" title="times missed">×{st?.wrong || 0}</span>
                     <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(c.id)}>
                       <Star size={15} />
+                    </button>
+                    <button className="ws-nw-remove" title="Remove from Needs work (I know this one)" onClick={() => dismissNeedsWork(c.id)}>
+                      <X size={15} />
                     </button>
                   </div>
                 </div>
@@ -4263,6 +4277,9 @@ function Styles() {
   color:var(--sand-deep);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
 .ws-pin.on{color:var(--sun);border-color:var(--sun);background:#fef4e3}
 .ws-pin.on svg{fill:var(--sun)}
+.ws-nw-remove{width:32px;height:32px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--foam);
+  color:var(--ink-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.ws-nw-remove:hover{color:var(--coral);border-color:var(--coral)}
 
 /* browse */
 .ws-search{width:100%;padding:13px 15px;border-radius:13px;border:1.5px solid var(--sand-deep);
