@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && rm -rf dist && mkdir dist && cp index.html dist/index.html && cp docs/preview/pc-course-vs-book.html dist/verify.html",
+  "buildCommand": "npm run build && rm -rf dist && mkdir dist && cp index.html dist/index.html && cp docs/preview/verify.html dist/verify.html && cp -r docs/preview/verify dist/verify",
   "outputDirectory": "dist",
   "framework": null
 }

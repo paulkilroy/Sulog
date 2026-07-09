@@ -1420,7 +1420,7 @@ function LanguageView({ ctx }) {
 
         <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
         {isDb && (
-          <a href="/verify.html" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none", color: "inherit" }}>
+          <a href="/verify/" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
             <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF — directions, choices &amp; source checks</i></div>
             <ChevronRight size={18} className="ws-cta-arrow" />

@@ -1,0 +1,310 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson 22 — Course vs. Book</title><style>
+:root{--tide:#1cb0b8;--sea:#5fc9cf;--sun:#f4a53a;--coral:#f07a66;--jade:#3fae6a;--shell:#0b1f23;--sand:#16333a;--sand-deep:#2b4f56;--ink:#eaf3f2;--ink-soft:#9db3b5;--foam:#102a2f;}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(135% 80% at 50% -8%,#123a3f 0%,var(--shell) 52%);min-height:100vh}
+a{color:var(--sea)}
+header{position:sticky;top:0;z-index:20;background:rgba(9,24,28,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--sand-deep);padding:12px 20px}
+h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
+.sub{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);max-width:920px}.sub b{color:var(--ink)}
+.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.nav a{font-weight:700;text-decoration:none;padding:4px 12px;border:1px solid var(--sand-deep);border-radius:9px;background:var(--foam)}
+.nav a:hover{border-color:var(--tide)}
+.nav .sp{margin-left:auto;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.maptbl{border-collapse:collapse;font-size:11.5px;margin:8px 0 2px}
+.maptbl td{padding:2px 8px;white-space:nowrap;color:var(--ink-soft)}
+.maptbl code{font:11px ui-monospace,monospace;background:var(--sand);border-radius:4px;padding:1px 6px;color:var(--sea)}
+.maptbl .ms{font-weight:700;color:var(--ink)}
+.maptbl .ms i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.maptbl .arw{color:var(--sand-deep)}
+.lg.dim{opacity:.3}
+tr.lg:hover td{background:var(--sand)}
+.wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
+.pg{margin:0 0 16px}
+.pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.imgwrap{position:relative;line-height:0;border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;background:#fff}
+.imgwrap img{width:100%;display:block}
+.sec{position:absolute;background:color-mix(in srgb,var(--c) 13%,transparent);border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);border-radius:4px;transition:.12s;cursor:default}
+.sec:hover{background:color-mix(in srgb,var(--c) 26%,transparent);border-color:var(--c)}
+.slab{position:absolute;top:-9px;left:6px;font:600 8.5px/1.5 system-ui;letter-spacing:.03em;text-transform:uppercase;color:#08262b;background:var(--c);border-radius:3px;padding:0 5px;white-space:nowrap}
+.dimmed .sec:not(.on){opacity:.12}
+details.rawocr{margin:4px 0 14px;border:1px solid var(--sand-deep);border-radius:10px;background:var(--foam)}
+details.rawocr summary{cursor:pointer;padding:8px 12px;font-size:12px;font-weight:700;color:var(--sea)}
+details.rawocr pre{margin:0;padding:10px 14px;font:11.5px/1.55 ui-monospace,monospace;color:#cfe0df;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow:auto}
+.clesson{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.clh{font-size:13.5px;font-weight:800;color:var(--sun);margin:4px 0 6px}
+.blk{border-left:3px solid var(--c);padding:5px 0 5px 11px;margin:8px 0;transition:.12s}
+.dimmed .blk:not(.on){opacity:.18}
+.bh{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin-bottom:5px}
+.bh .tag{display:inline-block;color:#08262b;border-radius:4px;padding:1px 6px;margin-right:4px;letter-spacing:.03em}
+.blk p{margin:3px 0;font-size:13px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:400}
+table.md{border-collapse:collapse;margin:6px 0;font-size:12px;text-transform:none;letter-spacing:0;font-weight:400}
+table.md th,table.md td{border:1px solid var(--sand-deep);padding:3px 8px;text-align:left;color:var(--ink)}
+table.md th{background:var(--sand);font-weight:700}
+.formula{font:12px ui-monospace,monospace;background:var(--sand);border:1px solid var(--sand-deep);border-radius:6px;padding:5px 8px;margin:5px 0;color:var(--sea);text-transform:none;letter-spacing:0;font-weight:400;white-space:pre-wrap}
+.it{display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;padding:3px 0;border-bottom:1px dotted #24454b;font-weight:400;text-transform:none;letter-spacing:0}
+.it .war{font-family:Georgia,serif;font-size:14.5px;font-weight:600}
+.it .dash{color:var(--ink-soft)}.it .en{color:var(--ink-soft);font-size:12.5px}
+.it.flag{background:rgba(244,165,58,.06);border-radius:6px;padding:3px 6px;margin:1px -6px}
+.dir{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:1px 6px;border-radius:6px;white-space:nowrap;flex:0 0 auto}
+.dir.wte{background:rgba(28,176,184,.18);color:var(--sea);border:1px solid rgba(28,176,184,.4)}
+.dir.etw{background:rgba(244,165,58,.16);color:var(--sun);border:1px solid rgba(244,165,58,.4)}
+.v{font-size:9.5px;font-weight:700;padding:0 5px;white-space:nowrap;margin-left:auto}
+.v.ok{color:var(--jade)}.v.syn{color:var(--sun)}
+.it.mc{flex-direction:column;align-items:flex-start;gap:5px;background:rgba(197,138,42,.05);border-radius:8px;padding:7px 9px;margin:4px 0;border-bottom:none}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
+.ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+.nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
+/* index */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
+.card{display:block;text-decoration:none;color:var(--ink);background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 16px;transition:.12s}
+.card:hover{border-color:var(--tide);transform:translateY(-1px)}
+.card .n{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sea)}
+.card .t{font-size:14.5px;font-weight:700;margin:3px 0 6px;line-height:1.3}
+.card .m{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.card .m .syn{color:var(--sun)} .card .m .ok{color:var(--jade)}
+.phz{grid-column:1/-1;font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:10px 2px -2px}
+</style>
+<header>
+  <h1>Lesson 22 <span style="color:var(--ink-soft);font-weight:400">· Commands, special verbs &amp; questions</span></h1>
+  <p class="sub">Hover a colored box on the scan, a course block, or a legend row to trace how the book became the lesson. Grey <b>Oral exercise</b> sections are deliberately not ingested (teacher-led; the answer-by-voice toggle covers speaking).</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a><a href="lesson-21.html">&larr; L21</a><a href="lesson-23.html">L23 &rarr;</a><span class="sp">pages —</span></div>
+  <div class="legend"><table class="maptbl"><tbody><tr class="lg" data-dest="guide"><td class="ms"><i style="background:#5fc9cf"></i>Guide</td><td class="arw">&rarr;</td><td><code>grammar / note</code></td><td class="arw">&rarr;</td><td>read it</td></tr><tr class="lg" data-dest="paradigm"><td class="ms"><i style="background:#b79ae8"></i>Chart</td><td class="arw">&rarr;</td><td><code>vocab · paradigm</code></td><td class="arw">&rarr;</td><td>learn the words</td></tr><tr class="lg" data-dest="examples"><td class="ms"><i style="background:#6aa9e8"></i>Examples</td><td class="arw">&rarr;</td><td><code>drill · recognition</code></td><td class="arw">&rarr;</td><td>pick the meaning</td></tr><tr class="lg" data-dest="vocab"><td class="ms"><i style="background:#3fae6a"></i>Vocabulary</td><td class="arw">&rarr;</td><td><code>vocab</code></td><td class="arw">&rarr;</td><td>learn the words</td></tr><tr class="lg" data-dest="oral"><td class="ms"><i style="background:#8a97a3"></i>Oral exercise</td><td class="arw">&rarr;</td><td><code>— dropped (teacher-led)</code></td><td class="arw">&rarr;</td><td>voice toggle instead</td></tr><tr class="lg" data-dest="written"><td class="ms"><i style="background:#f0a24a"></i>Written</td><td class="arw">&rarr;</td><td><code>drill · production</code></td><td class="arw">&rarr;</td><td>translate both ways</td></tr><tr class="lg" data-dest="gate"><td class="ms"><i style="background:#f07a66"></i>Review / test</td><td class="arw">&rarr;</td><td><code>assessment · gate</code></td><td class="arw">&rarr;</td><td>exit test</td></tr></tbody></table></div>
+</header>
+<div class="wrap">
+  <div><div class="col-h">&#128214; The scanned book</div><div class="nopg">no scanned pages mapped to this lesson</div><details class="rawocr"><summary>Raw OCR text</summary><pre>Lesson 22
+Review
+Answer the following questions negatively in Waray. Use the double negator.
+1. Nag-ühaw na ba liwat hi Jon hin baboy?
+A
+2. Magdadara ba kamo hin pagkaon para ha iyo pangiklep?
+3. Nagsiring na ba an Polong ha Dios ha imo?
+4. Magdyadyakel ka pa ba ha bukid?
+A
+5. Nag-asawa na ba liwat ilon nga lalake ha iba nga babaye?
+A.
+Translate the following negative commands using mag-actor focus.
+6. Don't guard my car
+7. Don't rent that house "over there" now.
+8. Do not make an idol.
+9. Don't work at that place (pl)
+10. Do not telephone the school.
+*******
+**********
+*********************
+Special verbs
+Karuyag, Buot, Kinahanglan, l'wede, Mahimo
+These are called special verbs, or pseudo-verbs. These special verbs may function as verls
+Ihemsclves.
+===PAGE 102===
+99
+For example:
+Karuyag ko hin tubig
+Karuyag nimo?
+Nakaruyag hıya kan Inday.
+Ako la an magbuot hifon.
+Nagkinahanglan ako hin bulig.
+Pwede ba kamo?
+Mahimo ba?
+I woukd like some water.
+Do you(sing) want 1o?
+He likes Inday.
+I will be the one to decide that?
+Ineed help.
+C'an you(pl)?
+Is it possible? (or] Can it be?
+However, Ihese special verbs are most oflen linked to ofher verbs in a sentence as an "auxiliary"
+to the main verb of the sentence. Used in this way, these special verbs have the following
+meanings:
+KARUYAG/BUOT
+KINAHANGLAN
+PWEDE/MAHIMO
+Special Verbs
+"like to, want to, or wish to (do something)"
+"need to, have to, must (do something)
+"can, may, able to, it is possible to (do something)"
+In the following examples you will notice that these special verbs are linked to another main verb
+of the sentence
+Examples
+1. Karuyag hiya magpalit hin sapalos.
+He wants to buy shoes
+2. Buot magmulay an mga bata.
+The chikdren wish to play.
+3. Kinahanglan kila magtrabaho.
+We(incl) must work
+We(incl) need to work
+4. Pwede magkadto hi Felix ha iyo.
+Felix can go to your (house).
+Felix will be able to go to your house
+5. Mahimo kami magtrabaho buwas.
+We(excl) will be able to work tomorrow.
+Notice in the examples above:
+* The special verbs are used with another main verb.
+* All the main verbs are future tense there is no reduplication of the first syllable of the root.
+* The main verbs are translated in English like infinitives most of the fime. (lo buy, to play, to
+work, 10 go)
+* The sentences begin with the special verbs.
+*The subject sometimes comes before the main vert at other times, it follows the main verh.
+===PAGE 103===
+100
+Word Order
+The FORMULAS below will show you the word order for sentences using special verbs. There
+are two common ways of arranging the words -- the subject before the main verh, or the subject
+after the main verh. Either way is acceptable though Waray ofen prefer one of the other.
+SUBJECT BEFORE MAIN VERB
+Special Verb + 1 Cl Subject + Future Verb (no redup. Of the Ist syll. Of the root + rest...
+EXCEPTION w/ Kmahanglan, P'wede, Mahimo
+Special Verb + I Cl Marker + Future Verb(no redup.) + rest...
+I Cl Gen Pro
+( R
+SUBJECT AFTER MAIN VERB
+Special Verb t Future Verblno reduplication| + 1 CI Subject 1 rest...
+NOTE: Examples will be given using both formulas, or word orders above. Both are used
+depending upon location and personal preference
+KARUYAG / BUOT "like to, want do, wish do, will to (de somcthing)"
+Karuyag and boot mean the same thing and may be used in the same way. The more common
+usage is karnyag, but beor is also used
+Examples (karuyag and buot)
+1. Karuyag ako magpalit hin karne ha merkado [or]
+Karuyag magpalit ako hin karne ha merkado.
+I want to buy meat at the market.
+2. Buot hiya maglakat ha siyudad [or]
+Buot maglakat hiya ha siyudad
+She wants to go to the city
+3. Keruyag hi Debbie magbisita ha iya tiyn.
+(or]
+Karuyag magbisita hi Debbie ha iya tiya.
+Debbie wishes to visit her aunt.
+4. Buot an mga bata magkaon hin sorbeti
+Burot magkaon an inga bata makaon hin sorbefi.
+The children would like to cat ice crcam.
+5. Karuyag iton nga fawo mag-alagad ha Dios.
+Karuyag mag-alagad iton nga lawo ha Dios.
+That man wishes to serve God.
+===PAGE 104===
+101
+KINAHANGLAN
+"need to, have to, must (do somcthing)"
+Examples (kinahanglan)
+1. Kinahanglan ako magtrabaho. [or]
+Kinahanglan magtrabaho ako.
+I must work.
+2. Kinahanglan ka magluto hin manok. [or]
+Kinahanglan magluto ka hin manok.
+You(sing) need to cook a chicken.
+3. Kinahanglan nga* hi .Jose magsimba. [or]
+Kinahanglan magsimba hi Jose.
+Jose needs to go to church.
+4. Kinahanglan ini »ga mga bata mag-eskwela [or|
+Kinahanglan mag-eskwela ini nga mga bata.
+These children must go to school.
+PWEDE/ МAНІМО
+"can, may, rble to, il is possible to (ee something)"
+Pwede and mahimo mean the same thing, and may be used in the same way. Pwede is actually a
+Spanish word that is commonly used by Waray. It is the more common of these two in most
+places.
+Examples (pwede and mahimo)
+1. Pwerle hira magbantay ha iyo balay. [or]
+Pwede maghantay hira ha iyo balay.
+They can watch your(pl) house.
+2. Malimo ba kamo maghulad ha amon? [orl
+Mahimo ba maghulat kamo ha amon?
+Would it be possible for you(pl) to wait for us(excl)?
+3. Pwede ka ba magdara hin asukar? for|
+Pwede ba magdara ka hin asukar?
+Would you be able to bring sugar?
+4. Mahimo hi Fielix magturkar hin sista. [or|
+Mahimo magtukar hi Felix hin sista.
+Felix may play the guitar.
+5. P'wede adto uga panday magbuhat hin bodega. (orl
+P'wedle magbuhat adto nga panday hin bodega.
+That carpenter "over there" can make a warehouse.
+6. Mahimo ako maupod ha imo. for]
+Mahimo maupod ako ha imo.
+I will be able to go with you.
+===PAGE 105===
+102
+Oral Exercises
+Exercise #1: You leacher will say a sonfence in Waray using a special verl and main verb. You
+will repeat it, and then translare it into English.
+Exercise #2: Your teacher will now give you an English sentence using a special verb and main
+verb. You will translate it into Waray.
+Written Exercises
+Translale the following sentences:
+1.
+Karuyag hira mag-ampo para ha inga masakiton.
+2. Karuyag mag-inom hi Pastor Tan hin luy-a.
+3. Karuyag an amon mga kabulig nga mag-uli ha ira.
+1. Buot hi Randy magpakyaw hin dyip.
+5.
+Buot ba kamo magkompesal han iyo mga sala?
+Kinahanglan magsangyaw kita nga tanan han Ptilong ha Ginoe.
+7. Kinahanglan hi Paul maghimo hin bag-o nga saad ha Dios.
+8. Kinahanglan nga ang mga opisyales han iglesiya magtukdaw.
+P'wede ka lia magtutdo ha amon hin inga karantahon?
+10. Pwede mag-ukoy hira Rey ngan Jun dinhi ha amon.
+I. l'wede magsakay kamo hin sarakyan didto
+===PAGE 106===
+103
+12. Mahimo mabaton ako hiton nga pakiana.
+13. Mahimo ba an mga ninong ngan ninang mapalit hin litson para ha amon kasal?
+14. I would like lo receive Jesus Christ
+15. Mike and Kristi want to learn Tagalog.
+16. Wefincl) need to start a church there in that neighborbood
+17. You(pl) must deny yourselves.
+18. Would it be possible for the teachers to prepare a snack?
+19. She can meet her friends at the college.
+20. Yes, Pam will be able to watch your(pl) kids
+21. His son wishes to come back to the church.
+22. You(sing) must turn away from your old life.
+23. Lance wants to preach in Waray.
+24. The pastor wants to announce (some) important things to us(incl).
+25. Esther can now marry her boyfriend.
+===PAGE 107===
+104
+asúkar
+-sugar
+sorbeli- ice cream
+-bálik - to come back
+sakayan - outrigger boat
+-tukdaw -to stand up for
+bodéga - warehouse, storage
+buót - want to, wish to
+karuyag - want to, like to
+-kompesal - lo repent
+dada - aunt
+kaamyaw - neighborhood
+kinahánglan - need to, must
+litson - roasted pig
+lúy-a - ginger
+/ baton - answer
+Vocabulary
+mahimo - to be able to, can
+masakiton - sick person
+merienda - snack
+ninang - godmother
+pahibaro - to announce
+_pakyaw - lo contract work
+pangiklop - supper
+pulong -word
+pwede- can, able to
+saad - promise
+-sakay - to ride
+-sangyaw - 1o witness
+-talikod -to turn around, to abandon
+tanan - everyone, all
+===PAGE 108===
+105</pre></details></div>
+  <div><div class="col-h">&#128241; The lesson it produces</div><div class="clesson"><div class="clh">Lesson 22</div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Special verbs</div><p>Karuyag, Buot, Kinahanglan, Pwede, Mahimo</p><p>These are called special verbs, or pseudo-verbs. These special verbs may function as verbs themselves.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar</div><p>However, these special verbs are most often linked to other verbs in a sentence as an "auxiliary" to the main verb of the sentence. Used in this way, these special verbs have the following meanings:</p><table class="md"><tr><th>Special Verbs</th><th>Meaning</th></tr><tr><td>KARUYAG/BUOT</td><td>"like to, want to, or wish to (do something)"</td></tr><tr><td>KINAHANGLAN</td><td>"need to, have to, must (do something)"</td></tr><tr><td>PWEDE/MAHIMO</td><td>"can, may, able to, it is possible to (do something)"</td></tr></table><p>In the following examples you will notice that these special verbs are linked to another main verb of the sentence</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Word Order</div><p>The FORMULAS below will show you the word order for sentences using special verbs. There are two common ways of arranging the words -- the subject before the main verb, or the subject after the main verb. Either way is acceptable though Waray often prefer one or the other.</p><div class="formula">SUBJECT BEFORE MAIN VERB: Special Verb + I Cl Subject + Future Verb (no reduplication of the 1st syll. of the root) + rest... (EXCEPTION w/ Kinahanglan, Pwede, Mahimo: Special Verb + I Cl Marker + Future Verb (no reduplication) + rest...); SUBJECT AFTER MAIN VERB: Special Verb + Future Verb (no reduplication) + I Cl Subject + rest...</div></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · KARUYAG / BUOT</div><p>"like to, want to, wish to, will to (do something)"</p><p>Karuyag and buot mean the same thing and may be used in the same way. The more common usage is karuyag, but buot is also used.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · KINAHANGLAN</div><p>"need to, have to, must (do something)"</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · PWEDE/MAHIMO</div><p>"can, may, able to, it is possible to (do something)"</p><p>Pwede and mahimo mean the same thing, and may be used in the same way. Pwede is actually a Spanish word that is commonly used by Waray. It is the more common of these two in most places.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> note</div><p>Notice in the examples above:</p><p>* The special verbs are used with another main verb.</p><p>* All the main verbs are future tense; there is no reduplication of the first syllable of the root.</p><p>* The main verbs are translated in English like infinitives most of the time. (to buy, to play, to work, to go)</p><p>* The sentences begin with the special verbs.</p><p>* The subject sometimes comes before the main verb; at other times, it follows the main verb.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> note</div><p>Examples will be given using both formulas, or word orders above. Both are used depending upon location and personal preference.</p></div><div class="blk" data-dest="vocab" style="--c:#3fae6a"><div class="bh" style="color:#3fae6a"><span class="tag" style="background:#3fae6a">Vocabulary</span> Vocabulary · 29 words</div><div class="it"><span class="war">asukar</span><span class="dash">&mdash;</span><span class="en">sugar</span></div><div class="it"><span class="war">sorbeti</span><span class="dash">&mdash;</span><span class="en">ice cream</span></div><div class="it"><span class="war">balik</span><span class="dash">&mdash;</span><span class="en">to come back</span></div><div class="it"><span class="war">sakayan</span><span class="dash">&mdash;</span><span class="en">outrigger boat</span></div><div class="it"><span class="war">tukdaw</span><span class="dash">&mdash;</span><span class="en">to stand</span></div><div class="it"><span class="war">bodega</span><span class="dash">&mdash;</span><span class="en">warehouse, storage</span></div><div class="it"><span class="war">buot</span><span class="dash">&mdash;</span><span class="en">want to, wish to</span></div><div class="it"><span class="war">karuyag</span><span class="dash">&mdash;</span><span class="en">want to, like to</span></div><div class="it"><span class="war">kompesal</span><span class="dash">&mdash;</span><span class="en">to repent</span></div><div class="it"><span class="war">dada</span><span class="dash">&mdash;</span><span class="en">aunt</span></div><div class="it"><span class="war">kaamyaw</span><span class="dash">&mdash;</span><span class="en">neighborhood</span></div><div class="it"><span class="war">kinahanglan</span><span class="dash">&mdash;</span><span class="en">to need</span></div><div class="it"><span class="war">litson</span><span class="dash">&mdash;</span><span class="en">roasted pig</span></div><div class="it"><span class="war">luy-a</span><span class="dash">&mdash;</span><span class="en">ginger</span></div><div class="it"><span class="war">baton</span><span class="dash">&mdash;</span><span class="en">answer</span></div><div class="it"><span class="war">mahimo</span><span class="dash">&mdash;</span><span class="en">to be able to, can</span></div><div class="it"><span class="war">masakiton</span><span class="dash">&mdash;</span><span class="en">sick person</span></div><div class="it"><span class="war">merienda</span><span class="dash">&mdash;</span><span class="en">snack</span></div><div class="it"><span class="war">ninang</span><span class="dash">&mdash;</span><span class="en">godmother</span></div><div class="it"><span class="war">pahibaro</span><span class="dash">&mdash;</span><span class="en">to announce</span></div><div class="it"><span class="war">pakyaw</span><span class="dash">&mdash;</span><span class="en">to contract work</span></div><div class="it"><span class="war">pangiklop</span><span class="dash">&mdash;</span><span class="en">supper</span></div><div class="it"><span class="war">pulong</span><span class="dash">&mdash;</span><span class="en">word</span></div><div class="it"><span class="war">pwede</span><span class="dash">&mdash;</span><span class="en">can, able to</span></div><div class="it"><span class="war">saad</span><span class="dash">&mdash;</span><span class="en">to promise</span></div><div class="it"><span class="war">sakay</span><span class="dash">&mdash;</span><span class="en">to ride</span></div><div class="it"><span class="war">sangyaw</span><span class="dash">&mdash;</span><span class="en">to witness</span></div><div class="it"><span class="war">talikod</span><span class="dash">&mdash;</span><span class="en">to turn around, to abandon</span></div><div class="it"><span class="war">tanan</span><span class="dash">&mdash;</span><span class="en">everyone, all</span></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">asukar</span><div class="choices"><span class="ch ans">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span><span class="ch">want to, wish to</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">sorbeti</span><div class="choices"><span class="ch ans">ice cream</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">balik</span><div class="choices"><span class="ch ans">to come back</span><span class="ch">sugar</span><span class="ch">warehouse, storage</span><span class="ch">want to, wish to</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">sakayan</span><div class="choices"><span class="ch ans">outrigger boat</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">tukdaw</span><div class="choices"><span class="ch ans">to stand</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">bodega</span><div class="choices"><span class="ch ans">warehouse, storage</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">want to, wish to</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">buot</span><div class="choices"><span class="ch ans">want to, wish to</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">karuyag</span><div class="choices"><span class="ch ans">want to, like to</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">kompesal</span><div class="choices"><span class="ch ans">to repent</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">dada</span><div class="choices"><span class="ch ans">aunt</span><span class="ch">sugar</span><span class="ch">to come back</span><span class="ch">warehouse, storage</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag ko hin tubig.</span><div class="choices"><span class="ch ans">I would like some water.</span><span class="ch">I will be the one to decide that.</span><span class="ch">Do you (sing) want to?</span><span class="ch">Is it possible? (or) Can it be?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag nimo?</span><div class="choices"><span class="ch ans">Do you (sing) want to?</span><span class="ch">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Is it possible? (or) Can it be?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nakaruyag hiya kan Inday.</span><div class="choices"><span class="ch ans">He likes Inday.</span><span class="ch">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Do you (sing) want to?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ako la an magbuot hiton.</span><div class="choices"><span class="ch ans">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Do you (sing) want to?</span><span class="ch">Is it possible? (or) Can it be?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nagkinahanglan ako hin bulig.</span><div class="choices"><span class="ch ans">I need help.</span><span class="ch">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Do you (sing) want to?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede ba kamo?</span><div class="choices"><span class="ch ans">Can you (pl)?</span><span class="ch">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Do you (sing) want to?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo ba?</span><div class="choices"><span class="ch ans">Is it possible? (or) Can it be?</span><span class="ch">I will be the one to decide that.</span><span class="ch">I would like some water.</span><span class="ch">Do you (sing) want to?</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag hiya magpalit hin sapalos.</span><div class="choices"><span class="ch ans">He wants to buy shoes.</span><span class="ch">The children wish to play.</span><span class="ch">We (incl) must work. / We (incl) need to work.</span><span class="ch">We (excl) will be able to work tomorrow.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot magmulay an mga bata.</span><div class="choices"><span class="ch ans">The children wish to play.</span><span class="ch">He wants to buy shoes.</span><span class="ch">We (incl) must work. / We (incl) need to work.</span><span class="ch">We (excl) will be able to work tomorrow.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan kita magtrabaho.</span><div class="choices"><span class="ch ans">We (incl) must work. / We (incl) need to work.</span><span class="ch">The children wish to play.</span><span class="ch">He wants to buy shoes.</span><span class="ch">We (excl) will be able to work tomorrow.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede magkadto hi Felix ha iyo.</span><div class="choices"><span class="ch ans">Felix can go to your (house). / Felix will be able to go to your house.</span><span class="ch">The children wish to play.</span><span class="ch">He wants to buy shoes.</span><span class="ch">We (incl) must work. / We (incl) need to work.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo kami magtrabaho buwas.</span><div class="choices"><span class="ch ans">We (excl) will be able to work tomorrow.</span><span class="ch">The children wish to play.</span><span class="ch">He wants to buy shoes.</span><span class="ch">We (incl) must work. / We (incl) need to work.</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag ako magpalit hin karne ha merkado</span><div class="choices"><span class="ch ans">I want to buy meat at the market.</span><span class="ch">The children would like to eat ice cream.</span><span class="ch">She wants to go to the city.</span><span class="ch">Debbie wishes to visit her aunt.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot hiya maglakat ha siyudad</span><div class="choices"><span class="ch ans">She wants to go to the city.</span><span class="ch">The children would like to eat ice cream.</span><span class="ch">I want to buy meat at the market.</span><span class="ch">Debbie wishes to visit her aunt.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag hi Debbie magbisita ha iya tiya.</span><div class="choices"><span class="ch ans">Debbie wishes to visit her aunt.</span><span class="ch">The children would like to eat ice cream.</span><span class="ch">She wants to go to the city.</span><span class="ch">I want to buy meat at the market.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot an mga bata magkaon hin sorbeti.</span><div class="choices"><span class="ch ans">The children would like to eat ice cream.</span><span class="ch">She wants to go to the city.</span><span class="ch">I want to buy meat at the market.</span><span class="ch">Debbie wishes to visit her aunt.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag iton nga tawo mag-alagad ha Dios.</span><div class="choices"><span class="ch ans">That man wishes to serve God.</span><span class="ch">The children would like to eat ice cream.</span><span class="ch">She wants to go to the city.</span><span class="ch">I want to buy meat at the market.</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan ako magtrabaho.</span><div class="choices"><span class="ch ans">I must work.</span><span class="ch">These children must go to school.</span><span class="ch">You (sing) need to cook a chicken.</span><span class="ch">Jose needs to go to church.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan ka magluto hin manok.</span><div class="choices"><span class="ch ans">You (sing) need to cook a chicken.</span><span class="ch">I must work.</span><span class="ch">These children must go to school.</span><span class="ch">Jose needs to go to church.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan nga hi Jose magsimba.</span><div class="choices"><span class="ch ans">Jose needs to go to church.</span><span class="ch">I must work.</span><span class="ch">These children must go to school.</span><span class="ch">You (sing) need to cook a chicken.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan ini nga mga bata mag-eskwela.</span><div class="choices"><span class="ch ans">These children must go to school.</span><span class="ch">I must work.</span><span class="ch">You (sing) need to cook a chicken.</span><span class="ch">Jose needs to go to church.</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede hira magbantay ha iyo balay.</span><div class="choices"><span class="ch ans">They can watch your (pl) house.</span><span class="ch">I will be able to go with you.</span><span class="ch">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">Felix may play the guitar.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo ba kamo maghulat ha amon?</span><div class="choices"><span class="ch ans">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">I will be able to go with you.</span><span class="ch">Felix may play the guitar.</span><span class="ch">That carpenter "over there" can make a warehouse.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede ka ba magdara hin asukar?</span><div class="choices"><span class="ch ans">Would you be able to bring sugar?</span><span class="ch">I will be able to go with you.</span><span class="ch">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">Felix may play the guitar.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo hi Felix magtukar hin sista.</span><div class="choices"><span class="ch ans">Felix may play the guitar.</span><span class="ch">I will be able to go with you.</span><span class="ch">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">That carpenter "over there" can make a warehouse.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede adto nga panday magbuhat hin bodega.</span><div class="choices"><span class="ch ans">That carpenter "over there" can make a warehouse.</span><span class="ch">I will be able to go with you.</span><span class="ch">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">Felix may play the guitar.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo ako maupod ha imo.</span><div class="choices"><span class="ch ans">I will be able to go with you.</span><span class="ch">Would it be possible for you (pl) to wait for us (excl)?</span><span class="ch">Felix may play the guitar.</span><span class="ch">That carpenter "over there" can make a warehouse.</span></div></div></div><div class="blk" data-dest="written" style="--c:#f0a24a"><div class="bh" style="color:#f0a24a"><span class="tag" style="background:#f0a24a">Written</span> Drill · Produce · both ways</div></div><div class="blk" data-dest="written" style="--c:#f0a24a"><div class="bh" style="color:#f0a24a"><span class="tag" style="background:#f0a24a">Written</span> Drill · Produce · both ways</div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag hira mag-ampo para ha mga masakiton.</span><span class="dash">&mdash;</span><span class="en">They want to pray for the sick.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag mag-inom hi Pastor Tan hin luy-a.</span><span class="dash">&mdash;</span><span class="en">Pastor Tan wants to drink ginger.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag an amon mga kabulig nga mag-uli ha ira.</span><span class="dash">&mdash;</span><span class="en">Our helpers want to return to them.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot hi Randy magpakyaw hin dyip.</span><span class="dash">&mdash;</span><span class="en">Randy wants to contract a jeep.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot ba kamo magkompesal han iyo mga sala?</span><span class="dash">&mdash;</span><span class="en">Do you (pl) want to confess your sins?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan magsangyaw kita nga tanan han Pulong ha Ginoo.</span><span class="dash">&mdash;</span><span class="en">We all need to preach the Word of the Lord.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan hi Paul maghimo hin bag-o nga saad ha Dios.</span><span class="dash">&mdash;</span><span class="en">Paul needs to make a new promise to God.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan nga an mga opisyales han iglesiya magtukdaw.</span><span class="dash">&mdash;</span><span class="en">The church officials must stand up.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede ka ba magtutdo ha amon hin mga karantahon?</span><span class="dash">&mdash;</span><span class="en">Can you (sing) teach us (excl) songs?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede mag-ukoy hira Rey ngan Jun dinhi ha amon.</span><span class="dash">&mdash;</span><span class="en">Rey and Jun can live here with us (excl).</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede magsakay kamo hin sarakyan didto.</span><span class="dash">&mdash;</span><span class="en">You (pl) can ride a vehicle there.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo mabaton ako hiton nga pakiana.</span><span class="dash">&mdash;</span><span class="en">I will be able to answer that question.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo ba an mga ninong ngan ninang mapalit hin litson para ha amon kasal?</span><span class="dash">&mdash;</span><span class="en">Will the godfathers and godmothers be able to buy lechon for our wedding?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Karuyag ko karawaton hi Jesus Kristo.</span><span class="dash">&mdash;</span><span class="en">I would like to receive Jesus Christ.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Karuyag hi Mike ngan hi Kristi mag-aram hin Tagalog.</span><span class="dash">&mdash;</span><span class="en">Mike and Kristi want to learn Tagalog.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Kinahanglan kita magtikang hin singbahan didto ha iton nga kaamyaw.</span><span class="dash">&mdash;</span><span class="en">We (incl) need to start a church there in that neighborhood.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Kinahanglan kamo magtalikod ha iyo kalugaringon.</span><span class="dash">&mdash;</span><span class="en">You (pl) must deny yourselves.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Mahimo ba an mga magturutdo magpreparar hin merienda?</span><span class="dash">&mdash;</span><span class="en">Would it be possible for the teachers to prepare a snack?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Pwede hiya makigkita ha iya mga sangkay ha kolehiyo.</span><span class="dash">&mdash;</span><span class="en">She can meet her friends at the college.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Oo, mahimo hi Pam magbantay han iyo mga anak.</span><span class="dash">&mdash;</span><span class="en">Yes, Pam will be able to watch your (pl) kids.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Buot an iya anak magbalik ha singbahan.</span><span class="dash">&mdash;</span><span class="en">His son wishes to come back to the church.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Kinahanglan ka magtalikod ha imo daan nga kinabuhi.</span><span class="dash">&mdash;</span><span class="en">You (sing) must turn away from your old life.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Karuyag hi Lance magsangyaw ha Waray.</span><span class="dash">&mdash;</span><span class="en">Lance wants to preach in Waray.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Karuyag an pastor magpahibaro hin importante nga mga butang ha aton.</span><span class="dash">&mdash;</span><span class="en">The pastor wants to announce (some) important things to us (incl).</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Pwede na hi Esther mag-asawa han iya uyab.</span><span class="dash">&mdash;</span><span class="en">Esther can now marry her boyfriend.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div></div><div class="blk" data-dest="gate" style="--c:#f07a66"><div class="bh" style="color:#f07a66"><span class="tag" style="background:#f07a66">Review / test</span> &#128274; Checkpoint — pass to continue · Exam · both ways</div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Kinahanglan magbalik hi Abner ha iya pamilya.</span><span class="dash">&mdash;</span><span class="en">Abner needs to return to his family.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Buot an anak ni Sarah magsangyaw hini nga kaharani.</span><span class="dash">&mdash;</span><span class="en">Sarah's child wants to preach in this neighborhood.</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Mahimo pa ba ako magkompesal?</span><span class="dash">&mdash;</span><span class="en">Can I still confess?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Karuyag hira magsakay hin karabaw.</span><span class="dash">&mdash;</span><span class="en">They want to ride a carabao.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Pwede ka ba magpahibaro ha iyo nga simbahan?</span><span class="dash">&mdash;</span><span class="en">Can you inform your church?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Mahimo ni Reynaldo ito para ha akon.</span><span class="dash">&mdash;</span><span class="en">Reynaldo can make that for me.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Buot ba kamo maglibot-libot upod ha akon?</span><span class="dash">&mdash;</span><span class="en">Do you(pl) want to roam around with me?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Kinahanglan ka uminom hin damo nga tubig dinhi ha Pilipinas.</span><span class="dash">&mdash;</span><span class="en">You(sing) need to drink much water here in the Philippines.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Mahimo ni Bit-bit magluto hin panihapon.</span><span class="dash">&mdash;</span><span class="en">Bit-bit will be able to cook supper.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Buot han bugto ni Ashley sumarig kan Jesus.</span><span class="dash">&mdash;</span><span class="en">Ashley's sister wants to trust Jesus.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div></div></div></div>
+</div><script>
+function focus(dest){
+  document.body.classList.toggle('dimmed',!!dest);
+  document.querySelectorAll('[data-dest]').forEach(el=>el.classList.toggle('on',el.dataset.dest===dest));
+  document.querySelectorAll('.lg').forEach(el=>el.classList.toggle('dim',dest&&el.dataset.dest!==dest));
+}
+document.querySelectorAll('.sec,.blk,.lg').forEach(el=>{
+  el.addEventListener('mouseenter',()=>focus(el.dataset.dest));
+  el.addEventListener('mouseleave',()=>focus(null));
+});
+</script>

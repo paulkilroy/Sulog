@@ -1,0 +1,74 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course vs. Book — Peace Corps Waray</title><style>
+:root{--tide:#1cb0b8;--sea:#5fc9cf;--sun:#f4a53a;--coral:#f07a66;--jade:#3fae6a;--shell:#0b1f23;--sand:#16333a;--sand-deep:#2b4f56;--ink:#eaf3f2;--ink-soft:#9db3b5;--foam:#102a2f;}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(135% 80% at 50% -8%,#123a3f 0%,var(--shell) 52%);min-height:100vh}
+a{color:var(--sea)}
+header{position:sticky;top:0;z-index:20;background:rgba(9,24,28,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--sand-deep);padding:12px 20px}
+h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
+.sub{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);max-width:920px}.sub b{color:var(--ink)}
+.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.nav a{font-weight:700;text-decoration:none;padding:4px 12px;border:1px solid var(--sand-deep);border-radius:9px;background:var(--foam)}
+.nav a:hover{border-color:var(--tide)}
+.nav .sp{margin-left:auto;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.maptbl{border-collapse:collapse;font-size:11.5px;margin:8px 0 2px}
+.maptbl td{padding:2px 8px;white-space:nowrap;color:var(--ink-soft)}
+.maptbl code{font:11px ui-monospace,monospace;background:var(--sand);border-radius:4px;padding:1px 6px;color:var(--sea)}
+.maptbl .ms{font-weight:700;color:var(--ink)}
+.maptbl .ms i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.maptbl .arw{color:var(--sand-deep)}
+.lg.dim{opacity:.3}
+tr.lg:hover td{background:var(--sand)}
+.wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
+.pg{margin:0 0 16px}
+.pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.imgwrap{position:relative;line-height:0;border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;background:#fff}
+.imgwrap img{width:100%;display:block}
+.sec{position:absolute;background:color-mix(in srgb,var(--c) 13%,transparent);border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);border-radius:4px;transition:.12s;cursor:default}
+.sec:hover{background:color-mix(in srgb,var(--c) 26%,transparent);border-color:var(--c)}
+.slab{position:absolute;top:-9px;left:6px;font:600 8.5px/1.5 system-ui;letter-spacing:.03em;text-transform:uppercase;color:#08262b;background:var(--c);border-radius:3px;padding:0 5px;white-space:nowrap}
+.dimmed .sec:not(.on){opacity:.12}
+details.rawocr{margin:4px 0 14px;border:1px solid var(--sand-deep);border-radius:10px;background:var(--foam)}
+details.rawocr summary{cursor:pointer;padding:8px 12px;font-size:12px;font-weight:700;color:var(--sea)}
+details.rawocr pre{margin:0;padding:10px 14px;font:11.5px/1.55 ui-monospace,monospace;color:#cfe0df;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow:auto}
+.clesson{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.clh{font-size:13.5px;font-weight:800;color:var(--sun);margin:4px 0 6px}
+.blk{border-left:3px solid var(--c);padding:5px 0 5px 11px;margin:8px 0;transition:.12s}
+.dimmed .blk:not(.on){opacity:.18}
+.bh{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin-bottom:5px}
+.bh .tag{display:inline-block;color:#08262b;border-radius:4px;padding:1px 6px;margin-right:4px;letter-spacing:.03em}
+.blk p{margin:3px 0;font-size:13px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:400}
+table.md{border-collapse:collapse;margin:6px 0;font-size:12px;text-transform:none;letter-spacing:0;font-weight:400}
+table.md th,table.md td{border:1px solid var(--sand-deep);padding:3px 8px;text-align:left;color:var(--ink)}
+table.md th{background:var(--sand);font-weight:700}
+.formula{font:12px ui-monospace,monospace;background:var(--sand);border:1px solid var(--sand-deep);border-radius:6px;padding:5px 8px;margin:5px 0;color:var(--sea);text-transform:none;letter-spacing:0;font-weight:400;white-space:pre-wrap}
+.it{display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;padding:3px 0;border-bottom:1px dotted #24454b;font-weight:400;text-transform:none;letter-spacing:0}
+.it .war{font-family:Georgia,serif;font-size:14.5px;font-weight:600}
+.it .dash{color:var(--ink-soft)}.it .en{color:var(--ink-soft);font-size:12.5px}
+.it.flag{background:rgba(244,165,58,.06);border-radius:6px;padding:3px 6px;margin:1px -6px}
+.dir{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:1px 6px;border-radius:6px;white-space:nowrap;flex:0 0 auto}
+.dir.wte{background:rgba(28,176,184,.18);color:var(--sea);border:1px solid rgba(28,176,184,.4)}
+.dir.etw{background:rgba(244,165,58,.16);color:var(--sun);border:1px solid rgba(244,165,58,.4)}
+.v{font-size:9.5px;font-weight:700;padding:0 5px;white-space:nowrap;margin-left:auto}
+.v.ok{color:var(--jade)}.v.syn{color:var(--sun)}
+.it.mc{flex-direction:column;align-items:flex-start;gap:5px;background:rgba(197,138,42,.05);border-radius:8px;padding:7px 9px;margin:4px 0;border-bottom:none}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
+.ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+.nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
+/* index */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
+.card{display:block;text-decoration:none;color:var(--ink);background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 16px;transition:.12s}
+.card:hover{border-color:var(--tide);transform:translateY(-1px)}
+.card .n{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sea)}
+.card .t{font-size:14.5px;font-weight:700;margin:3px 0 6px;line-height:1.3}
+.card .m{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.card .m .syn{color:var(--sun)} .card .m .ok{color:var(--jade)}
+.phz{grid-column:1/-1;font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:10px 2px -2px}
+</style>
+<header>
+  <h1>Peace Corps Waray — Course vs. Book</h1>
+  <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
+  <div class="nav"><span class="sp">677 verbatim · 450 synth of 1127 sentences · 660 MC items</span></div>
+</header>
+<div class="grid"><div class="phz">Personal pronouns &amp; markers</div><a class="card" href="lesson-1.html"><div class="n">Lesson 1 · &#128274; gated</div><div class="t">Personal Pronouns (I Class) · Vocabulary &amp; sentences</div><div class="m">103 items · <span class="ok">38 &#10003; in book</span> · <span class="syn">10 &#9998; synth</span></div></a><a class="card" href="lesson-2.html"><div class="n">Lesson 2 · &#128274; gated</div><div class="t">I Class Markers · Vocabulary &amp; sentences</div><div class="m">105 items · <span class="ok">31 &#10003; in book</span> · <span class="syn">35 &#9998; synth</span></div></a><a class="card" href="lesson-3.html"><div class="n">Lesson 3 · &#128274; gated</div><div class="t">I Class General Pronouns · Vocabulary &amp; sentences</div><div class="m">81 items · <span class="ok">25 &#10003; in book</span> · <span class="syn">15 &#9998; synth</span></div></a><a class="card" href="lesson-4.html"><div class="n">Lesson 4 · &#128274; gated</div><div class="t">II Class Personal Pronouns and II Class Markers · Vocabulary &amp; sentences</div><div class="m">124 items · <span class="ok">31 &#10003; in book</span> · <span class="syn">20 &#9998; synth</span></div></a><div class="phz">Actor-focus verbs &amp; III-class pronouns</div><a class="card" href="lesson-5.html"><div class="n">Lesson 5 · &#128274; gated</div><div class="t">Lesson 5 — Ma- Actor Focus (verbs)</div><div class="m">76 items · <span class="ok">26 &#10003; in book</span> · <span class="syn">15 &#9998; synth</span></div></a><a class="card" href="lesson-6.html"><div class="n">Lesson 6 · &#128274; gated</div><div class="t">II Class General Pronouns · Vocabulary &amp; sentences</div><div class="m">78 items · <span class="ok">23 &#10003; in book</span> · <span class="syn">15 &#9998; synth</span></div></a><a class="card" href="lesson-7.html"><div class="n">Lesson 7 · &#128274; gated</div><div class="t">III Class General Pronouns · Vocabulary &amp; sentences</div><div class="m">83 items · <span class="ok">31 &#10003; in book</span> · <span class="syn">16 &#9998; synth</span></div></a><a class="card" href="lesson-8.html"><div class="n">Lesson 8 · &#128274; gated</div><div class="t">Lesson 8 — III-Class Personal Pronouns</div><div class="m">96 items · <span class="ok">37 &#10003; in book</span> · <span class="syn">15 &#9998; synth</span></div></a><a class="card" href="lesson-9.html"><div class="n">Lesson 9</div><div class="t">II Class Personal Pronouns (cont.) · Vocabulary &amp; sentences</div><div class="m">55 items · <span class="ok">19 &#10003; in book</span> · <span class="syn">10 &#9998; synth</span></div></a><a class="card" href="lesson-10.html"><div class="n">Lesson 10 · &#128274; gated</div><div class="t">Lesson 10 — Review &amp; Test</div><div class="m">20 items · <span class="ok">9 &#10003; in book</span> · <span class="syn">11 &#9998; synth</span></div></a><div class="phz">Linkers &amp; particles</div><a class="card" href="lesson-11.html"><div class="n">Lesson 11 · &#128274; gated</div><div class="t">Lesson 11</div><div class="m">76 items · <span class="ok">11 &#10003; in book</span> · <span class="syn">24 &#9998; synth</span></div></a><a class="card" href="lesson-12.html"><div class="n">Lesson 12 · &#128274; gated</div><div class="t">Lesson 12</div><div class="m">103 items · <span class="ok">42 &#10003; in book</span> · <span class="syn">32 &#9998; synth</span></div></a><a class="card" href="lesson-13.html"><div class="n">Lesson 13 · &#128274; gated</div><div class="t">Lesson 13</div><div class="m">101 items · <span class="ok">31 &#10003; in book</span> · <span class="syn">48 &#9998; synth</span></div></a><a class="card" href="lesson-14.html"><div class="n">Lesson 14 · &#128274; gated</div><div class="t">Lesson 14</div><div class="m">90 items · <span class="ok">40 &#10003; in book</span> · <span class="syn">22 &#9998; synth</span></div></a><a class="card" href="lesson-15.html"><div class="n">Lesson 15</div><div class="t">Lesson 15</div><div class="m">88 items · <span class="ok">32 &#10003; in book</span> · <span class="syn">30 &#9998; synth</span></div></a><div class="phz">Negation</div><a class="card" href="lesson-16.html"><div class="n">Lesson 16 · &#128274; gated</div><div class="t">Lesson 16</div><div class="m">110 items · <span class="ok">62 &#10003; in book</span> · <span class="syn">10 &#9998; synth</span></div></a><a class="card" href="lesson-17.html"><div class="n">Lesson 17 · &#128274; gated</div><div class="t">Lesson 17</div><div class="m">64 items · <span class="ok">33 &#10003; in book</span> · <span class="syn">6 &#9998; synth</span></div></a><a class="card" href="lesson-18.html"><div class="n">Lesson 18 · &#128274; gated</div><div class="t">Lesson 18</div><div class="m">99 items · <span class="ok">47 &#10003; in book</span> · <span class="syn">37 &#9998; synth</span></div></a><a class="card" href="lesson-19.html"><div class="n">Lesson 19</div><div class="t">Lesson 19</div><div class="m">71 items · <span class="ok">27 &#10003; in book</span> · <span class="syn">7 &#9998; synth</span></div></a><a class="card" href="lesson-20.html"><div class="n">Lesson 20 · &#128274; gated</div><div class="t">Lesson 20 — Review Test</div><div class="m">16 items · <span class="ok">8 &#10003; in book</span> · <span class="syn">8 &#9998; synth</span></div></a><div class="phz">Commands, special verbs &amp; questions</div><a class="card" href="lesson-21.html"><div class="n">Lesson 21 · &#128274; gated</div><div class="t">Lesson 21</div><div class="m">68 items · <span class="ok">14 &#10003; in book</span> · <span class="syn">17 &#9998; synth</span></div></a><a class="card" href="lesson-22.html"><div class="n">Lesson 22 · &#128274; gated</div><div class="t">Lesson 22</div><div class="m">101 items · <span class="ok">29 &#10003; in book</span> · <span class="syn">33 &#9998; synth</span></div></a><a class="card" href="lesson-23.html"><div class="n">Lesson 23 · &#128274; gated</div><div class="t">Lesson 23</div><div class="m">73 items · <span class="ok">31 &#10003; in book</span> · <span class="syn">14 &#9998; synth</span></div></a></div>

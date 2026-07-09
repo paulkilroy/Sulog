@@ -1,0 +1,224 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson 21 — Course vs. Book</title><style>
+:root{--tide:#1cb0b8;--sea:#5fc9cf;--sun:#f4a53a;--coral:#f07a66;--jade:#3fae6a;--shell:#0b1f23;--sand:#16333a;--sand-deep:#2b4f56;--ink:#eaf3f2;--ink-soft:#9db3b5;--foam:#102a2f;}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(135% 80% at 50% -8%,#123a3f 0%,var(--shell) 52%);min-height:100vh}
+a{color:var(--sea)}
+header{position:sticky;top:0;z-index:20;background:rgba(9,24,28,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--sand-deep);padding:12px 20px}
+h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
+.sub{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);max-width:920px}.sub b{color:var(--ink)}
+.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.nav a{font-weight:700;text-decoration:none;padding:4px 12px;border:1px solid var(--sand-deep);border-radius:9px;background:var(--foam)}
+.nav a:hover{border-color:var(--tide)}
+.nav .sp{margin-left:auto;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.maptbl{border-collapse:collapse;font-size:11.5px;margin:8px 0 2px}
+.maptbl td{padding:2px 8px;white-space:nowrap;color:var(--ink-soft)}
+.maptbl code{font:11px ui-monospace,monospace;background:var(--sand);border-radius:4px;padding:1px 6px;color:var(--sea)}
+.maptbl .ms{font-weight:700;color:var(--ink)}
+.maptbl .ms i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.maptbl .arw{color:var(--sand-deep)}
+.lg.dim{opacity:.3}
+tr.lg:hover td{background:var(--sand)}
+.wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
+.pg{margin:0 0 16px}
+.pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.imgwrap{position:relative;line-height:0;border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;background:#fff}
+.imgwrap img{width:100%;display:block}
+.sec{position:absolute;background:color-mix(in srgb,var(--c) 13%,transparent);border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);border-radius:4px;transition:.12s;cursor:default}
+.sec:hover{background:color-mix(in srgb,var(--c) 26%,transparent);border-color:var(--c)}
+.slab{position:absolute;top:-9px;left:6px;font:600 8.5px/1.5 system-ui;letter-spacing:.03em;text-transform:uppercase;color:#08262b;background:var(--c);border-radius:3px;padding:0 5px;white-space:nowrap}
+.dimmed .sec:not(.on){opacity:.12}
+details.rawocr{margin:4px 0 14px;border:1px solid var(--sand-deep);border-radius:10px;background:var(--foam)}
+details.rawocr summary{cursor:pointer;padding:8px 12px;font-size:12px;font-weight:700;color:var(--sea)}
+details.rawocr pre{margin:0;padding:10px 14px;font:11.5px/1.55 ui-monospace,monospace;color:#cfe0df;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow:auto}
+.clesson{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.clh{font-size:13.5px;font-weight:800;color:var(--sun);margin:4px 0 6px}
+.blk{border-left:3px solid var(--c);padding:5px 0 5px 11px;margin:8px 0;transition:.12s}
+.dimmed .blk:not(.on){opacity:.18}
+.bh{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin-bottom:5px}
+.bh .tag{display:inline-block;color:#08262b;border-radius:4px;padding:1px 6px;margin-right:4px;letter-spacing:.03em}
+.blk p{margin:3px 0;font-size:13px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:400}
+table.md{border-collapse:collapse;margin:6px 0;font-size:12px;text-transform:none;letter-spacing:0;font-weight:400}
+table.md th,table.md td{border:1px solid var(--sand-deep);padding:3px 8px;text-align:left;color:var(--ink)}
+table.md th{background:var(--sand);font-weight:700}
+.formula{font:12px ui-monospace,monospace;background:var(--sand);border:1px solid var(--sand-deep);border-radius:6px;padding:5px 8px;margin:5px 0;color:var(--sea);text-transform:none;letter-spacing:0;font-weight:400;white-space:pre-wrap}
+.it{display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;padding:3px 0;border-bottom:1px dotted #24454b;font-weight:400;text-transform:none;letter-spacing:0}
+.it .war{font-family:Georgia,serif;font-size:14.5px;font-weight:600}
+.it .dash{color:var(--ink-soft)}.it .en{color:var(--ink-soft);font-size:12.5px}
+.it.flag{background:rgba(244,165,58,.06);border-radius:6px;padding:3px 6px;margin:1px -6px}
+.dir{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:1px 6px;border-radius:6px;white-space:nowrap;flex:0 0 auto}
+.dir.wte{background:rgba(28,176,184,.18);color:var(--sea);border:1px solid rgba(28,176,184,.4)}
+.dir.etw{background:rgba(244,165,58,.16);color:var(--sun);border:1px solid rgba(244,165,58,.4)}
+.v{font-size:9.5px;font-weight:700;padding:0 5px;white-space:nowrap;margin-left:auto}
+.v.ok{color:var(--jade)}.v.syn{color:var(--sun)}
+.it.mc{flex-direction:column;align-items:flex-start;gap:5px;background:rgba(197,138,42,.05);border-radius:8px;padding:7px 9px;margin:4px 0;border-bottom:none}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
+.ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+.nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
+/* index */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
+.card{display:block;text-decoration:none;color:var(--ink);background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 16px;transition:.12s}
+.card:hover{border-color:var(--tide);transform:translateY(-1px)}
+.card .n{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sea)}
+.card .t{font-size:14.5px;font-weight:700;margin:3px 0 6px;line-height:1.3}
+.card .m{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.card .m .syn{color:var(--sun)} .card .m .ok{color:var(--jade)}
+.phz{grid-column:1/-1;font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:10px 2px -2px}
+</style>
+<header>
+  <h1>Lesson 21 <span style="color:var(--ink-soft);font-weight:400">· Commands, special verbs &amp; questions</span></h1>
+  <p class="sub">Hover a colored box on the scan, a course block, or a legend row to trace how the book became the lesson. Grey <b>Oral exercise</b> sections are deliberately not ingested (teacher-led; the answer-by-voice toggle covers speaking).</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a><a href="lesson-20.html">&larr; L20</a><a href="lesson-22.html">L22 &rarr;</a><span class="sp">pages —</span></div>
+  <div class="legend"><table class="maptbl"><tbody><tr class="lg" data-dest="guide"><td class="ms"><i style="background:#5fc9cf"></i>Guide</td><td class="arw">&rarr;</td><td><code>grammar / note</code></td><td class="arw">&rarr;</td><td>read it</td></tr><tr class="lg" data-dest="paradigm"><td class="ms"><i style="background:#b79ae8"></i>Chart</td><td class="arw">&rarr;</td><td><code>vocab · paradigm</code></td><td class="arw">&rarr;</td><td>learn the words</td></tr><tr class="lg" data-dest="examples"><td class="ms"><i style="background:#6aa9e8"></i>Examples</td><td class="arw">&rarr;</td><td><code>drill · recognition</code></td><td class="arw">&rarr;</td><td>pick the meaning</td></tr><tr class="lg" data-dest="vocab"><td class="ms"><i style="background:#3fae6a"></i>Vocabulary</td><td class="arw">&rarr;</td><td><code>vocab</code></td><td class="arw">&rarr;</td><td>learn the words</td></tr><tr class="lg" data-dest="oral"><td class="ms"><i style="background:#8a97a3"></i>Oral exercise</td><td class="arw">&rarr;</td><td><code>— dropped (teacher-led)</code></td><td class="arw">&rarr;</td><td>voice toggle instead</td></tr><tr class="lg" data-dest="written"><td class="ms"><i style="background:#f0a24a"></i>Written</td><td class="arw">&rarr;</td><td><code>drill · production</code></td><td class="arw">&rarr;</td><td>translate both ways</td></tr><tr class="lg" data-dest="gate"><td class="ms"><i style="background:#f07a66"></i>Review / test</td><td class="arw">&rarr;</td><td><code>assessment · gate</code></td><td class="arw">&rarr;</td><td>exit test</td></tr></tbody></table></div>
+</header>
+<div class="wrap">
+  <div><div class="col-h">&#128214; The scanned book</div><div class="nopg">no scanned pages mapped to this lesson</div><details class="rawocr"><summary>Raw OCR text</summary><pre>Lesson 21
+If you had problems on your test in Lesson #20, go back and review the previous lessons with
+your teacher before you start this new lesson
+Review
+Translate the following using mag-actor focus.
+Nagkinahanglan liwat kami hin pastor ha amon iglesiya.
+.. .
+• P'ag-aram na hm bag-o nga mga kamatuoran ha Biblra
+7. Nagdadara an mga mangirisda hin mga isda ha merkado
+4. Nagsiring an Biblia, "Pag-andam na ha imo mga kalogaringon"
+Magrclepono an siringan ha iya nga sangkay didto ha opisina
+6. Wait at the beach for Gilda and Perla
+7. Jane and Lori are bringing medicine to the hospital.
+8.
+Ronel met Bing-bing at church, and now they will marry.
+1 am living at the house of my close friend.
+I0. They rode in their car going to the mountains Iverh noon|
+******
+*************************+7********
+Negating mag- Actor Focus Sentences
+with waray, diri, and ayaw
+In the past lessons your learned how to negate mag-actor foous sentences.
+===PAGE 98===
+95
+In this lesson you will review the word order used in negation of an actor focus sentence. You
+will also learn some new mag-verbs.
+Waray/Diri with / Class Persomal Pronouns
+In the following examples, the waray is used to refer to PAST and PRESENT action, while diri
+is used to refer to FUTURE action. With both past action or future action, the mag- future tense
+of the verh is always used when negating
+Examples (waraykliri with I Class personal pronoms)
+1. Waray pa ako mag-andam hin mensahe. [past]
+I have not yet prepared a message.
+2. Diri liwat hiya maglugtug ha sista ha simbahan. [future|
+He will not play the guitar again at the church.
+3. Waray ka pa ha magplite hin balay? (past]
+Have you still not rented a house?
+4. Diri na hira mag-aalagad ha (rnoo. (foture)
+They will not serve the Lord now.
+5. Waray ka pa liwat magsurat ha iyo Ninong Ipast]
+You(pl) have also still not written to your godparent.
+Waray/Diri with / Class General Pronouns
+and/ Class Markers
+Observe the following mag-actor focus which use 1 Class General Pronouns or 1 Class Markers.
+Examples (waray/diri with I Cf gen prononns/markers)
+1. Diri gihapon mag-aantos hi Ilesu kristo didto ha krus.
+Jesus will not suffer again there(far) on the cross.
+2. Waray mag-ihaw iton nga tawo hin karabaw.
+That man did not kill the carabao.
+3. Diri maghihimo hi Almer ha iya mga buruhaton.
+Almer will not do his work
+4. Waray pa mag-ampo an diyakono ha serbisyo.
+The deacon has not yet prayed in the service.
+S. Diri na magtitikang an macstro ha iya nga klase
+The leacher will not start his class now.
+NOTICE in the examples above:
+• The 1 Class Gencral Pronouns and I Class Markers follow the verl).
+===PAGE 99===
+96
+Ayan Commandd Negetor
+in Mag-actor focus
+In the Mag-Actor Focus, the ayaw is followed by the prefix pag- with the verh root.
+MAG-ACTOR FOCUS Ayaw ! pag-verb root..
+Examples (ayaw with mag-actor focns)
+1. Ayaw pag-aram lun maraot nga mga butang.
+Don't learn bad things.
+2. Ayaw pag-andam hin paniudto
+Don't prepare lunch.
+3. Ayaw kamo paglirong kan Jesu Kristo.
+Do not deny Jesus Christ. (plural)
+4. Ayaw na kamo pag-alagad ha iyo mga santos.
+Do not serve your(pl) saints now.
+5. Ayaw kamo pagpatay
+Do not kill. (Thou shall not kill.)
+Oral Exercises
+Exercise //1: Your teacher will ask you to translate first from Waray fo English, then from English
+1o Waray, mag-actor focus senences using the negalors waray and diri. She will use I Class
+personal/general pronouns and markers.
+Exercise #I2: Your teacher will drill you on the use of the Ayaw Command Negator using the
+mag- veros.
+Written Exercises
+Answer the following questions with a negative waray/diri response in mag- actor focus, using the
+double negator. Then translate your response.
+1. Nag-uukoy na ba hira lidgar ngan Luz ha ira bag-o nga balay?
+A
+T:
+2. Magkikinahanglan ka ba hin bulig?
+A
+T:
+3. Naglukar pa ba liwat an imo anak han sista?
+===PAGE 100===
+97
+4. Naghimo na ba kamo hin kwarto para ha iyo kabulig?
+6. Nag-antos pa ba adto nga pasyente didto ha ospital?
+T:
+T:
+A
+T:
+5. Nagtratrabaho ba liwat iton nga estuciyante ha imo tanoman?
+7. Nag-alagad na ba hira hadto nga simbahan didto ha probinsiya?
+8. Mag-piplite ba gihapon hi Henry hin dyip?
+A:
+T
+MAKE UP YOUR OWN WARAY NEGATIVE COMMAND (Ayaw) IN MAG-ACTOR
+FOCUS, USING THE VERBS INDICATED BELOW:
+9. (-aaram)
+I0. (-tikang)
+11. (-dara)
+12. (-hurat)
+*****
+******
+-alágad - to serve
+-ántos - to suffer
+-plite-to rent
+buruhatón - work, aclivily
+butáng. thing
+diyákono -deacon
+-himò - lo do, make
+karabaw - carabao
+krús. cross
+mensáhemessage
+ninong - godfather
+***
+Vocabulary
+paniudto - lunch
+pasyente -patient
+-patay - 10 kill
+probinsya - province
+balaydwelling place, house
+serbisyo - service
+sista - guitar
+-tikang_ lo start, begin
+bulig -help
+tanoman - garden
+-tukar - to play (music)
+===PAGE 101===
+98</pre></details></div>
+  <div><div class="col-h">&#128241; The lesson it produces</div><div class="clesson"><div class="clh">Lesson 21</div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Negating mag- Actor Focus Sentences with waray, diri, and ayaw</div><p>In the past lessons you learned how to negate mag-actor focus sentences. In this lesson you will review the word order used in negation of an actor focus sentence. You will also learn some new mag-verbs.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Waray/Diri with I Class Personal Pronouns</div><p>In the following examples, the waray is used to refer to PAST and PRESENT action, while diri is used to refer to FUTURE action. With both past action or future action, the mag- future tense of the verb is always used when negating.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Waray/Diri with I Class General Pronouns and I Class Markers</div><p>Observe the following mag-actor focus which use I Class General Pronouns or I Class Markers.</p></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> grammar · Ayaw Command Negator in Mag-actor focus</div><p>In the Mag-Actor Focus, the ayaw is followed by the prefix pag- with the verb root.</p><div class="formula">Ayaw + pag-verb root</div></div><div class="blk" data-dest="paradigm" style="--c:#b79ae8"><div class="bh" style="color:#b79ae8"><span class="tag" style="background:#b79ae8">Chart</span> Also in this lesson · 1 word</div><div class="it"><span class="war">ayaw</span><span class="dash">&mdash;</span><span class="en">don't (negative command)</span></div></div><div class="blk" data-dest="guide" style="--c:#5fc9cf"><div class="bh" style="color:#5fc9cf"><span class="tag" style="background:#5fc9cf">Guide</span> note</div><p>The I Class General Pronouns and I Class Markers follow the verb.</p></div><div class="blk" data-dest="vocab" style="--c:#3fae6a"><div class="bh" style="color:#3fae6a"><span class="tag" style="background:#3fae6a">Vocabulary</span> Vocabulary · 22 words</div><div class="it"><span class="war">alagad</span><span class="dash">&mdash;</span><span class="en">to serve</span></div><div class="it"><span class="war">antos</span><span class="dash">&mdash;</span><span class="en">to suffer</span></div><div class="it"><span class="war">plite</span><span class="dash">&mdash;</span><span class="en">to rent</span></div><div class="it"><span class="war">buruhaton</span><span class="dash">&mdash;</span><span class="en">work, activity</span></div><div class="it"><span class="war">butang</span><span class="dash">&mdash;</span><span class="en">thing</span></div><div class="it"><span class="war">diyakono</span><span class="dash">&mdash;</span><span class="en">deacon</span></div><div class="it"><span class="war">himo</span><span class="dash">&mdash;</span><span class="en">to do, make</span></div><div class="it"><span class="war">karabaw</span><span class="dash">&mdash;</span><span class="en">carabao</span></div><div class="it"><span class="war">krus</span><span class="dash">&mdash;</span><span class="en">cross</span></div><div class="it"><span class="war">mensahe</span><span class="dash">&mdash;</span><span class="en">message</span></div><div class="it"><span class="war">ninong</span><span class="dash">&mdash;</span><span class="en">godfather</span></div><div class="it"><span class="war">paniudto</span><span class="dash">&mdash;</span><span class="en">lunch</span></div><div class="it"><span class="war">pasyente</span><span class="dash">&mdash;</span><span class="en">patient</span></div><div class="it"><span class="war">patay</span><span class="dash">&mdash;</span><span class="en">dead</span></div><div class="it"><span class="war">probinsya</span><span class="dash">&mdash;</span><span class="en">province</span></div><div class="it"><span class="war">balay</span><span class="dash">&mdash;</span><span class="en">house</span></div><div class="it"><span class="war">serbisyo</span><span class="dash">&mdash;</span><span class="en">service</span></div><div class="it"><span class="war">sista</span><span class="dash">&mdash;</span><span class="en">guitar</span></div><div class="it"><span class="war">tikang</span><span class="dash">&mdash;</span><span class="en">to start, begin</span></div><div class="it"><span class="war">bulig</span><span class="dash">&mdash;</span><span class="en">help</span></div><div class="it"><span class="war">tanoman</span><span class="dash">&mdash;</span><span class="en">garden</span></div><div class="it"><span class="war">tukar</span><span class="dash">&mdash;</span><span class="en">to play (music)</span></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">ayaw</span><div class="choices"><span class="ch ans">don't (negative command)</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">work, activity</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">alagad</span><div class="choices"><span class="ch ans">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span><span class="ch">work, activity</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">antos</span><div class="choices"><span class="ch ans">to suffer</span><span class="ch">to serve</span><span class="ch">don't (negative command)</span><span class="ch">work, activity</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">plite</span><div class="choices"><span class="ch ans">to rent</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">buruhaton</span><div class="choices"><span class="ch ans">work, activity</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">butang</span><div class="choices"><span class="ch ans">thing</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">diyakono</span><div class="choices"><span class="ch ans">deacon</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">himo</span><div class="choices"><span class="ch ans">to do, make</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">karabaw</span><div class="choices"><span class="ch ans">carabao</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">krus</span><div class="choices"><span class="ch ans">cross</span><span class="ch">to serve</span><span class="ch">to suffer</span><span class="ch">don't (negative command)</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Waray pa ako mag-andam hin mensahe. [past]</span><div class="choices"><span class="ch ans">I have not yet prepared a message.</span><span class="ch">He will not play the guitar again at the church.</span><span class="ch">They will not serve the Lord now.</span><span class="ch">Have you still not rented a house?</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Diri liwat hiya magtukar ha sista ha simbahan. [future]</span><div class="choices"><span class="ch ans">He will not play the guitar again at the church.</span><span class="ch">They will not serve the Lord now.</span><span class="ch">Have you still not rented a house?</span><span class="ch">You(pl) have also still not written to your godparent.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Waray ka pa ba magplite hin balay? [past]</span><div class="choices"><span class="ch ans">Have you still not rented a house?</span><span class="ch">He will not play the guitar again at the church.</span><span class="ch">They will not serve the Lord now.</span><span class="ch">You(pl) have also still not written to your godparent.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Diri na hira mag-aalagad ha Ginoo. [future]</span><div class="choices"><span class="ch ans">They will not serve the Lord now.</span><span class="ch">He will not play the guitar again at the church.</span><span class="ch">Have you still not rented a house?</span><span class="ch">You(pl) have also still not written to your godparent.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Waray ka pa liwat magsurat ha iyo Ninong. [past]</span><div class="choices"><span class="ch ans">You(pl) have also still not written to your godparent.</span><span class="ch">He will not play the guitar again at the church.</span><span class="ch">They will not serve the Lord now.</span><span class="ch">Have you still not rented a house?</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Diri gihapon mag-aantos hi Jesu Kristo didto ha krus.</span><div class="choices"><span class="ch ans">Jesus will not suffer again there(far) on the cross.</span><span class="ch">Almer will not do his work.</span><span class="ch">The teacher will not start his class now.</span><span class="ch">That man did not kill the carabao.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Waray mag-ihaw iton nga tawo hin karabaw.</span><div class="choices"><span class="ch ans">That man did not kill the carabao.</span><span class="ch">Jesus will not suffer again there(far) on the cross.</span><span class="ch">Almer will not do his work.</span><span class="ch">The teacher will not start his class now.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Diri maghihimo hi Almer ha iya mga buruhaton.</span><div class="choices"><span class="ch ans">Almer will not do his work.</span><span class="ch">Jesus will not suffer again there(far) on the cross.</span><span class="ch">The teacher will not start his class now.</span><span class="ch">That man did not kill the carabao.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Waray pa mag-ampo an diyakono ha serbisyo.</span><div class="choices"><span class="ch ans">The deacon has not yet prayed in the service.</span><span class="ch">Jesus will not suffer again there(far) on the cross.</span><span class="ch">Almer will not do his work.</span><span class="ch">The teacher will not start his class now.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Diri na magtitikang an maestro ha iya nga klase.</span><div class="choices"><span class="ch ans">The teacher will not start his class now.</span><span class="ch">Jesus will not suffer again there(far) on the cross.</span><span class="ch">Almer will not do his work.</span><span class="ch">That man did not kill the carabao.</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English · multiple choice</div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw pag-aram hin maraot nga mga butang.</span><div class="choices"><span class="ch ans">Don't learn bad things.</span><span class="ch">Do not deny Jesus Christ. (plural)</span><span class="ch">Do not kill. (Thou shall not kill.)</span><span class="ch">Do not serve your(pl) saints now.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw pag-andam hin paniudto.</span><div class="choices"><span class="ch ans">Don't prepare lunch.</span><span class="ch">Do not deny Jesus Christ. (plural)</span><span class="ch">Do not kill. (Thou shall not kill.)</span><span class="ch">Do not serve your(pl) saints now.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw kamo paglirong kan Jesu Kristo.</span><div class="choices"><span class="ch ans">Do not deny Jesus Christ. (plural)</span><span class="ch">Do not kill. (Thou shall not kill.)</span><span class="ch">Do not serve your(pl) saints now.</span><span class="ch">Don't prepare lunch.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw na kamo pag-alagad ha iyo mga santos.</span><div class="choices"><span class="ch ans">Do not serve your(pl) saints now.</span><span class="ch">Do not deny Jesus Christ. (plural)</span><span class="ch">Do not kill. (Thou shall not kill.)</span><span class="ch">Don't prepare lunch.</span></div></div><div class="it mc"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw kamo pagpatay.</span><div class="choices"><span class="ch ans">Do not kill. (Thou shall not kill.)</span><span class="ch">Do not deny Jesus Christ. (plural)</span><span class="ch">Do not serve your(pl) saints now.</span><span class="ch">Don't prepare lunch.</span></div></div></div><div class="blk" data-dest="examples" style="--c:#6aa9e8"><div class="bh" style="color:#6aa9e8"><span class="tag" style="background:#6aa9e8">Examples</span> Drill · Recognize · Waray → English</div></div><div class="blk" data-dest="written" style="--c:#f0a24a"><div class="bh" style="color:#f0a24a"><span class="tag" style="background:#f0a24a">Written</span> Drill · Produce · both ways</div></div><div class="blk" data-dest="written" style="--c:#f0a24a"><div class="bh" style="color:#f0a24a"><span class="tag" style="background:#f0a24a">Written</span> Drill · Produce · both ways</div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nag-uukoy na ba hira Edgar ngan Luz ha ira bag-o nga balay?</span><span class="dash">&mdash;</span><span class="en">Are Edgar and Luz already living in their new house?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Magkikinahanglan ka ba hin bulig?</span><span class="dash">&mdash;</span><span class="en">Will you need help?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nagtukar pa ba liwat an imo anak han sista?</span><span class="dash">&mdash;</span><span class="en">Did your child play the guitar again?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Naghimo na ba kamo hin kwarto para ha iyo kabulig?</span><span class="dash">&mdash;</span><span class="en">Have you already made a room for your helper?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Nag-antos pa ba adto nga pasyente didto ha ospital?</span><span class="dash">&mdash;</span><span class="en">Is that patient still suffering there in the hospital?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Nagtratrabaho ba liwat iton nga estudyante ha imo tanoman?</span><span class="dash">&mdash;</span><span class="en">Is that student also working in your garden?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Nag-alagad na ba hira hadto nga simbahan didto ha probinsiya?</span><span class="dash">&mdash;</span><span class="en">Have they already served in that church there in the province?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Mag-piplite ba gihapon hi Henry hin dyip?</span><span class="dash">&mdash;</span><span class="en">Will Henry still rent a jeep?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div></div><div class="blk" data-dest="written" style="--c:#f0a24a"><div class="bh" style="color:#f0a24a"><span class="tag" style="background:#f0a24a">Written</span> Drill · Produce · both ways</div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">aaram</span><span class="dash">&mdash;</span><span class="en">Make an Ayaw command using this verb.</span></div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">tikang</span><span class="dash">&mdash;</span><span class="en">Make an Ayaw command using this verb.</span></div><div class="it"><span class="dir etw">ENG&rarr;WAR</span><span class="war">dara</span><span class="dash">&mdash;</span><span class="en">Make an Ayaw command using this verb.</span></div><div class="it"><span class="dir etw">ENG&rarr;WAR</span><span class="war">surat</span><span class="dash">&mdash;</span><span class="en">Make an Ayaw command using this verb.</span></div></div><div class="blk" data-dest="gate" style="--c:#f07a66"><div class="bh" style="color:#f07a66"><span class="tag" style="background:#f07a66">Review / test</span> &#128274; Checkpoint — pass to continue · Exam · both ways</div><div class="it"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nag-ühaw na ba liwat hi Jon hin baboy?</span><span class="dash">&mdash;</span><span class="en">Has Jon slaughtered a pig again?</span><span class="v ok" title="Verbatim in the book">&#10003; in book</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Magdadalagan ka pa ba ha bukid?</span><span class="dash">&mdash;</span><span class="en">Will you still run to the mountain?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Nag-asawa na ba liwat iton nga lalake ha iba nga babaye?</span><span class="dash">&mdash;</span><span class="en">Has that man married another woman again?</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir wte">WAR&rarr;ENG</span><span class="war">Ayaw bantayi an akon awto.</span><span class="dash">&mdash;</span><span class="en">Don't guard my car.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Ayaw rentahi iton nga balay didto yana.</span><span class="dash">&mdash;</span><span class="en">Don't rent that house "over there" now.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Ayaw paghimo hin idolo.</span><span class="dash">&mdash;</span><span class="en">Do not make an idol.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Ayaw pagtrabaho didto nga lugar.</span><span class="dash">&mdash;</span><span class="en">Don't work at that place.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div><div class="it flag"><span class="dir etw">ENG&rarr;WAR</span><span class="war">Ayaw teleponohi an eskwelahan.</span><span class="dash">&mdash;</span><span class="en">Do not telephone the school.</span><span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span></div></div></div></div>
+</div><script>
+function focus(dest){
+  document.body.classList.toggle('dimmed',!!dest);
+  document.querySelectorAll('[data-dest]').forEach(el=>el.classList.toggle('on',el.dataset.dest===dest));
+  document.querySelectorAll('.lg').forEach(el=>el.classList.toggle('dim',dest&&el.dataset.dest!==dest));
+}
+document.querySelectorAll('.sec,.blk,.lg').forEach(el=>{
+  el.addEventListener('mouseenter',()=>focus(el.dataset.dest));
+  el.addEventListener('mouseleave',()=>focus(null));
+});
+</script>
