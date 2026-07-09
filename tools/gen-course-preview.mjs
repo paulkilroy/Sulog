@@ -160,20 +160,51 @@ const pageLines = {};
     pageLines[n] = lines;
   }
 }
-// merge consecutive same-section lines into one labeled overlay box
-function pageBoxes(n) {
-  const lines = pageLines[n]; if (!lines || !lines.length) return "";
-  const secs = []; const pad = 0.006;
+// merge consecutive same-section lines into one section box (geometry; rendering is separate)
+function pageSegs(n) {
+  const lines = pageLines[n]; if (!lines || !lines.length) return [];
+  const secs = [];
   for (const l of lines) {
     const cur = secs[secs.length - 1];
     if (cur && cur.dest === l.dest && l.top - cur.bottom < 0.045) { cur.left = Math.min(cur.left, l.x); cur.right = Math.max(cur.right, l.x + l.w); cur.bottom = Math.max(cur.bottom, l.bottom); cur.n++; }
     else secs.push({ dest: l.dest, left: l.x, right: l.x + l.w, top: l.top, bottom: l.bottom, n: 1 });
   }
-  return secs.filter((s) => s.n >= 2 && DEST[s.dest]).map((s) => {
+  return secs.filter((s) => s.n >= 2 && DEST[s.dest]);
+}
+// render a page's overlay boxes. The book prints each lesson's exam as the "Review" OPENING the
+// next lesson, so a gate section's owner depends on where it sits relative to the "Lesson N"
+// headings on the page: BEFORE this lesson's heading → it's the PREVIOUS lesson's exam (label it,
+// make it inert); AFTER the NEXT lesson's heading → it's THIS lesson's own exam (label "L<n> exam").
+function pageBoxes(p, ctx) {
+  const pad = 0.006;
+  const headTop = (num) => { if (num == null) return null; const re = new RegExp(`^\\s*Lesson\\s+${num}\\b`, "i"); const ln = (pageLines[p] || []).find((l) => re.test(l.t)); return ln ? ln.top : null; };
+  const ownTop = headTop(ctx.n), nextTop = headTop(ctx.nextNum);
+  return pageSegs(p).map((s) => {
     const top = Math.max(0, s.top - pad) * 100, left = Math.max(0, s.left - pad) * 100;
     const w = Math.min(1, s.right - s.left + pad * 2) * 100, h = (s.bottom - s.top + pad * 2) * 100;
-    return `<div class="sec" data-dest="${s.dest}" title="${esc(DEST[s.dest].short)} → ${esc(DEST[s.dest].block)}" style="top:${top.toFixed(2)}%;left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;height:${h.toFixed(2)}%;--c:${DEST[s.dest].c}"><span class="slab">${esc(DEST[s.dest].short)}</span></div>`;
+    const pos = `top:${top.toFixed(2)}%;left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;height:${h.toFixed(2)}%`;
+    if (s.dest === "gate" && ctx.prevNum != null && (ownTop != null ? s.top < ownTop : s.top < 0.45))
+      return `<div class="sec prev" title="This opening review is Lesson ${ctx.prevNum}'s exit test — it appears on Lesson ${ctx.prevNum}'s page" style="${pos};--c:${DEST.gate.c}"><span class="slab">L${ctx.prevNum} exam (prev)</span></div>`;
+    const own = s.dest === "gate" && nextTop != null && s.top > nextTop;
+    return `<div class="sec" data-dest="${s.dest}" title="${own ? `Lesson ${ctx.n}'s exit test (printed at the start of Lesson ${ctx.nextNum})` : esc(DEST[s.dest].short) + " → " + esc(DEST[s.dest].block)}" style="${pos};--c:${DEST[s.dest].c}"><span class="slab">${own ? `L${ctx.n} exam` : esc(DEST[s.dest].short)}</span></div>`;
   }).join("");
+}
+// cropped view of the exam region on the NEXT lesson's first page — so lesson N's page shows the
+// book source of ITS OWN exam, not just the incoming one
+function examCrop(n, nextNum, np) {
+  if (!PAGES[np] || !pageLines[np]) return "";
+  const g = pageSegs(np).find((s) => s.dest === "gate" && s.top < 0.5);
+  if (!g) return "";
+  const boxJson = JSON.parse(fs.readFileSync(`${BOXES_DIR}/ocr-p${String(np).padStart(2, "0")}.json`, "utf8"));
+  const aspect = (boxJson.h / boxJson.w) * 100;          // img height as % of width
+  const cropTop = Math.max(0, g.top - 0.025), cropBot = Math.min(1, g.bottom + 0.02), frac = cropBot - cropTop;
+  const bTop = ((g.top - cropTop) / frac) * 100, bH = ((g.bottom - g.top) / frac) * 100;
+  const bLeft = Math.max(0, g.left - 0.006) * 100, bW = Math.min(1, g.right - g.left + 0.012) * 100;
+  return `<figure class="pg"><div class="pgn">Lesson ${n}'s exam &mdash; printed at the start of Lesson ${nextNum} (p. ${np})</div>
+    <div class="imgwrap crop" style="padding-top:${(aspect * frac).toFixed(2)}%">
+      <img src="${PAGES[np]}" alt="page ${np} (exam region)" style="position:absolute;top:-${(cropTop / frac * aspect * frac).toFixed(2)}%;left:0;width:100%">
+      <div class="sec" data-dest="gate" title="${esc(DEST.gate.short)} → ${esc(DEST.gate.block)}" style="top:${bTop.toFixed(2)}%;left:${bLeft.toFixed(2)}%;width:${bW.toFixed(2)}%;height:${bH.toFixed(2)}%;--c:${DEST.gate.c}"><span class="slab">L${n} exam</span></div>
+    </div></figure>`;
 }
 
 // ---- assemble per-lesson data: direction, verbatim, MC choices ----
@@ -314,6 +345,9 @@ table.md th{background:var(--sand);font-weight:700}
 .choices{display:flex;flex-wrap:wrap;gap:6px}
 .ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
 .ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+.sec.prev{border-style:dashed;opacity:.55;pointer-events:auto;cursor:help}
+.sec.prev .slab{opacity:.9}
+.imgwrap.crop{height:0}
 details.oralx summary{cursor:pointer;font-size:11.5px;color:var(--ink-soft);padding:2px 0;font-weight:400;text-transform:none;letter-spacing:0}
 details.oralx .it{opacity:.55}
 .nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
@@ -369,10 +403,16 @@ for (let gi = 0; gi < nums.length; gi++) {
   const n = nums[gi]; const grp = byNum[n];
   const pgs = [...new Set(grp.flatMap((g) => g.pages))].sort((a, b) => a - b);
   const ocrTxt = grp.find((g) => g.ocr)?.ocr || "(no OCR captured)";
+  const prevNum = gi > 0 ? nums[gi - 1] : null;
+  const nextNum = gi < nums.length - 1 ? nums[gi + 1] : null;
+  const hasGate = grp.some((L) => L.blocks.some((b) => b.gate && b.items.length));
+  const np = nextNum != null ? lessonStartPage[nextNum] : null;
+  const crop = (hasGate && np != null && !pgs.includes(np)) ? examCrop(n, nextNum, np) : "";
   const left = (pgs.length ? pgs.map((p) => PAGES[p]
-    ? `<figure class="pg"><div class="pgn">scan · page ${p}</div><div class="imgwrap"><img src="${PAGES[p]}" alt="page ${p}">${pageBoxes(p)}</div></figure>`
+    ? `<figure class="pg"><div class="pgn">scan · page ${p}</div><div class="imgwrap"><img src="${PAGES[p]}" alt="page ${p}">${pageBoxes(p, { n, prevNum: p === pgs[0] ? prevNum : null, nextNum })}</div></figure>`
     : `<div class="nopg">p.${p} &mdash; no scan (text-only appendix); OCR below is the only source</div>`).join("")
     : `<div class="nopg">no scanned pages mapped to this lesson</div>`)
+    + crop
     + `<details class="rawocr"><summary>Raw OCR text</summary><pre>${esc(ocrTxt)}</pre></details>`;
   const right = grp.map((L) => `<div class="clesson"><div class="clh">${esc(L.title)}</div>${L.blocks.map(blockHtml).join("")}</div>`).join("");
   const prev = gi > 0 ? `<a href="lesson-${nums[gi - 1]}.html">&larr; L${nums[gi - 1]}</a>` : "";
