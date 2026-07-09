@@ -186,7 +186,15 @@ for (const l of lessons) {
     pages: [...new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 92))].sort((a, b) => a - b), blocks: [] };
   for (const b of (byLesson.get(l.id) || [])) {
     const its = b.items;
-    const B = { type: b.type, title: b.title, prose: b.body_md, formula: b.formula, kind: b.drill_kind, gate: b.assess_gate, dirLabel: null, mc: false, items: [] };
+    const B = { type: b.type, title: b.title, prose: b.body_md, formula: b.formula, kind: b.drill_kind, gate: b.assess_gate, dirLabel: null, mc: false, dropped: false, items: [] };
+    // production/voice = the book's oral exercise, which the APP DROPS (teacher-led substitution;
+    // dbCourseToBundled skips it). Render it as dropped — showing it as a live drill here claimed
+    // the app drills content it doesn't. Its items carry no badges and don't count in the stats.
+    if (b.type === "drill" && b.drill_kind === "production" && b.drill_modality === "voice") {
+      B.dropped = true; its.forEach((i) => (i.dir = null));
+      for (const i of its) B.items.push({ waray: i.waray, en: i.en, dir: null, verbatim: null, choices: null });
+      L.blocks.push(B); continue;
+    }
     if (b.type === "assessment" && b.assess_gate) { const words = its.filter((i) => !isSent(i.waray)), sents = its.filter((i) => isSent(i.waray)), mixed = words.length && sents.length; its.forEach((i, k) => { i.dir = mixed ? (isSent(i.waray) ? "etw" : "wte") : (k < Math.ceil(its.length / 2) ? "wte" : "etw"); }); B.dirLabel = "Exam · both ways"; }
     else if (b.type === "drill" && b.drill_kind === "production") { const h = Math.ceil(its.length / 2); its.forEach((i, k) => (i.dir = k < h ? "wte" : "etw")); B.dirLabel = "Produce · both ways"; }
     else if (b.type === "drill") { its.forEach((i) => (i.dir = "wte")); B.dirLabel = "Recognize · Waray → English"; B.mc = b.drill_modality === "mc"; }
@@ -220,6 +228,9 @@ function itemHtml(i) {
   return `<div class="it${i.verbatim === false ? " flag" : ""}">${dirBadge(i.dir)}<span class="war">${esc(i.waray)}</span><span class="dash">&mdash;</span><span class="en">${esc(i.en)}</span>${verd(i.verbatim)}</div>`;
 }
 function blockHtml(b) {
+  if (b.dropped) { // the book's oral exercise — NOT ingested; kept visible (collapsed) so the scan's grey box has its counterpart
+    return `<div class="blk" data-dest="oral" style="--c:${DEST.oral.c}"><div class="bh" style="color:${DEST.oral.c}"><span class="tag" style="background:${DEST.oral.c}">${esc(DEST.oral.short)}</span> dropped — teacher-led substitution; NOT drilled in the app</div><details class="oralx"><summary>${b.items.length} sentence${b.items.length === 1 ? "" : "s"} (for reference)</summary>${b.items.map((i) => `<div class="it"><span class="war">${esc(i.waray)}</span><span class="dash">&mdash;</span><span class="en">${esc(i.en)}</span></div>`).join("")}</details></div>`;
+  }
   const d = blockDest(b), color = DEST[d].c;
   let head = "", body = "";
   if (b.type === "grammar" || b.type === "note") { head = `${b.type}${b.title ? " · " + esc(b.title) : ""}`; body = renderMd(b.prose) + (b.formula ? `<div class="formula">${esc(b.formula)}</div>` : "") + b.items.map(itemHtml).join(""); }
@@ -303,6 +314,8 @@ table.md th{background:var(--sand);font-weight:700}
 .choices{display:flex;flex-wrap:wrap;gap:6px}
 .ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
 .ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+details.oralx summary{cursor:pointer;font-size:11.5px;color:var(--ink-soft);padding:2px 0;font-weight:400;text-transform:none;letter-spacing:0}
+details.oralx .it{opacity:.55}
 .nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
 /* index */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
