@@ -132,6 +132,12 @@ const ANCHORS = [
   [/^\s*vocabulary\b/i, "vocab"],
   [/^\s*notes?\s*[:.]/i, "guide"],
   [/^\s*accent\s+marks/i, "guide"],
+  // mid-lesson grammar-topic headings ("II CLASS MARKERS", "III Class Personal Pronouns"): the book
+  // often prints these AFTER an exercise, and without an anchor the running exercise section
+  // swallowed the next grammar block on the scan (L4's II Class Markers showed as "oral exercise").
+  // Heading-only match: the line must BE the heading (prose that mentions "the II Class Markers,
+  // like…" doesn't start with the class pattern, so it can't anchor).
+  [/^\s*(the\s+)?[ivx1l]{0,4}\s*[-–]?\s*class\s+(personal\s+|general\s+)?(pronouns?|markers?)\s*\.?\s*$/i, "guide"],
 ];
 const isChartHead = (t) => /^\s*(singular|plural)\s*$/i.test(t) || /class\s+(personal\s+|general\s+)?(pronouns?|markers?)/i.test(t);
 const wordsOf = (t) => (t || "").toLowerCase().split(/[^a-zà-ÿ']+/).filter(Boolean);
