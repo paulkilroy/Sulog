@@ -178,12 +178,15 @@ function pageSegs(n) {
 function pageBoxes(p, ctx) {
   const pad = 0.006;
   const headTop = (num) => { if (num == null) return null; const re = new RegExp(`^\\s*Lesson\\s+${num}\\b`, "i"); const ln = (pageLines[p] || []).find((l) => re.test(l.t)); return ln ? ln.top : null; };
-  const ownTop = headTop(ctx.n), nextTop = headTop(ctx.nextNum);
+  const nextTop = headTop(ctx.nextNum);
   return pageSegs(p).map((s) => {
     const top = Math.max(0, s.top - pad) * 100, left = Math.max(0, s.left - pad) * 100;
     const w = Math.min(1, s.right - s.left + pad * 2) * 100, h = (s.bottom - s.top + pad * 2) * 100;
     const pos = `top:${top.toFixed(2)}%;left:${left.toFixed(2)}%;width:${w.toFixed(2)}%;height:${h.toFixed(2)}%`;
-    if (s.dest === "gate" && ctx.prevNum != null && (ownTop != null ? s.top < ownTop : s.top < 0.45))
+    // the incoming review sits BELOW this lesson's own heading (the book prints "Lesson N" then the
+    // review of N-1), so the test is simply: a gate section high on the lesson's FIRST page — and
+    // not past the NEXT lesson's heading (single-page lessons)
+    if (s.dest === "gate" && ctx.prevNum != null && s.top < 0.45 && (nextTop == null || s.top < nextTop))
       return `<div class="sec prev" title="This opening review is Lesson ${ctx.prevNum}'s exit test — it appears on Lesson ${ctx.prevNum}'s page" style="${pos};--c:${DEST.gate.c}"><span class="slab">L${ctx.prevNum} exam (prev)</span></div>`;
     const own = s.dest === "gate" && nextTop != null && s.top > nextTop;
     return `<div class="sec" data-dest="${s.dest}" title="${own ? `Lesson ${ctx.n}'s exit test (printed at the start of Lesson ${ctx.nextNum})` : esc(DEST[s.dest].short) + " → " + esc(DEST[s.dest].block)}" style="${pos};--c:${DEST[s.dest].c}"><span class="slab">${own ? `L${ctx.n} exam` : esc(DEST[s.dest].short)}</span></div>`;
