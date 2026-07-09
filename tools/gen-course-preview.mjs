@@ -247,6 +247,20 @@ h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
 tr.lg:hover td{background:var(--sand)}
 .wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+/* lesson pages: the two panes scroll independently (desktop); mobile falls back to page scroll */
+@media(min-width:901px){
+  body.lpage{height:100vh;overflow:hidden;display:flex;flex-direction:column}
+  body.lpage header{flex:none}
+  body.lpage .wrap{flex:1;min-height:0;overflow:hidden;padding-bottom:0;align-items:stretch}
+  body.lpage .colpane{overflow-y:auto;min-height:0;padding-bottom:60px;scrollbar-width:thin;scrollbar-color:var(--sand-deep) transparent}
+}
+/* sticky section filter (click a box / block / legend row) */
+.sec,.blk,.lg{cursor:pointer}
+.blk.hide{display:none}
+.filtered .sec:not(.on){opacity:.12}
+.lg.onrow td{background:var(--sand)}
+#fpill{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:30;color:#08262b;font:700 12px system-ui;padding:7px 16px;border-radius:999px;display:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+body.filtered #fpill{display:block}
 .col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
 .pg{margin:0 0 16px}
 .pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
@@ -294,8 +308,22 @@ table.md th{background:var(--sand);font-weight:700}
 .card .m .syn{color:var(--sun)} .card .m .ok{color:var(--jade)}
 .phz{grid-column:1/-1;font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:10px 2px -2px}
 `;
-const SCRIPT = `<script>
+const DEST_JSON = JSON.stringify(Object.fromEntries(Object.entries(DEST).map(([k, v]) => [k, { c: v.c, short: v.short }])));
+const SCRIPT = `<div id="fpill"></div><script>
+const DESTS = ${DEST_JSON};
+let sticky = null;
+// CLICK = sticky filter: only that section's blocks show on the right; click again / Esc clears
+function apply(){
+  document.body.classList.toggle('filtered', !!sticky);
+  document.querySelectorAll('.blk').forEach(el=>el.classList.toggle('hide', !!sticky && el.dataset.dest!==sticky));
+  document.querySelectorAll('.sec').forEach(el=>el.classList.toggle('on', !!sticky && el.dataset.dest===sticky));
+  document.querySelectorAll('.lg').forEach(el=>{ el.classList.toggle('onrow', !!sticky && el.dataset.dest===sticky); el.classList.toggle('dim', !!sticky && el.dataset.dest!==sticky); });
+  const p = document.getElementById('fpill');
+  if (sticky && p){ p.style.background = DESTS[sticky].c; p.textContent = 'Showing only: ' + DESTS[sticky].short + '  —  click again or Esc to show all'; }
+}
+// HOVER = light trace (only while no sticky filter is active)
 function focus(dest){
+  if (sticky) return;
   document.body.classList.toggle('dimmed',!!dest);
   document.querySelectorAll('[data-dest]').forEach(el=>el.classList.toggle('on',el.dataset.dest===dest));
   document.querySelectorAll('.lg').forEach(el=>el.classList.toggle('dim',dest&&el.dataset.dest!==dest));
@@ -303,7 +331,14 @@ function focus(dest){
 document.querySelectorAll('.sec,.blk,.lg').forEach(el=>{
   el.addEventListener('mouseenter',()=>focus(el.dataset.dest));
   el.addEventListener('mouseleave',()=>focus(null));
+  el.addEventListener('click',(e)=>{ e.stopPropagation();
+    sticky = sticky===el.dataset.dest ? null : el.dataset.dest;
+    document.body.classList.remove('dimmed');
+    document.querySelectorAll('.on').forEach(x=>x.classList.remove('on'));
+    apply();
+  });
 });
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && sticky){ sticky=null; apply(); } });
 <\/script>`;
 
 // group lessons by book number
@@ -323,17 +358,17 @@ for (let gi = 0; gi < nums.length; gi++) {
   const right = grp.map((L) => `<div class="clesson"><div class="clh">${esc(L.title)}</div>${L.blocks.map(blockHtml).join("")}</div>`).join("");
   const prev = gi > 0 ? `<a href="lesson-${nums[gi - 1]}.html">&larr; L${nums[gi - 1]}</a>` : "";
   const next = gi < nums.length - 1 ? `<a href="lesson-${nums[gi + 1]}.html">L${nums[gi + 1]} &rarr;</a>` : "";
-  const html = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson ${n} — Course vs. Book</title><style>${CSS}</style>
+  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson ${n} — Course vs. Book</title><style>${CSS}</style></head><body class="lpage">
 <header>
   <h1>Lesson ${n} <span style="color:var(--ink-soft);font-weight:400">· ${esc(grp[0].phase)}</span></h1>
-  <p class="sub">Hover a colored box on the scan, a course block, or a legend row to trace how the book became the lesson. Grey <b>Oral exercise</b> sections are deliberately not ingested (teacher-led; the answer-by-voice toggle covers speaking).</p>
+  <p class="sub"><b>Click</b> a colored box, course block, or legend row to show ONLY that section on the right (click again or Esc to show all); hover to trace. The panes scroll independently. Grey <b>Oral exercise</b> sections are deliberately not ingested (teacher-led; the answer-by-voice toggle covers speaking).</p>
   <div class="nav"><a href="index.html">&#8962; All lessons</a>${prev}${next}<span class="sp">page${pgs.length === 1 ? "" : "s"} ${pgs.join(", ") || "—"}</span></div>
   <div class="legend">${legend}</div>
 </header>
 <div class="wrap">
-  <div><div class="col-h">&#128214; The scanned book</div>${left}</div>
-  <div><div class="col-h">&#128241; The lesson it produces</div>${right}</div>
-</div>${SCRIPT}`;
+  <div class="colpane"><div class="col-h">&#128214; The scanned book</div>${left}</div>
+  <div class="colpane"><div class="col-h">&#128241; The lesson it produces</div>${right}</div>
+</div>${SCRIPT}</body></html>`;
   fs.writeFileSync(`${OUT_DIR}/lesson-${n}.html`, html);
 }
 

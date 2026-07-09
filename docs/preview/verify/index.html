@@ -19,6 +19,20 @@ h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
 tr.lg:hover td{background:var(--sand)}
 .wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
+/* lesson pages: the two panes scroll independently (desktop); mobile falls back to page scroll */
+@media(min-width:901px){
+  body.lpage{height:100vh;overflow:hidden;display:flex;flex-direction:column}
+  body.lpage header{flex:none}
+  body.lpage .wrap{flex:1;min-height:0;overflow:hidden;padding-bottom:0;align-items:stretch}
+  body.lpage .colpane{overflow-y:auto;min-height:0;padding-bottom:60px;scrollbar-width:thin;scrollbar-color:var(--sand-deep) transparent}
+}
+/* sticky section filter (click a box / block / legend row) */
+.sec,.blk,.lg{cursor:pointer}
+.blk.hide{display:none}
+.filtered .sec:not(.on){opacity:.12}
+.lg.onrow td{background:var(--sand)}
+#fpill{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:30;color:#08262b;font:700 12px system-ui;padding:7px 16px;border-radius:999px;display:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+body.filtered #fpill{display:block}
 .col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
 .pg{margin:0 0 16px}
 .pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
