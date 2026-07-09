@@ -103,6 +103,11 @@ const MARKER_GLOSS = {
   kan: "to / for (before a name)", ngan: "and", mga: "plural marker (the …s)", ba: "(yes/no question marker)",
   ini: "this (near)", iton: "that (near you)", adto: "that (over there)",
   hini: "of this (very near)", hiton: "of that (near you)", hadto: "of that (far, over there)",
+  // II-Class possessives — the full/short pairs share a meaning, so bare "My"/"Your" glosses made the
+  // L4 exam ambiguous (typing the OTHER correct form failed). Distinct glosses name the form.
+  nakon: "my / mine (full form)", ko: "my (short form)",
+  nimo: "your / yours (sg, full form)", mo: "your (sg, short form)",
+  niya: "his / her", niyo: "your / yours (pl)", nira: "their / theirs",
 };
 const glossOf = (w, fallback) => MARKER_GLOSS[w] ?? fallback;
 
@@ -225,8 +230,16 @@ function emitSentenceMC(ctx, exprBlocks) {
   const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek", title });
   src.forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
 }
-function emitProd(ctx, drillBlocks, dmod) {             // production drill (speak/type), both directions
-  for (const b of drillBlocks) { const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both" }); (b.items || []).forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); }); }
+function emitProd(ctx, drillBlocks, dmod, asGate) {     // production drill (speak/type), both directions
+  // asGate: in the book's own Review-Test lessons (L10, L20) and the FINAL lesson, the written
+  // exercise IS the checkpoint — emit it as a graded assessment gate, not ungated practice, so the
+  // milestones the book designed as tests actually gate (they had no harvested gate otherwise).
+  for (const b of drillBlocks) {
+    const bl = asGate
+      ? addBlock(ctx.id, ++ctx.ord, "assessment", { title: asGate, dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true })
+      : addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both" });
+    (b.items || []).forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
+  }
 }
 function emitExtras(ctx, extras, wordsAccum) {          // hand-added function words explained in the intro
   if (!extras || !extras.length) return;
@@ -347,7 +360,10 @@ for (const L of lessons) {
     // ---- SINGLE: no paradigm to peel off (verb / review lessons) — learn, recognize, then produce ----
     const c = newLesson(`pc-l${L.num}`, L.name);
     const w = []; emitGuide(c, B.grammar, w); emitExtras(c, EXTRAS[L.num], w); emitNotes(c, B.note); emitVocab(c, B.vocab, w); emitMC(c, w);
-    recognize.forEach((r) => emitRecognize(c, r)); produce.forEach((p) => emitProd(c, [p.b], p.dmod));
+    // the book's Review-Test lessons + the final lesson: their written exercise IS the checkpoint
+    const gateTitle = /review/i.test(L.name) && /test/i.test(L.name) ? "Review test — pass to continue"
+      : L === lessons[lessons.length - 1] ? "Final test" : null;
+    recognize.forEach((r) => emitRecognize(c, r)); produce.forEach((p) => emitProd(c, [p.b], p.dmod, gateTitle));
     prevLast = c;
   }
   prevParadigm = [...new Set(B.grammar.flatMap((g) => chartItems(g).map((p) => p.waray)))];   // for the NEXT lesson's recall gate

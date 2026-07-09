@@ -130,13 +130,13 @@ insert into dictionary (waray,kind,meaning,pos,confirmed) values
   ('simbahan','word','church','noun',false),
   ('tawo','word','person,man','noun',false),
   ('tubig','word','water','noun',false),
-  ('nakon','word','My','marker',false),
-  ('ko','word','My','marker',false),
-  ('nimo','word','Your','marker',false),
-  ('mo','word','Your','marker',false),
-  ('niya','word','his/hers','marker',false),
-  ('niyo','word','your','marker',false),
-  ('nira','word','their','marker',false),
+  ('nakon','word','my / mine (full form)','marker',false),
+  ('ko','word','my (short form)','marker',false),
+  ('nimo','word','your / yours (sg, full form)','marker',false),
+  ('mo','word','your (sg, short form)','marker',false),
+  ('niya','word','his / her','marker',false),
+  ('niyo','word','your / yours (pl)','marker',false),
+  ('nira','word','their / theirs','marker',false),
   ('ni','word','of / by (before a name)','marker',false),
   ('han','word','of / the (object marker)','marker',false),
   ('hin','word','a / some (object marker)','marker',false),
@@ -1902,7 +1902,7 @@ Either way is acceptable, but the last is more common. Notice that the II Class 
 | Adverb of Place       | dínhi/didi   | dida          | didto |
 ',null,null,null,null,null,null,null),
   (20103,'pc-l10',2,'grammar','Ma-Actor Focus Formula','In the previous lesson you learned the formula for ma-actor focus.','Ma- Verb + I Cl Actor + II Cl Object + III Cl L/D/B',null,null,null,null,null,null),
-  (20104,'pc-l10',3,'drill',null,null,null,'production','type','none','both',null,null),
+  (20104,'pc-l10',3,'assessment','Review test — pass to continue',null,null,'production','type','none','both',0.8,true),
   (20105,'pc-l11',1,'grammar','Nga Linker','You have already used the NGA linker with the general pronouns to "link" the pronoun with a noun.
 For example:
 
@@ -2224,7 +2224,7 @@ b) If the particles na and pa are used with the negators, the meaning is:
   (20221,'pc-l20',8,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
   (20222,'pc-l20',9,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
   (20223,'pc-l20',10,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
-  (20224,'pc-l20',11,'drill',null,null,null,'production','type','none','both',null,null),
+  (20224,'pc-l20',11,'assessment','Review test — pass to continue',null,null,'production','type','none','both',0.8,true),
   (20225,'pc-l20',12,'assessment','Checkpoint — pass to continue',null,null,'production','type','none','both',0.8,true),
   (20226,'pc-l21',1,'grammar','Negating mag- Actor Focus Sentences with waray, diri, and ayaw','In the past lessons you learned how to negate mag-actor focus sentences. In this lesson you will review the word order used in negation of an actor focus sentence. You will also learn some new mag-verbs.',null,null,null,null,null,null,null),
   (20227,'pc-l21',2,'grammar','Waray/Diri with I Class Personal Pronouns','In the following examples, the waray is used to refer to PAST and PRESENT action, while diri is used to refer to FUTURE action. With both past action or future action, the mag- future tense of the verb is always used when negating.',null,null,null,null,null,null,null),
@@ -2328,8 +2328,8 @@ Ano na man liwat hiya? Also, what is he now?*
   (20273,'pc-l23',14,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
   (20274,'pc-l23',15,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
   (20275,'pc-l23',16,'drill','Examples',null,null,'recognition','mc','peek',null,null,null),
-  (20276,'pc-l23',17,'drill',null,null,null,'production','voice','none','both',null,null),
-  (20277,'pc-l23',18,'drill',null,null,null,'production','type','none','both',null,null) on conflict (id) do nothing;
+  (20276,'pc-l23',17,'assessment','Final test',null,null,'production','type','none','both',0.8,true),
+  (20277,'pc-l23',18,'assessment','Final test',null,null,'production','type','none','both',0.8,true) on conflict (id) do nothing;
 
 insert into block_items (block_id,ord,dict_waray,expr_id,role) values
   (20002,1,'ako',null,'teach'),

@@ -794,8 +794,9 @@ export default function App() {
         if (cancelled || v <= cachedDbVersion(COURSE_ID)) return;
         const bundled = await fetchCourseBundled(COURSE_ID, ACTIVE.name);
         if (cancelled || !bundled.curriculum.length) return;
-        cacheDbCourse(bundled, v);
-        location.reload();
+        // reload ONLY if the cache write landed — reloading after a failed write (storage quota)
+        // re-runs this exact path forever: fetch → fail to cache → reload → fetch…
+        if (cacheDbCourse(bundled, v)) location.reload();
       } catch (e) { /* keep the cached course */ }
     })();
     return () => { cancelled = true; };
@@ -806,27 +807,32 @@ export default function App() {
     _voiceURI = settings.voiceURI || null;
   }, [settings.voiceURI]);
 
-  // load on mount
+  // load on mount. Every parse is individually guarded: ONE corrupt localStorage value (partial
+  // write on quota, manual edit, old format) must cost only that record — never the boot. Without
+  // this, a single bad JSON.parse rejected the whole IIFE and the app hung on "Loading your tide…".
   useEffect(() => {
     (async () => {
-      const p = await store.get(PK.prog);
-      const s = await store.get(PK.streak);
-      const cfg = await store.get("waray:settings");
-      const les = await store.get(PK.lessons);
-      const hist = await store.get(PK.history);
-      const un = await store.get(PK.units);
-      const parsedHist = hist ? JSON.parse(hist) : [];
-      if (hist) setHistory(parsedHist);
-      const oldProg = p ? JSON.parse(p) : null;
-      if (oldProg) {
-        const pp = backfillRecall(migrateProgIds(oldProg), parsedHist, cards);
-        setProg(pp);
-        store.set(PK.prog, JSON.stringify(pp)); // persist migrated ids + recall backfill
-      }
-      if (s) setStreak(JSON.parse(s));
-      if (les) setLessons(JSON.parse(les));
-      if (un) setUnits(JSON.parse(un));
-      if (cfg) setSettings((prev) => ({ ...prev, ...JSON.parse(cfg) }));
+      const parse = (raw, fallback) => { try { return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; } };
+      try {
+        const p = await store.get(PK.prog);
+        const s = await store.get(PK.streak);
+        const cfg = await store.get("waray:settings");
+        const les = await store.get(PK.lessons);
+        const hist = await store.get(PK.history);
+        const un = await store.get(PK.units);
+        const parsedHist = parse(hist, []);
+        if (parsedHist.length) setHistory(parsedHist);
+        const oldProg = parse(p, null);
+        if (oldProg) {
+          const pp = backfillRecall(migrateProgIds(oldProg), parsedHist, cards);
+          setProg(pp);
+          store.set(PK.prog, JSON.stringify(pp)); // persist migrated ids + recall backfill
+        }
+        const st = parse(s, null); if (st) setStreak(st);
+        const le = parse(les, null); if (le) setLessons(le);
+        const u = parse(un, null); if (u) setUnits(u);
+        const cf = parse(cfg, null); if (cf) setSettings((prev) => ({ ...prev, ...cf }));
+      } catch (e) { /* storage unavailable — boot with fresh state */ }
       setLoaded(true);
     })();
   }, []);
@@ -1307,7 +1313,9 @@ function LanguageView({ ctx }) {
       const meta = dbCourses.find((c) => c.id === id);
       const [bundled, version] = await Promise.all([fetchCourseBundled(id, meta?.name || id), fetchCourseVersion(id).catch(() => 0)]);
       if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
-      cacheDbCourse(bundled, version);
+      // if the cache write fails (storage full), do NOT flip the course + reload — boot would find no
+      // cache and silently fall back to the default course, not the one the user tapped
+      if (!cacheDbCourse(bundled, version)) throw new Error("couldn't save the course on this device (storage full?). Free some space and retry.");
       try { localStorage.setItem("sulog:course", id); } catch (e) {}
       location.reload();
     } catch (e) { setSwitching(false); setErr("Couldn't load that course: " + (e.message || e)); }
@@ -1412,9 +1420,10 @@ function LanguageView({ ctx }) {
 
         <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
         {isDb && (
-          <a href="/verify.html" target="_blank" rel="noopener"
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 600, color: "var(--tide)", textDecoration: "none", margin: "0 0 10px" }}>
-            <BookOpen size={13} /> Open the full book comparison ↗
+          <a href="/verify.html" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none", color: "inherit" }}>
+            <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
+            <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF — directions, choices &amp; source checks</i></div>
+            <ChevronRight size={18} className="ws-cta-arrow" />
           </a>
         )}
         {isDb ? (
@@ -1539,7 +1548,7 @@ function EllaView({ ctx }) {
         {ACTIVE.review.map((q) => (
           <div key={q.id} style={{ background: "var(--foam)", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
             <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#9333ea", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
-            <div style={{ fontSize: 15.5, fontWeight: 600, color: "#0f172a", lineHeight: 1.35 }}>{q.q}</div>
+            <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
             {q.detail && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
           </div>
         ))}
@@ -2442,7 +2451,9 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
               onInterim={(t) => { setTyped(t); setHeard((h) => (h[h.length - 1] === t ? h : [...h, t])); }}
               onFinal={(altsList) => {
                 const waray = dir === "etw";
-                const matchAlt = altsList.find((a) => checkAnswer(a, answer, waray));
+                // spoken=true: this is recognizer output — grade with the lenient phrase-level
+                // matcher, same as voice mode (the strict word-by-word tier is for TYPED answers)
+                const matchAlt = altsList.find((a) => checkAnswer(a, answer, waray, true));
                 setSttAlts(altsList);
                 // if any guess matched you said it right — show the CORRECT word,
                 // not the recognizer's fuzzy/foreign spelling (still in the debug
@@ -4162,7 +4173,7 @@ function Styles() {
 .ws-check:disabled{opacity:.4}
 .ws-yourans{text-align:center;font-family:'Fraunces',serif;font-size:22px;padding:10px;border-radius:12px;
   margin-bottom:14px}
-.ws-yourans.right{color:#1f6b46}.ws-yourans.wrong{color:#a33422;text-decoration:line-through;opacity:.7}
+.ws-yourans.right{color:#7fe0b0;background:rgba(31,184,159,.12)}.ws-yourans.wrong{color:#ff9c8a;background:rgba(240,122,102,.10);text-decoration:line-through;opacity:.85}
 
 .ws-reveal{width:100%;padding:15px;border-radius:13px;border:1.5px dashed var(--tide);
   background:color-mix(in srgb, var(--tide) 16%, var(--foam));color:var(--sea);font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit}
@@ -4319,8 +4330,8 @@ function Styles() {
 .ws-stt-pct{margin-left:auto;font-weight:600;color:var(--ink)}
 .ws-stt-card{background:var(--foam);border:1px solid var(--sand-deep);border-radius:18px;padding:26px 18px;
   text-align:center;transition:border-color .15s,background .15s}
-.ws-stt-card.hit{border-color:#2faa63;background:#eefaf0}
-.ws-stt-card.miss{border-color:#d8745c;background:#fdf0ec}
+.ws-stt-card.hit{border-color:#2faa63;background:rgba(47,170,99,.12)}
+.ws-stt-card.miss{border-color:#d8745c;background:rgba(216,116,92,.12)}
 .ws-stt-prompt{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
 .ws-stt-gloss{font-size:14.5px;color:var(--ink-soft);margin-top:5px}
 .ws-stt-say{font-size:12.5px;color:var(--tide);margin-top:6px;font-style:italic}
