@@ -29,6 +29,8 @@ progress sync.
 DB tools read `SUPABASE_DB_URL` from gitignored **`.env.local`** (see `.env.example`).
 **Never commit credentials.** After `npm run all`, commit + push — Vercel deploys `main`.
 
+New here? Read **HANDOFF.md** — golden rules, architecture map, pitfalls, backlog.
+
 ## The Peace Corps pipeline, step by step
 
 Everything below is rebuildable from the committed sources. The ONE non-mechanical step is the
