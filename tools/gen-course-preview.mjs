@@ -32,11 +32,11 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 function pageFile(n) {
   if (n <= 23) return `${PAGES_DIR}/page_${String(n).padStart(2, "0")}.png`;
   if (n <= 69) return `${PAGES_DIR}/page-${String(n).padStart(3, "0")}.png`;
-  return `${PAGES_DIR}/page_${String(n).padStart(2, "0")}.png`; // 70..92
+  return `${PAGES_DIR}/page_${n <= 92 ? String(n).padStart(2, "0") : String(n)}.png`; // 70..92 zero-padded; 93..114 rendered later, plain
 }
 function buildPagesCache() {
   const out = {}; const tmp = "docs/preview/.pg-tmp.jpg";
-  for (let n = 1; n <= 92; n++) {
+  for (let n = 1; n <= 114; n++) {
     const f = pageFile(n); if (!fs.existsSync(f)) continue;
     execSync(`sips --resampleWidth 600 -s format jpeg -s formatOptions 50 "${f}" --out "${tmp}"`, { stdio: "ignore" });
     out[n] = "data:image/jpeg;base64," + fs.readFileSync(tmp).toString("base64");
@@ -108,7 +108,7 @@ const ocrByLesson = {}, lessonStartPage = {};
 }
 const inBook = (w) => { const n = normO(w); return n.length >= 3 && ocrN.includes(n); };
 const isSent = (w) => /\s/.test((w || "").trim());
-const pagesOf = (txt) => { const s = new Set(); let m; const re = /===PAGE (\d+)===/g; while ((m = re.exec(txt || ""))) if (+m[1] >= 1 && +m[1] <= 92) s.add(+m[1]); return [...s].sort((a, b) => a - b); };
+const pagesOf = (txt) => { const s = new Set(); let m; const re = /===PAGE (\d+)===/g; while ((m = re.exec(txt || ""))) if (+m[1] >= 1 && +m[1] <= 114) s.add(+m[1]); return [...s].sort((a, b) => a - b); };
 
 // Data-driven guide anchors: every grammar/note block TITLE the course extracted is a heading the
 // scan must carve back to guide. The book prints these mid-lesson, right after a review or an
@@ -120,7 +120,7 @@ const levT = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) =
 const titleAnchorsByPage = new Map();
 {
   const lp = {};
-  for (const num of Object.keys(ocrByLesson)) lp[num] = new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 92));
+  for (const num of Object.keys(ocrByLesson)) lp[num] = new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 114));
   for (const b of blocks) {
     if (b.type !== "grammar" && b.type !== "note" || !b.title) continue;
     const num = +(/pc-l(\d+)/.exec(b.lesson_id) || [])[1];
@@ -174,7 +174,7 @@ const wordsOf = (t) => (t || "").toLowerCase().split(/[^a-zà-ÿ']+/).filter(Boo
 const pageLines = {};
 {
   let current = "guide";
-  for (let n = 1; n <= 92; n++) {
+  for (let n = 1; n <= 114; n++) {
     const f = `${BOXES_DIR}/ocr-p${String(n).padStart(2, "0")}.json`;
     if (!fs.existsSync(f)) continue;
     let j; try { j = JSON.parse(fs.readFileSync(f, "utf8")); } catch { continue; }
@@ -247,7 +247,7 @@ const data = [];
 for (const l of lessons) {
   const num = +(/pc-l(\d+)/.exec(l.id)?.[1] || 0);
   const L = { id: l.id, title: l.title, num, phase: l.pname, ocr: ocrByLesson[num] || "",
-    pages: [...new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 92))].sort((a, b) => a - b), blocks: [] };
+    pages: [...new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 114))].sort((a, b) => a - b), blocks: [] };
   for (const b of (byLesson.get(l.id) || [])) {
     const its = b.items;
     const B = { type: b.type, title: b.title, prose: b.body_md, formula: b.formula, kind: b.drill_kind, gate: b.assess_gate, dirLabel: null, mc: false, dropped: false, items: [] };
