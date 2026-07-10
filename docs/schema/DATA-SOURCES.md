@@ -12,7 +12,7 @@ so "why is this word here?" always has an answer.
   challenger2/phase*.json    →    tools/gen-seed.mjs       →   seed.sql       ┐
   docs/dictionary/phrases.json                                                │
   docs/word-bank/phrase-idioms.json                                          ├→ Supabase
-  scratchpad/pc-blocks.json  →    tools/gen-pc-seed.mjs    →   pc-seed.sql    ┘   (via psql /
+  docs/sources/peace-corps/pc-blocks.json  →    tools/gen-pc-seed.mjs    →   pc-seed.sql    ┘   (via psql /
   (Gemini extraction of the PC PDF)                                              reload-pc.mjs)
 ```
 
