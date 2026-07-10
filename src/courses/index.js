@@ -48,8 +48,8 @@ function readDbCourse(id) {
     const raw = localStorage.getItem(DB_COURSE_KEY(id));
     if (!raw) return null;
     const c = JSON.parse(raw);
-    // rehydrate: forgotten is a Set at runtime; reuse the language-level reader; no Ella queue yet
-    return { lang: "war", stories: STORIES, review: [], ...c, forgotten: new Set(c.forgotten || []) };
+    // rehydrate: forgotten is a Set at runtime; reuse the language-level reader + the Ella queue
+    return { lang: "war", stories: STORIES, review: reviewFor(id), ...c, forgotten: new Set(c.forgotten || []) };
   } catch (e) { return null; }
 }
 export const isDbCourseCached = (id) => { try { return !!localStorage.getItem(DB_COURSE_KEY(id)); } catch (e) { return false; } };

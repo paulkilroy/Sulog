@@ -112,6 +112,23 @@ export const ELLA_QUESTIONS = [
   },
 ];
 
+// Removed Peace Corps sentences (synth audit): the AI-extracted Waray was confirmed defective and
+// pulled from the course; each becomes an Ask-Ella question — the book's English prompt needs a
+// NATIVE-authored answer, then the item returns to its lesson. Canonical source (also drives the
+// seed rejection + the /verify Ella-todo page): docs/sources/peace-corps/rejected-sentences.json.
+import REJECTED from "../../../docs/sources/peace-corps/rejected-sentences.json";
+const slug = (w) => w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+for (const r of REJECTED) {
+  const n = +(/pc-l(\d+)/.exec(r.lesson) || [])[1];
+  ELLA_QUESTIONS.push({
+    id: "synth-" + slug(r.waray),
+    course: "pc",
+    topic: `Lesson ${n} · missing ${r.where === "exam" ? "exam" : "drill"} answer`,
+    q: `How do you say: “${r.en}”?`,
+    detail: `The AI extraction wrote “${r.waray}” — removed: ${r.reason}. Once you give the natural Waray, this item goes back into ${r.lesson}'s ${r.where}.`,
+  });
+}
+
 // questions for a given course (its own + language-wide "all")
 export const reviewFor = (courseId) =>
   ELLA_QUESTIONS.filter((q) => q.course === courseId || q.course === "all");

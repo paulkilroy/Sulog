@@ -279,6 +279,16 @@ for (const l of lessons) {
     }
     L.blocks.push(B);
   }
+  // slot the REMOVED sentences back into the section they were cut from, as MISSING rows —
+  // exam rejects into the gate block, drill rejects into the last live production drill
+  for (const r of (rejectedByLesson[L.id] || [])) {
+    const miss = { missing: true, waray: r.waray, en: r.en, reason: r.reason, dir: null, verbatim: null, choices: null };
+    const target = r.where === "exam"
+      ? L.blocks.find((b) => b.type === "assessment" && b.gate)
+      : [...L.blocks].reverse().find((b) => b.type === "drill" && b.kind === "production" && !b.dropped);
+    if (target) target.items.push(miss);
+    else (L.orphanMissing = L.orphanMissing || []).push(miss); // no live section left — standalone fallback
+  }
   data.push(L);
 }
 
@@ -296,6 +306,7 @@ function renderMd(md) {
 const dirBadge = (d) => d === "wte" ? `<span class="dir wte">WAR&rarr;ENG</span>` : d === "etw" ? `<span class="dir etw">ENG&rarr;WAR</span>` : "";
 const verd = (v) => v === true ? `<span class="v ok" title="Verbatim in the book">&#10003; in book</span>` : v === false ? `<span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span>` : "";
 function itemHtml(i) {
+  if (i.missing) return `<div class="it miss"><span class="en q">&ldquo;${esc(i.en)}&rdquo;</span><span class="mbadge">MISSING</span><span class="was" title="${esc(i.reason)}">was: <s>${esc(i.waray)}</s></span><a class="todo" href="ella-todo.html#${slug(i.waray)}" title="${esc(i.reason)}">Ella todo &rarr;</a></div>`;
   if (i.choices) { const opts = [{ t: i.en, ans: true }, ...i.choices.map((cl) => ({ t: cl, ans: false }))]; return `<div class="it mc">${dirBadge(i.dir)}<span class="war">${esc(i.waray)}</span><div class="choices">${opts.map((o) => `<span class="ch${o.ans ? " ans" : ""}">${esc(o.t)}</span>`).join("")}</div></div>`; }
   return `<div class="it${i.verbatim === false ? " flag" : ""}">${dirBadge(i.dir)}<span class="war">${esc(i.waray)}</span><span class="dash">&mdash;</span><span class="en">${esc(i.en)}</span>${verd(i.verbatim)}</div>`;
 }
@@ -393,6 +404,7 @@ details.oralx summary{cursor:pointer;font-size:11.5px;color:var(--ink-soft);padd
 details.oralx .it{opacity:.55}
 .blk.missing{border-left-style:dashed}
 .it.miss{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.mbadge{font-size:9px;font-weight:800;letter-spacing:.06em;color:#0b1f23;background:#f07a66;border-radius:5px;padding:1px 6px;white-space:nowrap}
 .it.miss .q{color:var(--ink);font-size:12.5px;font-style:italic}
 .it.miss .was{color:var(--ink-soft);font-size:11px}
 .it.miss .was s{opacity:.75}
@@ -471,8 +483,8 @@ for (let gi = 0; gi < nums.length; gi++) {
     + crop
     + `<details class="rawocr"><summary>Raw OCR text</summary><pre>${esc(ocrTxt)}</pre></details>`;
   const right = grp.map((L) => {
-    const rej = rejectedByLesson[L.id] || [];
-    const missing = rej.length ? `<div class="blk missing" data-dest="gate" style="--c:#f07a66"><div class="bh" style="color:#f07a66"><span class="tag" style="background:#f07a66">Missing</span> ${rej.length} translation${rej.length === 1 ? "" : "s"} removed — awaiting native answers</div>${rej.map((r) => `<div class="it miss"><span class="en q">&ldquo;${esc(r.en)}&rdquo;</span><span class="was" title="${esc(r.reason)}">was: <s>${esc(r.waray)}</s></span><a class="todo" href="ella-todo.html#${slug(r.waray)}" title="${esc(r.reason)}">Ella todo &rarr;</a></div>`).join("")}</div>` : "";
+    const orphans = L.orphanMissing || [];
+    const missing = orphans.length ? `<div class="blk missing" data-dest="gate" style="--c:#f07a66"><div class="bh" style="color:#f07a66"><span class="tag" style="background:#f07a66">Missing</span> removed — awaiting native answers</div>${orphans.map(itemHtml).join("")}</div>` : "";
     return `<div class="clesson"><div class="clh">${esc(L.title)}</div>${L.blocks.map(blockHtml).join("")}${missing}</div>`;
   }).join("");
   const prev = gi > 0 ? `<a href="lesson-${nums[gi - 1]}.html">&larr; L${nums[gi - 1]}</a>` : "";
