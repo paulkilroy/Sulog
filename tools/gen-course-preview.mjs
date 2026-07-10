@@ -110,6 +110,36 @@ const inBook = (w) => { const n = normO(w); return n.length >= 3 && ocrN.include
 const isSent = (w) => /\s/.test((w || "").trim());
 const pagesOf = (txt) => { const s = new Set(); let m; const re = /===PAGE (\d+)===/g; while ((m = re.exec(txt || ""))) if (+m[1] >= 1 && +m[1] <= 92) s.add(+m[1]); return [...s].sort((a, b) => a - b); };
 
+// Data-driven guide anchors: every grammar/note block TITLE the course extracted is a heading the
+// scan must carve back to guide. The book prints these mid-lesson, right after a review or an
+// exercise, where the running span would otherwise swallow the whole grammar section (an audit
+// found ~25: "Verbal Sentences / Focuses" under the gate box, "Showing Emphasis" under Examples,
+// the OCR-garbled "noa linker"…). Fuzzy match (lev<=2) survives OCR noise; short titles must be
+// exact and start uppercase so prose/table cells ("hin duro" mid-sentence) can't anchor.
+const levT = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; };
+const titleAnchorsByPage = new Map();
+{
+  const lp = {};
+  for (const num of Object.keys(ocrByLesson)) lp[num] = new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 92));
+  for (const b of blocks) {
+    if (b.type !== "grammar" && b.type !== "note" || !b.title) continue;
+    const num = +(/pc-l(\d+)/.exec(b.lesson_id) || [])[1];
+    const tn = normO(b.title); if (tn.length < 5) continue;
+    // formula-style headings ("ka + na/pa") legitimately start lowercase — the "+" marks them,
+    // and distinguishes them from instruction lines that merely LIST particles ("ba, na, pa")
+    for (const p of (lp[num] || [])) (titleAnchorsByPage.get(p) || titleAnchorsByPage.set(p, []).get(p)).push({ tn, plus: /\+/.test(b.title) });
+  }
+}
+function isTitleAnchor(p, t) {
+  const cand = titleAnchorsByPage.get(p); if (!cand) return false;
+  const ln = normO(t); if (ln.length < 5) return false;
+  for (const { tn, plus } of cand) {
+    if (ln === tn) { if (tn.length >= 10 || plus || /^[A-Z]/.test((t || "").trim())) return true; }
+    else if (tn.length >= 10 && Math.abs(ln.length - tn.length) <= 3 && levT(ln, tn) <= 2) return true;
+  }
+  return false;
+}
+
 // ---- PROVENANCE: carve every scanned page into sections by the book's printed headings ----
 // One GLOBAL pass in book order: the running section carries across page boundaries (page 2 may
 // continue page 1's Written Exercises). Line boxes come from Vision OCR (ocr-boxes/ocr-pNN.json,
@@ -149,7 +179,7 @@ const pageLines = {};
     if (!fs.existsSync(f)) continue;
     let j; try { j = JSON.parse(fs.readFileSync(f, "utf8")); } catch { continue; }
     const lines = (j.lines || []).map((l) => ({ t: l.t, x: l.x, w: l.w, top: 1 - l.y - l.h, bottom: 1 - l.y })).sort((a, b) => a.top - b.top);
-    for (const l of lines) { const hit = ANCHORS.find(([re]) => re.test(l.t)); if (hit) current = hit[1]; l.dest = current; }
+    for (const l of lines) { const hit = ANCHORS.find(([re]) => re.test(l.t)); if (hit) current = hit[1]; else if (isTitleAnchor(n, l.t)) current = "guide"; l.dest = current; }
     // bound the pronoun/marker chart inside grammar prose: chart cells are SHORT lines of known
     // paradigm words / chart headers (keeps prose that name-drops the same words out of the box)
     const chart = lines.filter((l) => { const w = wordsOf(l.t); return l.dest === "guide" && w.length <= 5 && (isChartHead(l.t) || (w.length <= 3 && w.some((x) => paradigmWords.has(x)))); });
