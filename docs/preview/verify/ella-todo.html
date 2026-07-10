@@ -1,0 +1,433 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>
+:root{--tide:#1cb0b8;--sea:#5fc9cf;--sun:#f4a53a;--coral:#f07a66;--jade:#3fae6a;--shell:#0b1f23;--sand:#16333a;--sand-deep:#2b4f56;--ink:#eaf3f2;--ink-soft:#9db3b5;--foam:#102a2f;}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:radial-gradient(135% 80% at 50% -8%,#123a3f 0%,var(--shell) 52%);min-height:100vh}
+a{color:var(--sea)}
+header{position:sticky;top:0;z-index:20;background:rgba(9,24,28,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--sand-deep);padding:12px 20px}
+h1{margin:0 0 3px;font-size:18px;letter-spacing:-.01em}
+.sub{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);max-width:920px}.sub b{color:var(--ink)}
+.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.nav a{font-weight:700;text-decoration:none;padding:4px 12px;border:1px solid var(--sand-deep);border-radius:9px;background:var(--foam)}
+.nav a:hover{border-color:var(--tide)}
+.nav .sp{margin-left:auto;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.maptbl{border-collapse:collapse;font-size:11.5px;margin:8px 0 2px}
+.maptbl td{padding:2px 8px;white-space:nowrap;color:var(--ink-soft)}
+.maptbl code{font:11px ui-monospace,monospace;background:var(--sand);border-radius:4px;padding:1px 6px;color:var(--sea)}
+.maptbl .ms{font-weight:700;color:var(--ink)}
+.maptbl .ms i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.maptbl .arw{color:var(--sand-deep)}
+.lg.dim{opacity:.3}
+tr.lg:hover td{background:var(--sand)}
+.wrap{display:grid;grid-template-columns:minmax(320px,1fr) minmax(340px,1.1fr);gap:16px;padding:16px 20px 60px;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+/* lesson pages: the two panes scroll independently (desktop); mobile falls back to page scroll */
+@media(min-width:901px){
+  body.lpage{height:100vh;overflow:hidden;display:flex;flex-direction:column}
+  body.lpage header{flex:none}
+  body.lpage .wrap{flex:1;min-height:0;overflow:hidden;padding-bottom:0;align-items:stretch}
+  body.lpage .colpane{overflow-y:auto;min-height:0;padding-bottom:60px;scrollbar-width:thin;scrollbar-color:var(--sand-deep) transparent}
+}
+/* sticky section filter (click a box / block / legend row) */
+.sec,.blk,.lg{cursor:pointer}
+.blk.hide{display:none}
+.filtered .sec:not(.on){opacity:.12}
+.lg.onrow td{background:var(--sand)}
+#fpill{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:30;color:#08262b;font:700 12px system-ui;padding:7px 16px;border-radius:999px;display:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+body.filtered #fpill{display:block}
+.col-h{font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:0 2px 8px}
+.pg{margin:0 0 16px}
+.pgn{font:600 10px/1 ui-monospace,monospace;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.imgwrap{position:relative;line-height:0;border:1px solid var(--sand-deep);border-radius:8px;overflow:hidden;background:#fff}
+.imgwrap img{width:100%;display:block}
+.sec{position:absolute;background:color-mix(in srgb,var(--c) 13%,transparent);border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);border-radius:4px;transition:.12s;cursor:default}
+.sec:hover{background:color-mix(in srgb,var(--c) 26%,transparent);border-color:var(--c)}
+.slab{position:absolute;top:-9px;left:6px;font:600 8.5px/1.5 system-ui;letter-spacing:.03em;text-transform:uppercase;color:#08262b;background:var(--c);border-radius:3px;padding:0 5px;white-space:nowrap}
+.dimmed .sec:not(.on){opacity:.12}
+details.rawocr{margin:4px 0 14px;border:1px solid var(--sand-deep);border-radius:10px;background:var(--foam)}
+details.rawocr summary{cursor:pointer;padding:8px 12px;font-size:12px;font-weight:700;color:var(--sea)}
+details.rawocr pre{margin:0;padding:10px 14px;font:11.5px/1.55 ui-monospace,monospace;color:#cfe0df;white-space:pre-wrap;word-break:break-word;max-height:60vh;overflow:auto}
+.clesson{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.clh{font-size:13.5px;font-weight:800;color:var(--sun);margin:4px 0 6px}
+.blk{border-left:3px solid var(--c);padding:5px 0 5px 11px;margin:8px 0;transition:.12s}
+.dimmed .blk:not(.on){opacity:.18}
+.bh{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:800;margin-bottom:5px}
+.bh .tag{display:inline-block;color:#08262b;border-radius:4px;padding:1px 6px;margin-right:4px;letter-spacing:.03em}
+.blk p{margin:3px 0;font-size:13px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:400}
+table.md{border-collapse:collapse;margin:6px 0;font-size:12px;text-transform:none;letter-spacing:0;font-weight:400}
+table.md th,table.md td{border:1px solid var(--sand-deep);padding:3px 8px;text-align:left;color:var(--ink)}
+table.md th{background:var(--sand);font-weight:700}
+.formula{font:12px ui-monospace,monospace;background:var(--sand);border:1px solid var(--sand-deep);border-radius:6px;padding:5px 8px;margin:5px 0;color:var(--sea);text-transform:none;letter-spacing:0;font-weight:400;white-space:pre-wrap}
+.it{display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;padding:3px 0;border-bottom:1px dotted #24454b;font-weight:400;text-transform:none;letter-spacing:0}
+.it .war{font-family:Georgia,serif;font-size:14.5px;font-weight:600}
+.it .dash{color:var(--ink-soft)}.it .en{color:var(--ink-soft);font-size:12.5px}
+.it.flag{background:rgba(244,165,58,.06);border-radius:6px;padding:3px 6px;margin:1px -6px}
+.dir{font-size:9.5px;font-weight:800;letter-spacing:.04em;padding:1px 6px;border-radius:6px;white-space:nowrap;flex:0 0 auto}
+.dir.wte{background:rgba(28,176,184,.18);color:var(--sea);border:1px solid rgba(28,176,184,.4)}
+.dir.etw{background:rgba(244,165,58,.16);color:var(--sun);border:1px solid rgba(244,165,58,.4)}
+.v{font-size:9.5px;font-weight:700;padding:0 5px;white-space:nowrap;margin-left:auto}
+.v.ok{color:var(--jade)}.v.syn{color:var(--sun)}
+.it.mc{flex-direction:column;align-items:flex-start;gap:5px;background:rgba(197,138,42,.05);border-radius:8px;padding:7px 9px;margin:4px 0;border-bottom:none}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.ch{font-size:12px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:8px;padding:3px 9px}
+.ch.ans{color:#0b1f23;background:var(--jade);border-color:var(--jade);font-weight:700}
+.sec.prev{border-style:dashed;opacity:.55;pointer-events:auto;cursor:help}
+.sec.prev .slab{opacity:.9}
+.imgwrap.crop{height:0}
+details.oralx summary{cursor:pointer;font-size:11.5px;color:var(--ink-soft);padding:2px 0;font-weight:400;text-transform:none;letter-spacing:0}
+details.oralx .it{opacity:.55}
+.blk.missing{border-left-style:dashed}
+.it.miss{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.it.miss .q{color:var(--ink);font-size:12.5px;font-style:italic}
+.it.miss .was{color:var(--ink-soft);font-size:11px}
+.it.miss .was s{opacity:.75}
+.it.miss .todo{margin-left:auto;font-size:10.5px;font-weight:700;color:#f07a66;text-decoration:none;border:1px solid rgba(240,122,102,.45);border-radius:8px;padding:1px 8px;white-space:nowrap}
+.it.miss .todo:hover{background:rgba(240,122,102,.15)}
+.todo-entry{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:12px 16px;margin:10px 0;scroll-margin-top:120px}
+.todo-entry:target{border-color:#f07a66;box-shadow:0 0 0 2px rgba(240,122,102,.3)}
+.todo-entry .prompt{font-size:15px;font-weight:700;margin-bottom:4px}
+.todo-entry .meta{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.todo-entry .bad{font-size:12.5px;color:var(--ink-soft)}
+.todo-entry .bad s{color:var(--sun);opacity:.85}
+.todo-entry .why{font-size:12px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
+.todo-entry .ans{margin-top:8px;border-top:1px dashed var(--sand-deep);padding-top:7px;font-size:12px;color:var(--sea)}
+.nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
+/* index */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
+.card{display:block;text-decoration:none;color:var(--ink);background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 16px;transition:.12s}
+.card:hover{border-color:var(--tide);transform:translateY(-1px)}
+.card .n{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sea)}
+.card .t{font-size:14.5px;font-weight:700;margin:3px 0 6px;line-height:1.3}
+.card .m{font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.card .m .syn{color:var(--sun)} .card .m .ok{color:var(--jade)}
+.phz{grid-column:1/-1;font:700 11px/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin:10px 2px -2px}
+</style>
+<header>
+  <h1>&#128105; Ella todo — 44 removed sentences</h1>
+  <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
+</header>
+<div style="padding:6px 20px 60px;max-width:860px">
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 5 <a href="lesson-5.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="nabasa-an-anak-nira-tita-ngan-hi-jojo">
+      <div class="meta">pc-l5 · drill</div>
+      <div class="prompt">&ldquo;Tita and Jojo's child is reading.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nabasa an anak nira Tita ngan hi Jojo.</s></div>
+      <div class="why">'ngan hi' in genitive coordination; expected nira Tita ngan ni Jojo</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 6 <a href="lesson-6.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="manan-aw-an-mga-anak-nira-ben-ngan-hi-pa">
+      <div class="meta">pc-l6b · drill</div>
+      <div class="prompt">&ldquo;Ben and Pam's children will watch a movie at Queens.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Manan-aw an mga anak nira Ben ngan hi Pam hin sine ha Queens.</s></div>
+      <div class="why">'ngan hi' inside genitive coordination should be ngan (ni); mang- never taught, expected Matan-aw</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nagsimba-hira-hin-mga-diyos-diyos-ha-ira">
+      <div class="meta">pc-l6b · drill</div>
+      <div class="prompt">&ldquo;They worshiped idols at their church.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagsimba hira hin mga diyos-diyos ha ira simbahan.</s></div>
+      <div class="why">L6b ma- lesson; book marks idols with ha not hin: 'Sinmimba ... ha mga diyos-diyos'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="uminom-an-iya-lolo-hin-kape">
+      <div class="meta">pc-l6b · exam (graded)</div>
+      <div class="prompt">&ldquo;His grandfather drank the coffee.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Uminom an iya lolo hin kapé.</s></div>
+      <div class="why">past is inminom (-inm-); book glosses 'Uminom...' as 'will drink'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 7 <a href="lesson-7.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="sinmakat-hira-didto-ha-balay-ni-luz">
+      <div class="meta">pc-l7b · exam (graded)</div>
+      <div class="prompt">&ldquo;They climbed up there at Luz's house.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Sinmakat hira didto ha balay ni Luz.</s></div>
+      <div class="why">root should be saka (climb); Tramp sakát = 'cut flesh by mistake'; expected Sinmaka</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="tinindog-kami-dinhi">
+      <div class="meta">pc-l7b · drill</div>
+      <div class="prompt">&ldquo;We stood here.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Tinindog kami dinhi.</s></div>
+      <div class="why">past is -inm-: Tinmindog; 'Tinindog' drops m</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 8 <a href="lesson-8.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="hinigda-an-iyo-mga-anak-ha-katre-ni-katr">
+      <div class="meta">pc-l8 · exam (graded)</div>
+      <div class="prompt">&ldquo;Your (pl) children laid down on Katrina's bed.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Hinigda an iyo mga anak ha katre ni Katrina.</s></div>
+      <div class="why">past should be Hinmigda (-inm-); 'Hinigda' is -in- form / progressive per Tramp</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 9 <a href="lesson-9.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="kinanta-an-uyab-ni-lorie-ha-iya">
+      <div class="meta">pc-l9b · drill</div>
+      <div class="prompt">&ldquo;Lorie's boyfriend sang to her.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Kinanta an uyab ni Lorie ha iya.</s></div>
+      <div class="why">book has Kinmanta; 'Kinanta' is -in- object focus vs AF meaning</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="mahugas-hin-bado-an-amon-mga-kabulig-par">
+      <div class="meta">pc-l9b · drill</div>
+      <div class="prompt">&ldquo;Our helpers will wash clothes for you (pl).&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Mahugas hin bado an amon mga kabulig para ha iyo.</s></div>
+      <div class="why">book verb for laundering is labá; hugas=wash objects; also hin-object before an-subject inverts taught order</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 10 <a href="lesson-10.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="nag-luto-an-iya-nanay-hin-mga-utanon-did">
+      <div class="meta">pc-l10 · exam (graded)</div>
+      <div class="prompt">&ldquo;His mother cooked vegetables there in the kitchen for the carpenters.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nag-luto an iya nanay hin mga utanon didto ha kusina para ha mga karpintero.</s></div>
+      <div class="why">L10 review predates nag-; luto is ma-class until L22; also nag- hyphenates only before vowels</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nahuram-hi-bebing-iton-nga-libro-para-ha">
+      <div class="meta">pc-l10 · exam (graded)</div>
+      <div class="prompt">&ldquo;Bebing is borrowing that book for her students.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nahuram hi Bebing iton nga libro para ha iya mga estudyante.</s></div>
+      <div class="why">object of AF verb must be oblique 'hiton nga libro', not subject-form 'iton'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nangkaon-an-mga-bisita-hin-isda-ngan-pru">
+      <div class="meta">pc-l10 · exam (graded)</div>
+      <div class="prompt">&ldquo;The visitors ate fish(pl) and fruit, and drank milk.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nangkaon an mga bisita hin isda ngan prutas, ngan inminom hin gatas.</s></div>
+      <div class="why">'nangkaon' fails nasal assimilation, form absent from Tramp/book; expected Kinmaon; also drops plural mga isda</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 11 <a href="lesson-11.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="babasa-iton-nga-makugihon-nga-estudyante">
+      <div class="meta">pc-l11 · drill</div>
+      <div class="prompt">&ldquo;That industrious student will read this big book.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Babasa iton nga makugihon nga estudyante hini nga daku nga libro.</s></div>
+      <div class="why">bare CV-reduplication 'babasa' is Tagalog-style, not taught; expected mabasa</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="binmatindog-an-bug-os-nga-singbahan-ngan">
+      <div class="meta">pc-l11 · drill</div>
+      <div class="prompt">&ldquo;The whole church stood, and read their Bibles.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Binmatindog an bug-os nga singbahan, ngan binmasa han ira mga Biblia.</s></div>
+      <div class="why">'binmatindog' implies root batindog (nonexistent); expected tinmindog</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="hugakon-nga-pastor">
+      <div class="meta">pc-l11 · exam (graded)</div>
+      <div class="prompt">&ldquo;lazy pastor&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>hugakon nga pastor</s></div>
+      <div class="why">'hugakon' not in Tramp (hugak='loosen/relax'); book's lazy = hubya; expected hubya nga pastor</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 12 <a href="lesson-12.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="espiritu-ba-iton-nga-maraot">
+      <div class="meta">pc-l12 · drill</div>
+      <div class="prompt">&ldquo;Is that "over there" an evil spirit?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Espiritu ba iton nga maraot?</s></div>
+      <div class="why">prompt says 'over there' = adto; also inverted pattern: expected 'Maraot ba adto nga espiritu?'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="sinulod-ka-ba-ha-ira-balay">
+      <div class="meta">pc-l12 · exam (graded)</div>
+      <div class="prompt">&ldquo;Did you(sing) go inside their house?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Sinulod ka ba ha ira balay?</s></div>
+      <div class="why">past AF is Sinmulod; 'Sinulod' is -in- object-focus, never taught</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 13 <a href="lesson-13.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="mauli-kamo-na-ba">
+      <div class="meta">pc-l13 · exam (graded)</div>
+      <div class="prompt">&ldquo;Are you(pl) going home now?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Maúli kamo na ba?</s></div>
+      <div class="why">full pronoun kamo must FOLLOW particles: 'Maúli na ba kamo?'; only enclitic ka precedes</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="napili-na-ba-hi-emily-hin-magayon-nga-ba">
+      <div class="meta">pc-l13 · drill</div>
+      <div class="prompt">&ldquo;Has Emily already chosen a beautiful dress for her wedding, or will she still wear yours?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Napili na ba hi Emily hin magayon nga bado para ha iya kasal, o masul-ot pa ba hiya han imo?</s></div>
+      <div class="why">'magayon' is Bikol, not in Tramp/book; expected mahusay</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nasul-ot-pa-ba-ikaw-han-pula-nga-bado">
+      <div class="meta">pc-l13 · exam (graded)</div>
+      <div class="prompt">&ldquo;Are you(sing) still wearing the red dress?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nasul-ot pa ba ikaw han pula nga bado?</s></div>
+      <div class="why">ikaw has only short form ka postverbally, ka precedes particles: 'Nasul-ot ka pa ba...'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 14 <a href="lesson-14.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="matambong-ka-liwat-ba-han-parte">
+      <div class="meta">pc-l14 · drill</div>
+      <div class="prompt">&ldquo;Will you(sing) also attend the party?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Matámbong ka liwat ba han párte?</s></div>
+      <div class="why">'ka liwat ba' inverts ba-before-liwat rule</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="matubyan-ka-liwat-ba-han-ginoo">
+      <div class="meta">pc-l14 · drill</div>
+      <div class="prompt">&ldquo;Will you(sing) also commit yourself to the Lord?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Matúbyan ka liwat ba han Ginoo?</s></div>
+      <div class="why">'ka liwat ba' order; han Ginoo vs ha/kan</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="matubyan-na-liwat-namon-an-amon-mga-anak">
+      <div class="meta">pc-l14 · drill</div>
+      <div class="prompt">&ldquo;We(excl) will now also commit our children to the Lord.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Matúbyan na liwat namon an amon mga anak han Ginoo.</s></div>
+      <div class="why">genitive actor namon with an-patient = object-focus syntax on ma- AF form; recipient should be ha/kan</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="matuod-liwat-ba-ini-nga-babaye">
+      <div class="meta">pc-l14 · drill</div>
+      <div class="prompt">&ldquo;Will this woman also believe?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Matúod liwat ba ini nga babaye?</s></div>
+      <div class="why">'liwat ba' order + Matúod vs Matuo (believe)</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nagpasaylo-na-liwat-ba-hi-eric-kan-tina">
+      <div class="meta">pc-l14 · exam (graded)</div>
+      <div class="prompt">&ldquo;Did Eric already forgive Tina again?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagpasaylo na liwat ba hi Eric kan Tina?</s></div>
+      <div class="why">particle order: book allows only na/pa+ba+liwat, 'na liwat ba' unattested; also nag- pre-L20</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nagsul-ot-na-liwat-ba-hi-erin-han-puti-n">
+      <div class="meta">pc-l14 · exam (graded)</div>
+      <div class="prompt">&ldquo;Did Erin wear that white dress again to the wedding?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagsul-ot na liwat ba hi Erin han puti nga bado ngadto ha kasal?</s></div>
+      <div class="why">'na liwat ba' order unattested (book: na ba liwat); nag- for ma-class verb; drops 'that white dress' demonstrative</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="tinuod-liwat-ba-ini-nga-babaye">
+      <div class="meta">pc-l14 · drill</div>
+      <div class="prompt">&ldquo;Did this woman also believe?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Tinúod liwat ba ini nga babaye?</s></div>
+      <div class="why">particle order 'liwat ba' unattested (ba liwat); verb: -túo believe vs tinúod adjective 'true'.</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 16 <a href="lesson-16.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="magtutdo-ba-liwat-hi-pastor-tan">
+      <div class="meta">pc-l16 · drill</div>
+      <div class="prompt">&ldquo;Will Pastor Tan also preach?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Magtutdo ba liwat hi Pastor Tan?</s></div>
+      <div class="why">tutdo=teach but EN says preach; book verb wáli (Mawali)</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nagkurahab-pa-ba-iton-nga-bata-ha-gab-i">
+      <div class="meta">pc-l16 · drill</div>
+      <div class="prompt">&ldquo;Does that (far) baby still scream at night?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagkuráhab pa ba iton nga bata ha gab-i?</s></div>
+      <div class="why">nag- completed vs habitual present EN 'does it still scream'; expected Nagkukuráhab</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 17 <a href="lesson-17.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="binaya-ba-hi-berto-ha-iya-pamilya">
+      <div class="meta">pc-l17 · drill</div>
+      <div class="prompt">&ldquo;Did Berto leave his family?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Binaya ba hi Berto ha iya pamilya?</s></div>
+      <div class="why">bare -in- 'Binaya' is object-focus past; expected Nabaya/Binmaya</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 18 <a href="lesson-18.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="diri-ko-na-liwat-paliton-hiton">
+      <div class="meta">pc-l18 · drill</div>
+      <div class="prompt">&ldquo;I will also not now buy it.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Diri ko na liwat paliton hiton.</s></div>
+      <div class="why">paliton family</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="diri-ko-na-paliton-hiton">
+      <div class="meta">pc-l18 · drill</div>
+      <div class="prompt">&ldquo;I will not buy it now.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Diri ko na paliton hiton.</s></div>
+      <div class="why">paliton family + order 'Diri na ko'</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="diri-ko-pa-liwat-paliton-hiton">
+      <div class="meta">pc-l18 · drill</div>
+      <div class="prompt">&ldquo;I will also not yet buy it.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Diri ko pa liwat paliton hiton.</s></div>
+      <div class="why">paliton family + particle order</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="diri-ko-pa-paliton-hiton">
+      <div class="meta">pc-l18 · drill</div>
+      <div class="prompt">&ldquo;I will not buy it yet.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Diri ko pa paliton hiton.</s></div>
+      <div class="why">same paliton defect; also particle order 'Diri pa ko' per book</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="diri-ko-paliton-hiton">
+      <div class="meta">pc-l18 · drill</div>
+      <div class="prompt">&ldquo;I will not buy it.(hiton)&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Diri ko paliton hiton.</s></div>
+      <div class="why">paliton object-focus never taught + clashes with oblique hiton; expected Diri ko mapalit hiton</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 19 <a href="lesson-19.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="nagpipiano-hiya-ha-singbahan-liwat">
+      <div class="meta">pc-l19 · drill</div>
+      <div class="prompt">&ldquo;She is playing the piano at the church again. [verbalized noun]&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagpipiano hiya ha singbahan liwat.</s></div>
+      <div class="why">sentence-final liwat unattested; expected after first full word</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 20 <a href="lesson-20.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="nag-uukoy-ako-ha-balay-han-akon-suod-nga">
+      <div class="meta">pc-l20 · exam (graded)</div>
+      <div class="prompt">&ldquo;I am living at the house of my close friend.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nag-uukoy ako ha balay han akon suod nga sangkay.</s></div>
+      <div class="why">'suod' (close) not in Tramp, never in book — Cebuano import</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="nagsarangbot-hi-ronel-kan-bing-bing-ha-s">
+      <div class="meta">pc-l20 · exam (graded)</div>
+      <div class="prompt">&ldquo;Ronel met Bing-bing at church, and now they will marry.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Nagsarangbot hi Ronel kan Bing-bing ha simbahan, ngan yana magpapakasal hira.</s></div>
+      <div class="why">'sarangbot' exists nowhere in Tramp/book; lesson verb is -kita (Nagkita); magpapakasal also off-vocab</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 21 <a href="lesson-21.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="ayaw-bantayi-an-akon-awto">
+      <div class="meta">pc-l21 · exam (graded)</div>
+      <div class="prompt">&ldquo;Don't guard my car.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Ayaw bantayi an akon awto.</s></div>
+      <div class="why">-i imperative never taught; expected Ayaw pagbantay han akon awto</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="ayaw-pagtrabaho-didto-nga-lugar">
+      <div class="meta">pc-l21 · exam (graded)</div>
+      <div class="prompt">&ldquo;Don't work at that place.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Ayaw pagtrabaho didto nga lugar.</s></div>
+      <div class="why">'didto nga lugar' malformed: didto is adverb, adnominal needs hadto/hito nga lugar or didto ha</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="ayaw-rentahi-iton-nga-balay-didto-yana">
+      <div class="meta">pc-l21 · exam (graded)</div>
+      <div class="prompt">&ldquo;Don't rent that house "over there" now.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Ayaw rentahi iton nga balay didto yana.</s></div>
+      <div class="why">-i object-focus imperative never taught; exercise mandates Ayaw+pag-; course rent verb is -plite</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="magdadalagan-ka-pa-ba-ha-bukid">
+      <div class="meta">pc-l21 · exam (graded)</div>
+      <div class="prompt">&ldquo;Will you still run to the mountain?&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Magdadalagan ka pa ba ha bukid?</s></div>
+      <div class="why">book classes run as ma- verb (madagan/madalagan); mag- reduplicated future off-pattern</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson 22 <a href="lesson-22.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>
+    <div class="todo-entry" id="buot-han-bugto-ni-ashley-sumarig-kan-jes">
+      <div class="meta">pc-l22 · exam (graded)</div>
+      <div class="prompt">&ldquo;Ashley's sister wants to trust Jesus.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Buot han bugto ni Ashley sumarig kan Jesus.</s></div>
+      <div class="why">buot requires I-Class subject (genitive only for kinahanglan/pwede/mahimo); 'sumarig' -um- never used with special verbs</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>
+    <div class="todo-entry" id="mahimo-ni-bit-bit-magluto-hin-panihapon">
+      <div class="meta">pc-l22 · exam (graded)</div>
+      <div class="prompt">&ldquo;Bit-bit will be able to cook supper.&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>Mahimo ni Bit-bit magluto hin panihapon.</s></div>
+      <div class="why">buot/mahimo pattern: subject must be I-Class 'hi Bit-bit'; genitive ni leaves no subject — but check: book allows genitive with mahimo? ('Mahimo ni Reynaldo ito para ha akon' was passed as ok)</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div></div>

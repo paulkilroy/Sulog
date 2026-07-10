@@ -110,6 +110,14 @@ const inBook = (w) => { const n = normO(w); return n.length >= 3 && ocrN.include
 const isSent = (w) => /\s/.test((w || "").trim());
 const pagesOf = (txt) => { const s = new Set(); let m; const re = /===PAGE (\d+)===/g; while ((m = re.exec(txt || ""))) if (+m[1] >= 1 && +m[1] <= 114) s.add(+m[1]); return [...s].sort((a, b) => a - b); };
 
+// Removed sentences (confirmed fabrications from the synth audit) — shown on lesson pages as
+// "missing translation" stubs and compiled into the generated Ella-todo page (ella-todo.html).
+// Canonical source: docs/sources/peace-corps/rejected-sentences.json (also drives seed rejection).
+const REJECTED = JSON.parse(fs.readFileSync(`${SRC}/rejected-sentences.json`, "utf8"));
+const slug = (w) => w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+const rejectedByLesson = {};
+for (const r of REJECTED) (rejectedByLesson[r.lesson] = rejectedByLesson[r.lesson] || []).push(r);
+
 // Data-driven guide anchors: every grammar/note block TITLE the course extracted is a heading the
 // scan must carve back to guide. The book prints these mid-lesson, right after a review or an
 // exercise, where the running span would otherwise swallow the whole grammar section (an audit
@@ -383,6 +391,21 @@ table.md th{background:var(--sand);font-weight:700}
 .imgwrap.crop{height:0}
 details.oralx summary{cursor:pointer;font-size:11.5px;color:var(--ink-soft);padding:2px 0;font-weight:400;text-transform:none;letter-spacing:0}
 details.oralx .it{opacity:.55}
+.blk.missing{border-left-style:dashed}
+.it.miss{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.it.miss .q{color:var(--ink);font-size:12.5px;font-style:italic}
+.it.miss .was{color:var(--ink-soft);font-size:11px}
+.it.miss .was s{opacity:.75}
+.it.miss .todo{margin-left:auto;font-size:10.5px;font-weight:700;color:#f07a66;text-decoration:none;border:1px solid rgba(240,122,102,.45);border-radius:8px;padding:1px 8px;white-space:nowrap}
+.it.miss .todo:hover{background:rgba(240,122,102,.15)}
+.todo-entry{background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:12px 16px;margin:10px 0;scroll-margin-top:120px}
+.todo-entry:target{border-color:#f07a66;box-shadow:0 0 0 2px rgba(240,122,102,.3)}
+.todo-entry .prompt{font-size:15px;font-weight:700;margin-bottom:4px}
+.todo-entry .meta{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.todo-entry .bad{font-size:12.5px;color:var(--ink-soft)}
+.todo-entry .bad s{color:var(--sun);opacity:.85}
+.todo-entry .why{font-size:12px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
+.todo-entry .ans{margin-top:8px;border-top:1px dashed var(--sand-deep);padding-top:7px;font-size:12px;color:var(--sea)}
 .nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
 /* index */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
@@ -447,7 +470,11 @@ for (let gi = 0; gi < nums.length; gi++) {
     : `<div class="nopg">no scanned pages mapped to this lesson</div>`)
     + crop
     + `<details class="rawocr"><summary>Raw OCR text</summary><pre>${esc(ocrTxt)}</pre></details>`;
-  const right = grp.map((L) => `<div class="clesson"><div class="clh">${esc(L.title)}</div>${L.blocks.map(blockHtml).join("")}</div>`).join("");
+  const right = grp.map((L) => {
+    const rej = rejectedByLesson[L.id] || [];
+    const missing = rej.length ? `<div class="blk missing" data-dest="gate" style="--c:#f07a66"><div class="bh" style="color:#f07a66"><span class="tag" style="background:#f07a66">Missing</span> ${rej.length} translation${rej.length === 1 ? "" : "s"} removed — awaiting native answers</div>${rej.map((r) => `<div class="it miss"><span class="en q">&ldquo;${esc(r.en)}&rdquo;</span><span class="was" title="${esc(r.reason)}">was: <s>${esc(r.waray)}</s></span><a class="todo" href="ella-todo.html#${slug(r.waray)}" title="${esc(r.reason)}">Ella todo &rarr;</a></div>`).join("")}</div>` : "";
+    return `<div class="clesson"><div class="clh">${esc(L.title)}</div>${L.blocks.map(blockHtml).join("")}${missing}</div>`;
+  }).join("");
   const prev = gi > 0 ? `<a href="lesson-${nums[gi - 1]}.html">&larr; L${nums[gi - 1]}</a>` : "";
   const next = gi < nums.length - 1 ? `<a href="lesson-${nums[gi + 1]}.html">L${nums[gi + 1]} &rarr;</a>` : "";
   const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesson ${n} — Course vs. Book</title><style>${CSS}</style></head><body class="lpage">
@@ -483,9 +510,32 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
 <header>
   <h1>Peace Corps Waray — Course vs. Book</h1>
   <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
-  <div class="nav"><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
+  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
 </header>
 <div class="grid">${cardsHtml}</div>`);
+
+// ---- the Ella todo page: one entry per removed sentence, anchor-linkable from lesson stubs ----
+{
+  const groups = {};
+  for (const r of REJECTED) { const n = +(/pc-l(\d+)/.exec(r.lesson) || [])[1]; (groups[n] = groups[n] || []).push(r); }
+  const body = Object.keys(groups).map(Number).sort((a, b) => a - b).map((n) => `
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson ${n} <a href="lesson-${n}.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>` +
+    groups[n].map((r) => `
+    <div class="todo-entry" id="${slug(r.waray)}">
+      <div class="meta">${esc(r.lesson)} · ${esc(r.where)}${r.where === "exam" ? " (graded)" : ""}</div>
+      <div class="prompt">&ldquo;${esc(r.en)}&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>${esc(r.waray)}</s></div>
+      <div class="why">${esc(r.reason)}</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>`).join("")).join("");
+  fs.writeFileSync(`${OUT_DIR}/ella-todo.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>${CSS}</style>
+<header>
+  <h1>&#128105; Ella todo — ${REJECTED.length} removed sentences</h1>
+  <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
+</header>
+<div style="padding:6px 20px 60px;max-width:860px">${body}</div>`);
+}
 
 // redirect for the old single-page URL (/verify.html)
 fs.writeFileSync("docs/preview/verify.html", `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/verify/"><title>Course vs. Book</title><a href="/verify/">Course vs. Book has moved &rarr; /verify/</a>`);

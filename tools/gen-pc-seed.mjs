@@ -44,56 +44,12 @@ const FABRICATED = new Set([
   "hin duró na liwat hin maluloy-on an aton dios",
   "hin duró na hin dulom",
   "hin duró pa ba hin maluya an iya anak nga babaye",
-  // 2026-07 synth-sentence audit: 44 sentences confirmed defective by a two-pass review
-  // (find -> adversarial verify -> hand spot-check vs OCR+Tramp): malformed past tense
-  // (-in- for the book's -inm-), untaught object-focus forms clashing with oblique objects,
-  // particle-order violations of the book's own rules, fabricated/non-Waray words (hugakon,
-  // sarangbot, magayon, suod, nangkaon, babasa, batindog), wrong markers/demonstratives, and
-  // wrong-verb glosses. Evidence: docs/ella-todo-synth-audit.md.
-  "diri ko paliton hiton",
-  "diri ko pa paliton hiton",
-  "nagsimba hira hin mga diyos-diyos ha ira simbahan",
-  "espiritu ba iton nga maraot",
-  "tinindog kami dinhi",
-  "kinanta an uyab ni lorie ha iya",
-  "manan-aw an mga anak nira ben ngan hi pam hin sine ha queens",
-  "nahuram hi bebing iton nga libro para ha iya mga estudyante",
-  "hinigda an iyo mga anak ha katre ni katrina",
-  "napili na ba hi emily hin magayon nga bado para ha iya kasal, o masul-ot pa ba hiya han imo",
-  "tinúod liwat ba ini nga babaye",
-  "mahimo ni bit-bit magluto hin panihapon",
-  "nangkaon an mga bisita hin isda ngan prutas, ngan inminom hin gatas",
-  "buot han bugto ni ashley sumarig kan jesus",
-  "ayaw rentahi iton nga balay didto yana",
-  "sinmakat hira didto ha balay ni luz",
-  "babasa iton nga makugihon nga estudyante hini nga daku nga libro",
-  "binaya ba hi berto ha iya pamilya",
-  "nagpasaylo na liwat ba hi eric kan tina",
-  "nag-uukoy ako ha balay han akon suod nga sangkay",
-  "maúli kamo na ba",
-  "diri ko pa liwat paliton hiton",
-  "magdadalagan ka pa ba ha bukid",
-  "nag-luto an iya nanay hin mga utanon didto ha kusina para ha mga karpintero",
-  "matúod liwat ba ini nga babaye",
-  "ayaw pagtrabaho didto nga lugar",
-  "mahugas hin bado an amon mga kabulig para ha iyo",
-  "nagkuráhab pa ba iton nga bata ha gab-i",
-  "matámbong ka liwat ba han párte",
-  "matúbyan na liwat namon an amon mga anak han ginoo",
-  "nasul-ot pa ba ikaw han pula nga bado",
-  "nagpipiano hiya ha singbahan liwat",
-  "magtutdo ba liwat hi pastor tan",
-  "diri ko na paliton hiton",
-  "nabasa an anak nira tita ngan hi jojo",
-  "nagsul-ot na liwat ba hi erin han puti nga bado ngadto ha kasal",
-  "ayaw bantayi an akon awto",
-  "uminom an iya lolo hin kapé",
-  "diri ko na liwat paliton hiton",
-  "binmatindog an bug-os nga singbahan, ngan binmasa han ira mga biblia",
-  "sinulod ka ba ha ira balay",
-  "hugakon nga pastor",
-  "matúbyan ka liwat ba han ginoo",
-  "nagsarangbot hi ronel kan bing-bing ha simbahan, ngan yana magpapakasal hira",
+  // 2026-07 synth-sentence audit rejects live in docs/sources/peace-corps/rejected-sentences.json —
+  // ONE canonical record per removed sentence (exact waray, the book's EN prompt, lesson, defect).
+  // That file also drives the verify site's "missing translations" stubs and the generated Ella-todo
+  // page, so add new confirmed fabrications THERE (with evidence), not here.
+  ...JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"))
+    .map((r) => r.waray.toLowerCase().replace(/[.?!]+$/, "").trim()),
 ]);
 const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
 
