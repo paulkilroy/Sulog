@@ -40,19 +40,9 @@ export const ELLA_QUESTIONS = [
     q: "Correct the 7 Bible-for-Children stories from dialectal to standard Waray.",
     detail: "Machine-translated, came out dialectal (san→han, sira→hira, aron, kumila…). Pulled from the Read tab until fixed. Full list + guesses in docs/courses/frequency/ella-todo-bfc-correction.md.",
   },
-  {
-    id: "samar-variants",
-    course: "all",
-    topic: "Dialect · confirm variants",
-    q: "Are these the everyday Daram forms? Confirm or reject each.",
-    items: [
-      { k: "di", label: "di — short for diri (not)" },
-      { k: "sin", label: "sin — for hin (a/some, object marker)" },
-      { k: "mayda", label: "mayda — may ada (there is / has)" },
-      { k: "wara", label: "wara — for waray (none / did not)" },
-      { k: "gihap", label: "gihap — short for gihapon (also/still)" },
-    ],
-  },
+  // (the samar-variants question moved out of the queue: regional forms are now the DIALECT
+  //  setting in the Language door — grading accepts them in Daram mode via VARIANTS. Native
+  //  verification of individual forms continues through the dictionary-confirm flow.)
   {
     id: "p2-kila",
     course: "waray-challenger2",

@@ -538,9 +538,12 @@ function checkAnswer(input, target, waray, spoken) {
   for (let t of targets) {
     if (waray) t = warayFold(t);
     if (got === t) return true;
-    // per-word: same word count, EACH word within its own length-scaled tolerance
+    // per-word: same word count, EACH word within its own length-scaled tolerance. With the Daram
+    // dialect setting on, a typed dialect form also matches its canonical word ("wara" for "waray",
+    // "sin" for "hin") — acceptance only ever widens, never narrows.
     const tW = t.split(" ");
-    if (gotW.length === tW.length && gotW.every((w, i) => lev(w, tW[i]) <= _tol(tW[i].length))) return true;
+    const wordOk = (w, tw) => w === tw || (waray && _dialect === "daram" && warayFold(VARIANTS[w] || "") === tw) || lev(w, tw) <= _tol(tw.length);
+    if (gotW.length === tW.length && gotW.every((w, i) => wordOk(w, tW[i]))) return true;
     if (!fuzzy) continue;
     // whole-phrase edit distance (natural variation / recognizer noise)
     if (lev(got, t) <= _tol(t.length)) return true;
@@ -661,6 +664,7 @@ function mergeUnits(l, c) {
 let _voices = [];
 let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
+let _dialect = "standard"; // "standard" | "daram" — grading accepts VARIANTS dialect forms when daram
 
 // How well a voice's language approximates Waray. Waray is Austronesian:
 // Filipino/Tagalog is closest; Indonesian and Malay share the same 5-vowel,
@@ -771,7 +775,7 @@ export default function App() {
   const [learnTarget, setLearnTarget] = useState(null); // lesson id to scroll to in LearnView
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [storyUnit, setStoryUnit] = useState(null); // unit whose capstone story is open
-  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false });
+  const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false, dialect: "standard" });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
   const [user, setUser] = useState(null); // Supabase-authed Google user (null = signed out)
@@ -806,6 +810,7 @@ export default function App() {
   useEffect(() => {
     _voiceURI = settings.voiceURI || null;
   }, [settings.voiceURI]);
+  useEffect(() => { _dialect = settings.dialect || "standard"; }, [settings.dialect]);
 
   // load on mount. Every parse is individually guarded: ONE corrupt localStorage value (partial
   // write on quota, manual edit, old format) must cost only that record — never the boot. Without
@@ -1381,6 +1386,21 @@ function LanguageView({ ctx }) {
         </div>
         {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect" />
+        <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 14px", marginBottom: 14 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {[["standard", "Standard Waray"], ["daram", "Daram (Samar) colloquial"]].map(([v, label]) => (
+              <button key={v} onClick={() => saveSettings({ ...settings, dialect: v })}
+                style={{ border: "1px solid " + ((settings.dialect || "standard") === v ? "var(--tide)" : "var(--sand-deep)"), background: (settings.dialect || "standard") === v ? "var(--tide)" : "var(--foam)", color: (settings.dialect || "standard") === v ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7, lineHeight: 1.45 }}>
+            Daram mode also accepts everyday regional forms when you answer — <i>wara</i> (waray), <i>sin</i> (hin), <i>mayda</i>, <i>gihap</i>… Community-reported; being verified with a native speaker. Courses still teach the standard forms.
+          </div>
+        </div>
+
         <SectionLabel icon={<Volume2 size={14} />} text="Sound & speech" />
         <button className="ws-backup-row" onClick={() => setView("pronounce")}>
           <div className="ws-backup-ic"><Ear size={18} /></div>
@@ -1478,23 +1498,22 @@ function DbReviewRow({ entry, onConfirmed }) {
     catch (e) { setErr(e.message || "save failed"); setSaving(false); }
   };
   return (
-    <div style={{ background: "var(--foam)", border: "1px solid #e4e6ea", borderRadius: 12, padding: "10px 12px", margin: "8px 0" }}>
+    <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-        <b style={{ fontFamily: "Georgia,serif", fontSize: 16, cursor: "pointer" }} onClick={() => speak({ waray: entry.waray, say: pron, english: meaning })} title="Tap to hear">{entry.waray}</b>
-        <span style={{ fontSize: 10.5, background: "#f1ece0", color: "#8a7a55", borderRadius: 10, padding: "1px 7px" }}>{entry.kind}</span>
-        {entry.loan && <span style={{ fontSize: 10.5, background: "#f0eaf6", color: "#6a5aa8", borderRadius: 10, padding: "1px 7px" }}>{entry.loan}</span>}
+        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700 }}>{entry.kind}{entry.loan ? ` · ${entry.loan} loan` : ""}</span>
       </div>
-      <div style={{ display: "flex", gap: 8, marginTop: 7, flexWrap: "wrap" }}>
+      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, say: pron, english: meaning })} title="Tap to hear">{entry.waray} 🔊</b>
+      <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap", alignItems: "center" }}>
         <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="meaning"
-          style={{ flex: "1 1 180px", border: "1px solid #dfe3e8", borderRadius: 7, padding: "6px 8px", fontSize: 13.5 }} />
-        <input value={pron} onChange={(e) => setPron(e.target.value)} placeholder="pronunciation"
-          style={{ flex: "1 1 130px", border: "1px solid #dfe3e8", borderRadius: 7, padding: "6px 8px", fontSize: 12.5, fontFamily: "ui-monospace,monospace" }} />
+          style={{ flex: "1 1 200px", fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
+        <input value={pron} onChange={(e) => setPron(e.target.value)} placeholder="pronunciation (mah-OO-pigh)"
+          style={{ flex: "1 1 150px", fontSize: 12.5, fontFamily: "ui-monospace,monospace", color: "var(--sea)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "7px 10px" }} />
         <button onClick={confirm} disabled={saving}
-          style={{ background: "#2f8f4e", color: "#fff", border: 0, borderRadius: 7, padding: "6px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", opacity: saving ? .6 : 1 }}>
-          {saving ? "…" : "✓ Confirm"}
+          style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: saving ? 0.5 : 1 }}>
+          {saving ? "Saving…" : "Confirm"}
         </button>
       </div>
-      {err && <div style={{ color: "var(--coral)", fontSize: 12, marginTop: 4 }}>{err}</div>}
+      {err && <div style={{ color: "var(--coral)", fontSize: 12, marginTop: 5 }}>{err}</div>}
     </div>
   );
 }

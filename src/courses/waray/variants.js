@@ -10,6 +10,7 @@
    Keys are normalized (lowercase, no accents). Add liberally; correctness gates on review. */
 
 export const VARIANTS = {
+  di:    "diri",    // clipped negator ("di ako maaram" = I don't know)
   mayda: "may",     // fused existential (may + ada) → "there is / has"
   kon:   "kun",     // dialectal "if / when"
   san:   "han",     // dialectal genitive marker
