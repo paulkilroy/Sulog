@@ -4,307 +4,351 @@
   "en": "Tita and Jojo's child is reading.",
   "lesson": "pc-l5",
   "where": "drill",
-  "reason": "'ngan hi' in genitive coordination; expected nira Tita ngan ni Jojo"
+  "reason": "'ngan hi' in genitive coordination; expected nira Tita ngan ni Jojo",
+  "suggest": "Nabasa an anak nira Tita ngan ni Jojo."
  },
  {
   "waray": "Manan-aw an mga anak nira Ben ngan hi Pam hin sine ha Queens.",
   "en": "Ben and Pam's children will watch a movie at Queens.",
   "lesson": "pc-l6b",
   "where": "drill",
-  "reason": "'ngan hi' inside genitive coordination should be ngan (ni); mang- never taught, expected Matan-aw"
+  "reason": "'ngan hi' inside genitive coordination should be ngan (ni); mang- never taught, expected Matan-aw",
+  "suggest": "Matan-aw an mga anak nira Ben ngan ni Pam hin sine ha Queens."
  },
  {
   "waray": "Nagsimba hira hin mga diyos-diyos ha ira simbahan.",
   "en": "They worshiped idols at their church.",
   "lesson": "pc-l6b",
   "where": "drill",
-  "reason": "L6b ma- lesson; book marks idols with ha not hin: 'Sinmimba ... ha mga diyos-diyos'"
+  "reason": "L6b ma- lesson; book marks idols with ha not hin: 'Sinmimba ... ha mga diyos-diyos'",
+  "suggest": "Sinmimba hira ha mga diyos-diyos ha ira simbahan."
  },
  {
   "waray": "Uminom an iya lolo hin kapé.",
   "en": "His grandfather drank the coffee.",
   "lesson": "pc-l6b",
   "where": "exam",
-  "reason": "past is inminom (-inm-); book glosses 'Uminom...' as 'will drink'"
+  "reason": "past is inminom (-inm-); book glosses 'Uminom...' as 'will drink'",
+  "suggest": "Inminom an iya lolo hin kapé."
  },
  {
   "waray": "Sinmakat hira didto ha balay ni Luz.",
   "en": "They climbed up there at Luz's house.",
   "lesson": "pc-l7b",
   "where": "exam",
-  "reason": "root should be saka (climb); Tramp sakát = 'cut flesh by mistake'; expected Sinmaka"
+  "reason": "root should be saka (climb); Tramp sakát = 'cut flesh by mistake'; expected Sinmaka",
+  "suggest": "Sinmaka hira didto ha balay ni Luz."
  },
  {
   "waray": "Tinindog kami dinhi.",
   "en": "We stood here.",
   "lesson": "pc-l7b",
   "where": "drill",
-  "reason": "past is -inm-: Tinmindog; 'Tinindog' drops m"
+  "reason": "past is -inm-: Tinmindog; 'Tinindog' drops m",
+  "suggest": "Tinmindog kami dinhi."
  },
  {
   "waray": "Hinigda an iyo mga anak ha katre ni Katrina.",
   "en": "Your (pl) children laid down on Katrina's bed.",
   "lesson": "pc-l8",
   "where": "exam",
-  "reason": "past should be Hinmigda (-inm-); 'Hinigda' is -in- form / progressive per Tramp"
+  "reason": "past should be Hinmigda (-inm-); 'Hinigda' is -in- form / progressive per Tramp",
+  "suggest": "Hinmigda an iyo mga anak ha katre ni Katrina."
  },
  {
   "waray": "Kinanta an uyab ni Lorie ha iya.",
   "en": "Lorie's boyfriend sang to her.",
   "lesson": "pc-l9b",
   "where": "drill",
-  "reason": "book has Kinmanta; 'Kinanta' is -in- object focus vs AF meaning"
+  "reason": "book has Kinmanta; 'Kinanta' is -in- object focus vs AF meaning",
+  "suggest": "Kinmanta an uyab ni Lorie ha iya."
  },
  {
   "waray": "Mahugas hin bado an amon mga kabulig para ha iyo.",
   "en": "Our helpers will wash clothes for you (pl).",
   "lesson": "pc-l9b",
   "where": "drill",
-  "reason": "book verb for laundering is labá; hugas=wash objects; also hin-object before an-subject inverts taught order"
+  "reason": "book verb for laundering is labá; hugas=wash objects; also hin-object before an-subject inverts taught order",
+  "suggest": "Malaba an amon mga kabulig hin bado para ha iyo."
  },
  {
   "waray": "Nag-luto an iya nanay hin mga utanon didto ha kusina para ha mga karpintero.",
   "en": "His mother cooked vegetables there in the kitchen for the carpenters.",
   "lesson": "pc-l10",
   "where": "exam",
-  "reason": "L10 review predates nag-; luto is ma-class until L22; also nag- hyphenates only before vowels"
+  "reason": "L10 review predates nag-; luto is ma-class until L22; also nag- hyphenates only before vowels",
+  "suggest": "Naluto an iya nanay hin mga utanon didto ha kusina para ha mga karpintero."
  },
  {
   "waray": "Nahuram hi Bebing iton nga libro para ha iya mga estudyante.",
   "en": "Bebing is borrowing that book for her students.",
   "lesson": "pc-l10",
   "where": "exam",
-  "reason": "object of AF verb must be oblique 'hiton nga libro', not subject-form 'iton'"
+  "reason": "object of AF verb must be oblique 'hiton nga libro', not subject-form 'iton'",
+  "suggest": "Nahuram hi Bebing hiton nga libro para ha iya mga estudyante."
  },
  {
   "waray": "Nangkaon an mga bisita hin isda ngan prutas, ngan inminom hin gatas.",
   "en": "The visitors ate fish(pl) and fruit, and drank milk.",
   "lesson": "pc-l10",
   "where": "exam",
-  "reason": "'nangkaon' fails nasal assimilation, form absent from Tramp/book; expected Kinmaon; also drops plural mga isda"
+  "reason": "'nangkaon' fails nasal assimilation, form absent from Tramp/book; expected Kinmaon; also drops plural mga isda",
+  "suggest": "Kinmaon an mga bisita hin mga isda ngan prutas, ngan inminom hin gatas."
  },
  {
   "waray": "Babasa iton nga makugihon nga estudyante hini nga daku nga libro.",
   "en": "That industrious student will read this big book.",
   "lesson": "pc-l11",
   "where": "drill",
-  "reason": "bare CV-reduplication 'babasa' is Tagalog-style, not taught; expected mabasa"
+  "reason": "bare CV-reduplication 'babasa' is Tagalog-style, not taught; expected mabasa",
+  "suggest": "Mabasa iton nga makugihon nga estudyante hini nga daku nga libro."
  },
  {
   "waray": "Binmatindog an bug-os nga singbahan, ngan binmasa han ira mga Biblia.",
   "en": "The whole church stood, and read their Bibles.",
   "lesson": "pc-l11",
   "where": "drill",
-  "reason": "'binmatindog' implies root batindog (nonexistent); expected tinmindog"
+  "reason": "'binmatindog' implies root batindog (nonexistent); expected tinmindog",
+  "suggest": "Tinmindog an bug-os nga singbahan, ngan binmasa han ira mga Biblia."
  },
  {
   "waray": "hugakon nga pastor",
   "en": "lazy pastor",
   "lesson": "pc-l11",
   "where": "exam",
-  "reason": "'hugakon' not in Tramp (hugak='loosen/relax'); book's lazy = hubya; expected hubya nga pastor"
+  "reason": "'hugakon' not in Tramp (hugak='loosen/relax'); book's lazy = hubya; expected hubya nga pastor",
+  "suggest": "hubya nga pastor"
  },
  {
   "waray": "Espiritu ba iton nga maraot?",
   "en": "Is that \"over there\" an evil spirit?",
   "lesson": "pc-l12",
   "where": "drill",
-  "reason": "prompt says 'over there' = adto; also inverted pattern: expected 'Maraot ba adto nga espiritu?'"
+  "reason": "prompt says 'over there' = adto; also inverted pattern: expected 'Maraot ba adto nga espiritu?'",
+  "suggest": "Maraot ba adto nga espiritu?"
  },
  {
   "waray": "Sinulod ka ba ha ira balay?",
   "en": "Did you(sing) go inside their house?",
   "lesson": "pc-l12",
   "where": "exam",
-  "reason": "past AF is Sinmulod; 'Sinulod' is -in- object-focus, never taught"
+  "reason": "past AF is Sinmulod; 'Sinulod' is -in- object-focus, never taught",
+  "suggest": "Sinmulod ka ba ha ira balay?"
  },
  {
   "waray": "Maúli kamo na ba?",
   "en": "Are you(pl) going home now?",
   "lesson": "pc-l13",
   "where": "exam",
-  "reason": "full pronoun kamo must FOLLOW particles: 'Maúli na ba kamo?'; only enclitic ka precedes"
+  "reason": "full pronoun kamo must FOLLOW particles: 'Maúli na ba kamo?'; only enclitic ka precedes",
+  "suggest": "Maúli na ba kamo?"
  },
  {
   "waray": "Napili na ba hi Emily hin magayon nga bado para ha iya kasal, o masul-ot pa ba hiya han imo?",
   "en": "Has Emily already chosen a beautiful dress for her wedding, or will she still wear yours?",
   "lesson": "pc-l13",
   "where": "drill",
-  "reason": "'magayon' is Bikol, not in Tramp/book; expected mahusay"
+  "reason": "'magayon' is Bikol, not in Tramp/book; expected mahusay",
+  "suggest": "Napili na ba hi Emily hin mahusay nga bado para ha iya kasal, o masul-ot pa ba hiya han imo?"
  },
  {
   "waray": "Nasul-ot pa ba ikaw han pula nga bado?",
   "en": "Are you(sing) still wearing the red dress?",
   "lesson": "pc-l13",
   "where": "exam",
-  "reason": "ikaw has only short form ka postverbally, ka precedes particles: 'Nasul-ot ka pa ba...'"
+  "reason": "ikaw has only short form ka postverbally, ka precedes particles: 'Nasul-ot ka pa ba...'",
+  "suggest": "Nasul-ot ka pa ba han pula nga bado?"
  },
  {
   "waray": "Matámbong ka liwat ba han párte?",
   "en": "Will you(sing) also attend the party?",
   "lesson": "pc-l14",
   "where": "drill",
-  "reason": "'ka liwat ba' inverts ba-before-liwat rule"
+  "reason": "'ka liwat ba' inverts ba-before-liwat rule",
+  "suggest": "Matámbong ka ba liwat han párte?"
  },
  {
   "waray": "Matúbyan ka liwat ba han Ginoo?",
   "en": "Will you(sing) also commit yourself to the Lord?",
   "lesson": "pc-l14",
   "where": "drill",
-  "reason": "'ka liwat ba' order; han Ginoo vs ha/kan"
+  "reason": "'ka liwat ba' order; han Ginoo vs ha/kan",
+  "suggest": "Matúbyan ka ba liwat ha Ginoo?"
  },
  {
   "waray": "Matúbyan na liwat namon an amon mga anak han Ginoo.",
   "en": "We(excl) will now also commit our children to the Lord.",
   "lesson": "pc-l14",
   "where": "drill",
-  "reason": "genitive actor namon with an-patient = object-focus syntax on ma- AF form; recipient should be ha/kan"
+  "reason": "genitive actor namon with an-patient = object-focus syntax on ma- AF form; recipient should be ha/kan",
+  "suggest": "Matúbyan na liwat kami han amon mga anak ha Ginoo."
  },
  {
   "waray": "Matúod liwat ba ini nga babaye?",
   "en": "Will this woman also believe?",
   "lesson": "pc-l14",
   "where": "drill",
-  "reason": "'liwat ba' order + Matúod vs Matuo (believe)"
+  "reason": "'liwat ba' order + Matúod vs Matuo (believe)",
+  "suggest": "Matuo ba liwat ini nga babaye?"
  },
  {
   "waray": "Nagpasaylo na liwat ba hi Eric kan Tina?",
   "en": "Did Eric already forgive Tina again?",
   "lesson": "pc-l14",
   "where": "exam",
-  "reason": "particle order: book allows only na/pa+ba+liwat, 'na liwat ba' unattested; also nag- pre-L20"
+  "reason": "particle order: book allows only na/pa+ba+liwat, 'na liwat ba' unattested; also nag- pre-L20",
+  "suggest": "Napasaylo na ba liwat hi Eric kan Tina?"
  },
  {
   "waray": "Nagsul-ot na liwat ba hi Erin han puti nga bado ngadto ha kasal?",
   "en": "Did Erin wear that white dress again to the wedding?",
   "lesson": "pc-l14",
   "where": "exam",
-  "reason": "'na liwat ba' order unattested (book: na ba liwat); nag- for ma-class verb; drops 'that white dress' demonstrative"
+  "reason": "'na liwat ba' order unattested (book: na ba liwat); nag- for ma-class verb; drops 'that white dress' demonstrative",
+  "suggest": "Sinmul-ot na ba liwat hi Erin hadto nga puti nga bado ngadto ha kasal?"
  },
  {
   "waray": "Tinúod liwat ba ini nga babaye?",
   "en": "Did this woman also believe?",
   "lesson": "pc-l14",
   "where": "drill",
-  "reason": "particle order 'liwat ba' unattested (ba liwat); verb: -túo believe vs tinúod adjective 'true'."
+  "reason": "particle order 'liwat ba' unattested (ba liwat); verb: -túo believe vs tinúod adjective 'true'.",
+  "suggest": "Natuod ba liwat ini nga babaye?"
  },
  {
   "waray": "Magtutdo ba liwat hi Pastor Tan?",
   "en": "Will Pastor Tan also preach?",
   "lesson": "pc-l16",
   "where": "drill",
-  "reason": "tutdo=teach but EN says preach; book verb wáli (Mawali)"
+  "reason": "tutdo=teach but EN says preach; book verb wáli (Mawali)",
+  "suggest": "Mawali ba liwat hi Pastor Tan?"
  },
  {
   "waray": "Nagkuráhab pa ba iton nga bata ha gab-i?",
   "en": "Does that (far) baby still scream at night?",
   "lesson": "pc-l16",
   "where": "drill",
-  "reason": "nag- completed vs habitual present EN 'does it still scream'; expected Nagkukuráhab"
+  "reason": "nag- completed vs habitual present EN 'does it still scream'; expected Nagkukuráhab",
+  "suggest": "Nagkukuráhab pa ba iton nga bata ha gab-i?"
  },
  {
   "waray": "Binaya ba hi Berto ha iya pamilya?",
   "en": "Did Berto leave his family?",
   "lesson": "pc-l17",
   "where": "drill",
-  "reason": "bare -in- 'Binaya' is object-focus past; expected Nabaya/Binmaya"
+  "reason": "bare -in- 'Binaya' is object-focus past; expected Nabaya/Binmaya",
+  "suggest": "Nabaya ba hi Berto ha iya pamilya?"
  },
  {
   "waray": "Diri ko na liwat paliton hiton.",
   "en": "I will also not now buy it.",
   "lesson": "pc-l18",
   "where": "drill",
-  "reason": "paliton family"
+  "reason": "paliton family",
+  "suggest": "Diri na liwat ko mapalit hiton."
  },
  {
   "waray": "Diri ko na paliton hiton.",
   "en": "I will not buy it now.",
   "lesson": "pc-l18",
   "where": "drill",
-  "reason": "paliton family + order 'Diri na ko'"
+  "reason": "paliton family + order 'Diri na ko'",
+  "suggest": "Diri na ko mapalit hiton."
  },
  {
   "waray": "Diri ko pa liwat paliton hiton.",
   "en": "I will also not yet buy it.",
   "lesson": "pc-l18",
   "where": "drill",
-  "reason": "paliton family + particle order"
+  "reason": "paliton family + particle order",
+  "suggest": "Diri pa liwat ko mapalit hiton."
  },
  {
   "waray": "Diri ko pa paliton hiton.",
   "en": "I will not buy it yet.",
   "lesson": "pc-l18",
   "where": "drill",
-  "reason": "same paliton defect; also particle order 'Diri pa ko' per book"
+  "reason": "same paliton defect; also particle order 'Diri pa ko' per book",
+  "suggest": "Diri pa ko mapalit hiton."
  },
  {
   "waray": "Diri ko paliton hiton.",
   "en": "I will not buy it.(hiton)",
   "lesson": "pc-l18",
   "where": "drill",
-  "reason": "paliton object-focus never taught + clashes with oblique hiton; expected Diri ko mapalit hiton"
+  "reason": "paliton object-focus never taught + clashes with oblique hiton; expected Diri ko mapalit hiton",
+  "suggest": "Diri ko mapalit hiton."
  },
  {
   "waray": "Nagpipiano hiya ha singbahan liwat.",
   "en": "She is playing the piano at the church again. [verbalized noun]",
   "lesson": "pc-l19",
   "where": "drill",
-  "reason": "sentence-final liwat unattested; expected after first full word"
+  "reason": "sentence-final liwat unattested; expected after first full word",
+  "suggest": "Nagpipiano liwat hiya ha singbahan."
  },
  {
   "waray": "Nag-uukoy ako ha balay han akon suod nga sangkay.",
   "en": "I am living at the house of my close friend.",
   "lesson": "pc-l20",
   "where": "exam",
-  "reason": "'suod' (close) not in Tramp, never in book — Cebuano import"
+  "reason": "'suod' (close) not in Tramp, never in book — Cebuano import",
+  "suggest": "Nag-uukoy ako ha balay han akon duok nga sangkay."
  },
  {
   "waray": "Nagsarangbot hi Ronel kan Bing-bing ha simbahan, ngan yana magpapakasal hira.",
   "en": "Ronel met Bing-bing at church, and now they will marry.",
   "lesson": "pc-l20",
   "where": "exam",
-  "reason": "'sarangbot' exists nowhere in Tramp/book; lesson verb is -kita (Nagkita); magpapakasal also off-vocab"
+  "reason": "'sarangbot' exists nowhere in Tramp/book; lesson verb is -kita (Nagkita); magpapakasal also off-vocab",
+  "suggest": "Nagkita hira Ronel ngan Bing-bing ha simbahan, ngan yana mag-aasawa hira."
  },
  {
   "waray": "Ayaw bantayi an akon awto.",
   "en": "Don't guard my car.",
   "lesson": "pc-l21",
   "where": "exam",
-  "reason": "-i imperative never taught; expected Ayaw pagbantay han akon awto"
+  "reason": "-i imperative never taught; expected Ayaw pagbantay han akon awto",
+  "suggest": "Ayaw pagbantay han akon awto."
  },
  {
   "waray": "Ayaw pagtrabaho didto nga lugar.",
   "en": "Don't work at that place.",
   "lesson": "pc-l21",
   "where": "exam",
-  "reason": "'didto nga lugar' malformed: didto is adverb, adnominal needs hadto/hito nga lugar or didto ha"
+  "reason": "'didto nga lugar' malformed: didto is adverb, adnominal needs hadto/hito nga lugar or didto ha",
+  "suggest": "Ayaw pagtrabaho hadto nga lugar."
  },
  {
   "waray": "Ayaw rentahi iton nga balay didto yana.",
   "en": "Don't rent that house \"over there\" now.",
   "lesson": "pc-l21",
   "where": "exam",
-  "reason": "-i object-focus imperative never taught; exercise mandates Ayaw+pag-; course rent verb is -plite"
+  "reason": "-i object-focus imperative never taught; exercise mandates Ayaw+pag-; course rent verb is -plite",
+  "suggest": "Ayaw pagplite hiton nga balay didto yana."
  },
  {
   "waray": "Magdadalagan ka pa ba ha bukid?",
   "en": "Will you still run to the mountain?",
   "lesson": "pc-l21",
   "where": "exam",
-  "reason": "book classes run as ma- verb (madagan/madalagan); mag- reduplicated future off-pattern"
+  "reason": "book classes run as ma- verb (madagan/madalagan); mag- reduplicated future off-pattern",
+  "suggest": "Madalagan ka pa ba ha bukid?"
  },
  {
   "waray": "Buot han bugto ni Ashley sumarig kan Jesus.",
   "en": "Ashley's sister wants to trust Jesus.",
   "lesson": "pc-l22",
   "where": "exam",
-  "reason": "buot requires I-Class subject (genitive only for kinahanglan/pwede/mahimo); 'sumarig' -um- never used with special verbs"
+  "reason": "buot requires I-Class subject (genitive only for kinahanglan/pwede/mahimo); 'sumarig' -um- never used with special verbs",
+  "suggest": "Buot masarig an bugto ni Ashley kan Jesus."
  },
  {
   "waray": "Mahimo ni Bit-bit magluto hin panihapon.",
   "en": "Bit-bit will be able to cook supper.",
   "lesson": "pc-l22",
   "where": "exam",
-  "reason": "buot/mahimo pattern: subject must be I-Class 'hi Bit-bit'; genitive ni leaves no subject — but check: book allows genitive with mahimo? ('Mahimo ni Reynaldo ito para ha akon' was passed as ok)"
+  "reason": "buot/mahimo pattern: subject must be I-Class 'hi Bit-bit'; genitive ni leaves no subject — but check: book allows genitive with mahimo? ('Mahimo ni Reynaldo ito para ha akon' was passed as ok)",
+  "suggest": "Mahimo hi Bit-bit magluto hin panihapon."
  }
 ]

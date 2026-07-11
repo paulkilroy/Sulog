@@ -1502,39 +1502,98 @@ function DbReviewRow({ entry, onConfirmed }) {
 // draft for missing-answer items) + Confirm, mirroring the dictionary flow. Saved answers render
 // green for everyone; harvest-ella folds them back into the course on the next content build.
 function EllaQuestionCard({ q, admin, answer, onSaved }) {
-  const [val, setVal] = useState(answer ?? q.draft ?? "");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [editing, setEditing] = useState(false);
+  // choice state: "suggest" | "draft" | "other" (missing-answer cards); free text held separately
+  const [pick, setPick] = useState(q.suggest ? "suggest" : "other");
+  const [other, setOther] = useState("");
+  // per-item yes/no state (multi-item dialect cards)
+  const [marks, setMarks] = useState({});
+  const chosen = q.items ? (q.items.every((it) => marks[it.k]) ? q.items.map((it) => `${it.k}=${marks[it.k]}`).join("; ") : "")
+    : pick === "suggest" ? q.suggest : pick === "draft" ? q.draft : other.trim();
   const save = async () => {
-    if (!val.trim()) return;
+    if (!chosen) return;
     setBusy(true); setErr("");
-    try { await saveEllaAnswer(q.id, val.trim()); onSaved(val.trim()); setEditing(false); }
+    try { await saveEllaAnswer(q.id, chosen); onSaved(chosen); setEditing(false); }
     catch (e) { setErr(e.message || String(e)); }
     setBusy(false);
   };
   const answered = !!answer && !editing;
+  const savedMarks = {}; if (q.items && answer) for (const part of answer.split(/;\s*/)) { const [k, v] = part.split("="); if (k) savedMarks[k.trim()] = (v || "").trim(); }
+  const optionRow = (key, label, text) => (
+    <label key={key} style={{ display: "flex", gap: 9, alignItems: "baseline", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === key ? "var(--jade)" : "var(--sand-deep)"), background: pick === key ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
+      <input type="radio" name={q.id} checked={pick === key} onChange={() => setPick(key)} style={{ accentColor: "var(--jade)", marginTop: 2 }} />
+      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>{label}</span>
+      <span style={{ fontFamily: "Georgia,serif", fontSize: 15.5, fontWeight: 600, lineHeight: 1.35 }}>{text}</span>
+    </label>
+  );
   return (
     <div style={{ background: "var(--foam)", border: "1px solid " + (answered ? "rgba(31,184,159,.45)" : "var(--sand-deep)"), borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
       <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
       <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
-      {q.detail && <div style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
+      {q.detail && <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4, lineHeight: 1.45 }}>{q.detail}</div>}
+      {q.items && q.items.map((it) => {
+        const mark = answered ? savedMarks[it.k] : marks[it.k];
+        const canMark = admin && !answered;
+        return (
+          <div key={it.k} style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 0", borderBottom: "1px dotted #24454b" }}>
+            <span style={{ flex: 1, fontSize: 14 }}>{it.label}</span>
+            {["yes", "no"].map((v) => (
+              <button key={v} disabled={!canMark} onClick={() => canMark && setMarks((m) => ({ ...m, [it.k]: v }))}
+                style={{ fontSize: 12, fontWeight: 800, borderRadius: 8, padding: "4px 12px", cursor: canMark ? "pointer" : "default",
+                  opacity: !canMark && mark !== v ? 0.35 : 1,
+                  border: "1px solid " + (mark === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"),
+                  background: mark === v ? (v === "yes" ? "rgba(31,184,159,.18)" : "rgba(240,122,102,.15)") : "transparent",
+                  color: mark === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--ink-soft)" }}>
+                {v === "yes" ? "✓ yes" : "✗ no"}
+              </button>
+            ))}
+          </div>
+        );
+      })}
       {answered ? (
         <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
           <span style={{ fontSize: 11, fontWeight: 800, color: "var(--jade)" }}>✓ ELLA</span>
-          <span style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600 }}>{answer}</span>
-          {admin && <button onClick={() => { setVal(answer); setEditing(true); }} style={{ marginLeft: "auto", fontSize: 11.5, background: "transparent", border: "1px solid var(--sand-deep)", color: "var(--ink-soft)", borderRadius: 8, padding: "2px 9px", cursor: "pointer" }}>edit</button>}
+          {!q.items && <span style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600 }}>{answer}</span>}
+          {admin && <button onClick={() => { if (!q.items) { setPick("other"); setOther(answer); } setEditing(true); }} style={{ marginLeft: "auto", fontSize: 11.5, background: "transparent", border: "1px solid var(--sand-deep)", color: "var(--ink-soft)", borderRadius: 8, padding: "2px 9px", cursor: "pointer" }}>edit</button>}
         </div>
       ) : admin ? (
-        <div style={{ marginTop: 9 }}>
-          <textarea value={val} onChange={(e) => setVal(e.target.value)} rows={1}
-            style={{ width: "100%", boxSizing: "border-box", fontSize: 16, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 10, padding: "9px 12px", resize: "vertical" }} />
-          <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
-            <button onClick={save} disabled={busy || !val.trim()}
-              style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: busy || !val.trim() ? 0.5 : 1 }}>
+        <div style={{ marginTop: 6 }}>
+          {q.items ? (
+            // per-item confirm/reject (list itself renders for everyone below)
+            null && q.items.map((it) => (
+              <div key={it.k} style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 0", borderBottom: "1px dotted #24454b" }}>
+                <span style={{ flex: 1, fontSize: 14 }}>{it.label}</span>
+                {["yes", "no"].map((v) => (
+                  <button key={v} onClick={() => setMarks((m) => ({ ...m, [it.k]: v }))}
+                    style={{ fontSize: 12, fontWeight: 800, borderRadius: 8, padding: "4px 12px", cursor: "pointer",
+                      border: "1px solid " + (marks[it.k] === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"),
+                      background: marks[it.k] === v ? (v === "yes" ? "rgba(31,184,159,.18)" : "rgba(240,122,102,.15)") : "transparent",
+                      color: marks[it.k] === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--ink-soft)" }}>
+                    {v === "yes" ? "✓ yes" : "✗ no"}
+                  </button>
+                ))}
+              </div>
+            ))
+          ) : (
+            <>
+              {q.suggest && optionRow("suggest", "suggested fix", q.suggest)}
+              {q.draft && optionRow("draft", "AI original (removed)", q.draft)}
+              <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
+                <input type="radio" name={q.id} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
+                <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>✎ my own</span>
+                <input value={other} onChange={(e) => { setOther(e.target.value); setPick("other"); }} placeholder="type the natural Waray…"
+                  style={{ flex: 1, fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
+              </label>
+            </>
+          )}
+          <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
+            <button onClick={save} disabled={busy || !chosen}
+              style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: busy || !chosen ? 0.5 : 1 }}>
               {busy ? "Saving…" : "Confirm"}
             </button>
-            {q.draft && val === q.draft && <span style={{ fontSize: 11, color: "var(--sun)" }}>prefilled with the AI's attempt — please check the stress &amp; word order</span>}
+            {q.items && !chosen && <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>mark every item to confirm</span>}
             {err && <span style={{ fontSize: 11.5, color: "var(--coral)" }}>{err}</span>}
           </div>
         </div>

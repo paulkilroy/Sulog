@@ -44,8 +44,14 @@ export const ELLA_QUESTIONS = [
     id: "samar-variants",
     course: "all",
     topic: "Dialect · confirm variants",
-    q: "Confirm the Samar/Daram everyday forms we're assuming.",
-    detail: "di (for diri), sin (for hin), mayda (= may ada / there is), wara (= waray), gihap (= gihapon). Are these how you'd actually say them in Daram?",
+    q: "Are these the everyday Daram forms? Confirm or reject each.",
+    items: [
+      { k: "di", label: "di — short for diri (not)" },
+      { k: "sin", label: "sin — for hin (a/some, object marker)" },
+      { k: "mayda", label: "mayda — may ada (there is / has)" },
+      { k: "wara", label: "wara — for waray (none / did not)" },
+      { k: "gihap", label: "gihap — short for gihapon (also/still)" },
+    ],
   },
   {
     id: "p2-kila",
@@ -123,11 +129,12 @@ for (const r of REJECTED) {
   ELLA_QUESTIONS.push({
     id: "synth-" + slug(r.waray),
     course: "pc",
-    topic: `Lesson ${n} · missing ${r.where === "exam" ? "exam" : "drill"} answer`,
-    q: `How do you say: “${r.en}”?`,
+    topic: `Lesson ${n} · ${r.where === "exam" ? "exam" : "drill"}`,
+    q: `“${r.en}”`,                       // the English to translate IS the question
     prompt: r.en,
-    draft: r.waray,   // the AI's rejected attempt — prefilled as a starting point for correction
-    detail: `The AI wrote “${r.waray}” — removed: ${r.reason}. Correct it (or rewrite) and Confirm; the item returns to ${r.lesson}'s ${r.where} on the next content build.`,
+    suggest: r.suggest || null,           // the audit's proposed correction (needs her ear)
+    draft: r.waray,                       // the AI's rejected attempt
+    detail: r.reason.split(/[;—]/)[0].trim(),  // just the defect, one clause
   });
 }
 
