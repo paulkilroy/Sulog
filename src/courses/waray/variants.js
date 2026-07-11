@@ -90,3 +90,27 @@ export const CHUNKS = {
   "hain an":       "where is the …",
   "hain iton":     "where is that …",
 };
+
+// The GRADE-RELEVANT regional/colloquial forms (a curated subset of VARIANTS — spelling/OCR
+// variants like "sigi/karuayag" stay reader-only). Each is an individually checkable setting in
+// the Language door; presets bulk-select. Region attribution is community-reported and coarse —
+// refine with native speakers as we learn (the CHED standard is Leyte/Tacloban-based, so the
+// "standard" preset checks none).
+export const DIALECT_FORMS = [
+  { k: "di",    label: "di → diri (not)" },
+  { k: "wara",  label: "wara → waray (none / did not)" },
+  { k: "sin",   label: "sin → hin (a/some, object marker)" },
+  { k: "san",   label: "san → han (of/the, object marker)" },
+  { k: "sa",    label: "sa → ha (to/at/in)" },
+  { k: "gihap", label: "gihap → gihapon (also/still)" },
+  { k: "mayda", label: "mayda → may ada (there is / has)" },
+  { k: "siya",  label: "siya → hiya (he/she)" },
+  { k: "sino",  label: "sino → hin-o (who)" },
+  { k: "digto", label: "digto → didto (there, far)" },
+  { k: "kon",   label: "kon → kun (if/when)" },
+  { k: "ak",    label: "ak' → akon (my)" },
+];
+export const DIALECT_PRESETS = {
+  standard: { label: "Standard · Tacloban", forms: [] },
+  daram:    { label: "Daram · rural Samar", forms: ["di", "wara", "sin", "san", "sa", "gihap", "mayda", "siya", "sino", "digto", "kon", "ak"] },
+};

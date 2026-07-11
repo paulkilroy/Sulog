@@ -1,6 +1,6 @@
 /* Fill the pronunciation guide (dictionary.pronunciation, e.g. "mah-OO-pigh") for words that lack
    one, reusing the transliterator from build-respellings.mjs and taking STRESS from the accented
-   form we captured during dedup (variants[] / Tramp). Single words only (phrases handled elsewhere).
+   form we captured during dedup (variants[] / Tramp). Multi-word entries are COMPOSED from per-word guides (existing guide, else transliterated with Tramp stress).
    Preview by default; --apply writes. Needs SUPABASE_DB_URL. */
 import fs from "fs";
 import pg from "/Users/paulkilroy/dev/Sulog/node_modules/pg/lib/index.js";
@@ -83,11 +83,28 @@ console.log("  sample fills:", filled.slice(0, 10).map((f) => `${f.waray}→${f.
 const byFrom = filled.reduce((m, f) => (m[f.from] = (m[f.from] || 0) + 1, m), {});
 console.log("  stress source:", JSON.stringify(byFrom));
 
+// compose multi-word guides from per-word guides: each word's stored guide if it has one,
+// else transliterate it (Tramp stress, penultimate default). Phrase-level prosody (liaison,
+// phrase stress) is beyond us — but per-word is exactly how the guides are read aloud anyway.
+const wordGuide = new Map((await q("select waray, pronunciation from dictionary where pronunciation is not null and waray !~ ' '")).map((r) => [r.waray.toLowerCase(), r.pronunciation]));
+const guideFor = (w) => {
+  const lw = w.toLowerCase().replace(/[^a-zà-ÿ'\-]/g, "");
+  if (!lw) return null;
+  if (wordGuide.has(lw)) return wordGuide.get(lw);
+  const a = accentedFor(lw, []);
+  return respell(lw, stressIdx(a));
+};
+const missingMulti = await q("select waray from dictionary where (pronunciation is null or pronunciation = '') and waray ~ ' '");
+const multiFilled = missingMulti.map((r) => ({ waray: r.waray, say: r.waray.split(/\s+/).map(guideFor).filter(Boolean).join(" ") })).filter((f) => f.say);
+console.log(`\nmissing pronunciation (multi-word): ${missingMulti.length}`);
+console.log("  composed:", multiFilled.slice(0, 8).map((f) => `${f.waray}→${f.say}`).join("  |  "));
+
 if (APPLY) {
   await q("begin");
   for (const f of filled) await q("update dictionary set pronunciation=$2 where waray=$1", [f.waray, f.say]);
+  for (const f of multiFilled) await q("update dictionary set pronunciation=$2 where waray=$1", [f.waray, f.say]);
   await q("commit");
-  const p = (await q("select count(pronunciation) p, count(*) n from dictionary where waray !~ ' '"))[0];
-  console.log(`\n✓ applied — ${p.p}/${p.n} single words now have a pronunciation guide`);
+  const p = (await q("select count(pronunciation) p, count(*) n from dictionary"))[0];
+  console.log(`\n✓ applied — ${p.p}/${p.n} dictionary entries now have a pronunciation guide`);
 } else console.log("\n(preview — pass --apply to write)");
 await c.end();

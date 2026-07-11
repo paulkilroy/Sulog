@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
-import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
+import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
 import { CH2_LEVELS } from "./courses/waray/challenger2.js";
 const CH_LEVELS = { ...CH_LEVELS_1, ...CH2_LEVELS };
@@ -542,7 +542,7 @@ function checkAnswer(input, target, waray, spoken) {
     // dialect setting on, a typed dialect form also matches its canonical word ("wara" for "waray",
     // "sin" for "hin") — acceptance only ever widens, never narrows.
     const tW = t.split(" ");
-    const wordOk = (w, tw) => w === tw || (waray && _dialect === "daram" && warayFold(VARIANTS[w] || "") === tw) || lev(w, tw) <= _tol(tw.length);
+    const wordOk = (w, tw) => w === tw || (waray && _dialectForms.has(w) && warayFold(VARIANTS[w] || "") === tw) || lev(w, tw) <= _tol(tw.length);
     if (gotW.length === tW.length && gotW.every((w, i) => wordOk(w, tW[i]))) return true;
     if (!fuzzy) continue;
     // whole-phrase edit distance (natural variation / recognizer noise)
@@ -664,7 +664,7 @@ function mergeUnits(l, c) {
 let _voices = [];
 let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
-let _dialect = "standard"; // "standard" | "daram" — grading accepts VARIANTS dialect forms when daram
+let _dialectForms = new Set(); // enabled regional forms (keys into VARIANTS) — grading accepts exactly these
 
 // How well a voice's language approximates Waray. Waray is Austronesian:
 // Filipino/Tagalog is closest; Indonesian and Malay share the same 5-vowel,
@@ -810,7 +810,10 @@ export default function App() {
   useEffect(() => {
     _voiceURI = settings.voiceURI || null;
   }, [settings.voiceURI]);
-  useEffect(() => { _dialect = settings.dialect || "standard"; }, [settings.dialect]);
+  useEffect(() => {
+    const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(DIALECT_PRESETS.daram.forms.map((k) => [k, true])) : {});
+    _dialectForms = new Set(Object.keys(forms).filter((k) => forms[k]));
+  }, [settings.dialectForms, settings.dialect]);
 
   // load on mount. Every parse is individually guarded: ONE corrupt localStorage value (partial
   // write on quota, manual edit, old format) must cost only that record — never the boot. Without
@@ -1386,19 +1389,39 @@ function LanguageView({ ctx }) {
         </div>
         {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect" />
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect — accepted regional forms" />
         <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 14px", marginBottom: 14 }}>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {[["standard", "Standard Waray"], ["daram", "Daram (Samar) colloquial"]].map(([v, label]) => (
-              <button key={v} onClick={() => saveSettings({ ...settings, dialect: v })}
-                style={{ border: "1px solid " + ((settings.dialect || "standard") === v ? "var(--tide)" : "var(--sand-deep)"), background: (settings.dialect || "standard") === v ? "var(--tide)" : "var(--foam)", color: (settings.dialect || "standard") === v ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
-                {label}
-              </button>
-            ))}
-          </div>
-          <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7, lineHeight: 1.45 }}>
-            Daram mode also accepts everyday regional forms when you answer — <i>wara</i> (waray), <i>sin</i> (hin), <i>mayda</i>, <i>gihap</i>… Community-reported; being verified with a native speaker. Courses still teach the standard forms.
-          </div>
+          {(() => {
+            const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(DIALECT_PRESETS.daram.forms.map((k) => [k, true])) : {});
+            const setForms = (nf) => saveSettings({ ...settings, dialectForms: nf });
+            const onCount = DIALECT_FORMS.filter((f) => forms[f.k]).length;
+            return (
+              <>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                  {Object.entries(DIALECT_PRESETS).map(([id, p]) => {
+                    const active = p.forms.length === onCount && p.forms.every((k) => forms[k]);
+                    return (
+                      <button key={id} onClick={() => setForms(Object.fromEntries(p.forms.map((k) => [k, true])))}
+                        style={{ border: "1px solid " + (active ? "var(--tide)" : "var(--sand-deep)"), background: active ? "var(--tide)" : "var(--foam)", color: active ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
+                        {p.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))", gap: 2 }}>
+                  {DIALECT_FORMS.map((fm) => (
+                    <label key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "4px 2px", cursor: "pointer", color: forms[fm.k] ? "var(--ink)" : "var(--ink-soft)" }}>
+                      <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
+                      {fm.label}
+                    </label>
+                  ))}
+                </div>
+                <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7, lineHeight: 1.45 }}>
+                  Checked forms are ACCEPTED when you answer ({onCount} on). Presets preselect; adjust freely — region attributions are community-reported and refined as native speakers confirm. Courses still teach the standard forms.
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         <SectionLabel icon={<Volume2 size={14} />} text="Sound & speech" />

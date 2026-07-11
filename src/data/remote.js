@@ -27,7 +27,7 @@ export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").
 
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
-  fetchAll(() => supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind").order("waray")); // paginated: the queue exceeds PostgREST's ~1000-row cap
+  fetchAll(() => supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind", { ascending: false }).order("waray")); // words (drilled in lessons) before lexicon-only phrases; paginated defensively
 
 export const fetchCourses = () => rows(supabase.from("courses").select("*"));
 
