@@ -418,6 +418,12 @@ details.oralx .it{opacity:.55}
 .todo-entry .bad s{color:var(--sun);opacity:.85}
 .todo-entry .why{font-size:12px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
 .todo-entry .ans{margin-top:8px;border-top:1px dashed var(--sand-deep);padding-top:7px;font-size:12px;color:var(--sea)}
+.wgrp{margin:10px 0}.wgrp b{display:inline-block;width:22px;color:var(--ink-soft)}
+.wchip{display:inline-block;font-size:12px;border-radius:8px;padding:2px 8px;margin:2px 3px;border:1px solid var(--sand-deep);cursor:default}
+.c-pc{background:rgba(31,184,159,.16);color:#7fe0b0;border-color:rgba(31,184,159,.4)}
+.c-oth{background:rgba(28,176,184,.12);color:var(--sea)}
+.c-sent{background:rgba(244,165,58,.12);color:var(--sun)}
+.c-miss{background:rgba(240,122,102,.10);color:#ff9c8a;border-color:rgba(240,122,102,.35)}
 .nopg{font-size:12px;color:var(--ink-soft);padding:18px;border:1px dashed var(--sand-deep);border-radius:8px;margin-bottom:14px}
 /* index */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:18px 20px 60px}
@@ -503,53 +509,8 @@ for (let gi = 0; gi < nums.length; gi++) {
   fs.writeFileSync(`${OUT_DIR}/lesson-${n}.html`, html);
 }
 
-// ---- index ----
-const phaseOf = (n) => byNum[n][0].phase;
-let curPhase = null;
-const cardsHtml = nums.map((n) => {
-  const grp = byNum[n];
-  const allItems = grp.flatMap((L) => L.blocks.flatMap((b) => b.items));
-  const sents = allItems.filter((i) => i.verbatim !== null);
-  const synthN = sents.filter((i) => i.verbatim === false).length;
-  const hasGate = grp.some((L) => L.blocks.some((b) => b.gate && b.items.length));
-  const titles = grp.map((L) => L.title.replace(/^Lesson \d+[ab]? · /, "")).join(" · ");
-  const ph = phaseOf(n);
-  const head = ph !== curPhase ? `<div class="phz">${esc(ph)}</div>` : "";
-  curPhase = ph;
-  return head + `<a class="card" href="lesson-${n}.html"><div class="n">Lesson ${n}${hasGate ? " · &#128274; gated" : ""}</div><div class="t">${esc(titles)}</div><div class="m">${allItems.length} items · <span class="ok">${sents.length - synthN} &#10003; in book</span> · <span class="syn">${synthN} &#9998; synth</span></div></a>`;
-}).join("");
-fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course vs. Book — Peace Corps Waray</title><style>${CSS}</style>
-<header>
-  <h1>Peace Corps Waray — Course vs. Book</h1>
-  <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
-  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><a href="top1000.html">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
-</header>
-<div class="grid">${cardsHtml}</div>`);
-
-// ---- the Ella todo page: one entry per removed sentence, anchor-linkable from lesson stubs ----
-{
-  const groups = {};
-  for (const r of REJECTED) { const n = +(/pc-l(\d+)/.exec(r.lesson) || [])[1]; (groups[n] = groups[n] || []).push(r); }
-  const body = Object.keys(groups).map(Number).sort((a, b) => a - b).map((n) => `
-    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson ${n} <a href="lesson-${n}.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>` +
-    groups[n].map((r) => `
-    <div class="todo-entry" id="${slug(r.waray)}">
-      <div class="meta">${esc(r.lesson)} · ${esc(r.where)}${r.where === "exam" ? " (graded)" : ""}</div>
-      <div class="prompt">&ldquo;${esc(r.en)}&rdquo;</div>
-      <div class="bad">the AI extraction wrote: <s>${esc(r.waray)}</s></div>
-      <div class="why">${esc(r.reason)}</div>
-      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
-    </div>`).join("")).join("");
-  fs.writeFileSync(`${OUT_DIR}/ella-todo.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>${CSS}</style>
-<header>
-  <h1>&#128105; Ella todo — ${REJECTED.length} removed sentences</h1>
-  <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
-  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
-</header>
-<div style="padding:6px 20px 60px;max-width:860px">${body}</div>`);
-}
-
-// ---- top-1000 coverage page: which CHED top-1000 words the courses actually drill ----
+// ---- top-1000 coverage (rendered at the BOTTOM of the index page; #top1000) ----
+let t1kSection = "", t1kStats = null;
 {
   const CHED_NOISE = new Set(["author", "authors", "http", "https", "colon", "layout", "page", "email"]); // front-matter lines that parse like entries
   const chedText = fs.readFileSync("docs/sources/dictionaries/waray-first-1000-words-2013.txt", "utf8");
@@ -582,22 +543,63 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
   const cell = (r) => `<span class="wchip ${r.pc ? "c-pc" : r.other ? "c-oth" : r.sent ? "c-sent" : "c-miss"}" title="${esc(r.gloss)}${r.pc ? " · drilled in Peace Corps" : r.other ? " · drilled in a bundled course" : r.sent ? " · appears in PC sentences only" : " · not in any course"}">${esc(r.w)}</span>`;
   const groups = (list) => { const by = {}; for (const r of list) (by[r.w[0]] = by[r.w[0]] || []).push(r);
     return Object.keys(by).sort().map((k) => `<div class="wgrp"><b>${k.toUpperCase()}</b>${by[k].map(cell).join("")}</div>`).join(""); };
-  fs.writeFileSync(`${OUT_DIR}/top1000.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Top-1000 coverage</title><style>${CSS}
-.wgrp{margin:10px 0}.wgrp b{display:inline-block;width:22px;color:var(--ink-soft)}
-.wchip{display:inline-block;font-size:12px;border-radius:8px;padding:2px 8px;margin:2px 3px;border:1px solid var(--sand-deep);cursor:default}
-.c-pc{background:rgba(31,184,159,.16);color:#7fe0b0;border-color:rgba(31,184,159,.4)}
-.c-oth{background:rgba(28,176,184,.12);color:var(--sea)}
-.c-sent{background:rgba(244,165,58,.12);color:var(--sun)}
-.c-miss{background:rgba(240,122,102,.10);color:#ff9c8a;border-color:rgba(240,122,102,.35)}
-</style>
-<header>
-  <h1>Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400">· Oyzon/CHED word list</span></h1>
-  <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Hover a word for its gloss and status. Amber = appears inside PC sentences but is never taught directly.</p>
-  <div class="nav"><a href="index.html">&#8962; All lessons</a><span class="sp">green = PC &middot; teal = other course &middot; amber = sentence-only &middot; coral = missing everywhere</span></div>
-</header>
-<div style="padding:10px 20px 60px">${groups(rows)}</div>`);
+  t1kStats = stats1k;
+  t1kSection = `<div id="top1000" style="padding:6px 20px 60px;scroll-margin-top:20px">
+    <h2 style="font-size:17px;margin:26px 0 4px">&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
+    <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Hover a word for its gloss and status. Amber = appears inside PC sentences but never taught directly.</p>
+    ${groups(rows)}
+  </div>`;
   console.log(`top-1000: PC ${stats1k.pc}/${stats1k.total} · any course ${stats1k.any} · missing everywhere ${stats1k.missingAll}`);
 }
+
+// ---- index ----
+const phaseOf = (n) => byNum[n][0].phase;
+let curPhase = null;
+const cardsHtml = nums.map((n) => {
+  const grp = byNum[n];
+  const allItems = grp.flatMap((L) => L.blocks.flatMap((b) => b.items));
+  const sents = allItems.filter((i) => i.verbatim !== null);
+  const synthN = sents.filter((i) => i.verbatim === false).length;
+  const hasGate = grp.some((L) => L.blocks.some((b) => b.gate && b.items.length));
+  const titles = grp.map((L) => L.title.replace(/^Lesson \d+[ab]? · /, "")).join(" · ");
+  const ph = phaseOf(n);
+  const head = ph !== curPhase ? `<div class="phz">${esc(ph)}</div>` : "";
+  curPhase = ph;
+  return head + `<a class="card" href="lesson-${n}.html"><div class="n">Lesson ${n}${hasGate ? " · &#128274; gated" : ""}</div><div class="t">${esc(titles)}</div><div class="m">${allItems.length} items · <span class="ok">${sents.length - synthN} &#10003; in book</span> · <span class="syn">${synthN} &#9998; synth</span></div></a>`;
+}).join("");
+fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course vs. Book — Peace Corps Waray</title><style>${CSS}</style>
+<header>
+  <h1>Peace Corps Waray — Course vs. Book</h1>
+  <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
+  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><a href="#top1000">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
+</header>
+<div class="grid">${cardsHtml}</div>${t1kSection}`);
+
+// ---- the Ella todo page: one entry per removed sentence, anchor-linkable from lesson stubs ----
+{
+  const groups = {};
+  for (const r of REJECTED) { const n = +(/pc-l(\d+)/.exec(r.lesson) || [])[1]; (groups[n] = groups[n] || []).push(r); }
+  const body = Object.keys(groups).map(Number).sort((a, b) => a - b).map((n) => `
+    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson ${n} <a href="lesson-${n}.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>` +
+    groups[n].map((r) => `
+    <div class="todo-entry" id="${slug(r.waray)}">
+      <div class="meta">${esc(r.lesson)} · ${esc(r.where)}${r.where === "exam" ? " (graded)" : ""}</div>
+      <div class="prompt">&ldquo;${esc(r.en)}&rdquo;</div>
+      <div class="bad">the AI extraction wrote: <s>${esc(r.waray)}</s></div>
+      <div class="why">${esc(r.reason)}</div>
+      <div class="ans">Ella&rsquo;s Waray: ______________________________________</div>
+    </div>`).join("")).join("");
+  fs.writeFileSync(`${OUT_DIR}/ella-todo.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>${CSS}</style>
+<header>
+  <h1>&#128105; Ella todo — ${REJECTED.length} removed sentences</h1>
+  <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
+</header>
+<div style="padding:6px 20px 60px;max-width:860px">${body}</div>`);
+}
+
+
+fs.writeFileSync(`${OUT_DIR}/top1000.html`, `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=index.html#top1000"><a href="index.html#top1000">moved &rarr; index#top1000</a>`);
 
 // redirect for the old single-page URL (/verify.html)
 fs.writeFileSync("docs/preview/verify.html", `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/verify/"><title>Course vs. Book</title><a href="/verify/">Course vs. Book has moved &rarr; /verify/</a>`);
