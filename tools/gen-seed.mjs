@@ -5,7 +5,8 @@
                                                  + expressions (examples, apply, story lines)
                                                  + stories
      - docs/dictionary/phrases.json           -> dictionary phrases (survival, confirmed)
-     - docs/word-bank/phrase-idioms.json      -> dictionary phrases (idioms, confirmed=false = review list)
+     - (idioms EVICTED 2026-07-11: AI-authored, no source, no course uses them —
+        archived in docs/word-bank/phrase-idioms-archive.json; re-import only after native review)
    Classifies CH2 apply-phrases: idiomatic (in the dictionary set) -> dict ref; else -> expression.
    Run: node tools/gen-seed.mjs   (then validate with docs/schema/validate.mjs) */
 import fs from "fs";
@@ -14,7 +15,6 @@ const cards = (await import("../src/courses/waray/cards.js")).SEED;
 const P1 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase1.json", "utf8"));
 const P2 = JSON.parse(fs.readFileSync("docs/courses/challenger2/phase2.json", "utf8"));
 const survival = JSON.parse(fs.readFileSync("docs/dictionary/phrases.json", "utf8"));
-const idioms = JSON.parse(fs.readFileSync("docs/word-bank/phrase-idioms.json", "utf8")).idioms;
 
 const S = (v) => v == null ? "null" : "'" + String(v).replace(/'/g, "''") + "'";
 const B = (v) => v ? "true" : "false";
@@ -35,9 +35,8 @@ const putPhrase = (waray, meaning, pron, loan = null, confirmed = false) => {
 for (const r of ch2.SEED_CH2) if (!/\s/.test(r[1])) putWord(r[1], r[2], r[4], true);
 // Frequency word bank
 for (const r of cards) if (!/\s/.test(r[1])) putWord(r[1], r[2], r[4], true);
-// survival phrases (confirmed) + idioms (unconfirmed = review list)
+// survival phrases (confirmed). Idioms deliberately NOT loaded — see header.
 for (const p of survival) putPhrase(p.waray, p.meaning, p.pronunciation, p.loan || null, p.note && /pending/i.test(p.note) ? false : true);
-for (const x of idioms) putPhrase(x.war, x.en, null, x.loan || null, false);   // all idioms -> review list
 const dictPhrases = new Set([...dict.values()].filter((d) => d.kind === "phrase").map((d) => d.waray));
 
 // ---------- expressions (dedup by sentence) ----------

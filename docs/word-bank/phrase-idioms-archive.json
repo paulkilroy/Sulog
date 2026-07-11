@@ -1,0 +1,1193 @@
+{
+ "note": "AI-authored idiom proposals (Gemini phrase-mining) EVICTED from the live dictionary 2026-07-11: no source can vouch for them and no course/reader uses them. Re-import candidates for a future phrase course — AFTER native review. Pronunciations were composed from per-word guides.",
+ "phrases": [
+  {
+   "waray": "Igo na",
+   "meaning": "That's enough",
+   "pronunciation": "EE-go nah",
+   "loan": null,
+   "literal": "Enough already",
+   "category": "Command/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pag-usa han kamot",
+   "meaning": "To work together / To cooperate",
+   "pronunciation": "pag-OO-sah hahn kah-MOT",
+   "loan": null,
+   "literal": "Uniting of hand",
+   "category": "Rural Life/Community",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Hitaas na an gab-i",
+   "meaning": "Late at night",
+   "pronunciation": "hee-TAH-as nah ahn GAB-ee",
+   "loan": null,
+   "literal": "High already the night",
+   "category": "Time/Daily Routine",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Kon karuyag han Ginoo",
+   "meaning": "God willing / If God wills it",
+   "pronunciation": "kon kah-ROO-yag hahn gee-NO-o",
+   "loan": null,
+   "literal": "If wishes of the Lord",
+   "category": "Social Formula/Religious",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ikaw an bahala",
+   "meaning": "It's up to you / You decide",
+   "pronunciation": "ee-KOW ahn bah-HAH-lah",
+   "loan": null,
+   "literal": "You the responsible/in charge",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bisan hin-o",
+   "meaning": "Whoever / Anyone",
+   "pronunciation": "BEE-sahn HIN-o",
+   "loan": null,
+   "literal": "Even who",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Adlaw-adlaw",
+   "meaning": "Everyday / Daily",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Day-day",
+   "category": "Daily Life",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ha pagkayana la",
+   "meaning": "For now / Temporarily",
+   "pronunciation": "hah pag-kah-YAH-nah lah",
+   "loan": null,
+   "literal": "In the now just",
+   "category": "Time/Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-timbang daw.",
+   "meaning": "Please weigh it (for me).",
+   "pronunciation": "pah-kee-TIM-bang dow",
+   "loan": null,
+   "literal": "Please weigh.",
+   "category": "Shopping (Market)",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Nalumoy an tuhod ko",
+   "meaning": "My knees felt weak",
+   "pronunciation": "nah-LOO-moy ahn TOO-hod ko",
+   "loan": null,
+   "literal": "Softened the knees my",
+   "category": "Emotion, Fear, Shock",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mano po",
+   "meaning": "May I kiss your hand (a traditional gesture of respect to elders)",
+   "pronunciation": "MAH-no po",
+   "loan": "Tagalog",
+   "literal": "Hand sir/ma'am",
+   "category": "Respect for Elders",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Sakto ha oras",
+   "meaning": "To be punctual / On time",
+   "pronunciation": "SAK-to hah O-ras",
+   "loan": null,
+   "literal": "Exact in time",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Para han buwas",
+   "meaning": "For the future / Save for later / Save for a rainy day",
+   "pronunciation": "PAH-rah hahn BOO-was",
+   "loan": null,
+   "literal": "For the tomorrow",
+   "category": "Rural Life/Planning",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pagpasobra",
+   "meaning": "Don't go too far / Don't exaggerate / Don't overdo it",
+   "pronunciation": "ah-YOW pag-pah-SOB-rah",
+   "loan": null,
+   "literal": "Don't overdo",
+   "category": "Warning, Advice",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ha katapusan nga minuto",
+   "meaning": "At the last minute",
+   "pronunciation": "hah kah-tah-poo-SAN ngah mee-NOO-to",
+   "loan": "Spanish",
+   "literal": "At the last minute",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Hay naku!",
+   "meaning": "Oh dear! / Good grief! / For goodness sake!",
+   "pronunciation": "high NAH-koo",
+   "loan": "Tagalog",
+   "literal": "Hay naku! (Exclamation)",
+   "category": "Annoyance, Exasperation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Diri man maupay, diri man maraot",
+   "meaning": "So-so / Not bad, not good",
+   "pronunciation": "dee-REE man mah-OO-pigh dee-REE man mah-RAH-ot",
+   "loan": null,
+   "literal": "Not indeed good, not indeed bad",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Waray pulos",
+   "meaning": "Useless / Pointless / Worthless",
+   "pronunciation": "wah-RIGH poo-LOS",
+   "loan": null,
+   "literal": "No use",
+   "category": "General Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pag-upod-upod",
+   "meaning": "To socialize / To spend time together / To hang out",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Accompany-accompany",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Delikado",
+   "meaning": "It's dangerous / Be careful",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Dangerous",
+   "category": "Warning, Caution",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Nawawara an ulo",
+   "meaning": "Confused / Panicking / Losing one's mind",
+   "pronunciation": "nah-wah-wah-RAH ahn OO-lo",
+   "loan": null,
+   "literal": "Head is lost",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Igo na ini.",
+   "meaning": "That's my final offer (price). / I'll take it at this price.",
+   "pronunciation": "EE-go nah ee-NEE",
+   "loan": null,
+   "literal": "Enough already this.",
+   "category": "Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Balay-balay",
+   "meaning": "Playing house (children's game)",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "House-house",
+   "category": "Family",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Magsinabutay kita",
+   "meaning": "Let's come to an agreement / Let's reconcile",
+   "pronunciation": "mag-see-nah-BOO-tigh kee-TAH",
+   "loan": null,
+   "literal": "Let's understand each other",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw na la pagbarato.",
+   "meaning": "Don't haggle anymore (this is the lowest price).",
+   "pronunciation": "ah-YOW nah lah pag-bah-RAH-to",
+   "loan": null,
+   "literal": "Don't anymore just make cheaper.",
+   "category": "Haggling (Vendor's response)",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mag-iringgitan",
+   "meaning": "To argue / To bicker / To have a disagreement",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "To make noise at each other",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pagdali-dali",
+   "meaning": "To rush things / To do things hastily",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Hurry-hurry",
+   "category": "Daily Routine/Procrastination",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-sukli daw.",
+   "meaning": "Please give me my change.",
+   "pronunciation": "pah-kee-SOOK-lee dow",
+   "loan": null,
+   "literal": "Please change.",
+   "category": "Money/Transaction",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pag-amping",
+   "meaning": "Be careful",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Take care (imperative)",
+   "category": "Advice/Warning",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Kun sugad",
+   "meaning": "In that case / Then",
+   "pronunciation": "koon SOO-gad",
+   "loan": null,
+   "literal": "If so",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Malmo an dagat",
+   "meaning": "The sea is calm / The weather at sea is good",
+   "pronunciation": "MAL-mo ahn dah-GAT",
+   "loan": null,
+   "literal": "Calm the sea",
+   "category": "Weather/Sea",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Usa ka pamilya",
+   "meaning": "A united family / We are one family",
+   "pronunciation": "oo-SAH kah pah-MIL-yah",
+   "loan": null,
+   "literal": "One family",
+   "category": "Family",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Aray!",
+   "meaning": "Ouch!",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Aray! (Exclamation of pain)",
+   "category": "Pain, Exclamation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Iglabay an oras",
+   "meaning": "To kill time / To pass the time (while waiting)",
+   "pronunciation": "ig-LAH-bigh ahn O-ras",
+   "loan": null,
+   "literal": "To pass the time",
+   "category": "Time/Waiting",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Waray labot",
+   "meaning": "None of your business / It's irrelevant / It doesn't matter",
+   "pronunciation": "wah-RIGH LAH-bot",
+   "loan": null,
+   "literal": "No concern",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ginoo ko!",
+   "meaning": "Oh my God!",
+   "pronunciation": "gee-NO-o ko",
+   "loan": null,
+   "literal": "My Lord!",
+   "category": "Surprise, Exasperation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Malipayon an kasingkasing",
+   "meaning": "Feeling joyful / Contented",
+   "pronunciation": "mah-lee-PAH-yon ahn kah-seeng-KAH-seeng",
+   "loan": null,
+   "literal": "Heart is happy",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mata-mata",
+   "meaning": "Be vigilant / Watch out carefully",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Eye-eye",
+   "category": "Warning, Caution",
+   "miner_confidence": true
+  },
+  {
+   "waray": "An imo pagka-tawo",
+   "meaning": "Your character / Your personality (often in a moral sense)",
+   "pronunciation": "ahn EE-mo pag-kah-TAH-wo",
+   "loan": null,
+   "literal": "Your being a person",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Palihug la",
+   "meaning": "Just please / Come on, please",
+   "pronunciation": "pah-LEE-hoog lah",
+   "loan": null,
+   "literal": "Please just",
+   "category": "Encouragement, Teasing, Impatience",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Walang anuman",
+   "meaning": "You're welcome",
+   "pronunciation": "wah-LANG ah-noo-MAN",
+   "loan": "Tagalog",
+   "literal": null,
+   "category": null,
+   "miner_confidence": null
+  },
+  {
+   "waray": "Waray na presyo.",
+   "meaning": "It's practically free. / No fixed price (very cheap).",
+   "pronunciation": "wah-RIGH nah PRES-yo",
+   "loan": "Spanish",
+   "literal": "No more price.",
+   "category": "Shopping/Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Depende",
+   "meaning": "It depends",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Depend",
+   "category": "Discourse/Plans",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Makaluluoy man",
+   "meaning": "What a pity / How sad",
+   "pronunciation": "mah-kah-loo-LOO-oy man",
+   "loan": null,
+   "literal": "How pitiful indeed",
+   "category": "Expression of emotion",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mag-asawa",
+   "meaning": "Married couple",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "To be husband and wife",
+   "category": "Family",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Sayu pa",
+   "meaning": "It's still early (in the day/event)",
+   "pronunciation": "SAH-yoo pah",
+   "loan": null,
+   "literal": "Early still",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Igsinggit an imo ngaran",
+   "meaning": "To speak highly of someone / To praise someone's good reputation",
+   "pronunciation": "ig-SING-git ahn EE-mo NGAH-ran",
+   "loan": null,
+   "literal": "Shout your name",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bilihin ko na la.",
+   "meaning": "I'll take it (I've decided to buy it).",
+   "pronunciation": "bee-LEE-hin ko nah lah",
+   "loan": null,
+   "literal": "I'll just buy it.",
+   "category": "Buying/Selling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Opo",
+   "meaning": "Yes (respectful response to an elder or superior)",
+   "pronunciation": null,
+   "loan": "Tagalog",
+   "literal": "Yes (sir/ma'am)",
+   "category": "Respect for Elders",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-balot daw.",
+   "meaning": "Please wrap/pack it (for me).",
+   "pronunciation": "pah-kee-BAH-lot dow",
+   "loan": null,
+   "literal": "Please wrap.",
+   "category": "Shopping",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Naabot an balita",
+   "meaning": "Word got around / The news spread",
+   "pronunciation": "nah-ah-BOT ahn bah-lee-TAH",
+   "loan": null,
+   "literal": "The news arrived",
+   "category": "Gossip, Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Diri nakikita",
+   "meaning": "Invisible / Hidden (often implies something is being kept secret or is not obvious)",
+   "pronunciation": "dee-REE nah-kee-KEE-tah",
+   "loan": null,
+   "literal": "Not seen",
+   "category": "General Discourse, Gossip",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Hala bira!",
+   "meaning": "Go for it! / Let's go! / Full speed ahead! (an encouragement)",
+   "pronunciation": "hah-LAH BEE-rah",
+   "loan": "Spanish",
+   "literal": "Go pull!",
+   "category": "General Discourse, Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Kun diri",
+   "meaning": "Otherwise",
+   "pronunciation": "koon dee-REE",
+   "loan": null,
+   "literal": "If not",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Dugo an katubtuban",
+   "meaning": "Blood is thicker than water / Family ties are paramount",
+   "pronunciation": "DOO-go ahn kah-toob-TOO-ban",
+   "loan": null,
+   "literal": "Blood is the end",
+   "category": "Family",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Kitaon ta la",
+   "meaning": "Let's see / We'll see",
+   "pronunciation": "kee-TAH-on tah lah",
+   "loan": null,
+   "literal": "See we just",
+   "category": "Discourse/Plans",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Igsayang an oras",
+   "meaning": "To waste time (as an action)",
+   "pronunciation": "ig-SAH-yang ahn O-ras",
+   "loan": null,
+   "literal": "To waste the time",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Maiha",
+   "meaning": "To take a long time / To be slow",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Long time",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mayda ka ba baratohon?",
+   "meaning": "Do you have anything cheaper? / Do you have a cheaper option?",
+   "pronunciation": "migh-DAH kah bah bah-rah-TO-hon",
+   "loan": null,
+   "literal": "Do you have anything cheap/cheaper?",
+   "category": "Shopping/Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Waray problema",
+   "meaning": "No problem",
+   "pronunciation": "wah-RIGH prob-LEH-mah",
+   "loan": "Spanish",
+   "literal": "No problem",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-pili daw.",
+   "meaning": "Please choose (the good ones for me).",
+   "pronunciation": "pah-kee-PEE-lee dow",
+   "loan": null,
+   "literal": "Please choose.",
+   "category": "Shopping (Market)",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ay!",
+   "meaning": "Oh! / Ouch! / Goodness!",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Ay! (Exclamation)",
+   "category": "Surprise, Pain, Exclamation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bisan diin",
+   "meaning": "Wherever / Anywhere",
+   "pronunciation": "BEE-sahn dee-EEN",
+   "loan": null,
+   "literal": "Even where",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ngan pala",
+   "meaning": "By the way",
+   "pronunciation": "ngahn PAH-lah",
+   "loan": "Tagalog",
+   "literal": "And by the way (Tagalog particle)",
+   "category": "Discourse Marker",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Sige la!",
+   "meaning": "Go for it! / Keep going! / Never mind, just do it!",
+   "pronunciation": "SEE-geh lah",
+   "loan": null,
+   "literal": "Go just!",
+   "category": "Encouragement, Dismissal",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bisan ano",
+   "meaning": "Whatever / Anything",
+   "pronunciation": "BEE-sahn ah-NO",
+   "loan": null,
+   "literal": "Even what",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Siguro",
+   "meaning": "Maybe / Perhaps",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Perhaps",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Panginano",
+   "meaning": "To inquire / To ask for details (often about someone's well-being or situation)",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "To ask what",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Makuri an dagat",
+   "meaning": "The sea is rough / The weather at sea is bad",
+   "pronunciation": "mah-KOO-ree ahn dah-GAT",
+   "loan": null,
+   "literal": "Difficult the sea",
+   "category": "Weather/Sea",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Diri la",
+   "meaning": "Not only",
+   "pronunciation": "dee-REE lah",
+   "loan": null,
+   "literal": "Not just",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pagpabaya",
+   "meaning": "Don't be careless / Don't neglect your duties/responsibilities",
+   "pronunciation": "ah-YOW pag-pah-BAH-yah",
+   "loan": null,
+   "literal": "Don't neglect",
+   "category": "Warning, Advice",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bantay!",
+   "meaning": "Watch out! / Look out! / Be on guard!",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Guard!",
+   "category": "Warning, Caution",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pagdali",
+   "meaning": "Hurry up",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Hurry (imperative)",
+   "category": "Command",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Igsibog",
+   "meaning": "To postpone / To put off (an event, task)",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "To move back",
+   "category": "Plans/Procrastination",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Baga hin nag-iihap",
+   "meaning": "Looks like someone is calculating (often implying stinginess or being overly cautious with resources)",
+   "pronunciation": "BAH-gah heen nag-ee-EE-hap",
+   "loan": null,
+   "literal": "Looks like counting",
+   "category": "Social Relationships, Gossip",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mag-istorya kita",
+   "meaning": "Let's chat / Let's talk",
+   "pronunciation": "mag-is-TOR-yah kee-TAH",
+   "loan": null,
+   "literal": "Let's tell stories",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pwede pa makabarato?",
+   "meaning": "Can I still get a discount? / Is there a lower price?",
+   "pronunciation": "PWEH-deh pah mah-kah-bah-RAH-to",
+   "loan": null,
+   "literal": "Can still get cheaper?",
+   "category": "Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Barato la ini.",
+   "meaning": "This is very cheap (come on, buy it). / It's just cheap.",
+   "pronunciation": "bah-RAH-to lah ee-NEE",
+   "loan": null,
+   "literal": "Cheap just this.",
+   "category": "Selling/Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-menos daw.",
+   "meaning": "Please lower the price (a bit). / Can you give a small discount?",
+   "pronunciation": "pah-kee-MEH-nos dow",
+   "loan": "Spanish",
+   "literal": "Please lessen/reduce.",
+   "category": "Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Dayon kamo!",
+   "meaning": "Welcome! Come in!",
+   "pronunciation": "DAH-yon kah-MAW",
+   "loan": null,
+   "literal": "Enter you (plural)!",
+   "category": "Hospitality",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ha pagkamatuod",
+   "meaning": "Actually / In fact / To tell the truth",
+   "pronunciation": "hah pag-kah-mah-TOO-od",
+   "loan": null,
+   "literal": "In the truth",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mauna",
+   "meaning": "To be early / To arrive first",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Will be first",
+   "category": "Time/Being Late",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Panapanahon",
+   "meaning": "From time to time / Occasionally",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Time-time",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bisan san-o",
+   "meaning": "Whenever / Anytime",
+   "pronunciation": "BEE-sahn SAN-o",
+   "loan": null,
+   "literal": "Even when",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ginsisikreto",
+   "meaning": "Something is being hidden / It's a secret",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Being kept secret",
+   "category": "Gossip, Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Maiha na kita waray magkita",
+   "meaning": "Long time no see",
+   "pronunciation": "mah-EE-hah nah kee-TAH wah-RIGH mag-KEE-tah",
+   "loan": null,
+   "literal": "Long already we none to see each other",
+   "category": "Social Formula",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pangumusta",
+   "meaning": "To extend greetings (on behalf of someone or generally)",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "To ask how",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pag-abat",
+   "meaning": "Don't take it to heart / Don't be too sensitive",
+   "pronunciation": "ah-YOW pag-AH-bat",
+   "loan": null,
+   "literal": "Don't feel",
+   "category": "Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Makuri an dughan",
+   "meaning": "Heartbroken / Feeling heavy-hearted",
+   "pronunciation": "mah-KOO-ree ahn DOOG-han",
+   "loan": null,
+   "literal": "Difficult the chest",
+   "category": "Emotion, Sadness",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Unina na la, unina na la",
+   "meaning": "Later, later (expression of procrastination)",
+   "pronunciation": "oo-NEE-nah nah lah oo-NEE-nah nah lah",
+   "loan": null,
+   "literal": "Later just, later just",
+   "category": "Procrastination",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Tabi po",
+   "meaning": "Excuse me (when passing in front of elders, or asking permission to pass, or acknowledging unseen spirits)",
+   "pronunciation": "tah-BEE po",
+   "loan": "Tagalog",
+   "literal": "Side sir/ma'am",
+   "category": "Respect for Elders, Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Sakto la an pag-abot",
+   "meaning": "Just in time (for arrival)",
+   "pronunciation": "SAK-to lah ahn pag-AH-bot",
+   "loan": null,
+   "literal": "Exact just the arrival",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ika-duha nga hunahuna",
+   "meaning": "Second thought / Reconsideration",
+   "pronunciation": "ee-kah-DOO-hah ngah hoo-nah-HOO-nah",
+   "loan": null,
+   "literal": "Second thought",
+   "category": "General Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Waray na kapin.",
+   "meaning": "I have no exact change. / No more excess (money for change).",
+   "pronunciation": "wah-RIGH nah kah-PIN",
+   "loan": null,
+   "literal": "No more excess.",
+   "category": "Money/Transaction",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pwede ba utang?",
+   "meaning": "Can I buy on credit? / Can I pay later?",
+   "pronunciation": "PWEH-deh bah OO-tang",
+   "loan": null,
+   "literal": "Can (it be) debt?",
+   "category": "Money/Transaction",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Parayaw",
+   "meaning": "Boasting / Showing off (often with a negative connotation of arrogance)",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Show off",
+   "category": "Social Relationships, Gossip",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bawi-on an nawawara nga oras",
+   "meaning": "To make up for lost time",
+   "pronunciation": "bah-WEE-on ahn nah-wah-wah-RAH ngah O-ras",
+   "loan": null,
+   "literal": "To recover the lost time",
+   "category": "Time",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Nalukso an kasingkasing ko",
+   "meaning": "My heart skipped a beat",
+   "pronunciation": "nah-LOOK-so ahn kah-seeng-KAH-seeng ko",
+   "loan": null,
+   "literal": "Jumped the heart my",
+   "category": "Emotion, Surprise, Fear",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-lista daw.",
+   "meaning": "Please list it (as a debt).",
+   "pronunciation": "pah-kee-LIS-tah dow",
+   "loan": "Spanish",
+   "literal": "Please list.",
+   "category": "Money/Transaction",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw na la",
+   "meaning": "Never mind / Let it be",
+   "pronunciation": "ah-YOW nah lah",
+   "loan": null,
+   "literal": "Don't already just",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ano ba!",
+   "meaning": "What the heck! / Come on! / What is it now?!",
+   "pronunciation": "ah-NO bah",
+   "loan": "Tagalog",
+   "literal": "What then!",
+   "category": "Annoyance, Impatience",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-tagay daw",
+   "meaning": "Please pour a drink (implies sharing in a social setting)",
+   "pronunciation": "pah-kee-TAH-gigh dow",
+   "loan": null,
+   "literal": "Please pour (drink)",
+   "category": "Hospitality, Social Relationships",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mas o menus",
+   "meaning": "More or less",
+   "pronunciation": "mas o MEH-noos",
+   "loan": "Spanish",
+   "literal": "More or less",
+   "category": "Discourse/Pragmatic",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-dugang daw.",
+   "meaning": "Please add a little more (to the quantity).",
+   "pronunciation": "pah-kee-DOO-gang dow",
+   "loan": null,
+   "literal": "Please add.",
+   "category": "Shopping/Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pag-amping la",
+   "meaning": "Take care (as a farewell)",
+   "pronunciation": "pag-AM-ping lah",
+   "loan": null,
+   "literal": "Just take care",
+   "category": "Social Formula/Farewell",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bungto-bungto",
+   "meaning": "Widespread gossip / Rumors spreading everywhere",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "town-town",
+   "category": "Gossip",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Diri na",
+   "meaning": "Not anymore / No longer",
+   "pronunciation": "dee-REE nah",
+   "loan": null,
+   "literal": "Not already",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pagduhaduha",
+   "meaning": "Don't hesitate",
+   "pronunciation": "ah-YOW pag-doo-hah-DOO-hah",
+   "loan": null,
+   "literal": "Don't doubt",
+   "category": "Encouragement, Advice",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pakaonon ta an aton bisita",
+   "meaning": "Let's prepare food for our guest (a strong expression of hospitality)",
+   "pronunciation": "pah-kah-O-non tah ahn AH-ton bee-SEE-tah",
+   "loan": null,
+   "literal": "Let's feed our visitor",
+   "category": "Hospitality",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bisan ano man an matabo",
+   "meaning": "Whatever happens / Come what may",
+   "pronunciation": "BEE-sahn ah-NO man ahn mah-TAH-bo",
+   "loan": null,
+   "literal": "Even anything also that happen",
+   "category": "Discourse/Plans",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ambot la",
+   "meaning": "I don't know / Who knows?",
+   "pronunciation": "am-BOT lah",
+   "loan": null,
+   "literal": "I don't know just",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ihap an mga bituon",
+   "meaning": "To do something impossible / To waste time on a futile task",
+   "pronunciation": "ee-HAP ahn mah-NGAH bee-TOO-on",
+   "loan": null,
+   "literal": "Count the stars",
+   "category": "General Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Maatraso",
+   "meaning": "To be delayed / To be late (for an appointment/event)",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Will be delayed",
+   "category": "Time/Being Late",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Sige na",
+   "meaning": "Go on / Come on / Please (used for urging, giving permission, or encouragement)",
+   "pronunciation": "SEE-geh nah",
+   "loan": "Tagalog",
+   "literal": "Okay already",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ngan ano man?",
+   "meaning": "So what? / What's the big deal?",
+   "pronunciation": "ngahn ah-NO man",
+   "loan": null,
+   "literal": "And what then?",
+   "category": "Annoyance, Dismissal",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pakyawon ko na la.",
+   "meaning": "I'll buy it all (wholesale/the whole lot).",
+   "pronunciation": "pak-YAH-won ko nah lah",
+   "loan": null,
+   "literal": "I'll just buy it all.",
+   "category": "Buying/Selling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pag-alang-alang",
+   "meaning": "Make yourself at home / Don't hesitate to ask for anything",
+   "pronunciation": "ah-YOW pag-ah-lang-AH-lang",
+   "loan": null,
+   "literal": "Don't hesitate",
+   "category": "Hospitality",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Ayaw pag-istoryahi",
+   "meaning": "Don't gossip about him/her / Don't spread rumors",
+   "pronunciation": "ah-YOW pag-is-tor-YAH-hee",
+   "loan": null,
+   "literal": "Don't talk about him/her",
+   "category": "Gossip",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Baga hin uuran",
+   "meaning": "It looks like it's going to rain",
+   "pronunciation": "BAH-gah heen oo-OO-ran",
+   "loan": null,
+   "literal": "Looks like of rain",
+   "category": "Weather",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-abot daw.",
+   "meaning": "Please pass it (to me). / Please hand it over.",
+   "pronunciation": "pah-kee-AH-bot dow",
+   "loan": null,
+   "literal": "Please reach/pass.",
+   "category": "Shopping (interacting with vendor)",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Susmaryosep!",
+   "meaning": "Oh my God! / Good heavens!",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Jesus, Mary, Joseph!",
+   "category": "Surprise, Exasperation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Anay la",
+   "meaning": "Just a moment / Wait a bit / Hold on",
+   "pronunciation": "AH-nigh lah",
+   "loan": null,
+   "literal": "First just",
+   "category": "Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Paki-hulog daw.",
+   "meaning": "Please bring it down (from up there).",
+   "pronunciation": "pah-kee-HOO-log dow",
+   "loan": null,
+   "literal": "Please drop/lower.",
+   "category": "Shopping (Market)",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Basta!",
+   "meaning": "Just because! / That's it! / No more discussion!",
+   "pronunciation": null,
+   "loan": "Spanish",
+   "literal": "Enough! / Provided that!",
+   "category": "Dismissal, Annoyance",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Panahon na",
+   "meaning": "It's time / Time to go / It's about time",
+   "pronunciation": "pah-nah-HON nah",
+   "loan": null,
+   "literal": "Time already",
+   "category": "Daily Life/Discourse",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Hala sige!",
+   "meaning": "Come on, go ahead! / You can do it!",
+   "pronunciation": "hah-LAH SEE-geh",
+   "loan": null,
+   "literal": "Hala go!",
+   "category": "Encouragement",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Bumalik ako unina.",
+   "meaning": "I'll come back later (to buy).",
+   "pronunciation": "boo-MAH-lik ah-KAW oo-NEE-nah",
+   "loan": null,
+   "literal": "I'll return later.",
+   "category": "Shopping/Future Action",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Swertihon ka unta",
+   "meaning": "Good luck",
+   "pronunciation": "swer-TEE-hon kah oon-TAH",
+   "loan": "Spanish",
+   "literal": "Lucky you hopefully",
+   "category": "Social Formula",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Mahal an presyo.",
+   "meaning": "The price is too high. / It's expensive.",
+   "pronunciation": "mah-HAL ahn PRES-yo",
+   "loan": "Spanish",
+   "literal": "Expensive the price.",
+   "category": "Haggling",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Aba!",
+   "meaning": "Oh my! / Wow! / Goodness!",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Aba! (Exclamation)",
+   "category": "Surprise, Exclamation",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Tigda-tigda",
+   "meaning": "Little by little / Gradually",
+   "pronunciation": null,
+   "loan": null,
+   "literal": "Piece by piece",
+   "category": "Manner/Adverbial",
+   "miner_confidence": true
+  },
+  {
+   "waray": "Pa-cute",
+   "meaning": "Flirting / Trying to be endearing / Acting cute",
+   "pronunciation": null,
+   "loan": "Tagalog",
+   "literal": "To make cute",
+   "category": "Teasing, Social",
+   "miner_confidence": true
+  }
+ ]
+}
