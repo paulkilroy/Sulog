@@ -2667,8 +2667,16 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   // record the graded result once (pass is sticky in markUnitReview; gates share the same store)
   useEffect(() => { if (isReview && effTotal > 0) markUnitReview(gradedId, acc, passed); }, []);
 
-  // Review missed keeps the whole-set frame (base); Review all is a fresh full run.
-  const reviewMissed = () => { setSession({ ...session, only: missedIds, limit: missedIds.length, base: { total: effTotal, priorRight: effRight }, nonce: Date.now() }); setView("session"); };
+  // Retrying a GRADED run (gate / unit review) must not raise the grade: passing requires ONE CLEAN
+  // FULL RUN. "Practice missed" re-drills the misses unscored (gate/unitReview stripped, so the
+  // done-screen doesn't call markUnitReview); "Retake" re-runs the whole set graded, from zero.
+  // Ungraded lesson parts keep the old accumulate-the-frame behavior — there it's just practice.
+  const reviewMissed = () => {
+    const s = { ...session, only: missedIds, limit: missedIds.length, nonce: Date.now() };
+    if (isReview) { delete s.gate; delete s.unitReview; delete s.base; s.practice = true; }
+    else s.base = { total: effTotal, priorRight: effRight };
+    setSession(s); setView("session");
+  };
   const reviewAll = () => { const s = { ...session, only: allIds, limit: allIds.length, nonce: Date.now() }; delete s.base; setSession(s); setView("session"); };
 
   // primary "keep going" action: the next part of this lesson, else the next
@@ -2763,8 +2771,9 @@ function SessionDone({ ctx, tally, total, results = [] }) {
           )}
           {results.length > 0 && (
             <>
-              {missedIds.length > 0 && <button className={nextAction ? "ws-ghost-btn" : "ws-start"} onClick={reviewMissed}><RotateCcw size={17} /> Review missed</button>}
-              <button className={(nextAction || missedIds.length > 0) ? "ws-ghost-btn" : "ws-start"} onClick={reviewAll}><RotateCcw size={17} /> Review all</button>
+              {missedIds.length > 0 && <button className={nextAction || isReview ? "ws-ghost-btn" : "ws-start"} onClick={reviewMissed}><RotateCcw size={17} /> {isReview ? "Practice missed (unscored)" : "Review missed"}</button>}
+              {isReview && !passed && <button className="ws-start" onClick={reviewAll}><RotateCcw size={17} /> Retake the exam</button>}
+              {!(isReview && !passed) && <button className={(nextAction || missedIds.length > 0) ? "ws-ghost-btn" : "ws-start"} onClick={reviewAll}><RotateCcw size={17} /> Review all</button>}
             </>
           )}
           {inLesson ? (
