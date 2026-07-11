@@ -557,6 +557,7 @@ let t1kSection = "", t1kStats = null;
     <h2 style="font-size:17px;margin:26px 0 4px">&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
     <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Sorted by frequency (approximate — counted over our corpus, ~49k tokens; official ranks pending). Hover a word for its rank, count, gloss and status. Amber = appears inside PC sentences but never taught directly; *rare = zero corpus hits.</p>
     ${groups(rows)}
+    <p style="margin-top:22px;font-size:11.5px;color:var(--ink-soft);line-height:1.5">Waray vocabulary data sourced from <i>First 1000 Commonly Used Words in Waray</i> (2013) by Voltaire Q. Oyzon, John Mark Fullmer, and Evelyn C. Cruzada via <a href="https://corporaproject.org" target="_blank" rel="noopener">corporaproject.org</a></p>
   </div>`;
   console.log(`top-1000: PC ${stats1k.pc}/${stats1k.total} · any course ${stats1k.any} · missing everywhere ${stats1k.missingAll}`);
 }
