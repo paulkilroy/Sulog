@@ -536,17 +536,26 @@ let t1kSection = "", t1kStats = null;
     const { SEED_CH2 } = await import("../src/courses/waray/challenger2.js");
     for (const rows of [SEED, SEED_CH, SEED_CH2]) for (const r of rows) if (!/\s/.test(r[1].trim())) bundled.add(normW(r[1]));
   } catch (e) { console.error("bundled seeds not loadable:", e.message); }
+  // approximate frequency: occurrences across the CHED book's own example text + the full PC OCR
+  // (~49k tokens; same counting method as tools/build-frequency.mjs — the official 1..1000 ranks
+  // from corporaproject.org are still pending, so this ordering is corpus-derived, not canonical)
+  const freqText = normW(chedText + " " + ocr);
+  const counts = new Map();
+  for (const t of freqText.split(/[^a-z'\-]+/)) if (ched.has(t)) counts.set(t, (counts.get(t) || 0) + 1);
   const rows = [];
-  for (const [w, gloss] of ched) rows.push({ w, gloss, pc: pcDrill.has(w), sent: pcSent.has(w), other: bundled.has(w) });
+  for (const [w, gloss] of ched) rows.push({ w, gloss, n: counts.get(w) || 0, pc: pcDrill.has(w), sent: pcSent.has(w), other: bundled.has(w) });
+  rows.sort((a, b) => b.n - a.n || a.w.localeCompare(b.w));
+  rows.forEach((r, i) => (r.rank = i + 1));
   const missingAll = rows.filter((r) => !r.pc && !r.other && !r.sent);
   const stats1k = { total: ched.size, pc: rows.filter((r) => r.pc).length, any: rows.filter((r) => r.pc || r.other).length, missingAll: missingAll.length };
-  const cell = (r) => `<span class="wchip ${r.pc ? "c-pc" : r.other ? "c-oth" : r.sent ? "c-sent" : "c-miss"}" title="${esc(r.gloss)}${r.pc ? " · drilled in Peace Corps" : r.other ? " · drilled in a bundled course" : r.sent ? " · appears in PC sentences only" : " · not in any course"}">${esc(r.w)}</span>`;
-  const groups = (list) => { const by = {}; for (const r of list) (by[r.w[0]] = by[r.w[0]] || []).push(r);
-    return Object.keys(by).sort().map((k) => `<div class="wgrp"><b>${k.toUpperCase()}</b>${by[k].map(cell).join("")}</div>`).join(""); };
+  const cell = (r) => `<span class="wchip ${r.pc ? "c-pc" : r.other ? "c-oth" : r.sent ? "c-sent" : "c-miss"}" title="#${r.rank} · ${r.n}× in corpus · ${esc(r.gloss)}${r.pc ? " · drilled in Peace Corps" : r.other ? " · drilled in a bundled course" : r.sent ? " · appears in PC sentences only" : " · not in any course"}">${esc(r.w)}</span>`;
+  const groups = (list) => { const by = new Map();
+    for (const r of list) { const k = r.n === 0 ? "unattested" : `${Math.floor((r.rank - 1) / 100) * 100 + 1}–${Math.floor((r.rank - 1) / 100) * 100 + 100}`; (by.get(k) || by.set(k, []).get(k)).push(r); }
+    return [...by.entries()].map(([k, rs]) => `<div class="wgrp"><b style="width:86px">${k === "unattested" ? "rare*" : "#" + k}</b>${rs.map(cell).join("")}</div>`).join(""); };
   t1kStats = stats1k;
   t1kSection = `<div id="top1000" style="padding:6px 20px 60px;scroll-margin-top:20px">
     <h2 style="font-size:17px;margin:26px 0 4px">&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
-    <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Hover a word for its gloss and status. Amber = appears inside PC sentences but never taught directly.</p>
+    <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Sorted by frequency (approximate — counted over our corpus, ~49k tokens; official ranks pending). Hover a word for its rank, count, gloss and status. Amber = appears inside PC sentences but never taught directly; *rare = zero corpus hits.</p>
     ${groups(rows)}
   </div>`;
   console.log(`top-1000: PC ${stats1k.pc}/${stats1k.total} · any course ${stats1k.any} · missing everywhere ${stats1k.missingAll}`);
