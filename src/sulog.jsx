@@ -1412,7 +1412,7 @@ function LanguageView({ ctx }) {
                   {DIALECT_FORMS.map((fm) => (
                     <label key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "4px 2px", cursor: "pointer", color: forms[fm.k] ? "var(--ink)" : "var(--ink-soft)" }}>
                       <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
-                      {fm.label}
+                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span></span>
                     </label>
                   ))}
                 </div>

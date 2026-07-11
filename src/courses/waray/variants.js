@@ -96,19 +96,20 @@ export const CHUNKS = {
 // the Language door; presets bulk-select. Region attribution is community-reported and coarse —
 // refine with native speakers as we learn (the CHED standard is Leyte/Tacloban-based, so the
 // "standard" preset checks none).
+// rel + canon render as prose ("di — short for *diri* (not)"); no arrow shorthand in the UI
 export const DIALECT_FORMS = [
-  { k: "di",    label: "di → diri (not)" },
-  { k: "wara",  label: "wara → waray (none / did not)" },
-  { k: "sin",   label: "sin → hin (a/some, object marker)" },
-  { k: "san",   label: "san → han (of/the, object marker)" },
-  { k: "sa",    label: "sa → ha (to/at/in)" },
-  { k: "gihap", label: "gihap → gihapon (also/still)" },
-  { k: "mayda", label: "mayda → may ada (there is / has)" },
-  { k: "siya",  label: "siya → hiya (he/she)" },
-  { k: "sino",  label: "sino → hin-o (who)" },
-  { k: "digto", label: "digto → didto (there, far)" },
-  { k: "kon",   label: "kon → kun (if/when)" },
-  { k: "ak",    label: "ak' → akon (my)" },
+  { k: "di",    rel: "short for", canon: "diri",    gloss: "not" },
+  { k: "wara",  rel: "for",       canon: "waray",   gloss: "none / did not" },
+  { k: "sin",   rel: "for",       canon: "hin",     gloss: "a/some, object marker" },
+  { k: "san",   rel: "for",       canon: "han",     gloss: "of/the, object marker" },
+  { k: "sa",    rel: "for",       canon: "ha",      gloss: "to/at/in" },
+  { k: "gihap", rel: "short for", canon: "gihapon", gloss: "also/still" },
+  { k: "mayda", rel: "fused",     canon: "may ada", gloss: "there is / has" },
+  { k: "siya",  rel: "for",       canon: "hiya",    gloss: "he/she" },
+  { k: "sino",  rel: "for",       canon: "hin-o",   gloss: "who" },
+  { k: "digto", rel: "for",       canon: "didto",   gloss: "there, far" },
+  { k: "kon",   rel: "for",       canon: "kun",     gloss: "if/when" },
+  { k: "ak",    rel: "clipped",   canon: "akon",    gloss: "my" },
 ];
 export const DIALECT_PRESETS = {
   standard: { label: "Standard · Tacloban", forms: [] },
