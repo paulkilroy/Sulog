@@ -27,7 +27,7 @@ export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").
 
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
-  rows(supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind"));
+  fetchAll(() => supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind").order("waray")); // paginated: the queue exceeds PostgREST's ~1000-row cap
 
 export const fetchCourses = () => rows(supabase.from("courses").select("*"));
 

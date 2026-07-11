@@ -8,7 +8,8 @@
     "seed": "node tools/gen-pc-seed.mjs",
     "reload": "node --env-file=.env.local tools/reload-pc.mjs",
     "preview": "node --env-file=.env.local tools/gen-course-preview.mjs",
-    "all": "npm run seed && npm run reload && npm run build"
+    "all": "npm run seed && npm run reload && npm run build",
+    "rls": "node tools/rls-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",

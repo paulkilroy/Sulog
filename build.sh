@@ -14,7 +14,8 @@ echo "→ bundling $SRC"
 # Inject an ISO-8601 UTC timestamp + short git hash, "ISO|hash"; the app
 # formats the timestamp into the viewer's local time at render.
 STAMP_ISO="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-GIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo nogit)"
+GIT_HASH="$(git rev-parse --short HEAD 2>/dev/null || echo "${VERCEL_GIT_COMMIT_SHA:0:7}")"
+GIT_HASH="${GIT_HASH:-nogit}"
 git diff --quiet 2>/dev/null || GIT_HASH="${GIT_HASH}+"
 BUILD_STAMP="${STAMP_ISO}|${GIT_HASH}"
 # Supabase URL + publishable key (public by design). Overridable via env (Vercel);

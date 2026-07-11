@@ -68,6 +68,10 @@ try {
       and not exists (select 1 from meanings m where m.waray=d.waray and (m.confirmed or not (m.sources <@ array['pc']::text[])))
       returning waray`);
   console.log("purged", purged.rowCount, "orphaned dict rows:", purged.rows.map((r) => r.waray).join(", "));
+  // seeds insert EXPLICIT ids into bigserial columns, which leaves the sequences behind — the first
+  // nextval-based insert would collide on a low id. Re-sync them after every load.
+  for (const t of ["expressions", "lesson_blocks", "block_items", "meanings"])
+    await c.query(`select setval(pg_get_serial_sequence('${t}','id'), coalesce((select max(id) from ${t}), 1))`);
   // bump the course version so every connected app auto-refreshes its cached copy on next load
   await c.query("update courses set version = (extract(epoch from clock_timestamp())*1000)::bigint where id='pc'");
   await c.query("commit");
@@ -80,3 +84,7 @@ await c.end();
 // regenerate the side-by-side verification page from the now-live DB
 console.log("\nregenerating course preview…");
 execSync("node tools/gen-course-preview.mjs", { stdio: "inherit", env: process.env });
+
+// prove RLS still guards the public key (a recreated table comes back unprotected — this is the alarm)
+console.log("\nRLS smoke test…");
+execSync("node tools/rls-smoke.mjs", { stdio: "inherit" });

@@ -48,7 +48,7 @@ mastery motif, dark sea/sun palette.
 ## 3. Repo layout
 
 ```
-├── index.html            # BUILT artifact (committed; Vercel serves it). Never edit.
+├── index.html            # BUILT artifact (gitignored; built locally and by Vercel). Never edit.
 ├── src/
 │   ├── sulog.jsx          # THE APP. ~4500 lines, single React tree. Edit here.
 │   ├── supabase.js        # client, auth, pullProgress/pushProgress
