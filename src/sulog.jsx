@@ -1129,7 +1129,7 @@ export default function App() {
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "language" && <LanguageView ctx={ctx} />}
-      {view === "dbreview" && <DbReviewView ctx={ctx} />}
+      {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
   );
 }
@@ -1407,16 +1407,9 @@ function LanguageView({ ctx }) {
         <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native speaker" />
         <button className="ws-backup-row" onClick={() => setView("ella")}>
           <div className="ws-backup-ic ws-ic-coral"><span style={{ fontSize: 16 }}>👩</span></div>
-          <div className="ws-backup-txt"><b>Ask Ella</b><i>Questions for a native speaker</i></div>
+          <div className="ws-backup-txt"><b>Ella · review queue</b><i>Missing answers, dialect questions{admin ? " & dictionary confirmations" : ""}</i></div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
-        {admin && (
-          <button className="ws-backup-row" onClick={() => setView("dbreview")}>
-            <div className="ws-backup-ic"><Check size={18} /></div>
-            <div className="ws-backup-txt"><b>Review queue</b><i>Confirm flagged dictionary entries · admin</i></div>
-            <ChevronRight size={18} className="ws-cta-arrow" />
-          </button>
-        )}
 
         <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
         {isDb && (
@@ -1505,53 +1498,73 @@ function DbReviewRow({ entry, onConfirmed }) {
     </div>
   );
 }
-function DbReviewView({ ctx }) {
+/* ===================== ELLA · REVIEW QUEUE (one native-review door) =====================
+   Everything a native speaker reviews, in one screen with jumpable sections:
+   1. Missing answers — course items removed by the synth audit; each needs her Waray
+   2. Dialect questions — the open usage/dialect judgment calls
+   3. Dictionary — unconfirmed entries (admin-only: confirm writes to the DB live)  */
+function EllaView({ ctx }) {
   const { setView, admin } = ctx;
   const [st, setSt] = useState({ loading: true });
   const [done, setDone] = useState(0);
   useEffect(() => {
+    if (!admin) return;
     let alive = true;
     fetchReviewList().then((list) => alive && setSt({ list })).catch((e) => alive && setSt({ error: e.message }));
     return () => { alive = false; };
-  }, []);
+  }, [admin]);
   const onConfirmed = (waray) => { setSt((s) => ({ list: (s.list || []).filter((e) => e.waray !== waray) })); setDone((d) => d + 1); };
-  return (
-    <div className="ws-page">
-      <TopBar title="👩 Review queue" onBack={() => setView("home")} />
-      <div style={{ padding: "4px 14px 40px", maxWidth: 680, margin: "0 auto" }}>
-        {!admin && <p style={{ color: "var(--coral)" }}>Admin only — sign in as the admin to confirm entries.</p>}
-        {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading the review queue…</p>}
-        {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
-        {st.list && (
-          <>
-            <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>{st.list.length} entries still need a native speaker's confirmation{done > 0 ? ` · ${done} confirmed this session` : ""}. Fix the meaning/pronunciation if needed, then Confirm — it saves straight to the database.</p>
-            {st.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={onConfirmed} />)}
-            {st.list.length === 0 && <p style={{ color: "#2f8f4e" }}>🎉 All confirmed!</p>}
-          </>
-        )}
-      </div>
+  const missing = ACTIVE.review.filter((q) => q.id.startsWith("synth-"));
+  const dialect = ACTIVE.review.filter((q) => !q.id.startsWith("synth-"));
+  const jump = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const chip = (id, label, n) => (
+    <button key={id} onClick={() => jump(id)} style={{ border: "1px solid var(--sand-deep)", background: "var(--foam)", color: "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+      {label} <span style={{ color: "var(--sea)" }}>{n}</span>
+    </button>
+  );
+  const secHead = (id, emoji, title, sub) => (
+    <div id={id} style={{ scrollMarginTop: 12, margin: "26px 0 6px" }}>
+      <div style={{ fontSize: 15, fontWeight: 800 }}>{emoji} {title}</div>
+      <div style={{ fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.45 }}>{sub}</div>
     </div>
   );
-}
-
-/* ===================== ASK ELLA (native-review queue) ===================== */
-function EllaView({ ctx }) {
-  const { setView } = ctx;
+  const qCard = (q) => (
+    <div key={q.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
+      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
+      <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
+      {q.detail && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
+    </div>
+  );
   return (
     <div className="ws-page">
-      <TopBar title="👩 Ask Ella" onBack={() => setView("home")} />
-      <div style={{ padding: "4px 16px 28px", maxWidth: 680, margin: "0 auto" }}>
-        <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.5 }}>
-          Open questions for a native Daram/Samar speaker. Each answer feeds back into the
-          courses and dialect notes. {ACTIVE.review.length} open.
-        </p>
-        {ACTIVE.review.map((q) => (
-          <div key={q.id} style={{ background: "var(--foam)", border: "1px solid #e4e6ea", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#9333ea", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
-            <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
-            {q.detail && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
-          </div>
-        ))}
+      <TopBar title="👩 Ella · review queue" onBack={() => setView("home")} />
+      <div style={{ padding: "4px 16px 40px", maxWidth: 680, margin: "0 auto" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "2px 0 4px" }}>
+          {missing.length > 0 && chip("ella-missing", "Missing answers", missing.length)}
+          {dialect.length > 0 && chip("ella-dialect", "Dialect questions", dialect.length)}
+          {admin && chip("ella-dict", "Dictionary", st.list ? st.list.length : "…")}
+        </div>
+        {missing.length > 0 && (
+          <>
+            {secHead("ella-missing", "✍️", "Missing answers", "Exercise items removed from the course because the AI-written Waray was wrong. Give the natural Waray for each English prompt and the item returns to its lesson.")}
+            {missing.map(qCard)}
+          </>
+        )}
+        {dialect.length > 0 && (
+          <>
+            {secHead("ella-dialect", "🗣️", "Dialect questions", "Open usage / Daram-dialect judgment calls. Answers feed back into the courses and dialect notes.")}
+            {dialect.map(qCard)}
+          </>
+        )}
+        {admin && (
+          <>
+            {secHead("ella-dict", "📖", "Dictionary confirmations", `Unconfirmed entries — fix the meaning/pronunciation if needed, then Confirm; it saves straight to the database.${done > 0 ? ` ${done} confirmed this session.` : ""}`)}
+            {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+            {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
+            {st.list && st.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={onConfirmed} />)}
+            {st.list && st.list.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 All confirmed!</p>}
+          </>
+        )}
       </div>
     </div>
   );
