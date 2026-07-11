@@ -85,6 +85,11 @@ await c.end();
 console.log("\nregenerating course preview…");
 execSync("node tools/gen-course-preview.mjs", { stdio: "inherit", env: process.env });
 
+// auto-confirm PC dictionary entries whose extracted gloss matches the book's own printed text —
+// the book's authority carries; only unverifiable extractions stay in Ella's queue
+console.log("\nconfirming PC entries against the book…");
+execSync("node tools/confirm-from-book.mjs --apply", { stdio: "inherit", env: process.env });
+
 // prove RLS still guards the public key (a recreated table comes back unprotected — this is the alarm)
 console.log("\nRLS smoke test…");
 execSync("node tools/rls-smoke.mjs", { stdio: "inherit" });
