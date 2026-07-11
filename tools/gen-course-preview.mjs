@@ -522,7 +522,7 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
 <header>
   <h1>Peace Corps Waray — Course vs. Book</h1>
   <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
-  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
+  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><a href="top1000.html">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
 </header>
 <div class="grid">${cardsHtml}</div>`);
 
@@ -547,6 +547,56 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
   <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
 </header>
 <div style="padding:6px 20px 60px;max-width:860px">${body}</div>`);
+}
+
+// ---- top-1000 coverage page: which CHED top-1000 words the courses actually drill ----
+{
+  const CHED_NOISE = new Set(["author", "authors", "http", "https", "colon", "layout", "page", "email"]); // front-matter lines that parse like entries
+  const chedText = fs.readFileSync("docs/sources/dictionaries/waray-first-1000-words-2013.txt", "utf8");
+  const normW = (x) => (x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  const ched = new Map();
+  for (const ln of chedText.split(/\r?\n/)) {
+    const m = /^([A-Za-z\u00c0-\u00ff'\u2019\-\/() ]+):(.*)$/.exec(ln.trim());
+    if (m) { const cw = normW(m[1].split(/[(\/]/)[0]).replace(/^['\-]+|['\-]+$/g, "").trim();
+      if (cw && /^[a-z][a-z'\-]*$/.test(cw) && !ched.has(cw) && !CHED_NOISE.has(cw)) ched.set(cw, m[2].trim().slice(0, 60)); }
+  }
+  // PC: drilled dictionary words + words appearing inside its sentences
+  const pcDrill = new Set(), pcSent = new Set();
+  for (const l of lessons) for (const b of (byLesson.get(l.id) || [])) for (const i of b.items) {
+    if (!i.waray) continue;
+    if (/\s/.test(i.waray.trim())) { for (const t of normW(i.waray).split(/[^a-z'\-]+/)) if (t.length > 1) pcSent.add(t); }
+    else pcDrill.add(normW(i.waray));
+  }
+  // bundled courses (Frequency/Classic + Challenger): their seed decks
+  let bundled = new Set();
+  try {
+    const { SEED } = await import("../src/courses/waray/cards.js");
+    const { SEED_CH } = await import("../src/courses/waray/challenger.js");
+    const { SEED_CH2 } = await import("../src/courses/waray/challenger2.js");
+    for (const rows of [SEED, SEED_CH, SEED_CH2]) for (const r of rows) if (!/\s/.test(r[1].trim())) bundled.add(normW(r[1]));
+  } catch (e) { console.error("bundled seeds not loadable:", e.message); }
+  const rows = [];
+  for (const [w, gloss] of ched) rows.push({ w, gloss, pc: pcDrill.has(w), sent: pcSent.has(w), other: bundled.has(w) });
+  const missingAll = rows.filter((r) => !r.pc && !r.other && !r.sent);
+  const stats1k = { total: ched.size, pc: rows.filter((r) => r.pc).length, any: rows.filter((r) => r.pc || r.other).length, missingAll: missingAll.length };
+  const cell = (r) => `<span class="wchip ${r.pc ? "c-pc" : r.other ? "c-oth" : r.sent ? "c-sent" : "c-miss"}" title="${esc(r.gloss)}${r.pc ? " · drilled in Peace Corps" : r.other ? " · drilled in a bundled course" : r.sent ? " · appears in PC sentences only" : " · not in any course"}">${esc(r.w)}</span>`;
+  const groups = (list) => { const by = {}; for (const r of list) (by[r.w[0]] = by[r.w[0]] || []).push(r);
+    return Object.keys(by).sort().map((k) => `<div class="wgrp"><b>${k.toUpperCase()}</b>${by[k].map(cell).join("")}</div>`).join(""); };
+  fs.writeFileSync(`${OUT_DIR}/top1000.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Top-1000 coverage</title><style>${CSS}
+.wgrp{margin:10px 0}.wgrp b{display:inline-block;width:22px;color:var(--ink-soft)}
+.wchip{display:inline-block;font-size:12px;border-radius:8px;padding:2px 8px;margin:2px 3px;border:1px solid var(--sand-deep);cursor:default}
+.c-pc{background:rgba(31,184,159,.16);color:#7fe0b0;border-color:rgba(31,184,159,.4)}
+.c-oth{background:rgba(28,176,184,.12);color:var(--sea)}
+.c-sent{background:rgba(244,165,58,.12);color:var(--sun)}
+.c-miss{background:rgba(240,122,102,.10);color:#ff9c8a;border-color:rgba(240,122,102,.35)}
+</style>
+<header>
+  <h1>Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400">· Oyzon/CHED word list</span></h1>
+  <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Hover a word for its gloss and status. Amber = appears inside PC sentences but is never taught directly.</p>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a><span class="sp">green = PC &middot; teal = other course &middot; amber = sentence-only &middot; coral = missing everywhere</span></div>
+</header>
+<div style="padding:10px 20px 60px">${groups(rows)}</div>`);
+  console.log(`top-1000: PC ${stats1k.pc}/${stats1k.total} · any course ${stats1k.any} · missing everywhere ${stats1k.missingAll}`);
 }
 
 // redirect for the old single-page URL (/verify.html)
