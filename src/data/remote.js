@@ -159,3 +159,15 @@ export const saveProgress = (userId, waray, fields) =>
 // ---- admin (Ella / Paul) edits ----
 export const confirmEntry = (waray, patch = { confirmed: true }) =>
   rows(supabase.from("dictionary").update(patch).eq("waray", waray));
+
+// native-speaker answers for review-queue questions (missing exercise answers + dialect calls).
+// World-readable; writes are RLS admin-gated — assert the row LANDED (an RLS-denied update is a
+// silent no-op, not an error).
+export const fetchEllaAnswers = async () => {
+  const list = await fetchAll(() => supabase.from("ella_answers").select("*").order("id"));
+  const m = {}; for (const r of list) m[r.id] = r.answer; return m;
+};
+export const saveEllaAnswer = async (id, answer) => {
+  const r = await rows(supabase.from("ella_answers").upsert({ id, answer }).select());
+  if (!r.length) throw new Error("not saved — are you signed in as the admin?");
+};

@@ -1,6 +1,6 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS } from "./courses/waray/variants.js";
 import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
@@ -1104,7 +1104,7 @@ export default function App() {
   };
 
   return (
-    <div className="ws-root">
+    <div className="ws-root" data-view={view}>
       <Styles />
       {!["home", "session"].includes(view) && SpeechRec && (
         <button className={`ws-vk ws-vk-fixed ${settings.voiceMode ? "on" : ""}`}
@@ -1498,6 +1498,53 @@ function DbReviewRow({ entry, onConfirmed }) {
     </div>
   );
 }
+// One review-queue question: shows the ask; the admin gets an answer box (prefilled with the AI's
+// draft for missing-answer items) + Confirm, mirroring the dictionary flow. Saved answers render
+// green for everyone; harvest-ella folds them back into the course on the next content build.
+function EllaQuestionCard({ q, admin, answer, onSaved }) {
+  const [val, setVal] = useState(answer ?? q.draft ?? "");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const [editing, setEditing] = useState(false);
+  const save = async () => {
+    if (!val.trim()) return;
+    setBusy(true); setErr("");
+    try { await saveEllaAnswer(q.id, val.trim()); onSaved(val.trim()); setEditing(false); }
+    catch (e) { setErr(e.message || String(e)); }
+    setBusy(false);
+  };
+  const answered = !!answer && !editing;
+  return (
+    <div style={{ background: "var(--foam)", border: "1px solid " + (answered ? "rgba(31,184,159,.45)" : "var(--sand-deep)"), borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
+      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
+      <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
+      {q.detail && <div style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
+      {answered ? (
+        <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
+          <span style={{ fontSize: 11, fontWeight: 800, color: "var(--jade)" }}>✓ ELLA</span>
+          <span style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600 }}>{answer}</span>
+          {admin && <button onClick={() => { setVal(answer); setEditing(true); }} style={{ marginLeft: "auto", fontSize: 11.5, background: "transparent", border: "1px solid var(--sand-deep)", color: "var(--ink-soft)", borderRadius: 8, padding: "2px 9px", cursor: "pointer" }}>edit</button>}
+        </div>
+      ) : admin ? (
+        <div style={{ marginTop: 9 }}>
+          <textarea value={val} onChange={(e) => setVal(e.target.value)} rows={1}
+            style={{ width: "100%", boxSizing: "border-box", fontSize: 16, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 10, padding: "9px 12px", resize: "vertical" }} />
+          <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
+            <button onClick={save} disabled={busy || !val.trim()}
+              style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: busy || !val.trim() ? 0.5 : 1 }}>
+              {busy ? "Saving…" : "Confirm"}
+            </button>
+            {q.draft && val === q.draft && <span style={{ fontSize: 11, color: "var(--sun)" }}>prefilled with the AI's attempt — please check the stress &amp; word order</span>}
+            {err && <span style={{ fontSize: 11.5, color: "var(--coral)" }}>{err}</span>}
+          </div>
+        </div>
+      ) : (
+        <div style={{ marginTop: 8, fontSize: 11.5, color: "var(--ink-soft)", fontStyle: "italic" }}>awaiting Ella's answer</div>
+      )}
+    </div>
+  );
+}
+
 /* ===================== ELLA · REVIEW QUEUE (one native-review door) =====================
    Everything a native speaker reviews, in one screen with jumpable sections:
    1. Missing answers — course items removed by the synth audit; each needs her Waray
@@ -1507,6 +1554,8 @@ function EllaView({ ctx }) {
   const { setView, admin } = ctx;
   const [st, setSt] = useState({ loading: true });
   const [done, setDone] = useState(0);
+  const [answers, setAnswers] = useState({});  // question id -> Ella's saved answer (world-readable)
+  useEffect(() => { let alive = true; fetchEllaAnswers().then((m) => alive && setAnswers(m)).catch(() => {}); return () => { alive = false; }; }, []);
   useEffect(() => {
     if (!admin) return;
     let alive = true;
@@ -1528,19 +1577,13 @@ function EllaView({ ctx }) {
       <div style={{ fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.45 }}>{sub}</div>
     </div>
   );
-  const qCard = (q) => (
-    <div key={q.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
-      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
-      <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
-      {q.detail && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5, lineHeight: 1.45 }}>{q.detail}</div>}
-    </div>
-  );
+  const qCard = (q) => <EllaQuestionCard key={q.id} q={q} admin={admin} answer={answers[q.id]} onSaved={(a) => setAnswers((p) => ({ ...p, [q.id]: a }))} />;
   return (
     <div className="ws-page">
       <TopBar title="👩 Ella · review queue" onBack={() => setView("home")} />
       <div style={{ padding: "4px 16px 40px", maxWidth: 680, margin: "0 auto" }}>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "2px 0 4px" }}>
-          {missing.length > 0 && chip("ella-missing", "Missing answers", missing.length)}
+          {missing.length > 0 && chip("ella-missing", "Missing answers", `${missing.filter((q) => answers[q.id]).length}/${missing.length}`)}
           {dialect.length > 0 && chip("ella-dialect", "Dialect questions", dialect.length)}
           {admin && chip("ella-dict", "Dictionary", st.list ? st.list.length : "…")}
         </div>
@@ -3754,6 +3797,9 @@ function Styles() {
   background:radial-gradient(135% 80% at 50% -8%, #123a3f 0%, var(--shell) 52%);
   min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
 .ws-root *::selection{background:var(--tide);color:#fff}
+/* the Ella review queue gets desktop room (everything else stays phone-shaped) */
+@media(min-width:900px){.ws-root[data-view="ella"],.ws-root[data-view="dbreview"]{max-width:860px}
+  .ws-root[data-view="ella"] .ws-bottombar,.ws-root[data-view="dbreview"] .ws-bottombar{max-width:860px}}
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}

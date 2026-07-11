@@ -50,5 +50,11 @@ const check = (name, ok, detail = "") => { console.log(`${ok ? "✓" : "✗ FAIL
   check("anon sees NO streak rows", !error && (data || []).length === 0, error?.message || `saw ${(data || []).length} rows`);
 }
 
+// 7. ella_answers: world-readable, admin-only writes
+{
+  const { error } = await anon.from("ella_answers").insert({ id: "__rls__", answer: "x" });
+  check("anon cannot INSERT ella_answers", !!error, error ? "" : "INSERT SUCCEEDED — RLS IS OFF");
+}
+
 if (fails) { console.error(`\n✗ ${fails} RLS check(s) FAILED — the public key can reach protected data. Re-run docs/schema/rls.sql NOW.`); process.exit(1); }
 console.log("\n✓ RLS intact — the shipped key can only do what the app needs.");

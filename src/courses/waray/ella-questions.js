@@ -125,7 +125,9 @@ for (const r of REJECTED) {
     course: "pc",
     topic: `Lesson ${n} · missing ${r.where === "exam" ? "exam" : "drill"} answer`,
     q: `How do you say: “${r.en}”?`,
-    detail: `The AI extraction wrote “${r.waray}” — removed: ${r.reason}. Once you give the natural Waray, this item goes back into ${r.lesson}'s ${r.where}.`,
+    prompt: r.en,
+    draft: r.waray,   // the AI's rejected attempt — prefilled as a starting point for correction
+    detail: `The AI wrote “${r.waray}” — removed: ${r.reason}. Correct it (or rewrite) and Confirm; the item returns to ${r.lesson}'s ${r.where} on the next content build.`,
   });
 }
 

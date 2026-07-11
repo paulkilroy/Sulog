@@ -46,11 +46,18 @@ const FABRICATED = new Set([
   "hin duró pa ba hin maluya an iya anak nga babaye",
   // 2026-07 synth-sentence audit rejects live in docs/sources/peace-corps/rejected-sentences.json —
   // ONE canonical record per removed sentence (exact waray, the book's EN prompt, lesson, defect).
-  // That file also drives the verify site's "missing translations" stubs and the generated Ella-todo
-  // page, so add new confirmed fabrications THERE (with evidence), not here.
+  // That file also drives the verify site's "missing translations" stubs, the Ella-todo page, and
+  // the in-app Ask-Ella queue — add new confirmed fabrications THERE (with evidence), not here.
+  // Entries carrying an `ella` field (harvest-ella.mjs) are NOT rejected: Ella's Waray replaces the
+  // fabrication below, returning the item to its lesson.
   ...JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"))
+    .filter((r) => !r.ella)
     .map((r) => r.waray.toLowerCase().replace(/[.?!]+$/, "").trim()),
 ]);
+// fabrication -> Ella's native replacement (same normalized key as FABRICATED)
+const ELLA_FIX = new Map(JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"))
+  .filter((r) => r.ella)
+  .map((r) => [r.waray.toLowerCase().replace(/[.?!]+$/, "").trim(), r.ella]));
 const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
 
 // ---- expression text repair — extraction/OCR defects fixed at the single funnel (putExpr) ----
@@ -81,7 +88,10 @@ function repairExpr(war, en) {
   if (langScore(war, EN_HINT) > langScore(war, WAR_HINT) && langScore(en, WAR_HINT) > langScore(en, EN_HINT)) { const t = war; war = en; en = t; }
   return [war, en];
 }
-const putExpr = (war0, en0) => { const [war, en] = repairExpr(war0, en0); const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
+const putExpr = (war0, en0) => { let [war, en] = repairExpr(war0, en0);
+  const fix = ELLA_FIX.get(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
+  if (fix) war = fix;                                       // Ella's answer replaces the fabrication
+  const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };
 
