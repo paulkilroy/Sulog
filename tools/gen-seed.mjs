@@ -20,6 +20,10 @@ const S = (v) => v == null ? "null" : "'" + String(v).replace(/'/g, "''") + "'";
 const B = (v) => v ? "true" : "false";
 const norm = (s) => (s || "").trim();
 
+// canonical dual glosses for homograph words (see the file's _note) — applied last, wins over
+// whichever source contributed the row
+const GLOSS_OVERRIDES = JSON.parse(fs.readFileSync("docs/dictionary/gloss-overrides.json", "utf8"));
+
 // ---------- dictionary ----------
 const dict = new Map();  // waray -> row
 const putWord = (waray, meaning, pron, confirmed = true) => {
@@ -117,6 +121,7 @@ out.push("insert into courses values ('waray','Waray','war','phrase-first');");
 out.push("insert into phases values " + phaseMeta.map((p, i) => `('${p.id}','waray',${i + 1},${S(p.name)},null)`).join(",") + ";");
 out.push("insert into units (id,phase_id,ord,name,theme,can_do) values\n" + units.map((u) => `  (${S(u.id)},${S(u.phase)},${u.ord},${S(u.name)},${S(u.theme)},${S(u.canDo)})`).join(",\n") + ";");
 out.push("insert into lessons (id,unit_id,ord,title) values\n" + lessons.map((l) => `  (${S(l.id)},${S(l.unit)},${l.ord},${S(l.title)})`).join(",\n") + ";");
+for (const [w, m] of Object.entries(GLOSS_OVERRIDES)) if (!w.startsWith("_") && dict.has(w)) dict.get(w).meaning = m;
 out.push("insert into dictionary (waray,kind,meaning,pronunciation,loan,confirmed) values\n" + [...dict.values()].map((d) => `  (${S(d.waray)},${S(d.kind)},${S(d.meaning)},${S(d.pron)},${S(d.loan)},${B(d.confirmed)})`).join(",\n") + ";");
 out.push("insert into expressions (id,waray,translation,focus) values\n" + [...expr.values()].map((e) => `  (${e.id},${S(e.waray)},${S(e.translation)},${S(e.focus)})`).join(",\n") + ";");
 if (stories.length) {
