@@ -1,9 +1,9 @@
 {
-  "_note": "Canonical DUAL glosses for homograph/double-duty words — one card must carry every sense the courses teach, or quiz options become half-true (the hira bug). '/' separates senses; grading accepts any. Applied by gen-seed.mjs at emit; keep live DB in sync via tools when editing.",
+  "_note": "Canonical DUAL glosses for homograph/double-duty words — one card must carry every sense the courses teach, or quiz options become half-true (the hira bug). '/' separates senses; grading accepts any. Applied by gen-seed.mjs at emit; keep live DB in sync via tools when editing. Each '/'-separated sense also gets its OWN row in the meanings table (sync-overrides keeps both layers aligned).",
   "hi": "the (before a name — one person)",
   "hira": "they / the (before plural names)",
   "an": "the (subject marker — common nouns)",
-  "kita": "we (inclusive) / to meet",
+  "kita": "we (inclusive) / to see / to meet",
   "basa": "to read / wet",
   "mata": "to wake up / eye",
   "patay": "dead / to kill",
