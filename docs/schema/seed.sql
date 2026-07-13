@@ -92,7 +92,7 @@ insert into dictionary (waray,kind,meaning,pronunciation,loan,confirmed) values
   ('hiya','word','he/she','HEE-yah',null,true),
   ('hira','word','they / the (before plural names)','HEE-rah',null,true),
   ('kami','word','we (exclusive)','kah-MEE',null,true),
-  ('kita','word','we (inclusive) / to see / to meet','kee-TAH',null,true),
+  ('kita','word','we (inclusive) / to see','kee-TAH',null,true),
   ('kamo','word','you (plural)','kah-MAW',null,true),
   ('nanay','word','mother','NAH-nigh',null,true),
   ('tatay','word','father','TAH-tigh',null,true),
