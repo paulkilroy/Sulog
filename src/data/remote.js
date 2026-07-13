@@ -73,13 +73,6 @@ export async function fetchCourse(courseId) {
    becomes a card; each DB lesson becomes a curriculum lesson listing those items by
    Waray. Guides/gates/stories aren't cards — the engine supplies its own unit review.
    A sentence-heavy lesson is tagged "apply" (its cards are the review pool), else "words". */
-// Present some adjacent lessons as ONE study in the app (Paul: "cleaner to combine them"), while
-// the DB / verify site keep the book's own lesson structure. donor's steps append to the host's;
-// the donor disappears from the unit list. App-only — nothing else changes.
-const MERGE_LESSONS = {
-  "pc-l2a": { into: "pc-l1a", title: "Lessons 1–2 · The I-Class system — pronouns & markers" },
-};
-
 export function dbCourseToBundled(db, name) {
   const seed = new Map();                 // waray -> [deck, waray, english, subtext, say]
   const sections = [];
@@ -104,9 +97,14 @@ export function dbCourseToBundled(db, name) {
         };
         const flushTeach = () => { if (pendingTeach) { steps.push(pendingTeach); pendingTeach = null; } };
         for (const b of l.blocks || []) {
-          // grammar + notes → a teaching step (consecutive ones merge into one screen)
+          // grammar → a teaching step (consecutive ones merge into one screen). NOTES always join
+          // the lesson's most recent teach screen — the book prints them after the vocab list, but
+          // they explain the grammar ("Ngan is a connector…"), so they belong on that screen.
           if (b.type === "grammar" || b.type === "note") {
-            (pendingTeach || (pendingTeach = { type: "teach", parts: [] })).parts.push({ title: b.title || "", prose: b.body_md || "", formula: b.formula || "" });
+            const part = { title: b.title || "", prose: b.body_md || "", formula: b.formula || "" };
+            const prevTeach = b.type === "note" && !pendingTeach ? [...steps].reverse().find((st) => st.type === "teach") : null;
+            if (prevTeach) prevTeach.parts.push(part);
+            else (pendingTeach || (pendingTeach = { type: "teach", parts: [] })).parts.push(part);
             continue;
           }
           flushTeach();
@@ -140,17 +138,6 @@ export function dbCourseToBundled(db, name) {
           const num = (/l(\d+)/i.exec(l.id) || [])[1];
           gates.push({ id: l.id + "-gate", after: l.id, name: num ? `Test · Lesson ${num}` : "Test", items: gateItems });
         }
-      }
-      // fold merged lessons into their hosts (steps + item lists concatenate; host is retitled)
-      for (const donorId of Object.keys(MERGE_LESSONS)) {
-        const { into, title } = MERGE_LESSONS[donorId];
-        const di = lessons.findIndex((l) => l.id === donorId), hi = lessons.findIndex((l) => l.id === into);
-        if (di < 0 || hi < 0) continue;
-        const donor = lessons[di], host = lessons[hi];
-        host.steps.push(...donor.steps);
-        for (const w of donor.items) if (!host.items.includes(w)) host.items.push(w);
-        host.name = host.title = title;
-        lessons.splice(di, 1);
       }
       if (lessons.length) units.push({ id: u.id, name: u.name, hint: "", can_do: u.can_do || "", lessons, gates });
     }
