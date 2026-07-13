@@ -119,7 +119,13 @@ export function dbCourseToBundled(db, name) {
           }
           if (b.type === "vocab" || b.type === "phrases") {
             const ids = (b.items || []).map(addItem).filter(Boolean);
-            if (ids.length) steps.push({ type: "vocab", title: b.title || "", items: ids });
+            if (ids.length) {
+              // back-to-back word lists read as ONE "learn the words" step (the book splits the
+              // paradigm list from "also in this lesson" extras; the learner shouldn't have to)
+              const prev = steps[steps.length - 1];
+              if (prev && prev.type === "vocab") { for (const w of ids) if (!prev.items.includes(w)) prev.items.push(w); }
+              else steps.push({ type: "vocab", title: b.title || "", items: ids });
+            }
             continue;
           }
           if (b.type === "drill") {

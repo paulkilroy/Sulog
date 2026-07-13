@@ -36,6 +36,7 @@ create table meanings (
   waray     text not null references dictionary(waray) on delete cascade,
   meaning   text not null,
   pos       text,
+  pronunciation text,                             -- per-SENSE stress ("kee-TAH" we vs "KEE-tah" see) — Waray stress is phonemic, so homograph senses can sound different; the dictionary card carries the primary sense's guide
   sources   text[] not null default '{}',        -- who asserts this sense (course ids, 'tramp', 'ella')
   confirmed boolean not null default false,       -- this sense is native-speaker verified
   ord       int not null default 1,               -- display order; 1 = primary
