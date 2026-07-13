@@ -8,7 +8,7 @@ progress sync.
 **Course-vs-book review:** https://sulog-two.vercel.app/verify/
 
 ## Features
-- Multiple courses: bundled (Frequency, Classic, Challenger) + database-driven (Peace Corps)
+- One course: Peace Corps Waray, database-driven (the original bundled courses live in `archive/`)
 - Waray↔English drills: multiple choice, type, listen, speak; block-aware lessons for the
   grammar-spine (Peace Corps) course — teach → learn words → drill → graded exit test
 - Spaced repetition (Leitner) + a "Needs work" queue (with manual dismiss)
@@ -116,7 +116,7 @@ and `rls.sql` (row-level security). Full data provenance: `docs/schema/DATA-SOUR
 | Path | What |
 |---|---|
 | `src/sulog.jsx` | the whole app (single file, ~4500 lines) |
-| `src/courses/` | bundled courses + the localStorage cache for DB courses |
+| `src/courses/` | course registry + the localStorage cache for the DB course |
 | `src/data/remote.js` | Supabase reads + the DB-course → engine adapter |
 | `docs/sources/peace-corps/` | PDF, OCR text, Vision boxes, Gemini extraction |
 | `docs/schema/` | schema, seeds, RLS, sync guards, data-sources doc |

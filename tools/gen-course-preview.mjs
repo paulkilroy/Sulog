@@ -528,14 +528,8 @@ let t1kSection = "", t1kStats = null;
     if (/\s/.test(i.waray.trim())) { for (const t of normW(i.waray).split(/[^a-z'\-]+/)) if (t.length > 1) pcSent.add(t); }
     else pcDrill.add(normW(i.waray));
   }
-  // bundled courses (Frequency/Classic + Challenger): their seed decks
-  let bundled = new Set();
-  try {
-    const { SEED } = await import("../src/courses/waray/cards.js");
-    const { SEED_CH } = await import("../src/courses/waray/challenger.js");
-    const { SEED_CH2 } = await import("../src/courses/waray/challenger2.js");
-    for (const rows of [SEED, SEED_CH, SEED_CH2]) for (const r of rows) if (!/\s/.test(r[1].trim())) bundled.add(normW(r[1]));
-  } catch (e) { console.error("bundled seeds not loadable:", e.message); }
+  // bundled courses retired 2026-07-13 (archive/bundled-courses) — PC is the only course
+  const bundled = new Set();
   // approximate frequency: occurrences across the CHED book's own example text + the full PC OCR
   // (~49k tokens; same counting method as tools/build-frequency.mjs — the official 1..1000 ranks
   // from corporaproject.org are still pending, so this ordering is corpus-derived, not canonical)

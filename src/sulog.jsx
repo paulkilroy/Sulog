@@ -3,9 +3,6 @@ import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullP
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
-import { CH_LEVELS as CH_LEVELS_1 } from "./courses/waray/challenger.js";
-import { CH2_LEVELS } from "./courses/waray/challenger2.js";
-const CH_LEVELS = { ...CH_LEVELS_1, ...CH2_LEVELS };
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
@@ -41,7 +38,8 @@ function buildLabel() {
    The selected course is read from localStorage at module load; switching
    courses persists the choice and reloads. Progress is namespaced per course. */
 function _readCourseId() {
-  try { return localStorage.getItem("sulog:course") || DEFAULT_COURSE_ID; }
+  try { const v = localStorage.getItem("sulog:course");
+    return (v === "pc" || (v && localStorage.getItem("sulog:dbcourse:" + v))) ? v : DEFAULT_COURSE_ID; } // legacy bundled ids → pc
   catch (e) { return DEFAULT_COURSE_ID; }
 }
 const ACTIVE = getCourse(_readCourseId());
@@ -270,64 +268,23 @@ function buildCards() {
   });
 }
 
-/* ---------------- proficiency (one cross-course CEFR-ish estimate) ----------------
-   Level each word by its rank in the frequency-first curriculum (our frequency
-   signal); words that exist only in the Challenger course use its own CEFR tag.
-   Mastery is pooled across ALL courses BY WORD — so a word known in any course
-   counts once, even across courses with different vocabulary. Friendly estimate,
-   not a certified scale. Reads existing progress only — never writes. */
-const FREQ_RANK = (() => {
-  const m = {}; let r = 0;
-  const cur = (getCourse("waray-frequency").curriculum) || [];
-  for (const sec of cur) for (const u of (sec.units || [])) for (const les of (u.lessons || []))
-    for (const w of (les.items || [])) if (!(w in m)) m[w] = r++;
-  return m;
-})();
-function bandOfRank(rank) {                 // by frequency rank → where each band's vocab begins
-  if (rank < 80) return "A0";
-  if (rank < 250) return "A1";
-  if (rank < 500) return "A2";
-  return "B1";
-}
-function levelOfWord(w) {
-  if (w in FREQ_RANK) return bandOfRank(FREQ_RANK[w]);
-  if (CH_LEVELS[w]) return CH_LEVELS[w];    // Challenger-only word → its own CEFR tag
-  return "B1";                              // unranked / rare → advanced
-}
-// map a stored-prog key → its Waray word. Tolerates BOTH the new stable id (the Waray
-// string itself) and the legacy positional `cN`, so cross-course pooling works whether
-// or not a given course's stored progress has been migrated yet.
+/* ---------------- proficiency (count-based CEFR-ish estimate) ----------------
+   With one course (PC) and no frequency deck, proficiency = words mastered (box>=4),
+   measured against friendly cumulative milestones. Reads progress only — never writes. */
 const wordById = (course) => { const m = {}; (course.seed || []).forEach((r, i) => { m[`c${i}`] = r[1]; m[r[1]] = r[1]; }); return m; };
-// pool the BEST box per WORD across every course's stored progress (+ live active prog)
-function pooledWords(liveProg) {
-  const pooled = {};
-  const bump = (w, box) => { if (w && (pooled[w] == null || box > pooled[w])) pooled[w] = box; };
-  for (const c of COURSES) {
-    const id2w = wordById(c);
-    try { const raw = localStorage.getItem(`sulog:${c.id}:prog`); if (raw) { const p = JSON.parse(raw);
-      for (const id in p) if (p[id]) bump(id2w[id], p[id].box || 0); } } catch (e) {}
-  }
-  if (liveProg) { const id2w = wordById(ACTIVE); for (const id in liveProg) if (liveProg[id]) bump(id2w[id], liveProg[id].box || 0); }
-  return pooled;
-}
-// cumulative "words mastered" milestones per band (friendly estimate — easy to tune)
 const BAND_MILESTONE = { A0: 0, A1: 40, A2: 140, B1: 320, B2: 550 };
 const BAND_NEXT = { A0: "A1", A1: "A2", A2: "B1", B1: "B2" };
 function computeProficiency(liveProg) {
-  const pool = pooledWords(liveProg);
-  const words = new Set([...Object.keys(FREQ_RANK), ...Object.keys(CH_LEVELS)]);
+  const id2w = wordById(ACTIVE);
+  const pooled = {};
+  if (liveProg) for (const id in liveProg) { const w = id2w[id]; if (w && liveProg[id] && (pooled[w] == null || (liveProg[id].box || 0) > pooled[w])) pooled[w] = liveProg[id].box || 0; }
   let mastered = 0;
-  const perBand = { A0: { m: 0, t: 0 }, A1: { m: 0, t: 0 }, A2: { m: 0, t: 0 }, B1: { m: 0, t: 0 } };
-  for (const w of words) {
-    const b = levelOfWord(w); perBand[b].t++;
-    const box = pool[w];
-    if (box != null && box >= 4) { mastered++; perBand[b].m++; }
-  }
+  for (const w in pooled) if (pooled[w] >= 4) mastered++;
   let band = "A0";
   for (const b of ["A1", "A2", "B1"]) if (mastered >= BAND_MILESTONE[b]) band = b;
   const next = BAND_NEXT[band], lo = BAND_MILESTONE[band], hi = BAND_MILESTONE[next];
   const pct = hi > lo ? Math.min(1, Math.max(0, (mastered - lo) / (hi - lo))) : 1;
-  return { band, next, pct, mastered, perBand };
+  return { band, next, pct, mastered };
 }
 
 /* ---------------- spaced repetition (Leitner) ---------------- */
@@ -1718,6 +1675,19 @@ function EllaView({ ctx }) {
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
   const curLesson = nextLesson(lessons);
+  // first boot: the course is fetched from the DB — until the auto-refresh caches it,
+  // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
+  if (!curLesson) {
+    return (
+      <div className="ws-page" style={{ display: "grid", placeItems: "center", minHeight: "70vh", textAlign: "center" }}>
+        <div>
+          <div style={{ fontSize: 40 }}>🌊</div>
+          <h2 style={{ margin: "10px 0 4px" }}>Sulog</h2>
+          <p style={{ color: "var(--ink-soft)" }}>Fetching the Peace Corps course…</p>
+        </div>
+      </div>
+    );
+  }
   // open a section's own page; optionally scroll to a lesson within it
   const openSection = (sid, lessonId = null) => { setLearnSection(sid); setLearnTarget(lessonId); setView("learn"); };
   const total = cards.length;

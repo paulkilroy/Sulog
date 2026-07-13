@@ -17,9 +17,11 @@ mastery motif, dark sea/sun palette.
 - **Backend**: Supabase (Postgres + PostgREST + Google OAuth). Course content is
   world-readable; per-user progress is RLS-protected. The publishable key ships in the
   bundle by design.
-- **Courses**: three bundled in JS (Frequency, Classic, Challenger) + database-driven
-  courses (Peace Corps, id `pc`) fetched from Supabase, adapted to the same engine shape,
-  and cached in localStorage. See README for the full PDF→DB pipeline.
+- **Courses**: ONE course — Peace Corps Waray (id `pc`), database-driven: fetched from
+  Supabase, adapted to the engine shape, and cached in localStorage. The original bundled
+  JS courses (Frequency, Classic, Challenger 1+2) were retired 2026-07-13 to
+  `archive/bundled-courses/` (resurrection notes in `archive/README.md`).
+  See README for the full PDF→DB pipeline.
 - **Review site**: https://sulog-two.vercel.app/verify/ — every lesson side-by-side with
   the scanned book, provenance overlays, direction badges, MC options, source checks.
   Regenerate with `npm run preview`; it's part of `npm run reload`.
@@ -53,7 +55,7 @@ mastery motif, dark sea/sun palette.
 │   ├── sulog.jsx          # THE APP. ~4500 lines, single React tree. Edit here.
 │   ├── supabase.js        # client, auth, pullProgress/pushProgress
 │   ├── data/remote.js     # DB reads (paginated!), dbCourseToBundled adapter
-│   └── courses/           # bundled courses + localStorage cache for DB courses
+│   └── courses/           # course registry + localStorage cache for the DB course
 ├── tools/                # the whole content pipeline (see README step-by-step)
 ├── docs/schema/          # schema.sql, seeds, rls.sql, sync-guards.sql, DATA-SOURCES.md
 ├── docs/sources/         # PDF, OCR text, Vision boxes, pc-blocks.json, dictionaries
@@ -85,7 +87,7 @@ dark-green theme). No router, no state library; `App` owns state, views get a `c
 
 **Courses & engine**
 - Engine shape: `{id, name, seed:[[deck,waray,english,sub,say]], forgotten, curriculum}`.
-- Bundled Waray courses play the 4-step lesson ladder (`LESSON_PARTS`).
+- DB-course lessons play the adapted block ladder (teach → drills → gate).
 - DB courses carry per-lesson `steps` (teach / vocab / drill blocks) and per-unit `gates`
   (graded exams, bidirectional). `startStep` / `startGate` build sessions; bidirectional
   sessions use a per-card `dirMap` (gate split = paradigm words W→E, sentences E→W).
@@ -166,8 +168,9 @@ dark-green theme). No router, no state library; `App` owns state, views get a `c
   are the worklist.
 - Native-speaker (Ella) review queue: dictionary confirmations, BFC story corrections,
   madig-on/makusog-style gloss questions.
-- PC words have no pronunciation guides yet (`say` empty) — extend
-  `tools/build-respellings.mjs` beyond Challenger.
+- PC pronunciation guides are filled by `tools/fill-pronunciation.mjs` (Tramp stress →
+  default rule → phrase composition from word guides); homograph senses carry per-sense
+  stress in `meanings.pronunciation`.
 - From the last deep review, still open: `checkAnswer` edge cases (slash-in-phrase,
   fully-parenthesized targets), gate retry grade inflation ("Review missed" can pass a
   failed gate), `fetchReviewList` 1000-row cap, sequences never `setval`'d, RLS smoke

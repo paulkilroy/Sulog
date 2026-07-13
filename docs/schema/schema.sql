@@ -27,7 +27,8 @@ create table dictionary (
 -- pronunciation); meanings hold WHAT IT MEANS. A word may carry several confirmed senses (homographs).
 -- Meanings are MERGED (one row per distinct gloss) — but a merged gloss can be asserted by MANY
 -- sources at once, so `sources` is an ARRAY, not a scalar (a single column would clobber: if PC and
--- CH2 both wrote "father", last-write-wins loses that both agree). Sources: course ids ('pc','waray'),
+-- CH2 both wrote "father", last-write-wins loses that both agree). Sources: course ids ('pc'; 'waray'
+-- = the RETIRED original course, kept as provenance even though the course itself was archived),
 -- 'tramp' (the authoritative dictionary agreed), 'ella' (native-speaker confirmed). More independent
 -- sources = higher confidence. Reconciliation = confirming a row, never a second definition in `dictionary`.
 -- To ask "which courses DRILL this word / where", use the word_usage view (bottom of file).
