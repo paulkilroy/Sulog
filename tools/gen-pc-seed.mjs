@@ -119,7 +119,10 @@ const EXTRAS = {
 // from-scratch rebuild produces the same vetted, jargon-free glosses the live DB carries. (Waray case system:
 // an/hi=subject, han/hin/ni=object·genitive, ha/kan=locative; ini/iton/adto=subject dems, h-series=oblique "of".)
 const MARKER_GLOSS = {
-  an: "the (subject marker)", hi: "the (before a name)", ni: "of / by (before a name)",
+  an: "the (subject marker — common nouns)", hi: "the (before a name — one person)", ni: "of / by (before a name)",
+  // hira is DOUBLE-DUTY: the pronoun "they" AND the plural-name marker ("hira Ben ngan hi Pam" =
+  // Ben and Pam). One-sense glosses made quiz options half-true; the gloss must carry both.
+  hira: "they / the (before plural names)",
   han: "of / the (object marker)", hin: "a / some (object marker)", ha: "to / at / in",
   kan: "to / for (before a name)", ngan: "and", mga: "plural marker (the …s)", ba: "(yes/no question marker)",
   ini: "this (near)", iton: "that (near you)", adto: "that (over there)",
