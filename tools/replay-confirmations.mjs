@@ -6,6 +6,7 @@
 import pg from "pg";
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
 const recs = (await c.query("select waray, meaning, pronunciation, by_whom from native_confirmations")).rows;
 let applied = 0, missing = [];
 for (const r of recs) {

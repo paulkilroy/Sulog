@@ -65,6 +65,7 @@ const accentedFor = (word, variants) => {
 if (!process.env.SUPABASE_DB_URL) { console.error("Set SUPABASE_DB_URL first."); process.exit(1); }
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
 const q = async (s, p) => (await c.query(s, p)).rows;
 const APPLY = process.argv.includes("--apply");
 

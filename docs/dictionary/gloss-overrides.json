@@ -5,11 +5,12 @@
   "senses": [
    {
     "meaning": "the (before a name — one person)",
+    "pos": "marker",
     "sources": [
      "pc",
      "waray"
     ],
-    "confirmed": false,
+    "confirmed": true,
     "ord": 1
    }
   ]
@@ -43,6 +44,7 @@
   "senses": [
    {
     "meaning": "the (subject marker — common nouns)",
+    "pos": "marker",
     "sources": [
      "pc",
      "tramp"
@@ -81,6 +83,7 @@
   "senses": [
    {
     "meaning": "to read",
+    "pos": "verb",
     "pronunciation": "BAH-sah",
     "sources": [
      "pc",
@@ -115,6 +118,7 @@
    },
    {
     "meaning": "eye",
+    "pos": "noun",
     "pronunciation": "mah-TAH",
     "sources": [
      "pc",
@@ -157,6 +161,7 @@
   "senses": [
    {
     "meaning": "living room",
+    "pos": "noun",
     "pronunciation": "SAH-lah",
     "sources": [
      "pc",
@@ -216,10 +221,12 @@
    },
    {
     "meaning": "to follow",
+    "pos": "verb",
     "sources": [
-     "pc"
+     "pc",
+     "tramp"
     ],
-    "confirmed": false,
+    "confirmed": true,
     "ord": 2
    }
   ]
@@ -259,6 +266,7 @@
    },
    {
     "meaning": "to visit",
+    "pos": "verb",
     "sources": [
      "pc",
      "tramp"
@@ -282,6 +290,7 @@
    },
    {
     "meaning": "to sing",
+    "pos": "verb",
     "sources": [
      "pc",
      "tramp",

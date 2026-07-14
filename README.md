@@ -22,6 +22,7 @@ progress sync.
 |---|---|
 | `npm run all` | The full pipeline: seed → reload DB → enrich + verify → build app |
 | `npm run bootstrap` | EMPTY database only: create schema + RLS + triggers + judgment tables |
+| `npm run check` | REPRODUCIBILITY ALARM: rebuild into a scratch schema, diff vs live, fail on drift |
 | `npm run seed` | Regenerate `docs/schema/pc-seed.sql` from the Gemini extraction |
 | `npm run reload` | Load the seed into the live DB (guarded), bump the course version, regen `/verify` |
 | `npm run preview` | Regenerate the `/verify` site from the live DB |
@@ -152,6 +153,11 @@ is fully recoverable:
   Tramp verification → homograph senses → pronunciation guides → book verification →
   replay native confirmations → verify site → confirm candidates → RLS smoke.
 - **Tier 2 — app build** (`npm run build`): esbuild only, no DB touch.
+- **`npm run check` proves it**: rebuilds the whole content DB into a throwaway `scratch`
+  schema from committed sources + judgment tables and diffs it against live, table by table.
+  Any hand-edit that a rebuild wouldn't reproduce fails the check — run it after any manual
+  DB surgery, and move whatever it flags into `docs/dictionary/lexicon-extras.json`,
+  `gloss-overrides.json`, the seed, or a judgment table.
 
 Two classes of tables: CONTENT (courses/lessons/dictionary/meanings/expressions — disposable,
 fully re-derived by Tier 1) and JUDGMENT (`native_confirmations`, `ella_answers`, per-user

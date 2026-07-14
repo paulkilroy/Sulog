@@ -20,7 +20,8 @@ create table dictionary (
   root          text,                            -- lemma/root of an inflected word (optional)
   variants      text[]  not null default '{}',   -- alt / dialect spellings
   loan          text,                            -- null | 'Tagalog' | 'Spanish'
-  confirmed     boolean not null default false   -- native-speaker (Ella) verified
+  confirmed     boolean not null default false,  -- a verifier vouched for this definition
+  confirmed_by  text                             -- WHO: 'tramp' | 'book' (print match) | 'ella'
 );
 
 -- one row per SENSE of a word. The dictionary holds the headword (+ canonical spelling and

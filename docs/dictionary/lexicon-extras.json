@@ -1,0 +1,5351 @@
+{
+ "_note": "Curated lexicon state the PC seed cannot carry — loaded by tools/load-lexicon-extras.mjs inside `npm run reload`, and enforced by `npm run check`. `words` = full entries for the Tramp-backed word-bank words (restored 2026-07-13; Tramp corroborates their definitions). `senses` = their meanings rows. `attrs` = curated OVERRIDES for PC-seed words (definition cleanups from the dedup passes, pronunciation guides, accented variants from Tramp, pos) — these WIN over the raw seed. Edit HERE, never the DB.",
+ "words": [
+  {
+   "waray": "alas",
+   "kind": "word",
+   "meaning": "at (time)",
+   "pronunciation": "ah-LAS",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Amerikano",
+   "kind": "word",
+   "meaning": "American (male)",
+   "pronunciation": "ah-meh-ree-KAH-no",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Anay",
+   "kind": "word",
+   "meaning": "Wait / just a moment",
+   "pronunciation": "AH-nigh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "arte",
+   "kind": "word",
+   "meaning": "art",
+   "pronunciation": "AR-teh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "asul",
+   "kind": "word",
+   "meaning": "blue",
+   "pronunciation": "ah-SOOL",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "atbang",
+   "kind": "word",
+   "meaning": "across / in front of",
+   "pronunciation": "AT-bang",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bag",
+   "kind": "word",
+   "meaning": "bag",
+   "pronunciation": "bag",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bagyo",
+   "kind": "word",
+   "meaning": "typhoon, storm",
+   "pronunciation": "BAG-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "baha",
+   "kind": "word",
+   "meaning": "flood",
+   "pronunciation": "bah-HAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "baktas",
+   "kind": "word",
+   "meaning": "to walk",
+   "pronunciation": "BAK-tas",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "balde",
+   "kind": "word",
+   "meaning": "bucket",
+   "pronunciation": "BAL-deh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bangko",
+   "kind": "word",
+   "meaning": "bank",
+   "pronunciation": "BANG-ko",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "banyo",
+   "kind": "word",
+   "meaning": "bathroom",
+   "pronunciation": "BAHN-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "barato",
+   "kind": "word",
+   "meaning": "cheap",
+   "pronunciation": "bah-RAH-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "baraydan",
+   "kind": "word",
+   "meaning": "amount to pay",
+   "pronunciation": "bah-RIGH-dan",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "basi",
+   "kind": "word",
+   "meaning": "so that / in order to",
+   "pronunciation": "BAH-see",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bayaw",
+   "kind": "word",
+   "meaning": "brother-in-law",
+   "pronunciation": "BAH-yow",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "berde",
+   "kind": "word",
+   "meaning": "green",
+   "pronunciation": "BER-deh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Bibliya",
+   "kind": "word",
+   "meaning": "Bible",
+   "pronunciation": "beeb-LEE-yah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bintana",
+   "kind": "word",
+   "meaning": "window",
+   "pronunciation": "bin-TAH-nah",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "bantána"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "biray",
+   "kind": "word",
+   "meaning": "curtain",
+   "pronunciation": "bee-RIGH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bisan",
+   "kind": "word",
+   "meaning": "even if / even though",
+   "pronunciation": "BEE-sahn",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Biyernes",
+   "kind": "word",
+   "meaning": "Friday",
+   "pronunciation": "bee-YER-nes",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bukid",
+   "kind": "word",
+   "meaning": "mountain",
+   "pronunciation": "BOO-kid",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "bus",
+   "kind": "word",
+   "meaning": "bus",
+   "pronunciation": "boos",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "busag",
+   "kind": "word",
+   "meaning": "white",
+   "pronunciation": "BOO-sag",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "buwas",
+   "kind": "word",
+   "meaning": "tomorrow",
+   "pronunciation": "BOO-was",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "dako",
+   "kind": "word",
+   "meaning": "big / large",
+   "pronunciation": "DAH-ko",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "dampog",
+   "kind": "word",
+   "meaning": "cloud",
+   "pronunciation": "DAM-pog",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "darag",
+   "kind": "word",
+   "meaning": "yellow",
+   "pronunciation": "DAH-rag",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "dayaw",
+   "kind": "word",
+   "meaning": "to praise, to admire",
+   "pronunciation": "DAH-yow",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "dayon",
+   "kind": "word",
+   "meaning": "immediately, right away, at once",
+   "pronunciation": "DAH-yon",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "diin",
+   "kind": "word",
+   "meaning": "where (from / which)",
+   "pronunciation": "dee-EEN",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Diri",
+   "kind": "word",
+   "meaning": "No / not",
+   "pronunciation": "DEE-ree",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Disyembre",
+   "kind": "word",
+   "meaning": "December",
+   "pronunciation": "dis-YEM-breh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Diyos",
+   "kind": "word",
+   "meaning": "God",
+   "pronunciation": "dee-YOS",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "Dyos"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Diyos-diyos",
+   "kind": "word",
+   "meaning": "idol",
+   "pronunciation": "dee-YOS dee-YOS",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "dyosdyós"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "duga",
+   "kind": "word",
+   "meaning": "juice",
+   "pronunciation": "DOO-gah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "duha",
+   "kind": "word",
+   "meaning": "two",
+   "pronunciation": "doo-HAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "duro",
+   "kind": "word",
+   "meaning": "very / too much",
+   "pronunciation": "DOO-ro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Enero",
+   "kind": "word",
+   "meaning": "January",
+   "pronunciation": "eh-NEH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "eroplano",
+   "kind": "word",
+   "meaning": "airplane",
+   "pronunciation": "eh-ro-PLAH-no",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "ayroplano"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "eskina",
+   "kind": "word",
+   "meaning": "corner",
+   "pronunciation": "es-KEE-nah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "gawas",
+   "kind": "word",
+   "meaning": "exit / go out",
+   "pronunciation": "gah-WAS",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Ginoo",
+   "kind": "word",
+   "meaning": "Lord",
+   "pronunciation": "gee-NO-o",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "gusto",
+   "kind": "word",
+   "meaning": "want",
+   "pronunciation": "GOOS-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "gutom",
+   "kind": "word",
+   "meaning": "hungry",
+   "pronunciation": "GOO-tom",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hain",
+   "kind": "word",
+   "meaning": "where",
+   "pronunciation": "HAH-een",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "harani",
+   "kind": "word",
+   "meaning": "near",
+   "pronunciation": "hah-RAH-nee",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "harayo",
+   "kind": "word",
+   "meaning": "far",
+   "pronunciation": "hah-RAH-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hipag",
+   "kind": "word",
+   "meaning": "sister-in-law",
+   "pronunciation": "hee-PAG",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hotel",
+   "kind": "word",
+   "meaning": "hotel",
+   "pronunciation": "ho-TEL",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hubya",
+   "kind": "word",
+   "meaning": "lazy",
+   "pronunciation": "HOOB-yah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hugas",
+   "kind": "word",
+   "meaning": "to wash (dishes)",
+   "pronunciation": "HOO-gas",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "hulam",
+   "kind": "word",
+   "meaning": "to borrow",
+   "pronunciation": "HOO-lam",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "hurama"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Hulyo",
+   "kind": "word",
+   "meaning": "July",
+   "pronunciation": "HOOL-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Huwebes",
+   "kind": "word",
+   "meaning": "Thursday",
+   "pronunciation": "hoo-WEH-bes",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "imbitasyon",
+   "kind": "word",
+   "meaning": "invitation",
+   "pronunciation": "im-bee-tah-SYON",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "init",
+   "kind": "word",
+   "meaning": "hot",
+   "pronunciation": "ee-NIT",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "isla",
+   "kind": "word",
+   "meaning": "island",
+   "pronunciation": "EES-lah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "itom",
+   "kind": "word",
+   "meaning": "black",
+   "pronunciation": "EE-tom",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "maitóm"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kagab-i",
+   "kind": "word",
+   "meaning": "last night",
+   "pronunciation": "kah-gahb-EE",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kahel",
+   "kind": "word",
+   "meaning": "orange",
+   "pronunciation": "kah-HEL",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kahera",
+   "kind": "word",
+   "meaning": "cashier",
+   "pronunciation": "kah-HEH-rah",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "kahél"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kain",
+   "kind": "word",
+   "meaning": "where (to), to what place",
+   "pronunciation": "KAH-in",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kakan-o",
+   "kind": "word",
+   "meaning": "when (past)",
+   "pronunciation": "kah-KAN-o",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kaldero",
+   "kind": "word",
+   "meaning": "cooking pot",
+   "pronunciation": "kal-DEH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kalo",
+   "kind": "word",
+   "meaning": "cap / hat",
+   "pronunciation": "KAH-lo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kamusta",
+   "kind": "word",
+   "meaning": "how are you",
+   "pronunciation": "kah-moos-TAH",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "kómosta"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kan-on",
+   "kind": "word",
+   "meaning": "cooked rice",
+   "pronunciation": "KAN-on",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kapoy",
+   "kind": "word",
+   "meaning": "tired",
+   "pronunciation": "kah-POY",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "karuhaan",
+   "kind": "word",
+   "meaning": "twenty",
+   "pronunciation": "kah-roo-HAH-an",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kaupod",
+   "kind": "word",
+   "meaning": "companion",
+   "pronunciation": "kah-OO-pod",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kay",
+   "kind": "word",
+   "meaning": "because",
+   "pronunciation": "kigh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kinmaon",
+   "kind": "word",
+   "meaning": "ate",
+   "pronunciation": "kin-MAH-on",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "kináon"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Klaro?",
+   "kind": "word",
+   "meaning": "Is it clear?",
+   "pronunciation": "KLAH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "kalro"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kros",
+   "kind": "word",
+   "meaning": "cross",
+   "pronunciation": "kros",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "krus"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kuha",
+   "kind": "word",
+   "meaning": "get; take",
+   "pronunciation": "koo-HAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kulop",
+   "kind": "word",
+   "meaning": "afternoon",
+   "pronunciation": "KOO-lop",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kun",
+   "kind": "word",
+   "meaning": "if / when",
+   "pronunciation": "koon",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kutsara",
+   "kind": "word",
+   "meaning": "spoon",
+   "pronunciation": "koot-SAH-rah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "kutsilyo",
+   "kind": "word",
+   "meaning": "knife",
+   "pronunciation": "koot-SIL-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lakso",
+   "kind": "word",
+   "meaning": "to jump",
+   "pronunciation": "LAK-so",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "lúkso"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lalaki",
+   "kind": "word",
+   "meaning": "man",
+   "pronunciation": "lah-LAH-kee",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lasona",
+   "kind": "word",
+   "meaning": "garlic",
+   "pronunciation": "lah-SO-nah",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "lasuná"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "libro",
+   "kind": "word",
+   "meaning": "book",
+   "pronunciation": "LEE-bro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lima",
+   "kind": "word",
+   "meaning": "five",
+   "pronunciation": "lee-MAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "limpyo",
+   "kind": "word",
+   "meaning": "to clean; clean",
+   "pronunciation": "LIMP-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "limpyu",
+   "kind": "word",
+   "meaning": "to clean",
+   "pronunciation": "LIM-pyoo",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "límpyo"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "linmakat",
+   "kind": "word",
+   "meaning": "went",
+   "pronunciation": "lin-MAH-kat",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lola",
+   "kind": "word",
+   "meaning": "grandmother",
+   "pronunciation": "LO-lah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lolo",
+   "kind": "word",
+   "meaning": "grandfather",
+   "pronunciation": "LO-lo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lukot",
+   "kind": "word",
+   "meaning": "to fold (clothes)",
+   "pronunciation": "LOO-kot",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Lunes",
+   "kind": "word",
+   "meaning": "Monday",
+   "pronunciation": "LOO-nes",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "lutuon",
+   "kind": "word",
+   "meaning": "to cook (it)",
+   "pronunciation": "loo-too-ON",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "lutlot"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "maalsom",
+   "kind": "word",
+   "meaning": "sour",
+   "pronunciation": "mah-AL-som",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "maáslom"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "maaram",
+   "kind": "word",
+   "meaning": "to know / knowledgeable",
+   "pronunciation": "mah-AH-ram",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mabaho",
+   "kind": "word",
+   "meaning": "smelly",
+   "pronunciation": "mah-BAH-ho",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "madali",
+   "kind": "word",
+   "meaning": "easy / quick",
+   "pronunciation": "mah-dah-LEE",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "magkita",
+   "kind": "word",
+   "meaning": "meet",
+   "pronunciation": "mag-KEE-tah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mahal",
+   "kind": "word",
+   "meaning": "expensive",
+   "pronunciation": "mah-HAL",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mahangin",
+   "kind": "word",
+   "meaning": "windy",
+   "pronunciation": "mah-HAH-ngin",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mainom",
+   "kind": "word",
+   "meaning": "will drink",
+   "pronunciation": "mah-EE-nom",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "makadto",
+   "kind": "word",
+   "meaning": "will go to",
+   "pronunciation": "mah-KAD-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "maneho",
+   "kind": "word",
+   "meaning": "to drive",
+   "pronunciation": "mah-NEH-ho",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mantel",
+   "kind": "word",
+   "meaning": "tablecloth",
+   "pronunciation": "man-TEL",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mapalit",
+   "kind": "word",
+   "meaning": "will buy",
+   "pronunciation": "mah-PAH-leet",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mapira",
+   "kind": "word",
+   "meaning": "how many",
+   "pronunciation": "mah-PEE-rah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Mapira?",
+   "kind": "word",
+   "meaning": "How many?",
+   "pronunciation": "mah-PEE-rah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Marso",
+   "kind": "word",
+   "meaning": "March",
+   "pronunciation": "MAR-so",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Martes",
+   "kind": "word",
+   "meaning": "Tuesday",
+   "pronunciation": "MAR-tes",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "masirak",
+   "kind": "word",
+   "meaning": "sunny",
+   "pronunciation": "mah-SEE-rak",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "maupod",
+   "kind": "word",
+   "meaning": "to come along",
+   "pronunciation": "mah-OO-pod",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "mauran",
+   "kind": "word",
+   "meaning": "rainy; will rain",
+   "pronunciation": "mah-oo-RAN",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "may",
+   "kind": "word",
+   "meaning": "there is / has",
+   "pronunciation": "migh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Mayo",
+   "kind": "word",
+   "meaning": "May",
+   "pronunciation": "MAH-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "minuto",
+   "kind": "word",
+   "meaning": "minute",
+   "pronunciation": "mee-NOO-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Miyerkoles",
+   "kind": "word",
+   "meaning": "Wednesday",
+   "pronunciation": "mee-YER-ko-les",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "museo",
+   "kind": "word",
+   "meaning": "museum",
+   "pronunciation": "moo-SEH-o",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "musíw"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "musika",
+   "kind": "word",
+   "meaning": "music",
+   "pronunciation": "moo-SEE-kah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "napulo",
+   "kind": "word",
+   "meaning": "ten",
+   "pronunciation": "nah-poo-LO",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "natad",
+   "kind": "word",
+   "meaning": "yard",
+   "pronunciation": "NAH-tad",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "niyan",
+   "kind": "word",
+   "meaning": "later",
+   "pronunciation": "nee-YAN",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Oktubre",
+   "kind": "word",
+   "meaning": "October",
+   "pronunciation": "ok-TOO-breh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Oo",
+   "kind": "word",
+   "meaning": "Yes",
+   "pronunciation": "AW-aw",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "oras",
+   "kind": "word",
+   "meaning": "hour; time",
+   "pronunciation": "O-ras",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pahulay",
+   "kind": "word",
+   "meaning": "to rest; rest",
+   "pronunciation": "pah-HOO-ligh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pakaladkara",
+   "kind": "word",
+   "meaning": "to boil (it)",
+   "pronunciation": "pah-kah-lad-KAH-rah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pakwan",
+   "kind": "word",
+   "meaning": "watermelon",
+   "pronunciation": "PAK-wan",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "pakúan"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pamahaw",
+   "kind": "word",
+   "meaning": "breakfast",
+   "pronunciation": "pah-MAH-how",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pamasyada",
+   "kind": "word",
+   "meaning": "outing / stroll",
+   "pronunciation": "pah-mas-YAH-dah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "panyo",
+   "kind": "word",
+   "meaning": "handkerchief",
+   "pronunciation": "PAHN-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pasahero",
+   "kind": "word",
+   "meaning": "passenger",
+   "pronunciation": "pah-sah-HEH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "pasáhe"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pasaporte",
+   "kind": "word",
+   "meaning": "passport",
+   "pronunciation": "pah-sah-POR-teh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pastor",
+   "kind": "word",
+   "meaning": "pastor",
+   "pronunciation": "PAS-tor",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Pebrero",
+   "kind": "word",
+   "meaning": "February",
+   "pronunciation": "peb-REH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pero",
+   "kind": "word",
+   "meaning": "but",
+   "pronunciation": "PEH-ro",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pesos",
+   "kind": "word",
+   "meaning": "pesos",
+   "pronunciation": "PEH-sos",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Pilipino",
+   "kind": "word",
+   "meaning": "Filipino (male)",
+   "pronunciation": "pee-lee-PEE-no",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pinggan",
+   "kind": "word",
+   "meaning": "plate",
+   "pronunciation": "PING-gan",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pinmalit",
+   "kind": "word",
+   "meaning": "bought",
+   "pronunciation": "pin-MAH-leet",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "pinalít"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pinya",
+   "kind": "word",
+   "meaning": "pineapple",
+   "pronunciation": "PEEN-yah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pira",
+   "kind": "word",
+   "meaning": "how many",
+   "pronunciation": "pee-RAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pitaka",
+   "kind": "word",
+   "meaning": "wallet",
+   "pronunciation": "pee-TAH-kah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "pito",
+   "kind": "word",
+   "meaning": "seven",
+   "pronunciation": "pee-TO",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "regalo",
+   "kind": "word",
+   "meaning": "gift",
+   "pronunciation": "reh-GAH-lo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "relo",
+   "kind": "word",
+   "meaning": "watch",
+   "pronunciation": "REH-lo",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "rélos"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Sabado",
+   "kind": "word",
+   "meaning": "Saturday",
+   "pronunciation": "SAH-bah-do",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "san-o",
+   "kind": "word",
+   "meaning": "when",
+   "pronunciation": "SAN-o",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "sáad"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "saribo",
+   "kind": "word",
+   "meaning": "to water plants",
+   "pronunciation": "sah-REE-bo",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "baribí"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "sayaw",
+   "kind": "word",
+   "meaning": "to dance",
+   "pronunciation": "sah-YOW",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "kasayaw"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "sugod",
+   "kind": "word",
+   "meaning": "start",
+   "pronunciation": "SOO-god",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "púgo"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "suoy",
+   "kind": "word",
+   "meaning": "vinegar",
+   "pronunciation": "SOO-oy",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "úkoy"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "syaket",
+   "kind": "word",
+   "meaning": "jacket",
+   "pronunciation": "SYAH-ket",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "dyáket"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tabang",
+   "kind": "word",
+   "meaning": "help",
+   "pronunciation": "tah-BANG",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tago",
+   "kind": "word",
+   "meaning": "to hide",
+   "pronunciation": "TAH-go",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tagpira",
+   "kind": "word",
+   "meaning": "how much each",
+   "pronunciation": "tag-PEE-rah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tanom",
+   "kind": "word",
+   "meaning": "plant",
+   "pronunciation": "TAH-nom",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tapos",
+   "kind": "word",
+   "meaning": "finish",
+   "pronunciation": "TAH-pos",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "taxi",
+   "kind": "word",
+   "meaning": "taxi",
+   "pronunciation": "TAK-see",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "táksi"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tiket",
+   "kind": "word",
+   "meaning": "ticket",
+   "pronunciation": "TEE-ket",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tinapa",
+   "kind": "word",
+   "meaning": "smoked fish",
+   "pronunciation": "tee-NAH-pah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tindog",
+   "kind": "word",
+   "meaning": "stand",
+   "pronunciation": "TEEN-dog",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tinidor",
+   "kind": "word",
+   "meaning": "fork",
+   "pronunciation": "tee-nee-DOR",
+   "pos": null,
+   "root": null,
+   "variants": [
+    "tenedór"
+   ],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tiya",
+   "kind": "word",
+   "meaning": "aunt",
+   "pronunciation": "TEE-yah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tiyo",
+   "kind": "word",
+   "meaning": "uncle",
+   "pronunciation": "TEE-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "toyo",
+   "kind": "word",
+   "meaning": "soy sauce",
+   "pronunciation": "TOH-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tulay",
+   "kind": "word",
+   "meaning": "bridge",
+   "pronunciation": "too-LIGH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tulo",
+   "kind": "word",
+   "meaning": "three",
+   "pronunciation": "too-LO",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "tungod",
+   "kind": "word",
+   "meaning": "about / because of",
+   "pronunciation": "too-NGOD",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "udto",
+   "kind": "word",
+   "meaning": "noon",
+   "pronunciation": "OOD-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "uga",
+   "kind": "word",
+   "meaning": "dry",
+   "pronunciation": "oo-GAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "ugangan",
+   "kind": "word",
+   "meaning": "parent-in-law",
+   "pronunciation": "oo-GAH-ngan",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "ulo",
+   "kind": "word",
+   "meaning": "head",
+   "pronunciation": "OO-lo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "umangkon",
+   "kind": "word",
+   "meaning": "niece/nephew",
+   "pronunciation": "oo-MANG-kon",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "una",
+   "kind": "word",
+   "meaning": "first",
+   "pronunciation": "OO-nah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "unom",
+   "kind": "word",
+   "meaning": "six",
+   "pronunciation": "oo-NOM",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "upat",
+   "kind": "word",
+   "meaning": "four",
+   "pronunciation": "oo-PAT",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "uran",
+   "kind": "word",
+   "meaning": "rain",
+   "pronunciation": "oo-RAN",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "urhi",
+   "kind": "word",
+   "meaning": "late",
+   "pronunciation": "OOR-hee",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "walo",
+   "kind": "word",
+   "meaning": "eight",
+   "pronunciation": "wah-LO",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "Waray",
+   "kind": "word",
+   "meaning": "None / nothing",
+   "pronunciation": "wah-RIGH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  },
+  {
+   "waray": "yana",
+   "kind": "word",
+   "meaning": "now",
+   "pronunciation": "YAH-nah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "tramp"
+  }
+ ],
+ "senses": [
+  {
+   "waray": "alas",
+   "meaning": "at (time)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Amerikano",
+   "meaning": "American (male)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Anay",
+   "meaning": "Wait / just a moment",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "arte",
+   "meaning": "art",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "asul",
+   "meaning": "blue",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "atbang",
+   "meaning": "across / in front of",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bag",
+   "meaning": "bag",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bagyo",
+   "meaning": "typhoon, storm",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "baha",
+   "meaning": "flood",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "baktas",
+   "meaning": "to walk",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "balde",
+   "meaning": "bucket",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bangko",
+   "meaning": "bank",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "banyo",
+   "meaning": "bathroom",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "barato",
+   "meaning": "cheap",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "baraydan",
+   "meaning": "amount to pay",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "basi",
+   "meaning": "so that / in order to",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bayaw",
+   "meaning": "brother-in-law",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "berde",
+   "meaning": "green",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Bibliya",
+   "meaning": "Bible",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bintana",
+   "meaning": "window",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "biray",
+   "meaning": "curtain",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bisan",
+   "meaning": "even if / even though",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Biyernes",
+   "meaning": "Friday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bukid",
+   "meaning": "mountain",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "bus",
+   "meaning": "bus",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "busag",
+   "meaning": "white",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "buwas",
+   "meaning": "tomorrow",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "dako",
+   "meaning": "big / large",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "dampog",
+   "meaning": "cloud",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "darag",
+   "meaning": "yellow",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "dayaw",
+   "meaning": "to praise, to admire",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "dayon",
+   "meaning": "immediately, right away, at once",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "diin",
+   "meaning": "where (from / which)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Diri",
+   "meaning": "No / not",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Disyembre",
+   "meaning": "December",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Diyos",
+   "meaning": "God",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Diyos-diyos",
+   "meaning": "idol",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "duga",
+   "meaning": "juice",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "duha",
+   "meaning": "two",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "duro",
+   "meaning": "very / too much",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Enero",
+   "meaning": "January",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "eroplano",
+   "meaning": "airplane",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "eskina",
+   "meaning": "corner",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "gawas",
+   "meaning": "exit / go out",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Ginoo",
+   "meaning": "Lord",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "gusto",
+   "meaning": "want",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "gutom",
+   "meaning": "hungry",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hain",
+   "meaning": "where",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "harani",
+   "meaning": "near",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "harayo",
+   "meaning": "far",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hipag",
+   "meaning": "sister-in-law",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hotel",
+   "meaning": "hotel",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hubya",
+   "meaning": "lazy",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hugas",
+   "meaning": "to wash (dishes)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "hulam",
+   "meaning": "to borrow",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Hulyo",
+   "meaning": "July",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Huwebes",
+   "meaning": "Thursday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "imbitasyon",
+   "meaning": "invitation",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "init",
+   "meaning": "hot",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "isla",
+   "meaning": "island",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "itom",
+   "meaning": "black",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kagab-i",
+   "meaning": "last night",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kahel",
+   "meaning": "orange",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kahera",
+   "meaning": "cashier",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kain",
+   "meaning": "where (to), to what place",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kakan-o",
+   "meaning": "when (past)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kaldero",
+   "meaning": "cooking pot",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kalo",
+   "meaning": "cap / hat",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kamusta",
+   "meaning": "how are you",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kan-on",
+   "meaning": "cooked rice",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kapoy",
+   "meaning": "tired",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "karuhaan",
+   "meaning": "twenty",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kaupod",
+   "meaning": "companion",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kay",
+   "meaning": "because",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kinmaon",
+   "meaning": "ate",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Klaro?",
+   "meaning": "Is it clear?",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kros",
+   "meaning": "cross",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kuha",
+   "meaning": "get; take",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kulop",
+   "meaning": "afternoon",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kun",
+   "meaning": "if / when",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kutsara",
+   "meaning": "spoon",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "kutsilyo",
+   "meaning": "knife",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lakso",
+   "meaning": "to jump",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lalaki",
+   "meaning": "man",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lasona",
+   "meaning": "garlic",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "libro",
+   "meaning": "book",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lima",
+   "meaning": "five",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "limpyo",
+   "meaning": "to clean; clean",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "limpyu",
+   "meaning": "to clean",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "linmakat",
+   "meaning": "went",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lola",
+   "meaning": "grandmother",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lolo",
+   "meaning": "grandfather",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lukot",
+   "meaning": "to fold (clothes)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Lunes",
+   "meaning": "Monday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "lutuon",
+   "meaning": "to cook (it)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "maalsom",
+   "meaning": "sour",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "maaram",
+   "meaning": "to know / knowledgeable",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mabaho",
+   "meaning": "smelly",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "madali",
+   "meaning": "easy / quick",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "magkita",
+   "meaning": "meet",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mahal",
+   "meaning": "expensive",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mahangin",
+   "meaning": "windy",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mainom",
+   "meaning": "will drink",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "makadto",
+   "meaning": "will go to",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "maneho",
+   "meaning": "to drive",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mantel",
+   "meaning": "tablecloth",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mapalit",
+   "meaning": "will buy",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mapira",
+   "meaning": "how many",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Mapira?",
+   "meaning": "How many?",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Marso",
+   "meaning": "March",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Martes",
+   "meaning": "Tuesday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "masirak",
+   "meaning": "sunny",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "maupod",
+   "meaning": "to come along",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "mauran",
+   "meaning": "rainy; will rain",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "may",
+   "meaning": "there is / has",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Mayo",
+   "meaning": "May",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "minuto",
+   "meaning": "minute",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Miyerkoles",
+   "meaning": "Wednesday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "museo",
+   "meaning": "museum",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "musika",
+   "meaning": "music",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "napulo",
+   "meaning": "ten",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "natad",
+   "meaning": "yard",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "niyan",
+   "meaning": "later",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Oktubre",
+   "meaning": "October",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Oo",
+   "meaning": "Yes",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "oras",
+   "meaning": "hour; time",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pahulay",
+   "meaning": "to rest; rest",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pakaladkara",
+   "meaning": "to boil (it)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pakwan",
+   "meaning": "watermelon",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pamahaw",
+   "meaning": "breakfast",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pamasyada",
+   "meaning": "outing / stroll",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "panyo",
+   "meaning": "handkerchief",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pasahero",
+   "meaning": "passenger",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pasaporte",
+   "meaning": "passport",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pastor",
+   "meaning": "pastor",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Pebrero",
+   "meaning": "February",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pero",
+   "meaning": "but",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pesos",
+   "meaning": "pesos",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Pilipino",
+   "meaning": "Filipino (male)",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pinggan",
+   "meaning": "plate",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pinmalit",
+   "meaning": "bought",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pinya",
+   "meaning": "pineapple",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pira",
+   "meaning": "how many",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pitaka",
+   "meaning": "wallet",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "pito",
+   "meaning": "seven",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "regalo",
+   "meaning": "gift",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "relo",
+   "meaning": "watch",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Sabado",
+   "meaning": "Saturday",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "san-o",
+   "meaning": "when",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "saribo",
+   "meaning": "to water plants",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "sayaw",
+   "meaning": "to dance",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "sugod",
+   "meaning": "start",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "suoy",
+   "meaning": "vinegar",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "syaket",
+   "meaning": "jacket",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tabang",
+   "meaning": "help",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tago",
+   "meaning": "to hide",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tagpira",
+   "meaning": "how much each",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tanom",
+   "meaning": "plant",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tapos",
+   "meaning": "finish",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "taxi",
+   "meaning": "taxi",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tiket",
+   "meaning": "ticket",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tinapa",
+   "meaning": "smoked fish",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tindog",
+   "meaning": "stand",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tinidor",
+   "meaning": "fork",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tiya",
+   "meaning": "aunt",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tiyo",
+   "meaning": "uncle",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "toyo",
+   "meaning": "soy sauce",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tulay",
+   "meaning": "bridge",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tulo",
+   "meaning": "three",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "tungod",
+   "meaning": "about / because of",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "udto",
+   "meaning": "noon",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "uga",
+   "meaning": "dry",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "ugangan",
+   "meaning": "parent-in-law",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "ulo",
+   "meaning": "head",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "umangkon",
+   "meaning": "niece/nephew",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "una",
+   "meaning": "first",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "unom",
+   "meaning": "six",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "upat",
+   "meaning": "four",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "uran",
+   "meaning": "rain",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "urhi",
+   "meaning": "late",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "walo",
+   "meaning": "eight",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "Waray",
+   "meaning": "None / nothing",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
+   "waray": "yana",
+   "meaning": "now",
+   "pos": null,
+   "pronunciation": null,
+   "sources": [
+    "tramp"
+   ],
+   "confirmed": true,
+   "ord": 1
+  }
+ ],
+ "attrs": {
+  "abot": {
+   "pronunciation": "ah-BOT",
+   "variants": [
+    "abót",
+    "kab-ot"
+   ]
+  },
+  "adlaw": {
+   "meaning": "day; sun",
+   "variants": [
+    "Ádlaw"
+   ]
+  },
+  "adto": {
+   "variants": [
+    "Adto"
+   ]
+  },
+  "ako": {
+   "pronunciation": "ah-KAW",
+   "variants": [
+    "akó"
+   ]
+  },
+  "amerikano": {
+   "variants": [
+    "Amerikáno",
+    "Amerikano"
+   ]
+  },
+  "amon": {
+   "meaning": "ours (excl)",
+   "variants": [
+    "ámon"
+   ]
+  },
+  "ampo": {
+   "pronunciation": "AM-po",
+   "variants": [
+    "ámpo"
+   ]
+  },
+  "an": {
+   "pronunciation": "ahn"
+  },
+  "anak": {
+   "variants": [
+    "anák"
+   ]
+  },
+  "apo": {
+   "meaning": "grandchild",
+   "variants": [
+    "apó"
+   ]
+  },
+  "apoy": {
+   "meaning": "grandparent",
+   "variants": [
+    "apóy"
+   ]
+  },
+  "asawa": {
+   "variants": [
+    "Asáwa"
+   ]
+  },
+  "aton": {
+   "meaning": "our (inclusive)",
+   "variants": [
+    "áton"
+   ]
+  },
+  "ayam": {
+   "variants": [
+    "áyam"
+   ]
+  },
+  "babaye": {
+   "meaning": "woman",
+   "variants": [
+    "Babáye",
+    "babáyi"
+   ]
+  },
+  "bado": {
+   "meaning": "clothes",
+   "pronunciation": "BAH-do",
+   "variants": [
+    "bádo"
+   ]
+  },
+  "bag-o": {
+   "meaning": "new",
+   "variants": [
+    "Bag-o"
+   ]
+  },
+  "balay": {
+   "variants": [
+    "baláy"
+   ]
+  },
+  "balhin": {
+   "pronunciation": "bal-HIN",
+   "variants": [
+    "balhín"
+   ]
+  },
+  "basa": {
+   "variants": [
+    "bása"
+   ]
+  },
+  "baso": {
+   "meaning": "glass/cup",
+   "variants": [
+    "Báso"
+   ]
+  },
+  "bata": {
+   "meaning": "child / kid",
+   "variants": [
+    "Bátà"
+   ]
+  },
+  "bendisyon": {
+   "pronunciation": "ben-DEES-yon"
+  },
+  "bibliya": {
+   "pronunciation": "beeb-LEE-yah",
+   "variants": [
+    "Bibliya",
+    "Biblíya"
+   ]
+  },
+  "biyahe": {
+   "meaning": "trip / travel",
+   "variants": [
+    "biyáhe"
+   ]
+  },
+  "bola": {
+   "variants": [
+    "Bóla"
+   ]
+  },
+  "bugto": {
+   "meaning": "sibling",
+   "pronunciation": "BOOG-to",
+   "variants": [
+    "búgtò"
+   ]
+  },
+  "bukad": {
+   "pronunciation": "boo-KAD",
+   "variants": [
+    "bukád"
+   ]
+  },
+  "buotan": {
+   "variants": [
+    "Buótan"
+   ]
+  },
+  "daan": {
+   "meaning": "old (things)",
+   "pronunciation": "dah-AN",
+   "variants": [
+    "Dáan"
+   ]
+  },
+  "dagat": {
+   "meaning": "sea",
+   "pronunciation": "dah-GAT",
+   "variants": [
+    "Dágat"
+   ]
+  },
+  "daku": {
+   "meaning": "big",
+   "pronunciation": "dah-KOO",
+   "variants": [
+    "dakò",
+    "Dakú",
+    "Daku"
+   ]
+  },
+  "damo": {
+   "meaning": "many / a lot",
+   "pronunciation": "DAH-mo",
+   "variants": [
+    "Dámo"
+   ]
+  },
+  "daop": {
+   "variants": [
+    "dáop"
+   ]
+  },
+  "dida": {
+   "meaning": "there"
+  },
+  "didi": {
+   "meaning": "here (this place)",
+   "pronunciation": "DEE-dee"
+  },
+  "didto": {
+   "meaning": "over there",
+   "pronunciation": "DEED-to"
+  },
+  "dinhi": {
+   "meaning": "here (this place)",
+   "pronunciation": "DEEN-hee"
+  },
+  "direktor": {
+   "pronunciation": "dee-rek-TOR",
+   "variants": [
+    "direktór"
+   ]
+  },
+  "diyos": {
+   "pronunciation": "dee-YOS",
+   "variants": [
+    "Diyós",
+    "Diyos",
+    "Dyos"
+   ]
+  },
+  "diyos-diyos": {
+   "pronunciation": "dee-YOS dee-YOS",
+   "variants": [
+    "dyosdyós",
+    "Diyos-diyos"
+   ]
+  },
+  "doktor": {
+   "pronunciation": "DOK-tor",
+   "variants": [
+    "dóktor"
+   ]
+  },
+  "dyip": {
+   "meaning": "jeepney",
+   "pronunciation": "jeep",
+   "variants": [
+    "Dyíp"
+   ]
+  },
+  "eskwelahan": {
+   "pronunciation": "es-kweh-LAH-han",
+   "variants": [
+    "eskweláhan"
+   ]
+  },
+  "estorya": {
+   "variants": [
+    "Estórya",
+    "istórya"
+   ]
+  },
+  "estudyante": {
+   "pronunciation": "es-tood-YAHN-teh",
+   "variants": [
+    "Estudyánte"
+   ]
+  },
+  "gatas": {
+   "variants": [
+    "Gátas"
+   ]
+  },
+  "gugma": {
+   "variants": [
+    "gúgma"
+   ]
+  },
+  "gutiay": {
+   "meaning": "small",
+   "variants": [
+    "Gutiay"
+   ]
+  },
+  "gwapo": {
+   "meaning": "handsome",
+   "variants": [
+    "Gwápo"
+   ]
+  },
+  "habubo": {
+   "pronunciation": "hah-boo-BO",
+   "variants": [
+    "Habubo"
+   ]
+  },
+  "hadto": {
+   "variants": [
+    "Hadto"
+   ]
+  },
+  "hagdanan": {
+   "pronunciation": "hag-dah-NAN",
+   "variants": [
+    "Hagdanán"
+   ]
+  },
+  "han": {
+   "pronunciation": "hahn"
+  },
+  "hangyo": {
+   "meaning": "to ask a favor",
+   "variants": [
+    "hángyò"
+   ]
+  },
+  "hataas": {
+   "meaning": "tall / long",
+   "variants": [
+    "Hataás"
+   ]
+  },
+  "hatag": {
+   "meaning": "give",
+   "variants": [
+    "hátag"
+   ]
+  },
+  "hi": {
+   "variants": [
+    "Hi"
+   ]
+  },
+  "hin": {
+   "pronunciation": "heen"
+  },
+  "hin duro": {
+   "pronunciation": "heen DOO-ro"
+  },
+  "hira": {
+   "pronunciation": "HEE-rah"
+  },
+  "hiton": {
+   "variants": [
+    "Hiton"
+   ]
+  },
+  "hiya": {
+   "pronunciation": "HEE-yah",
+   "variants": [
+    "hiyá"
+   ]
+  },
+  "huram": {
+   "variants": [
+    "hurám",
+    "hurama",
+    "hulam"
+   ]
+  },
+  "iglesiya": {
+   "pronunciation": "ig-LEH-see-yah",
+   "variants": [
+    "iglésya",
+    "iglésiya"
+   ]
+  },
+  "ikaw": {
+   "meaning": "you (sg)",
+   "variants": [
+    "ikáw"
+   ]
+  },
+  "ini": {
+   "pronunciation": "ee-NEE",
+   "variants": [
+    "Ini"
+   ]
+  },
+  "inom": {
+   "meaning": "drink",
+   "variants": [
+    "inóm"
+   ]
+  },
+  "isda": {
+   "pronunciation": "ees-DAH",
+   "variants": [
+    "isdà"
+   ]
+  },
+  "ito": {
+   "variants": [
+    "Ito"
+   ]
+  },
+  "iton": {
+   "variants": [
+    "Iton"
+   ]
+  },
+  "itum": {
+   "pronunciation": "ee-TOOM",
+   "variants": [
+    "itúm"
+   ]
+  },
+  "kaadlawan": {
+   "variants": [
+    "Kaadlawan",
+    "Kaádlawan"
+   ]
+  },
+  "kabulig": {
+   "variants": [
+    "Kabulig"
+   ]
+  },
+  "kaharani": {
+   "variants": [
+    "kaharáni"
+   ]
+  },
+  "kahoy": {
+   "meaning": "tree",
+   "variants": [
+    "káhoy"
+   ]
+  },
+  "kami": {
+   "meaning": "we (exclusive)",
+   "variants": [
+    "kamí"
+   ]
+  },
+  "kamo": {
+   "meaning": "you (plural)",
+   "pronunciation": "kah-MAW",
+   "variants": [
+    "kamó"
+   ]
+  },
+  "kan": {
+   "pronunciation": "kahn"
+  },
+  "kanta": {
+   "variants": [
+    "kánta"
+   ]
+  },
+  "kanto": {
+   "variants": [
+    "Kánto"
+   ]
+  },
+  "kaon": {
+   "meaning": "eat",
+   "variants": [
+    "káon"
+   ]
+  },
+  "kape": {
+   "pronunciation": "kah-PEH",
+   "variants": [
+    "kapé"
+   ]
+  },
+  "karsada": {
+   "meaning": "road",
+   "variants": [
+    "Karsáda",
+    "Karsada"
+   ]
+  },
+  "kasingkasing": {
+   "pronunciation": "kah-seeng-KAH-seeng",
+   "variants": [
+    "kasingkásing"
+   ]
+  },
+  "katre": {
+   "variants": [
+    "kátre"
+   ]
+  },
+  "kita": {
+   "variants": [
+    "kitá"
+   ]
+  },
+  "klase": {
+   "variants": [
+    "Kláse"
+   ]
+  },
+  "ko": {
+   "meaning": "my / by me (enclitic)"
+  },
+  "kristohanon": {
+   "pronunciation": "krees-to-HAH-non",
+   "variants": [
+    "Kristohánon",
+    "Kristohanon"
+   ]
+  },
+  "kudal": {
+   "variants": [
+    "Kudal"
+   ]
+  },
+  "kusina": {
+   "variants": [
+    "Kusína",
+    "kosínà"
+   ]
+  },
+  "kwarta": {
+   "variants": [
+    "kwárta"
+   ]
+  },
+  "kwarto": {
+   "variants": [
+    "kwárto"
+   ]
+  },
+  "laba": {
+   "meaning": "to wash clothes",
+   "variants": [
+    "labá"
+   ]
+  },
+  "labay": {
+   "pronunciation": "lah-BIGH",
+   "variants": [
+    "Labay"
+   ]
+  },
+  "lagas": {
+   "pronunciation": "LAH-gas"
+  },
+  "lakat": {
+   "pronunciation": "lah-KAT",
+   "variants": [
+    "lakát"
+   ]
+  },
+  "lalake": {
+   "variants": [
+    "laláke",
+    "laláki"
+   ]
+  },
+  "lamesa": {
+   "meaning": "table",
+   "variants": [
+    "Lamésa"
+   ]
+  },
+  "lapis": {
+   "pronunciation": "LAH-pees",
+   "variants": [
+    "Lapis"
+   ]
+  },
+  "lawas": {
+   "variants": [
+    "láwas"
+   ]
+  },
+  "leksyon": {
+   "variants": [
+    "leksiyón",
+    "Léksyon"
+   ]
+  },
+  "lingkod": {
+   "meaning": "sit",
+   "pronunciation": "leeng-KOD"
+  },
+  "lingkuran": {
+   "meaning": "chair",
+   "pronunciation": "leeng-KOO-ran",
+   "variants": [
+    "Lingkúran"
+   ]
+  },
+  "lugar": {
+   "variants": [
+    "lugár"
+   ]
+  },
+  "lukso": {
+   "variants": [
+    "lúkso"
+   ]
+  },
+  "luto": {
+   "meaning": "cook",
+   "pronunciation": "LOO-to",
+   "variants": [
+    "lútò"
+   ]
+  },
+  "maaringasa": {
+   "variants": [
+    "maaringása"
+   ]
+  },
+  "mabusag": {
+   "variants": [
+    "Mabuság"
+   ]
+  },
+  "madig-on": {
+   "variants": [
+    "madíg-on"
+   ]
+  },
+  "maduroto": {
+   "variants": [
+    "maduróto",
+    "madurúto"
+   ]
+  },
+  "maestro": {
+   "variants": [
+    "maéstro"
+   ]
+  },
+  "mahusay": {
+   "meaning": "beautiful",
+   "pronunciation": "mah-hoo-SIGH",
+   "variants": [
+    "Mahúsay",
+    "mahúsay"
+   ]
+  },
+  "makuri": {
+   "meaning": "hard / difficult"
+  },
+  "makusog": {
+   "variants": [
+    "makusóg"
+   ]
+  },
+  "malabad": {
+   "variants": [
+    "Malabad"
+   ]
+  },
+  "malidong": {
+   "variants": [
+    "malídong"
+   ]
+  },
+  "mangga": {
+   "variants": [
+    "mángga"
+   ]
+  },
+  "manok": {
+   "pronunciation": "mah-NOK",
+   "variants": [
+    "manók"
+   ]
+  },
+  "mapaso": {
+   "meaning": "hot (weather)",
+   "variants": [
+    "mapasô"
+   ]
+  },
+  "maraut": {
+   "meaning": "bad",
+   "variants": [
+    "Maráut",
+    "maráot"
+   ]
+  },
+  "masayon": {
+   "meaning": "easy / simple",
+   "pronunciation": "mah-SAH-yon",
+   "variants": [
+    "masayón"
+   ]
+  },
+  "mata": {
+   "pronunciation": "mah-TAH",
+   "variants": [
+    "matá"
+   ]
+  },
+  "matambok": {
+   "variants": [
+    "Matámbok"
+   ]
+  },
+  "matugnaw": {
+   "meaning": "cold",
+   "pronunciation": "mah-TOOG-now",
+   "variants": [
+    "Matúgnaw"
+   ]
+  },
+  "maupay": {
+   "variants": [
+    "maúpay"
+   ]
+  },
+  "merkado": {
+   "variants": [
+    "merkádo"
+   ]
+  },
+  "mga": {
+   "pronunciation": "mah-NGAH"
+  },
+  "misyonaryo": {
+   "pronunciation": "mees-yo-NAR-yo",
+   "variants": [
+    "Misyonaryo",
+    "misyonéro"
+   ]
+  },
+  "miyembro": {
+   "pronunciation": "mee-YEM-bro",
+   "variants": [
+    "miyémbro"
+   ]
+  },
+  "mo": {
+   "meaning": "your / by you (enclitic)",
+   "variants": [
+    "'mo"
+   ]
+  },
+  "nakon": {
+   "meaning": "my",
+   "variants": [
+    "Nákon"
+   ]
+  },
+  "nanay": {
+   "pronunciation": "NAH-nigh",
+   "variants": [
+    "Nánay"
+   ]
+  },
+  "nars": {
+   "variants": [
+    "nárs"
+   ]
+  },
+  "nasud": {
+   "variants": [
+    "násod",
+    "násud"
+   ]
+  },
+  "nawong": {
+   "variants": [
+    "nawóng"
+   ]
+  },
+  "ngan": {
+   "pronunciation": "ngahn"
+  },
+  "ngaran": {
+   "variants": [
+    "ngáran"
+   ]
+  },
+  "ni": {
+   "variants": [
+    "Ni"
+   ]
+  },
+  "nimo": {
+   "meaning": "your",
+   "variants": [
+    "Nímo",
+    "namók"
+   ]
+  },
+  "nira": {
+   "meaning": "their",
+   "variants": [
+    "Níra"
+   ]
+  },
+  "niya": {
+   "meaning": "his/her / by him-her",
+   "pronunciation": "nee-YAH",
+   "variants": [
+    "Níya"
+   ]
+  },
+  "niyo": {
+   "meaning": "your (pl)",
+   "variants": [
+    "Niyo"
+   ]
+  },
+  "opisyales": {
+   "variants": [
+    "opisyáles",
+    "opisyál"
+   ]
+  },
+  "ospital": {
+   "variants": [
+    "ospitál"
+   ]
+  },
+  "pabor": {
+   "variants": [
+    "pabór"
+   ]
+  },
+  "pagkaon": {
+   "variants": [
+    "pagkáon",
+    "pakáon"
+   ]
+  },
+  "palit": {
+   "meaning": "buy",
+   "pronunciation": "PAH-leet"
+  },
+  "panday": {
+   "variants": [
+    "pánday"
+   ]
+  },
+  "papel": {
+   "variants": [
+    "Papél"
+   ]
+  },
+  "para": {
+   "meaning": "for",
+   "variants": [
+    "pára"
+   ]
+  },
+  "pasyada": {
+   "meaning": "stroll; walk around",
+   "variants": [
+    "pasyáda"
+   ]
+  },
+  "patay": {
+   "pronunciation": "pah-TIGH"
+  },
+  "peligroso": {
+   "variants": [
+    "peligróso"
+   ]
+  },
+  "pili": {
+   "pronunciation": "PEE-lee",
+   "variants": [
+    "píli"
+   ]
+  },
+  "pilipino": {
+   "variants": [
+    "Pilipíno",
+    "Pilipino"
+   ]
+  },
+  "pinirito nga manok": {
+   "pronunciation": "pee-nee-REE-to ngah mah-NOK",
+   "variants": [
+    "Piniríto nga manok"
+   ]
+  },
+  "problema": {
+   "variants": [
+    "probléma"
+   ]
+  },
+  "prutas": {
+   "variants": [
+    "prutás",
+    "prúta"
+   ]
+  },
+  "puno": {
+   "pronunciation": "POO-no",
+   "variants": [
+    "Punô"
+   ]
+  },
+  "riko": {
+   "variants": [
+    "Riko"
+   ]
+  },
+  "saging": {
+   "pronunciation": "SAH-geeng",
+   "variants": [
+    "ságing"
+   ]
+  },
+  "saka": {
+   "meaning": "to climb",
+   "variants": [
+    "sáka"
+   ]
+  },
+  "sala": {
+   "variants": [
+    "sála"
+   ]
+  },
+  "sangkay": {
+   "pronunciation": "sahng-KIGH",
+   "variants": [
+    "Sángkay"
+   ]
+  },
+  "sapatos": {
+   "variants": [
+    "sapátos"
+   ]
+  },
+  "sarig": {
+   "variants": [
+    "sárig"
+   ]
+  },
+  "saruwal": {
+   "pronunciation": "sah-roo-WAL",
+   "variants": [
+    "saruwál"
+   ]
+  },
+  "simba": {
+   "meaning": "to worship",
+   "pronunciation": "SEEM-bah",
+   "variants": [
+    "símba"
+   ]
+  },
+  "simbahan": {
+   "pronunciation": "seem-BAH-han",
+   "variants": [
+    "simbahán"
+   ]
+  },
+  "sine": {
+   "pronunciation": "see-NEH",
+   "variants": [
+    "siné"
+   ]
+  },
+  "sinehan": {
+   "pronunciation": "see-neh-HAN",
+   "variants": [
+    "sinehán"
+   ]
+  },
+  "siring": {
+   "meaning": "to speak / say"
+  },
+  "siyudad": {
+   "pronunciation": "see-yoo-DAD",
+   "variants": [
+    "siyudád"
+   ]
+  },
+  "sunod": {
+   "pronunciation": "soo-NOD",
+   "variants": [
+    "nasunód",
+    "sunód"
+   ]
+  },
+  "surat": {
+   "variants": [
+    "surát"
+   ]
+  },
+  "tatay": {
+   "variants": [
+    "Tátay"
+   ]
+  },
+  "tawa": {
+   "pronunciation": "TAH-wah",
+   "variants": [
+    "táwa"
+   ]
+  },
+  "tawag": {
+   "variants": [
+    "táwag"
+   ]
+  },
+  "tawo": {
+   "meaning": "person",
+   "variants": [
+    "táwo"
+   ]
+  },
+  "telebisyon": {
+   "pronunciation": "teh-leh-BEES-yon"
+  },
+  "tinapay": {
+   "variants": [
+    "tinápay"
+   ]
+  },
+  "tindahan": {
+   "pronunciation": "teen-DAH-han",
+   "variants": [
+    "Tindáhan",
+    "tendáhan"
+   ]
+  },
+  "tsinelas": {
+   "variants": [
+    "Tsinelas"
+   ]
+  },
+  "tubig": {
+   "pronunciation": "TOO-beeg",
+   "variants": [
+    "túbig"
+   ]
+  },
+  "tukdaw": {
+   "variants": [
+    "túkdaw"
+   ]
+  },
+  "tuok": {
+   "pronunciation": "too-OK",
+   "variants": [
+    "tuók"
+   ]
+  },
+  "uma": {
+   "variants": [
+    "umá"
+   ]
+  },
+  "utan": {
+   "meaning": "vegetables",
+   "variants": [
+    "Útan"
+   ]
+  },
+  "uyab": {
+   "meaning": "girlfriend / boyfriend",
+   "variants": [
+    "uyáb"
+   ]
+  },
+  "wali": {
+   "variants": [
+    "wáli"
+   ]
+  },
+  "yakan": {
+   "variants": [
+    "yakán"
+   ]
+  },
+  "yawa": {
+   "variants": [
+    "yáwà"
+   ]
+  }
+ }
+}

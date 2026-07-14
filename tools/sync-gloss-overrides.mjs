@@ -10,6 +10,7 @@ import fs from "fs";
 const G = JSON.parse(fs.readFileSync("docs/dictionary/gloss-overrides.json", "utf8"));
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
 let cards = 0, senses = 0;
 for (const [w, v] of Object.entries(G)) {
   if (w.startsWith("_")) continue;

@@ -41,6 +41,7 @@ const glossHas = (entries, meaning) => { const mt = new Set(contentWords(meaning
 if (!process.env.SUPABASE_DB_URL) { console.error("Set SUPABASE_DB_URL (the postgres connection string) in your environment first."); process.exit(1); }
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
 const dict = (await c.query("select waray,meaning,confirmed,kind,pos from dictionary order by waray")).rows;
 // attach where each word comes from (which courses drill it) so the review page can show provenance
 const courseOf = new Map((await c.query("select waray, courses from word_usage")).rows.map((r) => [r.waray, r.courses || []]));
@@ -58,13 +59,16 @@ const isProper = (w, m) => /^[A-Z]/.test(w) && /^[A-Z]/.test(m || "");   // mont
 
 const out = { agree: [], diverge: [], variant: [], nativeAlt: [], gap: [], phrase: [], grammar: [] };
 for (const d of dict) {
+  // classify on the PRIMARY sense only: a live card may carry merged "/" senses that a
+  // fresh build doesn't have yet — classification must agree in both worlds (rebuild-check)
+  const m0 = (d.meaning || "").split("/")[0].trim();
   if (d.kind === "phrase" || /\s/.test(d.waray)) { out.phrase.push(d); continue; }   // phrases aren't single-word lookups
   if (isFunc(d)) { out.grammar.push(d); continue; }                                    // pronouns/markers — known, front matter
   const t1 = byHead.get(nf(d.waray));
-  if (t1) { (glossHas(t1, d.meaning) ? out.agree : out.diverge).push({ ...d, tramp: t1[0].gloss }); continue; }
+  if (t1) { (glossHas(t1, m0) ? out.agree : out.diverge).push({ ...d, tramp: t1[0].gloss }); continue; }
   const t2 = tier2(d.waray);
-  if (t2) { (glossHas(t2.entries, d.meaning) ? out.agree : out.diverge).push({ ...d, via: t2.root, tramp: t2.entries[0].gloss }); continue; }
-  const t3 = tier3(d.waray, d.meaning).filter((x) => strictSame(x.e, d.meaning));   // only same-meaning candidates
+  if (t2) { (glossHas(t2.entries, m0) ? out.agree : out.diverge).push({ ...d, via: t2.root, tramp: t2.entries[0].gloss }); continue; }
+  const t3 = tier3(d.waray, m0).filter((x) => strictSame(x.e, m0));   // only same-meaning candidates
   const variant = t3.find((x) => x.dist <= 2 && Math.min(nf(d.waray).length, nf(x.e.waray).length) >= 4);
   if (variant) out.variant.push({ ...d, suggest: variant.e.waray, dist: variant.dist, tramp: variant.e.gloss });
   else if (t3.length && !isProper(d.waray, d.meaning)) out.nativeAlt.push({ ...d, suggest: t3[0].e.waray, tramp: t3[0].e.gloss });
@@ -88,6 +92,10 @@ console.log(`\n  gaps:       ${out.gap.slice(0, 16).map((x) => x.waray).join(", 
 // ---- --apply: populate the meanings table (course words = source of truth) ----
 if (process.argv.includes("--apply")) {
   const qy = async (s, p) => (await c.query(s, p)).rows;
+  // words in gloss-overrides.json own their sense rows (per-sense truth, incl. stress) —
+  // inserting the raw card string here would add a near-duplicate sense ("we, inclusive"
+  // next to the override's "we (inclusive)"). Confirm/variants still apply below.
+  const OVERRIDE_WORDS = new Set(Object.keys(JSON.parse(fs.readFileSync("docs/dictionary/gloss-overrides.json", "utf8"))).filter((k) => !k.startsWith("_")));
   // a word's own meaning is auto-confirmed when Tramp agrees, it's a spelling variant, or it's a
   // known grammar word (pronoun/marker). Diverge / native-alt / gap keep their existing confirmed flag.
   const autoConfirm = new Set([...out.agree, ...out.variant, ...out.grammar].map((x) => x.waray));
@@ -98,6 +106,12 @@ if (process.argv.includes("--apply")) {
   for (const d of dict) {
     const conf = autoConfirm.has(d.waray) || d.confirmed;
     const sources = [...new Set([...(courses.get(d.waray) || []), ...(trampAgrees.has(d.waray) ? ["tramp"] : [])])];
+    if (OVERRIDE_WORDS.has(d.waray)) {
+      if (autoConfirm.has(d.waray) && !d.confirmed)
+        await qy("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,$2) where waray=$1 and (not confirmed or confirmed_by is null)",
+          [d.waray, trampAgrees.has(d.waray) ? "tramp" : "book"]);
+      continue;
+    }
     await qy(`insert into meanings (waray,meaning,pos,sources,confirmed,ord) values ($1,$2,$3,$4,$5,1)
               on conflict (waray,meaning) do update set confirmed = meanings.confirmed or excluded.confirmed,
                 sources = (select array(select distinct unnest(meanings.sources || excluded.sources))), pos = coalesce(meanings.pos, excluded.pos)`,
@@ -106,7 +120,7 @@ if (process.argv.includes("--apply")) {
       await qy("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,$2) where waray=$1 and (not confirmed or confirmed_by is null)",
         [d.waray, trampAgrees.has(d.waray) ? "tramp" : "book"]);   // grammar words = the book's front matter; never overwrite an existing stamp (ella wins)
   }
-  for (const v of out.variant) await qy("update dictionary set variants=(select array(select distinct unnest(variants || $2::text[]))) where waray=$1", [v.waray, [v.suggest]]);
+  for (const v of out.variant) await qy("update dictionary set variants=(select array(select distinct unnest(variants || $2::text[]) order by 1)) where waray=$1", [v.waray, [v.suggest]]);
   await qy("commit");
   const stats = (await qy("select count(*) n, count(*) filter (where confirmed) c from meanings"))[0];
   console.log(`\n✓ meanings populated — ${stats.n} sense rows, ${stats.c} confirmed`);

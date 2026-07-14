@@ -480,7 +480,7 @@ insert into dictionary (waray,kind,meaning,pos,confirmed) values
   ('sekretarya','word','secretary','noun',false),
   ('tag-iya','word','owner','noun',false),
   ('ano','word','what','marker',false)
-  on conflict (waray) do nothing;
+  on conflict (waray) do update set pos = coalesce(dictionary.pos, excluded.pos);
 
 insert into expressions (id,waray,translation) values
   (20001,'Pilipino ka.','You are a Filipino.'),

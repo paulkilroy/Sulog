@@ -24,6 +24,7 @@ const content = (s) => norm(s).split(" ").filter((w) => w.length > 1 && !STOP.ha
 
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
 const rows = (await c.query(`select d.waray, d.meaning from dictionary d where (not d.confirmed or d.confirmed_by is null)
   and exists (select 1 from block_items bi join lesson_blocks lb on lb.id=bi.block_id
               where bi.dict_waray = d.waray and lb.lesson_id like 'pc-%')`)).rows;

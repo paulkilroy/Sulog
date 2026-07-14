@@ -84,6 +84,9 @@ await c.end();
 // ---- deterministic enrichment: EVERYTHING below re-derives from committed sources +
 // judgment tables, in confirmation-authority order — this is what makes a from-scratch
 // rebuild land on the same DB (see README "How a definition enters the dictionary").
+console.log("\n[0/4] committed lexicon extras (word bank + curated attrs)…");
+execSync("node tools/load-lexicon-extras.mjs", { stdio: "inherit", env: process.env });
+
 console.log("\n[1/4] Tramp verification (build-meanings)…");
 execSync("node tools/build-meanings.mjs --apply", { stdio: "inherit", env: process.env });
 
