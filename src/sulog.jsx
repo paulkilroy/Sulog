@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, setDialectForm, loadUserSettings, saveUserSettings } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -500,7 +500,7 @@ function checkAnswer(input, target, waray, spoken) {
     // dialect setting on, a typed dialect form also matches its canonical word ("wara" for "waray",
     // "sin" for "hin") — acceptance only ever widens, never narrows.
     const tW = t.split(" ");
-    const wordOk = (w, tw) => w === tw || (waray && _dialectForms.has(w) && warayFold(VARIANTS[w] || "") === tw) || lev(w, tw) <= _tol(tw.length);
+    const wordOk = (w, tw) => w === tw || (waray && _dialectForms.has(w) && warayFold(_dialectCanon.get(w) || VARIANTS[w] || "") === tw) || lev(w, tw) <= _tol(tw.length);
     if (gotW.length === tW.length && gotW.every((w, i) => wordOk(w, tW[i]))) return true;
     if (!fuzzy) continue;
     // whole-phrase edit distance (natural variation / recognizer noise)
@@ -622,7 +622,15 @@ function mergeUnits(l, c) {
 let _voices = [];
 let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
-let _dialectForms = new Set(); // enabled regional forms (keys into VARIANTS) — grading accepts exactly these
+let _dialectForms = new Set(); // enabled regional forms — grading accepts exactly these
+let _dialectCanon = new Map();  // form → canonical, from the dialect_forms table (VARIANTS is the offline fallback)
+// dialect CATALOG (which forms exist) is GLOBAL CONFIG from the dialect_forms table — cached so
+// boot is synchronous, refreshed from the DB, bundled DIALECT_FORMS only as first-run fallback
+const DIALECT_CACHE_KEY = "sulog:dialectforms";
+const readDialectCache = () => {
+  try { const v = JSON.parse(localStorage.getItem(DIALECT_CACHE_KEY) || "null"); if (v?.length) return v; } catch (e) {}
+  return DIALECT_FORMS.map((f) => ({ ...f, presets: ["daram"], verified: false }));
+};
 
 // How well a voice's language approximates Waray. Waray is Austronesian:
 // Filipino/Tagalog is closest; Indonesian and Malay share the same 5-vowel,
@@ -768,11 +776,18 @@ export default function App() {
   useEffect(() => {
     _voiceURI = settings.voiceURI || null;
   }, [settings.voiceURI]);
+  // dialect catalog: cached-then-refreshed from the dialect_forms table (global config —
+  // Ella verifying / dropping a form reaches every device here, no deploy)
+  const [dialectCatalog, setDialectCatalog] = useState(readDialectCache);
+  const refreshDialect = useCallback(async () => {
+    try { const list = await fetchDialectForms(); if (list.length) { setDialectCatalog(list); localStorage.setItem(DIALECT_CACHE_KEY, JSON.stringify(list)); } } catch (e) { /* offline — cache stands */ }
+  }, []);
+  useEffect(() => { refreshDialect(); }, [refreshDialect]);
   useEffect(() => {
-    const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(DIALECT_PRESETS.daram.forms.map((k) => [k, true])) : {});
+    const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(dialectCatalog.filter((f) => (f.presets || []).includes("daram")).map((f) => [f.k, true])) : {});
     _dialectForms = new Set(Object.keys(forms).filter((k) => forms[k]));
-  }, [settings.dialectForms, settings.dialect]);
-
+    _dialectCanon = new Map(dialectCatalog.map((f) => [f.k, f.canon]));
+  }, [settings.dialectForms, settings.dialect, dialectCatalog]);
   // load on mount. Every parse is individually guarded: ONE corrupt localStorage value (partial
   // write on quota, manual edit, old format) must cost only that record — never the boot. Without
   // this, a single bad JSON.parse rejected the whole IIFE and the app hung on "Loading your tide…".
@@ -1039,6 +1054,18 @@ export default function App() {
     }
   }, [loaded, user, syncPull]);
 
+  // per-user dialect SELECTION follows the account across devices (newest-wins by `updated`;
+  // the toggle in the Language door pushes on change, so this pull only ever applies a
+  // NEWER selection made on another device)
+  useEffect(() => {
+    if (!user) return;
+    loadUserSettings(user.id).then((r) => {
+      const cur = stateRef.current.settings || {};
+      if (r && (Number(r.updated) || 0) > (Number(cur.dialectFormsUpdated) || 0))
+        saveSettings({ ...cur, dialectForms: Object.fromEntries((r.dialect_forms || []).map((k) => [k, true])), dialectFormsUpdated: Number(r.updated) || 0 });
+    }).catch(() => {});
+  }, [user, saveSettings]);
+
   // auto-push on changes (debounced) — held until the initial pull has merged the cloud in
   useEffect(() => {
     if (!loaded || !user || !initialPulled) return;
@@ -1066,6 +1093,7 @@ export default function App() {
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
     history, logAttempt, units, startUnitReview, markUnitReview, startGate,
+    dialectCatalog, refreshDialect,
     user, signIn: signInWithGoogle, signOut: sbSignOut, admin: isAdmin(user),
   };
 
@@ -1350,16 +1378,26 @@ function LanguageView({ ctx }) {
         <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect — accepted regional forms" />
         <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 14px", marginBottom: 14 }}>
           {(() => {
-            const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(DIALECT_PRESETS.daram.forms.map((k) => [k, true])) : {});
-            const setForms = (nf) => saveSettings({ ...settings, dialectForms: nf });
-            const onCount = DIALECT_FORMS.filter((f) => forms[f.k]).length;
+            // catalog comes from the dialect_forms table (global config, no deploy to change);
+            // the checked SELECTION is yours — saved locally and synced to your account
+            const catalog = ctx.dialectCatalog || [];
+            const presetIds = [...new Set(catalog.flatMap((f) => f.presets || []))];
+            const presets = [{ id: "standard", label: "Standard · Tacloban", forms: [] },
+              ...presetIds.map((id) => ({ id, label: id === "daram" ? "Daram · rural Samar" : id, forms: catalog.filter((f) => (f.presets || []).includes(id)).map((f) => f.k) }))];
+            const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(catalog.filter((f) => (f.presets || []).includes("daram")).map((f) => [f.k, true])) : {});
+            const setForms = (nf) => {
+              saveSettings({ ...settings, dialectForms: nf, dialectFormsUpdated: Date.now() });
+              if (ctx.user) saveUserSettings(ctx.user.id, Object.keys(nf).filter((k) => nf[k])).catch(() => {});
+            };
+            const onCount = catalog.filter((f) => forms[f.k]).length;
+            const mark = async (k, patch) => { try { await setDialectForm(k, patch); ctx.refreshDialect(); } catch (e) { alert(e.message); } };
             return (
               <>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
-                  {Object.entries(DIALECT_PRESETS).map(([id, p]) => {
+                  {presets.map((p) => {
                     const active = p.forms.length === onCount && p.forms.every((k) => forms[k]);
                     return (
-                      <button key={id} onClick={() => setForms(Object.fromEntries(p.forms.map((k) => [k, true])))}
+                      <button key={p.id} onClick={() => setForms(Object.fromEntries(p.forms.map((k) => [k, true])))}
                         style={{ border: "1px solid " + (active ? "var(--tide)" : "var(--sand-deep)"), background: active ? "var(--tide)" : "var(--foam)", color: active ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
                         {p.label}
                       </button>
@@ -1367,15 +1405,24 @@ function LanguageView({ ctx }) {
                   })}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))", gap: 2 }}>
-                  {DIALECT_FORMS.map((fm) => (
+                  {catalog.map((fm) => (
                     <label key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "4px 2px", cursor: "pointer", color: forms[fm.k] ? "var(--ink)" : "var(--ink-soft)" }}>
                       <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
-                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span></span>
+                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span>
+                        {fm.verified && <span title="native-speaker verified" style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓</span>}</span>
+                      {ctx.admin && (
+                        <span style={{ marginLeft: "auto", display: "flex", gap: 4, flex: "none" }}>
+                          {!fm.verified && <button title="mark native-verified (global)" onClick={(e) => { e.preventDefault(); mark(fm.k, { verified: true }); }}
+                            style={{ fontSize: 10, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--jade)", borderRadius: 6, padding: "1px 6px", cursor: "pointer" }}>✓ verify</button>}
+                          <button title="drop this form for everyone (global)" onClick={(e) => { e.preventDefault(); if (confirm(`Drop “${fm.k}” from the catalog for all users?`)) mark(fm.k, { active: false }); }}
+                            style={{ fontSize: 10, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--coral)", borderRadius: 6, padding: "1px 6px", cursor: "pointer" }}>✗</button>
+                        </span>
+                      )}
                     </label>
                   ))}
                 </div>
                 <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7, lineHeight: 1.45 }}>
-                  Checked forms are ACCEPTED when you answer ({onCount} on). Presets preselect; adjust freely — region attributions are community-reported and refined as native speakers confirm. Courses still teach the standard forms.
+                  Checked forms are ACCEPTED when you answer ({onCount} on){ctx.user ? " — synced to your account" : ""}. ✓ = native-speaker verified. Presets preselect; adjust freely. Courses still teach the standard forms.
                 </div>
               </>
             );

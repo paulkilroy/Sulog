@@ -56,5 +56,23 @@ const check = (name, ok, detail = "") => { console.log(`${ok ? "✓" : "✗ FAIL
   check("anon cannot INSERT ella_answers", !!error, error ? "" : "INSERT SUCCEEDED — RLS IS OFF");
 }
 
+// 8. native_confirmations (durable human judgments): world-readable, admin-only writes
+{
+  const { error } = await anon.from("native_confirmations").insert({ waray: "__rls__", meaning: "x" });
+  check("anon cannot INSERT native_confirmations", !!error, error ? "" : "INSERT SUCCEEDED — RLS IS OFF");
+}
+// 9. dialect_forms (global config): world-readable, admin-only writes
+{
+  const { data } = await anon.from("dialect_forms").select("k").limit(1);
+  check("anon can READ dialect_forms", (data || []).length === 1);
+  const { data: upd, error } = await anon.from("dialect_forms").update({ verified: true }).eq("k", "di").select();
+  check("anon cannot UPDATE dialect_forms", !!error || (upd || []).length === 0, `rows changed: ${(upd || []).length}`);
+}
+// 10. user_settings: owner-only (anon sees nothing, writes nothing)
+{
+  const { data, error } = await anon.from("user_settings").select("user_id").limit(1);
+  check("anon sees NO user_settings", !error && (data || []).length === 0, error?.message || `saw ${(data || []).length} rows`);
+}
+
 if (fails) { console.error(`\n✗ ${fails} RLS check(s) FAILED — the public key can reach protected data. Re-run docs/schema/rls.sql NOW.`); process.exit(1); }
 console.log("\n✓ RLS intact — the shipped key can only do what the app needs.");

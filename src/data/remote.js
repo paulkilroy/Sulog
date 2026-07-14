@@ -181,6 +181,24 @@ export const confirmEntry = async (waray, patch = { confirmed: true }) => {
   return res;
 };
 
+// ---- dialect config (GLOBAL, from the dialect_forms table — no deploy needed to change) ----
+// Catalog of grade-relevant regional forms; the Language door renders its checkboxes from
+// this. Cached by the caller; variants.js DIALECT_FORMS is only the offline fallback.
+export const fetchDialectForms = () =>
+  rows(supabase.from("dialect_forms").select("*").eq("active", true).order("ord"));
+// admin: verify (native-confirmed) or drop (active=false) a form — global, instant
+export const setDialectForm = async (k, patch) => {
+  const r = await rows(supabase.from("dialect_forms").update(patch).eq("k", k).select());
+  if (!r.length) throw new Error("not saved — are you signed in as the admin?");
+};
+
+// ---- per-user settings that follow the user across devices (dialect selection) ----
+export const loadUserSettings = async (userId) =>
+  (await rows(supabase.from("user_settings").select("*").eq("user_id", userId)))[0] || null;
+export const saveUserSettings = (userId, dialectForms) =>
+  rows(supabase.from("user_settings").upsert(
+    { user_id: userId, dialect_forms: dialectForms, updated: Date.now() }, { onConflict: "user_id" }));
+
 // native-speaker answers for review-queue questions (missing exercise answers + dialect calls).
 // World-readable; writes are RLS admin-gated — assert the row LANDED (an RLS-denied update is a
 // silent no-op, not an error).
