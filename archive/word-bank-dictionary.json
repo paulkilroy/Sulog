@@ -1,5 +1,5 @@
 {
- "note": "Word-bank rows still deleted after the 2026-07-13 teardown + Tramp restore: entries with NO Tramp backing (headword absent from tramp.json) \u2014 mostly cased phrase cards and unverified course glosses. The 183 Tramp-confirmed + 23 Tramp-headword words were restored to the live dictionary the same day.",
+ "note": "Word-bank rows deleted from the live DB (2026-07-13 teardown + follow-ups). Rule: a dictionary definition must be vouched by the Peace Corps book or Tramp — definitions authored anywhere else (Preply deck, Challenger, Wikivoyage, Duolingo/CHED gap fills, Claude compiles) do NOT enter the live dictionary. The 183 entries whose definitions Tramp corroborates remain live.",
  "dictionary": [
   {
    "waray": "Nobyembre",
@@ -334,7 +334,7 @@
   {
    "waray": "ate",
    "kind": "word",
-   "meaning": "older sister \u2014 also any slightly older female",
+   "meaning": "older sister — also any slightly older female",
    "pronunciation": "AH-teh",
    "pos": null,
    "root": null,
@@ -847,6 +847,259 @@
    "variants": [],
    "loan": null,
    "confirmed": true
+  },
+  {
+   "waray": "makarit",
+   "kind": "word",
+   "meaning": "excellent",
+   "pronunciation": "mah-KAH-rit",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "napalit",
+   "kind": "word",
+   "meaning": "is buying",
+   "pronunciation": "nah-PAH-leet",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "malakat",
+   "kind": "word",
+   "meaning": "will go",
+   "pronunciation": "mah-LAH-kat",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "kanina",
+   "kind": "word",
+   "meaning": "earlier",
+   "pronunciation": "kah-NEE-nah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "panakot",
+   "kind": "word",
+   "meaning": "ingredients / spices",
+   "pronunciation": "pah-NAH-kot",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "munisipyo",
+   "kind": "word",
+   "meaning": "town / city hall",
+   "pronunciation": "moo-nee-SEEP-yo",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "madampog",
+   "kind": "word",
+   "meaning": "cloudy",
+   "pronunciation": "mah-DAM-pog",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "kada",
+   "kind": "word",
+   "meaning": "each / every",
+   "pronunciation": "KAH-dah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "nalakat",
+   "kind": "word",
+   "meaning": "is going",
+   "pronunciation": "nah-LAH-kat",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "malipay",
+   "kind": "word",
+   "meaning": "happy",
+   "pronunciation": "mah-LEE-pigh",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "barangay",
+   "kind": "word",
+   "meaning": "neighborhood",
+   "pronunciation": "bah-rahng-GIGH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "paradahan",
+   "kind": "word",
+   "meaning": "terminal",
+   "pronunciation": "pah-rah-DAH-han",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "pwesto",
+   "kind": "word",
+   "meaning": "spot/place",
+   "pronunciation": "PWES-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "alayon",
+   "kind": "word",
+   "meaning": "please",
+   "pronunciation": "ah-LAH-yon",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "pantaw",
+   "kind": "word",
+   "meaning": "back porch",
+   "pronunciation": "PAN-tow",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "salamat",
+   "kind": "word",
+   "meaning": "thank you",
+   "pronunciation": "sah-LAH-mat",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "pamyenta",
+   "kind": "word",
+   "meaning": "pepper",
+   "pronunciation": "pam-YEN-tah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "kuya",
+   "kind": "word",
+   "meaning": "older brother — also any slightly older male",
+   "pronunciation": "KOO-yah",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "bangon",
+   "kind": "word",
+   "meaning": "wake up; get up",
+   "pronunciation": "BAH-ngon",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "motor",
+   "kind": "word",
+   "meaning": "motorcycle",
+   "pronunciation": "mo-TOR",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "usa",
+   "kind": "word",
+   "meaning": "one",
+   "pronunciation": "oo-SAH",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "kadto",
+   "kind": "word",
+   "meaning": "to go (to a specific place)",
+   "pronunciation": "KAD-to",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
+  },
+  {
+   "waray": "makaon",
+   "kind": "word",
+   "meaning": "will eat",
+   "pronunciation": "mah-KAH-on",
+   "pos": null,
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": false
   }
  ],
  "meanings": [
@@ -1153,7 +1406,7 @@
   {
    "id": "1457",
    "waray": "ate",
-   "meaning": "older sister \u2014 also any slightly older female",
+   "meaning": "older sister — also any slightly older female",
    "pos": null,
    "confirmed": true,
    "ord": 1,
@@ -1614,6 +1867,236 @@
    "id": "2199",
    "waray": "traysikol",
    "meaning": "tricycle",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2284",
+   "waray": "makarit",
+   "meaning": "excellent",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2298",
+   "waray": "napalit",
+   "meaning": "is buying",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2302",
+   "waray": "malakat",
+   "meaning": "will go",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2308",
+   "waray": "kanina",
+   "meaning": "earlier",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2318",
+   "waray": "panakot",
+   "meaning": "ingredients / spices",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2322",
+   "waray": "munisipyo",
+   "meaning": "town / city hall",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2336",
+   "waray": "madampog",
+   "meaning": "cloudy",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2354",
+   "waray": "kada",
+   "meaning": "each / every",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2367",
+   "waray": "nalakat",
+   "meaning": "is going",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2372",
+   "waray": "malipay",
+   "meaning": "happy",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2379",
+   "waray": "barangay",
+   "meaning": "neighborhood",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2381",
+   "waray": "paradahan",
+   "meaning": "terminal",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2383",
+   "waray": "pwesto",
+   "meaning": "spot/place",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2395",
+   "waray": "alayon",
+   "meaning": "please",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2412",
+   "waray": "pantaw",
+   "meaning": "back porch",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2421",
+   "waray": "salamat",
+   "meaning": "thank you",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2434",
+   "waray": "pamyenta",
+   "meaning": "pepper",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2444",
+   "waray": "kuya",
+   "meaning": "older brother — also any slightly older male",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2464",
+   "waray": "bangon",
+   "meaning": "wake up; get up",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2473",
+   "waray": "motor",
+   "meaning": "motorcycle",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2475",
+   "waray": "usa",
+   "meaning": "one",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2478",
+   "waray": "kadto",
+   "meaning": "to go (to a specific place)",
+   "pos": null,
+   "confirmed": true,
+   "ord": 1,
+   "sources": [],
+   "pronunciation": null
+  },
+  {
+   "id": "2481",
+   "waray": "makaon",
+   "meaning": "will eat",
    "pos": null,
    "confirmed": true,
    "ord": 1,
