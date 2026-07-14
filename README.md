@@ -78,7 +78,9 @@ source-of-truth.
       dictionary rows (scoped so it can never touch the shared word bank / other courses),
       bump courses.version — every connected app auto-refetches its cached course.
       Guards: refuses a wrong DB (project-ref check), a truncated seed, or a seed with fewer
-      lessons than live (--force to override). Runs step 7 when done.
+      lessons than live (--force to override). Then runs, in order: step 7 (preview),
+      confirm-from-book (auto-confirm against the book's print), gen-confirm-candidates
+      (bake cited options for the remaining queue into the bundle), rls-smoke.
 
  7. tools/gen-course-preview.mjs  (live DB + OCR + scans → docs/preview/verify/)
       The review site: one page per lesson + index, committed and served at /verify/.
@@ -102,6 +104,31 @@ source-of-truth.
  9. Deploy: push to main → Vercel runs `npm run build` and serves index.html + /verify/.
       (vercel.json copies docs/preview/verify into the deployment — the verify site is
       regenerated locally by the pipeline, not on Vercel, because steps 1–2 need macOS.)
+```
+
+### How a definition enters the dictionary (the authority rule)
+
+A live dictionary definition must be vouched by the **Peace Corps book** or **Tramp** —
+nothing else. Definitions authored anywhere else (the retired Preply/Challenger decks,
+Wikivoyage, Duolingo/CHED gap fills, AI compiles) live only in
+`archive/word-bank-dictionary.json`, never in the live DB.
+
+```
+ 1. ENTER    Words + definitions come ONLY from the PC book, read by the Gemini extraction
+             (the one allowed AI role: a READER of the book where the scan/OCR is rough —
+             always cited as "Gemini · Peace Corps scan", never an author). repairExpr,
+             FABRICATED, MARKER_GLOSS and gloss-overrides.json clean/normalize at the funnel.
+             Every row lands UNCONFIRMED.
+ 2. AUTO-CONFIRM (two independent verifiers, run inside `npm run reload`)
+      a. Tramp agreement   — the definition matches Tramp's printed entry
+                             (tools/build-meanings.mjs → sources += tramp, confirmed)
+      b. Book-print match  — the (word, definition) pair appears verbatim in the book's own
+                             OCR text (tools/confirm-from-book.mjs → confirmed on the book's
+                             authority: the AI reading was faithful)
+ 3. QUEUE    Whatever survives both is the honest residue: it renders in the app's review
+             queue as cited multiple choice (tools/gen-confirm-candidates.mjs bakes the
+             options — the definition's actual origin vs Tramp's printed entry vs "my own")
+             with a pronunciation-guide prefill. A human Confirm writes confirmed=true.
 ```
 
 ### Database
