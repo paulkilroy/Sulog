@@ -1,4 +1,5 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
+import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
@@ -1467,29 +1468,52 @@ function LanguageView({ ctx }) {
 /* ============ ADMIN REVIEW QUEUE — confirm/fix the flagged dictionary entries ============
    Lists dictionary rows with confirmed=false (Ella's queue). Editing meaning/pronunciation +
    Confirm writes to Supabase (RLS allows the admin only). Row drops off on confirm. */
+// One unconfirmed dictionary word — SAME cited multiple-choice pattern as the missing-answer
+// cards: every candidate gloss says WHO asserts it (how the word entered the app, vs what the
+// Tramp dictionary prints), plus a free-text "my own". Candidates are baked at build time by
+// tools/gen-confirm-candidates.mjs. Pronunciation is verified alongside (prefilled from the
+// row or from Tramp's accented headword) and saves with the meaning.
 function DbReviewRow({ entry, onConfirmed }) {
-  const [meaning, setMeaning] = useState(entry.meaning || "");
-  const [pron, setPron] = useState(entry.pronunciation || "");
+  const cand = CONFIRM_CANDIDATES[entry.waray] || {};
+  const options = [];
+  if (entry.meaning) options.push({ key: "current", label: cand.origin || "course deck", text: entry.meaning });
+  if (cand.tramp?.gloss && cand.tramp.gloss.toLowerCase() !== (entry.meaning || "").toLowerCase())
+    options.push({ key: "tramp", label: `Tramp dictionary${cand.tramp.page ? ` · p.${cand.tramp.page}` : ""}`, text: cand.tramp.gloss });
+  const [pick, setPick] = useState(options[0]?.key || "other");
+  const [other, setOther] = useState("");
+  const [pron, setPron] = useState(entry.pronunciation || cand.pron || "");
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
+  const chosen = pick === "other" ? other.trim() : options.find((o) => o.key === pick)?.text || "";
   const confirm = async () => {
+    if (!chosen) return;
     setSaving(true); setErr("");
-    try { await confirmEntry(entry.waray, { confirmed: true, meaning, pronunciation: pron || null }); onConfirmed(entry.waray); }
+    try { await confirmEntry(entry.waray, { confirmed: true, meaning: chosen, pronunciation: pron || null }); onConfirmed(entry.waray); }
     catch (e) { setErr(e.message || "save failed"); setSaving(false); }
   };
+  const optionRow = (key, label, text) => (
+    <label key={key} style={{ display: "flex", gap: 9, alignItems: "baseline", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === key ? "var(--jade)" : "var(--sand-deep)"), background: pick === key ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
+      <input type="radio" name={"dict-" + entry.waray} checked={pick === key} onChange={() => setPick(key)} style={{ accentColor: "var(--jade)", marginTop: 2 }} />
+      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>{label}</span>
+      <span style={{ fontFamily: "Georgia,serif", fontSize: 15.5, fontWeight: 600, lineHeight: 1.35 }}>{text}</span>
+    </label>
+  );
   return (
     <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-        <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700 }}>{entry.kind}{entry.loan ? ` · ${entry.loan} loan` : ""}</span>
-      </div>
-      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, say: pron, english: meaning })} title="Tap to hear">{entry.waray} 🔊</b>
+      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700 }}>{entry.kind}{entry.loan ? ` · ${entry.loan} loan` : ""}</div>
+      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, say: pron, english: chosen || entry.meaning })} title="Tap to hear">{entry.waray} 🔊</b>
+      {options.map((o) => optionRow(o.key, o.label, o.text))}
+      <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
+        <input type="radio" name={"dict-" + entry.waray} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
+        <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>✎ my own</span>
+        <input value={other} onChange={(e) => { setOther(e.target.value); setPick("other"); }} placeholder="type the meaning…"
+          style={{ flex: 1, fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
+      </label>
       <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <input value={meaning} onChange={(e) => setMeaning(e.target.value)} placeholder="meaning"
-          style={{ flex: "1 1 200px", fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
         <input value={pron} onChange={(e) => setPron(e.target.value)} placeholder="pronunciation (mah-OO-pigh)"
           style={{ flex: "1 1 150px", fontSize: 12.5, fontFamily: "ui-monospace,monospace", color: "var(--sea)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "7px 10px" }} />
-        <button onClick={confirm} disabled={saving}
-          style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: saving ? 0.5 : 1 }}>
+        <button onClick={confirm} disabled={saving || !chosen}
+          style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: saving || !chosen ? 0.5 : 1 }}>
           {saving ? "Saving…" : "Confirm"}
         </button>
       </div>
@@ -1577,8 +1601,8 @@ function EllaQuestionCard({ q, admin, answer, onSaved }) {
             ))
           ) : (
             <>
-              {q.suggest && optionRow("suggest", "suggested fix", q.suggest)}
-              {q.draft && optionRow("draft", "AI original (removed)", q.draft)}
+              {q.suggest && optionRow("suggest", "Claude · suggested fix", q.suggest)}
+              {q.draft && optionRow("draft", "Gemini · book extraction (removed)", q.draft)}
               <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
                 <input type="radio" name={q.id} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
                 <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>✎ my own</span>

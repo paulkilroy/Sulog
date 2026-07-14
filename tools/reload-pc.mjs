@@ -90,6 +90,11 @@ execSync("node tools/gen-course-preview.mjs", { stdio: "inherit", env: process.e
 console.log("\nconfirming PC entries against the book…");
 execSync("node tools/confirm-from-book.mjs --apply", { stdio: "inherit", env: process.env });
 
+// bake cited candidate glosses for whatever is STILL unconfirmed into the app bundle
+// (runs after confirm-from-book so the queue is the post-auto-confirm residue)
+console.log("\nregenerating confirm candidates…");
+execSync("node tools/gen-confirm-candidates.mjs", { stdio: "inherit", env: process.env });
+
 // prove RLS still guards the public key (a recreated table comes back unprotected — this is the alarm)
 console.log("\nRLS smoke test…");
 execSync("node tools/rls-smoke.mjs", { stdio: "inherit" });

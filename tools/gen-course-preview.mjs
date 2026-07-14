@@ -589,8 +589,8 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
     <div class="todo-entry" id="${slug(r.waray)}">
       <div class="meta">${esc(r.lesson)} · ${esc(r.where)}${r.where === "exam" ? " (graded)" : ""}</div>
       <div class="prompt">&ldquo;${esc(r.en)}&rdquo;</div>
-      <div class="bad">the AI extraction wrote: <s>${esc(r.waray)}</s></div>
-      ${r.suggest ? `<div class="bad" style="color:var(--sea)">suggested fix (verify!): <b>${esc(r.suggest)}</b></div>` : ""}
+      <div class="bad">Gemini &middot; book extraction (removed): <s>${esc(r.waray)}</s></div>
+      ${r.suggest ? `<div class="bad" style="color:var(--sea)">Claude &middot; suggested fix (verify!): <b>${esc(r.suggest)}</b></div>` : ""}
       <div class="why">${esc(r.reason)}</div>
       <div class="ans">${r.ella ? `&#10003; Ella&rsquo;s Waray: <b style="color:var(--jade)">${esc(r.ella)}</b> (restored to the lesson)` : "Ella&rsquo;s Waray: ______________________________________"}</div>
     </div>`).join("")).join("");
