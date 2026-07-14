@@ -186,6 +186,9 @@ export const confirmEntry = async (waray, patch = { confirmed: true }) => {
 // this. Cached by the caller; variants.js DIALECT_FORMS is only the offline fallback.
 export const fetchDialectForms = () =>
   rows(supabase.from("dialect_forms").select("*").eq("active", true).order("ord"));
+// admin: the FULL catalog, dropped forms included (the Admin door manages them)
+export const fetchAllDialectForms = () =>
+  rows(supabase.from("dialect_forms").select("*").order("ord"));
 // admin: verify (native-confirmed) or drop (active=false) a form — global, instant
 export const setDialectForm = async (k, patch) => {
   const r = await rows(supabase.from("dialect_forms").update(patch).eq("k", k).select());

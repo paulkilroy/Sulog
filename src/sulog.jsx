@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, setDialectForm, loadUserSettings, saveUserSettings } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -10,7 +10,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1123,6 +1123,7 @@ export default function App() {
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "language" && <LanguageView ctx={ctx} />}
+      {view === "admin" && <AdminView ctx={ctx} />}
       {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
   );
@@ -1275,6 +1276,90 @@ function BundledOverview({ course, open, setOpen }) {
    Language picker (Waray now; more later) · course selector + preview overview · sound & speech
    (pronunciation, answer-by-voice, speech test) · Ask Ella. Switching a DB course fetches +
    transforms + caches it first. */
+/* ============================ ADMIN (global levers — separated from personal settings) ============================
+   Everything here changes the app FOR EVERYONE (RLS admin-gated): the native-review queue,
+   the dialect catalog, and the data-provenance health readout. Personal settings (your own
+   dialect selection, sound, course) stay in the Language door. */
+function AdminView({ ctx }) {
+  const { setView } = ctx;
+  const [forms, setForms] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [err, setErr] = useState("");
+  const loadAll = useCallback(async () => {
+    try {
+      const [fl, dict] = await Promise.all([fetchAllDialectForms(), fetchDictionary()]);
+      setForms(fl);
+      const by = {}; let queue = 0;
+      for (const d of dict) { if (!d.confirmed) queue++; else { const k = d.confirmed_by || "unstamped"; by[k] = (by[k] || 0) + 1; } }
+      setStats({ total: dict.length, by, queue });
+    } catch (e) { setErr(e.message || String(e)); }
+  }, []);
+  useEffect(() => { loadAll(); }, [loadAll]);
+  const mark = async (k, patch) => {
+    try { await setDialectForm(k, patch); await loadAll(); ctx.refreshDialect(); } catch (e) { setErr(e.message); }
+  };
+  const box = { background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 14 };
+  return (
+    <div className="ws-page">
+      <TopBar title="Admin — global levers" onBack={() => setView("home")} />
+      <div style={{ padding: "0 4px" }}>
+        <p style={{ fontSize: 12.5, color: "var(--ink-soft)", margin: "4px 0 14px" }}>
+          Everything on this screen changes the app for EVERYONE. Your personal settings live under 🌐 Language &amp; course.
+        </p>
+        {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
+
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native review queue" />
+        <button className="ws-backup-row" onClick={() => setView("ella")}>
+          <div className="ws-backup-ic"><Check size={18} /></div>
+          <div className="ws-backup-txt"><b>Review queue</b><i>Missing answers · dictionary confirmations{stats ? ` · ${stats.queue} words waiting` : ""}</i></div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect catalog (global config)" />
+        <div style={box}>
+          {!forms && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
+          {forms && forms.map((fm) => (
+            <div key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "5px 2px", borderBottom: "1px dotted #24454b", opacity: fm.active ? 1 : 0.45 }}>
+              <span style={{ flex: 1 }}><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span>
+                {fm.verified && <span style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓ native-verified</span>}
+                {!fm.active && <span style={{ color: "var(--coral)", fontSize: 11.5 }}> · dropped</span>}</span>
+              {fm.active && !fm.verified && <button onClick={() => mark(fm.k, { verified: true })}
+                style={{ fontSize: 10.5, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--jade)", borderRadius: 6, padding: "2px 8px", cursor: "pointer" }}>✓ verify</button>}
+              {fm.verified && fm.active && <button onClick={() => mark(fm.k, { verified: false })}
+                style={{ fontSize: 10.5, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", borderRadius: 6, padding: "2px 8px", cursor: "pointer" }}>unverify</button>}
+              {fm.active
+                ? <button onClick={() => { if (confirm(`Drop “${fm.k}” from every user's settings list?`)) mark(fm.k, { active: false }); }}
+                    style={{ fontSize: 10.5, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--coral)", borderRadius: 6, padding: "2px 8px", cursor: "pointer" }}>✗ drop</button>
+                : <button onClick={() => mark(fm.k, { active: true })}
+                    style={{ fontSize: 10.5, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--jade)", borderRadius: 6, padding: "2px 8px", cursor: "pointer" }}>restore</button>}
+            </div>
+          ))}
+          <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7 }}>
+            Rows come from the <code>dialect_forms</code> table — edits reach every device on refresh, no deploy. ✓ marks what Ella has confirmed as real Daram usage.
+          </div>
+        </div>
+
+        <SectionLabel icon={<Database size={14} />} text="Data provenance" />
+        <div style={box}>
+          {stats ? (
+            <div style={{ fontSize: 13, lineHeight: 1.7 }}>
+              <b>{stats.total}</b> dictionary entries · confirmed by:{" "}
+              {Object.entries(stats.by).map(([k, n]) => `${k} ${n}`).join(" · ")} · <b style={{ color: stats.queue ? "var(--sun)" : "var(--jade)" }}>{stats.queue} in the queue</b>
+              <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 4 }}>
+                Every confirmed definition cites its verifier (Tramp print · book print · Ella). <code>npm run check</code> proves the DB rebuilds from committed sources.
+              </div>
+            </div>
+          ) : <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
+          <div style={{ display: "flex", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
+            <a href="verify/" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Course-vs-book review site →</a>
+            <a href="verify/ella-todo.html" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Ella printable todo →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LanguageView({ ctx }) {
   const { setView, settings, saveSettings, admin } = ctx;
   const [dbCourses, setDbCourses] = useState([]);        // courses that live only in Supabase
@@ -1390,7 +1475,6 @@ function LanguageView({ ctx }) {
               if (ctx.user) saveUserSettings(ctx.user.id, Object.keys(nf).filter((k) => nf[k])).catch(() => {});
             };
             const onCount = catalog.filter((f) => forms[f.k]).length;
-            const mark = async (k, patch) => { try { await setDialectForm(k, patch); ctx.refreshDialect(); } catch (e) { alert(e.message); } };
             return (
               <>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
@@ -1410,14 +1494,6 @@ function LanguageView({ ctx }) {
                       <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
                       <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span>
                         {fm.verified && <span title="native-speaker verified" style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓</span>}</span>
-                      {ctx.admin && (
-                        <span style={{ marginLeft: "auto", display: "flex", gap: 4, flex: "none" }}>
-                          {!fm.verified && <button title="mark native-verified (global)" onClick={(e) => { e.preventDefault(); mark(fm.k, { verified: true }); }}
-                            style={{ fontSize: 10, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--jade)", borderRadius: 6, padding: "1px 6px", cursor: "pointer" }}>✓ verify</button>}
-                          <button title="drop this form for everyone (global)" onClick={(e) => { e.preventDefault(); if (confirm(`Drop “${fm.k}” from the catalog for all users?`)) mark(fm.k, { active: false }); }}
-                            style={{ fontSize: 10, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--coral)", borderRadius: 6, padding: "1px 6px", cursor: "pointer" }}>✗</button>
-                        </span>
-                      )}
                     </label>
                   ))}
                 </div>
@@ -1784,6 +1860,7 @@ function HomeView({ ctx }) {
   const heroActions = (
     <div className="ws-hero-btns">
       <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
+      {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("admin")} title="Admin — global levers: review queue, dialect catalog, data provenance"><Wrench size={18} /></button>}
       <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
         title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
         {ctx.user ? <User size={18} /> : <Cloud size={18} />}
