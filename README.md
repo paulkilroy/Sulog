@@ -20,7 +20,8 @@ progress sync.
 
 | Command | What it does |
 |---|---|
-| `npm run all` | The full pipeline: seed → reload DB → regen verify site → build app |
+| `npm run all` | The full pipeline: seed → reload DB → enrich + verify → build app |
+| `npm run bootstrap` | EMPTY database only: create schema + RLS + triggers + judgment tables |
 | `npm run seed` | Regenerate `docs/schema/pc-seed.sql` from the Gemini extraction |
 | `npm run reload` | Load the seed into the live DB (guarded), bump the course version, regen `/verify` |
 | `npm run preview` | Regenerate the `/verify` site from the live DB |
@@ -78,9 +79,12 @@ source-of-truth.
       dictionary rows (scoped so it can never touch the shared word bank / other courses),
       bump courses.version — every connected app auto-refetches its cached course.
       Guards: refuses a wrong DB (project-ref check), a truncated seed, or a seed with fewer
-      lessons than live (--force to override). Then runs, in order: step 7 (preview),
-      confirm-from-book (auto-confirm against the book's print), gen-confirm-candidates
-      (bake cited options for the remaining queue into the bundle), rls-smoke.
+      lessons than live (--force to override). Then runs the deterministic enrichment, in
+      confirmation-authority order: build-meanings --apply (Tramp verification) →
+      sync-gloss-overrides (homograph senses) → fill-pronunciation --apply (guides) →
+      confirm-from-book --apply (book-print verification) → replay-confirmations (durable
+      human judgments back over fresh content) → step 7 (preview) → gen-confirm-candidates
+      (bake cited options for the remaining queue) → rls-smoke.
 
  7. tools/gen-course-preview.mjs  (live DB + OCR + scans → docs/preview/verify/)
       The review site: one page per lesson + index, committed and served at /verify/.
@@ -125,11 +129,36 @@ Wikivoyage, Duolingo/CHED gap fills, AI compiles) live only in
       b. Book-print match  — the (word, definition) pair appears verbatim in the book's own
                              OCR text (tools/confirm-from-book.mjs → confirmed on the book's
                              authority: the AI reading was faithful)
- 3. QUEUE    Whatever survives both is the honest residue: it renders in the app's review
+ 3. REPLAY   native_confirmations — the durable judgment table (never touched by content
+             rebuilds, same class as ella_answers and progress) — is replayed over the fresh
+             dictionary: every past human Confirm comes back, confirmed_by='ella'.
+ 4. QUEUE    Whatever survives all three is the honest residue: it renders in the app's review
              queue as cited multiple choice (tools/gen-confirm-candidates.mjs bakes the
              options — the definition's actual origin vs Tramp's printed entry vs "my own")
              with a pronunciation-guide prefill. A human Confirm writes confirmed=true.
 ```
+
+### Building from scratch (empty database)
+
+The build is TIERED so a code change never re-runs expensive capture, and a wiped database
+is fully recoverable:
+
+- **Tier 0 — capture** (rare; run only when a source/scan improves): Vision OCR of the book
+  and of Tramp, the Gemini reading of the scans. Outputs are COMMITTED (`ocr-boxes/`,
+  `full-ocr.txt`, `tramp.json`, `pc-blocks.json`) — they never regenerate on a code change.
+- **Tier 1 — content build** (`npm run all`): deterministic, from committed sources +
+  judgment tables. `npm run bootstrap` first if the database is empty (schema + RLS +
+  triggers + judgment tables), then `npm run all` rebuilds everything: seed → load →
+  Tramp verification → homograph senses → pronunciation guides → book verification →
+  replay native confirmations → verify site → confirm candidates → RLS smoke.
+- **Tier 2 — app build** (`npm run build`): esbuild only, no DB touch.
+
+Two classes of tables: CONTENT (courses/lessons/dictionary/meanings/expressions — disposable,
+fully re-derived by Tier 1) and JUDGMENT (`native_confirmations`, `ella_answers`, per-user
+progress — permanent, never touched by rebuilds, replayed over fresh content). Every
+confirmed dictionary row carries `confirmed_by` ('tramp' | 'book' | 'ella') so provenance
+is queryable, and a human Confirm in the app writes the durable judgment record, not just
+the content row.
 
 ### Database
 

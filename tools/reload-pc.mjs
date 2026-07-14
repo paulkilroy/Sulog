@@ -81,17 +81,32 @@ try {
 console.log("AFTER: ", await one(counts));
 await c.end();
 
+// ---- deterministic enrichment: EVERYTHING below re-derives from committed sources +
+// judgment tables, in confirmation-authority order — this is what makes a from-scratch
+// rebuild land on the same DB (see README "How a definition enters the dictionary").
+console.log("\n[1/4] Tramp verification (build-meanings)…");
+execSync("node tools/build-meanings.mjs --apply", { stdio: "inherit", env: process.env });
+
+console.log("\n[2/4] homograph senses (gloss-overrides)…");
+execSync("node tools/sync-gloss-overrides.mjs", { stdio: "inherit", env: process.env });
+
+console.log("\n[3/4] pronunciation guides (Tramp stress + composition)…");
+execSync("node tools/fill-pronunciation.mjs --apply", { stdio: "inherit", env: process.env });
+
+// auto-confirm PC dictionary entries whose extracted definition matches the book's own
+// printed text — the book's authority carries; only unverifiable extractions stay queued
+console.log("\n[4/4] book-print verification (confirm-from-book)…");
+execSync("node tools/confirm-from-book.mjs --apply", { stdio: "inherit", env: process.env });
+
+// replay the durable human judgments (native_confirmations — never touched by rebuilds)
+console.log("\nreplaying native confirmations…");
+execSync("node tools/replay-confirmations.mjs", { stdio: "inherit", env: process.env });
+
 // regenerate the side-by-side verification page from the now-live DB
 console.log("\nregenerating course preview…");
 execSync("node tools/gen-course-preview.mjs", { stdio: "inherit", env: process.env });
 
-// auto-confirm PC dictionary entries whose extracted gloss matches the book's own printed text —
-// the book's authority carries; only unverifiable extractions stay in Ella's queue
-console.log("\nconfirming PC entries against the book…");
-execSync("node tools/confirm-from-book.mjs --apply", { stdio: "inherit", env: process.env });
-
-// bake cited candidate glosses for whatever is STILL unconfirmed into the app bundle
-// (runs after confirm-from-book so the queue is the post-auto-confirm residue)
+// bake cited candidate definitions for whatever is STILL unconfirmed into the app bundle
 console.log("\nregenerating confirm candidates…");
 execSync("node tools/gen-confirm-candidates.mjs", { stdio: "inherit", env: process.env });
 

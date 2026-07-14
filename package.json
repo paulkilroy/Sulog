@@ -5,6 +5,7 @@
   "description": "Sulog \u2014 Waray-Waray review app (single-file, self-hosted)",
   "scripts": {
     "build": "bash build.sh",
+    "bootstrap": "node --env-file=.env.local tools/bootstrap-db.mjs",
     "seed": "node tools/gen-pc-seed.mjs",
     "reload": "node --env-file=.env.local tools/reload-pc.mjs",
     "preview": "node --env-file=.env.local tools/gen-course-preview.mjs",

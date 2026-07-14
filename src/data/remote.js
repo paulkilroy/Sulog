@@ -168,8 +168,18 @@ export const saveProgress = (userId, waray, fields) =>
   rows(supabase.from("progress").upsert({ user_id: userId, waray, ...fields }, { onConflict: "user_id,waray" }));
 
 // ---- admin (Ella / Paul) edits ----
-export const confirmEntry = (waray, patch = { confirmed: true }) =>
-  rows(supabase.from("dictionary").update(patch).eq("waray", waray));
+// A human Confirm writes TWO places: the dictionary row (instant effect) and
+// native_confirmations — the DURABLE judgment record. Content rebuilds wipe and re-derive
+// the dictionary; they replay native_confirmations back over it, so her tap survives a
+// from-scratch build. The record write asserts it landed (RLS-denied upsert = silent no-op).
+export const confirmEntry = async (waray, patch = { confirmed: true }) => {
+  const res = await rows(supabase.from("dictionary").update({ ...patch, confirmed_by: "ella" }).eq("waray", waray).select());
+  if (!res.length) throw new Error("not saved — are you signed in as the admin?");
+  const rec = await rows(supabase.from("native_confirmations")
+    .upsert({ waray, meaning: patch.meaning ?? res[0].meaning, pronunciation: patch.pronunciation ?? res[0].pronunciation }).select());
+  if (!rec.length) throw new Error("confirmation record not saved");
+  return res;
+};
 
 // native-speaker answers for review-queue questions (missing exercise answers + dialect calls).
 // World-readable; writes are RLS admin-gated — assert the row LANDED (an RLS-denied update is a

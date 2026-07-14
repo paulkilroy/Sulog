@@ -24,7 +24,7 @@ const content = (s) => norm(s).split(" ").filter((w) => w.length > 1 && !STOP.ha
 
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
-const rows = (await c.query(`select d.waray, d.meaning from dictionary d where not d.confirmed
+const rows = (await c.query(`select d.waray, d.meaning from dictionary d where (not d.confirmed or d.confirmed_by is null)
   and exists (select 1 from block_items bi join lesson_blocks lb on lb.id=bi.block_id
               where bi.dict_waray = d.waray and lb.lesson_id like 'pc-%')`)).rows;
 
@@ -45,7 +45,7 @@ for (const r of leftover) console.log(`  ? ${r.waray} = ${r.meaning}`);
 
 if (process.argv.includes("--apply")) {
   await c.query("begin");
-  for (const r of confirmed) await c.query("update dictionary set confirmed=true where waray=$1", [r.waray]);
+  for (const r of confirmed) await c.query("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,'book') where waray=$1", [r.waray]);
   await c.query("commit");
   console.log(`\n✓ applied — ${confirmed.length} PC entries confirmed on the book's authority`);
 } else console.log("\n(preview — pass --apply to write)");

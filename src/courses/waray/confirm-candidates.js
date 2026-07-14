@@ -2,11 +2,25 @@
    sources for the dictionary-confirm queue (each unconfirmed word: how it entered the app,
    and what Tramp prints). Regenerated on every `npm run reload`. */
 export const CONFIRM_CANDIDATES = {
+ "buotan": {
+  "origin": "Gemini · Peace Corps scan"
+ },
+ "dyip": {
+  "origin": "Gemini · Peace Corps scan"
+ },
  "konsuylo": {
   "origin": "Gemini · Peace Corps scan"
  },
- "sekretarya": {
+ "kristohanon": {
   "origin": "Gemini · Peace Corps scan"
+ },
+ "makusog": {
+  "origin": "Gemini · Peace Corps scan",
+  "tramp": {
+   "gloss": "brawny; drastic; energetic; exquisite; forceful; hardy; intense; mighty; sound; stalwart; tough; vigorous.",
+   "page": 388
+  },
+  "pron": "mah-koo-SOG"
  },
  "sorbeti": {
   "origin": "Gemini · Peace Corps scan"

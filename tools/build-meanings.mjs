@@ -4,7 +4,7 @@
    Run: node tools/build-meanings.mjs */
 import fs from "fs";
 import pg from "/Users/paulkilroy/dev/Sulog/node_modules/pg/lib/index.js";
-const SP = "/private/tmp/claude-501/-Users-paulkilroy-dev-Sulog/2ec9156d-452e-4eed-b759-f98650a29e43/scratchpad";
+const SP = process.env.TMPDIR || "/tmp";   // reconciliation report (ephemeral, not a source)
 const nf = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
 const STOP = new Set(["to", "a", "an", "the", "of", "or", "be", "is", "his", "her", "male", "female", "sg", "pl", "also", "any", "person", "general", "term", "one", "s", "sd", "sp", "fig"]);
 const contentWords = (m) => (m || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").split(/[^a-z]+/).filter((w) => w.length > 2 && !STOP.has(w));
@@ -42,10 +42,13 @@ if (!process.env.SUPABASE_DB_URL) { console.error("Set SUPABASE_DB_URL (the post
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
 const dict = (await c.query("select waray,meaning,confirmed,kind,pos from dictionary order by waray")).rows;
+// attach where each word comes from (which courses drill it) so the review page can show provenance
+const courseOf = new Map((await c.query("select waray, courses from word_usage")).rows.map((r) => [r.waray, r.courses || []]));
+for (const d of dict) d.courses = courseOf.get(d.waray) || [];
 
 // grammar/function words live in the PDF front matter, not the A-Z body — they're KNOWN, not gaps.
 const FUNC_POS = new Set(["pron", "marker", "dem", "conj", "linker", "num", "det", "prep"]);
-const KNOWN_FN = new Set(["ako", "ikaw", "ka", "hiya", "kita", "kami", "kamo", "hira", "akon", "imo", "iya", "amon", "aton", "iyo", "nira", "ko", "mo", "niya", "namon", "naton", "niyo", "ini", "iton", "ito", "adi", "adto", "aadi", "aada", "hini", "hito", "hadi", "hadto", "dinhi", "didto", "ngadi", "ngadto", "an", "in", "hin", "han", "si", "ni", "kan", "hi", "nga", "ngan", "mga"]);
+const KNOWN_FN = new Set(["ako", "ikaw", "ka", "hiya", "kita", "kami", "kamo", "hira", "akon", "imo", "iya", "amon", "aton", "iyo", "nira", "ko", "mo", "niya", "namon", "naton", "niyo", "ini", "iton", "ito", "adi", "adto", "aadi", "aada", "hini", "hito", "hadi", "hadto", "dinhi", "didto", "ngadi", "ngadto", "an", "in", "hin", "han", "si", "ni", "kan", "hi", "nga", "ngan", "mga", "ha"]);
 const isFunc = (d) => FUNC_POS.has(d.pos) || KNOWN_FN.has(nf(d.waray));
 
 // a tier-3 candidate only counts if it STRICTLY means the same: every content word of our meaning
@@ -99,7 +102,9 @@ if (process.argv.includes("--apply")) {
               on conflict (waray,meaning) do update set confirmed = meanings.confirmed or excluded.confirmed,
                 sources = (select array(select distinct unnest(meanings.sources || excluded.sources))), pos = coalesce(meanings.pos, excluded.pos)`,
       [d.waray, d.meaning, d.pos, sources, conf]);
-    if (autoConfirm.has(d.waray) && !d.confirmed) await qy("update dictionary set confirmed=true where waray=$1", [d.waray]);
+    if (autoConfirm.has(d.waray))
+      await qy("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,$2) where waray=$1 and (not confirmed or confirmed_by is null)",
+        [d.waray, trampAgrees.has(d.waray) ? "tramp" : "book"]);   // grammar words = the book's front matter; never overwrite an existing stamp (ella wins)
   }
   for (const v of out.variant) await qy("update dictionary set variants=(select array(select distinct unnest(variants || $2::text[]))) where waray=$1", [v.waray, [v.suggest]]);
   await qy("commit");

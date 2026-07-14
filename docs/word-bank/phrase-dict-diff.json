@@ -1,0 +1,1361 @@
+{
+  "extracted": [
+    {
+      "war": "Maupay nga aga",
+      "en": "Good morning",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay nga udto",
+      "en": "Good noon",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay nga kulop",
+      "en": "Good afternoon",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay nga gab-i",
+      "en": "Good evening",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kamusta ka?",
+      "en": "How are you?",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kamusta kamo?",
+      "en": "How are you (all)?",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Dadi!",
+      "en": "Come here!",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hain ka?",
+      "en": "Where are you?",
+      "category": "Questions",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Oo",
+      "en": "Yes",
+      "category": "Yes/No & basic responses",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Diri",
+      "en": "No / Not",
+      "category": "Yes/No & basic responses",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sulod!",
+      "en": "Enter! / Come in!",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gawas!",
+      "en": "Go out!",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Lingkod!",
+      "en": "Sit down!",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Tindog!",
+      "en": "Stand up!",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Inom hin tubig.",
+      "en": "Drink some water.",
+      "category": "Food & eating",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gusto ko [noun].",
+      "en": "I want [noun].",
+      "category": "Desire & need",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kaon hin kan-on.",
+      "en": "Eat some rice.",
+      "category": "Food & eating",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gusto mo [noun]?",
+      "en": "Do you want [noun]?",
+      "category": "Questions",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Init nga [noun].",
+      "en": "Hot [noun].",
+      "category": "Descriptions",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kinahanglan ko [noun].",
+      "en": "I need [noun].",
+      "category": "Desire & need",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Alayon.",
+      "en": "Please.",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Salamat.",
+      "en": "Thank you.",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Matugnaw nga [noun].",
+      "en": "Cold [noun].",
+      "category": "Descriptions",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gusto mo?",
+      "en": "Do you want it?",
+      "category": "Questions",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pira an [noun]?",
+      "en": "How many [noun]?",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Tagpira ini?",
+      "en": "How much is this?",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gusto ko magpalit.",
+      "en": "I want to buy.",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Bayad na!",
+      "en": "Pay now!",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Waray sukli?",
+      "en": "No change?",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mahal ini.",
+      "en": "This is expensive.",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Barato ini.",
+      "en": "This is cheap.",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Waray ako sukli.",
+      "en": "I don't have change.",
+      "category": "Shopping & money",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Laba!",
+      "en": "Wash clothes!",
+      "category": "Home & daily life",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hugas!",
+      "en": "Wash (dishes)!",
+      "category": "Home & daily life",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kain ka?",
+      "en": "Where are you going?",
+      "category": "Directions & places",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kadto ha [place].",
+      "en": "Go to [place].",
+      "category": "Directions & places",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pakadto ako ha [place].",
+      "en": "I am going to [place].",
+      "category": "Directions & places",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Tikang ako ha [place].",
+      "en": "I am coming from [place].",
+      "category": "Directions & places",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ako trabaho.",
+      "en": "I am working.",
+      "category": "Social & small talk",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kinahanglan ko pahulay.",
+      "en": "I need to rest.",
+      "category": "Desire & need",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Balik ako dayon.",
+      "en": "I will return right away.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kadto dayon.",
+      "en": "Go right away.",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kain ka pakadto?",
+      "en": "Where are you going (to)?",
+      "category": "Directions & places",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay an panahon.",
+      "en": "The weather is good.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mauran buwas.",
+      "en": "It will rain tomorrow.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mapaso an adlaw.",
+      "en": "The sun is hot.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Nag-uuran na.",
+      "en": "It's raining already.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Masirak yana.",
+      "en": "It's sunny now.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Madampog yana.",
+      "en": "It's cloudy now.",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kamusta an panahon?",
+      "en": "How's the weather?",
+      "category": "Weather",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Alas [number].",
+      "en": "At [number] o'clock.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sayu mabangon.",
+      "en": "Wake up early.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Urhi bumalik.",
+      "en": "Return late.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Buwas kita magkita.",
+      "en": "Tomorrow we will meet.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kagab-i [verb].",
+      "en": "Last night [verb].",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sunod nga adlaw.",
+      "en": "Next day.",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Bangon na!",
+      "en": "Wake up now!",
+      "category": "Home & daily life",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Magluto [noun].",
+      "en": "Cook [noun].",
+      "category": "Food & eating",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Magkita kita ha [place].",
+      "en": "Let's meet at [place].",
+      "category": "Social & small talk",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mapasyada kita.",
+      "en": "Let's go for a stroll.",
+      "category": "Social & small talk",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Tapos na an trabaho.",
+      "en": "The work is finished.",
+      "category": "Social & small talk",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sugod na kita.",
+      "en": "Let's start now.",
+      "category": "Social & small talk",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hatag [noun].",
+      "en": "Give [noun].",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kuha [noun].",
+      "en": "Get [noun].",
+      "category": "Commands & requests",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay nga adlaw.",
+      "en": "Good day.",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Malinamnam!",
+      "en": "Delicious!",
+      "category": "Food & eating",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mayda ako [noun].",
+      "en": "I have [noun].",
+      "category": "Desire & need",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Salamat ha imo.",
+      "en": "Thank you (to you).",
+      "category": "Greetings & courtesy",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pira an oras yana?",
+      "en": "What time is it now?",
+      "category": "Time & scheduling",
+      "note": "",
+      "confirm": false
+    }
+  ],
+  "suggested": [
+    {
+      "war": "Diri ako maaram.",
+      "en": "I don't know.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Diri ako nakakaintindi.",
+      "en": "I don't understand.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Nakakaintindi ako.",
+      "en": "I understand.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Klaro ba?",
+      "en": "Is it clear?",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Alayon, utraha.",
+      "en": "Please repeat that.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Alayon, hinaya pagyakan.",
+      "en": "Please speak slowly.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ano ini nga tawag?",
+      "en": "What is this called?",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paunan-o mo pagyakan an ___?",
+      "en": "How do you say ___?",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paghulat la hin kadali.",
+      "en": "Wait a moment.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Nalimtan ko.",
+      "en": "I forgot.",
+      "category": "Getting unstuck",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Damo nga salamat.",
+      "en": "Thank you very much.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pasayloa.",
+      "en": "Excuse me / Sorry.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Waray sapayan.",
+      "en": "You're welcome.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pag-ayo-ayo.",
+      "en": "Take care.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Adios.",
+      "en": "Goodbye.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "Spanish loan, very common.",
+      "confirm": false
+    },
+    {
+      "war": "Kitaay kita utro.",
+      "en": "See you again.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-agi.",
+      "en": "Excuse me, passing through.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pasensya na.",
+      "en": "Sorry / My apologies.",
+      "category": "Greetings & courtesy",
+      "register": "casual",
+      "note": "Tagalog/Spanish loan, very common.",
+      "confirm": false
+    },
+    {
+      "war": "Sigurado.",
+      "en": "Certainly / Sure.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pwede.",
+      "en": "Can / Possible.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Diri pwede.",
+      "en": "Cannot / Not possible.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Amo.",
+      "en": "That's it / Correct.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Diri amo.",
+      "en": "That's not it / Incorrect.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Okay la.",
+      "en": "It's okay.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "Tagalog loan, very common.",
+      "confirm": false
+    },
+    {
+      "war": "Sige.",
+      "en": "Go ahead / Okay.",
+      "category": "Yes/No & basic responses",
+      "register": "casual",
+      "note": "Tagalog loan, very common.",
+      "confirm": false
+    },
+    {
+      "war": "Diretso la.",
+      "en": "Just go straight.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Wala.",
+      "en": "Left.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Tuo.",
+      "en": "Right.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Harani.",
+      "en": "Near.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Harayo.",
+      "en": "Far.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hain an kasilyas?",
+      "en": "Where is the toilet?",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "Kasilyas is Spanish loan, very common.",
+      "confirm": false
+    },
+    {
+      "war": "Hain an merkado?",
+      "en": "Where is the market?",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hain an ospital?",
+      "en": "Where is the hospital?",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "Ospital is Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Ha luyo.",
+      "en": "At the back.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ha atubangan.",
+      "en": "At the front.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ha igbaw.",
+      "en": "Up / Above.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ha ilarom.",
+      "en": "Down / Below.",
+      "category": "Directions & places",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gusto ko ini.",
+      "en": "I like this / I want this.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Diri ko gusto ini.",
+      "en": "I don't like this / I don't want this.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mayda ka ___?",
+      "en": "Do you have ___?",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Waray ako kwarta.",
+      "en": "I don't have money.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mahal gud!",
+      "en": "Too expensive!",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pwede makatawad?",
+      "en": "Can I haggle / ask for a discount?",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-sukli.",
+      "en": "Please give change.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Igo na.",
+      "en": "Enough.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pila tanan?",
+      "en": "How much in total?",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "Pila is Tagalog loan, common.",
+      "confirm": false
+    },
+    {
+      "war": "Sige, paliton ko ini.",
+      "en": "Okay, I'll buy this.",
+      "category": "Shopping & money",
+      "register": "casual",
+      "note": "Sige is Tagalog loan, common.",
+      "confirm": false
+    },
+    {
+      "war": "Gutom ako.",
+      "en": "I am hungry.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Uhaw ako.",
+      "en": "I am thirsty.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kaon na kita!",
+      "en": "Let's eat now!",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Lami.",
+      "en": "Delicious.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "Common in Visayan languages, synonym for 'Malinamnam'.",
+      "confirm": false
+    },
+    {
+      "war": "Diri lami.",
+      "en": "Not delicious.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Busog na ako.",
+      "en": "I am full.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mainit.",
+      "en": "Hot (temperature of food).",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Matugnaw.",
+      "en": "Cold (temperature of food).",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maharang.",
+      "en": "Spicy.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-dugang kan-on.",
+      "en": "Please add more rice.",
+      "category": "Food & eating",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Masakit ako.",
+      "en": "I am sick.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Masakit an akon ulo.",
+      "en": "My head hurts.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mayda ako hiranat.",
+      "en": "I have a fever.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kinahanglan ko doktor.",
+      "en": "I need a doctor.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "Doktor is Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Tabang!",
+      "en": "Help!",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-tawag pulis.",
+      "en": "Please call the police.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "Pulis is Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Paki-tawag ambulansya.",
+      "en": "Please call an ambulance.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "Ambulansya is Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Nawawara ako.",
+      "en": "I am lost.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Delikado!",
+      "en": "Dangerous!",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Hinay-hinay.",
+      "en": "Careful / Slowly.",
+      "category": "Health & help/emergency",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Taga-diin ka?",
+      "en": "Where are you from?",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Taga-Amerika ako.",
+      "en": "I am from America.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pira na an imo edad?",
+      "en": "How old are you?",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay ka magyakan Waray.",
+      "en": "You speak Waray well.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Nalilipay ako makakilala ha imo.",
+      "en": "Nice to meet you.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Ano an imo ginbubuhat?",
+      "en": "What are you doing?",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Waray la.",
+      "en": "Nothing in particular.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mayda ka pamilya?",
+      "en": "Do you have family?",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mayda ako anak.",
+      "en": "I have children.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maupay nga kaadlawan.",
+      "en": "Happy Birthday.",
+      "category": "Social & small talk",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kagahapon.",
+      "en": "Yesterday.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Niyan.",
+      "en": "Later.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kaina.",
+      "en": "Earlier.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Adlaw-adlaw.",
+      "en": "Every day.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Aga.",
+      "en": "Morning.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Udto.",
+      "en": "Noon.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kulop.",
+      "en": "Afternoon.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gab-i.",
+      "en": "Evening / Night.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sunod.",
+      "en": "Next.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Hulat.",
+      "en": "Wait.",
+      "category": "Time & scheduling",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Limpyo.",
+      "en": "Clean.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mahugaw.",
+      "en": "Dirty.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Dako.",
+      "en": "Big.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Gutiay.",
+      "en": "Small.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Bag-o.",
+      "en": "New.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Daan.",
+      "en": "Old (for things).",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Luto na.",
+      "en": "It's cooked.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Andam na.",
+      "en": "Ready.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-abli.",
+      "en": "Please open.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paki-sera.",
+      "en": "Please close.",
+      "category": "Home & daily life",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mainit.",
+      "en": "Hot (weather).",
+      "category": "Weather",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Matugnaw.",
+      "en": "Cold (weather).",
+      "category": "Weather",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mahangin.",
+      "en": "Windy.",
+      "category": "Weather",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Mauran.",
+      "en": "Rainy.",
+      "category": "Weather",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Maraot nga panahon.",
+      "en": "Bad weather.",
+      "category": "Weather",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Sakay.",
+      "en": "Ride / Board.",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Kanaog.",
+      "en": "Get off.",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Pila an plite?",
+      "en": "How much is the fare?",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "Plite is Spanish loan.",
+      "confirm": false
+    },
+    {
+      "war": "Hain an jeepney?",
+      "en": "Where is the jeepney?",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "Jeepney is English loan, common.",
+      "confirm": false
+    },
+    {
+      "war": "Hain an tricycle?",
+      "en": "Where is the tricycle?",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "Tricycle is English loan, common.",
+      "confirm": false
+    },
+    {
+      "war": "Paki-undang dinhi.",
+      "en": "Please stop here.",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    },
+    {
+      "war": "Paspas.",
+      "en": "Fast.",
+      "category": "Transportation & getting around",
+      "register": "casual",
+      "note": "",
+      "confirm": false
+    }
+  ]
+}
