@@ -3240,22 +3240,23 @@ function ClozeView({ ctx }) {
       <TopBar title={`Markers · ${i + 1}/${items.length}`} onBack={() => setView("lesson")} />
       <div style={{ textAlign: "center", padding: "26px 16px" }}>
         <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Which marker fits?</p>
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px" }}>
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px", cursor: "pointer" }}
+          onClick={() => speak({ waray: it.full, say: "", english: "" })} title="Tap to hear">
           <span style={{ color: picked ? (picked === it.answer ? "var(--jade)" : "var(--coral)") : "var(--tide)", borderBottom: "2px dashed var(--sand-deep)", padding: "0 6px" }}>
             {picked ? it.answer : "___"}
-          </span>{" "}{it.rest}
+          </span>{" "}{it.rest} <span style={{ fontSize: 16 }}>🔊</span>
         </div>
         {it.cue && it.cue.toLowerCase() !== it.rest.toLowerCase() && <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{it.cue}</div>}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(120px,180px))", gap: 10, justifyContent: "center", marginTop: 24 }}>
-          {options.map((m) => (
-            <button key={m} onClick={() => pick(m)}
-              style={{ fontSize: 17, fontWeight: 700, padding: "13px 8px", borderRadius: 12, cursor: "pointer",
-                border: "1px solid " + (picked && m === it.answer ? "var(--jade)" : picked === m ? "var(--coral)" : "var(--sand-deep)"),
-                background: picked && m === it.answer ? "rgba(31,184,159,.15)" : picked === m ? "rgba(240,122,102,.12)" : "var(--foam)",
-                color: "var(--ink)" }}>
-              {m}
-            </button>
-          ))}
+        <div className="ws-options" style={{ maxWidth: 340, margin: "24px auto 0", textAlign: "left" }}>
+          {options.map((m, k) => {
+            let cls = "";
+            if (picked) { if (m === it.answer) cls = "correct"; else if (m === picked) cls = "incorrect"; }
+            return (
+              <button key={m} className={`ws-opt ${cls}`} disabled={picked !== null} onClick={() => pick(m)}>
+                <span className="ws-opt-key">{k + 1}</span>{m}
+              </button>
+            );
+          })}
         </div>
         {picked && picked !== it.answer && <p style={{ color: "var(--coral)", fontSize: 13, marginTop: 12 }}>It's <b>{it.answer} {it.rest}</b></p>}
       </div>
