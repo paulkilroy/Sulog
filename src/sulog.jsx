@@ -3935,6 +3935,33 @@ function syllabifyWaray(w) {   // same algorithm as the guide generator (build-r
   });
   return out.map((x) => x.replace(/ŋ/g, "ng"));
 }
+// debug readout + copy button, mirroring the app's speech-debug panel — paste it to Claude
+function StressDebug({ res, card, syls, expected }) {
+  const [open, setOpen] = useState(false);
+  const dump = [
+    `word: ${card.waray}  guide: ${card.say}  expected-stress: #${expected + 1} (${syls[expected]})`,
+    `frames: ${res.nFrames} (${res.nFrames * 20}ms)  floor: ${res.floor?.toFixed(4)}  peak: ${res.peakV?.toFixed(4)}  threshold: ${res.th?.toFixed(4)}`,
+    `raw bursts: ${res.nRaw} → segments after split: ${res.segs.length} (expected ${syls.length})`,
+    ...res.segs.map((g, i) => `  seg${i + 1}${res.countOk ? ` (${syls[i]})` : ""}: ${g.a * 20}–${(g.b + 1) * 20}ms  dur ${(g.b - g.a + 1) * 20}ms  score ${res.scores[i]?.toFixed(4)}  rel ${Math.round(100 * res.scores[i] / Math.max(...res.scores, 1e-9))}%${i === res.detected ? "  ← DETECTED STRESS" : ""}`),
+    `verdicts: ${(res.verdicts || []).join(", ")}  ·  pct: ${res.pct}  ok: ${res.ok}`,
+    `envelope: ${res.sm.map((v) => Math.round(v * 1000)).join(",")}`,
+  ].join("\n");
+  return (
+    <div style={{ maxWidth: 340, margin: "8px auto 0", textAlign: "left" }}>
+      <button onClick={() => setOpen(!open)} style={{ background: "transparent", border: 0, color: "var(--ink-soft)", fontSize: 11.5, cursor: "pointer", padding: 0 }}>
+        {open ? "▾" : "▸"} stress debug
+      </button>
+      {open && (
+        <div style={{ background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "8px 10px", marginTop: 4 }}>
+          <button onClick={() => { try { navigator.clipboard.writeText(dump); } catch (e) {} }}
+            style={{ float: "right", fontSize: 10.5, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--tide)", borderRadius: 6, padding: "2px 9px", cursor: "pointer" }}>copy</button>
+          <pre style={{ margin: 0, fontSize: 10, lineHeight: 1.5, whiteSpace: "pre-wrap", wordBreak: "break-all", color: "var(--ink-soft)", maxHeight: 180, overflow: "auto" }}>{dump}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StressLabView({ ctx }) {
   const { cards, setView, playCard } = ctx;
   const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
@@ -4001,7 +4028,8 @@ function StressLabView({ ctx }) {
       if (i === expected) return rel >= 0.999 ? "correct" : rel >= 0.75 ? "almost" : "missed";
       return rel >= 0.999 ? "missed" : rel >= 0.85 ? "almost" : "correct";
     });
-    return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts };
+    return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts,
+      th, floor, peakV: peak, nFrames: sm.length, nRaw: segs.length };
   };
   const drawEnv = (cv, sm, segs, detected, labels) => {
     if (!cv) return; const dpr = window.devicePixelRatio || 1;
@@ -4129,6 +4157,26 @@ function StressLabView({ ctx }) {
             <div style={{ marginTop: 10, fontSize: 15, fontWeight: 700, color: res.ok ? "var(--jade)" : "var(--coral)" }}>
               {res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — your syllables blended together; try a hair slower with a tiny break between them` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
             </div>
+            {/* what the program thought you said, syllable by syllable */}
+            <div style={{ maxWidth: 340, margin: "10px auto 0", textAlign: "left", fontSize: 12.5 }}>
+              {res.segs.map((sg, i) => {
+                const rel = Math.round(100 * (res.scores[i] || 0) / Math.max(...res.scores, 1e-9));
+                const lab = res.countOk ? syls[i] : `#${i + 1}`;
+                const v = res.countOk ? res.verdicts[i] : "unsure";
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0" }}>
+                    <span style={{ fontFamily: "ui-monospace,monospace", width: 52, fontWeight: i === res.detected ? 800 : 400, color: VCOLOR[v] }}>{lab}</span>
+                    <span style={{ width: 62, color: "var(--ink-soft)" }}>{(sg.b - sg.a + 1) * 20}ms</span>
+                    <span style={{ flex: 1, height: 9, background: "var(--sand-deep)", borderRadius: 5, overflow: "hidden" }}>
+                      <span style={{ display: "block", height: "100%", width: `${rel}%`, background: VCOLOR[v] === "var(--ink-soft)" ? "var(--sea)" : VCOLOR[v] }} />
+                    </span>
+                    <span style={{ width: 66, textAlign: "right", color: "var(--ink-soft)" }}>{rel}% {i === res.detected ? "← loudest" : ""}</span>
+                  </div>
+                );
+              })}
+              <div style={{ color: "var(--ink-soft)", marginTop: 3 }}>the program heard {res.segs.length} syllable{res.segs.length === 1 ? "" : "s"}; stress = the loudest·longest one{res.countOk ? "" : ` (raw bursts before splitting: ${res.nRaw})`}</div>
+            </div>
+            <StressDebug res={res} card={card} syls={syls} expected={expected} />
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
               {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => new Audio(res.audio).play()}>▶ my recording</button>}
