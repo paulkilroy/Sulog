@@ -3967,8 +3967,21 @@ function StressDebug({ res, card, syls, expected }) {
 // per-syllable SOUND score: align the recognizer's transcript to the target word
 // (char-level, o/u e/i folded) and measure how much of each syllable's span matched.
 function syllableSoundRatios(transcript, wordSyls) {
-  const fold = (x) => (x || "").toLowerCase().replace(/o/g, "u").replace(/e/g, "i").replace(/[^a-z]/g, "");
-  const t = fold(wordSyls.join("")), h = fold(transcript);
+  // fold for MATCHING: Waray vowel folding (o=u, e=i) + sound-equivalent spellings the
+  // Filipino recognizer uses (c=k, qu=k, z=s, f=p, v=b). Keep the RAW letters for display.
+  const foldArr = (x) => {
+    const low = (x || "").toLowerCase(); const out = [];
+    for (let i = 0; i < low.length; i++) {
+      const ch = low[i];
+      if (!/[a-z]/.test(ch)) continue;
+      if (ch === "q" && low[i + 1] === "u") { out.push({ raw: "qu", f: "k" }); i++; continue; }
+      out.push({ raw: ch, f: { o: "u", e: "i", c: "k", z: "s", f: "p", v: "b" }[ch] || ch });
+    }
+    return out;
+  };
+  const tA = foldArr(wordSyls.join("")), hA = foldArr(transcript);
+  const t = tA.map((x) => x.f).join(""), h = hA.map((x) => x.f).join("");
+  const fold = (x) => foldArr(x).map((y) => y.f).join("");
   if (!t || !h) return null;
   const n = t.length, m = h.length;
   const D = Array.from({ length: n + 1 }, (_, i) => Array.from({ length: m + 1 }, (_, j) => i === 0 ? -j : j === 0 ? -i : 0));
@@ -3978,7 +3991,7 @@ function syllableSoundRatios(transcript, wordSyls) {
   const got = new Array(n).fill("");        // which transcript char landed on each target char
   let i = n, j = m;
   while (i > 0 && j > 0) {
-    if (D[i][j] === D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1)) { if (t[i - 1] === h[j - 1]) hit[i - 1] = true; got[i - 1] = h[j - 1]; i--; j--; }
+    if (D[i][j] === D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1)) { if (t[i - 1] === h[j - 1]) hit[i - 1] = true; got[i - 1] = hA[j - 1].raw; i--; j--; }
     else if (D[i][j] === D[i - 1][j] - 1) { got[i - 1] = "·"; i--; } else j--;
   }
   const ratios = [], heard = []; let pos = 0;
@@ -4038,7 +4051,14 @@ function StressLabView({ ctx }) {
       bounds.push(m);
     }
     bounds.push(hi + 1);
-    const keep = nuclei.map((_, k) => ({ a: bounds[k], b: bounds[k + 1] - 1 }));
+    let keep = nuclei.map((_, k) => ({ a: bounds[k], b: bounds[k + 1] - 1 }));
+    keep = keep.map((g) => {
+      let pk = 0; for (let i = g.a; i <= g.b; i++) pk = Math.max(pk, sm[i]);
+      let a2 = g.a, b2 = g.b;
+      while (b2 > a2 && sm[b2] < 0.25 * pk) b2--;      // fade-out tail
+      while (a2 < b2 && sm[a2] < 0.25 * pk) a2++;      // quiet lead-in
+      return { a: a2, b: b2 };
+    });
     const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += Math.max(0, sm[i] - floor); return t; };
     const scores = keep.map(score);
     const detected = scores.indexOf(Math.max(...scores));
