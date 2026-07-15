@@ -3945,7 +3945,7 @@ function StressDebug({ res, card, syls, expected }) {
     ...res.segs.map((g, i) => `  seg${i + 1}${res.countOk ? ` (${syls[i]})` : ""}: ${g.a * 20}–${(g.b + 1) * 20}ms  dur ${(g.b - g.a + 1) * 20}ms  score ${res.scores[i]?.toFixed(4)}  rel ${Math.round(100 * res.scores[i] / Math.max(...res.scores, 1e-9))}%${i === res.detected ? "  ← DETECTED STRESS" : ""}`),
     `verdicts: ${(res.verdicts || []).join(", ")}  ·  pct: ${res.pct}  ok: ${res.ok}`,
     `recognizer heard: ${res.said ? (res.said.alts.join(" | ") || "(nothing)") + (res.said.ok ? "  MATCH" : "  NO MATCH") : "n/a"}`,
-    `sound per syllable: ${res.sound ? res.sound.map((r0, i) => `${syls[i]}=${Math.round(r0 * 100)}%`).join("  ") : "n/a"}`,
+    `sound per syllable: ${res.sound ? res.sound.map((r0, i) => `${syls[i]}=${Math.round(r0 * 100)}% heard:${res.soundHeard?.[i] || "·"}`).join("  ") : "n/a"}`,
     `envelope: ${res.sm.map((v) => Math.round(v * 1000)).join(",")}`,
   ].join("\n");
   return (
@@ -3975,18 +3975,20 @@ function syllableSoundRatios(transcript, wordSyls) {
   for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++)
     D[i][j] = Math.max(D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1), D[i - 1][j] - 1, D[i][j - 1] - 1);
   const hit = new Array(n).fill(false);
+  const got = new Array(n).fill("");        // which transcript char landed on each target char
   let i = n, j = m;
   while (i > 0 && j > 0) {
-    if (D[i][j] === D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1)) { if (t[i - 1] === h[j - 1]) hit[i - 1] = true; i--; j--; }
-    else if (D[i][j] === D[i - 1][j] - 1) i--; else j--;
+    if (D[i][j] === D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1)) { if (t[i - 1] === h[j - 1]) hit[i - 1] = true; got[i - 1] = h[j - 1]; i--; j--; }
+    else if (D[i][j] === D[i - 1][j] - 1) { got[i - 1] = "·"; i--; } else j--;
   }
-  const out = []; let pos = 0;
+  const ratios = [], heard = []; let pos = 0;
   for (const syl of wordSyls) {
     const len = fold(syl).length;
-    let ok = 0; for (let k = pos; k < pos + len; k++) if (hit[k]) ok++;
-    out.push(len ? ok / len : 0); pos += len;
+    let ok = 0, gs = "";
+    for (let k = pos; k < pos + len; k++) { if (hit[k]) ok++; gs += got[k] || "·"; }
+    ratios.push(len ? ok / len : 0); heard.push(gs); pos += len;
   }
-  return out;
+  return { ratios, heard };
 }
 function StressLabView({ ctx }) {
   const { cards, setView, playCard } = ctx;
@@ -4118,16 +4120,16 @@ function StressLabView({ ctx }) {
       // per-syllable sound score from the best-aligned alternative; combine with stress:
       // a syllable's grade is the WORSE of how you stressed it and how it sounded
       const rank = { correct: 0, almost: 1, missed: 2, unsure: 0.5 };
-      let bestRatios = null, bestSum = -1;
+      let best = null, bestSum = -1;
       for (const alt of alts) {
         const r0 = syllableSoundRatios(alt, wordSyls);
-        if (r0) { const t = r0.reduce((x, y) => x + y, 0); if (t > bestSum) { bestSum = t; bestRatios = r0; } }
+        if (r0) { const t = r0.ratios.reduce((x, y) => x + y, 0); if (t > bestSum) { bestSum = t; best = r0; } }
       }
-      if (bestRatios && wordSyls.length === syls.length) {
-        a.sound = bestRatios;
-        const sv = bestRatios.map((r0) => r0 >= 0.8 ? "correct" : r0 >= 0.45 ? "almost" : "missed");
+      if (best && wordSyls.length === syls.length) {
+        a.sound = best.ratios; a.soundHeard = best.heard;
+        const sv = best.ratios.map((r0) => r0 >= 0.8 ? "correct" : r0 >= 0.45 ? "almost" : "missed");
         a.verdicts = a.verdicts.map((v, i) => rank[sv[i]] > rank[v] ? sv[i] : v);
-        const soundPct = Math.round(100 * bestSum / bestRatios.length);
+        const soundPct = Math.round(100 * bestSum / best.ratios.length);
         a.pct = Math.round((a.pct + soundPct) / 2);
         a.ok = a.ok && sv.every((v) => v !== "missed");
       } else if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
@@ -4215,15 +4217,27 @@ function StressLabView({ ctx }) {
                 const rel = Math.round(100 * (res.scores[i] || 0) / Math.max(...res.scores, 1e-9));
                 const lab = res.countOk ? syls[i] : `#${i + 1}`;
                 const v = res.countOk ? res.verdicts[i] : "unsure";
+                const sndV = res.sound ? (res.sound[i] >= 0.8 ? "correct" : res.sound[i] >= 0.45 ? "almost" : "missed") : null;
                 return (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0" }}>
-                    <span style={{ fontFamily: "ui-monospace,monospace", width: 52, fontWeight: i === res.detected ? 800 : 400, color: VCOLOR[v] }}>{lab}</span>
-                    <span style={{ width: 62, color: "var(--ink-soft)" }}>{(sg.b - sg.a + 1) * 20}ms</span>
-                    <span style={{ flex: 1, height: 9, background: "var(--sand-deep)", borderRadius: 5, overflow: "hidden" }}>
-                      <span style={{ display: "block", height: "100%", width: `${rel}%`, background: VCOLOR[v] === "var(--ink-soft)" ? "var(--sea)" : VCOLOR[v] }} />
-                    </span>
-                    <span style={{ width: 66, textAlign: "right", color: "var(--ink-soft)" }}>{rel}% {i === res.detected ? "← loudest" : ""}</span>
-                    {res.sound && <span style={{ width: 74, textAlign: "right", color: VCOLOR[res.sound[i] >= 0.8 ? "correct" : res.sound[i] >= 0.45 ? "almost" : "missed"] }}>sound {Math.round(res.sound[i] * 100)}%</span>}
+                  <div key={i} style={{ padding: "4px 0", borderBottom: "1px dotted #24454b" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ fontFamily: "ui-monospace,monospace", width: 52, fontWeight: i === res.detected ? 800 : 400, color: VCOLOR[v] }}>{lab}</span>
+                      <span style={{ width: 52, color: "var(--ink-soft)" }}>stress</span>
+                      <span style={{ flex: 1, height: 9, background: "var(--sand-deep)", borderRadius: 5, overflow: "hidden" }}>
+                        <span style={{ display: "block", height: "100%", width: `${rel}%`, background: VCOLOR[v] === "var(--ink-soft)" ? "var(--sea)" : VCOLOR[v] }} />
+                      </span>
+                      <span style={{ width: 78, textAlign: "right", color: "var(--ink-soft)", fontSize: 11 }}>{(sg.b - sg.a + 1) * 20}ms{i === res.detected ? " ← loudest" : ""}</span>
+                    </div>
+                    {res.sound && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 2 }}>
+                        <span style={{ width: 52 }} />
+                        <span style={{ width: 52, color: "var(--ink-soft)" }}>sound</span>
+                        <span style={{ flex: 1, height: 9, background: "var(--sand-deep)", borderRadius: 5, overflow: "hidden" }}>
+                          <span style={{ display: "block", height: "100%", width: `${Math.round(res.sound[i] * 100)}%`, background: VCOLOR[sndV] }} />
+                        </span>
+                        <span style={{ width: 78, textAlign: "right", fontFamily: "ui-monospace,monospace", fontSize: 11, color: VCOLOR[sndV] }}>heard “{res.soundHeard?.[i] || "·"}”</span>
+                      </div>
+                    )}
                   </div>
                 );
               })}
