@@ -5,6 +5,13 @@
    Append freely — set `course` to the course id, or "all" for language-wide questions. */
 
 export const ELLA_QUESTIONS = [
+  {
+    id: "ngan-hi-marker",
+    course: "pc",
+    topic: "Lesson 2 · markers",
+    q: "Joining two names: “Hira Nonoy ngan hi Inday” or “hira Nonoy ngan Inday” — is the second “hi” required, optional, or wrong?",
+    detail: "The Peace Corps book prints “Hira Nonoy ngan hi Inday.” (Lesson 2 written exercise) — marker repeated on the second name. But the marker drill rows we generated say “hira Jimmie ngan Leah” with no repeated marker. Whichever you say is natural in Daram, we'll match the drills to it.",
+  },
   // (the samar-variants question moved out of the queue: regional forms are now the DIALECT
   //  setting in the Language door — grading accepts them in Daram mode via VARIANTS. Native
   //  verification of individual forms continues through the dictionary-confirm flow.)
