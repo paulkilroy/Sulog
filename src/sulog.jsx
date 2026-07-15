@@ -1120,6 +1120,7 @@ export default function App() {
       {view === "history" && <HistoryView ctx={ctx} />}
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
+      {view === "stresslab" && <StressLabView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
@@ -3905,6 +3906,121 @@ function BackupView({ ctx }) {
   );
 }
 
+/* ============================ STRESS CHECK (beta prototype) ============================
+   Waray stress is PHONEMIC (PAH-tigh = to kill, pah-TIGH = dead), and it's the one thing a
+   pronunciation drill can grade WITHOUT a Waray speech model: record, measure the energy
+   envelope (Web Audio), segment into voiced stretches ≈ syllables, score each by
+   prominence (loudness × duration), and compare the most prominent one against the
+   CAPITALIZED syllable in the pronunciation guide. Browser-only — no server, no model. */
+function StressLabView({ ctx }) {
+  const { cards, setView, playCard } = ctx;
+  const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
+  const [idx, setIdx] = useState(0);
+  const [state, setState] = useState("idle");     // idle | rec | result | error
+  const [res, setRes] = useState(null);
+  const recRef = useRef(null);
+  const card = pool[idx % (pool.length || 1)];
+  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("pronounce")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
+  const syls = card.say.split("-");
+  const expected = syls.findIndex((x) => /[A-Z]/.test(x));
+
+  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
+  const analyze = (frames) => {
+    // smooth, then find voiced segments over an adaptive threshold
+    const sm = frames.map((_, i) => (frames[Math.max(0, i - 1)] + frames[i] + frames[Math.min(frames.length - 1, i + 1)]) / 3);
+    const peak = Math.max(...sm, 1e-6);
+    const floor = [...sm].sort((a, b) => a - b)[Math.floor(sm.length * 0.2)] || 0;
+    const th = Math.max(floor * 2.5, peak * 0.16);
+    const segs = [];
+    let cur = null;
+    sm.forEach((v, i) => {
+      if (v > th) { if (!cur) cur = { a: i, b: i }; cur.b = i; }
+      else if (cur && i - cur.b > 4) { segs.push(cur); cur = null; }   // 80ms gap closes a syllable
+    });
+    if (cur) segs.push(cur);
+    let keep = segs.filter((g) => g.b - g.a >= 2);                     // ≥60ms of voicing
+    // more segments than syllables → keep the strongest N (in time order)
+    const score = (g) => { let s = 0; for (let i = g.a; i <= g.b; i++) s += sm[i]; return s; };
+    if (keep.length > syls.length) keep = keep.map((g) => ({ ...g, s: score(g) })).sort((a, b) => b.s - a.s).slice(0, syls.length).sort((a, b) => a.a - b.a);
+    const scores = keep.map(score);
+    const detected = scores.indexOf(Math.max(...scores));
+    return { nSyl: keep.length, detected, scores, ok: keep.length === syls.length && detected === expected,
+      partial: keep.length !== syls.length };
+  };
+  const start = async () => {
+    setRes(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      const src = ac.createMediaStreamSource(stream);
+      const an = ac.createAnalyser(); an.fftSize = 2048; src.connect(an);
+      const buf = new Float32Array(an.fftSize);
+      const frames = []; let lastLoud = Date.now(); let everLoud = false;
+      const iv = setInterval(() => {
+        an.getFloatTimeDomainData(buf);
+        let sum = 0; for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+        const rms = Math.sqrt(sum / buf.length);
+        frames.push(rms);
+        if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
+        const t = Date.now() - recRef.current.t0;
+        if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();   // silence after speech, or 3.5s cap
+      }, 20);
+      recRef.current = { stream, ac, iv, frames, t0: Date.now() };
+      setState("rec");
+    } catch (e) { setState("error"); }
+  };
+  const stop = () => {
+    const r = recRef.current; if (!r) return;
+    const frames = r.frames.slice(); cleanup();
+    setRes(analyze(frames)); setState("result");
+  };
+  useEffect(() => cleanup, []);
+  const next = () => { setIdx((i) => i + 1); setRes(null); setState("idle"); };
+  const maxScore = res ? Math.max(...res.scores, 1e-6) : 1;
+  return (
+    <div className="ws-page">
+      <TopBar title="Stress check · beta" onBack={() => { cleanup(); setView("pronounce"); }} />
+      <div style={{ textAlign: "center", padding: "22px 16px" }}>
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 32, fontWeight: 600, cursor: "pointer" }} onClick={() => playCard(card)} title="Tap to hear">{card.waray} 🔊</div>
+        <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 15, color: "var(--sea)", margin: "4px 0 2px" }}>/ {card.say} /</div>
+        <div style={{ fontSize: 13, color: "var(--ink-soft)" }}>{card.english} · stress the <b>{expected + 1}{["st", "nd", "rd"][expected] || "th"}</b> syllable</div>
+
+        {state !== "result" && (
+          <button onClick={state === "rec" ? stop : start}
+            style={{ marginTop: 22, width: 92, height: 92, borderRadius: "50%", border: "3px solid " + (state === "rec" ? "var(--coral)" : "var(--tide)"), background: state === "rec" ? "rgba(240,122,102,.15)" : "var(--foam)", fontSize: 34, cursor: "pointer" }}>
+            {state === "rec" ? "◼" : "🎤"}
+          </button>
+        )}
+        <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 8 }}>
+          {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : state === "idle" ? "tap, then say the word" : ""}
+        </div>
+
+        {state === "result" && res && (
+          <div style={{ marginTop: 18 }}>
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", alignItems: "flex-end", height: 90 }}>
+              {res.scores.map((sc, i) => (
+                <div key={i} style={{ width: 58 }}>
+                  <div style={{ height: 60, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                    <div style={{ width: 30, borderRadius: 6, height: `${Math.max(8, (sc / maxScore) * 60)}px`, background: i === res.detected ? (res.ok ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)" }} />
+                  </div>
+                  <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, marginTop: 4, fontWeight: i === expected ? 800 : 400, textDecoration: i === expected ? "underline" : "none" }}>{syls[i] || "?"}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: 10, fontSize: 15, fontWeight: 700, color: res.ok ? "var(--jade)" : "var(--coral)" }}>
+              {res.ok ? "✓ stressed the right syllable" : res.partial ? `heard ${res.nSyl} syllable${res.nSyl === 1 ? "" : "s"}, expected ${syls.length} — try once more, clearly` : `you stressed “${syls[res.detected] || "?"}” — it's “${syls[expected]}”`}
+            </div>
+            <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 14 }}>
+              <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={() => { setRes(null); setState("idle"); }}>try again</button>
+              <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={next}>next word</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function PronounceView({ ctx }) {
   const { setView, settings, saveSettings } = ctx;
   const SPEEDS = [
@@ -3942,6 +4058,13 @@ function PronounceView({ ctx }) {
     ["d \u2194 r", "Between vowels, d often softens toward r. You'll hear both; don't worry about it."],
     ["Stress moves", "Stress isn't fixed and it can change meaning. Lean on the CAPS in each card's pronunciation guide, and on the reference audio."],
   ];
+  const stressLabBtn = (
+    <button className="ws-backup-row" onClick={() => ctx.setView("stresslab")}>
+      <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
+      <div className="ws-backup-txt"><b>Stress check · beta</b><i>Say a word — the app checks WHICH syllable you stressed</i></div>
+      <ChevronRight size={18} className="ws-cta-arrow" />
+    </button>
+  );
   const examples = [
     ["Maupay nga aga", "mah-OO-pigh ngah AH-gah", "Good morning"],
     ["Kumusta ka?", "koo-moos-TAH kah", "How are you?"],
@@ -4037,6 +4160,9 @@ function PronounceView({ ctx }) {
           </div>
         </>
       )}
+
+      <SectionLabel text="Practice" />
+      {stressLabBtn}
 
       <SectionLabel text="The rules that matter" />
       <div className="ws-rules">
