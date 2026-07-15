@@ -2648,12 +2648,22 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     rec.onerror = onEnd; rec.onend = onEnd;
     vmRec.current = rec; try { rec.start(); } catch (e) { clearTimeout(liveFallback); setVmState("idle"); }
   };
+  // open the mic only AFTER the app has finished talking — a fixed timeout opened it mid-TTS on
+  // long sentences, so the recognizer transcribed the app's own voice as the learner's answer.
+  const listenWhenQuiet = (isLive) => {
+    const t0 = Date.now();
+    const iv = setInterval(() => {
+      const talking = typeof speechSynthesis !== "undefined" && speechSynthesis.speaking;
+      if (!talking || Date.now() - t0 > 12000) { clearInterval(iv); setTimeout(() => { if (isLive()) vmListen(); }, 350); }
+    }, 150);
+    return iv;
+  };
   useEffect(() => {
     if (!voiceMode || judged || picked !== null) return;
     let live = true; setVmState("speaking");
     if (promptIsWaray) playCard(card); else speakEnglish(prompt);
-    const t = setTimeout(() => { if (live) vmListen(); }, Math.min(2400, 650 + prompt.length * 45));
-    return () => { live = false; clearTimeout(t); vmStop(); };
+    const iv = setTimeout(() => { if (live) listenWhenQuiet(() => live); }, 400); // let TTS actually start first
+    return () => { live = false; clearTimeout(iv); vmStop(); };
   }, [voiceMode, card.id, judged, picked]);
 
   /* ---- MULTIPLE CHOICE ---- */
@@ -2674,7 +2684,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
         {voiceMode && picked === null && (
           <VoiceOrb compact vmState={vmState} heard={heard}
             onTap={() => vmState === "listening" ? vmStop() : vmListen()}
-            onRepeat={() => { if (promptIsWaray) playCard(card); else speakEnglish(prompt); }} />
+            onRepeat={() => { vmStop(); setVmState("speaking"); if (promptIsWaray) playCard(card); else speakEnglish(prompt); setTimeout(() => listenWhenQuiet(() => true), 400); }} />
         )}
 
         <div className="ws-options">
@@ -2715,7 +2725,7 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
           voiceMode ? (
             <VoiceOrb vmState={vmState} heard={heard}
               onTap={() => vmState === "listening" ? vmStop() : vmListen()}
-              onRepeat={() => { if (promptIsWaray) playCard(card); else speakEnglish(prompt); }}
+              onRepeat={() => { vmStop(); setVmState("speaking"); if (promptIsWaray) playCard(card); else speakEnglish(prompt); setTimeout(() => listenWhenQuiet(() => true), 400); }}
               onSkip={onSkip ? () => { vmStop(); onSkip(); } : null} />
           ) : (
           <>
