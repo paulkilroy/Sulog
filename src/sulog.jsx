@@ -1909,6 +1909,14 @@ function HomeView({ ctx }) {
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
+        <button className="ws-cta" onClick={() => setView("stresslab")}>
+          <div className="ws-cta-ic ws-ic-tide"><Mic size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Stress check <span className="ws-badge" style={{ background: "var(--sun)", color: "#123" }}>beta</span></div>
+            <div className="ws-cta-d">Say a word — see which syllable you stressed</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
         <button className="ws-cta" onClick={() => setView("read")}>
           <div className="ws-cta-ic ws-ic-jade"><BookOpen size={18} /></div>
           <div>
@@ -3965,7 +3973,16 @@ function StressLabView({ ctx }) {
     // score = how prominent the RIGHT syllable was vs your loudest (100 = you stressed it)
     let pct = countOk && scores.length ? Math.round(100 * (scores[expected] ?? 0) / Math.max(...scores)) : 0;
     if (!countOk) pct = Math.min(pct, 40);
-    return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct };
+    // per-syllable verdict (only meaningful when we heard the right number of syllables):
+    // the STRESSED syllable is correct if it was your loudest, almost if nearly (≥75%), else
+    // missed; an UNSTRESSED one is missed if you made IT the loudest, almost if close (≥85%).
+    const mx = Math.max(...scores, 1e-9);
+    const verdicts = !countOk ? syls.map(() => "unsure") : syls.map((_, i) => {
+      const rel = (scores[i] ?? 0) / mx;
+      if (i === expected) return rel >= 0.999 ? "correct" : rel >= 0.75 ? "almost" : "missed";
+      return rel >= 0.999 ? "missed" : rel >= 0.85 ? "almost" : "correct";
+    });
+    return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts };
   };
   const drawEnv = (cv, sm, segs, detected) => {
     if (!cv) return; const dpr = window.devicePixelRatio || 1;
@@ -4020,13 +4037,10 @@ function StressLabView({ ctx }) {
   };
   const cleanup0 = (r) => { clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} };
   const next = () => { setIdx((i) => i + 1); setRes(null); setState("idle"); };
-  // syllable color, BoldVoice-style: green = the stress landed here and should; red = it
-  // landed here but shouldn't; amber = it should have landed here (but didn't); grey = rest
-  const sylColor = (i) => !res ? "var(--ink)"
-    : res.ok && i === expected ? "var(--jade)"
-    : !res.ok && i === res.detected && res.countOk ? "var(--coral)"
-    : !res.ok && i === expected ? "var(--sun)"
-    : "var(--ink-soft)";
+  // per-syllable verdict colors, BoldVoice-style
+  const VCOLOR = { correct: "var(--jade)", almost: "var(--sun)", missed: "var(--coral)", unsure: "var(--ink-soft)" };
+  const VMARK = { correct: "✓", almost: "~", missed: "✗", unsure: "?" };
+  const sylColor = (i) => !res ? "var(--ink)" : VCOLOR[res.verdicts?.[i] || "unsure"];
   const R = 52, C = Math.PI * R;   // gauge arc
   return (
     <div className="ws-page">
@@ -4047,7 +4061,9 @@ function StressLabView({ ctx }) {
         </div>
         <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 6, flexWrap: "wrap" }}>
           {syls.map((x, i) => (
-            <span key={i} style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, padding: "2px 8px", borderRadius: 7, background: "var(--foam)", border: "1.5px solid " + (res && i === res.detected && res.countOk ? (res.ok ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"), color: sylColor(i), fontWeight: i === expected ? 800 : 400 }}>{x}</span>
+            <span key={i} style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, padding: "2px 8px", borderRadius: 7, background: "var(--foam)", border: "1.5px solid " + (res && res.verdicts ? VCOLOR[res.verdicts[i]] : "var(--sand-deep)"), color: sylColor(i), fontWeight: i === expected ? 800 : 400 }}>
+              {x}{res && res.verdicts && <b style={{ marginLeft: 4 }}>{VMARK[res.verdicts[i]]}</b>}
+            </span>
           ))}
         </div>
         <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 5 }}>{card.english} · say it with the <b>{syls[expected]}</b> loud &amp; long</div>
