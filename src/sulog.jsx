@@ -3907,11 +3907,26 @@ function BackupView({ ctx }) {
 }
 
 /* ============================ STRESS CHECK (beta prototype) ============================
-   Waray stress is PHONEMIC (PAH-tigh = to kill, pah-TIGH = dead), and it's the one thing a
-   pronunciation drill can grade WITHOUT a Waray speech model: record, measure the energy
-   envelope (Web Audio), segment into voiced stretches ≈ syllables, score each by
-   prominence (loudness × duration), and compare the most prominent one against the
-   CAPITALIZED syllable in the pronunciation guide. Browser-only — no server, no model. */
+   Waray stress is PHONEMIC (PAH-tigh = to kill, pah-TIGH = dead). Record → energy envelope
+   (Web Audio, 20ms RMS) → voiced segments ≈ syllables → prominence (loudness × duration) →
+   compare the most prominent against the CAPITALIZED guide syllable. Browser-only.
+   Visuals: live waveform while recording; then a score gauge, the word colored per
+   syllable, and the envelope with detected syllables shaded. */
+function syllabifyWaray(w) {   // same algorithm as the guide generator (build-respellings)
+  w = w.toLowerCase().replace(/ng/g, "ŋ");
+  const out = [];
+  w.split("-").forEach((g) => {
+    const units = []; const re = /([^aeiou]*)([aeiou])/g; let m, last = 0;
+    while ((m = re.exec(g))) { units.push({ o: m[1], v: m[2] }); last = re.lastIndex; }
+    const tail = g.slice(last);
+    if (!units.length) { if (g) out.push(g); return; }
+    const syls = units.map((u) => u.o + u.v);
+    for (let k = 0; k < units.length - 1; k++) { const on = units[k + 1].o; if (on.length >= 2) { syls[k] += on.slice(0, -1); syls[k + 1] = on.slice(-1) + units[k + 1].v; } }
+    if (tail) syls[syls.length - 1] += tail;
+    syls.forEach((x) => out.push(x));
+  });
+  return out.map((x) => x.replace(/ŋ/g, "ng"));
+}
 function StressLabView({ ctx }) {
   const { cards, setView, playCard } = ctx;
   const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
@@ -3919,33 +3934,51 @@ function StressLabView({ ctx }) {
   const [state, setState] = useState("idle");     // idle | rec | result | error
   const [res, setRes] = useState(null);
   const recRef = useRef(null);
+  const liveCanvas = useRef(null);
+  const envCanvas = useRef(null);
   const card = pool[idx % (pool.length || 1)];
-  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("pronounce")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
-  const syls = card.say.split("-");
+  const syls = card ? card.say.split("-") : [];
+  const wordSyls = card ? syllabifyWaray(card.waray) : [];
   const expected = syls.findIndex((x) => /[A-Z]/.test(x));
 
-  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
+  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.mr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
+  useEffect(() => cleanup, []);
+  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("pronounce")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
+
   const analyze = (frames) => {
-    // smooth, then find voiced segments over an adaptive threshold
     const sm = frames.map((_, i) => (frames[Math.max(0, i - 1)] + frames[i] + frames[Math.min(frames.length - 1, i + 1)]) / 3);
     const peak = Math.max(...sm, 1e-6);
     const floor = [...sm].sort((a, b) => a - b)[Math.floor(sm.length * 0.2)] || 0;
     const th = Math.max(floor * 2.5, peak * 0.16);
-    const segs = [];
-    let cur = null;
+    const segs = []; let cur = null;
     sm.forEach((v, i) => {
       if (v > th) { if (!cur) cur = { a: i, b: i }; cur.b = i; }
-      else if (cur && i - cur.b > 4) { segs.push(cur); cur = null; }   // 80ms gap closes a syllable
+      else if (cur && i - cur.b > 4) { segs.push(cur); cur = null; }
     });
     if (cur) segs.push(cur);
-    let keep = segs.filter((g) => g.b - g.a >= 2);                     // ≥60ms of voicing
-    // more segments than syllables → keep the strongest N (in time order)
-    const score = (g) => { let s = 0; for (let i = g.a; i <= g.b; i++) s += sm[i]; return s; };
+    let keep = segs.filter((g) => g.b - g.a >= 2);
+    const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += sm[i]; return t; };
     if (keep.length > syls.length) keep = keep.map((g) => ({ ...g, s: score(g) })).sort((a, b) => b.s - a.s).slice(0, syls.length).sort((a, b) => a.a - b.a);
     const scores = keep.map(score);
     const detected = scores.indexOf(Math.max(...scores));
-    return { nSyl: keep.length, detected, scores, ok: keep.length === syls.length && detected === expected,
-      partial: keep.length !== syls.length };
+    const countOk = keep.length === syls.length;
+    // score = how prominent the RIGHT syllable was vs your loudest (100 = you stressed it)
+    let pct = countOk && scores.length ? Math.round(100 * (scores[expected] ?? 0) / Math.max(...scores)) : 0;
+    if (!countOk) pct = Math.min(pct, 40);
+    return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct };
+  };
+  const drawEnv = (cv, sm, segs, detected) => {
+    if (!cv) return; const dpr = window.devicePixelRatio || 1;
+    const W = cv.clientWidth * dpr, H = cv.clientHeight * dpr; cv.width = W; cv.height = H;
+    const g = cv.getContext("2d"); g.clearRect(0, 0, W, H);
+    const peak = Math.max(...sm, 1e-6), n = sm.length;
+    (segs || []).forEach((sg, k) => {
+      g.fillStyle = k === detected ? "rgba(31,184,159,.22)" : "rgba(122,158,172,.15)";
+      g.fillRect(sg.a / n * W, 0, (sg.b - sg.a + 1) / n * W, H);
+    });
+    g.beginPath(); g.strokeStyle = "#f0a05a"; g.lineWidth = 2 * dpr;
+    sm.forEach((v, i) => { const x = i / n * W, y = H - (v / peak) * (H - 4 * dpr) - 2 * dpr; i ? g.lineTo(x, y) : g.moveTo(x, y); });
+    g.stroke();
   };
   const start = async () => {
     setRes(null);
@@ -3955,64 +3988,99 @@ function StressLabView({ ctx }) {
       const src = ac.createMediaStreamSource(stream);
       const an = ac.createAnalyser(); an.fftSize = 2048; src.connect(an);
       const buf = new Float32Array(an.fftSize);
+      const chunks = []; let mr = null;
+      try { mr = new MediaRecorder(stream); mr.ondataavailable = (e) => chunks.push(e.data); mr.start(); } catch (e) {}
       const frames = []; let lastLoud = Date.now(); let everLoud = false;
       const iv = setInterval(() => {
         an.getFloatTimeDomainData(buf);
         let sum = 0; for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
         const rms = Math.sqrt(sum / buf.length);
         frames.push(rms);
+        drawEnv(liveCanvas.current, frames.slice(-160), [], -1);         // live scrolling wave
         if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
         const t = Date.now() - recRef.current.t0;
-        if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();   // silence after speech, or 3.5s cap
+        if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
-      recRef.current = { stream, ac, iv, frames, t0: Date.now() };
+      recRef.current = { stream, ac, iv, frames, mr, chunks, t0: Date.now() };
       setState("rec");
     } catch (e) { setState("error"); }
   };
   const stop = () => {
     const r = recRef.current; if (!r) return;
-    const frames = r.frames.slice(); cleanup();
-    setRes(analyze(frames)); setState("result");
+    const frames = r.frames.slice(); const chunks = r.chunks; const mr = r.mr;
+    const finish = () => {
+      const a = analyze(frames);
+      a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
+      setRes(a); setState("result");
+      setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected), 30);
+    };
+    if (mr && mr.state !== "inactive") { mr.onstop = finish; try { mr.requestData(); mr.stop(); } catch (e) { finish(); } cleanup0(r); }
+    else { cleanup0(r); finish(); }
+    recRef.current = null;
   };
-  useEffect(() => cleanup, []);
+  const cleanup0 = (r) => { clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} };
   const next = () => { setIdx((i) => i + 1); setRes(null); setState("idle"); };
-  const maxScore = res ? Math.max(...res.scores, 1e-6) : 1;
+  // syllable color, BoldVoice-style: green = the stress landed here and should; red = it
+  // landed here but shouldn't; amber = it should have landed here (but didn't); grey = rest
+  const sylColor = (i) => !res ? "var(--ink)"
+    : res.ok && i === expected ? "var(--jade)"
+    : !res.ok && i === res.detected && res.countOk ? "var(--coral)"
+    : !res.ok && i === expected ? "var(--sun)"
+    : "var(--ink-soft)";
+  const R = 52, C = Math.PI * R;   // gauge arc
   return (
     <div className="ws-page">
       <TopBar title="Stress check · beta" onBack={() => { cleanup(); setView("pronounce"); }} />
-      <div style={{ textAlign: "center", padding: "22px 16px" }}>
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 32, fontWeight: 600, cursor: "pointer" }} onClick={() => playCard(card)} title="Tap to hear">{card.waray} 🔊</div>
-        <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 15, color: "var(--sea)", margin: "4px 0 2px" }}>/ {card.say} /</div>
-        <div style={{ fontSize: 13, color: "var(--ink-soft)" }}>{card.english} · stress the <b>{expected + 1}{["st", "nd", "rd"][expected] || "th"}</b> syllable</div>
+      <div style={{ textAlign: "center", padding: "14px 16px" }}>
+        {state === "result" && res && (
+          <svg width="140" height="82" viewBox="0 0 140 82" style={{ display: "block", margin: "0 auto" }}>
+            <path d="M 18 74 A 52 52 0 0 1 122 74" fill="none" stroke="var(--sand-deep)" strokeWidth="9" strokeLinecap="round" />
+            <path d="M 18 74 A 52 52 0 0 1 122 74" fill="none" stroke={res.pct >= 80 ? "var(--jade)" : res.pct >= 50 ? "var(--sun)" : "var(--coral)"}
+              strokeWidth="9" strokeLinecap="round" strokeDasharray={`${C * res.pct / 100} ${C}`} />
+            <text x="70" y="66" textAnchor="middle" fontSize="24" fontWeight="800" fill="currentColor">{res.pct}%</text>
+          </svg>
+        )}
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 36, fontWeight: 600, cursor: "pointer", letterSpacing: ".5px" }} onClick={() => playCard(card)} title="Tap to hear">
+          {wordSyls.length === syls.length
+            ? wordSyls.map((w, i) => <span key={i} style={{ color: sylColor(i), textDecoration: i === expected ? "underline" : "none", textUnderlineOffset: 5 }}>{w}</span>)
+            : <span style={{ color: res ? sylColor(res.detected) : "var(--ink)" }}>{card.waray}</span>}
+        </div>
+        <div style={{ display: "flex", gap: 6, justifyContent: "center", marginTop: 6, flexWrap: "wrap" }}>
+          {syls.map((x, i) => (
+            <span key={i} style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, padding: "2px 8px", borderRadius: 7, background: "var(--foam)", border: "1.5px solid " + (res && i === res.detected && res.countOk ? (res.ok ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"), color: sylColor(i), fontWeight: i === expected ? 800 : 400 }}>{x}</span>
+          ))}
+        </div>
+        <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 5 }}>{card.english} · say it with the <b>{syls[expected]}</b> loud &amp; long</div>
 
         {state !== "result" && (
-          <button onClick={state === "rec" ? stop : start}
-            style={{ marginTop: 22, width: 92, height: 92, borderRadius: "50%", border: "3px solid " + (state === "rec" ? "var(--coral)" : "var(--tide)"), background: state === "rec" ? "rgba(240,122,102,.15)" : "var(--foam)", fontSize: 34, cursor: "pointer" }}>
-            {state === "rec" ? "◼" : "🎤"}
-          </button>
+          <>
+            <button onClick={state === "rec" ? stop : start}
+              style={{ marginTop: 16, width: 88, height: 88, borderRadius: "50%", border: "3px solid " + (state === "rec" ? "var(--coral)" : "var(--tide)"), background: state === "rec" ? "rgba(240,122,102,.15)" : "var(--foam)", fontSize: 32, cursor: "pointer" }}>
+              {state === "rec" ? "◼" : "🎤"}
+            </button>
+            <div style={{ height: 44, maxWidth: 320, margin: "10px auto 0" }}>
+              {state === "rec" && <canvas ref={liveCanvas} style={{ width: "100%", height: 44 }} />}
+            </div>
+            <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>
+              {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : "tap 🎤, then say the word"}
+            </div>
+          </>
         )}
-        <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 8 }}>
-          {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : state === "idle" ? "tap, then say the word" : ""}
-        </div>
 
         {state === "result" && res && (
-          <div style={{ marginTop: 18 }}>
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", alignItems: "flex-end", height: 90 }}>
-              {res.scores.map((sc, i) => (
-                <div key={i} style={{ width: 58 }}>
-                  <div style={{ height: 60, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                    <div style={{ width: 30, borderRadius: 6, height: `${Math.max(8, (sc / maxScore) * 60)}px`, background: i === res.detected ? (res.ok ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)" }} />
-                  </div>
-                  <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, marginTop: 4, fontWeight: i === expected ? 800 : 400, textDecoration: i === expected ? "underline" : "none" }}>{syls[i] || "?"}</div>
-                </div>
-              ))}
+          <div style={{ marginTop: 12 }}>
+            <div style={{ maxWidth: 340, margin: "0 auto", background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 10, padding: "6px 8px 2px" }}>
+              <canvas ref={envCanvas} style={{ width: "100%", height: 64 }} />
+              <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness over time — shaded = syllables heard, green = your loudest</div>
             </div>
             <div style={{ marginTop: 10, fontSize: 15, fontWeight: 700, color: res.ok ? "var(--jade)" : "var(--coral)" }}>
-              {res.ok ? "✓ stressed the right syllable" : res.partial ? `heard ${res.nSyl} syllable${res.nSyl === 1 ? "" : "s"}, expected ${syls.length} — try once more, clearly` : `you stressed “${syls[res.detected] || "?"}” — it's “${syls[expected]}”`}
+              {res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — try once more, clearly` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
             </div>
-            <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 14 }}>
-              <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={() => { setRes(null); setState("idle"); }}>try again</button>
-              <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={next}>next word</button>
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
+              <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
+              {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => new Audio(res.audio).play()}>▶ my recording</button>}
+              <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { setRes(null); setState("idle"); }}>try again</button>
+              <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={next}>next →</button>
             </div>
           </div>
         )}
