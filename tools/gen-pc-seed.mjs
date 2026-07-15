@@ -413,9 +413,16 @@ const unitFor = (id) => { const n = +(/^pc-l(\d+)/.exec(id)?.[1] || 0); return (
 out.push("insert into phases values\n" + GROUPS.map((g, i) => `  ('${g.pid}','pc',${i + 1},${S(g.name)},null)`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into units values\n" + GROUPS.map((g) => `  ('${g.uid}','${g.pid}',1,${S(g.name)},null,null)`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into lessons (id,unit_id,ord,title) values\n" + emitted.map((l, i) => `  (${S(l.id)},'${unitFor(l.id)}',${i + 1},${S(l.title)})`).join(",\n") + " on conflict (id) do nothing;");
+// The book capitalizes some plain-word definitions ("Ball", "Naughty", "Lesson") — normalize to
+// lowercase unless it's a proper noun or a sentence-style utterance ("Is it clear?").
+const PROPER = /^(American|Bible|God|Lord|Christian|Filipino|Jesus|Satan|United|Philippines|January|February|March|April|May|June|July|August|September|October|November|December|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b|^St\./;
+const decap = (m) => {   // only ever lowercases the FIRST letter — never reformats the string
+  const t = (m || "").trim();
+  return /^[A-Z][a-z]/.test(t) && !PROPER.test(t) && !/[?!]$/.test(t) ? t[0].toLowerCase() + t.slice(1) : t;
+};
 // Refresh the gloss/pos of any UNCONFIRMED row (PC's own, re-generated each run) but never touch a
 // human-confirmed entry — so the generator stays the source of truth until Ella signs off.
-out.push("insert into dictionary (waray,kind,meaning,pos,confirmed) values\n" + [...dict].map(([w, d]) => `  (${S(w)},'word',${S(d.meaning)},${S(d.pos)},false)`).join(",\n") +
+out.push("insert into dictionary (waray,kind,meaning,pos,confirmed) values\n" + [...dict].map(([w, d]) => `  (${S(w)},'word',${S(decap(d.meaning))},${S(d.pos)},false)`).join(",\n") +
   "\n  on conflict (waray) do update set pos = coalesce(dictionary.pos, excluded.pos);");   // NEVER clobber an existing row's definition (curated overlays own it) — but DO fill a missing pos
 if (exprRows.length) out.push("insert into expressions (id,waray,translation) values\n" + exprRows.map((e) => `  (${e.id},${S(e.war)},${S(e.en)})`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate) values\n" +
