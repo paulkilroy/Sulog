@@ -4,7 +4,7 @@ import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullP
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   Volume2, Mic, Check, X, ArrowLeft, Waves, Sun, Flame, BookOpen,
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
@@ -852,6 +852,7 @@ export default function App() {
   const startStep = useCallback((lesson, idx) => {
     const step = lesson.steps[idx];
     if (step.type !== "drill") { setLessonId(lesson.id); setStepIdx(idx); setView("teach"); return; }
+    if (step.modality === "cloze") { setLessonId(lesson.id); setStepIdx(idx); setView("cloze"); return; }
     if (step.kind === "production" && step.dir === "both") {
       // the written exam: one part, both ways — first half Waray→English, second half English→Waray (the
       // book's two sections). dirMap keys direction to the card so it survives shuffling; order is kept.
@@ -1124,6 +1125,7 @@ export default function App() {
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "language" && <LanguageView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
+      {view === "cloze" && <ClozeView ctx={ctx} />}
       {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
   );
@@ -3191,12 +3193,83 @@ function LearnView({ ctx }) {
 }
 
 // label/hint/CTA for a DB-lesson block step
+/* ============================ CLOZE (marker drill) ============================
+   The book's "Use the correct marker with the following nouns" exercises: show the bare
+   noun/name (+ the book's cue, e.g. "(plural)"), pick hi / hira / an / an mga. The rows are
+   exercise forms, not vocabulary — they never enter the card pool or SRS. */
+const MARKERS = ["an mga", "hira", "hi", "an"];   // longest-match first
+function ClozeView({ ctx }) {
+  const { lessons, lessonId, stepIdx, setView, completeLessonPart } = ctx;
+  const lesson = LESSON_FLOW.find((l) => l.id === lessonId);
+  const step = lesson?.steps?.[stepIdx];
+  const items = useMemo(() => shuffle((step?.cloze || []).map((x) => {
+    const m = MARKERS.find((mk) => x.full.toLowerCase().startsWith(mk + " "));
+    if (!m) return null;
+    return { rest: x.full.slice(m.length + 1), answer: m, cue: x.cue, full: x.full };
+  }).filter(Boolean)), [step]);
+  const options = useMemo(() => MARKERS.filter((m) => items.some((it) => it.answer === m)).sort(), [items]);
+  const [i, setI] = useState(0);
+  const [picked, setPicked] = useState(null);
+  const [right, setRight] = useState(0);
+  const [done, setDone] = useState(false);
+  if (!lesson || !step || !items.length) return <div className="ws-page"><TopBar title="Markers" onBack={() => setView("lesson")} /><p style={{ padding: 20 }}>Nothing to drill.</p></div>;
+  const it = items[i];
+  const pick = (m) => {
+    if (picked) return;
+    setPicked(m);
+    if (m === it.answer) setRight((r) => r + 1);
+    setTimeout(() => {
+      setPicked(null);
+      if (i + 1 >= items.length) { setDone(true); completeLessonPart(lesson.id, stepIdx); }
+      else setI(i + 1);
+    }, m === it.answer ? 550 : 1400);
+  };
+  if (done) return (
+    <div className="ws-page">
+      <TopBar title="Markers" onBack={() => setView("lesson")} />
+      <div style={{ textAlign: "center", padding: "40px 20px" }}>
+        <div style={{ fontSize: 40 }}>{right === items.length ? "🌊" : "👍"}</div>
+        <h2>{right}/{items.length}</h2>
+        <p style={{ color: "var(--ink-soft)" }}>hi — one person by name · hira — several by name · an — a common noun · an mga — plural common nouns</p>
+        <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("lesson")}>Back to the lesson</button>
+      </div>
+    </div>
+  );
+  return (
+    <div className="ws-page">
+      <TopBar title={`Markers · ${i + 1}/${items.length}`} onBack={() => setView("lesson")} />
+      <div style={{ textAlign: "center", padding: "26px 16px" }}>
+        <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Which marker fits?</p>
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px" }}>
+          <span style={{ color: picked ? (picked === it.answer ? "var(--jade)" : "var(--coral)") : "var(--tide)", borderBottom: "2px dashed var(--sand-deep)", padding: "0 6px" }}>
+            {picked ? it.answer : "___"}
+          </span>{" "}{it.rest}
+        </div>
+        {it.cue && it.cue.toLowerCase() !== it.rest.toLowerCase() && <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{it.cue}</div>}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(120px,180px))", gap: 10, justifyContent: "center", marginTop: 24 }}>
+          {options.map((m) => (
+            <button key={m} onClick={() => pick(m)}
+              style={{ fontSize: 17, fontWeight: 700, padding: "13px 8px", borderRadius: 12, cursor: "pointer",
+                border: "1px solid " + (picked && m === it.answer ? "var(--jade)" : picked === m ? "var(--coral)" : "var(--sand-deep)"),
+                background: picked && m === it.answer ? "rgba(31,184,159,.15)" : picked === m ? "rgba(240,122,102,.12)" : "var(--foam)",
+                color: "var(--ink)" }}>
+              {m}
+            </button>
+          ))}
+        </div>
+        {picked && picked !== it.answer && <p style={{ color: "var(--coral)", fontSize: 13, marginTop: 12 }}>It's <b>{it.answer} {it.rest}</b></p>}
+      </div>
+    </div>
+  );
+}
+
 function stepMeta(step) {
   if (step.type === "teach") return { label: (step.parts && step.parts[0] && step.parts[0].title) || "Grammar", hint: "Read the explanation", cta: "Read" };
   if (step.type === "vocab") return { label: "Learn the words", hint: `${step.items.length} to learn`, cta: "Learn" };
   if (step.kind === "production") return step.dir === "both"
     ? { label: "Translate", hint: "Both ways — Waray ↔ English", cta: "Start" }
     : { label: "Write it", hint: "Type the Waray", cta: "Start" };
+  if (step.modality === "cloze") return { label: "Markers", hint: "Pick the right marker", cta: "Start" };
   return { label: step.title === "Examples" ? "Examples" : "Recognize", hint: "Pick the meaning", cta: "Start" };
 }
 

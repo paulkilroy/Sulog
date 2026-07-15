@@ -132,6 +132,15 @@ export function dbCourseToBundled(db, name) {
             // drop the oral (production/voice) exercise — it's a teacher-led substitution drill that
             // doesn't self-study well; speaking stays available via the answer-by-voice toggle.
             if (b.drill_kind === "production" && b.drill_modality === "voice") continue;
+            if (b.drill_modality === "cloze") {
+              // marker drill ("Use the correct marker with: Lalake…") — its rows are exercise
+              // forms, not vocabulary: they carry the book's CUE (often not English) in the
+              // translation field, so they must never become translation cards. The step keeps
+              // them inline; ClozeView quizzes the marker choice itself.
+              const cloze = (b.items || []).map((it) => ({ full: it.waray, cue: it.translation || "" })).filter((x) => x.full);
+              if (cloze.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: "cloze", title: b.title || "", items: [], cloze });
+              continue;
+            }
             const ids = (b.items || []).map(addItem).filter(Boolean);
             if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", dir: b.drill_direction || null, title: b.title || "", items: ids });
             continue;

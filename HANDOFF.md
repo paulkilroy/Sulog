@@ -171,6 +171,13 @@ dark-green theme). No router, no state library; `App` owns state, views get a `c
 - PC pronunciation guides are filled by `tools/fill-pronunciation.mjs` (Tramp stress →
   default rule → phrase composition from word guides); homograph senses carry per-sense
   stress in `meanings.pronunciation`.
+- **Pronunciation section (Paul wants this — BoldVoice-style strict voicing practice).**
+  Staged plan agreed 2026-07-14: (1) stress-placement checker — browser DSP, no model;
+  Waray stress is phonemic and every guide already marks the stressed syllable; (2) Ella
+  reference recordings + acoustic-similarity score (also replaces TTS as "listen to coach");
+  (3) maybe per-phoneme coloring via a language-independent phoneme recognizer (needs an
+  inference endpoint; unproven on Waray). NOT: strict text-STT — the Filipino recognizer
+  would fail correct Waray.
 - From the last deep review, still open: `checkAnswer` edge cases (slash-in-phrase,
   fully-parenthesized targets), gate retry grade inflation ("Review missed" can pass a
   failed gate), `fetchReviewList` 1000-row cap, sequences never `setval`'d, RLS smoke
