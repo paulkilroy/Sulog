@@ -3944,6 +3944,7 @@ function StressDebug({ res, card, syls, expected }) {
     `raw bursts: ${res.nRaw} → segments after split: ${res.segs.length} (expected ${syls.length})`,
     ...res.segs.map((g, i) => `  seg${i + 1}${res.countOk ? ` (${syls[i]})` : ""}: ${g.a * 20}–${(g.b + 1) * 20}ms  dur ${(g.b - g.a + 1) * 20}ms  score ${res.scores[i]?.toFixed(4)}  rel ${Math.round(100 * res.scores[i] / Math.max(...res.scores, 1e-9))}%${i === res.detected ? "  ← DETECTED STRESS" : ""}`),
     `verdicts: ${(res.verdicts || []).join(", ")}  ·  pct: ${res.pct}  ok: ${res.ok}`,
+    `recognizer heard: ${res.said ? (res.said.alts.join(" | ") || "(nothing)") + (res.said.ok ? "  MATCH" : "  NO MATCH") : "n/a"}`,
     `envelope: ${res.sm.map((v) => Math.round(v * 1000)).join(",")}`,
   ].join("\n");
   return (
@@ -4054,6 +4055,14 @@ function StressLabView({ ctx }) {
       const buf = new Float32Array(an.fftSize);
       const chunks = []; let mr = null;
       try { mr = new MediaRecorder(stream); mr.ondataavailable = (e) => chunks.push(e.data); mr.start(); } catch (e) {}
+      // parallel word-identity check: the Filipino recognizer is rough on Waray, but it
+      // reliably tells "dada" from "blah blah" — collect every alternative it offers
+      const heardAlts = []; let sr = null;
+      if (SpeechRec) try {
+        sr = new SpeechRec(); sr.lang = (ctx.settings?.sttLang) || "fil-PH"; sr.interimResults = true; sr.maxAlternatives = 5; sr.continuous = true;
+        sr.onresult = (e) => { for (const r of e.results) for (let i = 0; i < r.length; i++) if (r[i].transcript?.trim()) heardAlts.push(r[i].transcript.trim()); };
+        sr.start();
+      } catch (e) { sr = null; }
       const frames = []; let lastLoud = Date.now(); let everLoud = false;
       const iv = setInterval(() => {
         an.getFloatTimeDomainData(buf);
@@ -4065,15 +4074,23 @@ function StressLabView({ ctx }) {
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
-      recRef.current = { stream, ac, iv, frames, mr, chunks, t0: Date.now() };
+      recRef.current = { stream, ac, iv, frames, mr, chunks, sr, heardAlts, t0: Date.now() };
       setState("rec");
     } catch (e) { setState("error"); }
   };
   const stop = () => {
     const r = recRef.current; if (!r) return;
     const frames = r.frames.slice(); const chunks = r.chunks; const mr = r.mr;
+    const heardAlts = r.heardAlts || []; try { r.sr?.stop(); } catch (e) {}
     const finish = () => {
       const a = analyze(frames);
+      // word-identity gate: any recognizer alternative that leniently matches the word passes;
+      // clear speech that matches NOTHING caps the score (it wasn't this word). No speech
+      // recognized at all → can't verify, note it but don't punish (the recognizer is flaky).
+      const alts = [...new Set(heardAlts)];
+      const saidOk = alts.some((x) => checkAnswer(x, card.waray, true, true));
+      a.said = { alts: alts.slice(-6), ok: saidOk, verified: alts.length > 0 };
+      if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
       a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
       setRes(a); setState("result");
       setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected, a.countOk ? syls : a.segs.map((_, i) => String(i + 1))), 30);
@@ -4171,6 +4188,13 @@ function StressLabView({ ctx }) {
               })}
               <div style={{ color: "var(--ink-soft)", marginTop: 3 }}>the program heard {res.segs.length} syllable{res.segs.length === 1 ? "" : "s"}; stress = the loudest·longest one{res.countOk ? "" : ` (raw bursts before splitting: ${res.nRaw})`}</div>
             </div>
+            {res.said && (
+              <div style={{ marginTop: 6, fontSize: 12.5, color: !res.said.verified ? "var(--ink-soft)" : res.said.ok ? "var(--jade)" : "var(--coral)" }}>
+                {!res.said.verified ? "⚠ couldn't verify the word (recognizer heard nothing)"
+                  : res.said.ok ? `✓ sounded like “${card.waray}”`
+                  : `✗ that didn't sound like “${card.waray}” — heard “${res.said.alts[res.said.alts.length - 1] || "?"}”`}
+              </div>
+            )}
             <StressDebug res={res} card={card} syls={syls} expected={expected} />
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
