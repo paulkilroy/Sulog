@@ -3966,6 +3966,25 @@ function StressLabView({ ctx }) {
     if (cur) segs.push(cur);
     let keep = segs.filter((g) => g.b - g.a >= 2);
     const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += sm[i]; return t; };
+    // fewer segments than syllables → syllables BLENDED (a voiced consonant like the d in
+    // "dada" never drops below the threshold). Split the widest segment at its deepest
+    // internal valley, as long as the valley is a real dip (≤80% of both flanking peaks).
+    while (keep.length && keep.length < syls.length) {
+      let best = null;
+      for (const g of keep) {
+        if (g.b - g.a < 8) continue;                       // ≥160ms — room for two syllables
+        for (let i = g.a + 3; i <= g.b - 3; i++) {
+          let pl = 0, pr = 0;
+          for (let j = g.a; j < i; j++) pl = Math.max(pl, sm[j]);
+          for (let j = i + 1; j <= g.b; j++) pr = Math.max(pr, sm[j]);
+          if (sm[i] <= 0.8 * Math.min(pl, pr) && (!best || sm[i] / Math.min(pl, pr) < best.q))
+            best = { g, i, q: sm[i] / Math.min(pl, pr) };
+        }
+      }
+      if (!best) break;                                    // genuinely one syllable — stop
+      const k = keep.indexOf(best.g);
+      keep.splice(k, 1, { a: best.g.a, b: best.i - 1 }, { a: best.i + 1, b: best.g.b });
+    }
     if (keep.length > syls.length) keep = keep.map((g) => ({ ...g, s: score(g) })).sort((a, b) => b.s - a.s).slice(0, syls.length).sort((a, b) => a.a - b.a);
     const scores = keep.map(score);
     const detected = scores.indexOf(Math.max(...scores));
@@ -3984,7 +4003,7 @@ function StressLabView({ ctx }) {
     });
     return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts };
   };
-  const drawEnv = (cv, sm, segs, detected) => {
+  const drawEnv = (cv, sm, segs, detected, labels) => {
     if (!cv) return; const dpr = window.devicePixelRatio || 1;
     const W = cv.clientWidth * dpr, H = cv.clientHeight * dpr; cv.width = W; cv.height = H;
     const g = cv.getContext("2d"); g.clearRect(0, 0, W, H);
@@ -3992,6 +4011,11 @@ function StressLabView({ ctx }) {
     (segs || []).forEach((sg, k) => {
       g.fillStyle = k === detected ? "rgba(31,184,159,.22)" : "rgba(122,158,172,.15)";
       g.fillRect(sg.a / n * W, 0, (sg.b - sg.a + 1) / n * W, H);
+      if (labels && labels[k]) {
+        g.fillStyle = k === detected ? "#1fb89f" : "#7a9eac";
+        g.font = `bold ${11 * dpr}px ui-monospace,monospace`; g.textAlign = "center";
+        g.fillText(labels[k], (sg.a + sg.b + 1) / 2 / n * W, 12 * dpr);
+      }
     });
     g.beginPath(); g.strokeStyle = "#f0a05a"; g.lineWidth = 2 * dpr;
     sm.forEach((v, i) => { const x = i / n * W, y = H - (v / peak) * (H - 4 * dpr) - 2 * dpr; i ? g.lineTo(x, y) : g.moveTo(x, y); });
@@ -4029,7 +4053,7 @@ function StressLabView({ ctx }) {
       const a = analyze(frames);
       a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
       setRes(a); setState("result");
-      setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected), 30);
+      setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected, a.countOk ? syls : a.segs.map((_, i) => String(i + 1))), 30);
     };
     if (mr && mr.state !== "inactive") { mr.onstop = finish; try { mr.requestData(); mr.stop(); } catch (e) { finish(); } cleanup0(r); }
     else { cleanup0(r); finish(); }
@@ -4103,7 +4127,7 @@ function StressLabView({ ctx }) {
               <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness over time — shaded = syllables heard, green = your loudest</div>
             </div>
             <div style={{ marginTop: 10, fontSize: 15, fontWeight: 700, color: res.ok ? "var(--jade)" : "var(--coral)" }}>
-              {res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — try once more, clearly` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
+              {res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — your syllables blended together; try a hair slower with a tiny break between them` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
