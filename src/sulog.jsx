@@ -3945,6 +3945,7 @@ function StressDebug({ res, card, syls, expected }) {
     ...res.segs.map((g, i) => `  seg${i + 1}${res.countOk ? ` (${syls[i]})` : ""}: ${g.a * 20}–${(g.b + 1) * 20}ms  dur ${(g.b - g.a + 1) * 20}ms  score ${res.scores[i]?.toFixed(4)}  rel ${Math.round(100 * res.scores[i] / Math.max(...res.scores, 1e-9))}%${i === res.detected ? "  ← DETECTED STRESS" : ""}`),
     `verdicts: ${(res.verdicts || []).join(", ")}  ·  pct: ${res.pct}  ok: ${res.ok}`,
     `recognizer heard: ${res.said ? (res.said.alts.join(" | ") || "(nothing)") + (res.said.ok ? "  MATCH" : "  NO MATCH") : "n/a"}`,
+    `sound per syllable: ${res.sound ? res.sound.map((r0, i) => `${syls[i]}=${Math.round(r0 * 100)}%`).join("  ") : "n/a"}`,
     `envelope: ${res.sm.map((v) => Math.round(v * 1000)).join(",")}`,
   ].join("\n");
   return (
@@ -3963,6 +3964,30 @@ function StressDebug({ res, card, syls, expected }) {
   );
 }
 
+// per-syllable SOUND score: align the recognizer's transcript to the target word
+// (char-level, o/u e/i folded) and measure how much of each syllable's span matched.
+function syllableSoundRatios(transcript, wordSyls) {
+  const fold = (x) => (x || "").toLowerCase().replace(/o/g, "u").replace(/e/g, "i").replace(/[^a-z]/g, "");
+  const t = fold(wordSyls.join("")), h = fold(transcript);
+  if (!t || !h) return null;
+  const n = t.length, m = h.length;
+  const D = Array.from({ length: n + 1 }, (_, i) => Array.from({ length: m + 1 }, (_, j) => i === 0 ? -j : j === 0 ? -i : 0));
+  for (let i = 1; i <= n; i++) for (let j = 1; j <= m; j++)
+    D[i][j] = Math.max(D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1), D[i - 1][j] - 1, D[i][j - 1] - 1);
+  const hit = new Array(n).fill(false);
+  let i = n, j = m;
+  while (i > 0 && j > 0) {
+    if (D[i][j] === D[i - 1][j - 1] + (t[i - 1] === h[j - 1] ? 1 : -1)) { if (t[i - 1] === h[j - 1]) hit[i - 1] = true; i--; j--; }
+    else if (D[i][j] === D[i - 1][j] - 1) i--; else j--;
+  }
+  const out = []; let pos = 0;
+  for (const syl of wordSyls) {
+    const len = fold(syl).length;
+    let ok = 0; for (let k = pos; k < pos + len; k++) if (hit[k]) ok++;
+    out.push(len ? ok / len : 0); pos += len;
+  }
+  return out;
+}
 function StressLabView({ ctx }) {
   const { cards, setView, playCard } = ctx;
   const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
@@ -4090,7 +4115,22 @@ function StressLabView({ ctx }) {
       const alts = [...new Set(heardAlts)];
       const saidOk = alts.some((x) => checkAnswer(x, card.waray, true, true));
       a.said = { alts: alts.slice(-6), ok: saidOk, verified: alts.length > 0 };
-      if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
+      // per-syllable sound score from the best-aligned alternative; combine with stress:
+      // a syllable's grade is the WORSE of how you stressed it and how it sounded
+      const rank = { correct: 0, almost: 1, missed: 2, unsure: 0.5 };
+      let bestRatios = null, bestSum = -1;
+      for (const alt of alts) {
+        const r0 = syllableSoundRatios(alt, wordSyls);
+        if (r0) { const t = r0.reduce((x, y) => x + y, 0); if (t > bestSum) { bestSum = t; bestRatios = r0; } }
+      }
+      if (bestRatios && wordSyls.length === syls.length) {
+        a.sound = bestRatios;
+        const sv = bestRatios.map((r0) => r0 >= 0.8 ? "correct" : r0 >= 0.45 ? "almost" : "missed");
+        a.verdicts = a.verdicts.map((v, i) => rank[sv[i]] > rank[v] ? sv[i] : v);
+        const soundPct = Math.round(100 * bestSum / bestRatios.length);
+        a.pct = Math.round((a.pct + soundPct) / 2);
+        a.ok = a.ok && sv.every((v) => v !== "missed");
+      } else if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
       a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
       setRes(a); setState("result");
       setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected, a.countOk ? syls : a.segs.map((_, i) => String(i + 1))), 30);
@@ -4183,6 +4223,7 @@ function StressLabView({ ctx }) {
                       <span style={{ display: "block", height: "100%", width: `${rel}%`, background: VCOLOR[v] === "var(--ink-soft)" ? "var(--sea)" : VCOLOR[v] }} />
                     </span>
                     <span style={{ width: 66, textAlign: "right", color: "var(--ink-soft)" }}>{rel}% {i === res.detected ? "← loudest" : ""}</span>
+                    {res.sound && <span style={{ width: 74, textAlign: "right", color: VCOLOR[res.sound[i] >= 0.8 ? "correct" : res.sound[i] >= 0.45 ? "almost" : "missed"] }}>sound {Math.round(res.sound[i] * 100)}%</span>}
                   </div>
                 );
               })}
