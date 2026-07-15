@@ -4037,6 +4037,19 @@ function StressLabView({ ctx }) {
   };
   const cleanup0 = (r) => { clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} };
   const next = () => { setIdx((i) => i + 1); setRes(null); setState("idle"); };
+  // hands-free flow: on every new word (and "try again"), the coach says it, then the mic
+  // opens by itself once the speaker goes quiet — no tapping to start each take
+  useEffect(() => {
+    if (state !== "idle" || !card) return;
+    let live = true;
+    playCard(card);
+    const t0 = Date.now();
+    const iv = setInterval(() => {
+      const talking = typeof speechSynthesis !== "undefined" && speechSynthesis.speaking;
+      if (!talking || Date.now() - t0 > 8000) { clearInterval(iv); setTimeout(() => { if (live) start(); }, 300); }
+    }, 150);
+    return () => { live = false; clearInterval(iv); };
+  }, [state, idx]);
   // per-syllable verdict colors, BoldVoice-style
   const VCOLOR = { correct: "var(--jade)", almost: "var(--sun)", missed: "var(--coral)", unsure: "var(--ink-soft)" };
   const VMARK = { correct: "✓", almost: "~", missed: "✗", unsure: "?" };
@@ -4078,7 +4091,7 @@ function StressLabView({ ctx }) {
               {state === "rec" && <canvas ref={liveCanvas} style={{ width: "100%", height: 44 }} />}
             </div>
             <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>
-              {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : "tap 🎤, then say the word"}
+              {state === "rec" ? "your turn — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : "listen…"}
             </div>
           </>
         )}
