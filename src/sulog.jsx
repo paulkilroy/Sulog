@@ -3981,47 +3981,42 @@ function StressLabView({ ctx }) {
   if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("pronounce")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
 
   const analyze = (frames) => {
-    const sm = frames.map((_, i) => (frames[Math.max(0, i - 1)] + frames[i] + frames[Math.min(frames.length - 1, i + 1)]) / 3);
+    // NATURAL-SPEECH segmentation: don't hunt for silences between syllables (connected
+    // speech has none) — find the N loudness PEAKS (syllable nuclei ≈ vowels, N = the
+    // guide's syllable count) and cut at the dips between them, however shallow.
+    const sm = frames.map((_, i) => {
+      let t = 0, n = 0;
+      for (let j = Math.max(0, i - 2); j <= Math.min(frames.length - 1, i + 2); j++) { t += frames[j]; n++; }
+      return t / n;
+    });
     const peak = Math.max(...sm, 1e-6);
     const floor = [...sm].sort((a, b) => a - b)[Math.floor(sm.length * 0.2)] || 0;
-    const th = Math.max(floor * 2.5, peak * 0.16);
-    const segs = []; let cur = null;
-    sm.forEach((v, i) => {
-      if (v > th) { if (!cur) cur = { a: i, b: i }; cur.b = i; }
-      else if (cur && i - cur.b > 4) { segs.push(cur); cur = null; }
-    });
-    if (cur) segs.push(cur);
-    let keep = segs.filter((g) => g.b - g.a >= 2);
-    const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += sm[i]; return t; };
-    // fewer segments than syllables → syllables BLENDED (a voiced consonant like the d in
-    // "dada" never drops below the threshold). Split the widest segment at its deepest
-    // internal valley, as long as the valley is a real dip (≤80% of both flanking peaks).
-    while (keep.length && keep.length < syls.length) {
-      let best = null;
-      for (const g of keep) {
-        if (g.b - g.a < 8) continue;                       // ≥160ms — room for two syllables
-        for (let i = g.a + 3; i <= g.b - 3; i++) {
-          let pl = 0, pr = 0;
-          for (let j = g.a; j < i; j++) pl = Math.max(pl, sm[j]);
-          for (let j = i + 1; j <= g.b; j++) pr = Math.max(pr, sm[j]);
-          if (sm[i] <= 0.8 * Math.min(pl, pr) && (!best || sm[i] / Math.min(pl, pr) < best.q))
-            best = { g, i, q: sm[i] / Math.min(pl, pr) };
-        }
-      }
-      if (!best) break;                                    // genuinely one syllable — stop
-      const k = keep.indexOf(best.g);
-      keep.splice(k, 1, { a: best.g.a, b: best.i - 1 }, { a: best.i + 1, b: best.g.b });
+    const th = Math.max(floor * 2.2, peak * 0.12);
+    let lo = sm.findIndex((v) => v > th); let hi = sm.length - 1;
+    while (hi > lo && sm[hi] <= th) hi--;
+    if (lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: syls.map(() => "unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0 };
+    // local maxima inside the voiced span, ≥80ms apart (keep the taller of close pairs)
+    let peaks = [];
+    for (let i = lo + 1; i < hi; i++) if (sm[i] >= sm[i - 1] && sm[i] > sm[i + 1] && sm[i] > th) peaks.push(i);
+    peaks.sort((a, b) => sm[b] - sm[a]);
+    const picked = [];
+    for (const p of peaks) { if (picked.every((q) => Math.abs(q - p) >= 4)) picked.push(p); }
+    const nuclei = picked.slice(0, syls.length).sort((a, b) => a - b);
+    // boundaries at the deepest dip between consecutive nuclei; segments span dip→dip
+    const bounds = [lo];
+    for (let k = 0; k < nuclei.length - 1; k++) {
+      let m = nuclei[k], mv = Infinity;
+      for (let i = nuclei[k] + 1; i < nuclei[k + 1]; i++) if (sm[i] < mv) { mv = sm[i]; m = i; }
+      bounds.push(m);
     }
-    if (keep.length > syls.length) keep = keep.map((g) => ({ ...g, s: score(g) })).sort((a, b) => b.s - a.s).slice(0, syls.length).sort((a, b) => a.a - b.a);
+    bounds.push(hi + 1);
+    const keep = nuclei.map((_, k) => ({ a: bounds[k], b: bounds[k + 1] - 1 }));
+    const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += Math.max(0, sm[i] - floor); return t; };
     const scores = keep.map(score);
     const detected = scores.indexOf(Math.max(...scores));
     const countOk = keep.length === syls.length;
-    // score = how prominent the RIGHT syllable was vs your loudest (100 = you stressed it)
     let pct = countOk && scores.length ? Math.round(100 * (scores[expected] ?? 0) / Math.max(...scores)) : 0;
     if (!countOk) pct = Math.min(pct, 40);
-    // per-syllable verdict (only meaningful when we heard the right number of syllables):
-    // the STRESSED syllable is correct if it was your loudest, almost if nearly (≥75%), else
-    // missed; an UNSTRESSED one is missed if you made IT the loudest, almost if close (≥85%).
     const mx = Math.max(...scores, 1e-9);
     const verdicts = !countOk ? syls.map(() => "unsure") : syls.map((_, i) => {
       const rel = (scores[i] ?? 0) / mx;
@@ -4029,7 +4024,7 @@ function StressLabView({ ctx }) {
       return rel >= 0.999 ? "missed" : rel >= 0.85 ? "almost" : "correct";
     });
     return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts,
-      th, floor, peakV: peak, nFrames: sm.length, nRaw: segs.length };
+      th, floor, peakV: peak, nFrames: sm.length, nRaw: picked.length };
   };
   const drawEnv = (cv, sm, segs, detected, labels) => {
     if (!cv) return; const dpr = window.devicePixelRatio || 1;
