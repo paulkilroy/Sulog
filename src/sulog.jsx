@@ -4006,7 +4006,7 @@ function StressLabView({ ctx }) {
 
   const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.mr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
   useEffect(() => cleanup, []);
-  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("pronounce")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
+  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("home")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
 
   const analyze = (frames) => {
     // NATURAL-SPEECH segmentation: don't hunt for silences between syllables (connected
@@ -4143,17 +4143,17 @@ function StressLabView({ ctx }) {
   };
   const cleanup0 = (r) => { clearInterval(r.iv); try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} };
   const next = () => { setIdx((i) => i + 1); setRes(null); setState("idle"); };
-  // hands-free flow: on every new word (and "try again"), the coach says it, then the mic
-  // opens by itself once the speaker goes quiet — no tapping to start each take
+  // hands-free flow: the mic opens by itself on every new word / retry — but the coach
+  // stays SILENT unless asked (tap the word or the coach button). If TTS is playing
+  // (user requested it), wait for quiet before opening the mic so it never records the app.
   useEffect(() => {
     if (state !== "idle" || !card) return;
     let live = true;
-    playCard(card);
     const t0 = Date.now();
     const iv = setInterval(() => {
       const talking = typeof speechSynthesis !== "undefined" && speechSynthesis.speaking;
-      if (!talking || Date.now() - t0 > 8000) { clearInterval(iv); setTimeout(() => { if (live) start(); }, 300); }
-    }, 150);
+      if (!talking || Date.now() - t0 > 8000) { clearInterval(iv); setTimeout(() => { if (live) start(); }, 250); }
+    }, 120);
     return () => { live = false; clearInterval(iv); };
   }, [state, idx]);
   // per-syllable verdict colors, BoldVoice-style
@@ -4163,7 +4163,7 @@ function StressLabView({ ctx }) {
   const R = 52, C = Math.PI * R;   // gauge arc
   return (
     <div className="ws-page">
-      <TopBar title="Stress check · beta" onBack={() => { cleanup(); setView("pronounce"); }} />
+      <TopBar title="Stress check · beta" onBack={() => { cleanup(); setView("home"); }} />
       <div style={{ textAlign: "center", padding: "14px 16px" }}>
         {state === "result" && res && (
           <svg width="140" height="82" viewBox="0 0 140 82" style={{ display: "block", margin: "0 auto" }}>
@@ -4173,7 +4173,8 @@ function StressLabView({ ctx }) {
             <text x="70" y="66" textAnchor="middle" fontSize="24" fontWeight="800" fill="currentColor">{res.pct}%</text>
           </svg>
         )}
-        <div style={{ fontFamily: "Georgia,serif", fontSize: 36, fontWeight: 600, cursor: "pointer", letterSpacing: ".5px" }} onClick={() => playCard(card)} title="Tap to hear">
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 36, fontWeight: 600, cursor: "pointer", letterSpacing: ".5px" }}
+          onClick={() => { if (recRef.current) { cleanup(); setState("idle"); } playCard(card); }} title="Tap to hear">
           {wordSyls.length === syls.length
             ? wordSyls.map((w, i) => <span key={i} style={{ color: sylColor(i), textDecoration: i === expected ? "underline" : "none", textUnderlineOffset: 5 }}>{w}</span>)
             : <span style={{ color: res ? sylColor(res.detected) : "var(--ink)" }}>{card.waray}</span>}
