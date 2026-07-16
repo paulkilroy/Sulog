@@ -485,16 +485,21 @@ const _tol = (len) => (len <= 4 ? 0 : len <= 8 ? 1 : 2);
 //    and mangles short particles — word-by-word alignment falls apart on it. So we match at the
 //    PHRASE level and forgive (this is why voice grading stays lenient). The cost: a spoken "ka"
 //    for "kamo" passes — but the recognizer often can't tell them apart, and voice is secondary.
+// English synonym folding: the book itself glosses one Waray word differently in different
+// places (mahusay = "beautiful" in the vocab list, "pretty" in a sentence translation) —
+// fold those to one canonical so either English answer is accepted. Conservative pairs only.
+const EN_SYN = { beautiful: "pretty", nice: "good", fine: "good", large: "big", little: "small", difficult: "hard", glad: "happy" };
+const enFold = (x) => x.split(" ").map((w) => EN_SYN[w] || w).join(" ");
 function checkAnswer(input, target, waray, spoken) {
   let got = norm(input);
   if (!got) return false;
   const targets = alts(target);
-  if (waray) got = warayFold(got);
+  if (waray) got = warayFold(got); else got = enFold(got);
   const gotC = got.replace(/ /g, ""); // space-stripped: the recognizer splits/joins words freely
   const gotW = got.split(" ");
   const fuzzy = !waray || spoken;     // typed Waray = strict word-by-word; everything else forgives
   for (let t of targets) {
-    if (waray) t = warayFold(t);
+    if (waray) t = warayFold(t); else t = enFold(norm(t));
     if (got === t) return true;
     // per-word: same word count, EACH word within its own length-scaled tolerance. With the Daram
     // dialect setting on, a typed dialect form also matches its canonical word ("wara" for "waray",
