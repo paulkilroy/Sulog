@@ -1927,7 +1927,7 @@ function HomeView({ ctx }) {
           <div className="ws-cta-ic ws-ic-coral"><Trophy size={18} /></div>
           <div>
             <div className="ws-cta-t">Accent Duel <span className="ws-badge" style={{ background: "var(--sun)", color: "#123" }}>2P</span></div>
-            <div className="ws-cta-d">You vs Ella — Waray words vs English traps</div>
+            <div className="ws-cta-d">🇺🇸 Waray vs 🇵🇭 English — pass-the-phone</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -3938,9 +3938,12 @@ function BackupView({ ctx }) {
 // stops, and longer words, while pushing recently-seen words to the back (persisted, so
 // sessions differ). Efraimidis-Spirakis weighted sampling gives a fresh order each visit.
 function difficultyOf(c) {
-  const syl = ((c.say || "").match(/-/g) || []).length + 1;   // syllable count from the guide
-  const glottal = (c.waray.match(/-/g) || []).length;          // glottal stops = harder
-  return syl * 2 + glottal * 2 + c.waray.length / 4;
+  const w = c.waray.toLowerCase();
+  const syl = ((c.say || "").match(/-/g) || []).length + 1;    // syllable count from the guide
+  const glottal = (w.match(/-/g) || []).length;                // glottal stops — hard for Americans
+  const ngOnset = /(^|[-\s])ng/.test(w) ? 1 : 0;              // syllable-initial ng — hard for Americans
+  const diph = (w.match(/(ay|aw)/g) || []).length;             // -ay/-aw diphthongs
+  return syl * 2 + glottal * 3 + ngOnset * 2 + diph + w.replace(/[^a-z]/g, "").length / 4;
 }
 function practicePool(cards, key) {
   const cand = cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray) && c.waray.length >= 3);
@@ -4105,19 +4108,34 @@ function analyzeStress(frames, nSyl, expected) {
 // Filipinos commonly shift (graded in en-US). Same stress engine both ways; the recognizer
 // locale swaps per turn. Score = stress placement + whether the recognizer heard the RIGHT
 // word (strict — "tree" for "three" doesn't count). Alternating turns, shared scoreboard.
+// English words that are HARD to say with an American accent — mined from published lists of
+// (a) words Filipinos commonly shift and (b) words even Americans mispronounce. Guides are the
+// American pronunciation; graded on the en-US recognizer, so getting close to General American
+// is the whole point. (sources: BoldVoice, YourDictionary, Samal English 100-word list)
 const EN_TRAPS = [
-  { w: "three", g: "THREE" }, { w: "coffee", g: "KAW-fee" }, { w: "vinegar", g: "VIN-uh-gur" },
-  { w: "vegetable", g: "VEJ-tuh-bul" }, { w: "comfortable", g: "KUMF-tur-bul" }, { w: "february", g: "FEB-roo-air-ee" },
-  { w: "wednesday", g: "WENZ-day" }, { w: "clothes", g: "KLOHZ" }, { w: "world", g: "WURLD" },
-  { w: "thirty", g: "THUR-tee" }, { w: "salmon", g: "SAM-un" }, { w: "iron", g: "EYE-urn" },
-  { w: "develop", g: "duh-VEL-up" }, { w: "hamburger", g: "HAM-bur-gur" }, { w: "schedule", g: "SKEJ-ool" },
-  { w: "twelve", g: "TWELV" }, { w: "fifth", g: "FIFTH" }, { w: "pizza", g: "PEET-suh" }, { w: "beach", g: "BEECH" },
-  { w: "refrigerator", g: "ruh-FRIJ-uh-ray-tur" }, { w: "focus", g: "FOH-kus" }, { w: "verb", g: "VURB" },
-  { w: "vehicle", g: "VEE-uh-kul" }, { w: "receipt", g: "ruh-SEET" }, { w: "island", g: "EYE-lund" },
-  { w: "chocolate", g: "CHOK-lut" }, { w: "restaurant", g: "RES-tuh-ront" }, { w: "temperature", g: "TEM-pruh-chur" },
-  { w: "jewelry", g: "JOOL-ree" }, { w: "colonel", g: "KUR-nul" }, { w: "cupboard", g: "KUB-urd" },
-  { w: "vegetables", g: "VEJ-tuh-buls" }, { w: "particularly", g: "pur-TIK-yuh-lur-lee" }, { w: "specifically", g: "spuh-SIF-ik-lee" },
-  { w: "statistics", g: "stuh-TIS-tiks" }, { w: "opportunity", g: "op-ur-TOO-nuh-tee" }, { w: "development", g: "duh-VEL-up-munt" },
+  // — commonly shifted by Filipino speakers —
+  { w: "almond", g: "AH-mund" }, { w: "salmon", g: "SAM-un" }, { w: "debut", g: "day-BYOO" },
+  { w: "comfortable", g: "KUMF-tur-bul" }, { w: "vegetable", g: "VEJ-tuh-bul" }, { w: "chocolate", g: "CHOK-lut" },
+  { w: "entrepreneur", g: "on-truh-pruh-NUR" }, { w: "genre", g: "ZHON-ruh" }, { w: "zucchini", g: "zoo-KEE-nee" },
+  { w: "cemetery", g: "SEM-uh-tair-ee" }, { w: "controversy", g: "KON-truh-vur-see" }, { w: "coupon", g: "KOO-pon" },
+  { w: "mayonnaise", g: "MAY-uh-nayz" }, { w: "nuisance", g: "NOO-suns" }, { w: "sergeant", g: "SAR-junt" },
+  { w: "suicide", g: "SOO-uh-side" }, { w: "tortoise", g: "TOR-tus" }, { w: "utensil", g: "yoo-TEN-sul" },
+  { w: "lettuce", g: "LET-us" }, { w: "broccoli", g: "BROK-uh-lee" }, { w: "category", g: "KAT-uh-gor-ee" },
+  { w: "cleanliness", g: "KLEN-lee-nus" }, { w: "gourmet", g: "gor-MAY" }, { w: "handsome", g: "HAN-sum" },
+  { w: "heinous", g: "HAY-nus" }, { w: "knowledge", g: "NOL-ij" }, { w: "orange", g: "OR-inj" },
+  { w: "picture", g: "PIK-chur" }, { w: "species", g: "SPEE-sheez" }, { w: "thesis", g: "THEE-sis" },
+  { w: "busy", g: "BIZ-ee" }, { w: "bury", g: "BAIR-ee" }, { w: "boutique", g: "boo-TEEK" },
+  { w: "asthma", g: "AZ-muh" }, { w: "attorney", g: "uh-TUR-nee" }, { w: "parachute", g: "PAIR-uh-shoot" },
+  { w: "vehicle", g: "VEE-uh-kul" }, { w: "receipt", g: "ruh-SEET" }, { w: "worry", g: "WUR-ee" },
+  // — even Americans get these wrong —
+  { w: "colonel", g: "KUR-nul" }, { w: "hyperbole", g: "hy-PUR-buh-lee" }, { w: "mischievous", g: "MIS-chuh-vus" },
+  { w: "nuclear", g: "NOO-klee-ur" }, { w: "quinoa", g: "KEEN-wah" }, { w: "espresso", g: "es-PRES-oh" },
+  { w: "jewelry", g: "JOO-ul-ree" }, { w: "february", g: "FEB-roo-air-ee" }, { w: "iron", g: "EYE-urn" },
+  { w: "cache", g: "KASH" }, { w: "worcestershire", g: "WOOS-tur-shur" }, { w: "prestigious", g: "pre-STIJ-us" },
+  { w: "cupboard", g: "KUB-urd" }, { w: "often", g: "OF-un" }, { w: "library", g: "LY-brair-ee" },
+  { w: "arctic", g: "ARK-tik" }, { w: "envelope", g: "EN-vuh-lohp" }, { w: "pneumonia", g: "noo-MOHN-yuh" },
+  { w: "especially", g: "es-PESH-uh-lee" }, { w: "temperature", g: "TEM-pruh-chur" }, { w: "restaurant", g: "RES-tuh-ront" },
+  { w: "opportunity", g: "op-ur-TOO-nuh-tee" }, { w: "development", g: "duh-VEL-up-munt" }, { w: "particularly", g: "pur-TIK-yuh-lur-lee" },
 ];
 const ROUNDS = 5;   // words per player
 function AccentDuelView({ ctx }) {
@@ -4125,8 +4143,8 @@ function AccentDuelView({ ctx }) {
   const warayPool = useMemo(() => practicePool(cards, "sulog:practiced"), [cards]);
   const enPool = useMemo(() => shuffle(EN_TRAPS.slice()), []);   // fresh order each game
   const players = [
-    { name: "Paul", flag: "🌊", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].say, card: warayPool[n % warayPool.length] } },
-    { name: "Ella", flag: "🇵🇭", lang: "English", locale: "en-US", pick: (n) => ({ word: enPool[n % enPool.length].w, guide: enPool[n % enPool.length].g }) },
+    { flag: "🇺🇸", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].say, card: warayPool[n % warayPool.length] } },
+    { flag: "🇵🇭", lang: "English", locale: "en-US", pick: (n) => ({ word: enPool[n % enPool.length].w, guide: enPool[n % enPool.length].g }) },
   ];
   const [phase, setPhase] = useState("setup");     // setup | turn | result | over
   const [turn, setTurn] = useState(0);             // 0..ROUNDS*2-1
@@ -4233,7 +4251,7 @@ function AccentDuelView({ ctx }) {
     <div style={{ display: "flex", justifyContent: "center", gap: 10, margin: "6px 0 14px" }}>
       {players.map((pl, i) => (
         <div key={i} style={{ flex: "0 0 130px", textAlign: "center", padding: "8px 10px", borderRadius: 12, border: "1.5px solid " + (phase !== "over" && i === p ? "var(--tide)" : "var(--sand-deep)"), background: phase !== "over" && i === p ? "rgba(46,160,180,.10)" : "var(--foam)" }}>
-          <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{pl.flag} {pl.name}</div>
+          <div style={{ fontSize: 22 }}>{pl.flag}</div>
           <div style={{ fontSize: 26, fontWeight: 800 }}>{score[i]}</div>
           <div style={{ fontSize: 10.5, color: "var(--ink-soft)" }}>{pl.lang}</div>
         </div>
@@ -4248,10 +4266,10 @@ function AccentDuelView({ ctx }) {
         <div style={{ fontSize: 44 }}>🎤⚔️</div>
         <h2 style={{ margin: "6px 0" }}>Accent Duel</h2>
         <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.5, maxWidth: 340, margin: "0 auto" }}>
-          Pass the phone back and forth. <b>Paul</b> pronounces a Waray word; <b>Ella</b> pronounces an English word Filipinos often shift. Each turn scores on stress + whether the phone heard the right word. {ROUNDS} rounds each — highest total wins.
+          Pass the phone back and forth. One player says a <b>Waray</b> word that trips up Americans; the other says an <b>English</b> word Filipinos often shift — each graded in its own accent. Score = stress + whether the phone heard the right word. {ROUNDS} rounds each; highest total wins.
         </p>
         <button className="ws-cta ws-cta-primary" style={{ maxWidth: 260, margin: "18px auto 0" }} onClick={() => { setPhase("turn"); setState("idle"); }}>
-          <div className="ws-cta-t">Start · Paul goes first</div>
+          <div className="ws-cta-t">Start · 🇺🇸 Waray first</div>
         </button>
       </div>
     </div>
@@ -4264,7 +4282,7 @@ function AccentDuelView({ ctx }) {
         <TopBar title="Accent Duel" onBack={() => { cleanup(); setView("home"); }} />
         <div style={{ textAlign: "center", padding: "10px 18px" }}>
           <div style={{ fontSize: 46 }}>{win === null ? "🤝" : "🏆"}</div>
-          <h2 style={{ margin: "6px 0" }}>{win === null ? "It's a tie!" : `${players[win].name} wins!`}</h2>
+          <h2 style={{ margin: "6px 0" }}>{win === null ? "It's a tie!" : `${players[win].flag} wins!`}</h2>
           {scoreboard}
           <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 8 }}>
             <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={() => { setTurn(0); setScore([0, 0]); setRes(null); setPhase("turn"); setState("idle"); }}>rematch</button>
@@ -4281,7 +4299,7 @@ function AccentDuelView({ ctx }) {
       <TopBar title={`Accent Duel · round ${roundNo}/${ROUNDS}`} onBack={() => { cleanup(); setView("home"); }} />
       <div style={{ textAlign: "center", padding: "6px 16px" }}>
         {scoreboard}
-        <div style={{ fontSize: 13, color: "var(--ink-soft)" }}>{players[p].flag} <b style={{ color: "var(--ink)" }}>{players[p].name}</b> · say this {players[p].lang} word</div>
+        <div style={{ fontSize: 13, color: "var(--ink-soft)" }}><span style={{ fontSize: 18 }}>{players[p].flag}</span> · say this <b style={{ color: "var(--ink)" }}>{players[p].lang}</b> word</div>
         <div style={{ fontFamily: "Georgia,serif", fontSize: 38, fontWeight: 600, margin: "6px 0 2px", cursor: "pointer" }}
           onClick={() => { if (recRef.current) { cleanup(); setState("idle"); } if (item.card) playCard(item.card); else speakEnglish(item.word); }} title="Tap to hear">
           {item.word} <span style={{ fontSize: 18 }}>🔊</span>
@@ -4323,7 +4341,7 @@ function AccentDuelView({ ctx }) {
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { setRes(null); setPhase("turn"); setState("idle"); setScore((sc) => { const n = sc.slice(); n[p] -= res.pts; return n; }); }}>retry</button>
               <button className="ws-opt ws-cta-primary" style={{ padding: "9px 18px", color: "#fff" }} onClick={() => {
                 if (turn + 1 >= ROUNDS * 2) { setPhase("over"); } else { setTurn((t) => t + 1); setRes(null); setPhase("turn"); setState("idle"); }
-              }}>{turn + 1 >= ROUNDS * 2 ? "see winner →" : `pass to ${players[(p + 1) % 2].name} →`}</button>
+              }}>{turn + 1 >= ROUNDS * 2 ? "see winner →" : `pass to ${players[(p + 1) % 2].flag} →`}</button>
             </div>
           </div>
         )}
