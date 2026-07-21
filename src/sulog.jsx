@@ -4063,7 +4063,7 @@ function analyzeStress(frames, nSyl, expected) {
     let pct = countOk && scores.length ? Math.round(100 * (scores[expected] ?? 0) / Math.max(...scores)) : 0;
     if (!countOk) pct = Math.min(pct, 40);
     const mx = Math.max(...scores, 1e-9);
-    const verdicts = !countOk ? Array(nSyl).fill("unsure") : syls.map((_, i) => {
+    const verdicts = !countOk ? Array(nSyl).fill("unsure") : Array(nSyl).fill(0).map((_, i) => {
       const rel = (scores[i] ?? 0) / mx;
       if (i === expected) return rel >= 0.999 ? "correct" : rel >= 0.75 ? "almost" : "missed";
       return rel >= 0.999 ? "missed" : rel >= 0.85 ? "almost" : "correct";
@@ -4103,6 +4103,7 @@ function AccentDuelView({ ctx }) {
   const [res, setRes] = useState(null);
   const recRef = useRef(null);
   const liveCanvas = useRef(null);
+  const envCanvas = useRef(null);
   const p = turn % 2;                              // whose turn (0 Paul, 1 Ella)
   const roundNo = Math.floor(turn / 2) + 1;
   const item = players[p].pick(Math.floor(turn / 2));
@@ -4122,7 +4123,8 @@ function AccentDuelView({ ctx }) {
     const stressPct = a.countOk ? Math.round(100 * (a.scores[expected] || 0) / Math.max(...a.scores, 1e-9)) : 40;
     // said the RIGHT word → 60..100 (rewards good stress); wrong word → 0..35
     const pts = matched ? Math.round(60 + 0.4 * stressPct) : Math.round(0.35 * stressPct);
-    return { pts, matched, heardTop, stressPct, verdicts: a.verdicts, syls, verified: uniq.length > 0 };
+    return { pts, matched, heardTop, stressPct, verdicts: a.verdicts, syls, verified: uniq.length > 0,
+      sm: a.sm, segs: a.segs, detected: a.detected, countOk: a.countOk };
   };
   const start = async () => {
     setRes(null);
@@ -4166,6 +4168,19 @@ function AccentDuelView({ ctx }) {
     const g = grade(frames, alts);
     setScore((sc) => { const n = sc.slice(); n[p] += g.pts; return n; });
     setRes(g); setState("idle"); setPhase("result");
+    setTimeout(() => {   // the result envelope, same visual as Stress check
+      const cv = envCanvas.current; if (!cv || !g.sm) return;
+      const dpr = window.devicePixelRatio || 1, W = cv.clientWidth * dpr, H = cv.clientHeight * dpr; cv.width = W; cv.height = H;
+      const gg = cv.getContext("2d"); gg.clearRect(0, 0, W, H);
+      const pk = Math.max(...g.sm, 1e-6), n = g.sm.length, labels = g.countOk ? g.syls : (g.segs || []).map((_, i) => String(i + 1));
+      (g.segs || []).forEach((sg, k) => {
+        gg.fillStyle = k === g.detected ? "rgba(31,184,159,.22)" : "rgba(122,158,172,.15)";
+        gg.fillRect(sg.a / n * W, 0, (sg.b - sg.a + 1) / n * W, H);
+        if (labels[k]) { gg.fillStyle = k === g.detected ? "#1fb89f" : "#7a9eac"; gg.font = `bold ${11 * dpr}px ui-monospace,monospace`; gg.textAlign = "center"; gg.fillText(labels[k], (sg.a + sg.b + 1) / 2 / n * W, 12 * dpr); }
+      });
+      gg.beginPath(); gg.strokeStyle = "#f0a05a"; gg.lineWidth = 2 * dpr;
+      g.sm.forEach((v, i) => { const x = i / n * W, y = H - (v / pk) * (H - 4 * dpr) - 2 * dpr; i ? gg.lineTo(x, y) : gg.moveTo(x, y); }); gg.stroke();
+    }, 40);
   };
   // hands-free: open the mic once any (requested) coach audio is quiet
   useEffect(() => {
@@ -4260,6 +4275,10 @@ function AccentDuelView({ ctx }) {
               {res.syls.map((x, i) => (
                 <span key={i} style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, padding: "2px 8px", borderRadius: 7, background: "var(--foam)", border: "1.5px solid " + VCOLOR[res.verdicts[i] || "unsure"], color: VCOLOR[res.verdicts[i] || "unsure"], fontWeight: i === expected ? 800 : 400 }}>{x}</span>
               ))}
+            </div>
+            <div style={{ maxWidth: 320, margin: "10px auto 0", background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 10, padding: "6px 8px 2px" }}>
+              <canvas ref={envCanvas} style={{ width: "100%", height: 56 }} />
+              <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness — shaded = syllables heard, green = loudest</div>
             </div>
             <div style={{ fontSize: 13, marginTop: 8, color: res.matched ? "var(--jade)" : "var(--coral)" }}>
               {!res.verified ? "⚠ phone heard nothing — try again" : res.matched ? `✓ heard “${item.word}” clearly` : `✗ phone heard “${res.heardTop}” — not “${item.word}”`}
