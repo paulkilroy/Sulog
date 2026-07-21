@@ -4102,6 +4102,7 @@ function AccentDuelView({ ctx }) {
   const [state, setState] = useState("idle");      // idle | rec | error (within a turn)
   const [res, setRes] = useState(null);
   const recRef = useRef(null);
+  const liveCanvas = useRef(null);
   const p = turn % 2;                              // whose turn (0 Paul, 1 Ella)
   const roundNo = Math.floor(turn / 2) + 1;
   const item = players[p].pick(Math.floor(turn / 2));
@@ -4128,6 +4129,7 @@ function AccentDuelView({ ctx }) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const ac = new (window.AudioContext || window.webkitAudioContext)();
+      try { await ac.resume(); } catch (e) {}      // mobile: a fresh context is suspended
       const src = ac.createMediaStreamSource(stream);
       const an = ac.createAnalyser(); an.fftSize = 2048; src.connect(an);
       const buf = new Float32Array(an.fftSize);
@@ -4139,9 +4141,16 @@ function AccentDuelView({ ctx }) {
       } catch (e) { sr = null; }
       const frames = []; let lastLoud = Date.now(), everLoud = false;
       const iv = setInterval(() => {
+        if (!recRef.current) return;
         an.getFloatTimeDomainData(buf);
         let sum = 0; for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
         const rms = Math.sqrt(sum / buf.length); frames.push(rms);
+        // live waveform so you can SEE it hearing you
+        const cv = liveCanvas.current;
+        if (cv) { const dpr = window.devicePixelRatio || 1, W = cv.clientWidth * dpr, H = cv.clientHeight * dpr; cv.width = W; cv.height = H;
+          const g = cv.getContext("2d"); const fr = frames.slice(-160), pk = Math.max(...fr, 0.05);
+          g.clearRect(0, 0, W, H); g.beginPath(); g.strokeStyle = "#f0a05a"; g.lineWidth = 2 * dpr;
+          fr.forEach((v, i) => { const x = i / 160 * W, y = H - (v / pk) * (H - 4 * dpr) - 2 * dpr; i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); }
         if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
@@ -4235,8 +4244,11 @@ function AccentDuelView({ ctx }) {
               style={{ marginTop: 18, width: 84, height: 84, borderRadius: "50%", border: "3px solid " + (state === "rec" ? "var(--coral)" : "var(--tide)"), background: state === "rec" ? "rgba(240,122,102,.15)" : "var(--foam)", fontSize: 30, cursor: "pointer" }}>
               {state === "rec" ? "◼" : "🎤"}
             </button>
-            <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 8 }}>
-              {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : "listen…"}
+            <div style={{ height: 40, maxWidth: 300, margin: "8px auto 0" }}>
+              {state === "rec" && <canvas ref={liveCanvas} style={{ width: "100%", height: 40 }} />}
+            </div>
+            <div style={{ fontSize: 12.5, color: state === "rec" ? "var(--coral)" : "var(--ink-soft)", marginTop: 2, fontWeight: state === "rec" ? 700 : 400 }}>
+              {state === "rec" ? "● listening — say it, then pause" : state === "error" ? "mic unavailable — allow microphone access" : "getting the mic ready…"}
             </div>
           </>
         )}
