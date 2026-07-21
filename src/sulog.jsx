@@ -1126,6 +1126,7 @@ export default function App() {
       {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "stresslab" && <StressLabView ctx={ctx} />}
+      {view === "accentduel" && <AccentDuelView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
@@ -1919,6 +1920,14 @@ function HomeView({ ctx }) {
           <div>
             <div className="ws-cta-t">Stress check <span className="ws-badge" style={{ background: "var(--sun)", color: "#123" }}>beta</span></div>
             <div className="ws-cta-d">Say a word — see which syllable you stressed</div>
+          </div>
+          <ChevronRight size={18} className="ws-cta-arrow" />
+        </button>
+        <button className="ws-cta" onClick={() => setView("accentduel")}>
+          <div className="ws-cta-ic ws-ic-coral"><Trophy size={18} /></div>
+          <div>
+            <div className="ws-cta-t">Accent Duel <span className="ws-badge" style={{ background: "var(--sun)", color: "#123" }}>2P</span></div>
+            <div className="ws-cta-d">You vs Ella — Waray words vs English traps</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -4008,25 +4017,8 @@ function syllableSoundRatios(transcript, wordSyls) {
   }
   return { ratios, heard };
 }
-function StressLabView({ ctx }) {
-  const { cards, setView, playCard } = ctx;
-  const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
-  const [idx, setIdx] = useState(0);
-  const [state, setState] = useState("idle");     // idle | rec | result | error
-  const [res, setRes] = useState(null);
-  const recRef = useRef(null);
-  const liveCanvas = useRef(null);
-  const envCanvas = useRef(null);
-  const card = pool[idx % (pool.length || 1)];
-  const syls = card ? card.say.split("-") : [];
-  const wordSyls = card ? syllabifyWaray(card.waray) : [];
-  const expected = syls.findIndex((x) => /[A-Z]/.test(x));
-
-  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.mr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
-  useEffect(() => cleanup, []);
-  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("home")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
-
-  const analyze = (frames) => {
+// Shared stress engine: loudness envelope -> N syllable nuclei -> prominence + verdicts.
+function analyzeStress(frames, nSyl, expected) {
     // NATURAL-SPEECH segmentation: don't hunt for silences between syllables (connected
     // speech has none) — find the N loudness PEAKS (syllable nuclei ≈ vowels, N = the
     // guide's syllable count) and cut at the dips between them, however shallow.
@@ -4040,14 +4032,14 @@ function StressLabView({ ctx }) {
     const th = Math.max(floor * 2.2, peak * 0.12);
     let lo = sm.findIndex((v) => v > th); let hi = sm.length - 1;
     while (hi > lo && sm[hi] <= th) hi--;
-    if (lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: syls.map(() => "unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0 };
+    if (lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: Array(nSyl).fill("unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0 };
     // local maxima inside the voiced span, ≥80ms apart (keep the taller of close pairs)
     let peaks = [];
     for (let i = lo + 1; i < hi; i++) if (sm[i] >= sm[i - 1] && sm[i] > sm[i + 1] && sm[i] > th) peaks.push(i);
     peaks.sort((a, b) => sm[b] - sm[a]);
     const picked = [];
     for (const p of peaks) { if (picked.every((q) => Math.abs(q - p) >= 4)) picked.push(p); }
-    const nuclei = picked.slice(0, syls.length).sort((a, b) => a - b);
+    const nuclei = picked.slice(0, nSyl).sort((a, b) => a - b);
     // boundaries at the deepest dip between consecutive nuclei; segments span dip→dip
     const bounds = [lo];
     for (let k = 0; k < nuclei.length - 1; k++) {
@@ -4067,11 +4059,11 @@ function StressLabView({ ctx }) {
     const score = (g) => { let t = 0; for (let i = g.a; i <= g.b; i++) t += Math.max(0, sm[i] - floor); return t; };
     const scores = keep.map(score);
     const detected = scores.indexOf(Math.max(...scores));
-    const countOk = keep.length === syls.length;
+    const countOk = keep.length === nSyl;
     let pct = countOk && scores.length ? Math.round(100 * (scores[expected] ?? 0) / Math.max(...scores)) : 0;
     if (!countOk) pct = Math.min(pct, 40);
     const mx = Math.max(...scores, 1e-9);
-    const verdicts = !countOk ? syls.map(() => "unsure") : syls.map((_, i) => {
+    const verdicts = !countOk ? Array(nSyl).fill("unsure") : syls.map((_, i) => {
       const rel = (scores[i] ?? 0) / mx;
       if (i === expected) return rel >= 0.999 ? "correct" : rel >= 0.75 ? "almost" : "missed";
       return rel >= 0.999 ? "missed" : rel >= 0.85 ? "almost" : "correct";
@@ -4079,6 +4071,220 @@ function StressLabView({ ctx }) {
     return { segs: keep, sm, detected, scores, countOk, ok: countOk && detected === expected, pct, verdicts,
       th, floor, peakV: peak, nFrames: sm.length, nRaw: picked.length };
   };
+
+
+// ============================ ACCENT DUEL (2-player game) ============================
+// Pass-the-phone: Paul says a Waray word (graded in Filipino), Ella says an English word
+// Filipinos commonly shift (graded in en-US). Same stress engine both ways; the recognizer
+// locale swaps per turn. Score = stress placement + whether the recognizer heard the RIGHT
+// word (strict — "tree" for "three" doesn't count). Alternating turns, shared scoreboard.
+const EN_TRAPS = [
+  { w: "three", g: "THREE" }, { w: "coffee", g: "KAW-fee" }, { w: "vinegar", g: "VIN-uh-gur" },
+  { w: "vegetable", g: "VEJ-tuh-bul" }, { w: "comfortable", g: "KUMF-tur-bul" }, { w: "february", g: "FEB-roo-air-ee" },
+  { w: "wednesday", g: "WENZ-day" }, { w: "clothes", g: "KLOHZ" }, { w: "world", g: "WURLD" },
+  { w: "thirty", g: "THUR-tee" }, { w: "salmon", g: "SAM-un" }, { w: "iron", g: "EYE-urn" },
+  { w: "develop", g: "duh-VEL-up" }, { w: "hamburger", g: "HAM-bur-gur" }, { w: "schedule", g: "SKEJ-ool" },
+  { w: "twelve", g: "TWELV" }, { w: "fifth", g: "FIFTH" }, { w: "pizza", g: "PEET-suh" }, { w: "beach", g: "BEECH" },
+  { w: "refrigerator", g: "ruh-FRIJ-uh-ray-tur" }, { w: "focus", g: "FOH-kus" }, { w: "verb", g: "VURB" },
+];
+const ROUNDS = 5;   // words per player
+function AccentDuelView({ ctx }) {
+  const { cards, setView, playCard } = ctx;
+  const warayPool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
+  const enPool = useMemo(() => shuffle(EN_TRAPS.slice()), []);
+  const players = [
+    { name: "Paul", flag: "🌊", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].say, card: warayPool[n % warayPool.length] } },
+    { name: "Ella", flag: "🇵🇭", lang: "English", locale: "en-US", pick: (n) => ({ word: enPool[n % enPool.length].w, guide: enPool[n % enPool.length].g }) },
+  ];
+  const [phase, setPhase] = useState("setup");     // setup | turn | result | over
+  const [turn, setTurn] = useState(0);             // 0..ROUNDS*2-1
+  const [score, setScore] = useState([0, 0]);
+  const [state, setState] = useState("idle");      // idle | rec | error (within a turn)
+  const [res, setRes] = useState(null);
+  const recRef = useRef(null);
+  const p = turn % 2;                              // whose turn (0 Paul, 1 Ella)
+  const roundNo = Math.floor(turn / 2) + 1;
+  const item = players[p].pick(Math.floor(turn / 2));
+  const syls = item ? item.guide.split("-") : [];
+  const expected = syls.findIndex((x) => /[A-Z]/.test(x)) >= 0 ? syls.findIndex((x) => /[A-Z]/.test(x)) : 0;
+
+  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.sr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
+  useEffect(() => cleanup, []);
+
+  const grade = (frames, alts) => {
+    const a = analyzeStress(frames, syls.length, expected);
+    const norm = (x) => (x || "").toLowerCase().replace(/[^a-z]/g, "");
+    const target = norm(item.word);
+    const uniq = [...new Set(alts)];
+    const heardTop = uniq[uniq.length - 1] || "";
+    const matched = uniq.some((x) => norm(x) === target) || (players[p].lang === "Waray" && uniq.some((x) => checkAnswer(x, item.word, true, true)));
+    const stressPct = a.countOk ? Math.round(100 * (a.scores[expected] || 0) / Math.max(...a.scores, 1e-9)) : 40;
+    // said the RIGHT word → 60..100 (rewards good stress); wrong word → 0..35
+    const pts = matched ? Math.round(60 + 0.4 * stressPct) : Math.round(0.35 * stressPct);
+    return { pts, matched, heardTop, stressPct, verdicts: a.verdicts, syls, verified: uniq.length > 0 };
+  };
+  const start = async () => {
+    setRes(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      const src = ac.createMediaStreamSource(stream);
+      const an = ac.createAnalyser(); an.fftSize = 2048; src.connect(an);
+      const buf = new Float32Array(an.fftSize);
+      const heardAlts = []; let sr = null;
+      if (SpeechRec) try {
+        sr = new SpeechRec(); sr.lang = players[p].locale; sr.interimResults = true; sr.maxAlternatives = 5; sr.continuous = true;
+        sr.onresult = (e) => { for (const r of e.results) for (let i = 0; i < r.length; i++) if (r[i].transcript?.trim()) heardAlts.push(r[i].transcript.trim()); };
+        sr.start();
+      } catch (e) { sr = null; }
+      const frames = []; let lastLoud = Date.now(), everLoud = false;
+      const iv = setInterval(() => {
+        an.getFloatTimeDomainData(buf);
+        let sum = 0; for (let i = 0; i < buf.length; i++) sum += buf[i] * buf[i];
+        const rms = Math.sqrt(sum / buf.length); frames.push(rms);
+        if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
+        const t = Date.now() - recRef.current.t0;
+        if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
+      }, 20);
+      recRef.current = { stream, ac, iv, frames, sr, heardAlts, t0: Date.now() };
+      setState("rec");
+    } catch (e) { setState("error"); }
+  };
+  const stop = () => {
+    const r = recRef.current; if (!r) return;
+    const frames = r.frames.slice(); const alts = r.heardAlts.slice();
+    cleanup();
+    const g = grade(frames, alts);
+    setScore((sc) => { const n = sc.slice(); n[p] += g.pts; return n; });
+    setRes(g); setState("idle"); setPhase("result");
+  };
+  // hands-free: open the mic once any (requested) coach audio is quiet
+  useEffect(() => {
+    if (phase !== "turn" || state !== "idle" || !item) return;
+    let live = true; const t0 = Date.now();
+    const iv = setInterval(() => {
+      const talking = typeof speechSynthesis !== "undefined" && speechSynthesis.speaking;
+      if (!talking || Date.now() - t0 > 8000) { clearInterval(iv); setTimeout(() => { if (live) start(); }, 250); }
+    }, 120);
+    return () => { live = false; clearInterval(iv); };
+  }, [phase, state, turn]);
+
+  const VCOLOR = { correct: "var(--jade)", almost: "var(--sun)", missed: "var(--coral)", unsure: "var(--ink-soft)" };
+  const scoreboard = (
+    <div style={{ display: "flex", justifyContent: "center", gap: 10, margin: "6px 0 14px" }}>
+      {players.map((pl, i) => (
+        <div key={i} style={{ flex: "0 0 130px", textAlign: "center", padding: "8px 10px", borderRadius: 12, border: "1.5px solid " + (phase !== "over" && i === p ? "var(--tide)" : "var(--sand-deep)"), background: phase !== "over" && i === p ? "rgba(46,160,180,.10)" : "var(--foam)" }}>
+          <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{pl.flag} {pl.name}</div>
+          <div style={{ fontSize: 26, fontWeight: 800 }}>{score[i]}</div>
+          <div style={{ fontSize: 10.5, color: "var(--ink-soft)" }}>{pl.lang}</div>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (phase === "setup") return (
+    <div className="ws-page">
+      <TopBar title="Accent Duel" onBack={() => { cleanup(); setView("home"); }} />
+      <div style={{ textAlign: "center", padding: "10px 18px" }}>
+        <div style={{ fontSize: 44 }}>🎤⚔️</div>
+        <h2 style={{ margin: "6px 0" }}>Accent Duel</h2>
+        <p style={{ color: "var(--ink-soft)", fontSize: 13.5, lineHeight: 1.5, maxWidth: 340, margin: "0 auto" }}>
+          Pass the phone back and forth. <b>Paul</b> pronounces a Waray word; <b>Ella</b> pronounces an English word Filipinos often shift. Each turn scores on stress + whether the phone heard the right word. {ROUNDS} rounds each — highest total wins.
+        </p>
+        <button className="ws-cta ws-cta-primary" style={{ maxWidth: 260, margin: "18px auto 0" }} onClick={() => { setPhase("turn"); setState("idle"); }}>
+          <div className="ws-cta-t">Start · Paul goes first</div>
+        </button>
+      </div>
+    </div>
+  );
+
+  if (phase === "over") {
+    const win = score[0] === score[1] ? null : score[0] > score[1] ? 0 : 1;
+    return (
+      <div className="ws-page">
+        <TopBar title="Accent Duel" onBack={() => { cleanup(); setView("home"); }} />
+        <div style={{ textAlign: "center", padding: "10px 18px" }}>
+          <div style={{ fontSize: 46 }}>{win === null ? "🤝" : "🏆"}</div>
+          <h2 style={{ margin: "6px 0" }}>{win === null ? "It's a tie!" : `${players[win].name} wins!`}</h2>
+          {scoreboard}
+          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 8 }}>
+            <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={() => { setTurn(0); setScore([0, 0]); setRes(null); setPhase("turn"); setState("idle"); }}>rematch</button>
+            <button className="ws-opt" style={{ padding: "10px 18px" }} onClick={() => setView("home")}>done</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // turn / result share the word card
+  return (
+    <div className="ws-page">
+      <TopBar title={`Accent Duel · round ${roundNo}/${ROUNDS}`} onBack={() => { cleanup(); setView("home"); }} />
+      <div style={{ textAlign: "center", padding: "6px 16px" }}>
+        {scoreboard}
+        <div style={{ fontSize: 13, color: "var(--ink-soft)" }}>{players[p].flag} <b style={{ color: "var(--ink)" }}>{players[p].name}</b> · say this {players[p].lang} word</div>
+        <div style={{ fontFamily: "Georgia,serif", fontSize: 38, fontWeight: 600, margin: "6px 0 2px", cursor: "pointer" }}
+          onClick={() => { if (recRef.current) { cleanup(); setState("idle"); } if (item.card) playCard(item.card); else speakEnglish(item.word); }} title="Tap to hear">
+          {item.word} <span style={{ fontSize: 18 }}>🔊</span>
+        </div>
+        <div style={{ fontFamily: "ui-monospace,monospace", fontSize: 14, color: "var(--sea)" }}>/ {item.guide} /</div>
+
+        {phase === "turn" && (
+          <>
+            <button onClick={state === "rec" ? stop : start}
+              style={{ marginTop: 18, width: 84, height: 84, borderRadius: "50%", border: "3px solid " + (state === "rec" ? "var(--coral)" : "var(--tide)"), background: state === "rec" ? "rgba(240,122,102,.15)" : "var(--foam)", fontSize: 30, cursor: "pointer" }}>
+              {state === "rec" ? "◼" : "🎤"}
+            </button>
+            <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 8 }}>
+              {state === "rec" ? "say it — stops on silence" : state === "error" ? "mic unavailable — allow microphone access" : "listen…"}
+            </div>
+          </>
+        )}
+
+        {phase === "result" && res && (
+          <div style={{ marginTop: 14 }}>
+            <div style={{ fontSize: 40, fontWeight: 800, color: res.pts >= 80 ? "var(--jade)" : res.pts >= 50 ? "var(--sun)" : "var(--coral)" }}>+{res.pts}</div>
+            <div style={{ display: "flex", gap: 6, justifyContent: "center", flexWrap: "wrap", marginTop: 4 }}>
+              {res.syls.map((x, i) => (
+                <span key={i} style={{ fontFamily: "ui-monospace,monospace", fontSize: 13, padding: "2px 8px", borderRadius: 7, background: "var(--foam)", border: "1.5px solid " + VCOLOR[res.verdicts[i] || "unsure"], color: VCOLOR[res.verdicts[i] || "unsure"], fontWeight: i === expected ? 800 : 400 }}>{x}</span>
+              ))}
+            </div>
+            <div style={{ fontSize: 13, marginTop: 8, color: res.matched ? "var(--jade)" : "var(--coral)" }}>
+              {!res.verified ? "⚠ phone heard nothing — try again" : res.matched ? `✓ heard “${item.word}” clearly` : `✗ phone heard “${res.heardTop}” — not “${item.word}”`}
+            </div>
+            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 14, flexWrap: "wrap" }}>
+              <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { if (item.card) playCard(item.card); else speakEnglish(item.word); }}>🔊 hear it</button>
+              <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { setRes(null); setPhase("turn"); setState("idle"); setScore((sc) => { const n = sc.slice(); n[p] -= res.pts; return n; }); }}>retry</button>
+              <button className="ws-opt ws-cta-primary" style={{ padding: "9px 18px", color: "#fff" }} onClick={() => {
+                if (turn + 1 >= ROUNDS * 2) { setPhase("over"); } else { setTurn((t) => t + 1); setRes(null); setPhase("turn"); setState("idle"); }
+              }}>{turn + 1 >= ROUNDS * 2 ? "see winner →" : `pass to ${players[(p + 1) % 2].name} →`}</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function StressLabView({ ctx }) {
+  const { cards, setView, playCard } = ctx;
+  const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
+  const [idx, setIdx] = useState(0);
+  const [state, setState] = useState("idle");     // idle | rec | result | error
+  const [res, setRes] = useState(null);
+  const recRef = useRef(null);
+  const liveCanvas = useRef(null);
+  const envCanvas = useRef(null);
+  const card = pool[idx % (pool.length || 1)];
+  const syls = card ? card.say.split("-") : [];
+  const wordSyls = card ? syllabifyWaray(card.waray) : [];
+  const expected = syls.findIndex((x) => /[A-Z]/.test(x));
+
+  const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.mr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
+  useEffect(() => cleanup, []);
+  if (!card) return <div className="ws-page"><TopBar title="Stress check" onBack={() => setView("home")} /><p style={{ padding: 20 }}>No words with guides yet.</p></div>;
+
+  const analyze = (frames) => analyzeStress(frames, syls.length, expected);
   const drawEnv = (cv, sm, segs, detected, labels) => {
     if (!cv) return; const dpr = window.devicePixelRatio || 1;
     const W = cv.clientWidth * dpr, H = cv.clientHeight * dpr; cv.width = W; cv.height = H;
