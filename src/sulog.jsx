@@ -4030,9 +4030,14 @@ function analyzeStress(frames, nSyl, expected) {
     const peak = Math.max(...sm, 1e-6);
     const floor = [...sm].sort((a, b) => a - b)[Math.floor(sm.length * 0.2)] || 0;
     const th = Math.max(floor * 2.2, peak * 0.12);
+    // NOISE GATE: speech has loud vowels over quiet gaps (high peak÷floor). Steady background
+    // — aircon, running water — is FLAT (peak barely above floor), and too quiet overall means
+    // nothing was really said. Either way it isn't a word; reject so noise isn't graded/heard.
+    const dyn = peak / Math.max(floor, 1e-4);
+    const noSpeech = peak < 0.03 || dyn < 2.6;
     let lo = sm.findIndex((v) => v > th); let hi = sm.length - 1;
     while (hi > lo && sm[hi] <= th) hi--;
-    if (lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: Array(nSyl).fill("unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0 };
+    if (noSpeech || lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: Array(nSyl).fill("unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0, noSpeech: true, dyn };
     // local maxima inside the voiced span, ≥80ms apart (keep the taller of close pairs)
     let peaks = [];
     for (let i = lo + 1; i < hi; i++) if (sm[i] >= sm[i - 1] && sm[i] > sm[i + 1] && sm[i] > th) peaks.push(i);
@@ -4115,6 +4120,8 @@ function AccentDuelView({ ctx }) {
 
   const grade = (frames, alts) => {
     const a = analyzeStress(frames, syls.length, expected);
+    if (a.noSpeech) return { pts: 0, matched: false, heardTop: "", stressPct: 0, verdicts: a.verdicts, syls,
+      verified: false, noSpeech: true, sm: a.sm, segs: [], detected: -1, countOk: false };
     const norm = (x) => (x || "").toLowerCase().replace(/[^a-z]/g, "");
     const target = norm(item.word);
     const uniq = [...new Set(alts)];
@@ -4153,7 +4160,7 @@ function AccentDuelView({ ctx }) {
           const g = cv.getContext("2d"); const fr = frames.slice(-160), pk = Math.max(...fr, 0.05);
           g.clearRect(0, 0, W, H); g.beginPath(); g.strokeStyle = "#f0a05a"; g.lineWidth = 2 * dpr;
           fr.forEach((v, i) => { const x = i / 160 * W, y = H - (v / pk) * (H - 4 * dpr) - 2 * dpr; i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); }
-        if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
+        if (rms > 0.04) { lastLoud = Date.now(); everLoud = true; }   // speech floor (above room noise)
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
@@ -4281,7 +4288,7 @@ function AccentDuelView({ ctx }) {
               <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness — shaded = syllables heard, green = loudest</div>
             </div>
             <div style={{ fontSize: 13, marginTop: 8, color: res.matched ? "var(--jade)" : "var(--coral)" }}>
-              {!res.verified ? "⚠ phone heard nothing — try again" : res.matched ? `✓ heard “${item.word}” clearly` : `✗ phone heard “${res.heardTop}” — not “${item.word}”`}
+              {res.noSpeech ? "⚠ mostly background noise — try in a quieter spot" : !res.verified ? "⚠ phone heard nothing — try again" : res.matched ? `✓ heard “${item.word}” clearly` : `✗ phone heard “${res.heardTop}” — not “${item.word}”`}
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 14, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { if (item.card) playCard(item.card); else speakEnglish(item.word); }}>🔊 hear it</button>
@@ -4359,7 +4366,7 @@ function StressLabView({ ctx }) {
         const rms = Math.sqrt(sum / buf.length);
         frames.push(rms);
         drawEnv(liveCanvas.current, frames.slice(-160), [], -1);         // live scrolling wave
-        if (rms > 0.02) { lastLoud = Date.now(); everLoud = true; }
+        if (rms > 0.04) { lastLoud = Date.now(); everLoud = true; }   // speech floor (above room noise)
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
@@ -4373,6 +4380,15 @@ function StressLabView({ ctx }) {
     const heardAlts = r.heardAlts || []; try { r.sr?.stop(); } catch (e) {}
     const finish = () => {
       const a = analyze(frames);
+      // noise gate: flat/steady background (aircon, water) or near-silence isn't a word —
+      // don't grade it or trust the recognizer's hallucinated transcript
+      if (a.noSpeech) {
+        a.said = { alts: [], ok: false, verified: false };
+        a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
+        setRes(a); setState("result");
+        setTimeout(() => drawEnv(envCanvas.current, a.sm, [], -1, []), 30);
+        return;
+      }
       // word-identity gate: any recognizer alternative that leniently matches the word passes;
       // clear speech that matches NOTHING caps the score (it wasn't this word). No speech
       // recognized at all → can't verify, note it but don't punish (the recognizer is flaky).
@@ -4472,7 +4488,7 @@ function StressLabView({ ctx }) {
               <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness over time — shaded = syllables heard, green = your loudest</div>
             </div>
             <div style={{ marginTop: 10, fontSize: 15, fontWeight: 700, color: res.ok ? "var(--jade)" : "var(--coral)" }}>
-              {res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — your syllables blended together; try a hair slower with a tiny break between them` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
+              {res.noSpeech ? "⚠ mostly background noise — try in a quieter spot" : res.ok ? "✓ stressed the right syllable" : !res.countOk ? `heard ${res.segs.length} syllable${res.segs.length === 1 ? "" : "s"}, expected ${syls.length} — your syllables blended together; try a hair slower with a tiny break between them` : `you stressed “${syls[res.detected] || "?"}” — it wants “${syls[expected]}”`}
             </div>
             {/* what the program thought you said, syllable by syllable */}
             <div style={{ maxWidth: 340, margin: "10px auto 0", textAlign: "left", fontSize: 12.5 }}>
