@@ -3934,6 +3934,28 @@ function BackupView({ ctx }) {
    compare the most prominent against the CAPITALIZED guide syllable. Browser-only.
    Visuals: live waveform while recording; then a score gauge, the word colored per
    syllable, and the envelope with detected syllables shaded. */
+// Pick practice words with VARIETY + rising DIFFICULTY: bias toward more syllables, glottal
+// stops, and longer words, while pushing recently-seen words to the back (persisted, so
+// sessions differ). Efraimidis-Spirakis weighted sampling gives a fresh order each visit.
+function difficultyOf(c) {
+  const syl = ((c.say || "").match(/-/g) || []).length + 1;   // syllable count from the guide
+  const glottal = (c.waray.match(/-/g) || []).length;          // glottal stops = harder
+  return syl * 2 + glottal * 2 + c.waray.length / 4;
+}
+function practicePool(cards, key) {
+  const cand = cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray) && c.waray.length >= 3);
+  let recent = []; try { recent = JSON.parse(localStorage.getItem(key) || "[]"); } catch (e) {}
+  const seen = new Set(recent);
+  return cand
+    .map((c) => ({ c, seen: seen.has(c.id), k: Math.pow(Math.random(), 1 / Math.max(0.5, difficultyOf(c))) }))
+    .sort((a, b) => (a.seen - b.seen) || (b.k - a.k))          // unseen first, then hard-weighted random
+    .map((x) => x.c);
+}
+function markPracticed(id, key, cap = 60) {
+  if (!id) return;
+  try { let r = JSON.parse(localStorage.getItem(key) || "[]"); r = r.filter((x) => x !== id); r.push(id); if (r.length > cap) r = r.slice(-cap); localStorage.setItem(key, JSON.stringify(r)); } catch (e) {}
+}
+
 function syllabifyWaray(w) {   // same algorithm as the guide generator (build-respellings)
   w = w.toLowerCase().replace(/ng/g, "ŋ");
   const out = [];
@@ -4091,12 +4113,17 @@ const EN_TRAPS = [
   { w: "develop", g: "duh-VEL-up" }, { w: "hamburger", g: "HAM-bur-gur" }, { w: "schedule", g: "SKEJ-ool" },
   { w: "twelve", g: "TWELV" }, { w: "fifth", g: "FIFTH" }, { w: "pizza", g: "PEET-suh" }, { w: "beach", g: "BEECH" },
   { w: "refrigerator", g: "ruh-FRIJ-uh-ray-tur" }, { w: "focus", g: "FOH-kus" }, { w: "verb", g: "VURB" },
+  { w: "vehicle", g: "VEE-uh-kul" }, { w: "receipt", g: "ruh-SEET" }, { w: "island", g: "EYE-lund" },
+  { w: "chocolate", g: "CHOK-lut" }, { w: "restaurant", g: "RES-tuh-ront" }, { w: "temperature", g: "TEM-pruh-chur" },
+  { w: "jewelry", g: "JOOL-ree" }, { w: "colonel", g: "KUR-nul" }, { w: "cupboard", g: "KUB-urd" },
+  { w: "vegetables", g: "VEJ-tuh-buls" }, { w: "particularly", g: "pur-TIK-yuh-lur-lee" }, { w: "specifically", g: "spuh-SIF-ik-lee" },
+  { w: "statistics", g: "stuh-TIS-tiks" }, { w: "opportunity", g: "op-ur-TOO-nuh-tee" }, { w: "development", g: "duh-VEL-up-munt" },
 ];
 const ROUNDS = 5;   // words per player
 function AccentDuelView({ ctx }) {
   const { cards, setView, playCard } = ctx;
-  const warayPool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
-  const enPool = useMemo(() => shuffle(EN_TRAPS.slice()), []);
+  const warayPool = useMemo(() => practicePool(cards, "sulog:practiced"), [cards]);
+  const enPool = useMemo(() => shuffle(EN_TRAPS.slice()), []);   // fresh order each game
   const players = [
     { name: "Paul", flag: "🌊", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].say, card: warayPool[n % warayPool.length] } },
     { name: "Ella", flag: "🇵🇭", lang: "English", locale: "en-US", pick: (n) => ({ word: enPool[n % enPool.length].w, guide: enPool[n % enPool.length].g }) },
@@ -4114,6 +4141,7 @@ function AccentDuelView({ ctx }) {
   const item = players[p].pick(Math.floor(turn / 2));
   const syls = item ? item.guide.split("-") : [];
   const expected = syls.findIndex((x) => /[A-Z]/.test(x)) >= 0 ? syls.findIndex((x) => /[A-Z]/.test(x)) : 0;
+  useEffect(() => { if (item && item.card) markPracticed(item.card.id, "sulog:practiced"); }, [item && item.card && item.card.id]);
 
   const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.sr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
   useEffect(() => cleanup, []);
@@ -4306,7 +4334,7 @@ function AccentDuelView({ ctx }) {
 
 function StressLabView({ ctx }) {
   const { cards, setView, playCard } = ctx;
-  const pool = useMemo(() => shuffle(cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray))), [cards]);
+  const pool = useMemo(() => practicePool(cards, "sulog:practiced"), [cards]);
   const [idx, setIdx] = useState(0);
   const [state, setState] = useState("idle");     // idle | rec | result | error
   const [res, setRes] = useState(null);
@@ -4317,6 +4345,7 @@ function StressLabView({ ctx }) {
   const syls = card ? card.say.split("-") : [];
   const wordSyls = card ? syllabifyWaray(card.waray) : [];
   const expected = syls.findIndex((x) => /[A-Z]/.test(x));
+  useEffect(() => { if (card) markPracticed(card.id, "sulog:practiced"); }, [card && card.id]);
 
   const cleanup = () => { const r = recRef.current; if (!r) return; clearInterval(r.iv); try { r.mr?.stop(); } catch (e) {} try { r.stream.getTracks().forEach((t) => t.stop()); r.ac.close(); } catch (e) {} recRef.current = null; };
   useEffect(() => cleanup, []);
