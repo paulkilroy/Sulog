@@ -4174,9 +4174,16 @@ function AccentDuelView({ ctx }) {
     const heardTop = uniq[uniq.length - 1] || "";
     const matched = uniq.some((x) => norm(x) === target) || (players[p].lang === "Waray" && uniq.some((x) => checkAnswer(x, item.word, true, true)));
     const stressPct = a.countOk ? Math.round(100 * (a.scores[expected] || 0) / Math.max(...a.scores, 1e-9)) : 40;
-    // said the RIGHT word → 60..100 (rewards good stress); wrong word → 0..35
-    const pts = matched ? Math.round(60 + 0.4 * stressPct) : Math.round(0.35 * stressPct);
-    return { pts, matched, heardTop, stressPct, verdicts: a.verdicts, syls, verified: uniq.length > 0,
+    // STRESS is the point of the game, so it gates the score even when the word is recognized:
+    // right word + right stress → 88..100; right word but stress on the wrong syllable → 45
+    // (clearly penalized); "almost" (stressed syllable was close to loudest) → 70; wrong word → 0..30.
+    const stressV = a.countOk ? a.verdicts[expected] : "unsure";
+    let pts;
+    if (!matched) pts = Math.round(0.3 * stressPct);
+    else if (stressV === "correct") pts = Math.round(88 + 0.12 * stressPct);
+    else if (stressV === "almost") pts = 70;
+    else pts = 45;
+    return { pts, matched, stressV, heardTop, stressPct, verdicts: a.verdicts, syls, verified: uniq.length > 0,
       sm: a.sm, segs: a.segs, detected: a.detected, countOk: a.countOk };
   };
   const start = async () => {
@@ -4333,8 +4340,12 @@ function AccentDuelView({ ctx }) {
               <canvas ref={envCanvas} style={{ width: "100%", height: 56 }} />
               <div style={{ fontSize: 10.5, color: "var(--ink-soft)", padding: "2px 0 4px" }}>your loudness — shaded = syllables heard, green = loudest</div>
             </div>
-            <div style={{ fontSize: 13, marginTop: 8, color: res.matched ? "var(--jade)" : "var(--coral)" }}>
-              {res.noSpeech ? "⚠ mostly background noise — try in a quieter spot" : !res.verified ? "⚠ phone heard nothing — try again" : res.matched ? `✓ heard “${item.word}” clearly` : `✗ phone heard “${res.heardTop}” — not “${item.word}”`}
+            <div style={{ fontSize: 13, marginTop: 8, color: res.matched && res.stressV === "correct" ? "var(--jade)" : res.matched ? "var(--sun)" : "var(--coral)" }}>
+              {res.noSpeech ? "⚠ mostly background noise — try in a quieter spot"
+                : !res.verified ? "⚠ phone heard nothing — try again"
+                : !res.matched ? `✗ phone heard “${res.heardTop}” — not “${item.word}”`
+                : res.stressV === "correct" ? `✓ nailed it — right word, stress on ${syls[expected]}`
+                : `heard the word, but stress the ${syls[expected]} syllable — you leaned on ${syls[res.detected] || "another"}`}
             </div>
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 14, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { if (item.card) playCard(item.card); else speakEnglish(item.word); }}>🔊 hear it</button>
