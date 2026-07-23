@@ -2,7 +2,7 @@
   "name": "sulog",
   "version": "1.0.0",
   "private": true,
-  "description": "Sulog \u2014 Waray-Waray review app (single-file, self-hosted)",
+  "description": "Sulog — Waray-Waray review app (single-file, self-hosted)",
   "scripts": {
     "build": "bash build.sh",
     "bootstrap": "node --env-file=.env.local tools/bootstrap-db.mjs",
@@ -21,6 +21,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "esbuild": "^0.21.5"
+    "esbuild": "^0.21.5",
+    "pg": "^8.22.0",
+    "playwright-core": "^1.61.1"
   }
 }

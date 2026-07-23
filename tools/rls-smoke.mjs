@@ -74,5 +74,13 @@ const check = (name, ok, detail = "") => { console.log(`${ok ? "✓" : "✗ FAIL
   check("anon sees NO user_settings", !error && (data || []).length === 0, error?.message || `saw ${(data || []).length} rows`);
 }
 
+// 11-14. classroom tables: private data unreadable to the anon key
+for (const [t, label] of [["profiles","profiles"],["feedback","feedback"],["user_roles","user_roles"],["classes","classes"]]) {
+  const { data, error } = await anon.from(t).select("*").limit(1);
+  check(`anon sees NO ${label}`, !error && (data || []).length === 0, error?.message || `saw ${(data || []).length} rows`);
+}
+{ const { error } = await anon.from("feedback").insert({ author_id: "00000000-0000-4000-8000-00000000dead", author_role: "student", kind: "typo", target_type: "word", target_ref: "x" });
+  check("anon cannot INSERT feedback", !!error, error ? "" : "INSERT SUCCEEDED — RLS IS OFF"); }
+
 if (fails) { console.error(`\n✗ ${fails} RLS check(s) FAILED — the public key can reach protected data. Re-run docs/schema/rls.sql NOW.`); process.exit(1); }
 console.log("\n✓ RLS intact — the shipped key can only do what the app needs.");
