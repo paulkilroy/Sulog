@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
-import { signInWithGoogle, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary } from "./data/remote.js";
+import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -749,14 +749,23 @@ export default function App() {
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false, dialect: "standard" });
   const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
-  const [user, setUser] = useState(null); // Supabase-authed Google user (null = signed out)
+  const [user, setUser] = useState(null); // Supabase-authed user (null = anonymous/signed out)
+  const [roles, setRoles] = useState([]);       // granted roles from user_roles
+  const [roleReqs, setRoleReqs] = useState([]); // this user's role requests
 
   // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
   useEffect(() => {
     getUser().then(setUser).catch(() => {});
     const sub = onAuth(setUser);
     return () => { try { sub?.data?.subscription?.unsubscribe?.(); } catch (e) {} };
-  }, []);
+  }, [])
+  // classroom: on sign-in mirror the auth user into profiles + load roles & requests
+  useEffect(() => {
+    if (!user) { setRoles([]); setRoleReqs([]); return; }
+    upsertProfile(user).catch(() => {});
+    fetchMyRoles().then(setRoles).catch(() => {});
+    fetchMyRequests().then(setRoleReqs).catch(() => {});
+  }, [user]);;
 
   // Auto-refresh a database course when the DB has a newer version than our cache — so a reloaded
   // course propagates on the next open, with no manual re-switch. Offline/transient errors keep the cache.
@@ -1100,7 +1109,9 @@ export default function App() {
     storyUnit, setStoryUnit,
     history, logAttempt, units, startUnitReview, markUnitReview, startGate,
     dialectCatalog, refreshDialect,
-    user, signIn: signInWithGoogle, signOut: sbSignOut, admin: isAdmin(user),
+    user, signIn: signInWithGoogle, signInEmail: signInWithEmail, signOut: sbSignOut,
+    admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
+    requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
   };
 
   return (
@@ -3804,8 +3815,9 @@ function masteryColor(p, st) {
 
 /* ============================ BACKUP & SYNC ============================ */
 function BackupView({ ctx }) {
-  const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signOut } = ctx;
+  const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signInEmail, signOut, roles, roleReqs, requestRole, admin } = ctx;
   const [busy, setBusy] = useState(false);
+  const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
   const fileRef = useRef(null);
 
@@ -3854,10 +3866,32 @@ function BackupView({ ctx }) {
         {user ? (
           <>
             <div className="ws-drive-note" style={{ marginBottom: 10 }}>
-              Signed in as <b>{user.email}</b>. Your progress syncs automatically — it saves a
-              few seconds after each change and pulls when Sulog opens. Sign in on another device
-              with the same Google account and it'll be there.
+              Signed in as <b>{user.email}</b>. Your progress syncs automatically — a few seconds
+              after each change, and pulls when Sulog opens. Sign in on another device and it's there.
             </div>
+            <div style={{ margin: "2px 0 12px" }}>
+              <div style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-soft)", marginBottom: 7 }}>Roles</div>
+              <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
+                {[["reviewer", "Reviewer"], ["instructor", "Instructor"], ["admin", "Admin"]].map(([r, label]) => {
+                  const held = (roles || []).includes(r) || (r === "admin" && admin);
+                  const pending = (roleReqs || []).some((q) => q.role === r && q.status === "pending");
+                  const canReq = r !== "admin" && !held && !pending;
+                  return (
+                    <button key={r} disabled={!canReq}
+                      onClick={() => canReq && requestRole(r, "").then(() => setMsg({ kind: "ok", text: `Requested ${label} — an admin will review it.` })).catch((e) => setMsg({ kind: "err", text: e.message }))}
+                      title={held ? "You hold this role" : pending ? "Request pending" : canReq ? `Request the ${label} role` : "Assigned by an admin"}
+                      style={{ fontSize: 12.5, fontWeight: 700, padding: "5px 13px", borderRadius: 999, fontFamily: "inherit",
+                        border: "1px solid " + (held ? "var(--jade)" : pending ? "var(--sun)" : "var(--sand-deep)"),
+                        background: held ? "rgba(31,184,159,.14)" : "transparent",
+                        color: held ? "var(--jade)" : pending ? "var(--sun)" : "var(--ink-soft)",
+                        cursor: canReq ? "pointer" : "default", opacity: (held || pending || canReq) ? 1 : .5 }}>
+                      {label}{held ? " ✓" : pending ? " · requested" : canReq ? " · request" : ""}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ marginBottom: 10 }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
             {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
               <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
                 <span className="ws-sync-dot" />
@@ -3889,6 +3923,16 @@ function BackupView({ ctx }) {
             <button className="ws-start ws-full" onClick={() => signIn()}>
               <Cloud size={18} /> Sign in with Google
             </button>
+            <div style={{ textAlign: "center", color: "var(--ink-dim)", fontSize: 12, margin: "10px 0 8px" }}>or use email — no password</div>
+            <div style={{ display: "flex", gap: 7 }}>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" type="email"
+                style={{ flex: 1, fontSize: 14, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
+              <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 16px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer", whiteSpace: "nowrap" }}
+                onClick={async () => { if (!email.includes("@")) { setMsg({ kind: "err", text: "Enter an email address." }); return; } try { await signInEmail(email); setMsg({ kind: "ok", text: "Check your email for the sign-in link." }); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>
+                Email link
+              </button>
+            </div>
+            {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ marginTop: 10 }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
           </>
         )}
       </div>

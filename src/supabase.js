@@ -20,6 +20,9 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 // ---- auth ----
 export const signInWithGoogle = () =>
   supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: typeof window !== "undefined" ? window.location.origin : undefined } });
+// passwordless email link — for students without a Google account
+export const signInWithEmail = (email) =>
+  supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined } });
 export const signOut = () => supabase.auth.signOut();
 export const getUser = async () => (await supabase.auth.getUser()).data.user;
 export const onAuth = (cb) => supabase.auth.onAuthStateChange((_e, session) => cb(session?.user || null));

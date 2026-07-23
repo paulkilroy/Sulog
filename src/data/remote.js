@@ -204,6 +204,27 @@ export const setDialectForm = async (k, patch) => {
   if (!r.length) throw new Error("not saved — are you signed in as the admin?");
 };
 
+// ---- classroom: profile + roles ----
+// On sign-in the app mirrors the auth user into `profiles` (so roster/queue can show a name).
+export const upsertProfile = (user) =>
+  rows(supabase.from("profiles").upsert(
+    { user_id: user.id, email: user.email, display_name: user.user_metadata?.name || (user.email || "").split("@")[0] || null },
+    { onConflict: "user_id" }));
+// the caller's granted roles (student is implicit — never stored)
+export const fetchMyRoles = async () =>
+  (await rows(supabase.from("user_roles").select("role"))).map((r) => r.role);
+// the caller's role requests (newest first)
+export const fetchMyRequests = () =>
+  rows(supabase.from("role_requests").select("*").order("id", { ascending: false }));
+// ask for an elevated role → lands in the admin approval queue
+export const requestRole = async (role, note = "") => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("sign in first");
+  const r = await rows(supabase.from("role_requests").insert({ user_id: user.id, role, note }).select());
+  if (!r.length) throw new Error("couldn't submit the request");
+  return r[0];
+};
+
 // ---- per-user settings that follow the user across devices (dialect selection) ----
 export const loadUserSettings = async (userId) =>
   (await rows(supabase.from("user_settings").select("*").eq("user_id", userId)))[0] || null;
