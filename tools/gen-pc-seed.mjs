@@ -60,6 +60,42 @@ const ELLA_FIX = new Map(JSON.parse(fs.readFileSync("docs/sources/peace-corps/re
   .map((r) => [r.waray.toLowerCase().replace(/[.?!]+$/, "").trim(), r.ella]));
 const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
 
+// ---- footnotes ----------------------------------------------------------------------------------
+// The book prints little starred footnotes under an example or a rule. The extraction flattened them
+// into free-floating `note` blocks that the app then globbed onto the nearest teach screen — divorced
+// from the thing they annotate. We reattach each note to its section: a note after a GUIDE folds into
+// that guide's prose; a note after an EXAMPLE/exercise becomes that drill's `footnote` (a subtle "*"
+// tip shown on every question in the section). cleanNote strips the "*"/"**" markers, splits a note
+// that bundles several footnotes into separate lines, and drops the one section HEADING the OCR
+// mis-captured as a footnote ("Also/Too or Again???" — its real sentence survives the strip).
+const cleanNote = (t) => (t || "")
+  .replace(/Also\/Too or Again\?\?\?/g, "")
+  .split(/(?:^|\s)\*+\s+/).map((s) => s.trim()).filter(Boolean).join("\n");
+// A few footnotes are boxed with the section BELOW them, not above — attach forward instead (Paul's #8:
+// the proper-noun-marker note sits in the same rectangle as the vocab list it introduces).
+const ATTACH_NEXT = [
+  "The names Jesus, Jesu Kristo, and Satanas",
+];
+// Reattach every note in one lesson's raw blocks to the section it annotates, as `_notes` on the host
+// source block (emitGuide folds these into prose; the drill/vocab emitters carry them as `footnote`).
+function attachNotes(src) {
+  const fg = src.findIndex((b) => b.type === "grammar");
+  const fwd = (i) => { for (let j = i + 1; j < src.length; j++) if (src[j].type !== "note") return src[j]; return null; };
+  src.forEach((b, i) => {
+    if (b.type !== "note") return;
+    const text = cleanNote(b.text);
+    if (!text) return;                                            // pure mis-captured heading → drop
+    let host;
+    if (ATTACH_NEXT.some((p) => (b.text || "").trim().startsWith(p))) host = fwd(i);
+    else {
+      for (let j = i - 1; j >= 0; j--) if (src[j].type !== "note") { host = src[j]; break; }
+      // a note stuck to a pre-grammar REVIEW exercise really introduces THIS lesson → hop forward
+      if (host && fg > 0 && src.indexOf(host) < fg) host = fwd(i);
+    }
+    if (host) (host._notes || (host._notes = [])).push(text);
+  });
+}
+
 // ---- expression text repair — extraction/OCR defects fixed at the single funnel (putExpr) ----
 // Language hints for detecting swapped fields. "an/it/a/i" are deliberately absent from the English
 // set (they're Waray markers too); scores compare function-word density per side.
@@ -79,6 +115,7 @@ function repairExpr(war, en) {
   // OCR typos / word restorations verified against the scan or the book's own printed sentence
   war = war.replace(/\bKaryyag\b/g, "Karuyag");
   war = war.replace(/\bkaugalingon\b/g, "kalogaringon");        // book prints kalogaringon (OCR 3543); kaugalingon is the Cebuano form
+  war = war.replace(/\bmagayon\b/g, "mahusay");                 // book prints mahusay (L13 "…or wear yours?"); magayon is the Bikol form
   // the book's editorial tense tags ("[future]") leaked into two sentences — not Waray
   war = war.replace(/\s*\[(future|past|present)\]\s*$/i, "");
   // possessive-drill cues stored as the "translation" ("glass/Cindy") → render the English
@@ -97,7 +134,9 @@ const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, 
 
 // Function words explained in a lesson's intro prose but not in its chart — added by hand as we vet lessons.
 const EXTRAS = {
-  2: [{ waray: "ngan", meaning: "and", pos: "conj" }, { waray: "mga", meaning: "plural marker (before a noun)", pos: "marker" }],
+  // `mga` is deliberately NOT taught as a vocab card — it's a grammatical pluralizer, not a word you
+  // drill. It's explained in a footnote and kept as a reference-only dictionary entry (lexicon-extras).
+  2: [{ waray: "ngan", meaning: "and", pos: "conj" }],
   // L8's III-Class pronoun chart is glossless + multi-table, so the parser can't extract it — add the
   // known set by hand (their meanings come from the book's examples: "akon uyab" = my girlfriend, etc.).
   8: [
@@ -223,7 +262,9 @@ const newLesson = (id, title) => { emitted.push({ id, title }); return { id, ord
 // --- per-lesson emit helpers (ctx = {id, ord}) ---
 function emitGuide(ctx, grammarBlocks, wordsAccum) {    // grammar prose + lift its chart into a paradigm teach block
   for (const b of grammarBlocks) {
-    addBlock(ctx.id, ++ctx.ord, "grammar", { title: b.title, body: b.prose, formula: b.formula });
+    // a note attached to this guide folds into its prose (the book prints these as rules under the chart)
+    const body = b._notes?.length ? [b.prose, ...b._notes].filter(Boolean).join("\n\n") : b.prose;
+    addBlock(ctx.id, ++ctx.ord, "grammar", { title: b.title, body, formula: b.formula });
     const para = chartItems(b);
     if (para.length) {
       const pos = paradigmPos(b.title);
@@ -234,11 +275,12 @@ function emitGuide(ctx, grammarBlocks, wordsAccum) {    // grammar prose + lift 
 }
 function emitVocab(ctx, vocabBlocks, wordsAccum) {
   for (const b of vocabBlocks) {
-    const bl = addBlock(ctx.id, ++ctx.ord, "vocab");
+    const bl = addBlock(ctx.id, ++ctx.ord, "vocab", { footnote: noteOf(b) });
     (b.items || []).forEach((v, i) => { const w = canon(v.waray); if (!w) return; if (!dict.has(w)) dict.set(w, { meaning: glossOf(w, v.meaning), pos: v.pos }); teach(bl, w, i, wordsAccum); });
   }
 }
-const emitNotes = (ctx, notes) => notes.forEach((b) => addBlock(ctx.id, ++ctx.ord, "note", { body: b.text }));
+// the footnote a drill/vocab block carries, drawn from the source block(s) it was built from
+const noteOf = (...srcBlocks) => srcBlocks.flatMap((b) => b?._notes || []).join("\n") || null;
 function emitMC(ctx, words) {                           // one gentle recognition drill over freshly-taught words
   if (!words.length) return;
   const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek" });
@@ -251,7 +293,7 @@ function emitSentenceMC(ctx, exprBlocks) {
   if (!src.length) return;
   // title it so the drill is traceable to the book's section (its sentences ARE the "Examples")
   const title = exprBlocks.some((b) => b.type === "examples") ? "Examples" : null;
-  const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek", title });
+  const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek", title, footnote: noteOf(...exprBlocks) });
   src.forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
 }
 function emitProd(ctx, drillBlocks, dmod, asGate) {     // production drill (speak/type), both directions
@@ -261,7 +303,7 @@ function emitProd(ctx, drillBlocks, dmod, asGate) {     // production drill (spe
   for (const b of drillBlocks) {
     const bl = asGate
       ? addBlock(ctx.id, ++ctx.ord, "assessment", { title: asGate, dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true })
-      : addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both" });
+      : addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both", footnote: noteOf(b) });
     (b.items || []).forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
   }
 }
@@ -275,7 +317,7 @@ function emitExtras(ctx, extras, wordsAccum) {          // hand-added function w
 // (marker lowercased) with the noun as its gloss/prompt.
 function emitMarkerChoice(ctx, drillBlocks) {
   for (const b of drillBlocks) {
-    const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "cloze", dhint: "peek" });
+    const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "cloze", dhint: "peek", footnote: noteOf(b) });
     (b.items || []).forEach((e, i) => {
       const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
       const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" });
@@ -354,13 +396,14 @@ function emitGate(ctx, reviewBlocks, recallWords) {
 let prevLast = null, prevParadigm = [];   // the last sub-lesson ctx + paradigm words of the PREVIOUS lesson
 for (const L of lessons) {
   const src = L.data.blocks || [];
+  attachNotes(src);   // reattach footnotes to the section they annotate BEFORE the blocks are bucketed
   const firstGrammar = src.findIndex((b) => b.type === "grammar");
-  const B = { grammar: [], note: [], examples: [], oral: [], written: [], vocab: [] };
+  const B = { grammar: [], examples: [], oral: [], written: [], vocab: [] };
   const review = [];
   let recallFab = false;   // the opener was a fabricated "write the paradigm from memory" review
   src.forEach((b, idx) => {
-    const k = { grammar: "grammar", note: "note", examples: "examples", oral_exercise: "oral", written_exercise: "written", vocab: "vocab" }[b.type];
-    if (!k) return;
+    const k = { grammar: "grammar", examples: "examples", oral_exercise: "oral", written_exercise: "written", vocab: "vocab" }[b.type];
+    if (!k) return;   // notes are handled by attachNotes above (folded into their host section)
     // exercises BEFORE the first grammar block are the book's review of the prior lesson
     if (firstGrammar > 0 && idx < firstGrammar && (b.type === "oral_exercise" || b.type === "written_exercise")) {
       if (isFabricatedFill(b)) recallFab = true; else review.push(b);   // fabricated → recall the paradigm instead
@@ -376,14 +419,14 @@ for (const L of lessons) {
   if (paraGrammar && hasContent) {
     // ---- SPLIT: Na = the paradigm (recognition), Nb = the vocabulary in use (production) ----
     const a = newLesson(`pc-l${L.num}a`, `Lesson ${L.num}a · ${paraGrammar.title || "The paradigm"}`);
-    const aw = []; emitGuide(a, B.grammar, aw); emitNotes(a, B.note); emitExtras(a, EXTRAS[L.num], aw); emitMC(a, aw); recognize.forEach((r) => emitRecognize(a, r));
+    const aw = []; emitGuide(a, B.grammar, aw); emitExtras(a, EXTRAS[L.num], aw); emitMC(a, aw); recognize.forEach((r) => emitRecognize(a, r));
     const b = newLesson(`pc-l${L.num}b`, `Lesson ${L.num}b · Vocabulary & sentences`);
     const bw = []; emitVocab(b, B.vocab, bw); emitMC(b, bw); produce.forEach((p) => emitProd(b, [p.b], p.dmod));
     prevLast = b;
   } else {
     // ---- SINGLE: no paradigm to peel off (verb / review lessons) — learn, recognize, then produce ----
     const c = newLesson(`pc-l${L.num}`, L.name);
-    const w = []; emitGuide(c, B.grammar, w); emitExtras(c, EXTRAS[L.num], w); emitNotes(c, B.note); emitVocab(c, B.vocab, w); emitMC(c, w);
+    const w = []; emitGuide(c, B.grammar, w); emitExtras(c, EXTRAS[L.num], w); emitVocab(c, B.vocab, w); emitMC(c, w);
     // the book's Review-Test lessons + the final lesson: their written exercise IS the checkpoint
     const gateTitle = /review/i.test(L.name) && /test/i.test(L.name) ? "Review test — pass to continue"
       : L === lessons[lessons.length - 1] ? "Final test" : null;
@@ -425,8 +468,8 @@ const decap = (m) => {   // only ever lowercases the FIRST letter — never refo
 out.push("insert into dictionary (waray,kind,meaning,pos,confirmed) values\n" + [...dict].map(([w, d]) => `  (${S(w)},'word',${S(decap(d.meaning))},${S(d.pos)},false)`).join(",\n") +
   "\n  on conflict (waray) do update set pos = coalesce(dictionary.pos, excluded.pos);");   // NEVER clobber an existing row's definition (curated overlays own it) — but DO fill a missing pos
 if (exprRows.length) out.push("insert into expressions (id,waray,translation) values\n" + exprRows.map((e) => `  (${e.id},${S(e.war)},${S(e.en)})`).join(",\n") + " on conflict (id) do nothing;");
-out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate) values\n" +
-  blocks.map((b) => `  (${b.id},${S(b.lid)},${b.ord},${S(b.type)},${S(b.title)},${S(b.body)},${S(b.formula)},${S(b.dkind)},${S(b.dmod)},${S(b.dhint)},${S(b.ddir)},${b.athresh ?? "null"},${b.agate ?? "null"})`).join(",\n") + " on conflict (id) do nothing;");
+out.push("insert into lesson_blocks (id,lesson_id,ord,type,title,body_md,formula,drill_kind,drill_modality,drill_hint,drill_direction,assess_threshold,assess_gate,footnote) values\n" +
+  blocks.map((b) => `  (${b.id},${S(b.lid)},${b.ord},${S(b.type)},${S(b.title)},${S(b.body)},${S(b.formula)},${S(b.dkind)},${S(b.dmod)},${S(b.dhint)},${S(b.ddir)},${b.athresh ?? "null"},${b.agate ?? "null"},${S(b.footnote)})`).join(",\n") + " on conflict (id) do nothing;");
 out.push("insert into block_items (block_id,ord,dict_waray,expr_id,role) values\n" +
   items.map((it) => `  (${it.b},${it.ord},${S(it.dict)},${it.expr ?? "null"},${S(it.role)})`).join(",\n") + ";");
 

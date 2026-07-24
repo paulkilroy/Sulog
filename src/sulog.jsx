@@ -873,10 +873,10 @@ export default function App() {
       // book's two sections). dirMap keys direction to the card so it survives shuffling; order is kept.
       const half = Math.ceil(step.items.length / 2);
       const dirMap = {}; step.items.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
-      setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: step.items.length, only: step.items, dirMap, lesson: { id: lesson.id, part: idx } });
+      setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: step.items.length, only: step.items, dirMap, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
     } else {
       const [dir, mode] = drillParams(step);
-      setSession({ deckKeys: Object.keys(DECKS), dir, mode, limit: step.items.length, only: step.items, lesson: { id: lesson.id, part: idx } });
+      setSession({ deckKeys: Object.keys(DECKS), dir, mode, limit: step.items.length, only: step.items, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
     }
     setView("session");
   }, []);
@@ -2558,6 +2558,11 @@ function SessionView({ ctx }) {
         distractors={distractors} ctx={ctx} onResult={onResult}
         onSkip={step.remedial ? advance : null}
       />
+      {session.footnote && (
+        <div className="ws-footnote">
+          {session.footnote.split("\n").map((ln, k) => <div key={k}>* {ln}</div>)}
+        </div>
+      )}
     </div>
   );
 }
@@ -3566,6 +3571,11 @@ function ClozeView({ ctx }) {
           })}
         </div>
         {picked && picked !== it.answer && <p style={{ color: "var(--coral)", fontSize: 13, marginTop: 12 }}>It's <b>{it.answer} {it.rest}</b></p>}
+        {step.footnote && (
+          <div className="ws-footnote" style={{ maxWidth: 340, margin: "16px auto 0", textAlign: "left" }}>
+            {step.footnote.split("\n").map((ln, k) => <div key={k}>* {ln}</div>)}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -3697,6 +3707,11 @@ function TeachView({ ctx }) {
             ); })}
           </div>
         </>
+      )}
+      {step.footnote && (
+        <div className="ws-footnote" style={{ marginTop: 14 }}>
+          {step.footnote.split("\n").map((ln, k) => <div key={k}>* {ln}</div>)}
+        </div>
       )}
       <button className="ws-start ws-full" style={{ marginTop: 18 }} onClick={gotIt}><Check size={18} /> Got it</button>
     </div>
@@ -5587,6 +5602,9 @@ function Styles() {
 .ws-answer-text{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--ink)}
 .ws-subtext{text-align:center;font-size:13px;color:var(--ink-soft);font-style:italic;margin:8px 0;
   background:var(--sand);padding:8px 12px;border-radius:10px}
+/* a book footnote that annotates the whole section — a subtle "*" tip shown under every question in the drill */
+.ws-footnote{margin-top:18px;font-size:12px;line-height:1.5;color:var(--ink-soft)}
+.ws-footnote > div{margin-top:2px}
 
 .ws-verdict{margin-top:18px;padding-top:16px;border-top:1px solid var(--sand);animation:rise .3s ease}
 .ws-verdict-head{display:flex;align-items:center;gap:7px;font-weight:700;font-size:15px}

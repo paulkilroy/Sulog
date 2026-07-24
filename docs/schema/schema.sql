@@ -109,6 +109,7 @@ create table lesson_blocks (
   title     text,
   body_md   text,
   formula   text,
+  footnote  text,                                        -- a book footnote that annotates THIS section — shown as a subtle "*" tip on every question in a drill/vocab block (guide footnotes fold into body_md instead)
   about     text references dictionary(waray),          -- note is "about" a lexeme (e.g. mga)
   -- DRILL config
   drill_kind      text check (drill_kind      in ('recognition','production','transform')),

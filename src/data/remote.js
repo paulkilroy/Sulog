@@ -124,7 +124,7 @@ export function dbCourseToBundled(db, name) {
               // paradigm list from "also in this lesson" extras; the learner shouldn't have to)
               const prev = steps[steps.length - 1];
               if (prev && prev.type === "vocab") { for (const w of ids) if (!prev.items.includes(w)) prev.items.push(w); }
-              else steps.push({ type: "vocab", title: b.title || "", items: ids });
+              else steps.push({ type: "vocab", title: b.title || "", items: ids, footnote: b.footnote || null });
             }
             continue;
           }
@@ -138,11 +138,11 @@ export function dbCourseToBundled(db, name) {
               // translation field, so they must never become translation cards. The step keeps
               // them inline; ClozeView quizzes the marker choice itself.
               const cloze = (b.items || []).map((it) => ({ full: it.waray, cue: it.translation || "" })).filter((x) => x.full);
-              if (cloze.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: "cloze", title: b.title || "", items: [], cloze });
+              if (cloze.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: "cloze", title: b.title || "", items: [], cloze, footnote: b.footnote || null });
               continue;
             }
             const ids = (b.items || []).map(addItem).filter(Boolean);
-            if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", dir: b.drill_direction || null, title: b.title || "", items: ids });
+            if (ids.length) steps.push({ type: "drill", kind: b.drill_kind || "recognition", modality: b.drill_modality || "mc", dir: b.drill_direction || null, title: b.title || "", items: ids, footnote: b.footnote || null });
             continue;
           }
           // story / other → not a playable step

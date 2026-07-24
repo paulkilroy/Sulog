@@ -1,6 +1,18 @@
 {
- "_note": "Curated lexicon state the PC seed cannot carry — loaded by tools/load-lexicon-extras.mjs inside `npm run reload`, and enforced by `npm run check`. `words` = full entries for the Tramp-backed word-bank words (restored 2026-07-13; Tramp corroborates their definitions). `senses` = their meanings rows. `attrs` = curated OVERRIDES for PC-seed words (definition cleanups from the dedup passes, pronunciation guides, accented variants from Tramp, pos) — these WIN over the raw seed. Edit HERE, never the DB.",
+ "_note": "Curated lexicon state the PC seed cannot carry — loaded by tools/load-lexicon-extras.mjs inside `npm run reload`, and enforced by `npm run check`. `words` = full entries for the Tramp-backed word-bank words (restored 2026-07-13; Tramp corroborates their definitions), plus a few book-backed reference-only markers the seed no longer teaches as cards (e.g. `mga`, confirmed_by 'book'). `senses` = their meanings rows. `attrs` = curated OVERRIDES for PC-seed words (definition cleanups from the dedup passes, pronunciation guides, accented variants from Tramp, pos) — these WIN over the raw seed. Edit HERE, never the DB.",
  "words": [
+  {
+   "waray": "mga",
+   "kind": "word",
+   "meaning": "plural marker (the …s)",
+   "pronunciation": "mah-NGAH",
+   "pos": "marker",
+   "root": null,
+   "variants": [],
+   "loan": null,
+   "confirmed": true,
+   "confirmed_by": "book"
+  },
   {
    "waray": "alas",
    "kind": "word",
@@ -4985,9 +4997,6 @@
    "variants": [
     "merkádo"
    ]
-  },
-  "mga": {
-   "pronunciation": "mah-NGAH"
   },
   "misyonaryo": {
    "pronunciation": "mees-yo-NAR-yo",
