@@ -1840,7 +1840,7 @@ function EllaView({ ctx }) {
 
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings } = ctx;
+  const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
@@ -1899,6 +1899,21 @@ function HomeView({ ctx }) {
       <TideHero prof={prof} pct={overall} mastered={mastered} total={total} actions={heroActions} />
 
       <DayTracker streak={streak} />
+
+      {/* a failed sync is otherwise invisible until you open Account — surface it here, tappable */}
+      {user && syncState?.status === "error" && (
+        <button onClick={() => syncPull()}
+          style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", textAlign: "left", cursor: "pointer",
+            background: "rgba(240,122,102,.12)", border: "1px solid var(--coral)", borderRadius: 12,
+            padding: "11px 14px", margin: "0 0 12px", color: "var(--ink)", fontFamily: "inherit" }}>
+          <AlertCircle size={18} style={{ color: "var(--coral)", flex: "none" }} />
+          <span style={{ flex: 1 }}>
+            <b style={{ display: "block", fontSize: 14 }}>Couldn't sync your progress — tap to retry</b>
+            <i style={{ fontStyle: "normal", fontSize: 11.5, color: "var(--ink-soft)" }}>{syncState.error || "check your connection"}</i>
+          </span>
+          <RotateCcw size={16} style={{ color: "var(--coral)", flex: "none" }} />
+        </button>
+      )}
 
       <div className="ws-cta-grid">
         <button className="ws-cta ws-cta-primary" onClick={() => openSection(curLesson.section.id, curLesson.id)}>

@@ -7,6 +7,7 @@
     "build": "bash build.sh",
     "bootstrap": "node --env-file=.env.local tools/bootstrap-db.mjs",
     "check": "node --env-file=.env.local tools/rebuild-check.mjs",
+    "rls:authed": "node --env-file=.env.local tools/rls-authed-smoke.mjs",
     "seed": "node tools/gen-pc-seed.mjs",
     "reload": "node --env-file=.env.local tools/reload-pc.mjs",
     "preview": "node --env-file=.env.local tools/gen-course-preview.mjs",

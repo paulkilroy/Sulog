@@ -116,3 +116,8 @@ execSync("node tools/gen-confirm-candidates.mjs", { stdio: "inherit", env: proce
 // prove RLS still guards the public key (a recreated table comes back unprotected — this is the alarm)
 console.log("\nRLS smoke test…");
 execSync("node tools/rls-smoke.mjs", { stdio: "inherit" });
+
+// the anon smoke above can pass while AUTHENTICATED reads are broken (a policy-recursion bug
+// once made every signed-in progress read throw) — so check the signed-in matrix too
+console.log("\nAuthenticated RLS smoke test…");
+execSync("node tools/rls-authed-smoke.mjs", { stdio: "inherit", env: process.env });
