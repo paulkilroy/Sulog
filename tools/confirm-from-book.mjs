@@ -46,8 +46,18 @@ for (const r of leftover) console.log(`  ? ${r.waray} = ${r.meaning}`);
 
 if (process.argv.includes("--apply")) {
   await c.query("begin");
-  for (const r of confirmed) await c.query("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,'book') where waray=$1", [r.waray]);
+  let senses = 0;
+  for (const r of confirmed) {
+    await c.query("update dictionary set confirmed=true, confirmed_by=coalesce(confirmed_by,'book') where waray=$1", [r.waray]);
+    // Propagate onto the sense row too. build-meanings runs BEFORE this pass and stamps a sense's
+    // confirmed flag from dictionary.confirmed AT THAT MOMENT — which is still false here on a fresh
+    // build, so the book confirmation would otherwise never reach the meanings table until a SECOND
+    // reload (the live DB only had it because dictionary.confirmed accumulated across past reloads).
+    // The verified pair is exactly (waray, dictionary.meaning) = the sense build-meanings inserted.
+    const u = await c.query("update meanings set confirmed=true where waray=$1 and meaning=$2 and not confirmed", [r.waray, r.meaning]);
+    senses += u.rowCount;
+  }
   await c.query("commit");
-  console.log(`\n✓ applied — ${confirmed.length} PC entries confirmed on the book's authority`);
+  console.log(`\n✓ applied — ${confirmed.length} PC entries confirmed on the book's authority (+${senses} sense row(s) propagated)`);
 } else console.log("\n(preview — pass --apply to write)");
 await c.end();

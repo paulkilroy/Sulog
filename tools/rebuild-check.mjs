@@ -19,8 +19,25 @@ if (!url.includes("kdtzfaobcgprivsxkger")) { console.error("✗ refusing: not th
 // the Supabase pooler drops startup options, so schema targeting uses SULOG_SEARCH_PATH
 // (a hook in each enrichment tool) + explicit set search_path on this script's own clients
 
-const c = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false } });
+let c = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false }, keepAlive: true });
 await c.connect();
+c.on("error", () => {});   // don't let a mid-flight pooler drop crash the process — queryRetry reconnects
+// the Supabase pooler intermittently resets these heavier cross-schema EXCEPT reads. Reconnect and
+// retry rather than fail the whole check on a transient drop (the scratch schema persists in the DB).
+const isConnErr = (e) => /ECONNRESET|Connection terminated|terminating connection|timeout/i.test(e?.message || "");
+async function queryRetry(sql, tries = 4) {
+  for (let a = 1; ; a++) {
+    try { return await c.query(sql); }
+    catch (e) {
+      if (a >= tries || !isConnErr(e)) throw e;
+      try { await c.end(); } catch {}
+      await new Promise((r) => setTimeout(r, 800 * a));
+      c = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false }, keepAlive: true });
+      c.on("error", () => {});
+      await c.connect();
+    }
+  }
+}
 
 console.log("building scratch schema from committed sources…");
 await c.query("drop schema if exists scratch cascade; create schema scratch;");
@@ -62,21 +79,20 @@ const TABLES = [
 let drift = 0;
 for (const [t, cols] of TABLES) {
   const q = (schema) => `select ${cols} from ${schema}.${t}`;
-  const [live, scratch] = await Promise.all([
-    c.query(`select count(*) n from (${q("public")} except ${q("scratch")}) x`),
-    c.query(`select count(*) n from (${q("scratch")} except ${q("public")}) x`),
-  ]);
+  // sequential (not Promise.all) — one heavy EXCEPT at a time is easier on the pooler
+  const live = await queryRetry(`select count(*) n from (${q("public")} except ${q("scratch")}) x`);
+  const scratch = await queryRetry(`select count(*) n from (${q("scratch")} except ${q("public")}) x`);
   const l = +live.rows[0].n, s = +scratch.rows[0].n;
   if (l || s) {
     drift += l + s;
     console.log(`  ✗ ${t}: ${l} row(s) only in LIVE, ${s} only in SCRATCH`);
-    const sample = await c.query(`(${q("public")} except ${q("scratch")}) limit 3`);
+    const sample = await queryRetry(`(${q("public")} except ${q("scratch")}) limit 3`);
     for (const r of sample.rows) console.log(`      live-only: ${JSON.stringify(r).slice(0, 140)}`);
-    const sample2 = await c.query(`(${q("scratch")} except ${q("public")}) limit 3`);
+    const sample2 = await queryRetry(`(${q("scratch")} except ${q("public")}) limit 3`);
     for (const r of sample2.rows) console.log(`      scratch-only: ${JSON.stringify(r).slice(0, 140)}`);
   } else console.log(`  ✓ ${t}`);
 }
-if (!process.argv.includes("--keep")) await c.query("drop schema scratch cascade");
+if (!process.argv.includes("--keep")) await queryRetry("drop schema scratch cascade");
 else console.log("\n(scratch schema kept — inspect with search_path=scratch, drop it when done)");
 await c.end();
 if (drift) { console.error(`\n✗ DRIFT: ${drift} row(s) differ — the live DB contains hand-edits a rebuild would not reproduce. Move them into committed sources (gloss-overrides / seed / judgment tables).`); process.exit(1); }

@@ -2270,6 +2270,15 @@
  ],
  "senses": [
   {
+   "waray": "mga",
+   "meaning": "plural marker (the …s)",
+   "pos": "marker",
+   "pronunciation": null,
+   "sources": ["pc"],
+   "confirmed": true,
+   "ord": 1
+  },
+  {
    "waray": "alas",
    "meaning": "at (time)",
    "pos": null,
