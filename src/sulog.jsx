@@ -3543,7 +3543,8 @@ function ClozeView({ ctx }) {
   );
   return (
     <div className="ws-page">
-      <TopBar title={`Markers · ${i + 1}/${items.length}`} onBack={() => setView("lesson")} />
+      <TopBar title={`Markers · ${i + 1}/${items.length}`} onBack={() => setView("lesson")}
+        onReport={() => ctx.openReport({ targetType: "exercise", targetRef: it.full, context: { screen: "markers", answer: it.answer, lesson: lesson.id } })} />
       <div style={{ textAlign: "center", padding: "26px 16px" }}>
         <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Which marker fits?</p>
         <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px", cursor: "pointer" }}
@@ -3590,7 +3591,8 @@ function LessonView({ ctx }) {
   if (lesson.steps) {
     return (
       <div className="ws-page">
-        <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }} />
+        <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }}
+          onReport={() => ctx.openReport({ targetType: "lesson", targetRef: lesson.id, context: { screen: "lesson", title: lesson.title } })} />
         <h2 className="ws-lesson-title">{lesson.title}</h2>
         <SectionLabel text="Work through each part" />
         <div className="ws-parts">
@@ -3621,7 +3623,8 @@ function LessonView({ ctx }) {
   const isApply = lesson.kind === "apply";
   return (
     <div className="ws-page">
-      <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }} />
+      <TopBar title={lesson.unit.name} onBack={() => { setLearnSection(lesson.section.id); setView("learn"); }}
+        onReport={() => ctx.openReport({ targetType: "lesson", targetRef: lesson.id, context: { screen: "lesson", title: lesson.title } })} />
       <h2 className="ws-lesson-title">{lesson.title}</h2>
 
       <SectionLabel text={isApply ? "Phrases — say these" : "Words & phrases"} />
@@ -3669,7 +3672,9 @@ function TeachView({ ctx }) {
   const gotIt = () => { completeLessonPart(lesson.id, stepIdx); setView("lesson"); };
   return (
     <div className="ws-page">
-      <TopBar title={lesson.title} onBack={() => setView("lesson")} />
+      <TopBar title={lesson.title} onBack={() => setView("lesson")}
+        onReport={() => ctx.openReport({ targetType: "lesson", targetRef: lesson.id,
+          context: { screen: step.type === "teach" ? "grammar" : "vocab", title: (step.parts && step.parts[0] && step.parts[0].title) || lesson.title, step: stepIdx } })} />
       {step.type === "teach" ? (
         <>
           {step.parts.map((p, i) => (
@@ -3833,7 +3838,8 @@ function StoryView({ ctx }) {
   const q = story.q;
   return (
     <div className="ws-page">
-      <TopBar title={storyUnit.name} onBack={back} />
+      <TopBar title={storyUnit.name} onBack={back}
+        onReport={() => ctx.openReport({ targetType: "lesson", targetRef: storyUnit.id || storyUnit.name, context: { screen: "story" } })} />
       <h2 className="ws-lesson-title">{story.title}</h2>
       <div className="ws-read-meta">{story.titleEn} · {storyUnit.name} story · tap a line to hear it</div>
       <div className="ws-story-body">
@@ -5094,12 +5100,14 @@ function PronounceView({ ctx }) {
 }
 
 /* ============================ shared bits ============================ */
-function TopBar({ title, onBack }) {
+function TopBar({ title, onBack, onReport }) {
   return (
     <div className="ws-topbar">
       <button className="ws-icon-btn" onClick={onBack}><ArrowLeft size={20} /></button>
       <h2>{title}</h2>
-      <div style={{ width: 40 }} />
+      {onReport
+        ? <button className="ws-icon-btn" onClick={onReport} title="Report a problem with this page"><Flag size={18} /></button>
+        : <div style={{ width: 40 }} />}
     </div>
   );
 }
