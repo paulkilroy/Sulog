@@ -225,6 +225,37 @@ export const requestRole = async (role, note = "") => {
   return r[0];
 };
 
+// ---- classroom: feedback (one queue: learner flags + reviewer proposals → an admin decides) ----
+// Context (which item, lesson, direction, what they answered) is captured automatically — the
+// learner only picks a kind and optionally types a note.
+export const submitFeedback = async ({ kind, targetType, targetRef, comment = "", payload = {}, context = {}, classId = null }) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Sign in to send feedback.");
+  const roles = await fetchMyRoles().catch(() => []);
+  const authorRole = roles.includes("reviewer") ? "reviewer" : roles.includes("instructor") ? "instructor" : "student";
+  const r = await rows(supabase.from("feedback").insert({
+    author_id: user.id, author_role: authorRole, kind,
+    target_type: targetType, target_ref: targetRef,
+    comment, payload, context, class_id: classId,
+  }).select());
+  if (!r.length) throw new Error("couldn't send — try again");
+  return r[0];
+};
+
+// the queue: admins see everything, instructors see their class's flags (RLS decides)
+export const fetchFeedback = (status = "open") =>
+  fetchAll(() => supabase.from("feedback").select("*").eq("status", status).order("id", { ascending: false }));
+
+// an admin resolves an item (applying a proposal to the dictionary comes in a later step)
+export const resolveFeedback = async (id, decision) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  const r = await rows(supabase.from("feedback").update({
+    status: "resolved", decision, decided_by: user?.id || null, decided_at: new Date().toISOString(),
+  }).eq("id", id).select());
+  if (!r.length) throw new Error("not saved — admin only");
+  return r[0];
+};
+
 // ---- classroom: classes & enrollment ----
 // Join codes avoid look-alike glyphs (no I/O/0/1) so they survive being read aloud in class.
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";

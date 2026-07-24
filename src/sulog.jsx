@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -10,7 +10,7 @@ import {
   Plus, RotateCcw, ChevronRight, ChevronLeft, Star, Ear, Pencil, List, Home,
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
-  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench,
+  Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -752,6 +752,7 @@ export default function App() {
   const [user, setUser] = useState(null); // Supabase-authed user (null = anonymous/signed out)
   const [roles, setRoles] = useState([]);       // granted roles from user_roles
   const [roleReqs, setRoleReqs] = useState([]); // this user's role requests
+  const [report, setReport] = useState(null);   // {targetType,targetRef,context} — open report sheet
 
   // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
   useEffect(() => {
@@ -1112,6 +1113,7 @@ export default function App() {
     user, signIn: signInWithGoogle, signInEmail: signInWithEmail, signOut: sbSignOut,
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
     requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
+    openReport: (t) => setReport(t),
   };
 
   return (
@@ -1144,6 +1146,8 @@ export default function App() {
       {view === "language" && <LanguageView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
       {view === "class" && <ClassView ctx={ctx} />}
+      {view === "queue" && <QueueView ctx={ctx} />}
+      {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
       {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
@@ -1305,6 +1309,125 @@ function BundledOverview({ course, open, setOpen }) {
    One class per instructor for now. The instructor sees the join code + roster; a student who
    joined sees which class they're in. Codes resolve through join_class() so students never get
    SELECT on classes (codes stay unguessable, not enumerable). */
+/* ============================ REPORT SHEET (the ⚑) ============================
+   One tap from any card/exercise. The learner picks a kind and optionally types a note; the
+   item, lesson, direction and what they answered ride along automatically. Never blocks the
+   lesson — it's a modal you dismiss. Anonymous users are told to sign in (feedback is
+   attributed, so RLS requires an author). */
+const REPORT_KINDS = [
+  ["flag_grade", "Marked me wrong"],
+  ["flag_confusing", "Confusing"],
+  ["flag_wrong", "Content looks wrong"],
+  ["typo", "Typo"],
+];
+function ReportSheet({ target, ctx, onClose }) {
+  const { user, setView } = ctx;
+  const [kind, setKind] = useState("flag_wrong");
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [err, setErr] = useState("");
+  const send = async () => {
+    setBusy(true); setErr("");
+    try {
+      await submitFeedback({ kind, targetType: target.targetType, targetRef: target.targetRef, comment: note, context: target.context || {} });
+      setSent(true); setTimeout(onClose, 1100);
+    } catch (e) { setErr(e.message); }
+    setBusy(false);
+  };
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(3,14,17,.72)", zIndex: 60, display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+      <div onClick={(e) => e.stopPropagation()}
+        style={{ width: "100%", maxWidth: 480, background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: "16px 16px 0 0", padding: "18px 18px 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 4 }}>
+          <Flag size={17} style={{ color: "var(--coral)" }} />
+          <b style={{ fontSize: 15.5 }}>Report a problem</b>
+          <button onClick={onClose} style={{ marginLeft: "auto", background: "transparent", border: 0, color: "var(--ink-soft)", cursor: "pointer", fontSize: 18 }}>✕</button>
+        </div>
+        <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginBottom: 12 }}>
+          about <b style={{ color: "var(--ink)", fontFamily: "Georgia,serif" }}>{target.targetRef}</b>
+          {target.context?.english ? ` · ${target.context.english}` : ""}
+        </div>
+        {sent ? (
+          <div className="ws-backup-msg ok"><Check size={16} /><span>Thanks — sent to the review queue.</span></div>
+        ) : !user ? (
+          <>
+            <div className="ws-backup-msg" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>Sign in to send feedback — it's attributed so we can follow up.</span></div>
+            <button className="ws-start ws-full" onClick={() => { onClose(); setView("backup"); }}><Cloud size={16} /> Go to Account</button>
+          </>
+        ) : (
+          <>
+            <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginBottom: 7 }}>What's off?</div>
+            <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginBottom: 12 }}>
+              {REPORT_KINDS.map(([k, label]) => (
+                <button key={k} onClick={() => setKind(k)}
+                  style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 999, cursor: "pointer",
+                    border: "1px solid " + (kind === k ? "var(--tide)" : "var(--sand-deep)"),
+                    background: kind === k ? "rgba(28,176,184,.14)" : "transparent",
+                    color: kind === k ? "var(--sea)" : "var(--ink-soft)" }}>{label}</button>
+              ))}
+            </div>
+            <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder="Add a note (optional)…"
+              style={{ width: "100%", fontFamily: "inherit", fontSize: 14, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px", resize: "vertical" }} />
+            {err && <div className="ws-backup-msg err" style={{ marginTop: 8 }}><AlertCircle size={16} /><span>{err}</span></div>}
+            <button className="ws-start ws-full" style={{ marginTop: 12, opacity: busy ? .6 : 1 }} disabled={busy} onClick={send}>
+              {busy ? "Sending…" : "Send"}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ============================ REVIEW QUEUE (admin / instructor) ============================ */
+function QueueView({ ctx }) {
+  const { setView, admin } = ctx;
+  const [items, setItems] = useState(null);
+  const [err, setErr] = useState("");
+  const load = useCallback(async () => {
+    try { setItems(await fetchFeedback("open")); } catch (e) { setErr(e.message); setItems([]); }
+  }, []);
+  useEffect(() => { load(); }, [load]);
+  const KIND_LABEL = { flag_grade: "marked wrong", flag_confusing: "confusing", flag_wrong: "looks wrong", typo: "typo", propose_add: "add meaning", propose_reorder: "reorder", propose_disputed: "flag wrong", validate: "validated" };
+  const resolve = async (id, decision) => {
+    try { await resolveFeedback(id, decision); setItems((xs) => xs.filter((x) => x.id !== id)); }
+    catch (e) { setErr(e.message); }
+  };
+  return (
+    <div className="ws-page">
+      <TopBar title="Review queue" onBack={() => setView("home")} />
+      <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
+        Everything learners and reviewers flag lands here. {admin ? "You decide each one." : "Your class's flags."}
+      </p>
+      {err && <div className="ws-backup-msg err" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>{err}</span></div>}
+      {items === null && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+      {items && items.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 Nothing open — the queue is clear.</p>}
+      {items && items.map((f) => (
+        <div key={f.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 9 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+            <b style={{ fontFamily: "Georgia,serif", fontSize: 16 }}>{f.target_ref}</b>
+            <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--coral)", color: "var(--coral)" }}>{KIND_LABEL[f.kind] || f.kind}</span>
+            <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--ink-dim)" }}>{f.author_role}</span>
+          </div>
+          {f.comment && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5 }}>“{f.comment}”</div>}
+          {f.context && Object.keys(f.context).length > 0 && (
+            <div style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 5, fontFamily: "ui-monospace,monospace" }}>
+              {[f.context.english && `= ${f.context.english}`, f.context.direction, f.context.mode, f.context.lesson].filter(Boolean).join(" · ")}
+            </div>
+          )}
+          {admin && (
+            <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
+              <button onClick={() => resolve(f.id, "applied")} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--jade)", background: "transparent", color: "var(--jade)", cursor: "pointer" }}>Fixed</button>
+              <button onClick={() => resolve(f.id, "rejected")} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Dismiss</button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function ClassView({ ctx }) {
   const { setView, user, roles, admin } = ctx;
   const isInstructor = (roles || []).includes("instructor") || admin;
@@ -1448,7 +1571,7 @@ function AdminView({ ctx }) {
         {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
         <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native review queue" />
-        <button className="ws-backup-row" onClick={() => setView("ella")}>
+        <button className="ws-backup-row" onClick={() => setView("queue")}>
           <div className="ws-backup-ic"><Check size={18} /></div>
           <div className="ws-backup-txt"><b>Review queue</b><i>Missing answers · dictionary confirmations{stats ? ` · ${stats.queue} words waiting` : ""}</i></div>
           <ChevronRight size={18} className="ws-cta-arrow" />
@@ -2407,6 +2530,11 @@ function SessionView({ ctx }) {
           <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
         </div>
         <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
+        <button className="ws-vk" title="Report a problem with this item"
+          onClick={() => ctx.openReport({ targetType: "card", targetRef: card.waray,
+            context: { direction: cardDir, mode, lesson: session.lesson?.id || null, english: card.english } })}>
+          <Flag size={16} />
+        </button>
         {SpeechRec && (
           <button className={`ws-vk ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice — tap for keyboard" : "Keyboard — tap for voice"}
             onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>

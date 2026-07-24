@@ -66,6 +66,16 @@ try {
   ok("instructor reads ENROLLED student's profile (roster names)", await count("select count(*) n from profiles where user_id=$1", [S1]) === 1);
   ok("instructor CANNOT read a non-enrolled student's profile", await count("select count(*) n from profiles where user_id=$1", [S2]) === 0);
 
+  // ---- feedback: author writes + reads own; peers can't ----
+  await as(S1, "s1@x");
+  let fbOk = true;
+  try { await c.query("insert into feedback (author_id, author_role, kind, target_type, target_ref, comment) values ($1,'student','flag_wrong','word','__rlsword__','test')", [S1]); }
+  catch (e) { fbOk = false; console.log(`    ↳ ${e.message}`); }
+  ok("student submits feedback", fbOk);
+  ok("student reads OWN feedback", await count("select count(*) n from feedback where author_id=$1", [S1]) === 1);
+  await as(S2, "s2@x");
+  ok("peer CANNOT read another learner's feedback", await count("select count(*) n from feedback where author_id=$1", [S1]) === 0);
+
   // ---- non-enrolled student: sees no class, no roster ----
   await as(S2, "s2@x");
   ok("outsider sees NO class", await count("select count(*) n from classes where id=$1", [CLS]) === 0);
