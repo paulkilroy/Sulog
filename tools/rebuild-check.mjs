@@ -24,7 +24,8 @@ await c.connect();
 c.on("error", () => {});   // don't let a mid-flight pooler drop crash the process — queryRetry reconnects
 // the Supabase pooler intermittently resets these heavier cross-schema EXCEPT reads. Reconnect and
 // retry rather than fail the whole check on a transient drop (the scratch schema persists in the DB).
-const isConnErr = (e) => /ECONNRESET|Connection terminated|terminating connection|timeout/i.test(e?.message || "");
+const CONN_CODES = new Set(["ECONNRESET", "EPIPE", "ETIMEDOUT", "ECONNREFUSED", "ENOTFOUND", "EHOSTUNREACH", "57P01"]);
+const isConnErr = (e) => CONN_CODES.has(e?.code) || /ECONNRESET|EPIPE|Connection terminated|terminating connection|timeout|server closed/i.test(e?.message || "");
 async function queryRetry(sql, tries = 4) {
   for (let a = 1; ; a++) {
     try { return await c.query(sql); }
@@ -70,7 +71,7 @@ const TABLES = [
   ["phases", "id,course_id,ord,name,can_do"],
   ["units", "id,phase_id,ord,name,theme,can_do"],
   ["lessons", "id,unit_id,ord,title"],
-  ["lesson_blocks", "id,lesson_id,ord,type,title,body_md,formula,about,drill_kind,drill_modality,drill_hint,drill_direction,assess_scope,assess_pool,assess_select,assess_n,assess_threshold,assess_gate,review_target,review_mode,story_id"],
+  ["lesson_blocks", "id,lesson_id,ord,type,title,body_md,formula,footnote,about,drill_kind,drill_modality,drill_hint,drill_direction,assess_scope,assess_pool,assess_select,assess_n,assess_threshold,assess_gate,review_target,review_mode,story_id"],
   ["block_items", "block_id,ord,dict_waray,expr_id,role"],   // id is serial (not in the seed) — surface identity only
   ["expressions", "id,waray,translation,alt_translations,focus,components"],
   ["dictionary", "waray,kind,meaning,pronunciation,pos,root,variants,loan,confirmed,confirmed_by"],
