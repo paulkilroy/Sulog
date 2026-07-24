@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1143,6 +1143,7 @@ export default function App() {
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "language" && <LanguageView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
+      {view === "class" && <ClassView ctx={ctx} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
       {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
@@ -1300,6 +1301,124 @@ function BundledOverview({ course, open, setOpen }) {
    Everything here changes the app FOR EVERYONE (RLS admin-gated): the native-review queue,
    the dialect catalog, and the data-provenance health readout. Personal settings (your own
    dialect selection, sound, course) stay in the Language door. */
+/* ============================ MY CLASS (instructor) / JOIN (student) ============================
+   One class per instructor for now. The instructor sees the join code + roster; a student who
+   joined sees which class they're in. Codes resolve through join_class() so students never get
+   SELECT on classes (codes stay unguessable, not enumerable). */
+function ClassView({ ctx }) {
+  const { setView, user, roles, admin } = ctx;
+  const isInstructor = (roles || []).includes("instructor") || admin;
+  const [taught, setTaught] = useState(null);
+  const [enrolled, setEnrolled] = useState([]);
+  const [roster, setRoster] = useState([]);
+  const [name, setName] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    if (!user) { setLoading(false); return; }
+    setLoading(true);
+    try {
+      const [t, e] = await Promise.all([
+        isInstructor ? fetchMyTaughtClass(user.id) : Promise.resolve(null),
+        fetchMyEnrolledClasses(),
+      ]);
+      setTaught(t); setEnrolled(e || []);
+      if (t) setRoster(await fetchRoster(t.id));
+    } catch (err) { setMsg({ kind: "err", text: err.message }); }
+    setLoading(false);
+  }, [user, isInstructor]);
+  useEffect(() => { load(); }, [load]);
+
+  const create = async () => {
+    if (!name.trim()) { setMsg({ kind: "err", text: "Give the class a name." }); return; }
+    setBusy(true); setMsg(null);
+    try { const c = await createClass(name.trim()); setTaught(c); setRoster([]); setMsg({ kind: "ok", text: "Class created — share the code below." }); }
+    catch (e) { setMsg({ kind: "err", text: e.message }); }
+    setBusy(false);
+  };
+
+  if (!user) return (
+    <div className="ws-page">
+      <TopBar title="My class" onBack={() => setView("home")} />
+      <p style={{ padding: "8px 4px", color: "var(--ink-soft)" }}>Sign in first — then you can join a class or create one.</p>
+      <button className="ws-cta" onClick={() => setView("backup")} style={{ width: "100%" }}>
+        <div className="ws-cta-ic"><Cloud size={18} /></div><div><div className="ws-cta-t">Go to Account</div></div>
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="ws-page">
+      <TopBar title="My class" onBack={() => setView("home")} />
+      {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ margin: "0 0 12px" }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
+      {loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+
+      {/* --- instructor: the class you teach --- */}
+      {!loading && isInstructor && (
+        <>
+          <SectionLabel icon={<Layers size={14} />} text="Class you teach" />
+          {taught ? (
+            <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 }}>
+              <div style={{ fontFamily: "Georgia,serif", fontSize: 20, fontWeight: 600 }}>{taught.name}</div>
+              <div style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 2 }}>{roster.length} student{roster.length === 1 ? "" : "s"}</div>
+              <div style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-soft)", margin: "12px 0 5px" }}>Join code — share this</div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <code style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 21, letterSpacing: ".16em", color: "var(--sea)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "10px 12px", textAlign: "center" }}>{taught.code}</code>
+                <button onClick={() => { try { navigator.clipboard.writeText(taught.code); setMsg({ kind: "ok", text: "Code copied." }); } catch (e) {} }}
+                  style={{ flex: "none", fontFamily: "inherit", fontSize: 13, fontWeight: 600, padding: "10px 14px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer" }}>Copy</button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 }}>
+              <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginBottom: 10 }}>You don't have a class yet. Create one and share its code with your students.</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Waray 101 · Fall"
+                  style={{ flex: 1, fontSize: 14, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
+                <button disabled={busy} onClick={create}
+                  style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 700, padding: "0 16px", borderRadius: 9, border: 0, background: "var(--tide)", color: "#052024", cursor: "pointer", opacity: busy ? .6 : 1 }}>
+                  {busy ? "…" : "Create"}
+                </button>
+              </div>
+            </div>
+          )}
+          {taught && (
+            <>
+              <SectionLabel icon={<User size={14} />} text="Roster" />
+              {roster.length === 0
+                ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>No students yet — share the code above.</p>
+                : roster.map((r) => (
+                    <div key={r.student_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderBottom: "1px solid var(--sand)" }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: 14 }}>{r.display_name || r.email || "student"}</div>
+                        <div style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>joined {String(r.joined_at || "").slice(0, 10)}</div>
+                      </div>
+                    </div>
+                  ))}
+            </>
+          )}
+        </>
+      )}
+
+      {/* --- student: classes you've joined --- */}
+      {!loading && (
+        <>
+          <SectionLabel icon={<BookOpen size={14} />} text="Classes you've joined" />
+          {enrolled.length === 0
+            ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>You haven't joined a class. Enter a code on the Account screen.</p>
+            : enrolled.map((c) => (
+                <div key={c.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 8 }}>
+                  <div style={{ fontWeight: 600 }}>{c.name}</div>
+                  <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>code {c.code}</div>
+                </div>
+              ))}
+        </>
+      )}
+    </div>
+  );
+}
+
 function AdminView({ ctx }) {
   const { setView } = ctx;
   const [forms, setForms] = useState(null);
@@ -3833,6 +3952,7 @@ function BackupView({ ctx }) {
   const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signInEmail, signOut, roles, roleReqs, requestRole, admin } = ctx;
   const [busy, setBusy] = useState(false);
   const [email, setEmail] = useState("");
+  const [joinCode, setJoinCode] = useState("");
   const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
   const fileRef = useRef(null);
 
@@ -3907,6 +4027,20 @@ function BackupView({ ctx }) {
               </div>
             </div>
             {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ marginBottom: 10 }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
+            <div style={{ margin: "2px 0 12px" }}>
+              <div style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-soft)", marginBottom: 7 }}>Join a class</div>
+              <div style={{ display: "flex", gap: 7 }}>
+                <input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="WARAY-XXXXX"
+                  style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 14, letterSpacing: ".08em", color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
+                <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 16px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer", whiteSpace: "nowrap" }}
+                  onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — see it under My class." }); setJoinCode(""); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>
+                  Join
+                </button>
+              </div>
+              <button className="ws-backup-row compact" style={{ marginTop: 8, width: "100%" }} onClick={() => setView("class")}>
+                <Layers size={16} /> My class
+              </button>
+            </div>
             {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
               <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
                 <span className="ws-sync-dot" />

@@ -63,6 +63,8 @@ try {
   ok("instructor CANNOT read a non-enrolled student's progress", await count("select count(*) n from progress where user_id=$1", [S2]) === 0);
   ok("instructor reads their class roster", await count("select count(*) n from enrollments where class_id=$1", [CLS]) === 1);
   ok("instructor reads their own class", await count("select count(*) n from classes where id=$1", [CLS]) === 1);
+  ok("instructor reads ENROLLED student's profile (roster names)", await count("select count(*) n from profiles where user_id=$1", [S1]) === 1);
+  ok("instructor CANNOT read a non-enrolled student's profile", await count("select count(*) n from profiles where user_id=$1", [S2]) === 0);
 
   // ---- non-enrolled student: sees no class, no roster ----
   await as(S2, "s2@x");

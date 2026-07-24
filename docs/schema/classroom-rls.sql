@@ -52,8 +52,11 @@ end $$;
 alter table profiles enable row level security;
 drop policy if exists profiles_self on profiles;
 drop policy if exists profiles_admin_read on profiles;
-create policy profiles_self       on profiles for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
-create policy profiles_admin_read on profiles for select using (is_admin());
+drop policy if exists profiles_instructor_read on profiles;
+create policy profiles_self            on profiles for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+create policy profiles_admin_read      on profiles for select using (is_admin());
+-- an instructor needs their enrolled students' names for the roster (and nobody else's)
+create policy profiles_instructor_read on profiles for select to authenticated using (teaches_student(profiles.user_id));
 
 -- user_roles: self read; only admin grants ---------------------------------
 alter table user_roles enable row level security;

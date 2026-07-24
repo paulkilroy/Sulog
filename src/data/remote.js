@@ -225,6 +225,52 @@ export const requestRole = async (role, note = "") => {
   return r[0];
 };
 
+// ---- classroom: classes & enrollment ----
+// Join codes avoid look-alike glyphs (no I/O/0/1) so they survive being read aloud in class.
+const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const makeCode = () => "WARAY-" + Array.from({ length: 5 }, () => CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)]).join("");
+
+// the class this user TEACHES (one per instructor for now)
+export const fetchMyTaughtClass = async (userId) =>
+  (await rows(supabase.from("classes").select("*").eq("instructor_id", userId).limit(1)))[0] || null;
+
+// the classes this user is enrolled in as a student
+export const fetchMyEnrolledClasses = async () => {
+  const en = await rows(supabase.from("enrollments").select("class_id, joined_at"));
+  if (!en.length) return [];
+  return rows(supabase.from("classes").select("*").in("id", en.map((e) => e.class_id)));
+};
+
+export const createClass = async (name, courseId = "pc") => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("sign in first");
+  for (let i = 0; i < 6; i++) {                       // retry on the (unlikely) code collision
+    const id = (globalThis.crypto?.randomUUID?.() || `cls-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    const { data, error } = await supabase.from("classes")
+      .insert({ id, instructor_id: user.id, name, code: makeCode(), course_id: courseId }).select();
+    if (!error && data?.length) return data[0];
+    if (error && !/duplicate|unique/i.test(error.message)) throw new Error(error.message);
+  }
+  throw new Error("couldn't generate a unique class code — try again");
+};
+
+// students never SELECT classes directly; join_class() resolves the code server-side
+export const joinClass = async (code) => {
+  const { data, error } = await supabase.rpc("join_class", { p_code: (code || "").trim().toUpperCase() });
+  if (error) throw new Error(/no active class/i.test(error.message) ? "That code didn't match a class." : error.message);
+  return data;
+};
+
+// roster for a class the caller teaches (RLS returns nothing otherwise)
+export const fetchRoster = async (classId) => {
+  const en = await rows(supabase.from("enrollments").select("student_id, joined_at").eq("class_id", classId));
+  if (!en.length) return [];
+  const profs = await rows(supabase.from("profiles").select("user_id, display_name, email").in("user_id", en.map((e) => e.student_id)));
+  const byId = new Map(profs.map((p) => [p.user_id, p]));
+  return en.map((e) => ({ ...e, ...(byId.get(e.student_id) || {}) }))
+           .sort((a, b) => (a.display_name || a.email || "").localeCompare(b.display_name || b.email || ""));
+};
+
 // ---- per-user settings that follow the user across devices (dialect selection) ----
 export const loadUserSettings = async (userId) =>
   (await rows(supabase.from("user_settings").select("*").eq("user_id", userId)))[0] || null;
