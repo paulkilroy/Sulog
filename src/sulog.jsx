@@ -2241,17 +2241,46 @@ function HomeView({ ctx }) {
         <>
           <div className="ws-menu-scrim" onClick={() => setMenuOpen(false)} />
           <div className="ws-menu-sheet" role="menu">
-            <div className="ws-menu-head">Menu</div>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("class"); }}><GraduationCap size={17} /><span>My class</span></button>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("queue"); }}><RotateCcw size={17} /><span>Review queue</span></button>
-            <div className="ws-menu-sep" />
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("language"); }}><Globe size={17} /><span>Language &amp; course</span></button>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("pronounce"); }}><Ear size={17} /><span>Sounds &amp; speech</span></button>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("backup"); }}>
-              {ctx.user ? <User size={17} /> : <Cloud size={17} />}<span>{ctx.user ? "Account" : "Sign in & sync"}</span>
-            </button>
-            {ctx.admin && <><div className="ws-menu-sep" />
-              <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("admin"); }}><Wrench size={17} /><span>Admin console</span></button></>}
+            <div className="ws-menu-top"><b>☰ Menu</b><button className="ws-menu-close" onClick={() => setMenuOpen(false)} aria-label="Close"><X size={18} /></button></div>
+
+            {/* Account & sync — always first, with the three role pills */}
+            <div className="ws-menu-acct">
+              <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("backup"); }}>
+                <span className="ws-menu-ic">☁️</span>
+                <span className="ws-menu-tt"><b>Account &amp; sync</b><i>{ctx.user ? `${ctx.user.email} · ${syncWord(ctx.syncState)}` : "Sign in to sync across devices"}</i></span>
+                <ChevronRight size={16} className="ws-menu-chev" />
+              </button>
+              <div className="ws-menu-pills">
+                {[["reviewer", "reviewer"], ["instructor", "instructor"], ["admin", "admin"]].map(([r, label]) => {
+                  const held = (ctx.roles || []).includes(r) || (r === "admin" && ctx.admin);
+                  const pending = (ctx.roleReqs || []).some((q) => q.role === r && q.status === "pending");
+                  const canReq = r !== "admin" && !held && !pending && !!ctx.user;
+                  return (
+                    <button key={r} className={`ws-role-pill ${held ? "held" : pending ? "pending" : ""}`} disabled={!canReq}
+                      title={held ? "You hold this role" : pending ? "Requested — an admin will review" : canReq ? `Request ${label}` : "Assigned by an admin"}
+                      onClick={() => canReq && ctx.requestRole(r, "")}>
+                      {label}{held ? " ✓" : pending ? " ·…" : ""}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <MenuRow icon="⚙️" title="Settings" subtitle="language · course · my dialect · sound" chevron onClick={() => { setMenuOpen(false); setView("language"); }} />
+
+            {(roleHas(ctx, "instructor") || ctx.admin) &&
+              <MenuRow icon="🎓" title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
+
+            {(roleHas(ctx, "reviewer") || roleHas(ctx, "instructor") || ctx.admin) &&
+              <MenuRow icon="👩" title="Review queue" subtitle="missing answers · dictionary · dialect" badge="rev·admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
+
+            {ctx.user && !(roleHas(ctx, "reviewer") && roleHas(ctx, "instructor")) &&
+              <MenuRow icon="✋" title="Become…" subtitle="request instructor / reviewer" chevron onClick={() => { setMenuOpen(false); setView("backup"); }} />}
+
+            <MenuRow icon="📈" title="Progress & history" subtitle="streak · mastered · past answers" chevron onClick={() => { setMenuOpen(false); setSheet("history"); }} />
+
+            {ctx.admin &&
+              <MenuRow icon="🔧" title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
           </div>
         </>
       )}
@@ -2263,6 +2292,21 @@ function HomeView({ ctx }) {
       {sheet === "dict" && <SlideSheet title="Dictionary" onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
       {sheet === "history" && <SlideSheet title="Progress" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
     </div>
+  );
+}
+
+const roleHas = (ctx, r) => (ctx.roles || []).includes(r);
+const syncWord = (s) => s?.status === "error" ? "not synced" : s?.status === "syncing" ? "syncing…" : "synced";
+
+// one ☰-menu row: emoji · {title, subtitle} · {role badge | chevron}
+function MenuRow({ icon, title, subtitle, badge, chevron, onClick }) {
+  return (
+    <button className="ws-menu-row" onClick={onClick}>
+      <span className="ws-menu-ic">{icon}</span>
+      <span className="ws-menu-tt"><b>{title}</b>{subtitle && <i>{subtitle}</i>}</span>
+      {badge && <span className="ws-menu-badge">{badge}</span>}
+      {chevron && <ChevronRight size={16} className="ws-menu-chev" />}
+    </button>
   );
 }
 
@@ -5454,12 +5498,25 @@ function Styles() {
 .ws-menu-sheet{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:460px;
   background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border:1px solid var(--sand-deep);border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.5);padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
-.ws-menu-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;
-  color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:500;padding:13px 14px;border-radius:10px;cursor:pointer}
-.ws-menu-item:hover{background:var(--sand)}
-.ws-menu-item svg{color:var(--tide);flex:none}
-.ws-menu-head{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--ink);padding:8px 14px 6px}
-.ws-menu-sep{height:1px;background:var(--sand-deep);margin:5px 8px}
+.ws-menu-top{display:flex;align-items:center;justify-content:space-between;padding:6px 12px 8px;border-bottom:1px solid var(--sand-deep);margin-bottom:4px}
+.ws-menu-top b{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--ink)}
+.ws-menu-close{background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:4px;display:flex}
+.ws-menu-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;
+  color:var(--ink);font-family:inherit;padding:11px 12px;border-radius:11px;cursor:pointer}
+.ws-menu-row:hover{background:var(--sand)}
+.ws-menu-ic{font-size:19px;width:26px;text-align:center;flex:none}
+.ws-menu-tt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ws-menu-tt b{font-size:14px;font-weight:600}
+.ws-menu-tt i{font-size:11.5px;color:var(--ink-soft);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws-menu-badge{font-size:10px;font-weight:700;letter-spacing:.02em;color:var(--tide);background:var(--sand);border:1px solid var(--sand-deep);border-radius:20px;padding:2px 8px;flex:none}
+.ws-menu-chev{color:var(--ink-dim);flex:none}
+.ws-menu-acct .ws-menu-row{padding-bottom:5px}
+.ws-menu-pills{display:flex;gap:6px;padding:0 12px 8px 50px;flex-wrap:wrap}
+.ws-role-pill{font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 11px;font-family:inherit;cursor:pointer;
+  border:1px solid var(--sand-deep);background:transparent;color:var(--ink-soft);opacity:.5}
+.ws-role-pill.held{border-color:var(--jade);background:rgba(31,184,159,.14);color:var(--jade);opacity:1}
+.ws-role-pill.pending{border-color:var(--sun);color:var(--sun);opacity:1}
+.ws-role-pill:not(:disabled){opacity:1;cursor:pointer}
 /* bottom-bar slide-up sheet */
 .ws-sheet-scrim{position:fixed;inset:0;background:rgba(3,14,17,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
