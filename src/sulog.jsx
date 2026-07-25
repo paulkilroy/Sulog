@@ -2118,18 +2118,14 @@ function HomeView({ ctx }) {
 
   const heroActions = (
     <div className="ws-hero-btns">
-      <button className={`ws-hero-btn ${menuOpen ? "on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
-      <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
-      <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
-        title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
-        {ctx.user ? <User size={18} /> : <Cloud size={18} />}
-      </button>
+      <button className="ws-hero-btn" onClick={() => ctx.openReport({ targetType: "lesson", targetRef: "general", context: { screen: "home" } })} title="Report a problem or send feedback"><Flag size={18} /></button>
       {SpeechRec && (
         <button className={`ws-hero-btn ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
           onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
           {settings.voiceMode ? <Mic size={18} /> : <Keyboard size={18} />}
         </button>
       )}
+      <button className={`ws-hero-btn ${menuOpen ? "on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
     </div>
   );
 
@@ -2245,21 +2241,27 @@ function HomeView({ ctx }) {
         <>
           <div className="ws-menu-scrim" onClick={() => setMenuOpen(false)} />
           <div className="ws-menu-sheet" role="menu">
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("queue"); }}><RotateCcw size={17} /><span>Review queue</span></button>
+            <div className="ws-menu-head">Menu</div>
             <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("class"); }}><GraduationCap size={17} /><span>My class</span></button>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("history"); }}><Trophy size={17} /><span>History</span></button>
-            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("pronounce"); }}><Ear size={17} /><span>Sounds</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("queue"); }}><RotateCcw size={17} /><span>Review queue</span></button>
+            <div className="ws-menu-sep" />
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("language"); }}><Globe size={17} /><span>Language &amp; course</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("pronounce"); }}><Ear size={17} /><span>Sounds &amp; speech</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("backup"); }}>
+              {ctx.user ? <User size={17} /> : <Cloud size={17} />}<span>{ctx.user ? "Account" : "Sign in & sync"}</span>
+            </button>
+            {ctx.admin && <><div className="ws-menu-sep" />
+              <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("admin"); }}><Wrench size={17} /><span>Admin console</span></button></>}
           </div>
         </>
       )}
       <div className="ws-bottombar">
-        <button className="ws-bb active" onClick={() => setSheet(null)}><Home size={18} /><span>Home</span></button>
         <button className={`ws-bb ${sheet === "dict" ? "active" : ""}`} onClick={() => setSheet("dict")}><List size={18} /><span>Dictionary</span></button>
-        <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>History</span></button>
+        <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>Progress</span></button>
       </div>
 
       {sheet === "dict" && <SlideSheet title="Dictionary" onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
-      {sheet === "history" && <SlideSheet title="History" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
+      {sheet === "history" && <SlideSheet title="Progress" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
     </div>
   );
 }
@@ -5456,6 +5458,8 @@ function Styles() {
   color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:500;padding:13px 14px;border-radius:10px;cursor:pointer}
 .ws-menu-item:hover{background:var(--sand)}
 .ws-menu-item svg{color:var(--tide);flex:none}
+.ws-menu-head{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--ink);padding:8px 14px 6px}
+.ws-menu-sep{height:1px;background:var(--sand-deep);margin:5px 8px}
 /* bottom-bar slide-up sheet */
 .ws-sheet-scrim{position:fixed;inset:0;background:rgba(3,14,17,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
