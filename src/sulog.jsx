@@ -753,6 +753,8 @@ export default function App() {
   const [user, setUser] = useState(null); // Supabase-authed user (null = anonymous/signed out)
   const [roles, setRoles] = useState([]);       // granted roles from user_roles
   const [roleReqs, setRoleReqs] = useState([]); // this user's role requests
+  const [enrolledN, setEnrolledN] = useState(0); // classes this user has joined (drives the "student" pill)
+  const [menuOpen, setMenuOpen] = useState(false); // the ☰ menu — App-level so "back" from a sub-page can reopen it
   const [report, setReport] = useState(null);   // {targetType,targetRef,context} — open report sheet
 
   // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
@@ -763,10 +765,11 @@ export default function App() {
   }, [])
   // classroom: on sign-in mirror the auth user into profiles + load roles & requests
   useEffect(() => {
-    if (!user) { setRoles([]); setRoleReqs([]); return; }
+    if (!user) { setRoles([]); setRoleReqs([]); setEnrolledN(0); return; }
     upsertProfile(user).catch(() => {});
     fetchMyRoles().then(setRoles).catch(() => {});
     fetchMyRequests().then(setRoleReqs).catch(() => {});
+    fetchMyEnrolledClasses().then((cs) => setEnrolledN((cs || []).length)).catch(() => {});
   }, [user]);;
 
   // Auto-refresh a database course when the DB has a newer version than our cache — so a reloaded
@@ -1115,6 +1118,9 @@ export default function App() {
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
     requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
     openReport: (t) => setReport(t),
+    enrolledN, menuOpen, setMenuOpen,
+    // "back" from a menu sub-page returns to the ☰ menu, not straight home
+    backToMenu: () => { setMenuOpen(true); setView("home"); },
   };
 
   return (
@@ -1399,7 +1405,7 @@ function QueueView({ ctx }) {
   };
   return (
     <div className="ws-page">
-      <TopBar title="Review queue" onBack={() => setView("home")} />
+      <TopBar title="Review queue" onBack={ctx.backToMenu} />
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
         Everything learners and reviewers flag lands here. {admin ? "You decide each one." : "Your class's flags."}
       </p>
@@ -1467,7 +1473,7 @@ function ClassView({ ctx }) {
 
   if (!user) return (
     <div className="ws-page">
-      <TopBar title="My class" onBack={() => setView("home")} />
+      <TopBar title="My class" onBack={ctx.backToMenu} />
       <p style={{ padding: "8px 4px", color: "var(--ink-soft)" }}>Sign in first — then you can join a class or create one.</p>
       <button className="ws-cta" onClick={() => setView("account")} style={{ width: "100%" }}>
         <div className="ws-cta-ic"><Cloud size={18} /></div><div><div className="ws-cta-t">Go to Account</div></div>
@@ -1477,7 +1483,7 @@ function ClassView({ ctx }) {
 
   return (
     <div className="ws-page">
-      <TopBar title="My class" onBack={() => setView("home")} />
+      <TopBar title="My class" onBack={ctx.backToMenu} />
       {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ margin: "0 0 12px" }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
       {loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
 
@@ -1527,19 +1533,12 @@ function ClassView({ ctx }) {
         </>
       )}
 
-      {/* --- student: classes you've joined --- */}
-      {!loading && (
-        <>
-          <SectionLabel icon={<BookOpen size={14} />} text="Classes you've joined" />
-          {enrolled.length === 0
-            ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>You haven't joined a class. Enter a code on the Account screen.</p>
-            : enrolled.map((c) => (
-                <div key={c.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 8 }}>
-                  <div style={{ fontWeight: 600 }}>{c.name}</div>
-                  <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>code {c.code}</div>
-                </div>
-              ))}
-        </>
+      {!loading && !isInstructor && (
+        <div className="ws-empty" style={{ marginTop: 20 }}>
+          <GraduationCap size={26} />
+          <p>“My Class” is for teachers. To join a class as a student, use <b>Request</b> from the menu.</p>
+          <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("request")}>Go to Request</button>
+        </div>
       )}
     </div>
   );
@@ -1566,7 +1565,7 @@ function AdminView({ ctx }) {
   const box = { background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 14 };
   return (
     <div className="ws-page">
-      <TopBar title="Admin — global levers" onBack={() => setView("home")} />
+      <TopBar title="Admin — global levers" onBack={ctx.backToMenu} />
       <div style={{ padding: "0 4px" }}>
         <p style={{ fontSize: 12.5, color: "var(--ink-soft)", margin: "4px 0 14px" }}>
           Everything on this screen changes the app for EVERYONE. Your personal settings live under 🌐 Language &amp; course.
@@ -2086,7 +2085,7 @@ function EllaView({ ctx }) {
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { menuOpen, setMenuOpen } = ctx;       // ☰ menu lives at App level so "back" can reopen it
   const [sheet, setSheet] = useState(null);   // null | "dict" | "history" — bottom-bar slide-ups
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
@@ -2254,6 +2253,12 @@ function HomeView({ ctx }) {
                 <ChevronRight size={16} className="ws-menu-chev" />
               </button>
               <div className="ws-menu-pills">
+                {/* student = enrolled in a class (not requested — you become one by joining) */}
+                <button className={`ws-role-pill ${ctx.enrolledN > 0 ? "held" : ""}`}
+                  title={ctx.enrolledN > 0 ? "You're enrolled in a class" : "Join a class to become a student"}
+                  onClick={() => { setMenuOpen(false); setView("request"); }}>
+                  student{ctx.enrolledN > 0 ? " ✓" : ""}
+                </button>
                 {[["reviewer", "reviewer"], ["instructor", "instructor"], ["admin", "admin"]].map(([r, label]) => {
                   const held = (ctx.roles || []).includes(r) || (r === "admin" && ctx.admin);
                   const pending = (ctx.roleReqs || []).some((q) => q.role === r && q.status === "pending");
@@ -4355,7 +4360,7 @@ function AccountView({ ctx }) {
   };
   return (
     <div className="ws-page">
-      <TopBar title="Account & sync" onBack={() => setView("home")} />
+      <TopBar title="Account & sync" onBack={ctx.backToMenu} />
       <SectionLabel icon={<Cloud size={14} />} text="Sign in &amp; sync" />
       <div className="ws-gist">
         {user ? (
@@ -4409,17 +4414,20 @@ function AccountView({ ctx }) {
 function RequestView({ ctx }) {
   const { setView, user, roles, roleReqs, requestRole, joinClass } = ctx;
   const [joinCode, setJoinCode] = useState("");
+  const [enrolled, setEnrolled] = useState([]);
   const [msg, setMsg] = useState(null);
+  const loadEnrolled = useCallback(() => { if (user) fetchMyEnrolledClasses().then(setEnrolled).catch(() => {}); }, [user]);
+  useEffect(() => { loadEnrolled(); }, [loadEnrolled]);
   if (!user) return (
     <div className="ws-page">
-      <TopBar title="Request access" onBack={() => setView("home")} />
+      <TopBar title="Request access" onBack={ctx.backToMenu} />
       <div className="ws-empty"><Lock size={26} /><p>Sign in first — then you can join a class or ask for a role.</p>
         <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("account")}>Go to Account</button></div>
     </div>
   );
   return (
     <div className="ws-page">
-      <TopBar title="Request access" onBack={() => setView("home")} />
+      <TopBar title="Request access" onBack={ctx.backToMenu} />
       <div className="ws-pron-intro">Join a class your teacher set up, or ask for a role. Role requests go to an admin to approve.</div>
 
       <SectionLabel icon={<GraduationCap size={14} />} text="Join a class" />
@@ -4427,9 +4435,16 @@ function RequestView({ ctx }) {
         <input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="WARAY-XXXXX"
           style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 14, letterSpacing: ".08em", color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "10px 12px" }} />
         <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 18px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer" }}
-          onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — see it under My class." }); setJoinCode(""); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>Join</button>
+          onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — it's listed below." }); setJoinCode(""); loadEnrolled(); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>Join</button>
       </div>
-      <button className="ws-backup-row compact" style={{ width: "100%" }} onClick={() => setView("class")}><Layers size={16} /> My class</button>
+      {enrolled.length === 0
+        ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 2px 4px" }}>You haven't joined a class yet.</p>
+        : enrolled.map((c) => (
+            <div key={c.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 11, padding: "11px 13px", marginBottom: 7 }}>
+              <div style={{ fontWeight: 600, fontSize: 14 }}>{c.name}</div>
+              <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>code {c.code}</div>
+            </div>
+          ))}
 
       <SectionLabel icon={<span style={{ fontSize: 13 }}>✋</span>} text="Ask for a role" />
       {[["instructor", "Instructor", "Teach a class — create one and get a join code"], ["reviewer", "Reviewer", "I speak Waray natively — help review & correct content"]].map(([r, label, desc]) => {
@@ -4457,7 +4472,7 @@ function SettingsView({ ctx }) {
   const { setView, settings, saveSettings } = ctx;
   return (
     <div className="ws-page">
-      <TopBar title="Settings" onBack={() => setView("home")} />
+      <TopBar title="Settings" onBack={ctx.backToMenu} />
       <SectionLabel icon={<Globe size={14} />} text="Language &amp; course" />
       <button className="ws-backup-row" onClick={() => setView("language")}>
         <div className="ws-backup-ic"><Globe size={18} /></div>
