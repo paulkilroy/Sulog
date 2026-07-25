@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1439,6 +1439,8 @@ function ClassView({ ctx }) {
   const [taught, setTaught] = useState(null);
   const [enrolled, setEnrolled] = useState([]);
   const [roster, setRoster] = useState([]);
+  const [byStudent, setByStudent] = useState({}); // student_id -> {mastered, seen, testAvg, passed}
+  const [flags, setFlags] = useState([]);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null);
@@ -1453,7 +1455,18 @@ function ClassView({ ctx }) {
         fetchMyEnrolledClasses(),
       ]);
       setTaught(t); setEnrolled(e || []);
-      if (t) setRoster(await fetchRoster(t.id));
+      if (t) {
+        const r = await fetchRoster(t.id);
+        setRoster(r);
+        const ids = r.map((s) => s.student_id);
+        const [{ prog, units }, fl] = await Promise.all([fetchClassProgress(ids), fetchClassFlags(t.id)]);
+        const by = {};
+        for (const id of ids) by[id] = { mastered: 0, seen: 0, tests: [], passed: 0 };
+        for (const p of prog) { const b = by[p.user_id]; if (!b) continue; if (p.seen) b.seen++; if (p.box >= 4) b.mastered++; }
+        for (const u of units) { const b = by[u.user_id]; if (!b) continue; b.tests.push(u.best || 0); if (u.passed) b.passed++; }
+        for (const id of ids) { const b = by[id]; b.testAvg = b.tests.length ? Math.round(b.tests.reduce((s, x) => s + x, 0) / b.tests.length) : null; }
+        setByStudent(by); setFlags(fl || []);
+      }
     } catch (err) { setMsg({ kind: "err", text: err.message }); }
     setLoading(false);
   }, [user, isInstructor]);
@@ -1511,21 +1524,47 @@ function ClassView({ ctx }) {
               </div>
             </div>
           )}
-          {taught && (
-            <>
-              <SectionLabel icon={<User size={14} />} text="Roster" />
-              {roster.length === 0
-                ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>No students yet — share the code above.</p>
-                : roster.map((r) => (
-                    <div key={r.student_id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderBottom: "1px solid var(--sand)" }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 600, fontSize: 14 }}>{r.display_name || r.email || "student"}</div>
-                        <div style={{ fontSize: 11.5, color: "var(--ink-dim)" }}>joined {String(r.joined_at || "").slice(0, 10)}</div>
+          {taught && (() => {
+            const students = roster.map((r) => ({ ...r, s: byStudent[r.student_id] || { mastered: 0, seen: 0, testAvg: null, passed: 0 } }));
+            const withTests = students.filter((x) => x.s.testAvg != null);
+            const classAvg = withTests.length ? Math.round(withTests.reduce((a, x) => a + x.s.testAvg, 0) / withTests.length) : null;
+            const maxMastered = Math.max(1, ...students.map((x) => x.s.mastered));
+            return (
+              <>
+                <div className="ws-dash-summary">
+                  <div className="ws-dash-stat"><b>{roster.length}</b><span>student{roster.length === 1 ? "" : "s"}</span></div>
+                  <div className="ws-dash-stat"><b>{classAvg != null ? classAvg + "%" : "—"}</b><span>avg test</span></div>
+                  <div className="ws-dash-stat"><b>{flags.length}</b><span>open flag{flags.length === 1 ? "" : "s"}</span></div>
+                </div>
+
+                <SectionLabel icon={<User size={14} />} text="Students" />
+                {roster.length === 0
+                  ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>No students yet — share the code above.</p>
+                  : students.map((r) => (
+                      <div key={r.student_id} className="ws-dash-row">
+                        <div className="ws-dash-name">
+                          <b>{r.display_name || r.email || "student"}</b>
+                          <i>{r.s.mastered} mastered · {r.s.passed} unit{r.s.passed === 1 ? "" : "s"} passed</i>
+                        </div>
+                        <div className="ws-dash-bar" title={`${r.s.mastered} words mastered`}><span style={{ width: `${Math.round((r.s.mastered / maxMastered) * 100)}%` }} /></div>
+                        <div className="ws-dash-score">{r.s.testAvg != null ? r.s.testAvg + "%" : "—"}</div>
                       </div>
-                    </div>
-                  ))}
-            </>
-          )}
+                    ))}
+
+                {flags.length > 0 && (
+                  <>
+                    <SectionLabel icon={<Flag size={14} />} text="Flags to review" />
+                    {flags.map((f) => (
+                      <button key={f.id} className="ws-backup-row" onClick={() => setView("queue")}>
+                        <div className="ws-backup-txt"><b>{f.target_ref}</b><i>{(f.kind || "").replace(/_/g, " ")}{f.comment ? " · " + f.comment : ""}</i></div>
+                        <ChevronRight size={16} className="ws-cta-arrow" />
+                      </button>
+                    ))}
+                  </>
+                )}
+              </>
+            );
+          })()}
         </>
       )}
 
@@ -5439,6 +5478,18 @@ function Styles() {
 .ws-menu-sheet{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:460px;
   background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border:1px solid var(--sand-deep);border-radius:14px;
   box-shadow:0 18px 40px rgba(0,0,0,.5);padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
+/* instructor dashboard */
+.ws-dash-summary{display:flex;gap:10px;margin:2px 0 8px}
+.ws-dash-stat{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:12px 10px;text-align:center}
+.ws-dash-stat b{display:block;font-family:'Fraunces',Georgia,serif;font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums}
+.ws-dash-stat span{font-size:11px;color:var(--ink-soft)}
+.ws-dash-row{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--sand)}
+.ws-dash-name{flex:1;min-width:0}
+.ws-dash-name b{font-size:14px;font-weight:600;display:block}
+.ws-dash-name i{font-size:11px;color:var(--ink-dim);font-style:normal}
+.ws-dash-bar{width:64px;height:6px;border-radius:4px;background:var(--sand);overflow:hidden;flex:none}
+.ws-dash-bar span{display:block;height:100%;background:var(--tide);border-radius:4px}
+.ws-dash-score{width:44px;text-align:right;font-size:13px;font-weight:700;color:var(--sea);font-variant-numeric:tabular-nums;flex:none}
 .ws-menu-top{display:flex;align-items:center;justify-content:space-between;padding:6px 12px 8px;border-bottom:1px solid var(--sand-deep);margin-bottom:4px}
 .ws-menu-top b{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--ink)}
 .ws-menu-close{background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:4px;display:flex}
