@@ -3836,6 +3836,48 @@ function TeachView({ ctx }) {
 }
 
 /* ============================ HISTORY ============================ */
+// eye candy for Progress: an accuracy-over-time area chart + a mastery bar. Pure SVG, no libs.
+function ProgressChart({ history, cards, prog }) {
+  const days = {};
+  for (const e of history) { const d = localDay(new Date(e.ts)); (days[d] = days[d] || { n: 0, r: 0 }); days[d].n++; if (e.correct) days[d].r++; }
+  const series = Object.keys(days).sort().map((k) => ({ acc: days[k].r / days[k].n, n: days[k].n })).slice(-21);
+  // mastery snapshot (box>=4) — a "how far along" bar under the trend
+  let mastered = 0, seen = 0;
+  for (const c of cards) { const st = prog[c.id]; if (st?.seen) { seen++; if ((st.box || 0) >= 4) mastered++; } }
+
+  const W = 300, H = 96, pad = 6;
+  const xs = (i) => pad + (series.length <= 1 ? 0 : (i / (series.length - 1)) * (W - 2 * pad));
+  const ys = (a) => H - pad - a * (H - 2 * pad);
+  const line = series.map((s, i) => `${xs(i).toFixed(1)},${ys(s.acc).toFixed(1)}`).join(" ");
+  const last = series.length ? series[series.length - 1].acc : 0;
+  const first = series.length ? series[0].acc : 0;
+  const delta = Math.round((last - first) * 100);
+
+  return (
+    <div className="ws-chart">
+      <div className="ws-chart-head">
+        <div><b>{Math.round(last * 100)}%</b><span>recent accuracy</span></div>
+        {series.length >= 2 && <div className={`ws-chart-delta ${delta >= 0 ? "up" : "down"}`}>{delta >= 0 ? "▲" : "▼"} {Math.abs(delta)} pts</div>}
+      </div>
+      {series.length >= 2 ? (
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="ws-chart-svg" aria-hidden="true">
+          <defs><linearGradient id="pgfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--tide)" stopOpacity=".34" /><stop offset="1" stopColor="var(--tide)" stopOpacity="0" /></linearGradient></defs>
+          <line x1={pad} y1={ys(0.5)} x2={W - pad} y2={ys(0.5)} stroke="var(--sand-deep)" strokeWidth="1" strokeDasharray="3 4" />
+          <polygon points={`${xs(0).toFixed(1)},${H - pad} ${line} ${xs(series.length - 1).toFixed(1)},${H - pad}`} fill="url(#pgfill)" />
+          <polyline points={line} fill="none" stroke="var(--tide)" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+          <circle cx={xs(series.length - 1)} cy={ys(last)} r="3.6" fill="var(--sea)" stroke="var(--shell)" strokeWidth="1.5" />
+        </svg>
+      ) : (
+        <div className="ws-chart-empty">Keep drilling — your accuracy trend shows up after a couple of days.</div>
+      )}
+      <div className="ws-chart-mastery">
+        <div className="ws-chart-mastery-bar"><span style={{ width: `${seen ? Math.round((mastered / seen) * 100) : 0}%` }} /></div>
+        <div className="ws-chart-mastery-lbl"><b>{mastered}</b> of {seen} started words mastered</div>
+      </div>
+    </div>
+  );
+}
+
 function HistoryView({ ctx, embedded }) {
   const { history, setView, cards } = ctx;
   const days = {};
@@ -3856,6 +3898,7 @@ function HistoryView({ ctx, embedded }) {
         </div>
       ) : (
         <>
+          <ProgressChart history={history} cards={cards} prog={ctx.prog} />
           <div className="ws-hist-overall">{history.length} answers · {overallAcc}% correct</div>
           {dayKeys.map((d) => {
             const es = days[d];
@@ -3900,7 +3943,21 @@ function NeedsWorkView({ ctx }) {
       const byWrong = (sb?.wrong || 0) - (sa?.wrong || 0);
       return byWrong || accuracy(sa) - accuracy(sb);
     });
-  const drill = items.slice(0, 20); // redrill the worst ~20 in one go
+  // Build a FAIR drill so the queue actually drains: lead with cards that are 1–2 cold recalls from
+  // graduating (opportunistic wins), interleaved with the genuinely hard ones. All-hardest-first meant
+  // the near-clearing cards never got drilled and the queue never moved.
+  const drill = (() => {
+    const meta = items.map((c) => ({ c, r: prog[c.id]?.recall || 0, w: prog[c.id]?.wrong || 0, acc: accuracy(prog[c.id]), pin: prog[c.id]?.pinned }));
+    const close = meta.filter((x) => x.r >= 1 && !x.pin).sort((a, b) => b.r - a.r);              // nearly there — clear these out
+    const hard = meta.filter((x) => !(x.r >= 1 && !x.pin)).sort((a, b) => b.w - a.w || a.acc - b.acc);
+    const out = []; let i = 0, j = 0;
+    while (out.length < 20 && (i < close.length || j < hard.length)) {   // interleave: a win, then a hard one
+      if (i < close.length) out.push(close[i++].c);
+      if (j < hard.length && out.length < 20) out.push(hard[j++].c);
+    }
+    return out;
+  })();
+  const closeN = items.filter((c) => (prog[c.id]?.recall || 0) >= 1 && !prog[c.id]?.pinned).length;
 
   return (
     <div className="ws-page">
@@ -3918,9 +3975,10 @@ function NeedsWorkView({ ctx }) {
             setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", remediate: true, drill: true, limit: drill.length, only: drill.map((c) => c.id) });
             setView("session");
           }}>
-            <Play size={18} /> Drill {drill.length === items.length ? `these ${items.length}` : `top ${drill.length}`}
+            <Play size={18} /> Drill {drill.length} {drill.length === items.length ? "" : "— a fair mix"}
           </button>
           <div className="ws-pron-note" style={{ margin: "10px 0 4px" }}>
+            {closeN > 0 && <><b>{closeN}</b> {closeN === 1 ? "word is" : "words are"} one or two recalls from graduating — this session leads with those, mixed with the hardest. </>}
             The dots fill only when you <b>type</b> a word right from memory — multiple-choice doesn't count. {NW_RECOVER} cold recalls and it graduates off; a miss resets it.
           </div>
           <div className="ws-nw-list">
@@ -5547,6 +5605,20 @@ function Styles() {
   border:1px solid var(--sand-deep);background:transparent;color:var(--ink-soft);opacity:.5}
 .ws-role-pill.held{border-color:var(--jade);background:rgba(31,184,159,.14);color:var(--jade);opacity:1}
 .ws-role-pill.pending{border-color:var(--sun);color:var(--sun);opacity:1}
+/* Progress chart — accuracy trend + mastery bar */
+.ws-chart{background:var(--foam);border:1px solid var(--sand-deep);border-radius:14px;padding:14px 14px 12px;margin-bottom:14px}
+.ws-chart-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.ws-chart-head b{font-family:'Fraunces',Georgia,serif;font-size:26px;color:var(--ink);font-variant-numeric:tabular-nums}
+.ws-chart-head span{font-size:11.5px;color:var(--ink-soft);margin-left:6px}
+.ws-chart-delta{font-size:12px;font-weight:700}
+.ws-chart-delta.up{color:var(--jade)} .ws-chart-delta.down{color:var(--coral)}
+.ws-chart-svg{display:block;width:100%;height:96px}
+.ws-chart-empty{font-size:12.5px;color:var(--ink-soft);padding:14px 4px}
+.ws-chart-mastery{margin-top:10px}
+.ws-chart-mastery-bar{height:7px;border-radius:5px;background:var(--sand);overflow:hidden}
+.ws-chart-mastery-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--sea),var(--jade));border-radius:5px}
+.ws-chart-mastery-lbl{font-size:11.5px;color:var(--ink-soft);margin-top:5px}
+.ws-chart-mastery-lbl b{color:var(--ink);font-variant-numeric:tabular-nums}
 /* bottom-bar slide-up sheet */
 .ws-sheet-scrim{position:fixed;inset:0;background:rgba(3,14,17,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
