@@ -1142,6 +1142,9 @@ export default function App() {
       {view === "accentduel" && <AccentDuelView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "backup" && <BackupView ctx={ctx} />}
+      {view === "account" && <AccountView ctx={ctx} />}
+      {view === "settings" && <SettingsView ctx={ctx} />}
+      {view === "request" && <RequestView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
       {view === "language" && <LanguageView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
@@ -1353,7 +1356,7 @@ function ReportSheet({ target, ctx, onClose }) {
         ) : !user ? (
           <>
             <div className="ws-backup-msg" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>Sign in to send feedback — it's attributed so we can follow up.</span></div>
-            <button className="ws-start ws-full" onClick={() => { onClose(); setView("backup"); }}><Cloud size={16} /> Go to Account</button>
+            <button className="ws-start ws-full" onClick={() => { onClose(); setView("account"); }}><Cloud size={16} /> Go to Account</button>
           </>
         ) : (
           <>
@@ -1466,7 +1469,7 @@ function ClassView({ ctx }) {
     <div className="ws-page">
       <TopBar title="My class" onBack={() => setView("home")} />
       <p style={{ padding: "8px 4px", color: "var(--ink-soft)" }}>Sign in first — then you can join a class or create one.</p>
-      <button className="ws-cta" onClick={() => setView("backup")} style={{ width: "100%" }}>
+      <button className="ws-cta" onClick={() => setView("account")} style={{ width: "100%" }}>
         <div className="ws-cta-ic"><Cloud size={18} /></div><div><div className="ws-cta-t">Go to Account</div></div>
       </button>
     </div>
@@ -2245,7 +2248,7 @@ function HomeView({ ctx }) {
 
             {/* Account & sync — always first, with the three role pills */}
             <div className="ws-menu-acct">
-              <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("backup"); }}>
+              <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("account"); }}>
                 <span className="ws-menu-ic">☁️</span>
                 <span className="ws-menu-tt"><b>Account &amp; sync</b><i>{ctx.user ? `${ctx.user.email} · ${syncWord(ctx.syncState)}` : "Sign in to sync across devices"}</i></span>
                 <ChevronRight size={16} className="ws-menu-chev" />
@@ -2266,7 +2269,7 @@ function HomeView({ ctx }) {
               </div>
             </div>
 
-            <MenuRow icon="⚙️" title="Settings" subtitle="language · course · my dialect · sound" chevron onClick={() => { setMenuOpen(false); setView("language"); }} />
+            <MenuRow icon="⚙️" title="Settings" subtitle="language · course · my dialect · sound" chevron onClick={() => { setMenuOpen(false); setView("settings"); }} />
 
             {(roleHas(ctx, "instructor") || ctx.admin) &&
               <MenuRow icon="🎓" title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
@@ -2274,10 +2277,7 @@ function HomeView({ ctx }) {
             {(roleHas(ctx, "reviewer") || roleHas(ctx, "instructor") || ctx.admin) &&
               <MenuRow icon="👩" title="Review queue" subtitle="missing answers · dictionary · dialect" badge="rev·admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
 
-            {ctx.user && !(roleHas(ctx, "reviewer") && roleHas(ctx, "instructor")) &&
-              <MenuRow icon="✋" title="Become…" subtitle="request instructor / reviewer" chevron onClick={() => { setMenuOpen(false); setView("backup"); }} />}
-
-            <MenuRow icon="📈" title="Progress & history" subtitle="streak · mastered · past answers" chevron onClick={() => { setMenuOpen(false); setSheet("history"); }} />
+            <MenuRow icon="✋" title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
             {ctx.admin &&
               <MenuRow icon="🔧" title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
@@ -4320,6 +4320,163 @@ function BackupView({ ctx }) {
             <ChevronRight size={18} className="ws-cta-arrow" />
           </button>
         </>
+      )}
+    </div>
+  );
+}
+
+/* ============================ ACCOUNT & SYNC ============================ */
+function AccountView({ ctx }) {
+  const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signInEmail, signOut } = ctx;
+  const [busy, setBusy] = useState(false);
+  const [email, setEmail] = useState("");
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const download = () => {
+    try {
+      const json = JSON.stringify(exportData());
+      const url = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+      const stamp = localDay();
+      const a = document.createElement("a"); a.href = url; a.download = `sulog-backup-${stamp}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setMsg({ kind: "ok", text: `Saved sulog-backup-${stamp}.json (${Math.max(1, Math.round(json.length / 1024))} KB).` });
+    } catch { setMsg({ kind: "err", text: "Couldn't create the file here. Try from your own browser tab." }); }
+  };
+  const onPick = async (e) => {
+    const file = e.target.files?.[0]; if (!file) return;
+    setBusy(true); setMsg(null);
+    try {
+      const data = JSON.parse(await file.text());
+      await importData(data, "merge");
+      setMsg({ kind: "ok", text: `Restored ${data.prog ? Object.keys(data.prog).length : 0} cards. Your progress is back.` });
+    } catch (err) { setMsg({ kind: "err", text: err.message || "That file couldn't be read." }); }
+    finally { setBusy(false); if (fileRef.current) fileRef.current.value = ""; }
+  };
+  return (
+    <div className="ws-page">
+      <TopBar title="Account & sync" onBack={() => setView("home")} />
+      <SectionLabel icon={<Cloud size={14} />} text="Sign in &amp; sync" />
+      <div className="ws-gist">
+        {user ? (
+          <>
+            <div className="ws-drive-note" style={{ marginBottom: 10 }}>Signed in as <b>{user.email}</b>. Your progress syncs automatically — a few seconds after each change, and pulls when Sulog opens.</div>
+            {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
+              <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
+                <span className="ws-sync-dot" />
+                <span>{syncState.status === "syncing" ? "Syncing…" : syncState.status === "error" ? "Couldn't sync" : syncState.at ? `Synced ${syncState.at}` : "Synced"}</span>
+              </div>
+            )}
+            {syncState.status === "error" && <div className="ws-backup-msg err" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>{syncState.error}</span></div>}
+            <div className="ws-sync-btns">
+              <button className="ws-backup-row compact" onClick={() => syncPull()}><Download size={16} /> Pull now</button>
+              <button className="ws-backup-row compact" onClick={() => syncPush()}><Upload size={16} /> Push now</button>
+            </div>
+            <button className="ws-backup-row compact" style={{ marginTop: 8 }} onClick={() => signOut()}><X size={16} /> Sign out</button>
+          </>
+        ) : (
+          <>
+            <div className="ws-drive-note" style={{ marginBottom: 12 }}>Sign in with Google and your progress follows you to every device — no tokens, no files.</div>
+            <button className="ws-start ws-full" onClick={() => signIn()}><Cloud size={18} /> Sign in with Google</button>
+            <div style={{ textAlign: "center", color: "var(--ink-dim)", fontSize: 12, margin: "10px 0 8px" }}>or use email — no password</div>
+            <div style={{ display: "flex", gap: 7 }}>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" type="email" style={{ flex: 1, fontSize: 14, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
+              <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 16px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer", whiteSpace: "nowrap" }}
+                onClick={async () => { if (!email.includes("@")) { setMsg({ kind: "err", text: "Enter an email address." }); return; } try { await signInEmail(email); setMsg({ kind: "ok", text: "Check your email for the sign-in link." }); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>Email link</button>
+            </div>
+          </>
+        )}
+      </div>
+
+      <SectionLabel icon={<Download size={14} />} text="Backup" />
+      <button className="ws-backup-row" onClick={download}>
+        <div className="ws-backup-ic"><Download size={18} /></div>
+        <div className="ws-backup-txt"><b>Download a backup</b><i>A small JSON file — mastery, streak, what needs work</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+      <button className="ws-backup-row" onClick={() => fileRef.current?.click()} disabled={busy}>
+        <div className="ws-backup-ic ws-ic-coral"><Upload size={18} /></div>
+        <div className="ws-backup-txt"><b>{busy ? "Restoring…" : "Import a backup file"}</b><i>Merges in — furthest progress wins</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+      <input ref={fileRef} type="file" accept="application/json,.json" onChange={onPick} style={{ display: "none" }} />
+      {msg && <div className={`ws-backup-msg ${msg.kind}`}>{msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}<span>{msg.text}</span></div>}
+    </div>
+  );
+}
+
+/* ============================ REQUEST — join a class / ask for a role ============================ */
+function RequestView({ ctx }) {
+  const { setView, user, roles, roleReqs, requestRole, joinClass } = ctx;
+  const [joinCode, setJoinCode] = useState("");
+  const [msg, setMsg] = useState(null);
+  if (!user) return (
+    <div className="ws-page">
+      <TopBar title="Request access" onBack={() => setView("home")} />
+      <div className="ws-empty"><Lock size={26} /><p>Sign in first — then you can join a class or ask for a role.</p>
+        <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("account")}>Go to Account</button></div>
+    </div>
+  );
+  return (
+    <div className="ws-page">
+      <TopBar title="Request access" onBack={() => setView("home")} />
+      <div className="ws-pron-intro">Join a class your teacher set up, or ask for a role. Role requests go to an admin to approve.</div>
+
+      <SectionLabel icon={<GraduationCap size={14} />} text="Join a class" />
+      <div style={{ display: "flex", gap: 7, marginBottom: 8 }}>
+        <input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="WARAY-XXXXX"
+          style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 14, letterSpacing: ".08em", color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "10px 12px" }} />
+        <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 18px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer" }}
+          onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — see it under My class." }); setJoinCode(""); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>Join</button>
+      </div>
+      <button className="ws-backup-row compact" style={{ width: "100%" }} onClick={() => setView("class")}><Layers size={16} /> My class</button>
+
+      <SectionLabel icon={<span style={{ fontSize: 13 }}>✋</span>} text="Ask for a role" />
+      {[["instructor", "Instructor", "Teach a class — create one and get a join code"], ["reviewer", "Reviewer", "I speak Waray natively — help review & correct content"]].map(([r, label, desc]) => {
+        const held = (roles || []).includes(r);
+        const pending = (roleReqs || []).some((q) => q.role === r && q.status === "pending");
+        return (
+          <div key={r} className="ws-backup-row" style={{ cursor: "default" }}>
+            <div className="ws-backup-txt"><b>{label}</b><i>{desc}</i></div>
+            <button disabled={held || pending} onClick={() => requestRole(r, "").then(() => setMsg({ kind: "ok", text: `Requested ${label} — an admin will review it.` })).catch((e) => setMsg({ kind: "err", text: e.message }))}
+              style={{ flex: "none", fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "6px 13px", borderRadius: 9, whiteSpace: "nowrap",
+                border: "1px solid " + (held ? "var(--jade)" : pending ? "var(--sun)" : "var(--tide)"), background: "transparent",
+                color: held ? "var(--jade)" : pending ? "var(--sun)" : "var(--sea)", cursor: held || pending ? "default" : "pointer" }}>
+              {held ? "Held ✓" : pending ? "Requested" : "Request"}
+            </button>
+          </div>
+        );
+      })}
+      {msg && <div className={`ws-backup-msg ${msg.kind}`} style={{ marginTop: 10 }}>{msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}<span>{msg.text}</span></div>}
+    </div>
+  );
+}
+
+/* ============================ SETTINGS — language / sound hub ============================ */
+function SettingsView({ ctx }) {
+  const { setView, settings, saveSettings } = ctx;
+  return (
+    <div className="ws-page">
+      <TopBar title="Settings" onBack={() => setView("home")} />
+      <SectionLabel icon={<Globe size={14} />} text="Language &amp; course" />
+      <button className="ws-backup-row" onClick={() => setView("language")}>
+        <div className="ws-backup-ic"><Globe size={18} /></div>
+        <div className="ws-backup-txt"><b>Language &amp; course</b><i>Pick a language, switch course, preview &amp; dialect</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+
+      <SectionLabel icon={<Ear size={14} />} text="Sound &amp; speech" />
+      <button className="ws-backup-row" onClick={() => setView("pronounce")}>
+        <div className="ws-backup-ic"><Ear size={18} /></div>
+        <div className="ws-backup-txt"><b>Pronunciation &amp; sounds</b><i>How Waray sounds · TTS voice &amp; speed</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
+      {SpeechRec && (
+        <button className="ws-backup-row" onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+          <div className="ws-backup-ic"><Mic size={18} /></div>
+          <div className="ws-backup-txt"><b>Answer by voice</b><i>{settings.voiceMode ? "On — speak your answers" : "Off — type your answers"}</i></div>
+          <span style={{ fontSize: 12.5, fontWeight: 700, color: settings.voiceMode ? "var(--jade)" : "var(--ink-dim)" }}>{settings.voiceMode ? "On" : "Off"}</span>
+        </button>
       )}
     </div>
   );
