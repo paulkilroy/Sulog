@@ -2084,6 +2084,7 @@ function EllaView({ ctx }) {
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sheet, setSheet] = useState(null);   // null | "dict" | "history" — bottom-bar slide-ups
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
@@ -2252,9 +2253,78 @@ function HomeView({ ctx }) {
         </>
       )}
       <div className="ws-bottombar">
-        <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
-        <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>Dictionary</span></button>
-        <button className="ws-bb" onClick={() => setView("history")}><Trophy size={18} /><span>History</span></button>
+        <button className="ws-bb active" onClick={() => setSheet(null)}><Home size={18} /><span>Home</span></button>
+        <button className={`ws-bb ${sheet === "dict" ? "active" : ""}`} onClick={() => setSheet("dict")}><List size={18} /><span>Dictionary</span></button>
+        <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>History</span></button>
+      </div>
+
+      {sheet === "dict" && <SlideSheet title="Dictionary" onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
+      {sheet === "history" && <SlideSheet title="History" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
+    </div>
+  );
+}
+
+// a bottom sheet that slides up over the current screen, with a grip + scrim (tap out to close)
+function SlideSheet({ title, onClose, children }) {
+  return (
+    <div className="ws-sheet-scrim" onClick={onClose}>
+      <div className="ws-sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
+        <div className="ws-sheet-grip" />
+        <div className="ws-sheet-head"><b>{title}</b><button className="ws-sheet-x" onClick={onClose} aria-label="Close"><X size={18} /></button></div>
+        <div className="ws-sheet-body">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+// Dictionary: a search box that shows up to 5 live matches as you type; tap one for its full entry.
+function DictSheet({ ctx }) {
+  const { cards } = ctx;
+  const [q, setQ] = useState("");
+  const [sel, setSel] = useState(null);
+  const results = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    if (!s) return [];
+    const hit = cards.filter((c) => (c.waray + " " + c.english).toLowerCase().includes(s));
+    // exact/prefix matches first, then the rest — capped at 5
+    hit.sort((a, b) => (b.waray.toLowerCase().startsWith(s) - a.waray.toLowerCase().startsWith(s)));
+    return hit.slice(0, 5);
+  }, [q, cards]);
+
+  if (sel) return <DictEntry card={sel} st={ctx.prog[sel.id]} ctx={ctx} onBack={() => setSel(null)} />;
+  return (
+    <>
+      <input className="ws-search" autoFocus placeholder="Search Waray or English…" value={q} onChange={(e) => setQ(e.target.value)} />
+      {!q.trim() && <p className="ws-dict-hint">Start typing to look up a word.</p>}
+      {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
+      {results.map((c) => (
+        <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
+          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.say && <span className="ws-dict-hit-say">/ {c.say} /</span>}</div>
+          <div className="ws-dict-hit-eng">{c.english}</div>
+        </button>
+      ))}
+    </>
+  );
+}
+
+// the full entry for one word inside the Dictionary sheet
+function DictEntry({ card, st, ctx, onBack }) {
+  const { playCard, togglePin } = ctx;
+  const p = masteryPct(st);
+  const deck = DECKS[card.deck];
+  return (
+    <div className="ws-dict-entry">
+      <button className="ws-sheet-back" onClick={onBack}><ChevronLeft size={15} /> results</button>
+      <div className="ws-dict-hw">{card.waray}</div>
+      {card.say && <div className="ws-dict-hw-say">/ {card.say} /</div>}
+      <div className="ws-dict-hw-eng">{card.english}</div>
+      <div className="ws-dict-entry-meta">
+        {deck && <span className="ws-dict-tag">{deck.short}</span>}
+        <span className="ws-dict-tag">{st?.seen ? `${p}% mastered` : "not started"}</span>
+      </div>
+      <div className="ws-dict-entry-acts">
+        <button onClick={() => playCard(card)}><Volume2 size={16} /> Hear it</button>
+        <button className={st?.pinned ? "on" : ""} onClick={() => togglePin(card.id)}><Star size={16} /> {st?.pinned ? "Pinned" : "Pin"}</button>
       </div>
     </div>
   );
@@ -3647,7 +3717,7 @@ function TeachView({ ctx }) {
 }
 
 /* ============================ HISTORY ============================ */
-function HistoryView({ ctx }) {
+function HistoryView({ ctx, embedded }) {
   const { history, setView, cards } = ctx;
   const days = {};
   for (const e of history) {
@@ -3658,8 +3728,8 @@ function HistoryView({ ctx }) {
   const totalRight = history.filter((e) => e.correct).length;
   const overallAcc = history.length ? Math.round((totalRight / history.length) * 100) : 0;
   return (
-    <div className="ws-page">
-      <TopBar title="History" onBack={() => setView("home")} />
+    <div className={embedded ? "" : "ws-page"}>
+      {!embedded && <TopBar title="History" onBack={() => setView("home")} />}
       {history.length === 0 ? (
         <div className="ws-empty">
           <Trophy size={28} />
@@ -5386,6 +5456,35 @@ function Styles() {
   color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:500;padding:13px 14px;border-radius:10px;cursor:pointer}
 .ws-menu-item:hover{background:var(--sand)}
 .ws-menu-item svg{color:var(--tide);flex:none}
+/* bottom-bar slide-up sheet */
+.ws-sheet-scrim{position:fixed;inset:0;background:rgba(3,14,17,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.ws-sheet{width:100%;max-width:480px;max-height:85vh;background:var(--foam);border-radius:18px 18px 0 0;
+  box-shadow:0 -18px 44px rgba(0,0,0,.55);display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.85,.25,1)}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.ws-sheet{animation:none}.ws-sheet-scrim{animation:none}}
+.ws-sheet-grip{width:38px;height:4px;border-radius:3px;background:var(--sand-deep);margin:9px auto 2px}
+.ws-sheet-head{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 10px;border-bottom:1px solid var(--sand-deep)}
+.ws-sheet-head b{font-family:'Fraunces',Georgia,serif;font-size:17px;color:var(--ink)}
+.ws-sheet-x{background:none;border:none;color:var(--ink-soft);cursor:pointer;padding:4px;display:flex}
+.ws-sheet-body{padding:14px 16px 26px;overflow-y:auto}
+.ws-dict-hint{color:var(--ink-soft);font-size:13.5px;text-align:center;margin:22px 0}
+.ws-dict-hit{display:block;width:100%;text-align:left;background:var(--sand);border:1px solid var(--sand-deep);border-radius:11px;
+  padding:11px 13px;margin-bottom:8px;cursor:pointer;font-family:inherit}
+.ws-dict-hit-main{display:flex;align-items:baseline;gap:9px}
+.ws-dict-hit-main b{font-family:'Fraunces',Georgia,serif;font-size:17px;color:var(--ink)}
+.ws-dict-hit-say{font-size:11.5px;color:var(--tide);font-family:ui-monospace,monospace}
+.ws-dict-hit-eng{font-size:13px;color:var(--ink-soft);margin-top:2px}
+.ws-sheet-back{background:none;border:none;color:var(--sea);font-family:inherit;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:3px;padding:0 0 10px}
+.ws-dict-hw{font-family:'Fraunces',Georgia,serif;font-size:30px;font-weight:600;color:var(--ink)}
+.ws-dict-hw-say{font-size:14px;color:var(--tide);font-family:ui-monospace,monospace;margin-top:3px}
+.ws-dict-hw-eng{font-size:16px;color:var(--ink-soft);margin-top:8px}
+.ws-dict-entry-meta{display:flex;gap:7px;margin-top:12px}
+.ws-dict-tag{font-size:11px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:20px;padding:3px 10px}
+.ws-dict-entry-acts{display:flex;gap:9px;margin-top:18px}
+.ws-dict-entry-acts button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--sand);border:1px solid var(--sand-deep);
+  color:var(--ink);font-family:inherit;font-size:13.5px;font-weight:600;padding:11px;border-radius:11px;cursor:pointer}
+.ws-dict-entry-acts button.on{color:var(--sun-deep);border-color:var(--sun-deep)}
 
 /* topbar */
 .ws-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
