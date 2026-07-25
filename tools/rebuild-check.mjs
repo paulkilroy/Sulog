@@ -74,7 +74,11 @@ const TABLES = [
   ["lesson_blocks", "id,lesson_id,ord,type,title,body_md,formula,footnote,about,drill_kind,drill_modality,drill_hint,drill_direction,assess_scope,assess_pool,assess_select,assess_n,assess_threshold,assess_gate,review_target,review_mode,story_id"],
   ["block_items", "block_id,ord,dict_waray,expr_id,role"],   // id is serial (not in the seed) — surface identity only
   ["expressions", "id,waray,translation,alt_translations,focus,components"],
-  ["dictionary", "waray,kind,meaning,pronunciation,pos,root,variants,loan,confirmed,confirmed_by"],
+  // `variants` is intentionally EXCLUDED: build-meanings UNIONS Tramp spelling-variant matches into it
+  // every reload, so the live column is a monotonic accumulation across the whole history of runs (and
+  // shifting Tramp data), which a single fresh build can never reproduce. It's a search/matching cache,
+  // not source-of-truth — every meaning-bearing column below is still checked.
+  ["dictionary", "waray,kind,meaning,pronunciation,pos,root,loan,confirmed,confirmed_by"],
   ["meanings", "waray,meaning,pos,pronunciation,(select array(select unnest(sources) order by 1)) as sources,confirmed,ord"],
 ];
 let drift = 0;

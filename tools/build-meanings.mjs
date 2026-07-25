@@ -69,12 +69,7 @@ for (const d of dict) {
   const t2 = tier2(d.waray);
   if (t2) { (glossHas(t2.entries, m0) ? out.agree : out.diverge).push({ ...d, via: t2.root, tramp: t2.entries[0].gloss }); continue; }
   const t3 = tier3(d.waray, m0).filter((x) => strictSame(x.e, m0));   // only same-meaning candidates
-  // a real spelling variant shares the stem (one form contains the other, or they share a solid
-  // common prefix) — this rejects coincidental dist-2 collisions with DISTINCT words (e.g. "bukod"
-  // reverse-glossing "next to" is 2 edits from "sunod" but shares no stem), while keeping true
-  // variants like "sunód" (accent) and "nasunód" (na- prefix) that DO contain the stem.
-  const shareStem = (a, b) => { a = nf(a); b = nf(b); const [s, l] = a.length <= b.length ? [a, b] : [b, a]; if (l.includes(s)) return true; let p = 0; while (p < s.length && s[p] === l[p]) p++; return p >= Math.ceil(s.length / 2); };
-  const variant = t3.find((x) => x.dist <= 2 && Math.min(nf(d.waray).length, nf(x.e.waray).length) >= 4 && shareStem(d.waray, x.e.waray));
+  const variant = t3.find((x) => x.dist <= 2 && Math.min(nf(d.waray).length, nf(x.e.waray).length) >= 4);
   if (variant) out.variant.push({ ...d, suggest: variant.e.waray, dist: variant.dist, tramp: variant.e.gloss });
   else if (t3.length && !isProper(d.waray, d.meaning)) out.nativeAlt.push({ ...d, suggest: t3[0].e.waray, tramp: t3[0].e.gloss });
   else out.gap.push(d);
