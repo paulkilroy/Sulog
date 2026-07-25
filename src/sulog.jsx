@@ -2117,6 +2117,7 @@ function HomeView({ ctx }) {
 
   const heroActions = (
     <div className="ws-hero-btns">
+      <button className={`ws-hero-btn ${menuOpen ? "on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
       <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
       <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
         title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
@@ -2253,7 +2254,7 @@ function HomeView({ ctx }) {
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
         <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>Dictionary</span></button>
-        <button className={`ws-bb ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen((o) => !o)}><MenuIcon size={18} /><span>Menu</span></button>
+        <button className="ws-bb" onClick={() => setView("history")}><Trophy size={18} /><span>History</span></button>
       </div>
     </div>
   );
@@ -5378,9 +5379,9 @@ function Styles() {
 .ws-bb.active svg{color:var(--tide)}
 /* overflow menu opened from the bottom bar's ☰ */
 .ws-menu-scrim{position:fixed;inset:0;background:rgba(3,14,17,.55);z-index:19}
-.ws-menu-sheet{position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
-  background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
-  padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
+.ws-menu-sheet{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:460px;
+  background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border:1px solid var(--sand-deep);border-radius:14px;
+  box-shadow:0 18px 40px rgba(0,0,0,.5);padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
 .ws-menu-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;
   color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:500;padding:13px 14px;border-radius:10px;cursor:pointer}
 .ws-menu-item:hover{background:var(--sand)}
