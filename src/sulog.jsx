@@ -2145,6 +2145,12 @@ function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
   const { menuOpen, setMenuOpen } = ctx;       // ☰ menu lives at App level so "back" can reopen it
   const [sheet, setSheet] = useState(null);   // null | "dict" | "history" — bottom-bar slide-ups
+  useEffect(() => {                            // Escape slides the drawer back
+    if (!menuOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
@@ -2297,11 +2303,12 @@ function HomeView({ ctx }) {
 
       <div className="ws-build">build {buildLabel()}</div>
 
-      {menuOpen && (
-        <>
-          <div className="ws-menu-scrim" onClick={() => setMenuOpen(false)} />
-          <div className="ws-menu-sheet" role="menu">
-            <div className="ws-menu-top"><b>☰ Menu</b><button className="ws-menu-close" onClick={() => setMenuOpen(false)} aria-label="Close"><X size={18} /></button></div>
+      {/* ☰ side drawer — always mounted so it can slide in and back out */}
+      <div className={`ws-drawer-scrim ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)} />
+      <div className={`ws-drawer ${menuOpen ? "open" : ""}`} role="menu" aria-hidden={!menuOpen}>
+        <button className="ws-drawer-x" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={19} /></button>
+        <div className="ws-drawer-body">
+            <div className="ws-menu-top"><b>Menu</b></div>
 
             {/* Account & sync — always first, with the three role pills */}
             <div className="ws-menu-acct">
@@ -2341,9 +2348,8 @@ function HomeView({ ctx }) {
 
             {ctx.admin &&
               <MenuRow icon="🔧" title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
-          </div>
-        </>
-      )}
+        </div>
+      </div>
       <div className="ws-bottombar">
         <button className={`ws-bb ${sheet === "dict" ? "active" : ""}`} onClick={() => setSheet("dict")}><List size={18} /><span>Dictionary</span></button>
         <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>Progress</span></button>
@@ -2370,18 +2376,20 @@ function MenuRow({ icon, title, subtitle, badge, chevron, onClick }) {
   );
 }
 
-// a bottom sheet that slides up over the current screen, with a grip + scrim (tap out / Esc to close)
+// a bottom sheet that slides up; tap-out / X / Esc all slide it back DOWN before unmounting
 function SlideSheet({ title, onClose, children }) {
+  const [closing, setClosing] = useState(false);
+  const close = useCallback(() => { setClosing(true); setTimeout(onClose, 240); }, [onClose]);
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [close]);
   return (
-    <div className="ws-sheet-scrim" onClick={onClose}>
-      <div className="ws-sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
+    <div className={`ws-sheet-scrim ${closing ? "closing" : ""}`} onClick={close}>
+      <div className={`ws-sheet ${closing ? "closing" : ""}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
         <div className="ws-sheet-grip" />
-        <div className="ws-sheet-head"><b>{title}</b><button className="ws-sheet-x" onClick={onClose} aria-label="Close"><X size={18} /></button></div>
+        <div className="ws-sheet-head"><b>{title}</b><button className="ws-sheet-x" onClick={close} aria-label="Close"><X size={18} /></button></div>
         <div className="ws-sheet-body">{children}</div>
       </div>
     </div>
@@ -5497,10 +5505,18 @@ function Styles() {
 .ws-bb.active{color:var(--sea)}
 .ws-bb.active svg{color:var(--tide)}
 /* overflow menu opened from the bottom bar's ☰ */
-.ws-menu-scrim{position:fixed;inset:0;background:rgba(3,14,17,.55);z-index:19}
-.ws-menu-sheet{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:calc(100% - 20px);max-width:460px;
-  background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border:1px solid var(--sand-deep);border-radius:14px;
-  box-shadow:0 18px 40px rgba(0,0,0,.5);padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
+/* ☰ side drawer — slides in from the right, X sits where the hamburger is */
+.ws-drawer-scrim{position:fixed;inset:0;background:rgba(3,14,17,.5);z-index:40;opacity:0;pointer-events:none;transition:opacity .26s ease}
+.ws-drawer-scrim.open{opacity:1;pointer-events:auto}
+.ws-drawer{position:fixed;top:0;right:0;height:100%;width:min(86vw,340px);z-index:41;
+  background:rgba(9,24,28,.99);backdrop-filter:blur(10px);border-left:1px solid var(--sand-deep);box-shadow:-16px 0 44px rgba(0,0,0,.5);
+  transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.ws-drawer.open{transform:translateX(0)}
+@media(prefers-reduced-motion:reduce){.ws-drawer,.ws-drawer-scrim{transition:none}}
+.ws-drawer[aria-hidden="true"]{pointer-events:none}
+.ws-drawer-body{height:100%;overflow-y:auto;padding:8px 8px 24px}
+.ws-drawer-x{position:absolute;top:12px;right:11px;width:34px;height:34px;border-radius:9px;z-index:2;
+  border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);display:grid;place-items:center;cursor:pointer}
 /* instructor dashboard */
 .ws-dash-summary{display:flex;gap:10px;margin:2px 0 8px}
 .ws-dash-stat{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:12px 10px;text-align:center}
@@ -5537,7 +5553,11 @@ function Styles() {
 .ws-sheet{width:100%;max-width:480px;max-height:85vh;background:var(--foam);border-radius:18px 18px 0 0;
   box-shadow:0 -18px 44px rgba(0,0,0,.55);display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.85,.25,1)}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){.ws-sheet{animation:none}.ws-sheet-scrim{animation:none}}
+.ws-sheet-scrim.closing{animation:fadeOut .24s ease forwards}
+.ws-sheet.closing{animation:sheetDown .24s cubic-bezier(.3,0,.7,1) forwards}
+@keyframes sheetDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@media(prefers-reduced-motion:reduce){.ws-sheet,.ws-sheet.closing{animation:none}.ws-sheet-scrim,.ws-sheet-scrim.closing{animation:none}}
 .ws-sheet-grip{width:38px;height:4px;border-radius:3px;background:var(--sand-deep);margin:9px auto 2px}
 .ws-sheet-head{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 10px;border-bottom:1px solid var(--sand-deep)}
 .ws-sheet-head b{font-family:'Fraunces',Georgia,serif;font-size:17px;color:var(--ink)}
