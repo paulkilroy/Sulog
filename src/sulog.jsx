@@ -11,6 +11,7 @@ import {
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
   Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
+  GraduationCap, Menu as MenuIcon,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1131,7 +1132,6 @@ export default function App() {
       {view === "lesson" && <LessonView ctx={ctx} />}
       {view === "teach" && <TeachView ctx={ctx} />}
       {view === "story" && <StoryView ctx={ctx} />}
-      {view === "setup" && <SetupView ctx={ctx} />}
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
       {view === "read" && <ReadView ctx={ctx} />}
@@ -2083,6 +2083,7 @@ function EllaView({ ctx }) {
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
+  const [menuOpen, setMenuOpen] = useState(false);
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
@@ -2114,15 +2115,9 @@ function HomeView({ ctx }) {
   const streakDays = currentStreak(streak.days);
   const prof = computeProficiency(prog);
 
-  const startReview = (deckKeys, dir, mode) => {
-    setSession({ deckKeys, dir, mode, limit: 15 });
-    setView("session");
-  };
-
   const heroActions = (
     <div className="ws-hero-btns">
       <button className="ws-hero-btn" onClick={() => setView("language")} title="Language & course — pick a language, course, sound & Ella"><Globe size={18} /></button>
-      {ctx.admin && <button className="ws-hero-btn" onClick={() => setView("admin")} title="Admin — global levers: review queue, dialect catalog, data provenance"><Wrench size={18} /></button>}
       <button className={`ws-hero-btn ${ctx.user ? "on" : ""}`} onClick={() => setView("backup")}
         title={ctx.user ? `Account — signed in as ${ctx.user.email}` : "Account — sign in & sync"}>
         {ctx.user ? <User size={18} /> : <Cloud size={18} />}
@@ -2164,14 +2159,6 @@ function HomeView({ ctx }) {
             <div className="ws-cta-t">Continue learning</div>
             <div className="ws-cta-d">{curLesson.unit.name === curLesson.section.name ? curLesson.section.name : `${curLesson.section.name} · ${curLesson.unit.name}`}</div>
             <div className="ws-cta-sub">{curLesson.title}</div>
-          </div>
-          <ChevronRight size={18} className="ws-cta-arrow" />
-        </button>
-        <button className="ws-cta" onClick={() => startReview(Object.keys(DECKS), "wte", "mc")}>
-          <div className="ws-cta-ic ws-ic-tide"><Sparkles size={18} /></div>
-          <div>
-            <div className="ws-cta-t">Quick mix{due ? ` · ${due} due` : ""}</div>
-            <div className="ws-cta-d">Waray → English, multiple choice</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -2252,12 +2239,21 @@ function HomeView({ ctx }) {
 
       <div className="ws-build">build {buildLabel()}</div>
 
+      {menuOpen && (
+        <>
+          <div className="ws-menu-scrim" onClick={() => setMenuOpen(false)} />
+          <div className="ws-menu-sheet" role="menu">
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("queue"); }}><RotateCcw size={17} /><span>Review queue</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("class"); }}><GraduationCap size={17} /><span>My class</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("history"); }}><Trophy size={17} /><span>History</span></button>
+            <button className="ws-menu-item" onClick={() => { setMenuOpen(false); setView("pronounce"); }}><Ear size={17} /><span>Sounds</span></button>
+          </div>
+        </>
+      )}
       <div className="ws-bottombar">
         <button className="ws-bb active"><Home size={18} /><span>Home</span></button>
-        <button className="ws-bb" onClick={() => openSection(curLesson.section.id, curLesson.id)}><BookOpen size={18} /><span>Learn</span></button>
-        <button className="ws-bb" onClick={() => setView("history")}><Trophy size={18} /><span>History</span></button>
-        <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>All cards</span></button>
-        <button className="ws-bb" onClick={() => setView("pronounce")}><Ear size={18} /><span>Sounds</span></button>
+        <button className="ws-bb" onClick={() => setView("browse")}><List size={18} /><span>Dictionary</span></button>
+        <button className={`ws-bb ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen((o) => !o)}><MenuIcon size={18} /><span>Menu</span></button>
       </div>
     </div>
   );
@@ -2371,75 +2367,6 @@ function ConstellationGrid({ cards, prog }) {
         if (st && st.seen > 0) cls = p >= 0.8 ? "ws-cell-m" : p >= 0.4 ? "ws-cell-l3" : "ws-cell-l1";
         return <div key={c.id} className={`ws-cell ${cls}`} title={`${c.waray} — ${c.english}`} />;
       })}
-    </div>
-  );
-}
-
-/* ============================ SETUP ============================ */
-function SetupView({ ctx }) {
-  const { cards, prog, setView, setSession } = ctx;
-  const [decks, setDecks] = useState(Object.keys(DECKS));
-  const [dir, setDir] = useState("wte");
-  const [mode, setMode] = useState("mc");
-
-  const toggle = (k) => setDecks((d) => d.includes(k) ? d.filter((x) => x !== k) : [...d, k]);
-  const pool = cards.filter((c) => decks.includes(c.deck));
-  const dueN = pool.filter((c) => isDue(prog[c.id])).length;
-
-  const MODES = [
-    { k: "mc", icon: <Layers size={18} />, t: "Multiple choice", d: "Tap the right answer — easiest" },
-    { k: "type", icon: <Pencil size={18} />, t: "Type it", d: "Write the answer from memory" },
-    { k: "flash", icon: <RotateCcw size={18} />, t: "Flashcard", d: "Flip and grade yourself" },
-    { k: "listen", icon: <Ear size={18} />, t: "Listen & answer", d: "Hear it, then pick the meaning" },
-    { k: "speak", icon: <Mic size={18} />, t: "Speak it", d: "Say it aloud, compare to your voice" },
-  ];
-
-  return (
-    <div className="ws-page">
-      <TopBar title="Set up your review" onBack={() => setView("home")} />
-
-      <SectionLabel text="Decks" />
-      <div className="ws-pick-grid">
-        {Object.keys(DECKS).map((k) => (
-          <button key={k} className={`ws-pick ${decks.includes(k) ? "on" : ""}`} onClick={() => toggle(k)}>
-            <span className="ws-pick-check">{decks.includes(k) ? <Check size={14} /> : null}</span>
-            <span className="ws-pick-name">{DECKS[k].short}</span>
-            <span className="ws-pick-n">{cards.filter((c) => c.deck === k).length}</span>
-          </button>
-        ))}
-      </div>
-
-      <SectionLabel text="Direction" />
-      <div className="ws-seg-toggle">
-        <button className={dir === "wte" ? "on" : ""} onClick={() => setDir("wte")}>
-          Waray → English <em>easier</em>
-        </button>
-        <button className={dir === "etw" ? "on" : ""} onClick={() => setDir("etw")}>
-          English → Waray <em>harder</em>
-        </button>
-      </div>
-
-      <SectionLabel text="Mode" />
-      <div className="ws-mode-list">
-        {MODES.map((m) => (
-          <button key={m.k} className={`ws-mode ${mode === m.k ? "on" : ""}`} onClick={() => setMode(m.k)}>
-            <span className="ws-mode-ic">{m.icon}</span>
-            <span className="ws-mode-txt"><b>{m.t}</b><i>{m.d}</i></span>
-            <span className="ws-mode-radio">{mode === m.k ? <span className="ws-radio-on" /> : null}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="ws-setup-foot">
-        <div className="ws-setup-meta">{pool.length} cards · {dueN} due now</div>
-        <button
-          className="ws-start"
-          disabled={!decks.length}
-          onClick={() => { setSession({ deckKeys: decks, dir, mode, limit: 15 }); setView("session"); }}
-        >
-          Start <ChevronRight size={18} />
-        </button>
-      </div>
     </div>
   );
 }
@@ -4266,6 +4193,17 @@ function BackupView({ ctx }) {
       <div className="ws-pron-note" style={{ marginTop: 18 }}>
         Backups are plain JSON — you own the file and can read or keep it anywhere.
       </div>
+
+      {admin && (
+        <>
+          <SectionLabel icon={<Wrench size={14} />} text="Admin" />
+          <button className="ws-backup-row" onClick={() => setView("admin")}>
+            <div className="ws-backup-ic"><Wrench size={18} /></div>
+            <div className="ws-backup-txt"><b>Global controls</b><i>Review queue, dialect catalog, data provenance</i></div>
+            <ChevronRight size={18} className="ws-cta-arrow" />
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -5438,6 +5376,15 @@ function Styles() {
   font-size:10.5px;color:var(--ink-soft);cursor:pointer;font-weight:500;font-family:inherit}
 .ws-bb.active{color:var(--sea)}
 .ws-bb.active svg{color:var(--tide)}
+/* overflow menu opened from the bottom bar's ☰ */
+.ws-menu-scrim{position:fixed;inset:0;background:rgba(3,14,17,.55);z-index:19}
+.ws-menu-sheet{position:fixed;bottom:58px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+  background:rgba(9,24,28,.98);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
+  padding:8px;z-index:21;display:flex;flex-direction:column;gap:2px}
+.ws-menu-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;
+  color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:500;padding:13px 14px;border-radius:10px;cursor:pointer}
+.ws-menu-item:hover{background:var(--sand)}
+.ws-menu-item svg{color:var(--tide);flex:none}
 
 /* topbar */
 .ws-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
