@@ -1390,6 +1390,8 @@ function QueueView({ ctx }) {
   const { setView, admin } = ctx;
   const [items, setItems] = useState(null);
   const [err, setErr] = useState("");
+  const [editId, setEditId] = useState(null);   // feedback id whose definition we're fixing
+  const [editText, setEditText] = useState("");
   const load = useCallback(async () => {
     try { setItems(await fetchFeedback("open")); } catch (e) { setErr(e.message); setItems([]); }
   }, []);
@@ -1399,6 +1401,18 @@ function QueueView({ ctx }) {
     try { await resolveFeedback(id, decision); setItems((xs) => xs.filter((x) => x.id !== id)); }
     catch (e) { setErr(e.message); }
   };
+  // apply a fix: write the corrected definition to the dictionary (durable via native_confirmations,
+  // replayed on every rebuild) AND resolve the flag as edited — the propose→decide loop closing on content.
+  const applyEdit = async (f) => {
+    if (!editText.trim()) { setErr("Type the corrected definition first."); return; }
+    try {
+      await confirmEntry(f.target_ref, { confirmed: true, meaning: editText.trim() });
+      await resolveFeedback(f.id, "edited");
+      setItems((xs) => xs.filter((x) => x.id !== f.id));
+      setEditId(null); setEditText(""); setErr("");
+    } catch (e) { setErr(e.message); }
+  };
+  const editable = (f) => f.target_type === "word" || f.target_type === "card";
   return (
     <div className="ws-page">
       <TopBar title="Review queue" onBack={ctx.backToMenu} />
@@ -1421,9 +1435,18 @@ function QueueView({ ctx }) {
               {[f.context.english && `= ${f.context.english}`, f.context.direction, f.context.mode, f.context.lesson].filter(Boolean).join(" · ")}
             </div>
           )}
-          {admin && (
+          {admin && editId === f.id ? (
             <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
-              <button onClick={() => resolve(f.id, "applied")} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--jade)", background: "transparent", color: "var(--jade)", cursor: "pointer" }}>Fixed</button>
+              <input autoFocus value={editText} onChange={(e) => setEditText(e.target.value)} placeholder={`corrected definition for “${f.target_ref}”`}
+                onKeyDown={(e) => e.key === "Enter" && applyEdit(f)}
+                style={{ flex: 1, fontSize: 13.5, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "8px 11px" }} />
+              <button onClick={() => applyEdit(f)} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "0 14px", borderRadius: 9, border: 0, background: "var(--tide)", color: "#052024", cursor: "pointer" }}>Apply</button>
+              <button onClick={() => { setEditId(null); setEditText(""); }} style={{ fontFamily: "inherit", fontSize: 12.5, padding: "0 10px", borderRadius: 9, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Cancel</button>
+            </div>
+          ) : admin && (
+            <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
+              {editable(f) && <button onClick={() => { setEditId(f.id); setEditText(""); setErr(""); }} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer" }}>Fix definition</button>}
+              <button onClick={() => resolve(f.id, "applied")} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--jade)", background: "transparent", color: "var(--jade)", cursor: "pointer" }}>Mark fixed</button>
               <button onClick={() => resolve(f.id, "rejected")} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 13px", borderRadius: 9, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Dismiss</button>
             </div>
           )}
