@@ -1141,13 +1141,10 @@ export default function App() {
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
       {view === "read" && <ReadView ctx={ctx} />}
-      {view === "history" && <HistoryView ctx={ctx} />}
-      {view === "browse" && <BrowseView ctx={ctx} />}
       {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "stresslab" && <StressLabView ctx={ctx} />}
       {view === "accentduel" && <AccentDuelView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
-      {view === "backup" && <BackupView ctx={ctx} />}
       {view === "account" && <AccountView ctx={ctx} />}
       {view === "settings" && <SettingsView ctx={ctx} />}
       {view === "request" && <RequestView ctx={ctx} />}
@@ -1158,7 +1155,6 @@ export default function App() {
       {view === "queue" && <QueueView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
-      {view === "dbreview" && <EllaView ctx={ctx} />}{/* merged into the one review queue */}
     </div>
   );
 }
@@ -2253,22 +2249,19 @@ function HomeView({ ctx }) {
                 <ChevronRight size={16} className="ws-menu-chev" />
               </button>
               <div className="ws-menu-pills">
-                {/* student = enrolled in a class (not requested — you become one by joining) */}
-                <button className={`ws-role-pill ${ctx.enrolledN > 0 ? "held" : ""}`}
-                  title={ctx.enrolledN > 0 ? "You're enrolled in a class" : "Join a class to become a student"}
-                  onClick={() => { setMenuOpen(false); setView("request"); }}>
+                {/* status only — requesting a role happens on the Request tab */}
+                <span className={`ws-role-pill ${ctx.enrolledN > 0 ? "held" : ""}`}
+                  title={ctx.enrolledN > 0 ? "You're enrolled in a class" : "Join a class from Request to become a student"}>
                   student{ctx.enrolledN > 0 ? " ✓" : ""}
-                </button>
+                </span>
                 {[["reviewer", "reviewer"], ["instructor", "instructor"], ["admin", "admin"]].map(([r, label]) => {
                   const held = (ctx.roles || []).includes(r) || (r === "admin" && ctx.admin);
                   const pending = (ctx.roleReqs || []).some((q) => q.role === r && q.status === "pending");
-                  const canReq = r !== "admin" && !held && !pending && !!ctx.user;
                   return (
-                    <button key={r} className={`ws-role-pill ${held ? "held" : pending ? "pending" : ""}`} disabled={!canReq}
-                      title={held ? "You hold this role" : pending ? "Requested — an admin will review" : canReq ? `Request ${label}` : "Assigned by an admin"}
-                      onClick={() => canReq && ctx.requestRole(r, "")}>
+                    <span key={r} className={`ws-role-pill ${held ? "held" : pending ? "pending" : ""}`}
+                      title={held ? "You hold this role" : pending ? "Requested — an admin will review" : "Ask for this on the Request tab"}>
                       {label}{held ? " ✓" : pending ? " ·…" : ""}
-                    </button>
+                    </span>
                   );
                 })}
               </div>
@@ -2315,8 +2308,13 @@ function MenuRow({ icon, title, subtitle, badge, chevron, onClick }) {
   );
 }
 
-// a bottom sheet that slides up over the current screen, with a grip + scrim (tap out to close)
+// a bottom sheet that slides up over the current screen, with a grip + scrim (tap out / Esc to close)
 function SlideSheet({ title, onClose, children }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
     <div className="ws-sheet-scrim" onClick={onClose}>
       <div className="ws-sheet" onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
@@ -4091,52 +4089,6 @@ function ReadView({ ctx }) {
 }
 
 /* ============================ BROWSE ============================ */
-function BrowseView({ ctx }) {
-  const { cards, prog, setView } = ctx;
-  const [deck, setDeck] = useState("all");
-  const [q, setQ] = useState("");
-  const list = cards.filter((c) =>
-    (deck === "all" || c.deck === deck) &&
-    (!q || (c.waray + c.english).toLowerCase().includes(q.toLowerCase())));
-
-  return (
-    <div className="ws-page">
-      <TopBar title="All cards" onBack={() => setView("home")} />
-      <input className="ws-search" placeholder="Search Waray or English…" value={q} onChange={(e) => setQ(e.target.value)} />
-      <div className="ws-filter-row">
-        <button className={deck === "all" ? "on" : ""} onClick={() => setDeck("all")}>All</button>
-        {Object.keys(DECKS).map((k) => (
-          <button key={k} className={deck === k ? "on" : ""} onClick={() => setDeck(k)}>{DECKS[k].short}</button>
-        ))}
-      </div>
-      <div className="ws-browse-list">
-        {list.map((c) => (
-          <BrowseRow key={c.id} card={c} st={prog[c.id]} ctx={ctx} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function BrowseRow({ card, st, ctx }) {
-  const { playCard, togglePin } = ctx;
-  const p = masteryPct(st);
-
-  return (
-    <div className="ws-brow">
-      <div className="ws-brow-dot" style={{ background: masteryColor(p, st) }} />
-      <div className="ws-brow-body">
-        <div className="ws-brow-waray">{card.waray}</div>
-        <div className="ws-brow-eng">{card.english}</div>
-        {card.say && <div className="ws-brow-say">/ {card.say} /</div>}
-      </div>
-      <div className="ws-brow-actions">
-        <button className="ws-mini-play sq" onClick={() => playCard(card)}><Volume2 size={15} /></button>
-        <button className={`ws-pin ${st?.pinned ? "on" : ""}`} onClick={() => togglePin(card.id)}><Star size={14} /></button>
-      </div>
-    </div>
-  );
-}
 
 function masteryColor(p, st) {
   if (!st || st.seen === 0) return "#cdbfa6";
@@ -4146,189 +4098,6 @@ function masteryColor(p, st) {
 }
 
 /* ============================ BACKUP & SYNC ============================ */
-function BackupView({ ctx }) {
-  const { setView, exportData, importData, syncState, syncPull, syncPush, user, signIn, signInEmail, signOut, roles, roleReqs, requestRole, admin } = ctx;
-  const [busy, setBusy] = useState(false);
-  const [email, setEmail] = useState("");
-  const [joinCode, setJoinCode] = useState("");
-  const [msg, setMsg] = useState(null); // {kind:'ok'|'err', text}
-  const fileRef = useRef(null);
-
-  const download = () => {
-    try {
-      const data = exportData();
-      const json = JSON.stringify(data);
-      const blob = new Blob([json], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const stamp = localDay();
-      const a = document.createElement("a");
-      a.href = url; a.download = `sulog-backup-${stamp}.json`;
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-      const kb = Math.max(1, Math.round(json.length / 1024));
-      setMsg({ kind: "ok", text: `Saved sulog-backup-${stamp}.json (${kb} KB).` });
-    } catch (e) {
-      setMsg({ kind: "err", text: "Couldn't create the file here. Try from your own browser tab." });
-    }
-  };
-
-  const onPick = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setBusy(true); setMsg(null);
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      await importData(data, "merge");
-      const n = data.prog ? Object.keys(data.prog).length : 0;
-      setMsg({ kind: "ok", text: `Restored ${n} cards. Your progress is back.` });
-    } catch (err) {
-      setMsg({ kind: "err", text: err.message || "That file couldn't be read." });
-    } finally {
-      setBusy(false);
-      if (fileRef.current) fileRef.current.value = "";
-    }
-  };
-
-  return (
-    <div className="ws-page">
-      <TopBar title="Account" onBack={() => setView("home")} />
-
-      <SectionLabel icon={<Cloud size={14} />} text="Sign in &amp; sync" />
-      <div className="ws-gist">
-        {user ? (
-          <>
-            <div className="ws-drive-note" style={{ marginBottom: 10 }}>
-              Signed in as <b>{user.email}</b>. Your progress syncs automatically — a few seconds
-              after each change, and pulls when Sulog opens. Sign in on another device and it's there.
-            </div>
-            <div style={{ margin: "2px 0 12px" }}>
-              <div style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-soft)", marginBottom: 7 }}>Roles</div>
-              <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
-                {[["reviewer", "Reviewer"], ["instructor", "Instructor"], ["admin", "Admin"]].map(([r, label]) => {
-                  const held = (roles || []).includes(r) || (r === "admin" && admin);
-                  const pending = (roleReqs || []).some((q) => q.role === r && q.status === "pending");
-                  const canReq = r !== "admin" && !held && !pending;
-                  return (
-                    <button key={r} disabled={!canReq}
-                      onClick={() => canReq && requestRole(r, "").then(() => setMsg({ kind: "ok", text: `Requested ${label} — an admin will review it.` })).catch((e) => setMsg({ kind: "err", text: e.message }))}
-                      title={held ? "You hold this role" : pending ? "Request pending" : canReq ? `Request the ${label} role` : "Assigned by an admin"}
-                      style={{ fontSize: 12.5, fontWeight: 700, padding: "5px 13px", borderRadius: 999, fontFamily: "inherit",
-                        border: "1px solid " + (held ? "var(--jade)" : pending ? "var(--sun)" : "var(--sand-deep)"),
-                        background: held ? "rgba(31,184,159,.14)" : "transparent",
-                        color: held ? "var(--jade)" : pending ? "var(--sun)" : "var(--ink-soft)",
-                        cursor: canReq ? "pointer" : "default", opacity: (held || pending || canReq) ? 1 : .5 }}>
-                      {label}{held ? " ✓" : pending ? " · requested" : canReq ? " · request" : ""}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ marginBottom: 10 }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
-            <div style={{ margin: "2px 0 12px" }}>
-              <div style={{ fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-soft)", marginBottom: 7 }}>Join a class</div>
-              <div style={{ display: "flex", gap: 7 }}>
-                <input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="WARAY-XXXXX"
-                  style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 14, letterSpacing: ".08em", color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
-                <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 16px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer", whiteSpace: "nowrap" }}
-                  onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — see it under My class." }); setJoinCode(""); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>
-                  Join
-                </button>
-              </div>
-              <button className="ws-backup-row compact" style={{ marginTop: 8, width: "100%" }} onClick={() => setView("class")}>
-                <Layers size={16} /> My class
-              </button>
-            </div>
-            {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
-              <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
-                <span className="ws-sync-dot" />
-                <span>
-                  {syncState.status === "syncing" ? "Syncing…"
-                    : syncState.status === "error" ? "Couldn't sync"
-                    : syncState.at ? `Synced ${syncState.at}` : "Synced"}
-                </span>
-              </div>
-            )}
-            {syncState.status === "error" && (
-              <div className="ws-backup-msg err" style={{ marginBottom: 10 }}>
-                <AlertCircle size={16} /><span>{syncState.error}</span>
-              </div>
-            )}
-            <div className="ws-sync-btns">
-              <button className="ws-backup-row compact" onClick={() => syncPull()}><Download size={16} /> Pull now</button>
-              <button className="ws-backup-row compact" onClick={() => syncPush()}><Upload size={16} /> Push now</button>
-            </div>
-            <button className="ws-backup-row compact" style={{ marginTop: 8 }} onClick={() => signOut()}>
-              <X size={16} /> Sign out
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="ws-drive-note" style={{ marginBottom: 12 }}>
-              Sign in with Google and your progress follows you to every device — no tokens, no files.
-            </div>
-            <button className="ws-start ws-full" onClick={() => signIn()}>
-              <Cloud size={18} /> Sign in with Google
-            </button>
-            <div style={{ textAlign: "center", color: "var(--ink-dim)", fontSize: 12, margin: "10px 0 8px" }}>or use email — no password</div>
-            <div style={{ display: "flex", gap: 7 }}>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" type="email"
-                style={{ flex: 1, fontSize: 14, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "9px 12px" }} />
-              <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 16px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer", whiteSpace: "nowrap" }}
-                onClick={async () => { if (!email.includes("@")) { setMsg({ kind: "err", text: "Enter an email address." }); return; } try { await signInEmail(email); setMsg({ kind: "ok", text: "Check your email for the sign-in link." }); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>
-                Email link
-              </button>
-            </div>
-            {msg && <div className={`ws-backup-msg ${msg.kind === "err" ? "err" : "ok"}`} style={{ marginTop: 10 }}>{msg.kind === "err" ? <AlertCircle size={16} /> : <Check size={16} />}<span>{msg.text}</span></div>}
-          </>
-        )}
-      </div>
-
-      <SectionLabel icon={<Download size={14} />} text="Export" />
-      <button className="ws-backup-row" onClick={download}>
-        <div className="ws-backup-ic"><Download size={18} /></div>
-        <div className="ws-backup-txt">
-          <b>Download a backup</b>
-          <i>A small JSON file — mastery, streak, what needs work</i>
-        </div>
-        <ChevronRight size={18} className="ws-cta-arrow" />
-      </button>
-
-      <SectionLabel icon={<Upload size={14} />} text="Restore" />
-      <button className="ws-backup-row" onClick={() => fileRef.current?.click()} disabled={busy}>
-        <div className="ws-backup-ic ws-ic-coral"><Upload size={18} /></div>
-        <div className="ws-backup-txt">
-          <b>{busy ? "Restoring…" : "Import a backup file"}</b>
-          <i>Merges in — furthest progress wins</i>
-        </div>
-        <ChevronRight size={18} className="ws-cta-arrow" />
-      </button>
-      <input ref={fileRef} type="file" accept="application/json,.json" onChange={onPick} style={{ display: "none" }} />
-
-      {msg && (
-        <div className={`ws-backup-msg ${msg.kind}`}>
-          {msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}
-          <span>{msg.text}</span>
-        </div>
-      )}
-
-      <div className="ws-pron-note" style={{ marginTop: 18 }}>
-        Backups are plain JSON — you own the file and can read or keep it anywhere.
-      </div>
-
-      {admin && (
-        <>
-          <SectionLabel icon={<Wrench size={14} />} text="Admin" />
-          <button className="ws-backup-row" onClick={() => setView("admin")}>
-            <div className="ws-backup-ic"><Wrench size={18} /></div>
-            <div className="ws-backup-txt"><b>Global controls</b><i>Review queue, dialect catalog, data provenance</i></div>
-            <ChevronRight size={18} className="ws-cta-arrow" />
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
 
 /* ============================ ACCOUNT & SYNC ============================ */
 function AccountView({ ctx }) {
@@ -5684,11 +5453,10 @@ function Styles() {
 .ws-menu-chev{color:var(--ink-dim);flex:none}
 .ws-menu-acct .ws-menu-row{padding-bottom:5px}
 .ws-menu-pills{display:flex;gap:6px;padding:0 12px 8px 50px;flex-wrap:wrap}
-.ws-role-pill{font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 11px;font-family:inherit;cursor:pointer;
+.ws-role-pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 11px;font-family:inherit;
   border:1px solid var(--sand-deep);background:transparent;color:var(--ink-soft);opacity:.5}
 .ws-role-pill.held{border-color:var(--jade);background:rgba(31,184,159,.14);color:var(--jade);opacity:1}
 .ws-role-pill.pending{border-color:var(--sun);color:var(--sun);opacity:1}
-.ws-role-pill:not(:disabled){opacity:1;cursor:pointer}
 /* bottom-bar slide-up sheet */
 .ws-sheet-scrim{position:fixed;inset:0;background:rgba(3,14,17,.6);z-index:30;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}

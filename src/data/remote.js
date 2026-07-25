@@ -302,6 +302,21 @@ export const fetchRoster = async (classId) => {
            .sort((a, b) => (a.display_name || a.email || "").localeCompare(b.display_name || b.email || ""));
 };
 
+// instructor dashboard: SRS boxes + unit-test rows for a set of students. RLS returns only the
+// students enrolled in a class the caller teaches (teaches_student), so this is safe to call broad.
+export const fetchClassProgress = async (studentIds) => {
+  if (!studentIds || !studentIds.length) return { prog: [], units: [] };
+  const [prog, units] = await Promise.all([
+    fetchAll(() => supabase.from("progress").select("user_id, box, seen").in("user_id", studentIds)),
+    fetchAll(() => supabase.from("unit_progress").select("user_id, unit_id, best, passed").in("user_id", studentIds)),
+  ]);
+  return { prog, units };
+};
+
+// open flags tagged to a class (instructor reads their class's flags; admin reads all)
+export const fetchClassFlags = (classId) =>
+  fetchAll(() => supabase.from("feedback").select("*").eq("class_id", classId).eq("status", "open").order("id", { ascending: false }));
+
 // ---- per-user settings that follow the user across devices (dialect selection) ----
 export const loadUserSettings = async (userId) =>
   (await rows(supabase.from("user_settings").select("*").eq("user_id", userId)))[0] || null;
