@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1413,8 +1413,7 @@ function QueueView({ ctx }) {
   const applyEdit = async (f) => {
     if (!editText.trim()) { setErr("Type the corrected definition first."); return; }
     try {
-      await confirmEntry(f.target_ref, { confirmed: true, meaning: editText.trim() });
-      await resolveFeedback(f.id, "edited");
+      await applyFix({ feedback: f, meaning: editText.trim() });   // writes the fix + records the chain
       setItems((xs) => xs.filter((x) => x.id !== f.id));
       setEditId(null); setEditText(""); setErr("");
     } catch (e) { setErr(e.message); }
@@ -1614,11 +1613,12 @@ function AdminView({ ctx }) {
   const [forms, setForms] = useState(null);
   const [stats, setStats] = useState(null);
   const [reqs, setReqs] = useState([]);      // pending role requests to approve/decline
+  const [changes, setChanges] = useState([]); // dictionary change history (traceability chain)
   const [err, setErr] = useState("");
   const loadAll = useCallback(async () => {
     try {
-      const [fl, dict, rq] = await Promise.all([fetchAllDialectForms(), fetchDictionary(), fetchPendingRoleRequests().catch(() => [])]);
-      setForms(fl); setReqs(rq || []);
+      const [fl, dict, rq, ch] = await Promise.all([fetchAllDialectForms(), fetchDictionary(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => [])]);
+      setForms(fl); setReqs(rq || []); setChanges(ch || []);
       const by = {}; let queue = 0;
       for (const d of dict) { if (!d.confirmed) queue++; else { const k = d.confirmed_by || "unstamped"; by[k] = (by[k] || 0) + 1; } }
       setStats({ total: dict.length, by, queue });
@@ -1695,6 +1695,26 @@ function AdminView({ ctx }) {
             <a href="verify/" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Course-vs-book review site →</a>
             <a href="verify/ella-todo.html" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Ella printable todo →</a>
           </div>
+
+          <SectionLabel icon={<span style={{ fontSize: 13 }}>🧬</span>} text="Change history — traceability" />
+          {changes.length === 0
+            ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 4px" }}>No dictionary changes recorded yet. When a flag is fixed from the Review queue, the full chain — who suggested, who approved, before → after — is logged here.</p>
+            : changes.map((c) => (
+                <div key={c.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 13px", marginBottom: 8 }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+                    <b style={{ fontFamily: "Georgia,serif", fontSize: 16 }}>{c.target_ref}</b>
+                    <span style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>{String(c.approved_at || "").slice(0, 10)}</span>
+                  </div>
+                  <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4 }}>
+                    {c.before_val?.meaning ? <><s style={{ opacity: .7 }}>{c.before_val.meaning}</s> → </> : null}<b style={{ color: "var(--ink)" }}>{c.after_val?.meaning}</b>
+                  </div>
+                  <div style={{ fontSize: 11, color: "var(--ink-dim)", marginTop: 5, fontFamily: "ui-monospace,monospace" }}>
+                    {c.suggestedName ? `suggested: ${c.suggestedName}${c.suggestedRole ? ` (${c.suggestedRole})` : ""}` : "suggested: —"}
+                    {" · "}reviewed: {c.reviewedName || "—"}{" · "}approved: {c.approvedName || "—"}
+                    {c.suggestion ? <div style={{ marginTop: 2 }}>“{c.suggestion}”</div> : null}
+                  </div>
+                </div>
+              ))}
         </div>
       </div>
     </div>

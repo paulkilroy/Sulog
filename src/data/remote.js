@@ -181,11 +181,11 @@ export const saveProgress = (userId, waray, fields) =>
 // native_confirmations — the DURABLE judgment record. Content rebuilds wipe and re-derive
 // the dictionary; they replay native_confirmations back over it, so her tap survives a
 // from-scratch build. The record write asserts it landed (RLS-denied upsert = silent no-op).
-export const confirmEntry = async (waray, patch = { confirmed: true }) => {
-  const res = await rows(supabase.from("dictionary").update({ ...patch, confirmed_by: "ella" }).eq("waray", waray).select());
+export const confirmEntry = async (waray, patch = { confirmed: true }, by = "ella") => {
+  const res = await rows(supabase.from("dictionary").update({ ...patch, confirmed_by: by }).eq("waray", waray).select());
   if (!res.length) throw new Error("not saved — are you signed in as the admin?");
   const rec = await rows(supabase.from("native_confirmations")
-    .upsert({ waray, meaning: patch.meaning ?? res[0].meaning, pronunciation: patch.pronunciation ?? res[0].pronunciation }).select());
+    .upsert({ waray, meaning: patch.meaning ?? res[0].meaning, pronunciation: patch.pronunciation ?? res[0].pronunciation, by_whom: by }).select());
   if (!rec.length) throw new Error("confirmation record not saved");
   return res;
 };
@@ -254,6 +254,40 @@ export const resolveFeedback = async (id, decision) => {
   }).eq("id", id).select());
   if (!r.length) throw new Error("not saved — admin only");
   return r[0];
+};
+
+// Apply a queue fix to the dictionary AND record the traceability chain. Reuses what we already have
+// (confirmEntry → dictionary + native_confirmations; feedback holds who-suggested/who-decided) and
+// adds only the append-only before/after history, linked back to the flag.
+export const applyFix = async ({ feedback, meaning }) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  const waray = feedback.target_ref;
+  const before = (await rows(supabase.from("dictionary").select("meaning, pronunciation, confirmed_by").eq("waray", waray)))[0] || null;
+  await confirmEntry(waray, { confirmed: true, meaning }, "reviewer");        // provenance: a vetted queue fix
+  await supabase.from("content_changes").insert({
+    target_type: "dictionary", target_ref: waray,
+    before_val: before, after_val: { meaning, confirmed_by: "reviewer" },
+    feedback_id: feedback.id, reviewed_by: user?.id || null, approved_by: user?.id || null,
+  });
+  await resolveFeedback(feedback.id, "edited");
+  return true;
+};
+
+// the change history with the full chain resolved to names: suggested (from feedback) → reviewed → approved
+export const fetchChangeLog = async (limit = 60) => {
+  const ch = await fetchAll(() => supabase.from("content_changes").select("*").order("id", { ascending: false }).limit(limit));
+  if (!ch.length) return [];
+  const fbIds = [...new Set(ch.map((c) => c.feedback_id).filter(Boolean))];
+  const fbs = fbIds.length ? await rows(supabase.from("feedback").select("id, author_id, author_role, comment").in("id", fbIds)) : [];
+  const fbById = new Map(fbs.map((f) => [f.id, f]));
+  const uids = [...new Set(ch.flatMap((c) => [c.reviewed_by, c.approved_by]).concat(fbs.map((f) => f.author_id)).filter(Boolean))];
+  const profs = uids.length ? await rows(supabase.from("profiles").select("user_id, display_name, email").in("user_id", uids)) : [];
+  const nm = new Map(profs.map((p) => [p.user_id, p.display_name || p.email || p.user_id.slice(0, 8)]));
+  const name = (id) => id ? (nm.get(id) || id.slice(0, 8)) : null;
+  return ch.map((c) => {
+    const fb = fbById.get(c.feedback_id);
+    return { ...c, suggestion: fb?.comment || null, suggestedName: name(fb?.author_id), suggestedRole: fb?.author_role, reviewedName: name(c.reviewed_by), approvedName: name(c.approved_by) };
+  });
 };
 
 // ---- classroom: classes & enrollment ----
