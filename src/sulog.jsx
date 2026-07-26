@@ -1265,7 +1265,14 @@ function DbBlock({ block, guides, pool, deck }) {
   } else if (block.type === "review") {
     body = <div style={{ color: c, fontSize: 13 }}>↻ Review — {block.review_mode || "recall prior"}</div>;
   } else body = head(block.type);
-  return <div style={{ borderLeft: "3px solid " + c, paddingLeft: 10, margin: "8px 0" }}>{body}</div>;
+  return (
+    <div style={{ borderLeft: "3px solid " + c, paddingLeft: 10, margin: "8px 0" }}>
+      {body}
+      {block.footnote && block.footnote.split("\n").map((ln, k) => (
+        <div key={k} style={{ fontSize: 11, color: "var(--ink-soft)", marginTop: 3 }}>* {ln}</div>
+      ))}
+    </div>
+  );
 }
 // bundled-course overview: sections › units › lessons (the DB block model isn't available for these)
 function BundledOverview({ course, open, setOpen }) {
@@ -1883,7 +1890,7 @@ function LanguageView({ ctx }) {
             {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
             {st.course && (
               <>
-                <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, gates &amp; stories included). Tap any word to hear it.</p>
+                <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, footnotes, gates &amp; stories). Tap any word to hear it.</p>
                 {units.map((u) => {
                   const isOpen = open[u.id];
                   return (
