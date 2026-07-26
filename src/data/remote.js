@@ -302,6 +302,30 @@ export const fetchRoster = async (classId) => {
            .sort((a, b) => (a.display_name || a.email || "").localeCompare(b.display_name || b.email || ""));
 };
 
+// admin: pending role requests, joined to the requester's name/email
+export const fetchPendingRoleRequests = async () => {
+  const reqs = await rows(supabase.from("role_requests").select("*").eq("status", "pending").order("id", { ascending: false }));
+  if (!reqs.length) return [];
+  const profs = await rows(supabase.from("profiles").select("user_id, display_name, email").in("user_id", reqs.map((r) => r.user_id)));
+  const byId = new Map(profs.map((p) => [p.user_id, p]));
+  return reqs.map((r) => ({ ...r, ...(byId.get(r.user_id) || {}) }));
+};
+
+// admin decision: approve → grant the role (user_roles) + mark approved; decline → mark declined
+export const decideRoleRequest = async (req, approve) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (approve) {
+    const { error } = await supabase.from("user_roles")
+      .upsert({ user_id: req.user_id, role: req.role, granted_by: user?.id || null }, { onConflict: "user_id,role" });
+    if (error) throw new Error(error.message);
+  }
+  const r = await rows(supabase.from("role_requests").update({
+    status: approve ? "approved" : "declined", decided_by: user?.id || null, decided_at: new Date().toISOString(),
+  }).eq("id", req.id).select());
+  if (!r.length) throw new Error("not saved — admin only");
+  return r[0];
+};
+
 // instructor dashboard: SRS boxes + unit-test rows for a set of students. RLS returns only the
 // students enrolled in a class the caller teaches (teaches_student), so this is safe to call broad.
 export const fetchClassProgress = async (studentIds) => {

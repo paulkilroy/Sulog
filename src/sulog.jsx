@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1606,16 +1606,21 @@ function AdminView({ ctx }) {
   const { setView } = ctx;
   const [forms, setForms] = useState(null);
   const [stats, setStats] = useState(null);
+  const [reqs, setReqs] = useState([]);      // pending role requests to approve/decline
   const [err, setErr] = useState("");
   const loadAll = useCallback(async () => {
     try {
-      const [fl, dict] = await Promise.all([fetchAllDialectForms(), fetchDictionary()]);
-      setForms(fl);
+      const [fl, dict, rq] = await Promise.all([fetchAllDialectForms(), fetchDictionary(), fetchPendingRoleRequests().catch(() => [])]);
+      setForms(fl); setReqs(rq || []);
       const by = {}; let queue = 0;
       for (const d of dict) { if (!d.confirmed) queue++; else { const k = d.confirmed_by || "unstamped"; by[k] = (by[k] || 0) + 1; } }
       setStats({ total: dict.length, by, queue });
     } catch (e) { setErr(e.message || String(e)); }
   }, []);
+  const decide = async (req, approve) => {
+    try { await decideRoleRequest(req, approve); setReqs((xs) => xs.filter((x) => x.id !== req.id)); }
+    catch (e) { setErr(e.message); }
+  };
   useEffect(() => { loadAll(); }, [loadAll]);
   const mark = async (k, patch) => {
     try { await setDialectForm(k, patch); await loadAll(); ctx.refreshDialect(); } catch (e) { setErr(e.message); }
@@ -1630,12 +1635,19 @@ function AdminView({ ctx }) {
         </p>
         {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native review queue" />
-        <button className="ws-backup-row" onClick={() => setView("queue")}>
-          <div className="ws-backup-ic"><Check size={18} /></div>
-          <div className="ws-backup-txt"><b>Review queue</b><i>Missing answers · dictionary confirmations{stats ? ` · ${stats.queue} words waiting` : ""}</i></div>
-          <ChevronRight size={18} className="ws-cta-arrow" />
-        </button>
+        <SectionLabel icon={<span style={{ fontSize: 13 }}>✋</span>} text={`Role requests${reqs.length ? ` (${reqs.length})` : ""}`} />
+        {reqs.length === 0
+          ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 4px 14px" }}>No pending requests. When someone asks to be an instructor or reviewer, it lands here to approve.</p>
+          : reqs.map((r) => (
+              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 13px", marginBottom: 8 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: 13.5 }}>{r.display_name || r.email || "someone"}</div>
+                  <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>wants <b>{r.role}</b>{r.note ? ` · “${r.note}”` : ""}</div>
+                </div>
+                <button onClick={() => decide(r, true)} style={{ flex: "none", fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "6px 12px", borderRadius: 9, border: "1px solid var(--jade)", background: "transparent", color: "var(--jade)", cursor: "pointer" }}>Approve</button>
+                <button onClick={() => decide(r, false)} style={{ flex: "none", fontFamily: "inherit", fontSize: 12.5, fontWeight: 600, padding: "6px 11px", borderRadius: 9, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Decline</button>
+              </div>
+            ))}
 
         <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect catalog (global config)" />
         <div style={box}>
