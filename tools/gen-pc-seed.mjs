@@ -336,15 +336,23 @@ const isTranslation = (b) => /translat/i.test(b.instruction || "");
 // PARADIGM-RECALL fill-in ("write the chart/pronouns from memory / without looking") = the book leaves it
 // BLANK, so the extracted items are the model's invented answers (it fabricated pronoun short forms this way). Drop.
 const isFabricatedFill = (b) => /without looking|\b(write|reproduce|complete)\b[^.]*\b(chart|pronouns?|paradigm|forms?)\b/i.test(b.instruction || "");
-// MARKER-CHOICE ("use/write the correct marker for these nouns") = a real cloze drill: pick the marker. Keep it.
-const isMarkerChoice = (b) => /\bmarkers?\b/i.test(b.instruction || "") && /\b(correct|right|use|choose|fill|write|blank)\b/i.test(b.instruction || "");
+// MARKER-CHOICE = a real "pick the marker" cloze drill. The marker must be the FILL-IN TARGET —
+// "use the CORRECT marker", "write the correct MARKER IN THE BLANK". A loose mention/keyword test
+// also swept up exercises that merely name markers as sentence ingredients ("your teacher will use
+// III Class markers and general pronouns to…translate"), producing empty or non-marker cloze drills
+// (Lessons 5/7a/14/21 → "Nothing to drill"). Require the marker to be what you supply.
+const isMarkerChoice = (b) => {
+  const t = (b.instruction || "").toLowerCase();
+  return /\bcorrect\b[^.]{0,40}\bmarkers?\b/.test(t) || /\bmarkers?\b[^.]{0,25}\bin the blank/.test(t);
+};
 
 // Sort a lesson's drills. recognize: {block, mode} — mode "sentence" (whole-sentence MC) or "marker" (marker cloze).
 // produce: {block, dmod}. Rule: examples + paradigm-varying → recognize; vocab-varying + translations → produce.
 function routeDrills(B) {
-  const recognize = B.examples.map((b) => ({ b, mode: "sentence" })), produce = [];
+  const has = (b) => (b.items || []).length > 0;                                     // never emit an itemless drill (→ "Nothing to drill")
+  const recognize = B.examples.filter(has).map((b) => ({ b, mode: "sentence" })), produce = [];
   for (const b of [...B.oral, ...B.written]) {
-    if (isFabricatedFill(b)) continue;                                              // drop invented fill-in answers
+    if (!has(b) || isFabricatedFill(b)) continue;                                    // drop empty + invented fill-in answers
     else if (isMarkerChoice(b)) recognize.push({ b, mode: "marker" });              // pick-the-marker cloze
     else if (!isTranslation(b) && paradigmVaries(b)) recognize.push({ b, mode: "sentence" }); // paradigm varies → recognize
     else produce.push({ b, dmod: B.oral.includes(b) ? "voice" : "type" });          // vocab varies / translate → produce
@@ -434,6 +442,22 @@ for (const L of lessons) {
     prevLast = c;
   }
   prevParadigm = [...new Set(B.grammar.flatMap((g) => chartItems(g).map((p) => p.waray)))];   // for the NEXT lesson's recall gate
+}
+
+// PRUNE empty practice blocks. A drill/assessment/vocab whose items ALL failed to materialize —
+// the source exercise's Waray answers were never extracted (translate-INTO-Waray leaves them blank;
+// Lesson 15's vocab had 17 blank headwords) — would render "Nothing to drill" / "0 to learn". This
+// generator never emits pool/review blocks (no review_target/assess_pool in the insert), so a
+// practice block with zero landed items is always broken. Grammar guides are prose — 0 items is normal.
+const landed = new Map();
+for (const it of items) landed.set(it.b, (landed.get(it.b) || 0) + 1);
+const pruneIds = new Set(blocks.filter((b) => ["drill", "assessment", "vocab"].includes(b.type) && !landed.get(b.id)).map((b) => b.id));
+if (pruneIds.size) {
+  for (let i = blocks.length - 1; i >= 0; i--) if (pruneIds.has(blocks[i].id)) blocks.splice(i, 1);
+  const byLid = {};
+  for (const b of blocks) (byLid[b.lid] ||= []).push(b);
+  for (const lid in byLid) byLid[lid].sort((a, b) => a.ord - b.ord).forEach((b, i) => { b.ord = i + 1; });   // keep ords contiguous 1..n
+  console.error(`pruned ${pruneIds.size} empty practice block(s) (unextracted/blank source items)`);
 }
 
 const out = [];
