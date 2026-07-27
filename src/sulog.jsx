@@ -630,6 +630,7 @@ let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
 let _ttsOverride = {}; // waray(lowercase) -> spoken form fed to the engine; loaded from tts_overrides
 function setTtsOverrides(m) { _ttsOverride = m || {}; }
+function getTtsOverrides() { return _ttsOverride; }
 let _dialectForms = new Set(); // enabled regional forms — grading accepts exactly these
 let _dialectCanon = new Map();  // form → canonical, from the dialect_forms table (VARIANTS is the offline fallback)
 // dialect CATALOG (which forms exist) is GLOBAL CONFIG from the dialect_forms table — cached so
@@ -683,7 +684,9 @@ function respellForTTS(say) {
     .join(", ");
 }
 
-function speak(arg, rate = 0.78) {
+// lookup key for an override: lowercase, strip surrounding punctuation ("platos," → "platos")
+function ovKey(w) { return (w || "").toLowerCase().replace(/[^\wà-ÿ'-]/g, ""); }
+function speak(arg, rate = 0.78, applyOverride = true) {
   try {
     const synth = window.speechSynthesis;
     if (!synth) return;
@@ -700,7 +703,7 @@ function speak(arg, rate = 0.78) {
     // Per-word TTS overrides WIN for any voice: the spoken form we hand the engine (e.g. "mga"→"manga"),
     // for the handful of words a close-cousin/English voice mangles. Otherwise a non-English
     // (Filipino/Malay) voice reads the raw Waray; an English voice does better on the respelling.
-    const ov = words.map((w) => _ttsOverride[w.toLowerCase()] || null);
+    const ov = applyOverride ? words.map((w) => _ttsOverride[ovKey(w)] || null) : [];
     const text = ov.some(Boolean) ? words.map((w, i) => ov[i] || w).join(", ")
       : english ? (card.say ? respellForTTS(card.say) : rawWaray)
       : rawWaray;
@@ -5114,6 +5117,51 @@ function StressLabView({ ctx }) {
   );
 }
 
+// A/B popup: the three test sentences, word by word, with a Native ↔ Override switch. Words with an
+// override are highlighted; flip the switch and tap ▶ to hear the difference on the current voice.
+const TTS_TEST_SENTENCES = ["Maupay nga aga", "Magluluto mga platos", "Ako po hi Paul"];
+function TtsCompare({ onClose, rate, voiceLabel }) {
+  const [mode, setMode] = useState("override");   // "native" | "override"
+  const ov = getTtsOverrides();
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const play = (s) => speak({ waray: s, say: "" }, rate, mode === "override");
+  return (
+    <div className="ws-ab-scrim" onClick={onClose}>
+      <div className="ws-ab" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Pronunciation A/B">
+        <div className="ws-ab-head">
+          <b>Pronunciation A/B</b>
+          <button className="ws-sheet-x" onClick={onClose} aria-label="Close"><X size={18} /></button>
+        </div>
+        <div className="ws-ab-toggle">
+          <button className={mode === "native" ? "on" : ""} onClick={() => setMode("native")}>Native (raw)</button>
+          <button className={mode === "override" ? "on" : ""} onClick={() => setMode("override")}>Override</button>
+        </div>
+        {TTS_TEST_SENTENCES.map((s, si) => (
+          <div key={si} className="ws-ab-row">
+            <button className="ws-mini-play sq" onClick={() => play(s)} title="Hear this line"><Volume2 size={16} /></button>
+            <div className="ws-ab-words">
+              {s.split(/\s+/).map((w, wi) => {
+                const o = ov[ovKey(w)];
+                const on = mode === "override" && o;
+                return (
+                  <span key={wi} className={`ws-ab-word ${o ? "has-ov" : ""} ${on ? "ov-on" : ""}`}>
+                    {w}{on ? <i> →{o}</i> : null}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        <div className="ws-ab-note">Teal words have an override. Flip the switch and tap ▶ to hear <b>native</b> vs <b>override</b> on your current voice{voiceLabel ? ` (${voiceLabel})` : ""}.</div>
+      </div>
+    </div>
+  );
+}
+
 function PronounceView({ ctx }) {
   const { setView, settings, saveSettings } = ctx;
   const SPEEDS = [
@@ -5123,6 +5171,7 @@ function PronounceView({ ctx }) {
   ];
   // available system voices (populated async via onvoiceschanged)
   const [voices, setVoices] = useState([]);
+  const [showCompare, setShowCompare] = useState(false);
   useEffect(() => {
     const load = () => { try { setVoices(window.speechSynthesis.getVoices() || []); } catch (e) {} };
     load();
@@ -5175,6 +5224,7 @@ function PronounceView({ ctx }) {
   return (
     <div className="ws-page">
       <TopBar title="How Waray sounds" onBack={() => setView("home")} />
+      {showCompare && <TtsCompare onClose={() => setShowCompare(false)} rate={settings.rate} voiceLabel={activeVoice ? activeVoice.name : "browser default"} />}
       <div className="ws-pron-intro">
         Browsers don't speak Waray. A Filipino/Tagalog voice reads it most accurately (Tagalog spelling sounds
         almost like Waray); without one it falls back to an English voice reading a rough respelling. Best of all,
@@ -5219,7 +5269,7 @@ function PronounceView({ ctx }) {
               ? <>Now using <b>{activeVoice.name}</b> <span className="ws-voice-lang">{activeVoice.lang}</span> {activeRank === 3 ? "· Filipino ✓" : activeRank > 0 ? "· close cousin ✓" : "· ⚠ not Waray-friendly — Waray will sound off"}</>
               : <>Now using <b>your browser's default voice</b> · ⚠ no Waray-friendly voice found — Waray will be spelled out or approximated</>}
           </span>
-          <button className="ws-voice-test" onClick={() => preview(settings.rate)}><Volume2 size={14} /> Hear it</button>
+          <button className="ws-voice-test" onClick={() => setShowCompare(true)}><Volume2 size={14} /> Hear it · A/B</button>
         </div>
         <div className={`ws-voice-note ${goodVoices.length ? "good" : ""}`}>
           {hasFilipino
@@ -6100,6 +6150,20 @@ function Styles() {
 .ws-voice-now.ok{color:var(--ink);border:1px solid var(--jade);background:color-mix(in srgb,var(--jade) 12%,var(--foam))}
 .ws-voice-now.warn{color:var(--ink);border:1px solid var(--sun);background:color-mix(in srgb,var(--sun) 12%,var(--foam))}
 .ws-voice-now span{flex:1}
+/* pronunciation A/B popup */
+.ws-ab-scrim{position:fixed;inset:0;background:rgba(3,14,17,.62);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;animation:fade .18s ease}
+.ws-ab{width:100%;max-width:440px;max-height:86vh;overflow-y:auto;background:var(--foam);border:1px solid var(--sand-deep);border-radius:16px;padding:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.ws-ab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ws-ab-head b{font-family:'Fraunces',Georgia,serif;font-size:17px;color:var(--ink)}
+.ws-ab-toggle{display:flex;gap:0;border:1px solid var(--sand-deep);border-radius:999px;overflow:hidden;margin-bottom:14px}
+.ws-ab-toggle button{flex:1;font-family:inherit;font-size:13px;font-weight:600;padding:9px;border:0;background:transparent;color:var(--ink-soft);cursor:pointer}
+.ws-ab-toggle button.on{background:var(--tide);color:#052024}
+.ws-ab-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--sand)}
+.ws-ab-words{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+.ws-ab-word{font-family:Georgia,serif;font-size:16px;color:var(--ink)}
+.ws-ab-word.has-ov{color:var(--sea);font-weight:600}
+.ws-ab-word i{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--tide);font-style:normal}
+.ws-ab-note{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:12px}
 .ws-voice-test{flex:none;display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:600;
   padding:6px 11px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--card,var(--foam));color:var(--sea);cursor:pointer}
 .ws-speed-val{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--tide);
