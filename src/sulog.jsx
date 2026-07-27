@@ -5138,7 +5138,8 @@ function PronounceView({ ctx }) {
     : (goodVoices.slice().sort((a, b) => voiceRank(b) - voiceRank(a))[0] || null);
   const activeRank = activeVoice ? voiceRank(activeVoice) : 0;
   // preview the sample phrase at a given base rate (mirrors the adaptive offset)
-  const preview = (r) => speak({ waray: "Maupay nga aga", say: "mah-OO-pigh ngah AH-gah" }, settings.adaptive ? r - 0.1 : r);
+  // test phrase — exercises the overrides (mga→manga, hi→hee) and ordinary words in one breath
+  const preview = (r) => speak({ waray: "Maupay nga aga, magluluto mga platos, ako po hi Paul", say: "" }, settings.adaptive ? r - 0.1 : r);
   // persist the chosen voice AND apply it to _voiceURI immediately, so the
   // preview uses it without waiting for the settings effect to commit
   const pickVoice = (uri) => {
