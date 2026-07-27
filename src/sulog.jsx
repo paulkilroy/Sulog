@@ -645,6 +645,13 @@ const readDialectCache = () => {
 // Filipino/Tagalog is closest; Indonesian and Malay share the same 5-vowel,
 // phonetic-Latin spelling (a=ah, i=ee, u=oo, ng = velar nasal), so they read
 // raw Waray far better than an English voice. Higher rank = better.
+// human-readable language name from a voice's lang code ("ms-MY" → "Malay"), with region if useful
+const _langDN = (() => { try { return new Intl.DisplayNames(["en"], { type: "language" }); } catch { return null; } })();
+function langName(lang) {
+  if (!lang) return "?";
+  const base = lang.split("-")[0];
+  try { return (_langDN && _langDN.of(base)) || base; } catch { return base; }
+}
 function voiceRank(v) {
   const s = ((v.lang || "") + " " + (v.name || "")).toLowerCase();
   if (/(^|[^a-z])fil|(^|[^a-z])tl[-_]|tagalog|pilipino|filipino/.test(s)) return 3;
@@ -5287,7 +5294,7 @@ function PronounceView({ ctx }) {
             <option value="">Auto{goodVoices.length ? " (best match)" : ""}</option>
             {voices.map((v) => (
               <option key={v.voiceURI} value={v.voiceURI}>
-                {v.name} ({v.lang}){voiceRank(v) > 0 ? " ★" : ""}
+                {langName(v.lang)} ({v.name}){voiceRank(v) > 0 ? " ★" : ""}
               </option>
             ))}
           </select>
@@ -5295,7 +5302,7 @@ function PronounceView({ ctx }) {
         <div className={`ws-voice-now ${activeRank > 0 ? "ok" : "warn"}`}>
           <span>
             {activeVoice
-              ? <>Now using <b>{activeVoice.name}</b> <span className="ws-voice-lang">{activeVoice.lang}</span> {activeRank === 3 ? "· Filipino ✓" : activeRank > 0 ? "· close cousin ✓" : "· ⚠ not Waray-friendly — Waray will sound off"}</>
+              ? <>Now using <b>{langName(activeVoice.lang)}</b> <span className="ws-voice-lang">({activeVoice.name} · {activeVoice.lang})</span> {activeRank === 3 ? "· Filipino ✓" : activeRank > 0 ? "· close cousin ✓" : "· ⚠ not Waray-friendly — Waray will sound off"}</>
               : <>Now using <b>your browser's default voice</b> · ⚠ no Waray-friendly voice found — Waray will be spelled out or approximated</>}
           </span>
           <button className="ws-voice-test" onClick={() => setShowCompare(true)}><Volume2 size={14} /> Hear it · A/B</button>
