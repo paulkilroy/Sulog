@@ -5120,15 +5120,28 @@ function StressLabView({ ctx }) {
 // A/B popup: the three test sentences, word by word, with a Native ↔ Override switch. Words with an
 // override are highlighted; flip the switch and tap ▶ to hear the difference on the current voice.
 const TTS_TEST_SENTENCES = ["Maupay nga aga", "Magluluto mga platos", "Ako po hi Paul"];
-function TtsCompare({ onClose, rate, voiceLabel }) {
+function TtsCompare({ onClose, rate, voiceLabel, admin }) {
   const [mode, setMode] = useState("override");   // "native" | "override"
-  const ov = getTtsOverrides();
+  const [ov, setOv] = useState(getTtsOverrides());
+  const [edit, setEdit] = useState(null);          // { word } being edited
+  const [text, setText] = useState("");
+  const [msg, setMsg] = useState("");
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
   const play = (s) => speak({ waray: s, say: "" }, rate, mode === "override");
+  const openEdit = (w) => { const k = ovKey(w); setEdit({ word: k, raw: w }); setText(ov[k] || ""); setMsg(""); };
+  const tryText = () => speak({ waray: text || edit.raw, say: "" }, rate, false);  // hear the typed spelling literally
+  const save = async () => {
+    try {
+      await saveTtsOverride(edit.word, text);
+      const fresh = await fetchTtsOverrides(); setTtsOverrides(fresh); setOv(fresh);
+      setMsg(text.trim() ? `Saved — "${edit.word}" now speaks "${text.trim()}".` : `Cleared — "${edit.word}" reads the raw Waray.`);
+      setEdit(null);
+    } catch (e) { setMsg(e.message); }
+  };
   return (
     <div className="ws-ab-scrim" onClick={onClose}>
       <div className="ws-ab" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Pronunciation A/B">
@@ -5148,7 +5161,8 @@ function TtsCompare({ onClose, rate, voiceLabel }) {
                 const o = ov[ovKey(w)];
                 const on = mode === "override" && o;
                 return (
-                  <span key={wi} className={`ws-ab-word ${o ? "has-ov" : ""} ${on ? "ov-on" : ""}`}>
+                  <span key={wi} className={`ws-ab-word ${o ? "has-ov" : ""} ${on ? "ov-on" : ""} ${admin ? "edit" : ""}`}
+                    onClick={admin ? () => openEdit(w) : undefined} title={admin ? "Tap to set how this word is spoken" : undefined}>
                     {w}{on ? <i> →{o}</i> : null}
                   </span>
                 );
@@ -5156,7 +5170,22 @@ function TtsCompare({ onClose, rate, voiceLabel }) {
             </div>
           </div>
         ))}
-        <div className="ws-ab-note">Teal words have an override. Flip the switch and tap ▶ to hear <b>native</b> vs <b>override</b> on your current voice{voiceLabel ? ` (${voiceLabel})` : ""}.</div>
+        {admin && edit && (
+          <div className="ws-ab-edit">
+            <div className="ws-ab-edit-lbl">How should <b>{edit.raw}</b> be spoken?</div>
+            <div className="ws-ab-edit-row">
+              <input autoFocus value={text} onChange={(e) => setText(e.target.value)} placeholder={`e.g. "he" — blank = read "${edit.raw}" as-is`}
+                onKeyDown={(e) => e.key === "Enter" && save()} />
+              <button className="ws-ab-try" onClick={tryText} title="Hear the typed spelling"><Volume2 size={14} /></button>
+            </div>
+            <div className="ws-ab-edit-btns">
+              <button className="ws-ab-save" onClick={save}>Save</button>
+              <button className="ws-ab-cancel" onClick={() => { setEdit(null); setMsg(""); }}>Cancel</button>
+            </div>
+          </div>
+        )}
+        {msg && <div className="ws-ab-msg">{msg}</div>}
+        <div className="ws-ab-note">Teal words have an override. Flip the switch and tap ▶ to hear <b>native</b> vs <b>override</b> on your current voice{voiceLabel ? ` (${voiceLabel})` : ""}.{admin ? " Tap any word to set how it's spoken." : ""}</div>
       </div>
     </div>
   );
@@ -5224,7 +5253,7 @@ function PronounceView({ ctx }) {
   return (
     <div className="ws-page">
       <TopBar title="How Waray sounds" onBack={() => setView("home")} />
-      {showCompare && <TtsCompare onClose={() => setShowCompare(false)} rate={settings.rate} voiceLabel={activeVoice ? activeVoice.name : "browser default"} />}
+      {showCompare && <TtsCompare onClose={() => setShowCompare(false)} rate={settings.rate} voiceLabel={activeVoice ? activeVoice.name : "browser default"} admin={ctx.admin} />}
       <div className="ws-pron-intro">
         Browsers don't speak Waray. A Filipino/Tagalog voice reads it most accurately (Tagalog spelling sounds
         almost like Waray); without one it falls back to an English voice reading a rough respelling. Best of all,
@@ -6163,6 +6192,17 @@ function Styles() {
 .ws-ab-word{font-family:Georgia,serif;font-size:16px;color:var(--ink)}
 .ws-ab-word.has-ov{color:var(--sea);font-weight:600}
 .ws-ab-word i{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--tide);font-style:normal}
+.ws-ab-word.edit{cursor:pointer;border-bottom:1px dotted var(--sand-deep)}
+.ws-ab-edit{margin-top:12px;background:var(--shell);border:1px solid var(--sand-deep);border-radius:11px;padding:12px}
+.ws-ab-edit-lbl{font-size:12.5px;color:var(--ink-soft);margin-bottom:7px}
+.ws-ab-edit-lbl b{color:var(--ink);font-family:Georgia,serif}
+.ws-ab-edit-row{display:flex;gap:7px}
+.ws-ab-edit-row input{flex:1;font-size:14px;color:var(--ink);background:var(--foam);border:1px solid var(--sand-deep);border-radius:9px;padding:9px 11px;font-family:inherit}
+.ws-ab-try{flex:none;display:grid;place-items:center;width:38px;border:1px solid var(--tide);background:transparent;color:var(--sea);border-radius:9px;cursor:pointer}
+.ws-ab-edit-btns{display:flex;gap:7px;margin-top:8px}
+.ws-ab-save{flex:1;font-family:inherit;font-size:13px;font-weight:700;padding:8px;border:0;border-radius:9px;background:var(--tide);color:#052024;cursor:pointer}
+.ws-ab-cancel{flex:none;font-family:inherit;font-size:13px;padding:8px 14px;border:1px solid var(--sand-deep);border-radius:9px;background:transparent;color:var(--ink-soft);cursor:pointer}
+.ws-ab-msg{font-size:12px;color:var(--jade);margin-top:9px}
 .ws-ab-note{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:12px}
 .ws-voice-test{flex:none;display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:600;
   padding:6px 11px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--card,var(--foam));color:var(--sea);cursor:pointer}

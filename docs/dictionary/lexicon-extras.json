@@ -2274,7 +2274,9 @@
    "meaning": "plural marker (the …s)",
    "pos": "marker",
    "pronunciation": null,
-   "sources": ["pc"],
+   "sources": [
+    "pc"
+   ],
    "confirmed": true,
    "ord": 1
   },
@@ -4297,7 +4299,10 @@
    "spoken": "manga"
   },
   "hi": {
-   "spoken": "hee"
+   "variants": [
+    "Hi"
+   ],
+   "spoken": "he"
   },
   "abot": {
    "pronunciation": "ah-BOT",
@@ -4624,11 +4629,6 @@
    "meaning": "give",
    "variants": [
     "hátag"
-   ]
-  },
-  "hi": {
-   "variants": [
-    "Hi"
    ]
   },
   "hin": {
