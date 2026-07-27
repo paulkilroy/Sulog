@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { GLOSS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -628,6 +628,8 @@ function mergeUnits(l, c) {
 let _voices = [];
 let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
+let _ttsOverride = {}; // waray(lowercase) -> spoken form fed to the engine; loaded from tts_overrides
+function setTtsOverrides(m) { _ttsOverride = m || {}; }
 let _dialectForms = new Set(); // enabled regional forms — grading accepts exactly these
 let _dialectCanon = new Map();  // form → canonical, from the dialect_forms table (VARIANTS is the offline fallback)
 // dialect CATALOG (which forms exist) is GLOBAL CONFIG from the dialect_forms table — cached so
@@ -692,11 +694,16 @@ function speak(arg, rate = 0.78) {
     const voice = chosenVoice();
     const lang = voice ? voice.lang : "en-US";
     const english = /^en/i.test(lang);
-    const rawWaray = (card.waray || "").split(/\s+/).filter((w) => w && w !== "/").join(", ");
+    const words = (card.waray || "").split(/\s+/).filter((w) => w && w !== "/");
+    const rawWaray = words.join(", ");
 
-    // A non-English (Filipino/Tagalog) voice reads the raw Waray accurately; an
-    // English voice does better on the respelling. Either way: one utterance.
-    const text = english ? (card.say ? respellForTTS(card.say) : rawWaray) : rawWaray;
+    // Per-word TTS overrides WIN for any voice: the spoken form we hand the engine (e.g. "mga"→"manga"),
+    // for the handful of words a close-cousin/English voice mangles. Otherwise a non-English
+    // (Filipino/Malay) voice reads the raw Waray; an English voice does better on the respelling.
+    const ov = words.map((w) => _ttsOverride[w.toLowerCase()] || null);
+    const text = ov.some(Boolean) ? words.map((w, i) => ov[i] || w).join(", ")
+      : english ? (card.say ? respellForTTS(card.say) : rawWaray)
+      : rawWaray;
 
     const u = new SpeechSynthesisUtterance(text);
     u.rate = rate;
@@ -761,6 +768,7 @@ export default function App() {
   useEffect(() => {
     getUser().then(setUser).catch(() => {});
     const sub = onAuth(setUser);
+    fetchTtsOverrides().then(setTtsOverrides).catch(() => {});   // per-word spoken overrides for the engine
     return () => { try { sub?.data?.subscription?.unsubscribe?.(); } catch (e) {} };
   }, [])
   // classroom: on sign-in mirror the auth user into profiles + load roles & requests

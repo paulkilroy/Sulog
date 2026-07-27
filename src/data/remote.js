@@ -375,6 +375,22 @@ export const fetchClassProgress = async (studentIds) => {
 export const fetchClassFlags = (classId) =>
   fetchAll(() => supabase.from("feedback").select("*").eq("class_id", classId).eq("status", "open").order("id", { ascending: false }));
 
+// per-word TTS overrides (the spoken form fed to the engine); keyed lowercase for lookup
+export const fetchTtsOverrides = async () => {
+  const r = await rows(supabase.from("tts_overrides").select("waray, spoken"));
+  const m = {}; for (const x of r) if (x.waray) m[x.waray.toLowerCase()] = x.spoken;
+  return m;
+};
+export const saveTtsOverride = async (waray, spoken, note = null) => {
+  if (!spoken || !spoken.trim()) {   // empty spoken → clear the override
+    await supabase.from("tts_overrides").delete().eq("waray", waray);
+    return null;
+  }
+  const r = await rows(supabase.from("tts_overrides").upsert({ waray, spoken: spoken.trim(), note, at: new Date().toISOString() }).select());
+  if (!r.length) throw new Error("not saved — admin only");
+  return r[0];
+};
+
 // ---- per-user settings that follow the user across devices (dialect selection) ----
 export const loadUserSettings = async (userId) =>
   (await rows(supabase.from("user_settings").select("*").eq("user_id", userId)))[0] || null;
