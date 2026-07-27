@@ -5123,6 +5123,12 @@ function PronounceView({ ctx }) {
   }, []);
   const goodVoices = voices.filter((v) => voiceRank(v) > 0);
   const hasFilipino = voices.some((v) => voiceRank(v) === 3);
+  // the voice actually in use right now: your pick if set, else the auto best-match; null = the
+  // browser falls back to its default (usually English). This is exactly what speak() resolves to.
+  const activeVoice = settings.voiceURI
+    ? (voices.find((v) => v.voiceURI === settings.voiceURI) || null)
+    : (goodVoices.slice().sort((a, b) => voiceRank(b) - voiceRank(a))[0] || null);
+  const activeRank = activeVoice ? voiceRank(activeVoice) : 0;
   // preview the sample phrase at a given base rate (mirrors the adaptive offset)
   const preview = (r) => speak({ waray: "Maupay nga aga", say: "mah-OO-pigh ngah AH-gah" }, settings.adaptive ? r - 0.1 : r);
   // persist the chosen voice AND apply it to _voiceURI immediately, so the
@@ -5197,6 +5203,14 @@ function PronounceView({ ctx }) {
               </option>
             ))}
           </select>
+        </div>
+        <div className={`ws-voice-now ${activeRank > 0 ? "ok" : "warn"}`}>
+          <span>
+            {activeVoice
+              ? <>Now using <b>{activeVoice.name}</b> <span className="ws-voice-lang">{activeVoice.lang}</span> {activeRank === 3 ? "· Filipino ✓" : activeRank > 0 ? "· close cousin ✓" : "· ⚠ not Waray-friendly — Waray will sound off"}</>
+              : <>Now using <b>your browser's default voice</b> · ⚠ no Waray-friendly voice found — Waray will be spelled out or approximated</>}
+          </span>
+          <button className="ws-voice-test" onClick={() => preview(settings.rate)}><Volume2 size={14} /> Hear it</button>
         </div>
         <div className={`ws-voice-note ${goodVoices.length ? "good" : ""}`}>
           {hasFilipino
@@ -6071,6 +6085,14 @@ function Styles() {
 .ws-voice-note{font-size:11.5px;line-height:1.5;color:var(--ink-soft);background:var(--foam);
   border:1px solid var(--sand-deep);border-radius:10px;padding:9px 11px;margin-bottom:12px}
 .ws-voice-note.good{color:var(--ink);border-color:var(--tide);background:color-mix(in srgb, var(--tide) 16%, var(--foam))}
+.ws-voice-now{display:flex;align-items:center;gap:8px;font-size:12.5px;line-height:1.45;border-radius:10px;padding:9px 11px;margin:2px 0 10px}
+.ws-voice-now b{font-weight:700}
+.ws-voice-now .ws-voice-lang{font-family:ui-monospace,monospace;font-size:11px;opacity:.75}
+.ws-voice-now.ok{color:var(--ink);border:1px solid var(--jade);background:color-mix(in srgb,var(--jade) 12%,var(--foam))}
+.ws-voice-now.warn{color:var(--ink);border:1px solid var(--sun);background:color-mix(in srgb,var(--sun) 12%,var(--foam))}
+.ws-voice-now span{flex:1}
+.ws-voice-test{flex:none;display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:600;
+  padding:6px 11px;border-radius:9px;border:1px solid var(--sand-deep);background:var(--card,var(--foam));color:var(--sea);cursor:pointer}
 .ws-speed-val{font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;color:var(--tide);
   min-width:52px;text-align:right}
 .ws-speed-adapt{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;border-radius:13px;
