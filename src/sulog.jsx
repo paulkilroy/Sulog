@@ -792,6 +792,7 @@ export default function App() {
 
   // Auto-refresh a database course when the DB has a newer version than our cache — so a reloaded
   // course propagates on the next open, with no manual re-switch. Offline/transient errors keep the cache.
+  const [courseUpgraded, setCourseUpgraded] = useState(false);
   useEffect(() => {
     if (COURSES.some((c) => c.id === COURSE_ID)) return; // bundled course — nothing to check
     let cancelled = false;
@@ -801,9 +802,9 @@ export default function App() {
         if (cancelled || v <= cachedDbVersion(COURSE_ID)) return;
         const bundled = await fetchCourseBundled(COURSE_ID, ACTIVE.name);
         if (cancelled || !bundled.curriculum.length) return;
-        // reload ONLY if the cache write landed — reloading after a failed write (storage quota)
+        // cache ONLY (reload is deferred below) — reloading after a failed write (storage quota)
         // re-runs this exact path forever: fetch → fail to cache → reload → fetch…
-        if (cacheDbCourse(bundled, v)) location.reload();
+        if (cacheDbCourse(bundled, v)) setCourseUpgraded(true);
       } catch (e) { /* keep the cached course */ }
     })();
     return () => { cancelled = true; };
@@ -1054,15 +1055,21 @@ export default function App() {
   const syncPull = useCallback(async () => {
     if (!stateRef.current.user) return;
     setSyncState({ status: "syncing", at: "", error: "" });
-    try {
-      const cloud = await pullProgress(COURSE_ID);
-      await applyCloud(cloud);
-      setInitialPulled(true); // cloud is merged in — ONLY now is auto-push safe (a push before a
-                              // successful pull would upsert this device's stale/empty state over the cloud)
-      setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
-    } catch (e) {
-      setSyncState({ status: "error", at: "", error: e.message });
+    // retry a few times — a fresh sign-in on cell can pull before the session's token is fully
+    // attached (RLS then returns 0 rows) or drop a request; a transient miss must not leave a
+    // signed-in device looking empty. Backoff between tries.
+    let lastErr;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const cloud = await pullProgress(COURSE_ID);
+        await applyCloud(cloud);
+        setInitialPulled(true); // cloud is merged in — ONLY now is auto-push safe (a push before a
+                                // successful pull would upsert this device's stale/empty state over the cloud)
+        setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
+        return;
+      } catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 700 * (attempt + 1))); }
     }
+    setSyncState({ status: "error", at: "", error: lastErr?.message || "couldn't reach the server" });
   }, [applyCloud]);
 
   const syncPush = useCallback(async () => {
@@ -1091,6 +1098,16 @@ export default function App() {
       setSyncState({ status: "idle", at: "", error: "" });
     }
   }, [loaded, user, syncPull]);
+
+  // Reload to pick up a freshly-cached newer course — but WAIT until the initial progress pull has
+  // settled. On a fresh device the course upgrade and the pull race: reloading mid-pull discards the
+  // just-fetched cloud progress before it's persisted, so the reopened app looks empty (the fresh
+  // sign-in "no progress" bug). Reload once the pull is done (ok) or truly failed (don't hang the
+  // upgrade on a persistent auth issue) or there's no user to pull for.
+  useEffect(() => {
+    if (!courseUpgraded) return;
+    if (!user || initialPulled || syncState.status === "error") location.reload();
+  }, [courseUpgraded, user, initialPulled, syncState.status]);
 
   // per-user dialect SELECTION follows the account across devices (newest-wins by `updated`;
   // the toggle in the Language door pushes on change, so this pull only ever applies a
