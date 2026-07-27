@@ -4293,6 +4293,12 @@
   }
  ],
  "attrs": {
+  "mga": {
+   "spoken": "manga"
+  },
+  "hi": {
+   "spoken": "hee"
+  },
   "abot": {
    "pronunciation": "ah-BOT",
    "variants": [

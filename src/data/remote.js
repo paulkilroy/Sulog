@@ -375,19 +375,17 @@ export const fetchClassProgress = async (studentIds) => {
 export const fetchClassFlags = (classId) =>
   fetchAll(() => supabase.from("feedback").select("*").eq("class_id", classId).eq("status", "open").order("id", { ascending: false }));
 
-// per-word TTS overrides (the spoken form fed to the engine); keyed lowercase for lookup
+// per-word TTS overrides live ON the dictionary word (dictionary.spoken): the spoken form fed to the
+// engine, e.g. mga→'manga'. Keyed lowercase for per-word lookup in phrases.
 export const fetchTtsOverrides = async () => {
-  const r = await rows(supabase.from("tts_overrides").select("waray, spoken"));
-  const m = {}; for (const x of r) if (x.waray) m[x.waray.toLowerCase()] = x.spoken;
+  const r = await fetchAll(() => supabase.from("dictionary").select("waray, spoken").not("spoken", "is", null));
+  const m = {}; for (const x of r) if (x.waray && x.spoken) m[x.waray.toLowerCase()] = x.spoken;
   return m;
 };
-export const saveTtsOverride = async (waray, spoken, note = null) => {
-  if (!spoken || !spoken.trim()) {   // empty spoken → clear the override
-    await supabase.from("tts_overrides").delete().eq("waray", waray);
-    return null;
-  }
-  const r = await rows(supabase.from("tts_overrides").upsert({ waray, spoken: spoken.trim(), note, at: new Date().toISOString() }).select());
-  if (!r.length) throw new Error("not saved — admin only");
+export const saveTtsOverride = async (waray, spoken) => {
+  const val = spoken && spoken.trim() ? spoken.trim() : null;   // empty → clear the override
+  const r = await rows(supabase.from("dictionary").update({ spoken: val }).eq("waray", waray).select());
+  if (!r.length) throw new Error("not saved — admin only (and the word must exist in the dictionary)");
   return r[0];
 };
 

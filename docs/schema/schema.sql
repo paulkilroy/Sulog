@@ -15,7 +15,8 @@ create table dictionary (
   waray         text primary key,               -- stable id, unique per language (== our card id)
   kind          text not null check (kind in ('word','phrase')),
   meaning       text not null,
-  pronunciation text,                            -- 'mah-OO-pigh'
+  pronunciation text,                            -- 'mah-OO-pigh' (display guide the learner reads)
+  spoken        text,                            -- TTS override: what to FEED the speech engine (e.g. mga→'manga'); null = read the raw Waray
   pos           text,                            -- part of speech (optional)
   root          text,                            -- lemma/root of an inflected word (optional)
   variants      text[]  not null default '{}',   -- alt / dialect spellings

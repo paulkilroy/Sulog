@@ -38,9 +38,10 @@ for (const [w, a] of Object.entries(X.attrs)) {
   // native-confirmation replay still run after this, so higher authorities win over the file)
   const r = await c.query(
     `update dictionary set meaning=coalesce($2,meaning), pronunciation=coalesce($3,pronunciation),
-       variants=coalesce($4,variants), pos=coalesce($5,pos), root=coalesce($6,root), loan=coalesce($7,loan)
+       variants=coalesce($4,variants), pos=coalesce($5,pos), root=coalesce($6,root), loan=coalesce($7,loan),
+       spoken=coalesce($8,spoken)
      where waray=$1`,
-    [w, a.meaning || null, a.pronunciation || null, a.variants || null, a.pos || null, a.root || null, a.loan || null]);
+    [w, a.meaning || null, a.pronunciation || null, a.variants || null, a.pos || null, a.root || null, a.loan || null, a.spoken || null]);
   attrs += r.rowCount;
 }
 await c.query("commit");

@@ -78,7 +78,7 @@ const TABLES = [
   // every reload, so the live column is a monotonic accumulation across the whole history of runs (and
   // shifting Tramp data), which a single fresh build can never reproduce. It's a search/matching cache,
   // not source-of-truth — every meaning-bearing column below is still checked.
-  ["dictionary", "waray,kind,meaning,pronunciation,pos,root,loan,confirmed,confirmed_by"],
+  ["dictionary", "waray,kind,meaning,pronunciation,spoken,pos,root,loan,confirmed,confirmed_by"],
   ["meanings", "waray,meaning,pos,pronunciation,(select array(select unnest(sources) order by 1)) as sources,confirmed,ord"],
 ];
 let drift = 0;

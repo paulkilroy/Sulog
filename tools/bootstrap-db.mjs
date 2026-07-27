@@ -25,7 +25,7 @@ if (existing.length) {
   console.error("  Bootstrap is for an EMPTY database. For content changes use `npm run all`.");
   process.exit(1);
 }
-const FILES = ["schema.sql", "rls.sql", "sync-guards.sql", "ella-answers.sql", "native-confirmations.sql", "dialect-forms.sql", "classroom.sql", "classroom-rls.sql", "content-changes.sql", "tts-overrides.sql"];
+const FILES = ["schema.sql", "rls.sql", "sync-guards.sql", "ella-answers.sql", "native-confirmations.sql", "dialect-forms.sql", "classroom.sql", "classroom-rls.sql", "content-changes.sql"];
 for (const f of FILES) {
   process.stdout.write(`applying docs/schema/${f}… `);
   await c.query(fs.readFileSync(`docs/schema/${f}`, "utf8"));
