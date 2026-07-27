@@ -628,7 +628,7 @@ function mergeUnits(l, c) {
 let _voices = [];
 let _autoVoice = null; // best automatic pick (highest voiceRank)
 let _voiceURI = null;  // user-chosen voice (settings.voiceURI), set by App
-let _ttsOverride = {}; // waray(lowercase) -> spoken form fed to the engine; loaded from tts_overrides
+let _ttsOverride = {}; // waray(lowercase) -> spoken form fed to the engine; loaded from dictionary.spoken
 function setTtsOverrides(m) { _ttsOverride = m || {}; }
 function getTtsOverrides() { return _ttsOverride; }
 let _dialectForms = new Set(); // enabled regional forms — grading accepts exactly these
@@ -3699,17 +3699,37 @@ function LearnView({ ctx }) {
    The book's "Use the correct marker with the following nouns" exercises: show the bare
    noun/name (+ the book's cue, e.g. "(plural)"), pick hi / hira / an / an mga. The rows are
    exercise forms, not vocabulary — they never enter the card pool or SRS. */
-const MARKERS = ["an mga", "hira", "hi", "an"];   // longest-match first
+// Case/possessive markers a cloze drill can blank, LONGEST-match first so "an mga"/"han mga" beat
+// "an"/"han". Covers both I-class (leading marker: "an lamesa", "hi Ben") AND II-class possessives,
+// where the marker sits INSIDE the phrase ("lapis ni Bebing", "mulayan han mga bata") — findMarker
+// locates it wherever it falls rather than assuming it leads.
+const CASE_MARKERS = ["an mga", "han mga", "hira", "nira", "kan", "han", "hin", "hi", "ha", "ni", "an"];
+const MARKER_GLOSS = {
+  an: "a common noun", "an mga": "plural common nouns", hi: "one person by name",
+  hira: "several people by name", han: "of a common noun", "han mga": "of plural common nouns",
+  hin: "a / some (object)", ha: "to / at / in", ni: "of a person by name",
+  nira: "of several people by name", kan: "to / for a person by name",
+};
+function findMarker(full) {
+  const words = (full || "").split(/\s+/).filter(Boolean);
+  const low = words.map((w) => w.toLowerCase().replace(/[.,!?]+$/, ""));
+  for (let i = 0; i < words.length; i++)
+    for (const mk of CASE_MARKERS) {
+      const p = mk.split(" ");
+      if (p.every((tok, k) => low[i + k] === tok))
+        return { answer: mk, before: words.slice(0, i).join(" "), after: words.slice(i + p.length).join(" "), full };
+    }
+  return null;
+}
 function ClozeView({ ctx }) {
   const { lessons, lessonId, stepIdx, setView, completeLessonPart } = ctx;
   const lesson = LESSON_FLOW.find((l) => l.id === lessonId);
   const step = lesson?.steps?.[stepIdx];
   const items = useMemo(() => shuffle((step?.cloze || []).map((x) => {
-    const m = MARKERS.find((mk) => x.full.toLowerCase().startsWith(mk + " "));
-    if (!m) return null;
-    return { rest: x.full.slice(m.length + 1), answer: m, cue: x.cue, full: x.full };
+    const m = findMarker(x.full);
+    return m ? { ...m, cue: x.cue } : null;
   }).filter(Boolean)), [step]);
-  const options = useMemo(() => MARKERS.filter((m) => items.some((it) => it.answer === m)).sort(), [items]);
+  const options = useMemo(() => [...new Set(items.map((it) => it.answer))].sort(), [items]);
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState(null);
   const [right, setRight] = useState(0);
@@ -3732,7 +3752,7 @@ function ClozeView({ ctx }) {
       <div style={{ textAlign: "center", padding: "40px 20px" }}>
         <div style={{ fontSize: 40 }}>{right === items.length ? "🌊" : "👍"}</div>
         <h2>{right}/{items.length}</h2>
-        <p style={{ color: "var(--ink-soft)" }}>hi — one person by name · hira — several by name · an — a common noun · an mga — plural common nouns</p>
+        <p style={{ color: "var(--ink-soft)" }}>{options.map((m) => `${m} — ${MARKER_GLOSS[m] || "marker"}`).join(" · ")}</p>
         <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("lesson")}>Back to the lesson</button>
       </div>
     </div>
@@ -3745,11 +3765,12 @@ function ClozeView({ ctx }) {
         <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Which marker fits?</p>
         <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px", cursor: "pointer" }}
           onClick={() => speak({ waray: it.full, say: "", english: "" })} title="Tap to hear">
+          {it.before && <>{it.before}{" "}</>}
           <span style={{ color: picked ? (picked === it.answer ? "var(--jade)" : "var(--coral)") : "var(--tide)", borderBottom: "2px dashed var(--sand-deep)", padding: "0 6px" }}>
             {picked ? it.answer : "___"}
-          </span>{" "}{it.rest} <span style={{ fontSize: 16 }}>🔊</span>
+          </span>{it.after && <>{" "}{it.after}</>} <span style={{ fontSize: 16 }}>🔊</span>
         </div>
-        {it.cue && it.cue.toLowerCase() !== it.rest.toLowerCase() && <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{it.cue}</div>}
+        {it.cue && <div style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>{it.cue}</div>}
         <div className="ws-options" style={{ maxWidth: 340, margin: "24px auto 0", textAlign: "left" }}>
           {options.map((m, k) => {
             let cls = "";
@@ -3761,7 +3782,7 @@ function ClozeView({ ctx }) {
             );
           })}
         </div>
-        {picked && picked !== it.answer && <p style={{ color: "var(--coral)", fontSize: 13, marginTop: 12 }}>It's <b>{it.answer} {it.rest}</b></p>}
+        {picked && picked !== it.answer && <p style={{ color: "var(--coral)", fontSize: 13, marginTop: 12 }}>It's <b>{it.full}</b></p>}
         {step.footnote && (
           <div className="ws-footnote" style={{ maxWidth: 340, margin: "16px auto 0", textAlign: "left" }}>
             {step.footnote.split("\n").map((ln, k) => <div key={k}>* {ln}</div>)}
