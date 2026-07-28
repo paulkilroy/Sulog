@@ -162,8 +162,12 @@ const DEST = {
   gate:     { c: "#f07a66", short: "Review / test",  block: "assessment · gate",         col: "exit test" },
 };
 const ANCHORS = [
+  // "Review Test" rides in a lesson-opener heading ("Lesson 20 - Review Test"), so match it ANYWHERE
+  // in the line and BEFORE the generic Lesson rule below — otherwise "Lesson 20…" trips the guide
+  // anchor first and the whole review test is mislabeled as the lesson's grammar intro.
+  [/review\s*&?\s*test/i, "gate"],
   [/^\s*Lesson\s+\d+/i, "guide"],                 // a new lesson opens with its intro
-  [/^\s*review\s*[:.]?\s*$|^\s*review\s+test/i, "gate"], // the opener review = the PRIOR lesson's exit test
+  [/^\s*review\s*[:.]?\s*$/i, "gate"],            // a bare "Review:" opener = the PRIOR lesson's exit test
   [/^\s*examples?\b/i, "examples"],
   [/^\s*oral\s+exercises?/i, "oral"],
   [/^\s*written\s+exercises?/i, "written"],
