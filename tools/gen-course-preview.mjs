@@ -202,6 +202,23 @@ const pageLines = {};
     pageLines[n] = lines;
   }
 }
+// BUILD WARNING: the book reprints page numbers (a second run of 94/95/96 for Lesson 21 collides
+// with Lesson 20's), which is how the Lesson-20 review test and Lesson-21's opener review both read
+// "page 94". Flag every printed number carried by >1 scanned page so a duplicate can't silently make
+// two different book pages look like the same one when cross-referencing the scans.
+{
+  const byPrinted = {};
+  for (const n of Object.keys(pageLines)) {
+    const foot = pageLines[n].filter((l) => /^\d{1,3}$/.test((l.t || "").trim())).sort((a, b) => b.bottom - a.bottom)[0];
+    if (foot) (byPrinted[foot.t.trim()] ||= []).push(+n);
+  }
+  const dupes = Object.entries(byPrinted).filter(([, idxs]) => idxs.length > 1);
+  if (dupes.length) {
+    console.error(`\n⚠️  BUILD WARNING — ${dupes.length} printed page number(s) appear on more than one scanned page (duplicate numbering — cross-reference by SCAN index, not printed page):`);
+    for (const [p, idxs] of dupes.sort((a, b) => +a[0] - +b[0])) console.error(`     printed "${p}"  →  scan pages ${idxs.sort((a, b) => a - b).join(", ")}`);
+    console.error("");
+  }
+}
 // merge consecutive same-section lines into one section box (geometry; rendering is separate)
 function pageSegs(n) {
   const lines = pageLines[n]; if (!lines || !lines.length) return [];

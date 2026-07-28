@@ -293,7 +293,7 @@ function emitSentenceMC(ctx, exprBlocks) {
   if (!src.length) return;
   // title it so the drill is traceable to the book's section (its sentences ARE the "Examples")
   const title = exprBlocks.some((b) => b.type === "examples") ? "Examples" : null;
-  const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek", title, footnote: noteOf(...exprBlocks) });
+  const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "mc", dhint: "peek", title, footnote: noteOf(...exprBlocks), _srcInstr: exprBlocks.map((b) => b.instruction).find(Boolean) || "examples", _srcN: src.length });
   src.forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
 }
 function emitProd(ctx, drillBlocks, dmod, asGate) {     // production drill (speak/type), both directions
@@ -301,9 +301,10 @@ function emitProd(ctx, drillBlocks, dmod, asGate) {     // production drill (spe
   // exercise IS the checkpoint — emit it as a graded assessment gate, not ungated practice, so the
   // milestones the book designed as tests actually gate (they had no harvested gate otherwise).
   for (const b of drillBlocks) {
+    const meta = { _srcInstr: b.instruction || "", _srcN: (b.items || []).length };
     const bl = asGate
-      ? addBlock(ctx.id, ++ctx.ord, "assessment", { title: asGate, dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true })
-      : addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both", footnote: noteOf(b) });
+      ? addBlock(ctx.id, ++ctx.ord, "assessment", { title: asGate, dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true, ...meta })
+      : addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "production", dmod, dhint: "none", ddir: "both", footnote: noteOf(b), ...meta });
     (b.items || []).forEach((e, i) => { const id = putExpr(e.war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" }); });
   }
 }
@@ -317,7 +318,7 @@ function emitExtras(ctx, extras, wordsAccum) {          // hand-added function w
 // (marker lowercased) with the noun as its gloss/prompt.
 function emitMarkerChoice(ctx, drillBlocks) {
   for (const b of drillBlocks) {
-    const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "cloze", dhint: "peek", footnote: noteOf(b) });
+    const bl = addBlock(ctx.id, ++ctx.ord, "drill", { dkind: "recognition", dmod: "cloze", dhint: "peek", footnote: noteOf(b), _srcInstr: b.instruction || "", _srcN: (b.items || []).length });
     (b.items || []).forEach((e, i) => {
       const war = (e.war || "").replace(/^(\S+)/, (m) => paradigmSet.has(m.toLowerCase()) ? m.toLowerCase() : m);
       const id = putExpr(war, e.en); if (id) items.push({ b: bl, ord: i + 1, expr: id, role: "item" });
@@ -388,7 +389,7 @@ function emitGate(ctx, reviewBlocks, recallWords) {
   const src = reviewBlocks.flatMap((b) => b.items || [])   // one gate per lesson — merge all review items
     .filter((e) => { if (usesUntaught(e.war || "")) { gateDrops.push(`L${gateNum}: ${e.war}`); return false; } return true; });
   if (!src.length && !(recallWords && recallWords.length)) return;
-  const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true });
+  const bl = addBlock(ctx.id, ++ctx.ord, "assessment", { title: "Checkpoint — pass to continue", dkind: "production", dmod: "type", dhint: "none", ddir: "both", athresh: 0.8, agate: true, _srcInstr: "exit gate (next lesson's opener review)", _srcN: src.length + (recallWords || []).length });
   let ord = 0;
   // Order the exam as the book teaches: the paradigm TABLE first, THEN the applied review sentences.
   // The book's own "write the paradigm from memory" drill was fabricated by the extraction and dropped,
@@ -451,13 +452,17 @@ for (const L of lessons) {
 // practice block with zero landed items is always broken. Grammar guides are prose — 0 items is normal.
 const landed = new Map();
 for (const it of items) landed.set(it.b, (landed.get(it.b) || 0) + 1);
-const pruneIds = new Set(blocks.filter((b) => ["drill", "assessment", "vocab"].includes(b.type) && !landed.get(b.id)).map((b) => b.id));
-if (pruneIds.size) {
+const pruned = blocks.filter((b) => ["drill", "assessment", "vocab"].includes(b.type) && !landed.get(b.id));
+if (pruned.length) {
+  const pruneIds = new Set(pruned.map((b) => b.id));
   for (let i = blocks.length - 1; i >= 0; i--) if (pruneIds.has(blocks[i].id)) blocks.splice(i, 1);
   const byLid = {};
   for (const b of blocks) (byLid[b.lid] ||= []).push(b);
   for (const lid in byLid) byLid[lid].sort((a, b) => a.ord - b.ord).forEach((b, i) => { b.ord = i + 1; });   // keep ords contiguous 1..n
-  console.error(`pruned ${pruneIds.size} empty practice block(s) (unextracted/blank source items)`);
+  // BUILD WARNING: surface every empty section so a source-extraction gap can't disappear silently.
+  console.error(`\n⚠️  BUILD WARNING — pruned ${pruned.length} empty ${pruned.length === 1 ? "section" : "sections"} (source had items but none were usable — a Waray/English answer side is missing):`);
+  for (const b of pruned) console.error(`     ${b.lid}  ${b.type}${b.agate ? "/gate" : ""}  ×${b._srcN ?? "?"} source item(s) → 0 usable   « ${(b._srcInstr || "").replace(/\s+/g, " ").slice(0, 64)} »`);
+  console.error("");
 }
 
 const out = [];
