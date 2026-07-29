@@ -32,6 +32,12 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
   dictionary/`meanings` fields (definition, POS, pronunciation, register [new col], dialect,
   example, certainty [new col]) so an approved validation loads straight in, no retyping. (This is
   also Voltz's 80k-dictionary tagging pipeline — the class IS the dictionary's data source.)
+- [ ] **Stressed-vowel coaching — "lengthen the stressed vowel"** *(Voltz bumped this to the
+  critical path).* During pronunciation practice, surface each syllable's **duration in
+  milliseconds** and coach the learner to lengthen the stressed vowel — Waray stress *is* vowel
+  length. This is the cheap-win slice of the pronunciation-engine research: no pitch/F0 model
+  needed, because every guide already marks the stressed syllable, so it's duration display + a
+  prompt. (The fuller pitch/F0 + native-calibration engine stays in Research below.)
 - [ ] **Quality-by-module board** (green/amber/red per module) for admin + instructor — derived
   from unresolved flags + native-validation coverage + rejections + later pass-rates.
 - [ ] **Dialect catalog** as its own config page; **Course-vs-book / preview / `/verify`**
@@ -137,9 +143,8 @@ These have their own tollgates and don't block Aug 17. Grouped by workstream.
 - [ ] **Waray stress = vowel LENGTH + pitch, not just loudness.** The current stress detector sums
   energy per syllable (duration partly baked in, tangled with loudness; no pitch). Options: add
   **pitch/F0** and **calibrate the weights on NATIVE reference recordings** (Voltz/Ella) instead of
-  blind tuning. Cheap pedagogy win: surface per-syllable milliseconds and coach "lengthen the
-  stressed vowel." *(This is the pronunciation-**engine** research — distinct from the pronunciation
-  practice UI we already have.)*
+  blind tuning. *(The cheap-win slice — per-syllable ms + "lengthen the stressed vowel" — was
+  promoted to the Aug-17 critical path above. This entry is the fuller engine.)*
 
 ### Curriculum
 - [ ] Possible **frequency-first + CEFR** curriculum retool (keep the lesson/unit engine).
