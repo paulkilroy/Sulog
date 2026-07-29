@@ -153,7 +153,7 @@ These have their own tollgates and don't block Aug 17. Grouped by workstream.
 
 ## ✅ Recently shipped (this session, 2026-07)
 
-- Fresh-login race fix + pull retry *(did not fully resolve — reopened above)*.
+- Fresh-login progress fix — course-reload race gate + pull retry *(now looks resolved, 2026-07-29)*.
 - L20 review test + examples restored (35 AI-filled sides, pending Ella).
 - L15 exit gate restored (10 AI-corrected `hin duro` sentences, pending Ella).
 - Marker/cloze drill fix (blanks internal markers); seed classifier tightened; empty-block prune +
