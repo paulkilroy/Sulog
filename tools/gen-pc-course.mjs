@@ -484,7 +484,7 @@ if (pruned.length) {
   for (const b of blocks) (byLid[b.lid] ||= []).push(b);
   for (const lid in byLid) byLid[lid].sort((a, b) => a.ord - b.ord).forEach((b, i) => { b.ord = i + 1; });   // keep ords contiguous 1..n
   // BUILD WARNING: surface every empty section so a source-extraction gap can't disappear silently.
-  console.error(`\n⚠️  BUILD WARNING — pruned ${pruned.length} empty ${pruned.length === 1 ? "section" : "sections"} (source had items but none were usable — a Waray/English answer side is missing):`);
+  console.error(`\n⚠️  BUILD WARNING — pruned ${pruned.length} empty ${pruned.length === 1 ? "section" : "sections"} (source had items but none survived — a blank answer side, OR all items proximity-dropped as not-yet-taught):`);
   for (const b of pruned) console.error(`     ${b.lid}  ${b.type}${b.agate ? "/gate" : ""}  ×${b._srcN ?? "?"} source item(s) → 0 usable   « ${(b._srcInstr || "").replace(/\s+/g, " ").slice(0, 64)} »`);
   console.error("");
 }
