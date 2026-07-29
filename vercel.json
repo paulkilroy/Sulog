@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && rm -rf dist && mkdir dist && cp index.html dist/index.html && cp docs/preview/verify.html dist/verify.html && cp -r docs/preview/verify dist/verify",
+  "buildCommand": "npm run build && rm -rf dist && mkdir -p dist/icons && cp index.html dist/index.html && cp docs/preview/verify.html dist/verify.html && cp -r docs/preview/verify dist/verify && cp assets/manifest.webmanifest dist/manifest.webmanifest && cp assets/sw.js dist/sw.js && cp assets/icons/*.png dist/icons/",
   "outputDirectory": "dist",
   "framework": null
 }

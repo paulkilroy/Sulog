@@ -6327,3 +6327,14 @@ function Styles() {
 import { createRoot } from "react-dom/client";
 const _root = document.getElementById("root");
 if (_root) createRoot(_root).render(React.createElement(App));
+
+// Offline (PWA) service worker — OPT-IN while we verify iOS + Google-OAuth end to end. To try it on
+// a device: run  localStorage.setItem('sulog:offline','on')  in the console and reload (undo with
+// removeItem). Default OFF, so normal users are unaffected. Flip the default (drop the flag check)
+// after a joint iOS + auth test. To fully unregister on a device: localStorage.removeItem then, in
+// the console, navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).
+try {
+  if ("serviceWorker" in navigator && localStorage.getItem("sulog:offline") === "on") {
+    window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+  }
+} catch (e) { /* storage blocked (private mode) — skip */ }

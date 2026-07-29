@@ -55,9 +55,14 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
 Goal: launch and practice with no signal; sync progress when back online. Learner core (lessons,
 drills, reader, TTS, progress) already caches locally — the gaps are the launch shell + storage
 durability. Phased:
-- [ ] **Phase 1 — PWA shell** (a service worker + web manifest caching the single `index.html` +
-  icons). Makes the app installable to the home screen and launchable offline. *(See the response
-  where this was requested for a plain-English explanation of "PWA shell".)*
+- [~] **Phase 1 — PWA shell** — *groundwork shipped 2026-07-30.* Manifest + PNG icons
+  (`assets/icons/`, rendered from the app's wave/sun art) + apple-touch-icon + iOS meta are LIVE →
+  the app is **installable to the home screen** (standalone, themed). The **service worker**
+  (`assets/sw.js`, network-first for HTML so online always gets the latest, cache-first for assets,
+  ignores all Supabase/OAuth traffic) is written and wired, but **registration is OPT-IN** guarded
+  by `localStorage['sulog:offline']='on'` — default OFF so live users are unaffected. **To finish:**
+  test offline on a device with the flag, verify it doesn't disturb Google-OAuth / iOS, then flip
+  the default on. Vercel serves `/manifest.webmanifest`, `/sw.js`, `/icons/*` via `vercel.json`.
 - [ ] **Phase 2 — durable storage.** Move course cache + progress + settings from localStorage to
   **IndexedDB** + `navigator.storage.persist()`. This retires the iOS-eviction bug class — very
   likely the real fix for the fresh-login bug above.
@@ -180,3 +185,6 @@ These have their own tollgates and don't block Aug 17. Grouped by workstream.
 - Verify page: fixed scan-page off-by-one; scan-index-vs-printed-page made explicit.
 - Rename sweep: `seed→course`, `gloss→meaning`, `carve→sections` (files + refs + README).
 - Dropped orphan `tts_overrides` table; TTS override moved onto `dictionary.spoken`.
+- Pronunciation review report (`docs/notes/pronunciation-malay-vs-waray-report.md`) — decoded
+  Oyzon's diacritic key + Malay-TTS gap classes; **no pronunciation data changed** (report-only).
+- PWA Phase 1 groundwork — manifest + icons live (installable); service worker staged opt-in.
