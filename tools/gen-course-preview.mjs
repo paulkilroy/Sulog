@@ -96,19 +96,26 @@ function distractors(item, deck, section) {
 const ocr = fs.readFileSync(`${SRC}/peace-corps-full-ocr.txt`, "utf8");
 const normO = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
 const ocrN = normO(ocr);
-const ocrByLesson = {}, lessonStartPage = {};
+const ocrByLesson = {}, lessonStartPage = {}, pagesByLesson = {};
 { let cur = null, curPage = 1;
   for (const ln of ocr.split("\n")) {
     const pm = ln.match(/^===PAGE (\d+)===/); if (pm) curPage = +pm[1];
     const m = ln.match(/^Lesson (\d+)/);
-    if (m) { cur = +m[1]; ocrByLesson[cur] = ocrByLesson[cur] || []; lessonStartPage[cur] = lessonStartPage[cur] ?? curPage; } // the PAGE marker for a lesson's first page precedes its heading
-    if (cur) ocrByLesson[cur].push(ln);
+    if (m) { cur = +m[1]; ocrByLesson[cur] = ocrByLesson[cur] || []; lessonStartPage[cur] = lessonStartPage[cur] ?? curPage; pagesByLesson[cur] = pagesByLesson[cur] || new Set(); }
+    if (cur) {
+      ocrByLesson[cur].push(ln);
+      // Attribute a scan page to this lesson only where it has REAL content — NOT off the bare
+      // ===PAGE=== marker (which precedes the next lesson's heading, so it would leak the next
+      // lesson's first page in) nor a bare footer number. Fixes the off-by-one that put e.g. scan
+      // page 97 (Lesson 21's opener, which reprints "94") onto Lesson 20's review-test page.
+      if (!pm && ln.trim() && !/^\d{1,3}$/.test(ln.trim())) pagesByLesson[cur].add(curPage);
+    }
   }
   for (const k in ocrByLesson) ocrByLesson[k] = ocrByLesson[k].join("\n");
 }
+const lessonPages = (num) => [...new Set([lessonStartPage[num], ...(pagesByLesson[num] || [])])].filter((p) => p >= 1 && p <= 114).sort((a, b) => a - b);
 const inBook = (w) => { const n = normO(w); return n.length >= 3 && ocrN.includes(n); };
 const isSent = (w) => /\s/.test((w || "").trim());
-const pagesOf = (txt) => { const s = new Set(); let m; const re = /===PAGE (\d+)===/g; while ((m = re.exec(txt || ""))) if (+m[1] >= 1 && +m[1] <= 114) s.add(+m[1]); return [...s].sort((a, b) => a - b); };
 
 // Removed sentences (confirmed fabrications from the synth audit) — shown on lesson pages as
 // "missing translation" stubs and compiled into the generated Ella-todo page (ella-todo.html).
@@ -128,7 +135,7 @@ const levT = (a, b) => { const d = Array.from({ length: a.length + 1 }, (_, i) =
 const titleAnchorsByPage = new Map();
 {
   const lp = {};
-  for (const num of Object.keys(ocrByLesson)) lp[num] = new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 114));
+  for (const num of Object.keys(ocrByLesson)) lp[num] = new Set(lessonPages(num));
   for (const b of blocks) {
     if (b.type !== "grammar" && b.type !== "note" || !b.title) continue;
     const num = +(/pc-l(\d+)/.exec(b.lesson_id) || [])[1];
@@ -276,7 +283,7 @@ const data = [];
 for (const l of lessons) {
   const num = +(/pc-l(\d+)/.exec(l.id)?.[1] || 0);
   const L = { id: l.id, title: l.title, num, phase: l.pname, ocr: ocrByLesson[num] || "",
-    pages: [...new Set([lessonStartPage[num], ...pagesOf(ocrByLesson[num])].filter((p) => p >= 1 && p <= 114))].sort((a, b) => a - b), blocks: [] };
+    pages: lessonPages(num), blocks: [] };
   for (const b of (byLesson.get(l.id) || [])) {
     const its = b.items;
     const B = { type: b.type, title: b.title, prose: b.body_md, formula: b.formula, kind: b.drill_kind, gate: b.assess_gate, dirLabel: null, mc: false, dropped: false, items: [] };
