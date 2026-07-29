@@ -7,14 +7,9 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
 
 ## 🔴 Bugs / blockers
 
-- [ ] **Fresh-login progress STILL broken.** Signing in fresh (iPhone) shows no progress despite
-  plenty existing. The 2026-07-28 fix (defer the course-reload until the pull settles + retry
-  `syncPull` 3×) did **not** resolve it — Paul retested and it still happens. Dig deeper.
-  Leading suspects, in order: (1) **iOS Safari storage eviction** — localStorage wiped by ITP, so
-  the persisted Supabase session / cached progress is gone on reopen (this is why the Offline/PWA
-  → IndexedDB work below likely *fixes this too*); (2) auth token not attached when the pull fires
-  (RLS silently returns 0 rows); (3) wrong/second account. Add real telemetry (log pull row-count +
-  auth state) rather than guessing.
+- [x] ~~Fresh-login progress broken~~ — **looks fixed** (Paul confirmed 2026-07-29). Keep an eye
+  out on fresh iOS sign-ins; if it recurs, top suspect is iOS localStorage eviction → the
+  Offline/PWA → IndexedDB durability work below is the durable fix.
 - [ ] **Test the classroom view end-to-end.** It's built but unverified with real sign-ins (RLS
   only truly exercises when authenticated). Walk every role: student join-by-code, flag a page,
   instructor dashboard + student-detail, reviewer propose, admin approve → dictionary mutation.
@@ -37,9 +32,17 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
   dictionary/`meanings` fields (definition, POS, pronunciation, register [new col], dialect,
   example, certainty [new col]) so an approved validation loads straight in, no retyping. (This is
   also Voltz's 80k-dictionary tagging pipeline — the class IS the dictionary's data source.)
+- [ ] **Quality-by-module board** (green/amber/red per module) for admin + instructor — derived
+  from unresolved flags + native-validation coverage + rejections + later pass-rates.
+- [ ] **Dialect catalog** as its own config page; **Course-vs-book / preview / `/verify`**
+  consolidated (data-provenance merges in as its header) — both linked atop the Review queue.
 - [ ] **Delete dead `SetupView`** (unreachable) during app-code work.
 - [ ] Roles: Student · Instructor · Reviewer · Admin (one admin for now, no trust tiers).
 - [ ] **TG3:** pilot dry-run with Voltz + a few students ~1 week before Aug 17.
+
+> **Strategic insight (tell Voltz):** the schema-shaped native word-capture above generates POS
+> tags + definitions + confirmations as a byproduct of teaching — so **the classroom platform IS
+> the 80k-dictionary's data pipeline**. It merges the class workstream with the dictionary one.
 
 ## 📴 Offline mode / PWA
 
@@ -109,14 +112,36 @@ words.** Approach (rule-based, no audio needed):
   legacy `docs/word-bank/` filenames (`gloss-reply.json`, `gloss-extra.js`).
 - [ ] Repo-size hygiene — committed `index.html` history.
 
-## 🔬 Research track (deferred — never gates the class)
+## 🔬 Research track — from the Voltz meetings (deferred; never gates the class)
 
-- [ ] Corpus access (corporaproject.org login) for exact 1→1000 frequency ranks (email sent
-  2026-06-23, awaiting reply).
-- [ ] Voltz's **80k-word dictionary** — inject, POS-tag (freq-first + lookup + LLM-proposes /
-  Voltz-confirms), reconcile with Tramp/Zorc.
-- [ ] **Grammar book → codified DB rules → better NLP/translator** — blocked on the PDF; Voltz said
-  "wait" on the NLP piece.
+These have their own tollgates and don't block Aug 17. Grouped by workstream.
+
+### ③ Voltz's 80k-word dictionary
+- [ ] **Inject the 80k dictionary** into the schema (LAYER onto `meanings`, don't clobber Tramp/PC).
+- [ ] **Build a Waray POS-tagging tool.** Evaluate/adapt **calamanCy** (the open-source *Tagalog*
+  spaCy pipeline) as a **TEMPLATE only** — it's Tagalog, not Waray, so it's a starting structure,
+  not a drop-in. This is "the tagging tool based on the open-source Tagalog one."
+- [ ] **Tagging loop** = freq-first + dictionary-lookup bootstrap + **LLM-proposes / Voltz-confirms**
+  — the same human-in-the-loop as the Ella review queue. (And per the strategic insight, the
+  classroom native-capture feeds this loop.)
+- [ ] **Reconcile** the three dictionaries — Voltz's 80k ↔ Tramp/Zorc ↔ the PC/live dictionary.
+- [ ] **Corpus + news sources** for coverage; corpus access (corporaproject.org login) for exact
+  1→1000 frequency ranks (email sent 2026-06-23, awaiting reply).
+
+### ④ Grammar book → codified rules → NLP
+- [ ] **Grammar book → codified DB rules → better NLP/translator** — the definitive source on Waray
+  formation. **Blocked on the PDF** (~week of 2026-07-27); Voltz himself said "wait" on the NLP
+  piece.
+
+### Pronunciation engine (Voltz's linguist note)
+- [ ] **Waray stress = vowel LENGTH + pitch, not just loudness.** The current stress detector sums
+  energy per syllable (duration partly baked in, tangled with loudness; no pitch). Options: add
+  **pitch/F0** and **calibrate the weights on NATIVE reference recordings** (Voltz/Ella) instead of
+  blind tuning. Cheap pedagogy win: surface per-syllable milliseconds and coach "lengthen the
+  stressed vowel." *(This is the pronunciation-**engine** research — distinct from the pronunciation
+  practice UI we already have.)*
+
+### Curriculum
 - [ ] Possible **frequency-first + CEFR** curriculum retool (keep the lesson/unit engine).
 
 ---
