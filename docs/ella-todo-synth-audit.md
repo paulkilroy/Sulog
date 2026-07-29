@@ -111,3 +111,24 @@ to restore the exercise; source of truth is `docs/sources/peace-corps/generated-
 The 10 review-test items 1–10 and the L20 example blocks (negation of *masimba*, *Mahusay…*,
 *Makadto/liwat…*). One entry to double-check: "Urusahon hin duro an aton buhi ngan maloloy-on nga
 Dios" — glossed "greatly to be marveled at" (verify *urusahon*). Full list in generated-answers.json.
+
+## D. Lesson 15 exit gate — "hin duro" corrections (2026-07-29, needs native confirmation)
+
+L15's exit gate = L16's opener "Translate the following using hin duro" — an English-only prompt
+exercise. The extraction invented Waray that OPENED with "hin duro" (wrong: it must FOLLOW the
+adjective, e.g. "Aslum hin duro an mangga"). All 10 were in the FABRICATED reject set, emptying L15's
+gate. Now tracked in `rejected-sentences.json` (lesson pc-l16) with an `ai` correction (Claude,
+confirmed=false) that restores the gate. **Ella: confirm/correct the word order + particles.**
+
+| book English prompt | AI Waray (confirm) |
+|---|---|
+| The jackfruit is also very ripe. | Hinog liwat hin duro an nangka. |
+| Jasper smells very good, and he is handsome. | Mahumot hin duro hi Jasper, ngan gwapo hiya. |
+| Are you (sing) still very tired? | Kapoy ka pa ba hin duro? |
+| That soup is already very delicious. | Manamit na hin duro iton nga sabaw. |
+| Is your (pl) family very peaceful again? | Malinaw na ba liwat hin duro an iyo pamilya? |
+| The people will follow the very straight road. | Susunod an mga tawo ha matadong hin duro nga dalan. *(attributive — check)* |
+| This chair is still very soft. | Humok pa hin duro ini nga lingkuranan. |
+| Our (incl) God is also very merciful. | Maluloy-on liwat hin duro an aton Dios. |
+| It is already very dark. | Madulom na hin duro. |
+| Is his daughter still very weak? | Maluya pa ba hin duro an iya anak nga babaye? |

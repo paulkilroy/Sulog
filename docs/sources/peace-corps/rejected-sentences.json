@@ -342,5 +342,95 @@
   "where": "exam",
   "reason": "buot/mahimo pattern: subject must be I-Class 'hi Bit-bit'; genitive ni leaves no subject — but check: book allows genitive with mahimo? ('Mahimo ni Reynaldo ito para ha akon' was passed as ok)",
   "suggest": "Mahimo hi Bit-bit magluto hin panihapon."
+ },
+ {
+  "waray": "Hin duró na liwat hin hinog an nangka.",
+  "en": "The jackfruit is also very ripe.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Hinog liwat hin duro an nangka.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró hin humot hi Jasper, ngan gwapo hiya.",
+  "en": "Jasper smells very good, and he is handsome.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Mahumot hin duro hi Jasper, ngan gwapo hiya.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró ka pa ba hin kapoy?",
+  "en": "Are you (sing) still very tired?",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Kapoy ka pa ba hin duro?",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró na hin manamit iton nga sabaw.",
+  "en": "That soup is already very delicious.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Manamit na hin duro iton nga sabaw.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró na ba liwat hin malinaw an iyo pamilya?",
+  "en": "Is your (pl) family very peaceful again?",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Malinaw na ba liwat hin duro an iyo pamilya?",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Susunod an mga tawo han hin duró nga matadong nga dalan.",
+  "en": "The people will follow the very straight road.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Susunod an mga tawo ha matadong hin duro nga dalan.",
+  "ai_by": "Claude · generated (not in book), confirmed=false · attributive — verify word order"
+ },
+ {
+  "waray": "Hin duró pa hin humok ini nga lingkuranan.",
+  "en": "This chair is still very soft.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Humok pa hin duro ini nga lingkuranan.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró na liwat hin maluloy-on an aton Dios.",
+  "en": "Our (incl) God is also very merciful.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Maluloy-on liwat hin duro an aton Dios.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró na hin dulom.",
+  "en": "It is already very dark.",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Madulom na hin duro.",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
+ },
+ {
+  "waray": "Hin duró pa ba hin maluya an iya anak nga babaye?",
+  "en": "Is his daughter still very weak?",
+  "lesson": "pc-l16",
+  "where": "L16 opener review → L15 exit gate",
+  "reason": "book gave English only; extraction OPENED with hin duro — it must FOLLOW the adjective",
+  "ai": "Maluya pa ba hin duro an iya anak nga babaye?",
+  "ai_by": "Claude · generated (not in book), confirmed=false"
  }
 ]

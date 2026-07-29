@@ -32,33 +32,26 @@ const exprRows = [];
 // prompts ("Translate the following using hin duro"), and the extraction invented scrambled Waray for
 // them — hin duro must FOLLOW the adjective (every book example: "Aslum hin duro an mangga"), so a
 // sentence can't OPEN with it. Rejecting them empties that review; the L15 gate falls back gracefully.
+const REJECTS = JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"));
+const rkey = (s) => (s || "").toLowerCase().replace(/[.?!]+$/, "").trim();
+// Gemini hallucinations to reject: sentences it invented that are NOT in the book OCR AND are
+// linguistically wrong. "Madig-on hiya" applies madig-on — glossed "strong (things)" — to a PERSON.
+// The ten "hin duró …" fabrications (L16's review of L15: the book gave ONLY English prompts, and
+// "hin duro" must FOLLOW the adjective, so a sentence can't open with it) now live in
+// rejected-sentences.json, each carrying an `ai` correction (Claude, confirmed=false → queued for
+// Ella) that REPLACES the fabrication so L15's exit gate is restored. rejected-sentences.json is the
+// ONE canonical record (also drives the verify "missing" stubs + Ella-todo); add new confirmed
+// fabrications THERE. An entry with `ella` (native) or `ai` (AI, pending native) is NOT rejected —
+// its Waray replaces the fabrication before putExpr.
 const FABRICATED = new Set([
   "madig-on hiya",
-  "hin duró na liwat hin hinog an nangka",
-  "hin duró hin humot hi jasper, ngan gwapo hiya",
-  "hin duró ka pa ba hin kapoy",
-  "hin duró na hin manamit iton nga sabaw",
-  "hin duró na ba liwat hin malinaw an iyo pamilya",
-  "susunod an mga tawo han hin duró nga matadong nga dalan",
-  "hin duró pa hin humok ini nga lingkuranan",
-  "hin duró na liwat hin maluloy-on an aton dios",
-  "hin duró na hin dulom",
-  "hin duró pa ba hin maluya an iya anak nga babaye",
-  // 2026-07 synth-sentence audit rejects live in docs/sources/peace-corps/rejected-sentences.json —
-  // ONE canonical record per removed sentence (exact waray, the book's EN prompt, lesson, defect).
-  // That file also drives the verify site's "missing translations" stubs, the Ella-todo page, and
-  // the in-app Ask-Ella queue — add new confirmed fabrications THERE (with evidence), not here.
-  // Entries carrying an `ella` field (harvest-ella.mjs) are NOT rejected: Ella's Waray replaces the
-  // fabrication below, returning the item to its lesson.
-  ...JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"))
-    .filter((r) => !r.ella)
-    .map((r) => r.waray.toLowerCase().replace(/[.?!]+$/, "").trim()),
+  ...REJECTS.filter((r) => !r.ella && !r.ai).map((r) => rkey(r.waray)),
 ]);
-// fabrication -> Ella's native replacement (same normalized key as FABRICATED)
-const ELLA_FIX = new Map(JSON.parse(fs.readFileSync("docs/sources/peace-corps/rejected-sentences.json", "utf8"))
-  .filter((r) => r.ella)
-  .map((r) => [r.waray.toLowerCase().replace(/[.?!]+$/, "").trim(), r.ella]));
-const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
+// fabrication -> replacement. ella = native-confirmed; ai = Claude-generated (confirmed=false, still
+// queued for Ella). Both swap the extraction's bad Waray for the correct one before putExpr.
+const ELLA_FIX = new Map(REJECTS.filter((r) => r.ella).map((r) => [rkey(r.waray), r.ella]));
+const AI_FIX = new Map(REJECTS.filter((r) => r.ai).map((r) => [rkey(r.waray), r.ai]));
+const isFabricated = (war) => FABRICATED.has(rkey(norm(war)));
 
 // AI-supplied answer sides for book worksheets printed with BLANK answer lines (Lesson 20's review
 // test: items give one side, the answer side is left for the student). Keyed by the BOOK-PRESENT
@@ -150,8 +143,8 @@ function repairExpr(war, en) {
   return [war, en];
 }
 const putExpr = (war0, en0) => { let [war, en] = repairExpr(war0, en0);
-  const fix = ELLA_FIX.get(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
-  if (fix) war = fix;                                       // Ella's answer replaces the fabrication
+  const fix = ELLA_FIX.get(rkey(war)) || AI_FIX.get(rkey(war));   // native, else AI (confirmed=false)
+  if (fix) war = fix;                                       // the correct Waray replaces the fabrication
   const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };

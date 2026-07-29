@@ -123,7 +123,7 @@ const isSent = (w) => /\s/.test((w || "").trim());
 const REJECTED = JSON.parse(fs.readFileSync(`${SRC}/rejected-sentences.json`, "utf8"));
 const slug = (w) => w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
 const rejectedByLesson = {};   // only the still-missing ones stub the lessons; answered items are live again
-for (const r of REJECTED) if (!r.ella) (rejectedByLesson[r.lesson] = rejectedByLesson[r.lesson] || []).push(r);
+for (const r of REJECTED) if (!r.ella && !r.ai) (rejectedByLesson[r.lesson] = rejectedByLesson[r.lesson] || []).push(r);
 
 // Data-driven guide anchors: every grammar/note block TITLE the course extracted is a heading the
 // scan must carve back to guide. The book prints these mid-lesson, right after a review or an
@@ -620,11 +620,13 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
       <div class="bad">Gemini &middot; book extraction (removed): <s>${esc(r.waray)}</s></div>
       ${r.suggest ? `<div class="bad" style="color:var(--sea)">Claude &middot; suggested fix (verify!): <b>${esc(r.suggest)}</b></div>` : ""}
       <div class="why">${esc(r.reason)}</div>
-      <div class="ans">${r.ella ? `&#10003; Ella&rsquo;s Waray: <b style="color:var(--jade)">${esc(r.ella)}</b> (restored to the lesson)` : "Ella&rsquo;s Waray: ______________________________________"}</div>
+      <div class="ans">${r.ella ? `&#10003; Ella&rsquo;s Waray: <b style="color:var(--jade)">${esc(r.ella)}</b> (restored to the lesson)`
+        : r.ai ? `&#9998; Claude&rsquo;s Waray (in the lesson, <b>needs Ella confirm</b>): <b style="color:var(--sea)">${esc(r.ai)}</b>`
+        : "Ella&rsquo;s Waray: ______________________________________"}</div>
     </div>`).join("")).join("");
   fs.writeFileSync(`${OUT_DIR}/ella-todo.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>${CSS}</style>
 <header>
-  <h1>&#128105; Ella todo — ${REJECTED.filter((r) => !r.ella).length} of ${REJECTED.length} still missing</h1>
+  <h1>&#128105; Ella todo — ${REJECTED.filter((r) => !r.ella && !r.ai).length} still missing, ${REJECTED.filter((r) => r.ai).length} AI-filled (confirm) of ${REJECTED.length}</h1>
   <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
   <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
 </header>
