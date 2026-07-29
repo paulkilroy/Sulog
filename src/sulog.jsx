@@ -1062,10 +1062,11 @@ export default function App() {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const cloud = await pullProgress(COURSE_ID);
+        const n = Object.keys(cloud.prog || {}).length; // how many cards the cloud returned — surfaced so a silent 0 is visible
         await applyCloud(cloud);
         setInitialPulled(true); // cloud is merged in — ONLY now is auto-push safe (a push before a
                                 // successful pull would upsert this device's stale/empty state over the cloud)
-        setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
+        setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "", n });
         return;
       } catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 700 * (attempt + 1))); }
     }
@@ -1098,6 +1099,27 @@ export default function App() {
       setSyncState({ status: "idle", at: "", error: "" });
     }
   }, [loaded, user, syncPull]);
+
+  // Re-pull whenever the app returns to the foreground (or regains focus) while signed in — so a
+  // second device reflects the latest cloud without a full reload, closer to "always live". Throttled
+  // so quick tab-switches don't thrash. This ALSO recovers a device whose first pull raced the auth
+  // token: the next foreground re-pulls with the session attached. (auto-push guard is unaffected —
+  // initialPulled is already true here, and mergeProg keeps newer local edits by timestamp.)
+  const lastPullAt = useRef(0);
+  useEffect(() => {
+    if (!loaded) return;
+    const maybePull = () => {
+      if (document.visibilityState !== "visible") return;
+      if (!stateRef.current.user) return;
+      const now = Date.now();
+      if (now - lastPullAt.current < 15000) return;   // throttle: at most once / 15s
+      lastPullAt.current = now;
+      syncPull();
+    };
+    document.addEventListener("visibilitychange", maybePull);
+    window.addEventListener("focus", maybePull);
+    return () => { document.removeEventListener("visibilitychange", maybePull); window.removeEventListener("focus", maybePull); };
+  }, [loaded, syncPull]);
 
   // Reload to pick up a freshly-cached newer course — but WAIT until the initial progress pull has
   // settled. On a fresh device the course upgrade and the pull race: reloading mid-pull discards the
@@ -4361,7 +4383,7 @@ function AccountView({ ctx }) {
             {(syncState.status === "syncing" || syncState.status === "ok" || syncState.status === "error") && (
               <div className={`ws-sync-status ${syncState.status}`} style={{ marginBottom: 10 }}>
                 <span className="ws-sync-dot" />
-                <span>{syncState.status === "syncing" ? "Syncing…" : syncState.status === "error" ? "Couldn't sync" : syncState.at ? `Synced ${syncState.at}` : "Synced"}</span>
+                <span>{syncState.status === "syncing" ? "Syncing…" : syncState.status === "error" ? "Couldn't sync" : syncState.at ? `Synced ${syncState.at}${syncState.n != null ? ` · ${syncState.n} cards from cloud` : ""}` : "Synced"}</span>
               </div>
             )}
             {syncState.status === "error" && <div className="ws-backup-msg err" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>{syncState.error}</span></div>}

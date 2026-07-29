@@ -7,9 +7,17 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
 
 ## 🔴 Bugs / blockers
 
-- [x] ~~Fresh-login progress broken~~ — **looks fixed** (Paul confirmed 2026-07-29). Keep an eye
-  out on fresh iOS sign-ins; if it recurs, top suspect is iOS localStorage eviction → the
-  Offline/PWA → IndexedDB durability work below is the durable fix.
+- [ ] **Cross-device progress NOT syncing (REOPENED 2026-07-30).** The iPhone shows only progress
+  done on that device — the DB pull isn't landing. Data is fine (one account, 208 rows). Root is
+  almost certainly that **the iPhone isn't holding the Supabase session** (client stores it in
+  localStorage; iOS/ITP evicts it) → app runs anonymous → `syncPull` bails (no user) → localStorage
+  only. It fails silently. Earlier "reload-race" fix was moot if the pull never runs.
+  - Added 2026-07-30 (diagnostics + more-live, NOT a claimed fix): the Account sync line now shows
+    "Synced · N cards from cloud", and the app **re-pulls on every foreground/focus** (throttled).
+  - **Evidence to gather on the iPhone:** open Account — does it say "Signed in as …"? After a pull,
+    does it say "N cards from cloud" (expect ~208) or 0? That tells us signed-out vs pull-returns-0.
+  - **Real fix (next):** persist the Supabase session in **durable storage (IndexedDB)** so iOS
+    can't evict it — same work as Offline Phase 2. Consider DB-authoritative pull-on-open too.
 - [ ] **Test the classroom view end-to-end.** It's built but unverified with real sign-ins (RLS
   only truly exercises when authenticated). Walk every role: student join-by-code, flag a page,
   instructor dashboard + student-detail, reviewer propose, admin approve → dictionary mutation.
