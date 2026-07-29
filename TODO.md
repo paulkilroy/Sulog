@@ -83,11 +83,30 @@ words.** Approach (rule-based, no audio needed):
   `harvest:spoken`. **Caveat:** overrides are specific to the *fallback language*, so this only
   fixes the Apple/Malay case — Windows/Android differ (see TTS below).
 
-## 🧹 UI cleanup
+## 🧹 UI cleanup — hamburger menu / submenus
 
-- [ ] **Hamburger menu review** — still a lot of cleanup (overlap, gaps, leftover pages from the
-  redesign). Do a full pass over every menu/submenu.
-- [ ] Settings "dialect" subtitle mismatch; Admin "quality" subtitle mismatch.
+Current drawer (☰) rows: **Account · Settings · My Class** (instructor) **· Review queue**
+(reviewer/admin) **· Request · Admin console**; bottom bar = **Dictionary · Progress** (slide-up
+sheets). Concrete issues found in the redesign audit:
+
+- [ ] **Back-nav inconsistency** — a drawer subpage's Back should return to the **drawer**, not to
+  home. Several still go home: Settings (`onBack → setView("home")`), Review queue / Ella, and
+  others. Only ~9 of the subpages use `ctx.backToMenu`. Audit every `TopBar onBack` for
+  drawer-launched pages and route them back to the drawer.
+- [ ] **Settings scope creep** — finalized scope is **Language · Course · Dialect · Sound only**,
+  but Settings still links to: **Pronunciation guide** ("How Waray sounds" — should be a Practice
+  tip), the **Waray STT test** (dev-only debug page — remove from the learner UI), and the
+  **Ella / Review queue** (already its own drawer row — duplicate). Strip these three out.
+- [ ] **Duplicate "How Waray sounds" / pronounce entry points** — reachable from two places
+  (Settings and another view). Consolidate, and fold it into **Practice as a collapsible tip**
+  (cross-ref the TTS section).
+- [ ] **Remove the Waray STT test debug page** from the shipped/learner build entirely.
+- [ ] **Subtitle mismatches** — Settings "dialect" subtitle; Admin console "quality" subtitle.
+- [ ] **Verify drawer role-gating** — My Class (instructor), Review queue (reviewer/admin), Admin
+  console (admin); Account/Settings/Request always visible.
+- [ ] **Delete dead `SetupView`** (also listed under Classroom) — unreachable, remove in build.
+- [ ] Confirm the intended affordances hold post-redesign: bottom = Dictionary·Progress only;
+  Escape dismisses the slide-up sheets; ⚑ report affordance present on every content surface.
 
 ## 🔊 TTS / audio (cross-platform)
 
