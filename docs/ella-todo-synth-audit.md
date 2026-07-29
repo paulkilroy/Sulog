@@ -84,3 +84,30 @@ Tinúod liwat iton nga lalaki (Tramp: tinúod "to believe")
 - kaugalingon → **kalogaringon** (restored the book's printed word, OCR 3543)
 - two sentences carried the book's editorial "[future]" tag inside the Waray — stripped
 - three possessive-drill cues stored as translations ("glass/Cindy") → rendered ("Cindy's glass")
+
+## C. Lesson 20 review test — AI-generated answer sides (2026-07, needs native confirmation)
+
+The book prints L20's "Translate the following sentences" as a BLANK worksheet (student-completed,
+teacher-checked: "IPACHECK NA INI HA IMO MAGTURUTDO"), plus several example blocks with blank English.
+So the whole drill was missing from the course. Claude generated the missing sides (confirmed=false)
+to restore the exercise; source of truth is `docs/sources/peace-corps/generated-answers.json`.
+**Ella: please confirm/correct — especially the English→Waray items (AI-invented Waray).**
+
+### Highest priority — English→Waray (AI invented the Waray)
+| book English prompt | AI Waray (confirm/correct) |
+|---|---|
+| Will your(sing) skinny brother still come here to the office? | Makanhi pa ba an imo maniwang nga bugto ha opisina? |
+| Rick has already planted sweet corn on his farm there(far) in the mountains. | Nagtanom na hi Rick hin matam-is nga mais ha iya uma didto ha kabukiran. |
+| This flower smells so good. | Mahumot hin duro ini nga bukad. |
+| No. That righteous man will now not go to hell. | Diri. Diri na makadto adto nga matadong nga tawo ha impyerno. |
+| They're also still very young. | Batan-on pa liwat hira hin duro. |
+| Will you(sing) still praise the Lord again? | Magdayaw pa ba liwat ka ha Ginoo? |
+| I will use the computer (verbalized noun). | Magkokompyuter ako. |
+| Plant (you pl) coconut in your farm. (mag-) | Pagtanom kamo hin lubi ha iyo uma. |
+| Did the salesman still not get sweet fruit? | Waray pa ba nakakuha an tindero hin matam-is nga prutas? |
+| She is cooking delicious food for the visitors. (Mag-) | Nagluluto hiya hin marasa nga pagkaon para ha mga bisita. |
+
+### Lower priority — Waray→English (Claude read the book's Waray, supplied English)
+The 10 review-test items 1–10 and the L20 example blocks (negation of *masimba*, *Mahusay…*,
+*Makadto/liwat…*). One entry to double-check: "Urusahon hin duro an aton buhi ngan maloloy-on nga
+Dios" — glossed "greatly to be marveled at" (verify *urusahon*). Full list in generated-answers.json.

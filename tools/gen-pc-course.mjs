@@ -60,6 +60,30 @@ const ELLA_FIX = new Map(JSON.parse(fs.readFileSync("docs/sources/peace-corps/re
   .map((r) => [r.waray.toLowerCase().replace(/[.?!]+$/, "").trim(), r.ella]));
 const isFabricated = (war) => FABRICATED.has(norm(war).toLowerCase().replace(/[.?!]+$/, "").trim());
 
+// AI-supplied answer sides for book worksheets printed with BLANK answer lines (Lesson 20's review
+// test: items give one side, the answer side is left for the student). Keyed by the BOOK-PRESENT
+// side; fills only a MISSING side, never overrides the book. These are confirmed=false / queued for
+// Ella (docs/sources/peace-corps/generated-answers.json, cited author). Without them the whole drill
+// drops (both sides required by putExpr) and pages 94-96 map to nothing on /verify.
+const supKey = (s) => (s || "").toLowerCase().replace(/\s+/g, " ").replace(/[.?!]+$/, "").trim();
+const SUPPLIED = new Map();
+try {
+  for (const a of JSON.parse(fs.readFileSync("docs/sources/peace-corps/generated-answers.json", "utf8")).answers) {
+    if (a.war) SUPPLIED.set(supKey(a.war), a);
+    if (a.en) SUPPLIED.set(supKey(a.en), a);
+  }
+} catch {}
+let supFilled = 0;
+for (const L of lessons) for (const b of (L.data.blocks || [])) for (const it of (b.items || [])) {
+  if ((it.war || "").trim() && (it.en || "").trim()) continue;              // already complete
+  const s = SUPPLIED.get(supKey(it.war)) || SUPPLIED.get(supKey(it.en));
+  if (!s) continue;
+  if (!(it.war || "").trim()) it.war = s.war;
+  if (!(it.en || "").trim()) it.en = s.en;
+  supFilled++;
+}
+if (supFilled) console.error(`filled ${supFilled} blank answer side(s) from generated-answers.json (confirmed=false — queued for Ella)`);
+
 // ---- footnotes ----------------------------------------------------------------------------------
 // The book prints little starred footnotes under an example or a rule. The extraction flattened them
 // into free-floating `note` blocks that the app then globbed onto the nearest teach screen — divorced
