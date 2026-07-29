@@ -3,7 +3,7 @@
 -- list of typed BLOCKS. Courses differ only in which blocks, in what order. See the two
 -- load files (ch2-phase1.sql, pc-phase1.sql) for both mapped onto these tables.
 --
--- WHERE THE DATA COMES FROM and how it's loaded (sources of truth, the seed pipeline, the
+-- WHERE THE DATA COMES FROM and how it's loaded (sources of truth, the course-build pipeline, the
 -- dictionary-is-a-lexicon rule, Tramp reconciliation): see docs/schema/DATA-SOURCES.md.
 
 -- ============================================================
@@ -27,7 +27,7 @@ create table dictionary (
 
 -- one row per SENSE of a word. The dictionary holds the headword (+ canonical spelling and
 -- pronunciation); meanings hold WHAT IT MEANS. A word may carry several confirmed senses (homographs).
--- Meanings are MERGED (one row per distinct gloss) — but a merged gloss can be asserted by MANY
+-- Meanings are MERGED (one row per distinct definition) — but a merged definition can be asserted by MANY
 -- sources at once, so `sources` is an ARRAY, not a scalar (a single column would clobber: if PC and
 -- CH2 both wrote "father", last-write-wins loses that both agree). Sources: course ids ('pc'; 'waray'
 -- = the RETIRED original course, kept as provenance even though the course itself was archived),
@@ -216,7 +216,7 @@ create table review_questions (   -- native-speaker (Ella) queue
 
 -- "where is this word?" — which courses drill it, in which lessons, how often. The dictionary is a
 -- LEXICON (superset of the lessons); a row with courses = '{}' is a real word no current lesson drills
--- (a phrase, story gloss, or legacy deck word), not junk. Usage here ≈ where a word's meaning came from.
+-- (a phrase, story definition, or legacy deck word), not junk. Usage here ≈ where a word's meaning came from.
 --   e.g.  select * from word_usage where waray = 'ako';   -> courses {pc,waray}, lessons {...}, drilled 5x
 create or replace view word_usage as
   select d.waray, d.meaning, d.kind, d.confirmed, d.variants,

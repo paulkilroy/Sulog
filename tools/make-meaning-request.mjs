@@ -1,7 +1,7 @@
 /* Build a ChatGPT first-pass request for the reader's MISSING words. Each word is shown in
    its real story sentence(s) (so GPT has context), and GPT is constrained to four verdicts:
    scanning-error / Waray definition / other-language definition / unknown. The reply is a
-   JSON array we ingest with tools/ingest-gloss.mjs. Run: node tools/make-gloss-request.mjs
+   JSON array we ingest with tools/ingest-meaning.mjs. Run: node tools/make-meaning-request.mjs
    Output: docs/word-bank/missing-gloss-request.md  (paste into ChatGPT). */
 import fs from "fs";
 import path from "path";

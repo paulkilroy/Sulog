@@ -1,4 +1,4 @@
-/* Audit the scan carving against the course: find sections mislabeled like the L4 / I-Class-Markers
+/* Audit the scan sectioning against the course: find sections mislabeled like the L4 / I-Class-Markers
    cases. Signals:
    A. a DB grammar/note/vocab block TITLE appears as an OCR line whose carved dest is an exercise span
    B. anchor-like headings that are OCR-garbled (lev<=2 of a canonical anchor) and did NOT anchor
@@ -15,7 +15,7 @@ const blocks = await q("select lesson_id, type, title from lesson_blocks where l
 const paradigmWords = new Set((await q("select distinct d.waray from lesson_blocks lb join block_items bi on bi.block_id=lb.id join dictionary d on d.waray=bi.dict_waray where lb.lesson_id like 'pc-%' and lb.type='vocab' and lb.title is not null")).map(r=>r.waray.toLowerCase()));
 await c.end();
 
-// ---- same carve as the generator ----
+// ---- same sectioning as the generator ----
 const ANCHORS = [
   [/^\s*Lesson\s+\d+/i, "guide"],
   [/^\s*review\s*[:.]?\s*$|^\s*review\s+test/i, "gate"],

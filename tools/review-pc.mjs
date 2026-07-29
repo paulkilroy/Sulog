@@ -1,7 +1,7 @@
-/* Offline review of the generated Peace Corps course: parse docs/schema/pc-seed.sql and print each
+/* Offline review of the generated Peace Corps course: parse docs/schema/pc-course.sql and print each
    lesson's block structure (paradigm words, drills, review) — no DB needed. Run: node tools/review-pc.mjs */
 import fs from "fs";
-const sql = fs.readFileSync("/Users/paulkilroy/dev/Sulog/docs/schema/pc-seed.sql", "utf8");
+const sql = fs.readFileSync("/Users/paulkilroy/dev/Sulog/docs/schema/pc-course.sql", "utf8");
 
 // split a "( … ), ( … )" values body into tuples, then into fields — respecting '' escapes
 const splitTop = (body) => { const out = []; let d = 0, cur = "", str = false; for (let i = 0; i < body.length; i++) { const ch = body[i]; if (str) { cur += ch; if (ch === "'") { if (body[i + 1] === "'") cur += body[++i]; else str = false; } continue; } if (ch === "'") { str = true; cur += ch; continue; } if (ch === "(") { if (d++ === 0) cur = ""; continue; } if (ch === ")") { if (--d === 0) out.push(cur); continue; } if (d) cur += ch; } return out; };

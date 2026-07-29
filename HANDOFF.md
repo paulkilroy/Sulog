@@ -41,7 +41,7 @@ mastery motif, dark sea/sun palette.
    with respect. The dictionary purge is deliberately scoped to PC-referenced rows — an
    earlier broad sweep destroyed 415 shared word-bank rows (recovered). Don't widen it.
 5. **Never trust the Gemini extraction (`pc-blocks.json`) over the book's OCR.** It
-   hallucinates (see `FABRICATED` in `tools/gen-pc-seed.mjs`). Confirm against
+   hallucinates (see `FABRICATED` in `tools/gen-pc-course.mjs`). Confirm against
    `peace-corps-full-ocr.txt` or the scans before treating a sentence as book truth.
 6. Terminology: the `say` field is the **pronunciation guide** (not "respelling").
 
@@ -139,7 +139,7 @@ dark-green theme). No router, no state library; `App` owns state, views get a `c
   from it once.
 - The verify site and the app must agree: the preview computes directions/distractors with
   the same rules the app uses — if you change `pickDistractors`, `startGate`, or drill
-  routing, update `tools/gen-course-preview.mjs` to match, run `tools/audit-carve.mjs`,
+  routing, update `tools/gen-course-preview.mjs` to match, run `tools/audit-sections.mjs`,
   and `npm run preview`.
 
 ---
@@ -195,7 +195,7 @@ npm run build                      # must succeed; open index.html locally
 # in the app: home tide renders; a lesson step plays; typed grading echoes visibly;
 #             course switch to Peace Corps works; Needs work dismiss (✕) works
 npm run preview                    # if you touched content/pipeline: regen + eyeball /verify
-node --env-file=.env.local tools/audit-carve.mjs   # if you touched carve anchors
+node --env-file=.env.local tools/audit-sections.mjs   # if you touched carve anchors
 ```
 
 Edit the source, build, push. The tide does the rest.

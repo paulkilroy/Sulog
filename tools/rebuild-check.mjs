@@ -51,12 +51,12 @@ await sc.query(fs.readFileSync("docs/schema/schema.sql", "utf8"));
 await sc.query("create table scratch.native_confirmations as select * from public.native_confirmations");
 console.log("  schema ✓ · judgment tables copied ✓");
 process.stdout.write("  loading committed seed… ");
-await sc.query(fs.readFileSync("docs/schema/pc-seed.sql", "utf8"));
+await sc.query(fs.readFileSync("docs/schema/pc-course.sql", "utf8"));
 console.log("✓");
 await sc.end();
 
 // the exact enrichment pipeline reload runs, pointed at scratch
-const STEPS = ["load-lexicon-extras.mjs", "build-meanings.mjs --apply", "sync-gloss-overrides.mjs", "fill-pronunciation.mjs --apply",
+const STEPS = ["load-lexicon-extras.mjs", "build-meanings.mjs --apply", "sync-meaning-overrides.mjs", "fill-pronunciation.mjs --apply",
   "confirm-from-book.mjs --apply", "replay-confirmations.mjs"];
 for (const s of STEPS) {
   process.stdout.write(`  ${s.split(" ")[0]}… `);
@@ -100,5 +100,5 @@ for (const [t, cols] of TABLES) {
 if (!process.argv.includes("--keep")) await queryRetry("drop schema scratch cascade");
 else console.log("\n(scratch schema kept — inspect with search_path=scratch, drop it when done)");
 await c.end();
-if (drift) { console.error(`\n✗ DRIFT: ${drift} row(s) differ — the live DB contains hand-edits a rebuild would not reproduce. Move them into committed sources (gloss-overrides / seed / judgment tables).`); process.exit(1); }
+if (drift) { console.error(`\n✗ DRIFT: ${drift} row(s) differ — the live DB contains hand-edits a rebuild would not reproduce. Move them into committed sources (meaning-overrides / seed / judgment tables).`); process.exit(1); }
 console.log("\n✓ NO DRIFT — a from-scratch rebuild reproduces the live content DB exactly.");

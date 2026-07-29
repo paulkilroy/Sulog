@@ -24,7 +24,7 @@ progress sync.
 | `npm run all` | Full pipeline: generate course SQL → reload DB → enrich + verify → build app |
 | `npm run bootstrap` | EMPTY database only: create schema + RLS + triggers + judgment tables |
 | `npm run check` | REPRODUCIBILITY ALARM: rebuild into a scratch schema, diff vs live, fail on drift |
-| `npm run seed` | Regenerate the course SQL (`docs/schema/pc-seed.sql`) from the Gemini extraction |
+| `npm run course` | Regenerate the course SQL (`docs/schema/pc-course.sql`) from the Gemini extraction |
 | `npm run reload` | Load the course SQL into the live DB (guarded), bump the course version, regen `/verify` |
 | `npm run preview` | Regenerate the `/verify` site from the live DB |
 | `npm run build` | Build the app: `src/sulog.jsx` → `index.html` |
@@ -71,7 +71,7 @@ source-of-truth. The root source is `docs/sources/peace-corps/peace-corps-waray-
 
 **Content build (Tier 1 — `npm run all`; deterministic, from committed sources + judgment tables):**
 
-5. **`tools/gen-pc-seed.mjs`** (`pc-blocks.json` → `docs/schema/pc-seed.sql`). A deterministic
+5. **`tools/gen-pc-course.mjs`** (`pc-blocks.json` → `docs/schema/pc-course.sql`). A deterministic
    generator producing the `courses` / `phases` / `units` / `lessons` / `lesson_blocks` /
    `block_items` / `expressions` / `dictionary` rows. Beyond transcription it:
    - splits paradigm lessons into a/b (chart + recognition vs vocab + production)
@@ -90,13 +90,13 @@ source-of-truth. The root source is `docs/sources/peace-corps/peace-corps-waray-
      were usable — a Waray or English answer side was blank), naming the lesson, count, and the
      source instruction, so an extraction gap can't disappear silently.
 
-6. **`tools/reload-pc.mjs`** (`pc-seed.sql` → live Supabase). One transaction: delete the old `pc-*`
+6. **`tools/reload-pc.mjs`** (`pc-course.sql` → live Supabase). One transaction: delete the old `pc-*`
    rows, load the fresh course SQL, purge stale PC-only `dictionary` rows (scoped so it can never
    touch the shared word bank / other courses), bump `courses.version` — every connected app
    auto-refetches its cached course. Guards: refuses a wrong DB (project-ref check), a truncated
    file, or one with fewer lessons than live (`--force` to override). Then runs the deterministic
    enrichment, in confirmation-authority order:
-   `build-meanings --apply` (Tramp verification) → `sync-gloss-overrides` (homograph senses) →
+   `build-meanings --apply` (Tramp verification) → `sync-meaning-overrides` (homograph senses) →
    `fill-pronunciation --apply` (guides) → `confirm-from-book --apply` (book-print verification) →
    `replay-confirmations` (durable human judgments back over fresh content) → step 7 (preview) →
    `gen-confirm-candidates` (bake cited options for the remaining review queue) → `rls-smoke`.
@@ -111,7 +111,7 @@ source-of-truth. The root source is `docs/sources/peace-corps/peace-corps-waray-
    - RIGHT: the course as the app plays it — per-item direction badges (WAR→ENG / ENG→WAR), full
      multiple-choice option sets (the app's own distractor rules), and a per-sentence ✓-in-book /
      ✎-generated source check against the OCR.
-   - `tools/audit-carve.mjs` re-checks the sectioning against the `lesson_blocks` titles — run it
+   - `tools/audit-sections.mjs` re-checks the sectioning against the `lesson_blocks` titles — run it
      after changing anchors.
 
 **App build (Tier 2 — `npm run build`; esbuild only, no DB touch):**
@@ -133,7 +133,7 @@ never in the live DB.
 1. **ENTER.** Words + definitions come ONLY from the PC book, read by the Gemini extraction (the one
    allowed AI role: a READER of the book where the scan/OCR is rough — always cited as "Gemini ·
    Peace Corps scan", never an author). `repairExpr`, `FABRICATED`, `MARKER_GLOSS`, and
-   `gloss-overrides.json` clean and normalize at one place. Every row lands `confirmed=false`.
+   `meaning-overrides.json` clean and normalize at one place. Every row lands `confirmed=false`.
 2. **AUTO-CONFIRM** (two independent verifiers, run inside `npm run reload`):
    - *Tramp agreement* — the definition matches Tramp's printed entry
      (`tools/build-meanings.mjs` → `sources += 'tramp'`, `confirmed`).
@@ -164,7 +164,7 @@ recoverable:
 - **`npm run check` proves it**: rebuilds the whole content DB into a throwaway `scratch` schema from
   committed sources + judgment tables and diffs it against live, table by table. Any hand-edit that a
   rebuild wouldn't reproduce fails the check — run it after any manual DB surgery, and move whatever
-  it flags into `docs/dictionary/lexicon-extras.json`, `gloss-overrides.json`, `pc-seed.sql`'s source,
+  it flags into `docs/dictionary/lexicon-extras.json`, `meaning-overrides.json`, `pc-course.sql`'s source,
   or a judgment table.
 
 Two classes of tables: **CONTENT** (`courses` / `lessons` / `dictionary` / `meanings` /

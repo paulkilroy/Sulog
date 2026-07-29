@@ -1,5 +1,5 @@
 {
- "_note": "Canonical senses for homograph/double-duty words — one card must carry every sense the course teaches, or quiz options become half-true (the hira bug). `card` is the flattened display/grading string; `senses` is the relational truth (per-sense sources = WHO asserts it, per-sense pronunciation because Waray stress is phonemic: kee-TAH we vs KEE-tah see). Applied to the live DB by tools/sync-gloss-overrides.mjs, which runs inside `npm run reload` — edit here, never in the DB.",
+ "_note": "Canonical senses for homograph/double-duty words — one card must carry every sense the course teaches, or quiz options become half-true (the hira bug). `card` is the flattened display/grading string; `senses` is the relational truth (per-sense sources = WHO asserts it, per-sense pronunciation because Waray stress is phonemic: kee-TAH we vs KEE-tah see). Applied to the live DB by tools/sync-meaning-overrides.mjs, which runs inside `npm run reload` — edit here, never in the DB.",
  "hi": {
   "card": "the (before a name — one person)",
   "senses": [

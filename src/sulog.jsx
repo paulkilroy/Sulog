@@ -914,7 +914,7 @@ export default function App() {
   // typed, no hints). Pass is sticky, tracked in the same units map as unit reviews.
   const startGate = useCallback((gate) => {
     // items are stored in exam order (paradigm table first, then applied sentences — see
-    // emitGate in tools/gen-pc-seed.mjs); play them as-is.
+    // emitGate in tools/gen-pc-course.mjs); play them as-is.
     const ids = (gate.items || []).filter((w) => cards.some((c) => c.id === w));
     if (!ids.length) return;
     // graded both ways. The direction split follows the CONTENT boundary, not a blind midpoint:

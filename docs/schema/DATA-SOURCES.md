@@ -12,11 +12,11 @@ so "why is this word here?" always has an answer.
   challenger2/phase*.json    →    tools/gen-seed.mjs       →   seed.sql       ┐
   docs/dictionary/phrases.json                                                │
   docs/word-bank/phrase-idioms.json                                          ├→ Supabase
-  docs/sources/peace-corps/pc-blocks.json  →    tools/gen-pc-seed.mjs    →   pc-seed.sql    ┘   (via psql /
+  docs/sources/peace-corps/pc-blocks.json  →    tools/gen-pc-course.mjs    →   pc-course.sql    ┘   (via psql /
   (Gemini extraction of the PC PDF)                                              reload-pc.mjs)
 ```
 
-Load order: `schema.sql` → `seed.sql` (CH2) → `pc-seed.sql` (Peace Corps) → `rls.sql`.
+Load order: `schema.sql` → `seed.sql` (CH2) → `pc-course.sql` (Peace Corps) → `rls.sql`.
 Then the maintenance passes below (`dedup-dictionary.mjs`, `build-meanings.mjs`).
 
 ## Sources of truth, by data type
@@ -45,7 +45,7 @@ Then the maintenance passes below (`dedup-dictionary.mjs`, `build-meanings.mjs`)
 
 Every dictionary headword (the `waray` primary key = the card id) is **lowercase, accent-free,
 punctuation-free** — because Waray isn't typed with accents and stress belongs in the pronunciation
-guide. Enforced by `canon()` in `gen-pc-seed.mjs`; existing data normalized by `tools/dedup-dictionary.mjs`
+guide. Enforced by `canon()` in `gen-pc-course.mjs`; existing data normalized by `tools/dedup-dictionary.mjs`
 (which also merges case/accent twins like `tatay`/`Tátay`, folds dialect variants, re-points every FK,
 and exports `accent-map.json`).
 

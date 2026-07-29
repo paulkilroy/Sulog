@@ -8,10 +8,10 @@
     "bootstrap": "node --env-file=.env.local tools/bootstrap-db.mjs",
     "check": "node --env-file=.env.local tools/rebuild-check.mjs",
     "rls:authed": "node --env-file=.env.local tools/rls-authed-smoke.mjs",
-    "seed": "node tools/gen-pc-seed.mjs",
+    "course": "node tools/gen-pc-course.mjs",
     "reload": "node --env-file=.env.local tools/reload-pc.mjs",
     "preview": "node --env-file=.env.local tools/gen-course-preview.mjs",
-    "all": "npm run seed && npm run reload && npm run build",
+    "all": "npm run course && npm run reload && npm run build",
     "rls": "node tools/rls-smoke.mjs",
     "harvest": "node --env-file=.env.local tools/harvest-ella.mjs",
     "harvest:spoken": "node --env-file=.env.local tools/harvest-spoken.mjs"

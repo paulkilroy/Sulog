@@ -2,8 +2,8 @@
 /* Harvest Ella's saved answers (ella_answers table) back into the course sources.
  *
  * - synth-<slug> ids  → matched to docs/sources/peace-corps/rejected-sentences.json entries;
- *   her Waray is written into the entry's `ella` field. On the next `npm run seed`,
- *   gen-pc-seed.mjs REPLACES the rejected sentence with hers instead of dropping the item,
+ *   her Waray is written into the entry's `ella` field. On the next `npm run course`,
+ *   gen-pc-course.mjs REPLACES the rejected sentence with hers instead of dropping the item,
  *   and the verify site stops listing it as missing.
  * - other ids (dialect questions) → printed for manual application (each changes different
  *   things: variants, course words, dictionary…).

@@ -92,10 +92,10 @@ console.log(`\n  gaps:       ${out.gap.slice(0, 16).map((x) => x.waray).join(", 
 // ---- --apply: populate the meanings table (course words = source of truth) ----
 if (process.argv.includes("--apply")) {
   const qy = async (s, p) => (await c.query(s, p)).rows;
-  // words in gloss-overrides.json own their sense rows (per-sense truth, incl. stress) —
+  // words in meaning-overrides.json own their sense rows (per-sense truth, incl. stress) —
   // inserting the raw card string here would add a near-duplicate sense ("we, inclusive"
   // next to the override's "we (inclusive)"). Confirm/variants still apply below.
-  const OVERRIDE_WORDS = new Set(Object.keys(JSON.parse(fs.readFileSync("docs/dictionary/gloss-overrides.json", "utf8"))).filter((k) => !k.startsWith("_")));
+  const OVERRIDE_WORDS = new Set(Object.keys(JSON.parse(fs.readFileSync("docs/dictionary/meaning-overrides.json", "utf8"))).filter((k) => !k.startsWith("_")));
   // a word's own meaning is auto-confirmed when Tramp agrees, it's a spelling variant, or it's a
   // known grammar word (pronoun/marker). Diverge / native-alt / gap keep their existing confirmed flag.
   const autoConfirm = new Set([...out.agree, ...out.variant, ...out.grammar].map((x) => x.waray));

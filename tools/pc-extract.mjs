@@ -1,5 +1,5 @@
 /* Extract Peace Corps Phase 1 (Lessons 1-10) from noisy OCR into structured blocks via
-   Gemini, and emit docs/schema/pc-seed.sql (NOT loaded into the live DB — for review).
+   Gemini, and emit docs/schema/pc-course.sql (NOT loaded into the live DB — for review).
    node scratchpad/pc-extract.mjs [oneLessonNumberToPreview] */
 import fs from "fs";
 const KEY = fs.readFileSync("/Users/paulkilroy/dev/Sulog/.gemini-key", "utf8").trim();

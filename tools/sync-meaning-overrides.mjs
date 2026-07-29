@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Sync docs/dictionary/gloss-overrides.json (the COMMITTED per-sense truth for homograph /
+/* Sync docs/dictionary/meaning-overrides.json (the COMMITTED per-sense truth for homograph /
    double-duty words) to the live DB — both layers:
    - dictionary.meaning gets the flattened display/grading string (`card`)
    - meanings gets ONE ROW PER SENSE with its sources, per-sense pronunciation, confirmed flag
@@ -7,7 +7,7 @@
    audit. Edit the JSON, never the DB. */
 import pg from "pg";
 import fs from "fs";
-const G = JSON.parse(fs.readFileSync("docs/dictionary/gloss-overrides.json", "utf8"));
+const G = JSON.parse(fs.readFileSync("docs/dictionary/meaning-overrides.json", "utf8"));
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
 if (process.env.SULOG_SEARCH_PATH) await c.query(`set search_path to ${process.env.SULOG_SEARCH_PATH}`); // rebuild-check points tools at the scratch schema
@@ -35,5 +35,5 @@ for (const [w, v] of Object.entries(G)) {
     senses += q.rowCount;
   }
 }
-console.log(`✓ gloss-overrides: ${cards} card strings updated · ${senses} sense rows upserted across ${Object.keys(G).length - 1} words`);
+console.log(`✓ meaning-overrides: ${cards} card strings updated · ${senses} sense rows upserted across ${Object.keys(G).length - 1} words`);
 await c.end();
