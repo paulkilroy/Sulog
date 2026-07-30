@@ -5519,14 +5519,10 @@ function Styles() {
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}
-/* Installed PWA (no browser chrome): clear the notch, and keep the drawer's X + "Menu" row aligned
-   with the home top bar's hamburger (home bar sits at page-pad-top + 16px overlay = env+22). The
-   browser keeps the plain 18px top (its own chrome already offsets the status bar). */
-@media(display-mode:standalone){
-  .ws-page{padding-top:calc(env(safe-area-inset-top) + 6px)}
-  .ws-drawer-x{top:calc(env(safe-area-inset-top) + 22px)}
-  .ws-drawer-body{padding-top:calc(env(safe-area-inset-top) + 22px)}
-}
+/* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
+   AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
+   same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
+@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)} }
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
@@ -5822,6 +5818,12 @@ function Styles() {
 .ws-drawer-body{height:100%;overflow-y:auto;padding:34px 8px 24px}
 .ws-drawer-x{position:absolute;top:34px;right:34px;width:30px;height:30px;border-radius:9px;z-index:2;
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+/* Installed PWA: drop the drawer's X + "Menu" row to match the home hamburger (page-pad env+6 +
+   16px overlay = env+22). Placed AFTER the .ws-drawer base rules so it wins on equal specificity. */
+@media(display-mode:standalone){
+  .ws-drawer-x{top:calc(env(safe-area-inset-top) - 12px)}
+  .ws-drawer-body{padding-top:calc(env(safe-area-inset-top) - 12px)}
+}
 /* instructor dashboard */
 .ws-dash-summary{display:flex;gap:10px;margin:2px 0 8px}
 .ws-dash-stat{flex:1;background:var(--foam);border:1px solid var(--sand-deep);border-radius:12px;padding:12px 10px;text-align:center}
