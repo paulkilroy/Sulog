@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
-import { GLOSS } from "./courses/waray/stories.js";
+import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
@@ -31,7 +31,7 @@ function buildLabel() {
   return d.toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + (hash ? " · " + hash : "");
 }
 
-/* ---------- seed vocabulary (from the WarayLessons sheet + teacher docx) ---------- */
+/* ---------- cards vocabulary (from the WarayLessons sheet + teacher docx) ---------- */
 /* a few obvious OCR typos in the sheet were corrected against the teacher's
    docx files: yama→yana(now), "mapaso him euro"→"mapaso hin duro",
    mahingin→mahangin, mapaSO→mapaso. Flagged in chat. */
@@ -46,7 +46,7 @@ function _readCourseId() {
 }
 const ACTIVE = getCourse(_readCourseId());
 const COURSE_ID = ACTIVE.id;
-const SEED = ACTIVE.seed;
+const CARDS = ACTIVE.cards;
 const FORGOTTEN = ACTIVE.forgotten;
 // per-course storage keys — progress is independent per course model
 const PK = {
@@ -143,7 +143,7 @@ const DECKS = (() => {
   // thematic decks, which span units); otherwise it's derived from the curriculum
   // unit that teaches the deck's cards (unit-aligned courses like Challenger never
   // need hardcoded labels); otherwise the raw deck id.
-  const cardDeck = {}; for (const r of SEED) cardDeck[r[1]] = r[0];
+  const cardDeck = {}; for (const r of CARDS) cardDeck[r[1]] = r[0];
   const fromCurriculum = {};
   for (const sec of (ACTIVE.curriculum || []))
     for (const u of (sec.units || []))
@@ -154,7 +154,7 @@ const DECKS = (() => {
           if (d && !fromCurriculum[d]) fromCurriculum[d] = { name: u.name, short: (u.name || d).split(/[\s,]+/)[0], hint: u.hint || "" };
         }
   const out = {};
-  for (const r of SEED) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || fromCurriculum[d] || { name: d, short: d, hint: "" }; }
+  for (const r of CARDS) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || fromCurriculum[d] || { name: d, short: d, hint: "" }; }
   return out;
 })();
 
@@ -264,7 +264,7 @@ function nextLesson(lessons) {
 
 
 function buildCards() {
-  return SEED.map((r) => {
+  return CARDS.map((r) => {
     const [deck, waray, english, subtext, say, example] = r;
     return {
       // Stable id = the Waray string. Unique per course (verified: 0 dup waray in any
@@ -284,7 +284,7 @@ function buildCards() {
 /* ---------------- proficiency (count-based CEFR-ish estimate) ----------------
    With one course (PC) and no frequency deck, proficiency = words mastered (box>=4),
    measured against friendly cumulative milestones. Reads progress only — never writes. */
-const wordById = (course) => { const m = {}; (course.seed || []).forEach((r, i) => { m[`c${i}`] = r[1]; m[r[1]] = r[1]; }); return m; };
+const wordById = (course) => { const m = {}; (course.cards || []).forEach((r, i) => { m[`c${i}`] = r[1]; m[r[1]] = r[1]; }); return m; };
 const BAND_MILESTONE = { A0: 0, A1: 40, A2: 140, B1: 320, B2: 550 };
 const BAND_NEXT = { A0: "A1", A1: "A2", A2: "B1", B1: "B2" };
 function computeProficiency(liveProg) {
@@ -365,9 +365,9 @@ function _deinflect(t) {
   return c;
 }
 const glossFor = (word) => {
-  const direct = GLOSS[word] || (VARIANTS[word] && GLOSS[VARIANTS[word]]) || GLOSS[_fold(word)];
+  const direct = DEFINITIONS[word] || (VARIANTS[word] && DEFINITIONS[VARIANTS[word]]) || DEFINITIONS[_fold(word)];
   if (direct) return direct;
-  for (const cand of _deinflect(word)) if (GLOSS[cand]) return `${GLOSS[cand]}  (from ${cand})`; // inflected → root's gloss
+  for (const cand of _deinflect(word)) if (DEFINITIONS[cand]) return `${DEFINITIONS[cand]}  (from ${cand})`; // inflected → root's gloss
   return null;
 };
 const MAXCHUNK = Math.max(2, ...Object.keys(CHUNKS).map((k) => k.split(" ").length));
@@ -411,17 +411,17 @@ function applyResult(st, correct, mode) {
 }
 // Card ids moved from a positional `cN` to the Waray string (stable across reorder /
 // append / unit-move). Remap any legacy positional keys in a stored stat map to the
-// Waray id via the current seed order. Idempotent — Waray keys pass straight through —
+// Waray id via the current cards order. Idempotent — Waray keys pass straight through —
 // so it's safe to run on every load, backup import, and cloud merge (an un-updated
-// device may still send `cN`). MUST run against the seed order that produced those cN
+// device may still send `cN`). MUST run against the cards order that produced those cN
 // ids: this is why id-stabilization ships BEFORE any card is added/reordered.
-function migrateProgIds(prog, seed = SEED) {
+function migrateProgIds(prog, cards = CARDS) {
   if (!prog || typeof prog !== "object") return prog;
   let changed = false;
   const out = {};
   for (const k in prog) {
     const mm = /^c(\d+)$/.exec(k);
-    if (mm && seed[+mm[1]]) { out[seed[+mm[1]][1]] = prog[k]; changed = true; }
+    if (mm && cards[+mm[1]]) { out[cards[+mm[1]][1]] = prog[k]; changed = true; }
     else out[k] = prog[k];
   }
   return changed ? out : prog;
@@ -4268,7 +4268,7 @@ function ReadView({ ctx }) {
     const tap = (core) => {
       const n = storyToks(core)[0] || "";
       let g = glossFor(n);
-      if (g && VARIANTS[n] && !GLOSS[n]) g = `${g}  (form of ${VARIANTS[n]})`;
+      if (g && VARIANTS[n] && !DEFINITIONS[n]) g = `${g}  (form of ${VARIANTS[n]})`;
       setSel({ word: core, gloss: g });
       playCard({ waray: core, say: "" });
     };

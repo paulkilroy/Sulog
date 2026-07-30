@@ -6,7 +6,7 @@
      LONGEST-MATCH (maximal munch) so "may ada" is glossed as one unit ("there is / has")
      instead of word-by-word.
 
-   SEED SET — every entry here is a hypothesis to be verified with a native speaker (Ella).
+   STARTER SET — every entry here is a hypothesis to be verified with a native speaker (Ella).
    Keys are normalized (lowercase, no accents). Add liberally; correctness gates on review. */
 
 export const VARIANTS = {
@@ -33,7 +33,7 @@ export const VARIANTS = {
 
 // curated glosses that WIN over Tramp/lexicon — for function words Tramp glosses badly,
 // and a few common words a 1991 dictionary lacks. (Applied in build-stories.) Verify w/ Ella.
-export const GLOSS_FIX = {
+export const DEFINITION_FIX = {
   la:    "just / only",
   man:   "(softener / emphasis)",
   pirmi: "always",

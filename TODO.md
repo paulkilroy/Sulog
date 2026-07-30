@@ -22,6 +22,21 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
   only truly exercises when authenticated). Walk every role: student join-by-code, flag a page,
   instructor dashboard + student-detail, reviewer propose, admin approve → dictionary mutation.
 
+## 🧱 Data-model cleanup (tech debt — not launch-blocking)
+
+- [ ] **Normalize card ↔ dictionary (de-duplicate).** A card stores its own copy of
+  `pronunciation`, snapshotted from the dictionary at build time ([remote.js](src/data/remote.js#L97)),
+  and its `english` overlaps the dictionary `definition`. The clean model: a card **references**
+  its dictionary entry by `waray` and inherits `pronunciation`/`definition` from it, storing only
+  what's card-specific (topic, subtext, example, which lessons use it). `waray` itself is the link,
+  not duplication. Separate, deliberate refactor — changes data flow, not just names.
+- [ ] **`topic` is a weak first-touch tag.** A card's topic = the first lesson that introduced it,
+  never updated — so glue words like `mga` get an arbitrary topic. It's used only for the card's
+  category tag and for same-topic multiple-choice distractors. Decide: derive it from the unit,
+  or drop it in favor of the curriculum (unit/lesson) as the sole grouping.
+- Naming: card-model vocabulary standardized — `SEED→CARDS`, `deck→topic`, `say→pronunciation`,
+  `gloss/GLOSS/meaning→definition` (DB columns + tramp.json data field left as-is at the boundaries).
+
 ## 🎓 Classroom platform — Voltz (Aug 17 2026, CRITICAL)
 
 Built in TG2 but needs finishing + the human round-trip test above. From the meeting decisions:

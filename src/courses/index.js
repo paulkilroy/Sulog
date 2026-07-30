@@ -25,6 +25,6 @@ export const isDbCourseCached = (id) => { try { return !!localStorage.getItem(DB
 export const cachedDbVersion = (id) => { try { return Number(JSON.parse(localStorage.getItem(DB_COURSE_KEY(id)) || "{}")._v) || 0; } catch (e) { return 0; } };
 
 // first-boot shell: renders an empty home for a beat while the auto-refresh pulls the course
-const SHELL = () => ({ id: "pc", name: "Peace Corps Waray", lang: "war", seed: [], forgotten: new Set(), curriculum: [], stories: STORIES, review: reviewFor("pc") });
+const SHELL = () => ({ id: "pc", name: "Peace Corps Waray", lang: "war", cards: [], forgotten: new Set(), curriculum: [], stories: STORIES, review: reviewFor("pc") });
 
 export const getCourse = (id) => readDbCourse(id) || readDbCourse(DEFAULT_COURSE_ID) || SHELL();

@@ -7,6 +7,55 @@
 -- dictionary-is-a-lexicon rule, Tramp reconciliation): see docs/schema/DATA-SOURCES.md.
 
 -- ============================================================
+-- DOMAIN MODEL — GLOSSARY  (what each thing IS, and the words we use for it)
+-- Reader-friendly version with the full tree lives in README "Data model".
+-- ============================================================
+-- Hierarchy (containment), top to bottom:
+--   COURSE ── the whole product ("Peace Corps Waray"). Bundles: curriculum + dictionary + stories.
+--     PHASE ── a top-level stage.
+--       UNIT ── a themed "can-do" group ("At the airport").
+--         LESSON ── one teaching step; an ordered list of typed BLOCKS (see lesson_blocks).
+--           BLOCK (a.k.a. STEP) ── one playable piece: guide (grammar/note) · vocab · drill · review · story.
+--           GATE ── the assessment block that ends a lesson (pass to proceed; type 'assessment').
+--         REVIEW ── spaced check across the unit's items.
+--
+-- CARD ── any DRILLED item. App-side name only: there is NO "card" table — a card is a block_item
+--   that gets quizzed, drilled BOTH directions (either side can be the answer). A card is ONE of
+--   three things, by WHERE ITS MEANING LIVES:
+--     • single word       — has its OWN meaning     → dictionary   (libro    → "book")
+--     • idiomatic phrase   — has its OWN meaning     → dictionary   (may ada  → "there is / has")
+--     • composed sentence  — meaning is compositional → expressions  (Maupay nga aga → "Good morning")
+--   block_items ENFORCES this: exactly one of dict_waray / expr_id is set. Therefore:
+--     - word & idiom cards are backed by `dictionary`;
+--     - sentence cards are backed by `expressions`, NOT the dictionary;
+--     - many dictionary words are NEVER cards (catalogued, never drilled — e.g. libro, which
+--       only ever appears inside example sentences).
+--
+-- DICTIONARY ── the catalogue of words + idiomatic phrases (headword + canonical spelling +
+--   pronunciation). WHAT a word MEANS lives in `meanings` (one row per sense; homographs = several
+--   rows). "definition" = the text of a meanings row.
+--
+-- STORY ── reader text: story_lines (Waray paragraphs) + story_questions (multiple-choice
+--   comprehension). A unit can end on one as a capstone.
+--
+-- TOPIC ── an APP-SIDE subject label on a card (Greetings, Airport, Meals…). NOT a DB table.
+--   Assigned by FIRST-TOUCH: the first lesson that introduces a word owns its topic, and it never
+--   changes — so glue words like `mga` inherit an arbitrary topic. Used for exactly two things:
+--     (1) the category tag shown on each drill card ("Greetings · Flashcard");
+--     (2) picking same-topic DISTRACTORS (the wrong answers) for MULTIPLE-CHOICE questions.
+--   The curriculum (phase/unit/lesson) is the real structure; topic is a weak secondary grouping
+--   (see the "topic is a weak first-touch tag" item in TODO.md).
+--
+-- VOCABULARY / NAMING (standardized 2026-07-30):
+--   the card list     = CARDS         (was SEED)
+--   a word's meaning  = definition    (was gloss / GLOSS / meaning)
+--   a card's subject  = topic         (was deck)           [app-code rename in progress]
+--   the spoken guide  = pronunciation (was `say`)          [app-code rename in progress]
+--   DB column names are unchanged (meanings.*, dictionary.pronunciation); the app translates to
+--   these words at its boundary (src/data/remote.js).
+-- ============================================================
+
+-- ============================================================
 -- SHARED WARAY CONTENT  (language-level; every course references it)
 -- ============================================================
 

@@ -34,6 +34,72 @@ DB tools read `SUPABASE_DB_URL` from the gitignored **`.env.local`** (see `.env.
 
 New here? Read **HANDOFF.md** — golden rules, architecture map, pitfalls, backlog.
 
+## Data model
+
+The whole app is one relational model (DB: `docs/schema/schema.sql`; the app loads a denormalized
+projection of it). Definitions of every term, plus the canonical vocabulary, live in the schema
+header — this is the reader-friendly view.
+
+### The hierarchy
+
+```
+COURSE  — the whole product ("Peace Corps Waray")
+  │       bundles the three branches below
+  │
+  ├─ CURRICULUM — the ordered learning path
+  │   └─ PHASE — a top-level stage
+  │       └─ UNIT — a themed "can-do" group ("At the airport")
+  │           ├─ LESSON — one teaching step (an ordered list of typed blocks)
+  │           │   ├─ STEP / BLOCK — a playable piece: guide · vocab · drill · review · story
+  │           │   └─ GATE — the test that ends the lesson (pass to proceed)
+  │           └─ REVIEW — spaced check across the unit's items
+  │
+  ├─ DICTIONARY — the catalogue of words + idiomatic phrases (headword + pronunciation);
+  │               a word's meaning(s) live in `meanings` (one row per sense)
+  │
+  └─ STORIES — reader texts (Waray paragraphs + multiple-choice comprehension questions);
+               a unit can end on one as a capstone
+```
+
+### What a "card" is
+
+A **card** is any *drilled item* (an app-side name — there's no `card` table; a card is a
+`block_item` that gets quizzed, drilled **both directions**, so either side can be the answer).
+Every card is **one of three things**, decided by *where its meaning lives*:
+
+| Card is a… | Meaning is… | Backed by | Example |
+|---|---|---|---|
+| single word | its own | `dictionary` | `libro` → "book" |
+| idiomatic phrase | its own (not the sum of parts) | `dictionary` | `may ada` → "there is / has" |
+| composed sentence | built from its words | `expressions` | `Maupay nga aga` → "Good morning" |
+
+`block_items` enforces this (exactly one of `dict_waray` / `expr_id`). So word & idiom cards are
+backed by the dictionary; **sentence cards are backed by `expressions`, not the dictionary**; and
+**many dictionary words are never cards** (catalogued but never drilled — e.g. `libro`, which only
+appears inside example sentences).
+
+### topic (a card's subject label)
+
+A card also carries a **topic** — a subject tag (*Greetings, Airport, Meals…*). It's assigned by
+**first-touch** (the first lesson to introduce a word owns its topic, forever), so function words
+like `mga` inherit an arbitrary one. Topic does exactly two jobs: (1) the little category tag on
+each drill card, and (2) supplying same-topic **distractors** (wrong answers) for multiple-choice
+questions. The curriculum is the real structure; topic is a weak secondary grouping.
+
+### Vocabulary
+
+| Term | Means | Was called |
+|---|---|---|
+| **CARDS** | the flat list of all cards | `SEED` |
+| **card** | one drilled item (word / idiom / sentence) | — |
+| **topic** | a card's subject label | `deck` |
+| **definition** | a Waray word's meaning | `gloss` / `GLOSS` / `meaning` |
+| **pronunciation** | the spoken guide (CAPS = stressed syllable) | `say` |
+
+DB column names are unchanged; the app translates to these words at its boundary
+(`src/data/remote.js`). `CARDS` and `definition` are renamed in code; `topic`/`pronunciation` are
+in progress.
+
 ## A note on page numbers (important)
 
 The book is a 114-page scan. Everything in the pipeline is keyed on the **scan index** — the
