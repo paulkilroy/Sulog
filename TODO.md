@@ -96,6 +96,22 @@ words.** Approach (rule-based, no audio needed):
   `harvest:spoken`. **Caveat:** overrides are specific to the *fallback language*, so this only
   fixes the Apple/Malay case — Windows/Android differ (see TTS below).
 
+## ✨ Progress tab — motivation / eye candy
+
+The Progress popup is now honest data (proficiency climb + daily work bars) but it's plain. Make it
+*motivating* — the screen a learner opens to feel good and come back:
+- [ ] Celebrate milestones: crossing a CEFR band (A0→A1), streak landmarks (7/30/100 days), "N words
+  mastered" round numbers — a moment (confetti/animation/badge), not just a number ticking.
+- [ ] Richer proficiency viz: the band climb with the next milestone in sight ("12 more words to A1"),
+  maybe the rising-tide metaphor animated as mastery grows.
+- [ ] Momentum signals: "best week yet", "▲ up N pts", "on a roll" states; make the work bars feel
+  rewarding (fill/settle animation, today highlighted).
+- [ ] Streak protection nudge ("keep your 5-day streak — 1 quick review"), and a gentle comeback if
+  a streak breaks.
+- [ ] Consider a shareable progress card. Keep it tasteful, not slot-machine-y — respect the learner.
+- [ ] Guard the data honesty we just fixed: no fake numbers, and empty/early states should still feel
+  encouraging ("your climb starts here"), not broken.
+
 ## 🧹 UI cleanup — hamburger menu / submenus
 
 Current drawer (☰) rows: **Account · Settings · My Class** (instructor) **· Review queue**

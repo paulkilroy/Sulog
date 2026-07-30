@@ -52,11 +52,12 @@ export async function pullProgress(courseId) {
   const lessons = {}; for (const r of l.data || []) lessons[r.lesson_id] = r.parts;
   const units = {}; for (const r of u.data || []) units[r.unit_id] = { best: r.best, passed: r.passed, last: r.last, at: r.at };
   const streak = s.data ? { count: s.data.count, last: s.data.last, days: s.data.days || {} } : null;
-  return { prog, lessons, units, streak };
+  const reads = (s.data && s.data.reads) || {};   // { read:[ids], stories:[ids] } reader completion
+  return { prog, lessons, units, streak, reads };
 }
 
 // upsert this user's current state for one course (only touched words, to keep rows bounded)
-export async function pushProgress(userId, courseId, { prog, lessons, units, streak }) {
+export async function pushProgress(userId, courseId, { prog, lessons, units, streak, reads }) {
   const progRows = Object.entries(prog || {})
     .filter(([, v]) => v && (v.seen > 0 || v.box > 0 || v.pinned || v.recall > 0))
     .map(([waray, v]) => ({
@@ -70,7 +71,7 @@ export async function pushProgress(userId, courseId, { prog, lessons, units, str
   if (progRows.length) ops.push(supabase.from("progress").upsert(progRows));
   if (lessonRows.length) ops.push(supabase.from("lesson_progress").upsert(lessonRows));
   if (unitRows.length) ops.push(supabase.from("unit_progress").upsert(unitRows));
-  if (streak) ops.push(supabase.from("user_streak").upsert({ user_id: userId, course_id: courseId, count: streak.count || 0, last: streak.last || "", days: streak.days || {} }));
+  if (streak || reads) ops.push(supabase.from("user_streak").upsert({ user_id: userId, course_id: courseId, count: streak?.count || 0, last: streak?.last || "", days: streak?.days || {}, reads: reads || {} }));
   const res = await Promise.all(ops);
   const bad = res.find((r) => r.error);
   if (bad) throw new Error(bad.error.message);

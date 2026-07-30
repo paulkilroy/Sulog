@@ -212,6 +212,7 @@ create table user_streak (
   count     int   not null default 0,         -- current daily-streak length
   last      text  not null default '',        -- 'YYYY-MM-DD' of the last active day
   days      jsonb not null default '{}',      -- { 'YYYY-MM-DD': { n, r, m } } — attempts, correct, mastered snapshot (legacy: a bare number == n)
+  reads     jsonb not null default '{}',      -- reader completion: { read:[Bloom story ids], stories:[capstone story ids] } — union-merged on sync
   primary key (user_id, course_id)
 );
 

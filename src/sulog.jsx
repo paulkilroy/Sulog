@@ -69,6 +69,17 @@ const toggleStoryRead = (id) => {
     return s.has(id);
   } catch (e) { return false; }
 };
+// reader completion for sync: both story-read sets live in localStorage (read = Bloom stories,
+// stories = unit capstones). localReads reads them for a push; mergeReadsIntoLocal UNIONS a cloud
+// snapshot back in (a story read on any device stays read — union is idempotent).
+const localReads = () => { try { return { read: JSON.parse(localStorage.getItem(PK.read) || "[]"), stories: JSON.parse(localStorage.getItem(PK.stories) || "[]") }; } catch (e) { return { read: [], stories: [] }; } };
+const mergeReadsIntoLocal = (reads) => {
+  if (!reads) return;
+  for (const [key, ids] of [[PK.read, reads.read], [PK.stories, reads.stories]]) {
+    if (!Array.isArray(ids) || !ids.length) continue;
+    try { const s = new Set(JSON.parse(localStorage.getItem(key) || "[]")); ids.forEach((x) => s.add(x)); localStorage.setItem(key, JSON.stringify([...s])); } catch (e) {}
+  }
+};
 // one-time migration: the original `waray:*` progress was on the Classic order,
 // so adopt it under waray-classic. Frequency (the new default) starts fresh.
 (function migrateV1() {
@@ -774,6 +785,7 @@ export default function App() {
   const [storyUnit, setStoryUnit] = useState(null); // unit whose capstone story is open
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false, dialect: "standard" });
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
+  const [readsVersion, setReadsVersion] = useState(0); // bumped when a story is read → triggers a sync push (reader completion lives in localStorage)
   const [user, setUser] = useState(null); // Supabase-authed user (null = anonymous/signed out)
   const [roles, setRoles] = useState([]);       // granted roles from user_roles
   const [roleReqs, setRoleReqs] = useState([]); // this user's role requests
@@ -1050,6 +1062,8 @@ export default function App() {
     setLessons(nl); await store.set(PK.lessons, JSON.stringify(nl));
     const nu = mergeUnits(cur.units, cloud.units || {});
     setUnits(nu); await store.set(PK.units, JSON.stringify(nu));
+    mergeReadsIntoLocal(cloud.reads);   // reader completion (localStorage-backed) — union the cloud in
+    setReadsVersion((v) => v + 1);      // nudge a re-render so LearnView reflects newly-read stories
   }, []);
 
   const syncPull = useCallback(async () => {
@@ -1078,7 +1092,7 @@ export default function App() {
     if (!cur.user) return;
     setSyncState((p) => ({ ...p, status: "syncing", error: "" }));
     try {
-      await pushProgress(cur.user.id, COURSE_ID, { prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units });
+      await pushProgress(cur.user.id, COURSE_ID, { prog: cur.prog, streak: cur.streak, lessons: cur.lessons, units: cur.units, reads: localReads() });
       setSyncState({ status: "ok", at: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), error: "" });
     } catch (e) {
       setSyncState({ status: "error", at: "", error: e.message });
@@ -1149,7 +1163,7 @@ export default function App() {
     if (pushTimer.current) clearTimeout(pushTimer.current);
     pushTimer.current = setTimeout(() => syncPush(), 2500);
     return () => { if (pushTimer.current) clearTimeout(pushTimer.current); };
-  }, [prog, streak, lessons, units, loaded, user, initialPulled, syncPush]);
+  }, [prog, streak, lessons, units, readsVersion, loaded, user, initialPulled, syncPush]);
 
   if (!loaded) {
     return (
@@ -1170,6 +1184,7 @@ export default function App() {
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
     units, startUnitReview, markUnitReview, startGate,
+    notifyReads: () => setReadsVersion((v) => v + 1),   // reader/story completion changed → sync it
     dialectCatalog, refreshDialect,
     user, signIn: signInWithGoogle, signInEmail: signInWithEmail, signOut: sbSignOut,
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
@@ -4216,7 +4231,7 @@ function StoryView({ ctx }) {
         </div>
       )}
       <button className={`ws-start ws-full ${read ? "ws-connected" : ""}`} style={{ marginTop: 18 }}
-        onClick={() => setRead(toggleStoryRead(story.id))}>
+        onClick={() => { setRead(toggleStoryRead(story.id)); ctx.notifyReads(); }}>
         {read ? <><Check size={18} /> Read — tap to unmark</> : <><BookOpen size={18} /> Mark as read</>}
       </button>
     </div>
@@ -4233,11 +4248,14 @@ function ReadView({ ctx }) {
   const [readSet, setReadSet] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem(PK.read) || "[]")); } catch (e) { return new Set(); }
   });
-  const markRead = (id) => setReadSet((prev) => {
-    const ns = new Set(prev); ns.has(id) ? ns.delete(id) : ns.add(id);
-    try { localStorage.setItem(PK.read, JSON.stringify([...ns])); } catch (e) {}
-    return ns;
-  });
+  const markRead = (id) => {
+    setReadSet((prev) => {
+      const ns = new Set(prev); ns.has(id) ? ns.delete(id) : ns.add(id);
+      try { localStorage.setItem(PK.read, JSON.stringify([...ns])); } catch (e) {}
+      return ns;
+    });
+    ctx.notifyReads();   // sync reader completion across devices
+  };
 
   const { known, roots } = React.useMemo(() => {
     const k = knownWaray(prog, cards);
