@@ -64,7 +64,10 @@ export async function fetchCourse(courseId) {
   for (const l of lessons) (lessonsByUnit.get(l.unit_id) || lessonsByUnit.set(l.unit_id, []).get(l.unit_id)).push({ ...l, blocks: blocksByLesson.get(l.id) || [] });
   const unitsByPhase = new Map();
   for (const u of units) (unitsByPhase.get(u.phase_id) || unitsByPhase.set(u.phase_id, []).get(u.phase_id)).push({ ...u, lessons: lessonsByUnit.get(u.id) || [] });
-  return { id: courseId, phases: phases.map((p) => ({ ...p, units: unitsByPhase.get(p.id) || [] })) };
+  // carry the full dictionary through so the app's Dictionary lookup can search EVERY catalogued
+  // word (e.g. "libro"), not just the words drilled in a lesson. Lean shape; cached with the course.
+  const dictionary = dict.map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed }));
+  return { id: courseId, phases: phases.map((p) => ({ ...p, units: unitsByPhase.get(p.id) || [] })), dictionary };
 }
 
 /* ---- adapt a DB course into the bundled shape the learning engine consumes ----
@@ -158,7 +161,7 @@ export function dbCourseToBundled(db, name) {
     }
     if (units.length) sections.push({ name: ph.name, hint: "", units });
   }
-  return { id: db.id, name, seed: [...seed.values()], forgotten: [], curriculum: sections };
+  return { id: db.id, name, seed: [...seed.values()], forgotten: [], curriculum: sections, dictionary: db.dictionary || [] };
 }
 
 // fetch a course from the DB and return it in the engine's bundled shape

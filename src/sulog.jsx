@@ -2497,6 +2497,18 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
+  // Search the FULL dictionary, not just the drilled deck: merge deck cards with dictionary-only
+  // words (e.g. "libro", used only inside example sentences so it never became a card). Dedup by
+  // Waray — a deck card (carries an example/subtext) wins over the bare dictionary row.
+  const all = useMemo(() => {
+    const byW = new Map();
+    for (const c of cards) byW.set(c.waray, c);
+    for (const d of (ACTIVE.dictionary || [])) {
+      if (!d.waray || byW.has(d.waray)) continue;
+      byW.set(d.waray, { id: d.waray, waray: d.waray, english: d.meaning || "", say: d.pronunciation || "", subtext: "", example: null });
+    }
+    return [...byW.values()];
+  }, [cards]);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return [];
@@ -2517,13 +2529,13 @@ function DictSheet({ ctx }) {
       if (e === s) sc += 40; else if (e.startsWith(s)) sc += 8; else if (e.includes(s)) sc += 3;
       return sc - w.length * 0.05;             // tiebreak: shorter/closer first
     };
-    return cards
+    return all
       .filter((c) => ((c.waray || "") + " " + (c.english || "")).toLowerCase().includes(s))
       .map((c) => [score(c), c])
       .sort((a, b) => b[0] - a[0])
       .slice(0, 8)
       .map(([, c]) => c);
-  }, [q, cards]);
+  }, [q, all]);
 
   if (sel) return <DictEntry card={sel} st={ctx.prog[sel.id]} ctx={ctx} onBack={() => setSel(null)} />;
   return (
