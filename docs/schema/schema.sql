@@ -157,16 +157,25 @@ create table block_items (
 -- 1:1 so the sync layer is a straight column<->field map (no lossy JSON blobs).
 -- `last`/`due` are ms-epoch integers (the app's clock), not timestamptz.
 -- ============================================================
+-- Per-card spaced-repetition state — one row per (user, course, card); the client's `prog` object
+-- maps 1:1 to these rows. KEY DESIGN: course_id and waray are TEXT natural keys, not uuids. Course
+-- ids are readable slugs ('pc'), and a card's identity IS its Waray string (the same natural key as
+-- dictionary.waray and block_items.dict_waray). Using the Waray text directly means progress
+-- survives curriculum reordering and needs no separate cards table or surrogate-id lookup; the
+-- trade-off is that a spelling correction changes the id (handled by a one-time client migration).
 create table progress (
-  user_id   uuid not null,
-  course_id text not null,        -- which course's deck (per-course SRS)
-  waray     text not null,        -- word | phrase | sentence — the item's Waray form (stable card id)
-  box int not null default 0, seen int not null default 0,
-  n_right int not null default 0, -- correct count ("right" is a SQL reserved word)
-  wrong int not null default 0, streak int not null default 0, recall int not null default 0,
-  last bigint not null default 0, -- ms epoch of last attempt (merge/recency key)
-  due  bigint not null default 0, -- ms epoch when the card is next due
-  pinned boolean not null default false,
+  user_id   uuid    not null,                 -- the signed-in user
+  course_id text    not null,                 -- which course's deck (per-course SRS); a courses.id slug like 'pc'
+  waray     text    not null,                 -- the card's identity: its Waray word/phrase (== dictionary.waray)
+  box       int     not null default 0,       -- Leitner box 0..5: +1 per correct (capped at 5), reset to 0 on a miss; box>=4 counts as "mastered"
+  seen      int     not null default 0,       -- total attempts on this card
+  n_right   int     not null default 0,       -- total correct ("right" is a reserved SQL word, hence n_right)
+  wrong     int     not null default 0,       -- total misses
+  streak    int     not null default 0,       -- consecutive-correct run FOR THIS CARD (0 on a miss) — NOT the daily streak
+  recall    int     not null default 0,       -- consecutive COLD TYPED recalls (multiple-choice ignored); the "graduate off Needs work" signal
+  last      bigint  not null default 0,       -- ms epoch of the last attempt — also the newest-wins merge key when syncing
+  due       bigint  not null default 0,       -- ms epoch when the card is next due for review (derived from box)
+  pinned    boolean not null default false,   -- user ★-pinned: force the card into Needs work regardless of its box
   primary key (user_id, course_id, waray)
 );
 
@@ -192,14 +201,17 @@ create table unit_progress (
   primary key (user_id, course_id, unit_id)
 );
 
--- day-streak: count + last active day + the per-day activity set. `days` is genuinely
--- a set of dates, so jsonb is its natural shape (not an opaque state blob).
+-- Daily activity + streak. `count`/`last` are the streak run; `days` is a per-day map that powers
+-- BOTH the calendar and the Progress trends (day-by-day accuracy and proficiency-over-time). Each
+-- value is { n, r, m }: n = attempts that day, r = correct that day, m = mastered-card snapshot
+-- (box>=4) at day's end. Legacy values are a plain number (the old activity count) — read a number
+-- as { n }. jsonb is the natural shape (a map keyed by date).
 create table user_streak (
-  user_id uuid not null,
-  course_id text not null,
-  count int not null default 0,
-  last text not null default '',  -- 'YYYY-MM-DD' of last active day
-  days jsonb not null default '{}',
+  user_id   uuid  not null,
+  course_id text  not null,
+  count     int   not null default 0,         -- current daily-streak length
+  last      text  not null default '',        -- 'YYYY-MM-DD' of the last active day
+  days      jsonb not null default '{}',      -- { 'YYYY-MM-DD': { n, r, m } } — attempts, correct, mastered snapshot (legacy: a bare number == n)
   primary key (user_id, course_id)
 );
 

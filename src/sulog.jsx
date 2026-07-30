@@ -593,7 +593,15 @@ function mergeProg(local, cloud) {
 function mergeStreak(l, c) {
   if (!c) return l || { count: 0, last: "", days: {} };
   if (!l) return c;
-  const days = { ...(l.days || {}), ...(c.days || {}) };
+  // days values are { n, r, m } (legacy: a bare number == n). For a day present on both devices,
+  // keep the per-field MAX — idempotent (re-merging can't drift) and monotonic (mastery only grows).
+  const norm = (v) => (typeof v === "number" ? { n: v, r: 0, m: 0 } : { n: 0, r: 0, m: 0, ...(v || {}) });
+  const days = { ...(l.days || {}) };
+  for (const k in (c.days || {})) {
+    if (!(k in days)) { days[k] = c.days[k]; continue; }
+    const a = norm(days[k]), b = norm(c.days[k]);
+    days[k] = { n: Math.max(a.n, b.n), r: Math.max(a.r, b.r), m: Math.max(a.m, b.m) };
+  }
   const base = (c.last || "") >= (l.last || "") ? c : l;
   return { ...base, days, count: Math.max(l.count || 0, c.count || 0) };
 }
@@ -765,7 +773,6 @@ export default function App() {
   const [learnSection, setLearnSection] = useState(null); // which section LearnView shows
   const [storyUnit, setStoryUnit] = useState(null); // unit whose capstone story is open
   const [settings, setSettings] = useState({ rate: 0.95, adaptive: false, voiceURI: "", sttLang: "fil-PH", sttDebug: true, voiceMode: false, dialect: "standard" });
-  const [history, setHistory] = useState([]); // full attempt log {ts, waray, prompt, answer, given, correct, dir, mode}
   const [units, setUnits] = useState({}); // unitId -> {best, passed, last, at} from unit reviews
   const [user, setUser] = useState(null); // Supabase-authed user (null = anonymous/signed out)
   const [roles, setRoles] = useState([]);       // granted roles from user_roles
@@ -837,10 +844,10 @@ export default function App() {
         const s = await store.get(PK.streak);
         const cfg = await store.get("waray:settings");
         const les = await store.get(PK.lessons);
-        const hist = await store.get(PK.history);
         const un = await store.get(PK.units);
-        const parsedHist = parse(hist, []);
-        if (parsedHist.length) setHistory(parsedHist);
+        // history is retired as app state — read it once only to feed the one-time recall backfill
+        // (idempotent; a no-op once every card has a recall value). Not kept, not synced.
+        const parsedHist = parse(await store.get(PK.history), []);
         const oldProg = parse(p, null);
         if (oldProg) {
           const pp = backfillRecall(migrateProgIds(oldProg), parsedHist, cards);
@@ -859,15 +866,6 @@ export default function App() {
   const saveProg = useCallback((np) => { setProg(np); store.set(PK.prog, JSON.stringify(np)); }, []);
   const saveStreak = useCallback((ns) => { setStreak(ns); store.set(PK.streak, JSON.stringify(ns)); }, []);
   const saveSettings = useCallback((ns) => { setSettings(ns); store.set("waray:settings", JSON.stringify(ns)); }, []);
-  // append one attempt to the full history log (capped so storage stays bounded)
-  const logAttempt = useCallback((e) => {
-    setHistory((prev) => {
-      const ns = [...prev, e];
-      if (ns.length > 6000) ns.splice(0, ns.length - 6000);
-      store.set(PK.history, JSON.stringify(ns));
-      return ns;
-    });
-  }, []);
   // mark a lesson part complete (parts unlock in order, so keep the max reached)
   const completeLessonPart = useCallback((id, partIdx) => {
     setLessons((prev) => {
@@ -942,16 +940,20 @@ export default function App() {
     });
   }, []);
 
-  const bumpStreak = useCallback(() => {
+  // Record one answer into the daily activity map (the single owner of streak.days). Each day is
+  // { n, r, m }: n = attempts, r = correct, m = mastered-card snapshot (box>=4) — powering the
+  // calendar, day-by-day accuracy, and the proficiency-over-time line. Legacy numeric values → {n}.
+  // This rides the existing user_streak sync, so progress trends are now cross-device.
+  const bumpStreak = useCallback((correct) => {
+    const mastered = computeProficiency(stateRef.current.prog).mastered;
     setStreak((prev) => {
       const t = today();
-      if (prev.last === t) {
-        const ns = { ...prev, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
-        store.set(PK.streak, JSON.stringify(ns)); return ns;
-      }
+      const pv = prev.days && prev.days[t];
+      const cur = typeof pv === "number" ? { n: pv, r: 0, m: 0 } : { n: 0, r: 0, m: 0, ...(pv || {}) };
+      const day = { n: (cur.n || 0) + 1, r: (cur.r || 0) + (correct ? 1 : 0), m: Math.max(cur.m || 0, mastered) };
       const y = localDay(new Date(Date.now() - MS_DAY));
-      const count = prev.last === y ? prev.count + 1 : 1;
-      const ns = { count, last: t, days: { ...prev.days, [t]: (prev.days[t] || 0) + 1 } };
+      const count = prev.last === t ? prev.count : prev.last === y ? prev.count + 1 : 1;
+      const ns = { ...prev, count, last: t, days: { ...prev.days, [t]: day } };
       store.set(PK.streak, JSON.stringify(ns)); return ns;
     });
   }, []);
@@ -1006,9 +1008,8 @@ export default function App() {
       streak,
       lessons,
       units,
-      history,
     };
-  }, [prog, streak, lessons, units, history]);
+  }, [prog, streak, lessons, units]);
 
   // ---- backup: load a JSON object back in ----
   const importData = useCallback(async (data, mode) => {
@@ -1020,13 +1021,12 @@ export default function App() {
     // you've finished on this device
     if (data.lessons) { const m = mergeLessons(lessons, data.lessons); setLessons(m); await store.set(PK.lessons, JSON.stringify(m)); }
     if (data.units) { const m = mergeUnits(units, data.units); setUnits(m); await store.set(PK.units, JSON.stringify(m)); }
-    if (data.history) { setHistory(data.history); await store.set(PK.history, JSON.stringify(data.history)); }
     return true;
   }, [lessons, units]);
 
   /* ---------------- cloud sync state & ops ---------------- */
   const stateRef = useRef({});
-  stateRef.current = { prog, streak, settings, history, lessons, units, user };
+  stateRef.current = { prog, streak, settings, lessons, units, user };
   const [syncState, setSyncState] = useState({ status: "idle", at: "", error: "" });
   const pushTimer = useRef(null);
   const didInitialPull = useRef(false);
@@ -1169,7 +1169,7 @@ export default function App() {
     lessons, lessonId, setLessonId, completeLessonPart, startLessonPart, startStep, stepIdx,
     learnTarget, setLearnTarget, learnSection, setLearnSection,
     storyUnit, setStoryUnit,
-    history, logAttempt, units, startUnitReview, markUnitReview, startGate,
+    units, startUnitReview, markUnitReview, startGate,
     dialectCatalog, refreshDialect,
     user, signIn: signInWithGoogle, signInEmail: signInWithEmail, signOut: sbSignOut,
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
@@ -2630,7 +2630,9 @@ function DayTracker({ streak }) {
     const d = new Date(base);
     d.setDate(base.getDate() - i);
     const key = localDay(d);
-    days.push({ key, count: map[key] || 0, dow: d.getDay(), isToday: i === 0 });
+    const dv = map[key];
+    const count = typeof dv === "number" ? dv : (dv && dv.n) || 0;   // day is { n, r, m } now (legacy: a number)
+    days.push({ key, count, dow: d.getDay(), isToday: i === 0 });
   }
   const level = (c) => (c === 0 ? 0 : c <= 2 ? 1 : c <= 5 ? 2 : 3);
   const run = currentStreak(map);
@@ -2706,7 +2708,7 @@ function shuffle(a) {
 }
 
 function SessionView({ ctx }) {
-  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, logAttempt, settings, saveSettings } = ctx;
+  const { cards, prog, session, setView, recordCard, bumpStreak, completeLessonPart, settings, saveSettings } = ctx;
   // base = the cards to study once (first attempt is what scores). Each becomes a
   // "step"; a missed written step splices in extra (unscored) MC→type steps so
   // you keep at it until you clear it.
@@ -2739,12 +2741,11 @@ function SessionView({ ctx }) {
   const back = () => { if (i <= 0) return; setSteps((prev) => prev.map((s, k) => (k === i - 1 ? { ...s, scored: false } : s))); setI(i - 1); };
 
   const onResult = (correct, given) => {
-    if (step.scored) { // only the first encounter feeds the SRS, history and grade
+    if (step.scored) { // only the first encounter feeds the SRS + daily activity + grade
       recordCard(card.id, correct, mode);
-      bumpStreak();
+      bumpStreak(correct);   // records the day's { n, r, m } rollup (attempts/correct/mastered)
       const prompt = cardDir === "wte" ? card.waray : card.english;
       const answer = cardDir === "wte" ? card.english : card.waray;
-      logAttempt({ ts: Date.now(), waray: card.waray, prompt, answer, given: given || "", correct, dir: cardDir, mode });
       setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
       setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     }
@@ -3985,38 +3986,38 @@ function TeachView({ ctx }) {
 
 /* ============================ HISTORY ============================ */
 // eye candy for Progress: an accuracy-over-time area chart + a mastery bar. Pure SVG, no libs.
-function ProgressChart({ history, cards, prog }) {
-  const days = {};
-  for (const e of history) { const d = localDay(new Date(e.ts)); (days[d] = days[d] || { n: 0, r: 0 }); days[d].n++; if (e.correct) days[d].r++; }
-  const series = Object.keys(days).sort().map((k) => ({ acc: days[k].r / days[k].n, n: days[k].n })).slice(-21);
-  // mastery snapshot (box>=4) — a "how far along" bar under the trend
+function ProgressChart({ days, cards, prog }) {
+  // days: { 'YYYY-MM-DD': { n, r, m } } from user_streak (legacy value = a bare number == n).
+  // Bars show WORK (attempts/day), colored by accuracy; the bar under them is current mastery,
+  // and the header delta is proficiency GAINED over the window (from the daily mastered snapshot m).
+  const raw = days || {};
+  const norm = (v) => (typeof v === "number" ? { n: v, r: 0, m: 0, tracked: false } : { n: (v && v.n) || 0, r: (v && v.r) || 0, m: (v && v.m) || 0, tracked: !!v });
+  const series = Object.keys(raw).sort().slice(-21).map((k) => ({ day: k, ...norm(raw[k]) }));
+  const maxN = Math.max(1, ...series.map((s) => s.n));
+  const tracked = series.filter((s) => s.tracked && s.n > 0);
+  const recentAcc = tracked.length ? Math.round((tracked[tracked.length - 1].r / tracked[tracked.length - 1].n) * 100) : null;
   let mastered = 0, seen = 0;
   for (const c of cards) { const st = prog[c.id]; if (st?.seen) { seen++; if ((st.box || 0) >= 4) mastered++; } }
-
-  const W = 300, H = 96, pad = 6;
-  const xs = (i) => pad + (series.length <= 1 ? 0 : (i / (series.length - 1)) * (W - 2 * pad));
-  const ys = (a) => H - pad - a * (H - 2 * pad);
-  const line = series.map((s, i) => `${xs(i).toFixed(1)},${ys(s.acc).toFixed(1)}`).join(" ");
-  const last = series.length ? series[series.length - 1].acc : 0;
-  const first = series.length ? series[0].acc : 0;
-  const delta = Math.round((last - first) * 100);
+  const mDays = series.filter((s) => s.m > 0);
+  const mGain = mDays.length >= 2 ? mDays[mDays.length - 1].m - mDays[0].m : null;
+  const barColor = (s) => (!s.tracked || !s.n) ? "var(--sand-deep)" : (s.r / s.n >= 0.8 ? "var(--jade)" : s.r / s.n >= 0.5 ? "var(--tide)" : "var(--coral)");
 
   return (
     <div className="ws-chart">
       <div className="ws-chart-head">
-        <div><b>{Math.round(last * 100)}%</b><span>recent accuracy</span></div>
-        {series.length >= 2 && <div className={`ws-chart-delta ${delta >= 0 ? "up" : "down"}`}>{delta >= 0 ? "▲" : "▼"} {Math.abs(delta)} pts</div>}
+        <div><b>{recentAcc != null ? recentAcc + "%" : "—"}</b><span>recent accuracy</span></div>
+        {mGain != null && mGain > 0 && <div className="ws-chart-delta up">▲ {mGain} mastered</div>}
       </div>
-      {series.length >= 2 ? (
-        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="ws-chart-svg" aria-hidden="true">
-          <defs><linearGradient id="pgfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--tide)" stopOpacity=".34" /><stop offset="1" stopColor="var(--tide)" stopOpacity="0" /></linearGradient></defs>
-          <line x1={pad} y1={ys(0.5)} x2={W - pad} y2={ys(0.5)} stroke="var(--sand-deep)" strokeWidth="1" strokeDasharray="3 4" />
-          <polygon points={`${xs(0).toFixed(1)},${H - pad} ${line} ${xs(series.length - 1).toFixed(1)},${H - pad}`} fill="url(#pgfill)" />
-          <polyline points={line} fill="none" stroke="var(--tide)" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
-          <circle cx={xs(series.length - 1)} cy={ys(last)} r="3.6" fill="var(--sea)" stroke="var(--shell)" strokeWidth="1.5" />
-        </svg>
+      {series.length ? (
+        <div className="ws-chart-bars" role="img" aria-label="daily activity — bar height is answers, color is accuracy">
+          {series.map((s) => (
+            <div key={s.day} className="ws-chart-bar" title={`${s.day}: ${s.n} answer${s.n === 1 ? "" : "s"}${s.tracked && s.n ? ` · ${Math.round((s.r / s.n) * 100)}%` : ""}`}>
+              <span style={{ height: `${Math.max(6, Math.round((s.n / maxN) * 100))}%`, background: barColor(s) }} />
+            </div>
+          ))}
+        </div>
       ) : (
-        <div className="ws-chart-empty">Keep drilling — your accuracy trend shows up after a couple of days.</div>
+        <div className="ws-chart-empty">Answer a few cards — your daily activity shows up here.</div>
       )}
       <div className="ws-chart-mastery">
         <div className="ws-chart-mastery-bar"><span style={{ width: `${seen ? Math.round((mastered / seen) * 100) : 0}%` }} /></div>
@@ -4027,51 +4028,37 @@ function ProgressChart({ history, cards, prog }) {
 }
 
 function HistoryView({ ctx, embedded }) {
-  const { history, setView, cards } = ctx;
-  const days = {};
-  for (const e of history) {
-    const d = localDay(new Date(e.ts));
-    (days[d] = days[d] || []).push(e);
-  }
-  const dayKeys = Object.keys(days).sort().reverse();
-  const totalRight = history.filter((e) => e.correct).length;
-  const overallAcc = history.length ? Math.round((totalRight / history.length) * 100) : 0;
+  const { streak, setView, cards, prog } = ctx;
+  // Progress = the daily activity map on streak.days (synced), NOT a per-answer log. Each day is
+  // { n, r, m } (legacy: a number == n). "What to practice" lives in Needs work, linked below.
+  const map = (streak && streak.days) || {};
+  const norm = (v) => (typeof v === "number" ? { n: v, r: 0, m: 0, tracked: false } : { n: (v && v.n) || 0, r: (v && v.r) || 0, m: (v && v.m) || 0, tracked: !!v });
+  const keys = Object.keys(map).sort().reverse();
+  const totals = keys.reduce((a, k) => { const d = norm(map[k]); a.n += d.n; if (d.tracked) { a.r += d.r; a.tn += d.n; } return a; }, { n: 0, r: 0, tn: 0 });
+  const overallAcc = totals.tn ? Math.round((totals.r / totals.tn) * 100) : null;
   return (
     <div className={embedded ? "" : "ws-page"}>
-      {!embedded && <TopBar title="History" onBack={() => setView("home")} />}
-      {history.length === 0 ? (
+      {!embedded && <TopBar title="Progress" onBack={() => setView("home")} />}
+      {keys.length === 0 ? (
         <div className="ws-empty">
           <Trophy size={28} />
-          <p>No attempts yet. Every answer — right and wrong — collects here by day so you can track your progress and revisit what you missed.</p>
+          <p>No activity yet. Answer a few cards and your daily accuracy and mastery trend show up here.</p>
         </div>
       ) : (
         <>
-          <ProgressChart history={history} cards={cards} prog={ctx.prog} />
-          <div className="ws-hist-overall">{history.length} answers · {overallAcc}% correct</div>
-          {dayKeys.map((d) => {
-            const es = days[d];
-            const right = es.filter((e) => e.correct).length;
-            const acc = Math.round((right / es.length) * 100);
-            const misses = es.filter((e) => !e.correct);
-            const label = new Date(d + "T00:00").toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
+          <ProgressChart days={map} cards={cards} prog={prog} />
+          <div className="ws-hist-overall">{totals.n} answers{overallAcc != null ? ` · ${overallAcc}% correct` : ""}</div>
+          <button className="ws-cta" style={{ margin: "4px 0 14px" }} onClick={() => setView("needswork")}>Practice what needs work →</button>
+          {keys.map((k) => {
+            const d = norm(map[k]);
+            const acc = d.tracked && d.n ? Math.round((d.r / d.n) * 100) : null;
+            const label = new Date(k + "T00:00").toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
             return (
-              <div key={d} className="ws-hist-day">
+              <div key={k} className="ws-hist-day">
                 <div className="ws-hist-dayhead">
                   <span className="ws-hist-date">{label}</span>
-                  <span className="ws-hist-acc">{right}/{es.length} · {acc}%</span>
+                  <span className="ws-hist-acc">{d.n} answer{d.n === 1 ? "" : "s"}{acc != null ? ` · ${acc}%` : ""}{d.m ? ` · ${d.m} mastered` : ""}</span>
                 </div>
-                {misses.map((e, k) => {
-                  const said = explainGiven(cards, e.given, e.answer, e.dir);
-                  return (
-                    <div key={k} className="ws-hist-miss">
-                      <span className="ws-hist-prompt">{e.prompt}</span>
-                      <span className="ws-hist-yours">{e.given || "—"}</span>
-                      <ArrowLeft size={11} className="ws-missed-arr" />
-                      <span className="ws-hist-correct">{e.answer}</span>
-                      {said && <span className="ws-hist-said">({said})</span>}
-                    </div>
-                  );
-                })}
               </div>
             );
           })}
@@ -5862,6 +5849,9 @@ function Styles() {
 .ws-chart-delta{font-size:12px;font-weight:700}
 .ws-chart-delta.up{color:var(--jade)} .ws-chart-delta.down{color:var(--coral)}
 .ws-chart-svg{display:block;width:100%;height:96px}
+.ws-chart-bars{display:flex;align-items:flex-end;gap:3px;height:84px;padding:2px 0}
+.ws-chart-bar{flex:1;display:flex;align-items:flex-end;height:100%;min-width:0}
+.ws-chart-bar span{display:block;width:100%;border-radius:3px 3px 0 0;min-height:3px}
 .ws-chart-empty{font-size:12.5px;color:var(--ink-soft);padding:14px 4px}
 .ws-chart-mastery{margin-top:10px}
 .ws-chart-mastery-bar{height:7px;border-radius:5px;background:var(--sand);overflow:hidden}
