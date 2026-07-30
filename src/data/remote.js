@@ -71,18 +71,18 @@ export async function fetchCourse(courseId) {
 }
 
 /* ---- adapt a DB course into the bundled shape the learning engine consumes ----
-   The engine runs on { cards:[[deck,waray,english,sub,say]], curriculum:[sections] }.
+   The engine runs on { cards:[[topic,waray,english,sub,say]], curriculum:[sections] }.
    We flatten the block model: every drillable item (vocab word or drilled sentence)
    becomes a card; each DB lesson becomes a curriculum lesson listing those items by
    Waray. Guides/gates/stories aren't cards — the engine supplies its own unit review.
    A sentence-heavy lesson is tagged "apply" (its cards are the review pool), else "words". */
 export function dbCourseToBundled(db, name) {
-  const cards = new Map();                 // waray -> [deck, waray, english, subtext, say]
+  const cards = new Map();                 // waray -> [topic, waray, english, subtext, say]
   const sections = [];
   for (const ph of db.phases || []) {
     const units = [];
     for (const u of ph.units || []) {
-      const deck = u.id;                  // one deck per unit; DECKS labels it from the unit name
+      const topic = u.id;                  // one topic per unit; DECKS labels it from the unit name
       const lessons = [], gates = [];     // gates = end-of-lesson tests, attached to the lesson they follow
       for (const l of u.lessons || []) {
         const items = [], seen = new Set();          // flat list (home counts / card resolution)
@@ -94,7 +94,7 @@ export function dbCourseToBundled(db, name) {
           const waray = it.waray, english = it.meaning || it.translation || "";
           if (!waray || !english) return null;
           (it._ref === "expr" || /\s/.test(waray)) ? sentences++ : words++;
-          if (!cards.has(waray)) cards.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
+          if (!cards.has(waray)) cards.set(waray, [topic, waray, english, "", it.pronunciation || ""]);
           if (!seen.has(waray)) { seen.add(waray); items.push(waray); }
           return waray;
         };
@@ -115,7 +115,7 @@ export function dbCourseToBundled(db, name) {
             for (const it of b.items || []) {
               const waray = it.waray, english = it.meaning || it.translation || "";
               if (!waray || !english) continue;
-              if (!cards.has(waray)) cards.set(waray, [deck, waray, english, "", it.pronunciation || ""]);
+              if (!cards.has(waray)) cards.set(waray, [topic, waray, english, "", it.pronunciation || ""]);
               if (!gseen.has(waray)) { gseen.add(waray); gateItems.push(waray); }
             }
             continue;

@@ -93,12 +93,14 @@ questions. The curriculum is the real structure; topic is a weak secondary group
 | **CARDS** | the flat list of all cards | `SEED` |
 | **card** | one drilled item (word / idiom / sentence) | — |
 | **topic** | a card's subject label | `deck` |
-| **definition** | a Waray word's meaning | `gloss` / `GLOSS` / `meaning` |
 | **pronunciation** | the spoken guide (CAPS = stressed syllable) | `say` |
+| **definition** | a Waray word's meaning | `gloss` / `GLOSS` |
 
-DB column names are unchanged; the app translates to these words at its boundary
-(`src/data/remote.js`). `CARDS` and `definition` are renamed in code; `topic`/`pronunciation` are
-in progress.
+All renamed in code (`SEED→CARDS`, `deck→topic`, `say→pronunciation`, `GLOSS/GLOSS_FIX →
+DEFINITIONS/DEFINITION_FIX`). One deliberate exception: a dictionary entry's meaning field stays
+`meaning` in code — it mirrors the DB `meanings` column and is read/written across the classroom
+mutation path, so "definition" is only the prose term for it. DB column names are unchanged; the
+app matches them at its boundary (`src/data/remote.js`).
 
 ## A note on page numbers (important)
 

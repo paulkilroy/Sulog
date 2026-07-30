@@ -46,13 +46,16 @@
 --   The curriculum (phase/unit/lesson) is the real structure; topic is a weak secondary grouping
 --   (see the "topic is a weak first-touch tag" item in TODO.md).
 --
--- VOCABULARY / NAMING (standardized 2026-07-30):
---   the card list     = CARDS         (was SEED)
---   a word's meaning  = definition    (was gloss / GLOSS / meaning)
---   a card's subject  = topic         (was deck)           [app-code rename in progress]
---   the spoken guide  = pronunciation (was `say`)          [app-code rename in progress]
---   DB column names are unchanged (meanings.*, dictionary.pronunciation); the app translates to
---   these words at its boundary (src/data/remote.js).
+-- VOCABULARY / NAMING (standardized 2026-07-30 / 07-31):
+--   the card list     = CARDS         (was SEED)          [done]
+--   a card's subject  = topic         (was deck)          [done]
+--   the spoken guide  = pronunciation (was `say`)         [done]
+--   the reader's word meanings = DEFINITIONS / DEFINITION_FIX  (was GLOSS / GLOSS_FIX)  [done]
+--   "definition" is the word we use in PROSE for a Waray word's meaning. But the dictionary/
+--   classroom code field STAYS `meaning` — it mirrors the DB `meanings` column and is read AND
+--   written across the feedback + dictionary-mutation path; renaming it would only add a fragile
+--   DB-translation layer. So: concept = "definition", code/DB field = `meaning`.
+--   DB column names are unchanged throughout; the app matches them at its boundary (src/data/remote.js).
 -- ============================================================
 
 -- ============================================================

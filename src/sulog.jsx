@@ -94,7 +94,7 @@ const mergeReadsIntoLocal = (reads) => {
   } catch (e) {}
 })();
 
-const DECK_META = {
+const TOPIC_META = {
   greet: { name: "Greetings & Survival", short: "Greetings", hint: "The phrases you reach for every day" },
   week1: { name: "Week 1 — Foundations", short: "Week 1", hint: "Pronouns and equational sentences" },
   verbs: { name: "Verbs, Objects & Time", short: "Verbs & Time", hint: "Mag / Nag / Pag affixes and when things happen" },
@@ -138,23 +138,23 @@ const DECK_META = {
 
 // deck metadata for the ACTIVE course only — built from its cards, with a safe
 // fallback so an unknown deck can never crash a card tag (the Challenger blank page)
-const DECKS = (() => {
-  // A deck's label comes from DECK_META if curated there (the Frequency/Classic
+const TOPICS = (() => {
+  // A deck's label comes from TOPIC_META if curated there (the Frequency/Classic
   // thematic decks, which span units); otherwise it's derived from the curriculum
   // unit that teaches the deck's cards (unit-aligned courses like Challenger never
   // need hardcoded labels); otherwise the raw deck id.
-  const cardDeck = {}; for (const r of CARDS) cardDeck[r[1]] = r[0];
+  const topicByWord = {}; for (const r of CARDS) topicByWord[r[1]] = r[0];
   const fromCurriculum = {};
   for (const sec of (ACTIVE.curriculum || []))
     for (const u of (sec.units || []))
       for (const l of (u.lessons || []))
         for (const it of (l.items || [])) {
-          const d = cardDeck[it];
+          const d = topicByWord[it];
           // short = first word of the unit name (keeps the card tag tidy)
           if (d && !fromCurriculum[d]) fromCurriculum[d] = { name: u.name, short: (u.name || d).split(/[\s,]+/)[0], hint: u.hint || "" };
         }
   const out = {};
-  for (const r of CARDS) { const d = r[0]; if (d && !out[d]) out[d] = DECK_META[d] || fromCurriculum[d] || { name: d, short: d, hint: "" }; }
+  for (const r of CARDS) { const d = r[0]; if (d && !out[d]) out[d] = TOPIC_META[d] || fromCurriculum[d] || { name: d, short: d, hint: "" }; }
   return out;
 })();
 
@@ -265,16 +265,16 @@ function nextLesson(lessons) {
 
 function buildCards() {
   return CARDS.map((r) => {
-    const [deck, waray, english, subtext, say, example] = r;
+    const [topic, waray, english, subtext, pronunciation, example] = r;
     return {
       // Stable id = the Waray string. Unique per course (verified: 0 dup waray in any
       // course) and, unlike a positional `cN`, it survives reordering, appends, and
       // moving a word between units — so editing curriculum never disturbs saved SRS
       // progress. Legacy positional ids are migrated on load (see migrateProgIds).
       id: waray,
-      deck, waray, english,
+      topic, waray, english,
       subtext: subtext || "",
-      say: say || "",
+      pronunciation: pronunciation || "",
       example: example || null,   // {war, focus, en} — in-context hint for single-word cards
       forgotten: FORGOTTEN.has(waray),
     };
@@ -702,8 +702,8 @@ function chosenVoice() {
 
 // English respelling -> readable text for an English voice: strip the syllable
 // hyphens (join), lowercase, word-initial "ng" -> "n", comma-join the words.
-function respellForTTS(say) {
-  return say
+function respellForTTS(pronunciation) {
+  return pronunciation
     .split(/\s+/)
     .filter((w) => w && w !== "/") // "/" separates alternatives — a pause, not a spoken "slash"
     .map((w) => w.replace(/-/g, "").toLowerCase().replace(/^ng/, "n"))
@@ -719,7 +719,7 @@ function speak(arg, rate = 0.78, applyOverride = true) {
     synth.cancel();
     if (!_voices.length) loadVoices();
 
-    const card = typeof arg === "string" ? { waray: arg, say: "" } : (arg || {});
+    const card = typeof arg === "string" ? { waray: arg, pronunciation: "" } : (arg || {});
     const voice = chosenVoice();
     const lang = voice ? voice.lang : "en-US";
     const english = /^en/i.test(lang);
@@ -731,7 +731,7 @@ function speak(arg, rate = 0.78, applyOverride = true) {
     // (Filipino/Malay) voice reads the raw Waray; an English voice does better on the respelling.
     const ov = applyOverride ? words.map((w) => _ttsOverride[ovKey(w)] || null) : [];
     const text = ov.some(Boolean) ? words.map((w, i) => ov[i] || w).join(", ")
-      : english ? (card.say ? respellForTTS(card.say) : rawWaray)
+      : english ? (card.pronunciation ? respellForTTS(card.pronunciation) : rawWaray)
       : rawWaray;
 
     const u = new SpeechSynthesisUtterance(text);
@@ -892,7 +892,7 @@ export default function App() {
   const startLessonPart = useCallback((lesson, partIdx) => {
     const part = partsFor(lesson)[partIdx];
     const ids = lessonCards(cards, lesson).map((c) => c.id);
-    setSession({ deckKeys: Object.keys(DECKS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx }, remediate: part.mode === "type" });
+    setSession({ topicKeys: Object.keys(TOPICS), dir: part.dir, mode: part.mode, limit: ids.length, only: ids, lesson: { id: lesson.id, part: partIdx }, remediate: part.mode === "type" });
     setView("session");
   }, [cards]);
   // DB (grammar-spine) lesson STEP: teach/vocab open a reading screen; a drill runs the book's
@@ -906,10 +906,10 @@ export default function App() {
       // book's two sections). dirMap keys direction to the card so it survives shuffling; order is kept.
       const half = Math.ceil(step.items.length / 2);
       const dirMap = {}; step.items.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
-      setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: step.items.length, only: step.items, dirMap, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
+      setSession({ topicKeys: Object.keys(TOPICS), dir: "wte", mode: "type", limit: step.items.length, only: step.items, dirMap, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
     } else {
       const [dir, mode] = drillParams(step);
-      setSession({ deckKeys: Object.keys(DECKS), dir, mode, limit: step.items.length, only: step.items, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
+      setSession({ topicKeys: Object.keys(TOPICS), dir, mode, limit: step.items.length, only: step.items, footnote: step.footnote || null, lesson: { id: lesson.id, part: idx } });
     }
     setView("session");
   }, []);
@@ -917,7 +917,7 @@ export default function App() {
   // unit, English→Waray typed, no remediation (it's a real test). Pass = 80%.
   const startUnitReview = useCallback((unit) => {
     const picks = unitReviewCards(cards, prog, unit, 10);
-    setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", limit: picks.length, only: picks.map((c) => c.id), unitReview: { id: unit.id, name: unit.name } });
+    setSession({ topicKeys: Object.keys(TOPICS), dir: "etw", mode: "type", limit: picks.length, only: picks.map((c) => c.id), unitReview: { id: unit.id, name: unit.name } });
     setView("session");
   }, [cards, prog]);
   // an end-of-lesson gate (DB courses): a graded test over its EXACT recall items (produce Waray,
@@ -940,7 +940,7 @@ export default function App() {
       const half = Math.ceil(ids.length / 2);
       ids.forEach((id, k) => { dirMap[id] = k < half ? "wte" : "etw"; });
     }
-    setSession({ deckKeys: Object.keys(DECKS), dir: "wte", mode: "type", limit: ids.length, only: ids, dirMap, gate: { id: gate.id, name: gate.name } });
+    setSession({ topicKeys: Object.keys(TOPICS), dir: "wte", mode: "type", limit: ids.length, only: ids, dirMap, gate: { id: gate.id, name: gate.name } });
     setView("session");
   }, [cards]);
   // record a unit-review result; "passed" is sticky (once mastered, stays so)
@@ -1282,7 +1282,7 @@ function DbItem({ it, dir, choices }) {
       <div style={{ background: "rgba(197,138,42,.06)", borderRadius: 8, padding: "6px 8px", margin: "3px 0", display: "flex", flexDirection: "column", gap: 5 }}>
         <div style={{ display: "flex", gap: 7, alignItems: "baseline", flexWrap: "wrap" }}>
           <DirBadge d={dir} />
-          <b onClick={() => speak({ waray: it.waray, say: pron || "", english: meaning })} style={{ fontFamily: "Georgia,serif", fontSize: 15, cursor: "pointer" }} title="Tap to hear">{it.waray}</b>
+          <b onClick={() => speak({ waray: it.waray, pronunciation: pron || "", english: meaning })} style={{ fontFamily: "Georgia,serif", fontSize: 15, cursor: "pointer" }} title="Tap to hear">{it.waray}</b>
         </div>
         <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
           {choices.map((ch, k) => (
@@ -1295,7 +1295,7 @@ function DbItem({ it, dir, choices }) {
     );
   }
   return (
-    <div onClick={() => speak({ waray: it.waray, say: pron || "", english: meaning })}
+    <div onClick={() => speak({ waray: it.waray, pronunciation: pron || "", english: meaning })}
       style={{ cursor: "pointer", padding: "3px 0", borderBottom: "1px dotted #24454b", display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}
       title="Tap to hear">
       <DirBadge d={dir} />
@@ -1847,7 +1847,7 @@ function LanguageView({ ctx }) {
     for (const p of st.course.phases || []) for (const u of p.units || []) for (const l of u.lessons || []) for (const b of l.blocks || []) for (const it of b.items || []) {
       const eng = it.meaning || it.translation || "";
       if (!it.waray || !eng || seen.has(it.waray)) continue;
-      seen.add(it.waray); out.push({ id: it.waray, waray: it.waray, english: eng, deck: u.id });
+      seen.add(it.waray); out.push({ id: it.waray, waray: it.waray, english: eng, topic: u.id });
     }
     return out;
   }, [st.course]);
@@ -2057,7 +2057,7 @@ function DbReviewRow({ entry, onConfirmed }) {
   return (
     <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
       <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700 }}>{entry.kind}{entry.loan ? ` · ${entry.loan} loan` : ""}</div>
-      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, say: pron, english: chosen || entry.meaning })} title="Tap to hear">{entry.waray} 🔊</b>
+      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, pronunciation: pron, english: chosen || entry.meaning })} title="Tap to hear">{entry.waray} 🔊</b>
       {options.map((o) => optionRow(o.key, o.label, o.text))}
       <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
         <input type="radio" name={"dict-" + entry.waray} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
@@ -2512,7 +2512,7 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
-  // Search the FULL dictionary, not just the drilled deck: merge deck cards with dictionary-only
+  // Search the FULL dictionary, not just the drilled topic: merge deck cards with dictionary-only
   // words (e.g. "libro", used only inside example sentences so it never became a card). Dedup by
   // Waray — a deck card (carries an example/subtext) wins over the bare dictionary row.
   const all = useMemo(() => {
@@ -2520,7 +2520,7 @@ function DictSheet({ ctx }) {
     for (const c of cards) byW.set(c.waray, c);
     for (const d of (ACTIVE.dictionary || [])) {
       if (!d.waray || byW.has(d.waray)) continue;
-      byW.set(d.waray, { id: d.waray, waray: d.waray, english: d.meaning || "", say: d.pronunciation || "", subtext: "", example: null });
+      byW.set(d.waray, { id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null });
     }
     return [...byW.values()];
   }, [cards]);
@@ -2560,7 +2560,7 @@ function DictSheet({ ctx }) {
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
         <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
-          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.say && <span className="ws-dict-hit-say">/ {c.say} /</span>}</div>
+          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}</div>
           <div className="ws-dict-hit-eng">{c.english}</div>
         </button>
       ))}
@@ -2572,12 +2572,12 @@ function DictSheet({ ctx }) {
 function DictEntry({ card, st, ctx, onBack }) {
   const { playCard, togglePin } = ctx;
   const p = masteryPct(st);
-  const deck = DECKS[card.deck];
+  const deck = TOPICS[card.topic];
   return (
     <div className="ws-dict-entry">
       <button className="ws-sheet-back" onClick={onBack}><ChevronLeft size={15} /> results</button>
       <div className="ws-dict-hw">{card.waray}</div>
-      {card.say && <div className="ws-dict-hw-say">/ {card.say} /</div>}
+      {card.pronunciation && <div className="ws-dict-hw-say">/ {card.pronunciation} /</div>}
       <div className="ws-dict-hw-eng">{card.english}</div>
       <div className="ws-dict-entry-meta">
         {deck && <span className="ws-dict-tag">{deck.short}</span>}
@@ -2706,10 +2706,10 @@ function ConstellationGrid({ cards, prog }) {
 }
 
 /* ============================ SESSION ============================ */
-function buildQueue(cards, prog, deckKeys, limit, only) {
+function buildQueue(cards, prog, topicKeys, limit, only) {
   const pool = only
     ? cards.filter((c) => only.includes(c.id))
-    : cards.filter((c) => deckKeys.includes(c.deck));
+    : cards.filter((c) => topicKeys.includes(c.topic));
   const dueCards = pool.filter((c) => isDue(prog[c.id]));
   const rest = pool.filter((c) => !isDue(prog[c.id]))
     .sort((a, b) => (prog[a.id]?.last || 0) - (prog[b.id]?.last || 0));
@@ -2731,7 +2731,7 @@ function SessionView({ ctx }) {
   // sessions shuffle as usual.
   const base = useRef(session.dirMap
     ? (session.only || []).map((id) => cards.find((c) => c.id === id)).filter(Boolean)
-    : buildQueue(cards, prog, session.deckKeys, session.limit, session.only)).current;
+    : buildQueue(cards, prog, session.topicKeys, session.limit, session.only)).current;
   const [steps, setSteps] = useState(() => base.map((c) => ({ card: c, mode: session.mode, scored: true })));
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
@@ -2848,7 +2848,7 @@ function pickDistractors(cards, card, dir, prefer) {
   const out = [];
   const fill = (list) => { for (const c of shuffle(list)) { if (out.length === 3) break; if (!distinct(c)) continue; const v = c[field]; if (v && !seen.has(key(v))) { seen.add(key(v)); out.push(v); } } };
   fill((prefer || []).filter(shaped));                                       // this section first
-  if (out.length < 3) fill(cards.filter((c) => shaped(c) && c.deck === card.deck)); // this unit
+  if (out.length < 3) fill(cards.filter((c) => shaped(c) && c.topic === card.topic)); // this unit
   if (out.length < 3) fill(cards.filter(shaped));                            // any unit, same shape
   if (out.length < 3) fill(cards);                                           // last resort: relax shape
   return out;
@@ -3041,7 +3041,7 @@ function SttTestView({ ctx }) {
       <div className={`ws-stt-card ${phase}`}>
         <div className="ws-stt-prompt">{card ? card.waray : "—"}</div>
         <div className="ws-stt-gloss">{card ? card.english : ""}</div>
-        {card && card.say && <div className="ws-stt-say">{card.say}</div>}
+        {card && card.pronunciation && <div className="ws-stt-say">{card.pronunciation}</div>}
 
         {phase === "listening" && (
           <div className="ws-stt-live">
@@ -3232,13 +3232,13 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
     const listening = mode === "listen";
     return (
       <div className="ws-card">
-        <div className="ws-card-tag">{DECKS[card.deck].short} · {listening ? "Listen" : dir === "wte" ? "Waray → English" : "English → Waray"}</div>
+        <div className="ws-card-tag">{TOPICS[card.topic].short} · {listening ? "Listen" : dir === "wte" ? "Waray → English" : "English → Waray"}</div>
         {listening ? (
           <button className="ws-listen-big" onClick={() => playCard(card)}>
             <Volume2 size={30} /><span>Tap to hear</span>
           </button>
         ) : (
-          <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+          <PromptBlock text={prompt} isWaray={promptIsWaray} pronunciation={promptIsWaray ? card.pronunciation : ""}
             onPlay={() => playCard(card)} />
         )}
 
@@ -3279,8 +3279,8 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   if (mode === "type") {
     return (
       <div className="ws-card">
-        <div className="ws-card-tag">{DECKS[card.deck].short} · Type the {dir === "wte" ? "English" : "Waray"}</div>
-        <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+        <div className="ws-card-tag">{TOPICS[card.topic].short} · Type the {dir === "wte" ? "English" : "Waray"}</div>
+        <PromptBlock text={prompt} isWaray={promptIsWaray} pronunciation={promptIsWaray ? card.pronunciation : ""}
           onPlay={() => playCard(card)} />
         {!judged ? (
           voiceMode ? (
@@ -3334,8 +3334,8 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   if (mode === "flash") {
     return (
       <div className="ws-card">
-        <div className="ws-card-tag">{DECKS[card.deck].short} · Flashcard</div>
-        <PromptBlock text={prompt} isWaray={promptIsWaray} say={promptIsWaray ? card.say : ""}
+        <div className="ws-card-tag">{TOPICS[card.topic].short} · Flashcard</div>
+        <PromptBlock text={prompt} isWaray={promptIsWaray} pronunciation={promptIsWaray ? card.pronunciation : ""}
           onPlay={() => playCard(card)} />
         {!revealed ? (
           <button className="ws-reveal" onClick={() => setRevealed(true)}>Show answer</button>
@@ -3363,11 +3363,11 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   return null;
 }
 
-function PromptBlock({ text, isWaray, say, onPlay }) {
+function PromptBlock({ text, isWaray, pronunciation, onPlay }) {
   return (
     <div className="ws-prompt">
       <div className={isWaray ? "ws-prompt-waray" : "ws-prompt-eng"}>{text}</div>
-      {isWaray && say && <div className="ws-say">/ {say} /</div>}
+      {isWaray && pronunciation && <div className="ws-say">/ {pronunciation} /</div>}
       {isWaray && (
         <button className="ws-mini-play" onClick={onPlay}><Volume2 size={16} /> hear it</button>
       )}
@@ -3418,7 +3418,7 @@ function Verdict({ card, ctx, answer, correct, showWaray, onResult, allowOverrid
       {youSaid && <div className="ws-verdict-yousaid">you said: {youSaid}</div>}
       {card.subtext && <div className="ws-subtext">{card.subtext}</div>}
       {card.example?.war && (
-        <button className="ws-verdict-eg" onClick={() => playCard({ waray: card.example.war, say: "" })} title="Hear it in use">
+        <button className="ws-verdict-eg" onClick={() => playCard({ waray: card.example.war, pronunciation: "" })} title="Hear it in use">
           <span className="ws-eg-war"><FocusPhrase war={card.example.war} focus={card.example.focus} /> <Volume2 size={12} className="ws-eg-play" /></span>
           <span className="ws-eg-en">{card.example.en}</span>
         </button>
@@ -3456,7 +3456,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
 
   return (
     <div className="ws-card">
-      <div className="ws-card-tag">{DECKS[card.deck].short} · Speak it</div>
+      <div className="ws-card-tag">{TOPICS[card.topic].short} · Speak it</div>
       <div className="ws-speak-prompt">
         <div className="ws-speak-instr">Say this in Waray:</div>
         <div className="ws-prompt-eng">{wantWaray ? prompt : answer}</div>
@@ -3474,7 +3474,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
               <Volume2 size={16} /> reference
             </button>
           </div>
-          {card.say && <div className="ws-say">/ {card.say} /</div>}
+          {card.pronunciation && <div className="ws-say">/ {card.pronunciation} /</div>}
           <SelfGrade onResult={onResult} />
         </>
       )}
@@ -3833,7 +3833,7 @@ function ClozeView({ ctx }) {
       <div style={{ textAlign: "center", padding: "26px 16px" }}>
         <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Which marker fits?</p>
         <div style={{ fontFamily: "Georgia,serif", fontSize: 30, fontWeight: 600, margin: "10px 0 2px", cursor: "pointer" }}
-          onClick={() => speak({ waray: it.full, say: "", english: "" })} title="Tap to hear">
+          onClick={() => speak({ waray: it.full, pronunciation: "", english: "" })} title="Tap to hear">
           {it.before && <>{it.before}{" "}</>}
           <span style={{ color: picked ? (picked === it.answer ? "var(--jade)" : "var(--coral)") : "var(--tide)", borderBottom: "2px dashed var(--sand-deep)", padding: "0 6px" }}>
             {picked ? it.answer : "___"}
@@ -3924,7 +3924,7 @@ function LessonView({ ctx }) {
           <button key={c.id} className="ws-lword" onClick={() => playCard(c)}>
             <div>
               <div className="ws-lword-w">{c.waray}</div>
-              {c.say && <div className="ws-lword-say">/ {c.say} /</div>}
+              {c.pronunciation && <div className="ws-lword-say">/ {c.pronunciation} /</div>}
             </div>
             <div className="ws-lword-e">{c.english}</div>
           </button>
@@ -3982,7 +3982,7 @@ function TeachView({ ctx }) {
           <div className="ws-lwords">
             {step.items.map((id) => { const c = byId[id]; if (!c) return null; return (
               <button key={id} className="ws-lword" onClick={() => playCard(c)}>
-                <div><div className="ws-lword-w">{c.waray}</div>{c.say && <div className="ws-lword-say">/ {c.say} /</div>}</div>
+                <div><div className="ws-lword-w">{c.waray}</div>{c.pronunciation && <div className="ws-lword-say">/ {c.pronunciation} /</div>}</div>
                 <div className="ws-lword-e">{c.english}</div>
               </button>
             ); })}
@@ -4143,7 +4143,7 @@ function NeedsWorkView({ ctx }) {
           <button className="ws-start ws-full" onClick={() => {
             // produce it from memory (English → Waray, typed) with remediation: a miss
             // keeps re-drilling until cleared — a real mastery drill, not soft recognition
-            setSession({ deckKeys: Object.keys(DECKS), dir: "etw", mode: "type", remediate: true, drill: true, limit: drill.length, only: drill.map((c) => c.id) });
+            setSession({ topicKeys: Object.keys(TOPICS), dir: "etw", mode: "type", remediate: true, drill: true, limit: drill.length, only: drill.map((c) => c.id) });
             setView("session");
           }}>
             <Play size={18} /> Drill {drill.length} {drill.length === items.length ? "" : "— a fair mix"}
@@ -4205,7 +4205,7 @@ function StoryView({ ctx }) {
       <div className="ws-read-meta">{story.titleEn} · {storyUnit.name} story · tap a line to hear it</div>
       <div className="ws-story-body">
         {story.lines.map((ln, i) => (
-          <div key={i} className="ws-story-line" onClick={() => playCard({ waray: ln.war, say: "" })}>
+          <div key={i} className="ws-story-line" onClick={() => playCard({ waray: ln.war, pronunciation: "" })}>
             <div className="ws-story-war">
               {ln.war}
               <Volume2 size={14} className="ws-story-play" />
@@ -4270,9 +4270,9 @@ function ReadView({ ctx }) {
       let g = glossFor(n);
       if (g && VARIANTS[n] && !DEFINITIONS[n]) g = `${g}  (form of ${VARIANTS[n]})`;
       setSel({ word: core, gloss: g });
-      playCard({ waray: core, say: "" });
+      playCard({ waray: core, pronunciation: "" });
     };
-    const tapChunk = (text, gloss) => { setSel({ word: text, gloss }); playCard({ waray: text, say: "" }); };
+    const tapChunk = (text, gloss) => { setSel({ word: text, gloss }); playCard({ waray: text, pronunciation: "" }); };
     // render a paragraph word-by-word, but match registered multi-word chunks LONGEST-FIRST
     const renderPara = (p, pi) => {
       const parts = p.split(/(\s+)/); // alternating words & whitespace
@@ -4303,7 +4303,7 @@ function ReadView({ ctx }) {
         out.push(<span key={i} className={`ws-rw ${kn ? "" : "new"}`} onClick={() => tap(part)}>{part}</span>);
         i++;
       }
-      out.push(<button key="play" className="ws-read-play" title="Hear this line" onClick={() => playCard({ waray: p, say: "" })}><Volume2 size={14} /></button>);
+      out.push(<button key="play" className="ws-read-play" title="Hear this line" onClick={() => playCard({ waray: p, pronunciation: "" })}><Volume2 size={14} /></button>);
       return <p key={pi} className="ws-read-p">{out}</p>;
     };
     return (
@@ -4343,7 +4343,7 @@ function ReadView({ ctx }) {
             : <>From <b>Bible for Children</b> — free to copy, not for sale. Used with attribution.</>}
         </div>
         {sel && (
-          <div className="ws-gloss-bar" onClick={() => playCard({ waray: sel.word, say: "" })}>
+          <div className="ws-gloss-bar" onClick={() => playCard({ waray: sel.word, pronunciation: "" })}>
             <Volume2 size={16} />
             <b>{sel.word}</b>
             <span>{sel.gloss || "not in the glossary — likely a name, or a rare/inflected word (tap to hear it)"}</span>
@@ -4579,14 +4579,14 @@ function SettingsView({ ctx }) {
 // sessions differ). Efraimidis-Spirakis weighted sampling gives a fresh order each visit.
 function difficultyOf(c) {
   const w = c.waray.toLowerCase();
-  const syl = ((c.say || "").match(/-/g) || []).length + 1;    // syllable count from the guide
+  const syl = ((c.pronunciation || "").match(/-/g) || []).length + 1;    // syllable count from the guide
   const glottal = (w.match(/-/g) || []).length;                // glottal stops — hard for Americans
   const ngOnset = /(^|[-\s])ng/.test(w) ? 1 : 0;              // syllable-initial ng — hard for Americans
   const diph = (w.match(/(ay|aw)/g) || []).length;             // -ay/-aw diphthongs
   return syl * 2 + glottal * 3 + ngOnset * 2 + diph + w.replace(/[^a-z]/g, "").length / 4;
 }
 function practicePool(cards, key) {
-  const cand = cards.filter((c) => (c.say || "").includes("-") && !/[\s/]/.test(c.waray) && c.waray.length >= 3);
+  const cand = cards.filter((c) => (c.pronunciation || "").includes("-") && !/[\s/]/.test(c.waray) && c.waray.length >= 3);
   let recent = []; try { recent = JSON.parse(localStorage.getItem(key) || "[]"); } catch (e) {}
   const seen = new Set(recent);
   return cand
@@ -4618,7 +4618,7 @@ function syllabifyWaray(w) {   // same algorithm as the guide generator (build-r
 function StressDebug({ res, card, syls, expected }) {
   const [open, setOpen] = useState(false);
   const dump = [
-    `word: ${card.waray}  guide: ${card.say}  expected-stress: #${expected + 1} (${syls[expected]})`,
+    `word: ${card.waray}  guide: ${card.pronunciation}  expected-stress: #${expected + 1} (${syls[expected]})`,
     `frames: ${res.nFrames} (${res.nFrames * 20}ms)  floor: ${res.floor?.toFixed(4)}  peak: ${res.peakV?.toFixed(4)}  threshold: ${res.th?.toFixed(4)}`,
     `raw bursts: ${res.nRaw} → segments after split: ${res.segs.length} (expected ${syls.length})`,
     ...res.segs.map((g, i) => `  seg${i + 1}${res.countOk ? ` (${syls[i]})` : ""}: ${g.a * 20}–${(g.b + 1) * 20}ms  dur ${(g.b - g.a + 1) * 20}ms  score ${res.scores[i]?.toFixed(4)}  rel ${Math.round(100 * res.scores[i] / Math.max(...res.scores, 1e-9))}%${i === res.detected ? "  ← DETECTED STRESS" : ""}`),
@@ -4783,7 +4783,7 @@ function AccentDuelView({ ctx }) {
   const warayPool = useMemo(() => practicePool(cards, "sulog:practiced"), [cards]);
   const enPool = useMemo(() => shuffle(EN_TRAPS.slice()), []);   // fresh order each game
   const players = [
-    { flag: "🇺🇸", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].say, card: warayPool[n % warayPool.length] } },
+    { flag: "🇺🇸", lang: "Waray", locale: "fil-PH", pick: (n) => warayPool[n % (warayPool.length || 1)] && { word: warayPool[n % warayPool.length].waray, guide: warayPool[n % warayPool.length].pronunciation, card: warayPool[n % warayPool.length] } },
     { flag: "🇵🇭", lang: "English", locale: "en-US", pick: (n) => ({ word: enPool[n % enPool.length].w, guide: enPool[n % enPool.length].g }) },
   ];
   const [phase, setPhase] = useState("setup");     // setup | turn | result | over
@@ -5011,7 +5011,7 @@ function StressLabView({ ctx }) {
   const liveCanvas = useRef(null);
   const envCanvas = useRef(null);
   const card = pool[idx % (pool.length || 1)];
-  const syls = card ? card.say.split("-") : [];
+  const syls = card ? card.pronunciation.split("-") : [];
   const wordSyls = card ? syllabifyWaray(card.waray) : [];
   const expected = syls.findIndex((x) => /[A-Z]/.test(x));
   useEffect(() => { if (card) markPracticed(card.id, "sulog:practiced"); }, [card && card.id]);
@@ -5255,9 +5255,9 @@ function TtsCompare({ onClose, rate, voiceLabel, admin }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
-  const play = (s) => speak({ waray: s, say: "" }, rate, mode === "override");
+  const play = (s) => speak({ waray: s, pronunciation: "" }, rate, mode === "override");
   const openEdit = (w) => { const k = ovKey(w); setEdit({ word: k, raw: w }); setText(ov[k] || ""); setMsg(""); };
-  const tryText = () => speak({ waray: text || edit.raw, say: "" }, rate, false);  // hear the typed spelling literally
+  const tryText = () => speak({ waray: text || edit.raw, pronunciation: "" }, rate, false);  // hear the typed spelling literally
   const save = async () => {
     try {
       await saveTtsOverride(edit.word, text);
@@ -5341,7 +5341,7 @@ function PronounceView({ ctx }) {
   const activeRank = activeVoice ? voiceRank(activeVoice) : 0;
   // preview the sample phrase at a given base rate (mirrors the adaptive offset)
   // test phrase — exercises the overrides (mga→manga, hi→hee) and ordinary words in one breath
-  const preview = (r) => speak({ waray: "Maupay nga aga, magluluto mga platos, ako po hi Paul", say: "" }, settings.adaptive ? r - 0.1 : r);
+  const preview = (r) => speak({ waray: "Maupay nga aga, magluluto mga platos, ako po hi Paul", pronunciation: "" }, settings.adaptive ? r - 0.1 : r);
   // persist the chosen voice AND apply it to _voiceURI immediately, so the
   // preview uses it without waiting for the settings effect to commit
   const pickVoice = (uri) => {
@@ -5487,7 +5487,7 @@ function PronounceView({ ctx }) {
       <SectionLabel text="Hear the pattern" />
       <div className="ws-pron-ex">
         {examples.map(([w, s, e], i) => (
-          <button key={i} className="ws-pron-row" onClick={() => speak({ waray: w, say: s })}>
+          <button key={i} className="ws-pron-row" onClick={() => speak({ waray: w, pronunciation: s })}>
             <Volume2 size={16} />
             <div>
               <div className="ws-pron-w">{w}</div>
@@ -5789,7 +5789,7 @@ function Styles() {
 .ws-decks{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
 .ws-deck{background:var(--foam);border:1px solid var(--sand-deep);border-radius:16px;
   padding:14px 15px;cursor:pointer;text-align:left;transition:.15s}
-.ws-deck:active{transform:scale(.99)}
+.ws-topic:active{transform:scale(.99)}
 .ws-deck-top{display:flex;justify-content:space-between;align-items:center}
 .ws-deck-name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink)}
 .ws-deck-count{font-size:12px;color:var(--ink-soft);background:var(--sand);border-radius:20px;
