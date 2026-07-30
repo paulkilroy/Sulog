@@ -5511,7 +5511,8 @@ function Styles() {
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 .ws-root{font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
   background:radial-gradient(135% 80% at 50% -8%, #123a3f 0%, var(--shell) 52%);
-  min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
+  min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45;
+  padding-top:env(safe-area-inset-top)}   /* iOS standalone: keep the top bar below the notch/status bar */
 .ws-root *::selection{background:var(--tide);color:#fff}
 /* the Ella review queue gets desktop room (everything else stays phone-shaped) */
 @media(min-width:900px){.ws-root[data-view="ella"],.ws-root[data-view="dbreview"]{max-width:860px}
@@ -5796,7 +5797,7 @@ function Styles() {
   font-variant-numeric:tabular-nums;margin:18px 0 84px}
 .ws-bottombar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
   background:rgba(9,24,28,.92);backdrop-filter:blur(10px);border-top:1px solid var(--sand-deep);
-  display:flex;padding:8px 0 10px;z-index:20}
+  display:flex;padding:8px 0 calc(10px + env(safe-area-inset-bottom));z-index:20}
 .ws-bb{flex:1;background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
   font-size:10.5px;color:var(--ink-soft);cursor:pointer;font-weight:500;font-family:inherit}
 .ws-bb.active{color:var(--sea)}
@@ -5811,8 +5812,8 @@ function Styles() {
 .ws-drawer.open{transform:translateX(0)}
 @media(prefers-reduced-motion:reduce){.ws-drawer,.ws-drawer-scrim{transition:none}}
 .ws-drawer[aria-hidden="true"]{pointer-events:none}
-.ws-drawer-body{height:100%;overflow-y:auto;padding:8px 8px 24px}
-.ws-drawer-x{position:absolute;top:12px;right:11px;width:34px;height:34px;border-radius:9px;z-index:2;
+.ws-drawer-body{height:100%;overflow-y:auto;padding:calc(8px + env(safe-area-inset-top)) 8px 24px}
+.ws-drawer-x{position:absolute;top:calc(12px + env(safe-area-inset-top));right:11px;width:34px;height:34px;border-radius:9px;z-index:2;
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);display:grid;place-items:center;cursor:pointer}
 /* instructor dashboard */
 .ws-dash-summary{display:flex;gap:10px;margin:2px 0 8px}
