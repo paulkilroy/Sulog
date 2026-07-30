@@ -2402,7 +2402,7 @@ function HomeView({ ctx }) {
       {/* ☰ side drawer — always mounted so it can slide in and back out */}
       <div className={`ws-drawer-scrim ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)} />
       <div className={`ws-drawer ${menuOpen ? "open" : ""}`} role="menu" aria-hidden={!menuOpen}>
-        <button className="ws-drawer-x" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={19} /></button>
+        <button className="ws-drawer-x" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={18} /></button>
         <div className="ws-drawer-body">
             <div className="ws-menu-top"><b>Menu</b></div>
 
@@ -5511,8 +5511,7 @@ function Styles() {
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 .ws-root{font-family:'Outfit',system-ui,sans-serif;color:var(--ink);
   background:radial-gradient(135% 80% at 50% -8%, #123a3f 0%, var(--shell) 52%);
-  min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45;
-  padding-top:env(safe-area-inset-top)}   /* iOS standalone: keep the top bar below the notch/status bar */
+  min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
 .ws-root *::selection{background:var(--tide);color:#fff}
 /* the Ella review queue gets desktop room (everything else stays phone-shaped) */
 @media(min-width:900px){.ws-root[data-view="ella"],.ws-root[data-view="dbreview"]{max-width:860px}
@@ -5520,6 +5519,14 @@ function Styles() {
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}
+/* Installed PWA (no browser chrome): clear the notch, and keep the drawer's X + "Menu" row aligned
+   with the home top bar's hamburger (home bar sits at page-pad-top + 16px overlay = env+22). The
+   browser keeps the plain 18px top (its own chrome already offsets the status bar). */
+@media(display-mode:standalone){
+  .ws-page{padding-top:calc(env(safe-area-inset-top) + 6px)}
+  .ws-drawer-x{top:calc(env(safe-area-inset-top) + 22px)}
+  .ws-drawer-body{padding-top:calc(env(safe-area-inset-top) + 22px)}
+}
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
@@ -5812,8 +5819,8 @@ function Styles() {
 .ws-drawer.open{transform:translateX(0)}
 @media(prefers-reduced-motion:reduce){.ws-drawer,.ws-drawer-scrim{transition:none}}
 .ws-drawer[aria-hidden="true"]{pointer-events:none}
-.ws-drawer-body{height:100%;overflow-y:auto;padding:calc(8px + env(safe-area-inset-top)) 8px 24px}
-.ws-drawer-x{position:absolute;top:calc(12px + env(safe-area-inset-top));right:11px;width:34px;height:34px;border-radius:9px;z-index:2;
+.ws-drawer-body{height:100%;overflow-y:auto;padding:34px 8px 24px}
+.ws-drawer-x{position:absolute;top:34px;right:34px;width:30px;height:30px;border-radius:9px;z-index:2;
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink);display:grid;place-items:center;cursor:pointer}
 /* instructor dashboard */
 .ws-dash-summary{display:flex;gap:10px;margin:2px 0 8px}
