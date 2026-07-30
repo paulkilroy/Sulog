@@ -188,6 +188,19 @@ const CURRICULUM = ACTIVE.curriculum;
 const LESSON_FLOW = CURRICULUM.flatMap((s) =>
   s.units.flatMap((u) => u.lessons.map((l) => ({ ...l, unit: u, section: s })))
 );
+// where a word is first TAUGHT (a vocab step introduces it) — not merely referenced in a drill.
+// Keyed by card id (the Waray string). Powers the "Taught in …" badge in the dictionary.
+const TAUGHT_IN = (() => {
+  const m = {};
+  for (const s of CURRICULUM)
+    for (const u of (s.units || []))
+      for (const l of (u.lessons || []))
+        for (const step of (l.steps || []))
+          if (step.type === "vocab")
+            for (const w of (step.items || []))
+              if (w && !m[w]) m[w] = { lesson: l.name || l.title || l.id, unit: u.name, lessonId: l.id };
+  return m;
+})();
 // resolve a lesson's item words to real card objects (skip any that don't exist)
 function lessonCards(cards, lesson) {
   const byWaray = {};
@@ -2560,7 +2573,7 @@ function DictSheet({ ctx }) {
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
         <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
-          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}</div>
+          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
           <div className="ws-dict-hit-eng">{c.english}</div>
         </button>
       ))}
@@ -2583,6 +2596,9 @@ function DictEntry({ card, st, ctx, onBack }) {
         {deck && <span className="ws-dict-tag">{deck.short}</span>}
         <span className="ws-dict-tag">{st?.seen ? `${p}% mastered` : "not started"}</span>
       </div>
+      {TAUGHT_IN[card.id]
+        ? <div className="ws-dict-taught">📚 Taught in {TAUGHT_IN[card.id].unit} · {TAUGHT_IN[card.id].lesson}</div>
+        : <div className="ws-dict-taught ws-dict-taught-off">Not taught in the course — dictionary reference</div>}
       <div className="ws-dict-entry-acts">
         <button onClick={() => playCard(card)}><Volume2 size={16} /> Hear it</button>
         <button className={st?.pinned ? "on" : ""} onClick={() => togglePin(card.id)}><Star size={16} /> {st?.pinned ? "Pinned" : "Pin"}</button>
@@ -5926,6 +5942,9 @@ function Styles() {
 .ws-dict-hw-eng{font-size:16px;color:var(--ink-soft);margin-top:8px}
 .ws-dict-entry-meta{display:flex;gap:7px;margin-top:12px}
 .ws-dict-tag{font-size:11px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:20px;padding:3px 10px}
+.ws-dict-taught{font-size:12.5px;color:var(--jade);font-weight:600;margin-top:10px}
+.ws-dict-taught-off{color:var(--ink-soft);font-weight:400}
+.ws-dict-hit-taught{font-size:10px;color:var(--jade);font-weight:600;margin-left:7px;white-space:nowrap}
 .ws-dict-entry-acts{display:flex;gap:9px;margin-top:18px}
 .ws-dict-entry-acts button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--sand);border:1px solid var(--sand-deep);
   color:var(--ink);font-family:inherit;font-size:13.5px;font-weight:600;padding:11px;border-radius:11px;cursor:pointer}
