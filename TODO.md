@@ -34,8 +34,22 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
   never updated — so glue words like `mga` get an arbitrary topic. It's used only for the card's
   category tag and for same-topic multiple-choice distractors. Decide: derive it from the unit,
   or drop it in favor of the curriculum (unit/lesson) as the sole grouping.
-- Naming: card-model vocabulary standardized — `SEED→CARDS`, `deck→topic`, `say→pronunciation`,
-  `gloss/GLOSS/meaning→definition` (DB columns + tramp.json data field left as-is at the boundaries).
+- Naming: card-model vocabulary standardized in code — `SEED→CARDS`, `deck→topic`,
+  `say→pronunciation`, `GLOSS/GLOSS_FIX→DEFINITIONS/DEFINITION_FIX`. The dictionary `meaning` field
+  is KEPT (mirrors the DB `meanings` column, read+written across the classroom path); "definition"
+  is the prose term only. DB columns + tramp.json data left as-is at the boundaries.
+- [ ] **`tools/build-stories.mjs` is broken** — it imports `src/courses/waray/gloss-extra.js`,
+  which has never existed in git, so it can't run and `stories.js` (the reader's `DEFINITIONS` map)
+  can't be regenerated. Make the missing import optional (default `{}`) or restore the file, then
+  the `DEFINITION_FIX` → `DEFINITIONS` pipeline works again.
+- [ ] **Loanword provenance (NOT a user-facing gap).** The PC loanwords absent from Zorc/Oyzon
+  (tinidor, museo, Agosto, sekretarya, sorbetes, kostums, pumpboat, isnak, Diyos-diyos, Kristohanon)
+  ALREADY show meanings in-app (reader `DEFINITIONS` + each card's English). The only gap is
+  authoritative-dictionary backing. When wanted, add them as PK-authored rows to the DB `dictionary`
+  (curated `DEFINITION_FIX` entries were prepared but reverted — inert until build-stories is fixed).
+- [ ] **`maalsom` → `maaslom` spelling fix.** The PC book mis-OCR'd it (als↔asl); correct is
+  `maaslom` (ma- + `aslom`; Zorc: `áslom` "sour"). Keep the `ma-`. The card is in the DB, so this
+  needs a DB edit / a `pc-corrections` mechanism — not just a lookup-map entry.
 
 ## 🎓 Classroom platform — Voltz (Aug 17 2026, CRITICAL)
 
