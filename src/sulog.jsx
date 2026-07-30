@@ -2500,10 +2500,29 @@ function DictSheet({ ctx }) {
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return [];
-    const hit = cards.filter((c) => (c.waray + " " + c.english).toLowerCase().includes(s));
-    // exact/prefix matches first, then the rest — capped at 5
-    hit.sort((a, b) => (b.waray.toLowerCase().startsWith(s) - a.waray.toLowerCase().startsWith(s)));
-    return hit.slice(0, 5);
+    const esc = s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const wordRe = new RegExp("(^|\\s)" + esc + "($|\\s)");   // s as a whole word inside a phrase
+    const isWord = (w) => !/\s/.test(w);
+    // Rank single-word Waray matches ABOVE phrases: exact word ≫ single word ≫ prefix ≫ whole-word-
+    // in-phrase ≫ substring; English matches score lower. So "libro" the word beats "libro han pastor".
+    const score = (c) => {
+      const w = (c.waray || "").toLowerCase(), e = (c.english || "").toLowerCase();
+      let waray = 0;
+      if (w === s) waray = 1000;               // exact Waray word
+      else if (w.startsWith(s)) waray = 50;    // Waray prefix
+      else if (wordRe.test(w)) waray = 25;     // s is a whole word inside a phrase
+      else if (w.includes(s)) waray = 10;      // Waray substring
+      let sc = waray;
+      if (waray && isWord(c.waray)) sc += 100; // single Waray word beats any phrase (Waray hits only)
+      if (e === s) sc += 40; else if (e.startsWith(s)) sc += 8; else if (e.includes(s)) sc += 3;
+      return sc - w.length * 0.05;             // tiebreak: shorter/closer first
+    };
+    return cards
+      .filter((c) => ((c.waray || "") + " " + (c.english || "")).toLowerCase().includes(s))
+      .map((c) => [score(c), c])
+      .sort((a, b) => b[0] - a[0])
+      .slice(0, 8)
+      .map(([, c]) => c);
   }, [q, cards]);
 
   if (sel) return <DictEntry card={sel} st={ctx.prog[sel.id]} ctx={ctx} onBack={() => setSel(null)} />;
