@@ -3991,7 +3991,10 @@ function ProgressChart({ days, cards, prog }) {
   // Bars show WORK (attempts/day), colored by accuracy; the bar under them is current mastery,
   // and the header delta is proficiency GAINED over the window (from the daily mastered snapshot m).
   const raw = days || {};
-  const norm = (v) => (typeof v === "number" ? { n: v, r: 0, m: 0, tracked: false } : { n: (v && v.n) || 0, r: (v && v.r) || 0, m: (v && v.m) || 0, tracked: !!v });
+  // "tracked" = the day carries REAL accuracy/mastery, not just an effort count. Legacy days were a
+  // bare number (converts to r=0,m=0); those show work but no accuracy, so they must NOT drag the
+  // accuracy math to 0 (the "301 answers · 0%" bug). A day counts for accuracy only once r>0 or m>0.
+  const norm = (v) => { if (typeof v === "number") return { n: v, r: 0, m: 0, tracked: false }; const o = { n: (v && v.n) || 0, r: (v && v.r) || 0, m: (v && v.m) || 0 }; return { ...o, tracked: o.r > 0 || o.m > 0 }; };
   const series = Object.keys(raw).sort().slice(-21).map((k) => ({ day: k, ...norm(raw[k]) }));
   const maxN = Math.max(1, ...series.map((s) => s.n));
   const tracked = series.filter((s) => s.tracked && s.n > 0);
@@ -4027,41 +4030,59 @@ function ProgressChart({ days, cards, prog }) {
   );
 }
 
+// Proficiency band + the A0→A1 climb over time. Current band/%/mastered come from `prog` (always
+// accurate); the trend line is the daily mastered-count snapshot (m), which accrues from now on.
+function ProficiencyChart({ days, prof }) {
+  const mOf = (v) => (typeof v === "number" ? 0 : (v && v.m) || 0);
+  const mSeries = Object.keys(days || {}).sort().map((k) => mOf(days[k])).filter((m) => m > 0).slice(-30);
+  const pct = Math.round((prof.pct || 0) * 100);
+  const hi = BAND_MILESTONE[prof.next] || Math.max(1, prof.mastered);
+  const W = 300, H = 66, pad = 6;
+  const xs = (i) => pad + (mSeries.length <= 1 ? 0 : (i / (mSeries.length - 1)) * (W - 2 * pad));
+  const ys = (m) => H - pad - Math.min(1, m / hi) * (H - 2 * pad);
+  const line = mSeries.map((m, i) => `${xs(i).toFixed(1)},${ys(m).toFixed(1)}`).join(" ");
+  return (
+    <div className="ws-chart">
+      <div className="ws-chart-head">
+        <div><b>{prof.band} → {prof.next}</b><span>{pct}% there · {prof.mastered} words mastered</span></div>
+      </div>
+      <div className="ws-chart-mastery-bar" style={{ marginBottom: mSeries.length >= 2 ? 8 : 0 }}><span style={{ width: `${pct}%` }} /></div>
+      {mSeries.length >= 2 ? (
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="ws-chart-svg" style={{ height: H }} aria-label="words mastered over time">
+          <defs><linearGradient id="pgprof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--sea)" stopOpacity=".34" /><stop offset="1" stopColor="var(--sea)" stopOpacity="0" /></linearGradient></defs>
+          <polygon points={`${xs(0).toFixed(1)},${H - pad} ${line} ${xs(mSeries.length - 1).toFixed(1)},${H - pad}`} fill="url(#pgprof)" />
+          <polyline points={line} fill="none" stroke="var(--sea)" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+        </svg>
+      ) : (
+        <div className="ws-chart-empty">Your climb toward {prof.next} draws here as you master words day by day.</div>
+      )}
+    </div>
+  );
+}
+
 function HistoryView({ ctx, embedded }) {
   const { streak, setView, cards, prog } = ctx;
-  // Progress = the daily activity map on streak.days (synced), NOT a per-answer log. Each day is
-  // { n, r, m } (legacy: a number == n). "What to practice" lives in Needs work, linked below.
+  // Progress = two trend graphs off the synced daily map (streak.days), no per-day line items:
+  //   1) proficiency (A0→A1 climb),  2) daily practice (work bars, accuracy-colored once tracked).
+  // "What to practice" is Needs work, linked below. Days are { n, r, m } (legacy: a number == n).
   const map = (streak && streak.days) || {};
-  const norm = (v) => (typeof v === "number" ? { n: v, r: 0, m: 0, tracked: false } : { n: (v && v.n) || 0, r: (v && v.r) || 0, m: (v && v.m) || 0, tracked: !!v });
-  const keys = Object.keys(map).sort().reverse();
-  const totals = keys.reduce((a, k) => { const d = norm(map[k]); a.n += d.n; if (d.tracked) { a.r += d.r; a.tn += d.n; } return a; }, { n: 0, r: 0, tn: 0 });
-  const overallAcc = totals.tn ? Math.round((totals.r / totals.tn) * 100) : null;
+  const nOf = (v) => (typeof v === "number" ? v : (v && v.n) || 0);
+  const totalAnswers = Object.keys(map).reduce((a, k) => a + nOf(map[k]), 0);
+  const prof = computeProficiency(prog);
   return (
     <div className={embedded ? "" : "ws-page"}>
       {!embedded && <TopBar title="Progress" onBack={() => setView("home")} />}
-      {keys.length === 0 ? (
+      {totalAnswers === 0 ? (
         <div className="ws-empty">
           <Trophy size={28} />
-          <p>No activity yet. Answer a few cards and your daily accuracy and mastery trend show up here.</p>
+          <p>No activity yet. Answer a few cards and your accuracy and proficiency trends show up here.</p>
         </div>
       ) : (
         <>
+          <ProficiencyChart days={map} prof={prof} />
           <ProgressChart days={map} cards={cards} prog={prog} />
-          <div className="ws-hist-overall">{totals.n} answers{overallAcc != null ? ` · ${overallAcc}% correct` : ""}</div>
-          <button className="ws-cta" style={{ margin: "4px 0 14px" }} onClick={() => setView("needswork")}>Practice what needs work →</button>
-          {keys.map((k) => {
-            const d = norm(map[k]);
-            const acc = d.tracked && d.n ? Math.round((d.r / d.n) * 100) : null;
-            const label = new Date(k + "T00:00").toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
-            return (
-              <div key={k} className="ws-hist-day">
-                <div className="ws-hist-dayhead">
-                  <span className="ws-hist-date">{label}</span>
-                  <span className="ws-hist-acc">{d.n} answer{d.n === 1 ? "" : "s"}{acc != null ? ` · ${acc}%` : ""}{d.m ? ` · ${d.m} mastered` : ""}</span>
-                </div>
-              </div>
-            );
-          })}
+          <div className="ws-hist-overall">{totalAnswers} answers all-time</div>
+          <button className="ws-cta" style={{ margin: "2px 0 8px" }} onClick={() => setView("needswork")}>Practice what needs work →</button>
         </>
       )}
     </div>
