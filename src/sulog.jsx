@@ -2556,6 +2556,10 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
+  // Focus AFTER the sheet finishes sliding up (~0.28s). Focusing mid-animation makes iOS scroll the
+  // still-moving input to the wrong place (pushed above the screen) — the "first-open" glitch.
+  const searchRef = useRef(null);
+  useEffect(() => { const t = setTimeout(() => searchRef.current?.focus(), 380); return () => clearTimeout(t); }, []);
   // The full 25k lives in IndexedDB (mirrored in the background). Use it for OFFLINE search when it's
   // there; fall back to a live DB query while it's still syncing (or if IndexedDB is unavailable).
   const [idb, setIdb] = useState([]);
@@ -2615,7 +2619,7 @@ function DictSheet({ ctx }) {
   if (sel) return <DictEntry card={sel} st={ctx.prog[sel.id]} ctx={ctx} onBack={() => setSel(null)} />;
   return (
     <>
-      <input className="ws-search" autoFocus placeholder="Search Waray or English…" value={q} onChange={(e) => setQ(e.target.value)} />
+      <input ref={searchRef} className="ws-search" placeholder="Search Waray or English…" value={q} onChange={(e) => setQ(e.target.value)} />
       {!q.trim() && <p className="ws-dict-hint">Start typing to look up a word.</p>}
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
