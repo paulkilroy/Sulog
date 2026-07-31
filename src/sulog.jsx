@@ -5066,19 +5066,21 @@ function StressLabView({ ctx }) {
   // Play the recording via WEB AUDIO (decode → buffer source), not an <audio> element —
   // WebKit silently fails to play MediaRecorder mp4 blobs through HTMLAudioElement on iOS.
   // Any remaining failure is surfaced visibly so we can see the on-device error.
-  const myAudioRef = useRef(null);   // reusable AudioContext for playback
-  const playMine = async (r0) => {
+  // Play through an <audio> ELEMENT, not Web Audio: on iOS the ring/silent switch MUTES Web
+  // Audio buffer sources ("no error but no voice"), while media elements play regardless —
+  // same category as the coach TTS. Element held in a ref so it can't be GC'd mid-play.
+  const myAudioRef = useRef(null);
+  const playMine = (r0) => {
     try {
       const blob = r0.audioBlob;
       if (!blob || !blob.size) throw new Error("empty recording (" + (blob ? blob.size : "no blob") + ")");
-      const buf = await blob.arrayBuffer();   // decode straight from the Blob — fetch(blob:) is flaky on iOS
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!myAudioRef.current || myAudioRef.current.state === "closed") myAudioRef.current = new AC();
-      const ac = myAudioRef.current;
-      if (ac.state === "suspended") await ac.resume();
-      const decoded = await new Promise((res, rej) => ac.decodeAudioData(buf, res, rej)); // callback form — iOS
-      const src = ac.createBufferSource();
-      src.buffer = decoded; src.connect(ac.destination); src.start();
+      if (!myAudioRef.current || myAudioRef.current._blob !== blob) {
+        const el = new Audio(URL.createObjectURL(blob));
+        el._blob = blob; el.playsInline = true; el.volume = 1;
+        myAudioRef.current = el;
+      }
+      myAudioRef.current.currentTime = 0;
+      myAudioRef.current.play().catch((e) => alert("Playback failed: " + ((e && (e.name || e.message)) || e) + " · " + blob.size + "b " + (blob.type || "?")));
     } catch (e) {
       const b = r0 && r0.audioBlob;
       alert("Playback failed: " + ((e && (e.name || e.message)) || e) + " · " + (b ? b.size + "b " + (b.type || "?") : "no blob"));
