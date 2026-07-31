@@ -2510,7 +2510,7 @@ function HomeView({ ctx }) {
         <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>Progress</span></button>
       </div>
 
-      {sheet === "dict" && <SlideSheet title="Dictionary" onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
+      {sheet === "dict" && <SlideSheet title="Dictionary" tall onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
       {sheet === "history" && <SlideSheet title="Progress" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
     </div>
   );
@@ -2532,7 +2532,7 @@ function MenuRow({ icon, title, subtitle, badge, chevron, onClick }) {
 }
 
 // a bottom sheet that slides up; tap-out / X / Esc all slide it back DOWN before unmounting
-function SlideSheet({ title, onClose, children }) {
+function SlideSheet({ title, onClose, children, tall }) {
   const [closing, setClosing] = useState(false);
   const close = useCallback(() => { setClosing(true); setTimeout(onClose, 240); }, [onClose]);
   useEffect(() => {
@@ -2542,7 +2542,7 @@ function SlideSheet({ title, onClose, children }) {
   }, [close]);
   return (
     <div className={`ws-sheet-scrim ${closing ? "closing" : ""}`} onClick={close}>
-      <div className={`ws-sheet ${closing ? "closing" : ""}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
+      <div className={`ws-sheet ${tall ? "tall" : ""} ${closing ? "closing" : ""}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-label={title}>
         <div className="ws-sheet-grip" />
         <div className="ws-sheet-head"><b>{title}</b><button className="ws-sheet-x" onClick={close} aria-label="Close"><X size={18} /></button></div>
         <div className="ws-sheet-body">{children}</div>
@@ -5971,6 +5971,11 @@ function Styles() {
 .ws-sheet{width:100%;max-width:480px;max-height:85vh;background:var(--foam);border-radius:18px 18px 0 0;
   box-shadow:0 -18px 44px rgba(0,0,0,.55);display:flex;flex-direction:column;animation:sheetUp .28s cubic-bezier(.2,.85,.25,1)}
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+/* tall variant (Dictionary): fixed 85vh so the search input rides near the TOP — above the iOS
+   keyboard — instead of a short sheet whose input the keyboard covers. Body fills + scrolls. */
+.ws-sheet.tall{height:85vh}
+.ws-sheet.tall .ws-sheet-body{flex:1;min-height:0}
+.ws-sheet.tall .ws-search{position:sticky;top:0;z-index:2;background:var(--foam)}
 .ws-sheet-scrim.closing{animation:fadeOut .24s ease forwards}
 .ws-sheet.closing{animation:sheetDown .24s cubic-bezier(.3,0,.7,1) forwards}
 @keyframes sheetDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
