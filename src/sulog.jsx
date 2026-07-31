@@ -6051,7 +6051,12 @@ function Styles() {
 /* topbar */
 .ws-topbar{display:flex;align-items:center;gap:8px;margin-bottom:18px}
 .ws-topbar-center{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
-.ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--ink)}
+/* fixed-height header row: the title NEVER wraps (ellipsis) and h2's default margins are
+   zeroed, so the row is the same height on every screen — long unit/lesson titles were
+   wrapping to 2-3 lines and pushing the buttons progressively lower on deeper screens. */
+.ws-topbar{min-height:40px}
+.ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--ink);
+  margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* setup */
 .ws-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
