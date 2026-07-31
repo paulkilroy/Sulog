@@ -1,7 +1,7 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
 import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -2529,6 +2529,17 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
+  const [live, setLive] = useState([]);  // full-25k results fetched live from the DB (bundle holds only course words)
+  useEffect(() => {
+    const s = q.trim();
+    if (s.length < 2) { setLive([]); return; }
+    let cancel = false;
+    const t = setTimeout(async () => {
+      const rowsD = await searchDictionary(s);
+      if (!cancel) setLive(rowsD.map((d) => ({ id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null })));
+    }, 220);
+    return () => { cancel = true; clearTimeout(t); };
+  }, [q]);
   // Search the FULL dictionary, not just the drilled topic: merge deck cards with dictionary-only
   // words (e.g. "libro", used only inside example sentences so it never became a card). Dedup by
   // Waray — a deck card (carries an example/subtext) wins over the bare dictionary row.
@@ -2561,13 +2572,14 @@ function DictSheet({ ctx }) {
       if (e === s) sc += 40; else if (e.startsWith(s)) sc += 8; else if (e.includes(s)) sc += 3;
       return sc - w.length * 0.05;             // tiebreak: shorter/closer first
     };
-    return all
+    const pool = live.length ? [...all, ...live.filter((d) => !all.some((c) => c.waray === d.waray))] : all;
+    return pool
       .filter((c) => ((c.waray || "") + " " + (c.english || "")).toLowerCase().includes(s))
       .map((c) => [score(c), c])
       .sort((a, b) => b[0] - a[0])
-      .slice(0, 8)
+      .slice(0, 10)
       .map(([, c]) => c);
-  }, [q, all]);
+  }, [q, all, live]);
 
   if (sel) return <DictEntry card={sel} st={ctx.prog[sel.id]} ctx={ctx} onBack={() => setSel(null)} />;
   return (

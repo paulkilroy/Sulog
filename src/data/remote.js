@@ -40,6 +40,20 @@ export const fetchDictionary = async () => {
   return out;
 };
 
+// Live dictionary search — the cached bundle only holds the course's own words (see fetchCourse),
+// so "search ANY Waray word" (the full 25k) queries the DB directly when online. Returns [] offline.
+export const searchDictionary = async (q) => {
+  const s = (q || "").trim().replace(/[%_,]/g, "");
+  if (s.length < 2) return [];
+  const like = `%${s}%`;
+  const { data, error } = await supabase.from("dictionary")
+    .select("waray,meaning,pronunciation,pos,confirmed")
+    .or(`waray.ilike.${like},meaning.ilike.${like}`)
+    .limit(30);
+  if (error) return [];
+  return data || [];
+};
+
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
   fetchAll(() => supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind", { ascending: false }).order("waray")); // words (drilled in lessons) before lexicon-only phrases; paginated defensively
@@ -79,9 +93,15 @@ export async function fetchCourse(courseId) {
   for (const l of lessons) (lessonsByUnit.get(l.unit_id) || lessonsByUnit.set(l.unit_id, []).get(l.unit_id)).push({ ...l, blocks: blocksByLesson.get(l.id) || [] });
   const unitsByPhase = new Map();
   for (const u of units) (unitsByPhase.get(u.phase_id) || unitsByPhase.set(u.phase_id, []).get(u.phase_id)).push({ ...u, lessons: lessonsByUnit.get(u.id) || [] });
-  // carry the full dictionary through so the app's Dictionary lookup can search EVERY catalogued
-  // word (e.g. "libro"), not just the words drilled in a lesson. Lean shape; cached with the course.
-  const dictionary = dict.map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed }));
+  // The bundle is cached in localStorage — Safari caps that at ~5MB and stores strings as UTF-16
+  // (2 bytes/char), so the full 25k Zorc dictionary (2.9MB → 5.8MB on Safari) OVERFLOWED it and the
+  // cache write failed → the app got stuck on "fetching…". So the CACHED bundle carries only the
+  // course's OWN words (curated/confirmed, or referenced by a lesson) — ~600 rows, ~60KB. The full
+  // 25k is searched LIVE from the DB (searchDictionary) when online. (Offline-25k would want IndexedDB.)
+  const referenced = new Set(items.filter((it) => it.dict_waray).map((it) => it.dict_waray));
+  const dictionary = dict
+    .filter((d) => d.confirmed || referenced.has(d.waray))
+    .map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed }));
   return { id: courseId, phases: phases.map((p) => ({ ...p, units: unitsByPhase.get(p.id) || [] })), dictionary };
 }
 
