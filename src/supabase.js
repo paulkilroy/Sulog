@@ -3,6 +3,7 @@
    env vars (node) and finally the public project defaults. The publishable key is
    designed to be public — it ships in the browser. RLS is what protects the data. */
 import { createClient } from "@supabase/supabase-js";
+import { durableAuthStorage } from "./data/authstore.js";
 
 const pick = (defName, envName, fallback) => {
   // `typeof X` is safe on an undeclared identifier; && short-circuits so X is only
@@ -15,7 +16,11 @@ const pick = (defName, envName, fallback) => {
 const SUPABASE_URL = pick(() => (typeof __SUPABASE_URL__ !== "undefined" ? __SUPABASE_URL__ : ""), "SUPABASE_URL", "https://kdtzfaobcgprivsxkger.supabase.co");
 const SUPABASE_KEY = pick(() => (typeof __SUPABASE_KEY__ !== "undefined" ? __SUPABASE_KEY__ : ""), "SUPABASE_ANON_KEY", "sb_publishable_mVYVK10OZfARWUl3PcfhHQ_zHa7bVpS");
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+// Session stored durably (localStorage mirrored to IndexedDB) so iOS ITP eviction can't sign the
+// user out and break cross-device cloud sync. See src/data/authstore.js.
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { storage: durableAuthStorage, persistSession: true, autoRefreshToken: true },
+});
 
 // ---- auth ----
 export const signInWithGoogle = () =>
