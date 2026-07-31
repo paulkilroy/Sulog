@@ -5569,7 +5569,8 @@ function Styles() {
 /* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
    AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
-@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)} }
+@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)}
+  .ws-page.ws-session{padding-top:calc(env(safe-area-inset-top) - 28px)} }  /* drill: match every other screen; .ws-session's 16px was clobbering the inset */
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);

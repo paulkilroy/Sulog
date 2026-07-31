@@ -23,7 +23,22 @@ async function fetchAll(makeQuery) {
 // .order() is REQUIRED under fetchAll: each page is a separate request, and without a stable
 // total order Postgres may return rows differently per page — silently dropping/duplicating
 // rows at page boundaries. Order by the primary key.
-export const fetchDictionary = () => fetchAll(() => supabase.from("dictionary").select("*").order("waray"));
+// The full dictionary is ~25k rows (26 pages). Sequential paging took ~30s and blocked the whole
+// course load ("stuck on fetching…"). Fetch every page in PARALLEL instead — Supabase is HTTP/2,
+// so the requests multiplex over one connection and finish in a few seconds.
+export const fetchDictionary = async () => {
+  const size = 1000;
+  const head = await supabase.from("dictionary").select("waray", { count: "exact", head: true });
+  if (head.error) throw new Error(head.error.message);
+  const pages = Math.max(1, Math.ceil((head.count || 0) / size));
+  const results = await Promise.all(
+    Array.from({ length: pages }, (_, p) =>
+      supabase.from("dictionary").select("*").order("waray").range(p * size, p * size + size - 1))
+  );
+  const out = [];
+  for (const r of results) { if (r.error) throw new Error(r.error.message); out.push(...(r.data || [])); }
+  return out;
+};
 
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
