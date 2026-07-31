@@ -4715,6 +4715,22 @@ function syllableSoundRatios(transcript, wordSyls) {
   }
   return { ratios, heard };
 }
+// Float32 PCM chunks -> 16-bit mono WAV blob (playback fallback when MediaRecorder yields 0 bytes)
+function pcmToWav(chunks, sampleRate) {
+  if (!chunks || !chunks.length || !sampleRate) return null;
+  let len = 0; for (const c of chunks) len += c.length;
+  if (!len) return null;
+  const buf = new ArrayBuffer(44 + len * 2), v = new DataView(buf);
+  const wStr = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  wStr(0, "RIFF"); v.setUint32(4, 36 + len * 2, true); wStr(8, "WAVE"); wStr(12, "fmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, sampleRate, true); v.setUint32(28, sampleRate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  wStr(36, "data"); v.setUint32(40, len * 2, true);
+  let o = 44;
+  for (const c of chunks) for (let i = 0; i < c.length; i++, o += 2) { const s = Math.max(-1, Math.min(1, c[i])); v.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); }
+  return new Blob([buf], { type: "audio/wav" });
+}
+
 // Shared stress engine: loudness envelope -> N syllable nuclei -> prominence + verdicts.
 function analyzeStress(frames, nSyl, expected) {
     // NATURAL-SPEECH segmentation: don't hunt for silences between syllables (connected
@@ -5107,6 +5123,14 @@ function StressLabView({ ctx }) {
       const buf = new Float32Array(an.fftSize);
       const chunks = []; let mr = null;
       try { mr = new MediaRecorder(stream); mr.ondataavailable = (e) => chunks.push(e.data); mr.start(); } catch (e) {}
+      // BELT+SUSPENDERS playback capture: on iOS MediaRecorder can deliver 0 bytes (mic session
+      // contention) even while this same AudioContext tap works fine (the envelope proves it).
+      // So also record raw PCM here and build a WAV at stop if the recorder came up empty.
+      const pcm = [];
+      const proc = ac.createScriptProcessor(4096, 1, 1);
+      const mute = ac.createGain(); mute.gain.value = 0;              // keep the graph alive without mic feedback
+      src.connect(proc); proc.connect(mute); mute.connect(ac.destination);
+      proc.onaudioprocess = (ev) => { pcm.push(new Float32Array(ev.inputBuffer.getChannelData(0))); };
       // parallel word-identity check: the Filipino recognizer is rough on Waray, but it
       // reliably tells "dada" from "blah blah" — collect every alternative it offers
       const heardAlts = []; let sr = null;
@@ -5126,7 +5150,7 @@ function StressLabView({ ctx }) {
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
-      recRef.current = { stream, ac, iv, frames, mr, chunks, sr, heardAlts, t0: Date.now() };
+      recRef.current = { stream, ac, iv, frames, mr, chunks, pcm, sampleRate: ac.sampleRate, sr, heardAlts, t0: Date.now() };
       setState("rec");
     } catch (e) { setState("error"); }
   };
@@ -5140,8 +5164,9 @@ function StressLabView({ ctx }) {
       // don't grade it or trust the recognizer's hallucinated transcript
       if (a.noSpeech) {
         a.said = { alts: [], ok: false, verified: false };
-        a.audioBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
-      a.audio = a.audioBlob ? URL.createObjectURL(a.audioBlob) : null;
+        const mrBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
+      a.audioBlob = (mrBlob && mrBlob.size > 1000) ? mrBlob : pcmToWav(r.pcm, r.sampleRate);
+      a.audio = (a.audioBlob && a.audioBlob.size) ? URL.createObjectURL(a.audioBlob) : null;
         setRes(a); setState("result");
         setTimeout(() => drawEnv(envCanvas.current, a.sm, [], -1, []), 30);
         return;
@@ -5168,8 +5193,9 @@ function StressLabView({ ctx }) {
         a.pct = Math.round((a.pct + soundPct) / 2);
         a.ok = a.ok && sv.every((v) => v !== "missed");
       } else if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
-      a.audioBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
-      a.audio = a.audioBlob ? URL.createObjectURL(a.audioBlob) : null;
+      const mrBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
+      a.audioBlob = (mrBlob && mrBlob.size > 1000) ? mrBlob : pcmToWav(r.pcm, r.sampleRate);
+      a.audio = (a.audioBlob && a.audioBlob.size) ? URL.createObjectURL(a.audioBlob) : null;
       setRes(a); setState("result");
       setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected, a.countOk ? syls : a.segs.map((_, i) => String(i + 1))), 30);
     };
