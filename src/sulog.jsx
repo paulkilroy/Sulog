@@ -2313,6 +2313,9 @@ function HomeView({ ctx }) {
           <div style={{ fontSize: 40 }}>🌊</div>
           <h2 style={{ margin: "10px 0 4px" }}>Sulog</h2>
           <p style={{ color: "var(--ink-soft)" }}>Fetching the Peace Corps course…</p>
+          {/* time-estimated bar (~9s to match the measured first-load); the app reloads on cache */}
+          <div className="ws-loadbar"><div className="ws-loadbar-fill" /></div>
+          <p style={{ color: "var(--ink-soft)", fontSize: 11.5, marginTop: 8 }}>first load only — it's saved after this</p>
         </div>
       </div>
     );
@@ -5606,6 +5609,9 @@ function Styles() {
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}
+.ws-loadbar{width:200px;height:5px;background:var(--sand-deep);border-radius:3px;overflow:hidden;margin:16px auto 0}
+.ws-loadbar-fill{height:100%;background:var(--tide);border-radius:3px;width:0;animation:loadfill 9s cubic-bezier(.12,.7,.2,1) forwards}
+@keyframes loadfill{from{width:0}to{width:92%}}
 /* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
    AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
