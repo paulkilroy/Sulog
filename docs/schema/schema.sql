@@ -56,6 +56,12 @@
 --   written across the feedback + dictionary-mutation path; renaming it would only add a fragile
 --   DB-translation layer. So: concept = "definition", code/DB field = `meaning`.
 --   DB column names are unchanged throughout; the app matches them at its boundary (src/data/remote.js).
+--
+-- CLIENT-SIDE DATA MAPS (not in these tables) — the app also ships hand-authored/generated lookup
+-- maps in src/courses/waray/*.js that are part of the data model but live in the bundle, not the DB:
+--   DEFINITIONS (reader tap-to-define; ~thousands, NOT the 25k DB dictionary), DEFINITION_FIX,
+--   VARIANTS, CHUNKS, DIALECT_FORMS, STORIES, TOPIC_META, TAUGHT_IN, MARKER_DEFINITIONS.
+--   See README "Client-side data maps" for the full table + what feeds each.
 -- ============================================================
 
 -- ============================================================

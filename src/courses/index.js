@@ -18,7 +18,7 @@ function readDbCourse(id) {
     const raw = localStorage.getItem(DB_COURSE_KEY(id));
     if (!raw) return null;
     const c = JSON.parse(raw);
-    if (c.seed && !c.cards) c.cards = c.seed;   // migrate pre-2026-07-30 cache shape (seed -> cards)
+    if (!Array.isArray(c.cards)) return null;   // reject a pre-rename / malformed cache → getCourse falls to the shell, then the version-refresh refetches the current shape (no crash)
     return { lang: "war", stories: STORIES, review: reviewFor(id), ...c, forgotten: new Set(c.forgotten || []) };
   } catch (e) { return null; }
 }

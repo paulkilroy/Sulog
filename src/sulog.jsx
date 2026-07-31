@@ -2577,7 +2577,7 @@ function DictSheet({ ctx }) {
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
         <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
-          <div className="ws-dict-hit-main"><b>{deaccent(c.waray)}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
+          <div className="ws-dict-hit-main"><b>{deaccent(c.waray)}</b>{c.pronunciation && <span className="ws-dict-hit-pron">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
           <div className="ws-dict-hit-eng">{c.english}</div>
         </button>
       ))}
@@ -2594,7 +2594,7 @@ function DictEntry({ card, st, ctx, onBack }) {
     <div className="ws-dict-entry">
       <button className="ws-sheet-back" onClick={onBack}><ChevronLeft size={15} /> results</button>
       <div className="ws-dict-hw">{deaccent(card.waray)}</div>
-      {card.pronunciation && <div className="ws-dict-hw-say">/ {card.pronunciation} /</div>}
+      {card.pronunciation && <div className="ws-dict-hw-pron">/ {card.pronunciation} /</div>}
       <div className="ws-dict-hw-eng">{card.english}</div>
       <div className="ws-dict-entry-meta">
         {topicMeta && <span className="ws-dict-tag">{topicMeta.short}</span>}
@@ -3061,7 +3061,7 @@ function SttTestView({ ctx }) {
       <div className={`ws-stt-card ${phase}`}>
         <div className="ws-stt-prompt">{card ? card.waray : "—"}</div>
         <div className="ws-stt-def">{card ? card.english : ""}</div>
-        {card && card.pronunciation && <div className="ws-stt-say">{card.pronunciation}</div>}
+        {card && card.pronunciation && <div className="ws-stt-pron">{card.pronunciation}</div>}
 
         {phase === "listening" && (
           <div className="ws-stt-live">
@@ -3387,7 +3387,7 @@ function PromptBlock({ text, isWaray, pronunciation, onPlay }) {
   return (
     <div className="ws-prompt">
       <div className={isWaray ? "ws-prompt-waray" : "ws-prompt-eng"}>{text}</div>
-      {isWaray && pronunciation && <div className="ws-say">/ {pronunciation} /</div>}
+      {isWaray && pronunciation && <div className="ws-pron">/ {pronunciation} /</div>}
       {isWaray && (
         <button className="ws-mini-play" onClick={onPlay}><Volume2 size={16} /> hear it</button>
       )}
@@ -3495,7 +3495,7 @@ function SpeakCard({ card, dir, prompt, answer, promptIsWaray, ctx, onResult }) 
               <Volume2 size={16} /> reference
             </button>
           </div>
-          {card.pronunciation && <div className="ws-say">/ {card.pronunciation} /</div>}
+          {card.pronunciation && <div className="ws-pron">/ {card.pronunciation} /</div>}
           <SelfGrade onResult={onResult} />
         </>
       )}
@@ -3945,7 +3945,7 @@ function LessonView({ ctx }) {
           <button key={c.id} className="ws-lword" onClick={() => playCard(c)}>
             <div>
               <div className="ws-lword-w">{c.waray}</div>
-              {c.pronunciation && <div className="ws-lword-say">/ {c.pronunciation} /</div>}
+              {c.pronunciation && <div className="ws-lword-pron">/ {c.pronunciation} /</div>}
             </div>
             <div className="ws-lword-e">{c.english}</div>
           </button>
@@ -4003,7 +4003,7 @@ function TeachView({ ctx }) {
           <div className="ws-lwords">
             {step.items.map((id) => { const c = byId[id]; if (!c) return null; return (
               <button key={id} className="ws-lword" onClick={() => playCard(c)}>
-                <div><div className="ws-lword-w">{c.waray}</div>{c.pronunciation && <div className="ws-lword-say">/ {c.pronunciation} /</div>}</div>
+                <div><div className="ws-lword-w">{c.waray}</div>{c.pronunciation && <div className="ws-lword-pron">/ {c.pronunciation} /</div>}</div>
                 <div className="ws-lword-e">{c.english}</div>
               </button>
             ); })}
@@ -5719,7 +5719,7 @@ function Styles() {
   padding:10px 13px;border-radius:12px;border:1px solid var(--sand-deep);background:var(--foam);
   cursor:pointer;font-family:inherit}
 .ws-lword-w{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sea)}
-.ws-lword-say{font-size:11px;color:var(--tide);margin-top:1px}
+.ws-lword-pron{font-size:11px;color:var(--tide);margin-top:1px}
 .ws-lword-e{font-size:13px;color:var(--ink-soft);text-align:right;flex-shrink:0}
 .ws-parts{display:flex;flex-direction:column;gap:8px;padding-bottom:30px}
 .ws-part{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 13px;
@@ -5939,11 +5939,11 @@ function Styles() {
   padding:11px 13px;margin-bottom:8px;cursor:pointer;font-family:inherit}
 .ws-dict-hit-main{display:flex;align-items:baseline;gap:9px}
 .ws-dict-hit-main b{font-family:'Fraunces',Georgia,serif;font-size:17px;color:var(--ink)}
-.ws-dict-hit-say{font-size:11.5px;color:var(--tide);font-family:ui-monospace,monospace}
+.ws-dict-hit-pron{font-size:11.5px;color:var(--tide);font-family:ui-monospace,monospace}
 .ws-dict-hit-eng{font-size:13px;color:var(--ink-soft);margin-top:2px}
 .ws-sheet-back{background:none;border:none;color:var(--sea);font-family:inherit;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:3px;padding:0 0 10px}
 .ws-dict-hw{font-family:'Fraunces',Georgia,serif;font-size:30px;font-weight:600;color:var(--ink)}
-.ws-dict-hw-say{font-size:14px;color:var(--tide);font-family:ui-monospace,monospace;margin-top:3px}
+.ws-dict-hw-pron{font-size:14px;color:var(--tide);font-family:ui-monospace,monospace;margin-top:3px}
 .ws-dict-hw-eng{font-size:16px;color:var(--ink-soft);margin-top:8px}
 .ws-dict-entry-meta{display:flex;gap:7px;margin-top:12px}
 .ws-dict-tag{font-size:11px;color:var(--ink-soft);background:var(--sand);border:1px solid var(--sand-deep);border-radius:20px;padding:3px 10px}
@@ -6073,7 +6073,7 @@ function Styles() {
 .ws-prompt-waray{font-family:'Fraunces',serif;font-size:33px;font-weight:600;color:var(--ink);
   line-height:1.15}
 .ws-prompt-eng{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--ink);line-height:1.2}
-.ws-say{font-size:14px;color:var(--tide);font-weight:500;margin-top:7px;letter-spacing:.02em}
+.ws-pron{font-size:14px;color:var(--tide);font-weight:500;margin-top:7px;letter-spacing:.02em}
 .ws-mini-play{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:var(--sand);
   border:none;border-radius:20px;padding:6px 13px;font-size:12.5px;color:var(--sea);font-weight:600;
   cursor:pointer;font-family:inherit;transition:.15s}
@@ -6252,7 +6252,7 @@ function Styles() {
   display:flex;align-items:center;gap:6px}
 .ws-voiced{color:var(--jade);font-size:9px}
 .ws-brow-eng{font-size:12.5px;color:var(--ink-soft)}
-.ws-brow-say{font-size:11px;color:var(--tide);margin-top:1px}
+.ws-brow-pron{font-size:11px;color:var(--tide);margin-top:1px}
 .ws-brow-actions{display:flex;gap:5px;align-items:center}
 
 /* pronounce */
@@ -6274,7 +6274,7 @@ function Styles() {
 .ws-stt-card.miss{border-color:#d8745c;background:rgba(216,116,92,.12)}
 .ws-stt-prompt{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
 .ws-stt-def{font-size:14.5px;color:var(--ink-soft);margin-top:5px}
-.ws-stt-say{font-size:12.5px;color:var(--tide);margin-top:6px;font-style:italic}
+.ws-stt-pron{font-size:12.5px;color:var(--tide);margin-top:6px;font-style:italic}
 .ws-stt-live{margin-top:16px;font-size:13px;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:6px}
 .ws-stt-dot{width:11px;height:11px;border-radius:50%;background:#c0432b;display:inline-block;margin-right:6px;
   animation:wsPulse 1s ease-in-out infinite}
