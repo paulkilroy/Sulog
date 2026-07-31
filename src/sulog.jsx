@@ -2292,13 +2292,6 @@ function EllaView({ ctx }) {
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
-  const { menuOpen, setMenuOpen } = ctx;       // ☰ menu lives at App level so "back" can reopen it
-  useEffect(() => {                            // Escape slides the drawer back
-    if (!menuOpen) return;
-    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
   const curLesson = nextLesson(lessons);
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
