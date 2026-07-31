@@ -5662,7 +5662,7 @@ function Styles() {
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
 @media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)}
   /* the drill has no title bar — its corner-X needs the FULL inset to clear the status bar/island */
-  .ws-page.ws-session{padding-top:calc(env(safe-area-inset-top) + 2px)} }
+  .ws-page.ws-session{padding-top:env(safe-area-inset-top)} }
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
