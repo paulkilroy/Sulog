@@ -5051,10 +5051,11 @@ function StressLabView({ ctx }) {
   // WebKit silently fails to play MediaRecorder mp4 blobs through HTMLAudioElement on iOS.
   // Any remaining failure is surfaced visibly so we can see the on-device error.
   const myAudioRef = useRef(null);   // reusable AudioContext for playback
-  const playMine = async (url) => {
+  const playMine = async (r0) => {
     try {
-      const buf = await (await fetch(url)).arrayBuffer();
-      if (!buf.byteLength) throw new Error("empty recording");
+      const blob = r0.audioBlob;
+      if (!blob || !blob.size) throw new Error("empty recording (" + (blob ? blob.size : "no blob") + ")");
+      const buf = await blob.arrayBuffer();   // decode straight from the Blob — fetch(blob:) is flaky on iOS
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!myAudioRef.current || myAudioRef.current.state === "closed") myAudioRef.current = new AC();
       const ac = myAudioRef.current;
@@ -5062,7 +5063,10 @@ function StressLabView({ ctx }) {
       const decoded = await new Promise((res, rej) => ac.decodeAudioData(buf, res, rej)); // callback form — iOS
       const src = ac.createBufferSource();
       src.buffer = decoded; src.connect(ac.destination); src.start();
-    } catch (e) { alert("Playback failed: " + ((e && (e.name || e.message)) || e)); }
+    } catch (e) {
+      const b = r0 && r0.audioBlob;
+      alert("Playback failed: " + ((e && (e.name || e.message)) || e) + " · " + (b ? b.size + "b " + (b.type || "?") : "no blob"));
+    }
   };
   const card = pool[idx % (pool.length || 1)];
   const syls = card ? card.pronunciation.split("-") : [];
@@ -5136,7 +5140,8 @@ function StressLabView({ ctx }) {
       // don't grade it or trust the recognizer's hallucinated transcript
       if (a.noSpeech) {
         a.said = { alts: [], ok: false, verified: false };
-        a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
+        a.audioBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
+      a.audio = a.audioBlob ? URL.createObjectURL(a.audioBlob) : null;
         setRes(a); setState("result");
         setTimeout(() => drawEnv(envCanvas.current, a.sm, [], -1, []), 30);
         return;
@@ -5163,11 +5168,20 @@ function StressLabView({ ctx }) {
         a.pct = Math.round((a.pct + soundPct) / 2);
         a.ok = a.ok && sv.every((v) => v !== "missed");
       } else if (alts.length && !saidOk) { a.pct = Math.min(a.pct, 30); a.ok = false; }
-      a.audio = chunks.length ? URL.createObjectURL(new Blob(chunks, { type: mr?.mimeType || "audio/webm" })) : null;
+      a.audioBlob = chunks.length ? new Blob(chunks, { type: mr?.mimeType || "audio/webm" }) : null;
+      a.audio = a.audioBlob ? URL.createObjectURL(a.audioBlob) : null;
       setRes(a); setState("result");
       setTimeout(() => drawEnv(envCanvas.current, a.sm, a.segs, a.detected, a.countOk ? syls : a.segs.map((_, i) => String(i + 1))), 30);
     };
-    if (mr && mr.state !== "inactive") { mr.onstop = finish; try { mr.requestData(); mr.stop(); } catch (e) { finish(); } cleanup0(r); }
+    // IMPORTANT: don't stop the mic tracks until the recorder has fully finalized (onstop) —
+    // killing the stream mid-finalize truncates the mp4 on iOS → an undecodable recording.
+    if (mr && mr.state !== "inactive") {
+      let done = false;
+      const finalize = () => { if (done) return; done = true; cleanup0(r); finish(); };
+      mr.onstop = finalize;
+      try { mr.requestData(); mr.stop(); } catch (e) { finalize(); }
+      setTimeout(finalize, 1200);   // safety net if onstop never fires
+    }
     else { cleanup0(r); finish(); }
     recRef.current = null;
   };
@@ -5284,7 +5298,7 @@ function StressLabView({ ctx }) {
             <StressDebug res={res} card={card} syls={syls} expected={expected} />
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
-              {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playMine(res.audio)}>▶ my recording</button>}
+              {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playMine(res)}>▶ my recording</button>}
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { setRes(null); setState("idle"); }}>try again</button>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={next}>next →</button>
             </div>
