@@ -1,4 +1,5 @@
 import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion } from "./courses/index.js";
+import { dictMeta, putDict, allDict } from "./data/dictdb.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
 import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
@@ -834,6 +835,7 @@ export default function App() {
     let cancelled = false;
     (async () => {
       try {
+        const t0 = (typeof performance !== "undefined" ? performance.now() : Date.now());
         const v = await fetchCourseVersion(COURSE_ID);
         if (cancelled || v <= cachedDbVersion(COURSE_ID)) return;
         const bundled = await fetchCourseBundled(COURSE_ID, ACTIVE.name);
@@ -841,9 +843,31 @@ export default function App() {
         // cache ONLY (reload is deferred below) — reloading after a failed write (storage quota)
         // re-runs this exact path forever: fetch → fail to cache → reload → fetch…
         if (cacheDbCourse(bundled, v)) setCourseUpgraded(true);
+        const ms = Math.round((typeof performance !== "undefined" ? performance.now() : Date.now()) - t0);
+        try { console.log(`[load] course fetched + cached in ${ms}ms (cards ${bundled.cards?.length ?? "?"})`); } catch (e) {}
       } catch (e) { /* keep the cached course */ }
     })();
     return () => { cancelled = true; };
+  }, []);
+
+  // Background: mirror the FULL 25k dictionary into IndexedDB (Safari can't hold it in localStorage)
+  // so "search any word" works OFFLINE. Deferred 4s so it never competes with the initial load.
+  useEffect(() => {
+    if (COURSES.some((c) => c.id === COURSE_ID)) return;
+    let cancelled = false;
+    const t = setTimeout(async () => {
+      try {
+        const v = await fetchCourseVersion(COURSE_ID);
+        const meta = await dictMeta();
+        if (cancelled || meta.unavailable || (meta.version === v && meta.count > 20000)) return;
+        const t0 = (typeof performance !== "undefined" ? performance.now() : Date.now());
+        const full = await fetchDictionary();
+        if (cancelled) return;
+        await putDict(full.map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed })), v);
+        try { console.log(`[dict] mirrored ${full.length} words to IndexedDB in ${Math.round((typeof performance !== "undefined" ? performance.now() : Date.now()) - t0)}ms`); } catch (e) {}
+      } catch (e) { /* offline / no idb — live search still covers it */ }
+    }, 4000);
+    return () => { cancelled = true; clearTimeout(t); };
   }, []);
 
   // keep the module-level chosen voice that speak() reads in sync with settings
@@ -2529,29 +2553,33 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
-  const [live, setLive] = useState([]);  // full-25k results fetched live from the DB (bundle holds only course words)
+  // The full 25k lives in IndexedDB (mirrored in the background). Use it for OFFLINE search when it's
+  // there; fall back to a live DB query while it's still syncing (or if IndexedDB is unavailable).
+  const [idb, setIdb] = useState([]);
+  useEffect(() => {
+    allDict().then((rowsD) => setIdb(rowsD.map((d) => ({ id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null })))).catch(() => {});
+  }, []);
+  const [live, setLive] = useState([]);  // fallback: live DB query while IndexedDB isn't populated yet
   useEffect(() => {
     const s = q.trim();
-    if (s.length < 2) { setLive([]); return; }
+    if (idb.length || s.length < 2) { setLive([]); return; }   // IndexedDB has everything → no live query
     let cancel = false;
     const t = setTimeout(async () => {
       const rowsD = await searchDictionary(s);
       if (!cancel) setLive(rowsD.map((d) => ({ id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null })));
     }, 220);
     return () => { cancel = true; clearTimeout(t); };
-  }, [q]);
+  }, [q, idb.length]);
   // Search the FULL dictionary, not just the drilled topic: merge deck cards with dictionary-only
   // words (e.g. "libro", used only inside example sentences so it never became a card). Dedup by
   // Waray — a deck card (carries an example/subtext) wins over the bare dictionary row.
   const all = useMemo(() => {
     const byW = new Map();
-    for (const c of cards) byW.set(c.waray, c);
-    for (const d of (ACTIVE.dictionary || [])) {
-      if (!d.waray || byW.has(d.waray)) continue;
-      byW.set(d.waray, { id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null });
-    }
+    for (const c of cards) byW.set(c.waray, c);               // course cards win (carry example/subtext)
+    for (const d of (ACTIVE.dictionary || [])) if (d.waray && !byW.has(d.waray)) byW.set(d.waray, d.example ? d : { id: d.waray, waray: d.waray, english: d.meaning || "", pronunciation: d.pronunciation || "", subtext: "", example: null });
+    for (const d of idb) if (d.waray && !byW.has(d.waray)) byW.set(d.waray, d);   // the full 25k, offline
     return [...byW.values()];
-  }, [cards]);
+  }, [cards, idb]);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (!s) return [];
