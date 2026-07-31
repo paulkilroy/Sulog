@@ -1238,15 +1238,9 @@ export default function App() {
   };
 
   return (
+    <AppCtx.Provider value={ctx}>
     <div className="ws-root" data-view={view}>
       <Styles />
-      {!["home", "session"].includes(view) && SpeechRec && (
-        <button className={`ws-vk ws-vk-fixed ${settings.voiceMode ? "on" : ""}`}
-          title={settings.voiceMode ? "Voice mode — tap for keyboard" : "Keyboard mode — tap for voice"}
-          onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-          {settings.voiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
-        </button>
-      )}
       {view === "home" && <HomeView ctx={ctx} />}
       {view === "learn" && <LearnView ctx={ctx} />}
       {view === "lesson" && <LessonView ctx={ctx} />}
@@ -1268,8 +1262,10 @@ export default function App() {
       {view === "queue" && <QueueView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
+      <AppDrawer ctx={ctx} />
       {CARDS.length > 0 && <BottomBar ctx={ctx} />}
     </div>
+    </AppCtx.Provider>
   );
 }
 
@@ -2337,22 +2333,10 @@ function HomeView({ ctx }) {
   const streakDays = currentStreak(streak.days);
   const prof = computeProficiency(prog);
 
-  const heroActions = (
-    <div className="ws-hero-btns">
-      <button className="ws-hero-btn" onClick={() => ctx.openReport({ targetType: "lesson", targetRef: "general", context: { screen: "home" } })} title="Report a problem or send feedback"><Flag size={18} /></button>
-      {SpeechRec && (
-        <button className={`ws-hero-btn ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice mode on — tap for keyboard" : "Keyboard mode — tap for voice"}
-          onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-          {settings.voiceMode ? <Mic size={18} /> : <Keyboard size={18} />}
-        </button>
-      )}
-      <button className={`ws-hero-btn ${menuOpen ? "on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
-    </div>
-  );
-
   return (
     <div className="ws-page">
-      <TideHero prof={prof} pct={overall} mastered={mastered} total={total} actions={heroActions} />
+      <TopBar onReport={() => ctx.openReport({ targetType: "lesson", targetRef: "general", context: { screen: "home" } })} />
+      <TideHero prof={prof} pct={overall} mastered={mastered} total={total} />
 
       <DayTracker streak={streak} />
 
@@ -2458,14 +2442,30 @@ function HomeView({ ctx }) {
 
       <div className="ws-build">build {buildLabel()}</div>
 
-      {/* ☰ side drawer — always mounted so it can slide in and back out */}
+    </div>
+  );
+}
+
+const roleHas = (ctx, r) => (ctx.roles || []).includes(r);
+
+/* ☰ side drawer — APP-LEVEL (rendered under every view) so the hamburger in the unified
+   header works on every screen, not just home. Always mounted so it can slide in/out. */
+function AppDrawer({ ctx }) {
+  const { menuOpen, setMenuOpen, setView } = ctx;
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [setMenuOpen]);
+  return (
+    <>
       <div className={`ws-drawer-scrim ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)} />
       <div className={`ws-drawer ${menuOpen ? "open" : ""}`} role="menu" aria-hidden={!menuOpen}>
         <button className="ws-drawer-x" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X size={18} /></button>
         <div className="ws-drawer-body">
             <div className="ws-menu-top"><b>Menu</b></div>
 
-            {/* Account & sync — always first, with the three role pills */}
+            {/* Account & sync — always first, with the role pills (status only; read-only) */}
             <div className="ws-menu-acct">
               <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("account"); }}>
                 <span className="ws-menu-ic"><Cloud size={18} /></span>
@@ -2473,7 +2473,6 @@ function HomeView({ ctx }) {
                 <ChevronRight size={16} className="ws-menu-chev" />
               </button>
               <div className="ws-menu-pills">
-                {/* status only — requesting a role happens on the Request tab */}
                 <span className={`ws-role-pill ${ctx.enrolledN > 0 ? "held" : ""}`}
                   title={ctx.enrolledN > 0 ? "You're enrolled in a class" : "Join a class from Request to become a student"}>
                   student{ctx.enrolledN > 0 ? " ✓" : ""}
@@ -2505,11 +2504,9 @@ function HomeView({ ctx }) {
               <MenuRow icon={<Wrench size={18} />} title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
         </div>
       </div>
-    </div>
+    </>
   );
 }
-
-const roleHas = (ctx, r) => (ctx.roles || []).includes(r);
 const syncWord = (s) => s?.status === "error" ? "not synced" : s?.status === "syncing" ? "syncing…" : "synced";
 
 // one ☰-menu row: emoji · {title, subtitle} · {role badge | chevron}
@@ -2844,25 +2841,16 @@ function SessionView({ ctx }) {
   const scoredDone = results.length;
   return (
     <div className="ws-page ws-session">
-      <div className="ws-session-top">
-        <button className="ws-icon-btn" onClick={() => setView(exitTo)}><X size={20} /></button>
-        <button className="ws-icon-btn" disabled={i <= 0} onClick={back} title="Previous card"><ChevronLeft size={20} /></button>
-        <div className="ws-progress-track">
-          <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
-        </div>
-        <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
-        <button className="ws-vk" title="Report a problem with this item"
-          onClick={() => ctx.openReport({ targetType: "card", targetRef: card.waray,
-            context: { direction: cardDir, mode, lesson: session.lesson?.id || null, english: card.english } })}>
-          <Flag size={16} />
-        </button>
-        {SpeechRec && (
-          <button className={`ws-vk ${settings.voiceMode ? "on" : ""}`} title={settings.voiceMode ? "Voice — tap for keyboard" : "Keyboard — tap for voice"}
-            onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-            {settings.voiceMode ? <Mic size={16} /> : <Keyboard size={16} />}
-          </button>
-        )}
-      </div>
+      <TopBar backIcon="x" onBack={() => setView(exitTo)}
+        center={<>
+          <button className="ws-icon-btn" disabled={i <= 0} onClick={back} title="Previous card"><ChevronLeft size={20} /></button>
+          <div className="ws-progress-track">
+            <div className="ws-progress-fill" style={{ width: `${(scoredDone / base.length) * 100}%` }} />
+          </div>
+          <div className="ws-session-count">{Math.min(scoredDone + 1, base.length)}/{base.length}</div>
+        </>}
+        onReport={() => ctx.openReport({ targetType: "card", targetRef: card.waray,
+          context: { direction: cardDir, mode, lesson: session.lesson?.id || null, english: card.english } })} />
 
       {session.drill && (
         <div className="ws-drillmode">
@@ -5613,14 +5601,31 @@ function BottomBar({ ctx }) {
 }
 
 /* ============================ shared bits ============================ */
-function TopBar({ title, onBack, onReport }) {
+/* THE header — one component, every screen. Layout is always:
+     [back/X]  title · center(optional)  [Flag?] [Mic/Keyboard] [☰]
+   The right cluster is identical on every page (flag only where a report target exists;
+   mic/keyboard only when the browser supports STT; hamburger always). Reads app state via
+   AppCtx so the 28 existing <TopBar> call sites stay unchanged. */
+const AppCtx = React.createContext(null);
+function TopBar({ title, onBack, backIcon, onReport, center }) {
+  const app = React.useContext(AppCtx) || {};
+  const { settings, saveSettings, setMenuOpen, menuOpen } = app;
   return (
     <div className="ws-topbar">
-      <button className="ws-icon-btn" onClick={onBack}><ArrowLeft size={20} /></button>
-      <h2>{title}</h2>
-      {onReport
-        ? <button className="ws-icon-btn" onClick={onReport} title="Report a problem with this page"><Flag size={18} /></button>
-        : <div style={{ width: 40 }} />}
+      {onBack && <button className="ws-icon-btn" onClick={onBack}>{backIcon === "x" ? <X size={20} /> : <ArrowLeft size={20} />}</button>}
+      {title ? <h2 style={{ flex: 1, minWidth: 0 }}>{title}</h2> : null}
+      {center ? <div className="ws-topbar-center">{center}</div> : (!title && <div style={{ flex: 1 }} />)}
+      {onReport && <button className="ws-icon-btn" onClick={onReport} title="Report a problem with this page"><Flag size={18} /></button>}
+      {SpeechRec && settings && (
+        <button className={`ws-icon-btn ${settings.voiceMode ? "vk-on" : ""}`}
+          title={settings.voiceMode ? "Voice mode — tap for keyboard" : "Keyboard mode — tap for voice"}
+          onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+          {settings.voiceMode ? <Mic size={18} /> : <Keyboard size={18} />}
+        </button>
+      )}
+      {setMenuOpen && (
+        <button className={`ws-icon-btn ${menuOpen ? "vk-on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
+      )}
     </div>
   );
 }
@@ -5660,9 +5665,7 @@ function Styles() {
 /* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
    AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
-@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)}
-  /* the drill has no title bar — its corner-X needs the FULL inset to clear the status bar/island */
-  .ws-page.ws-session{padding-top:env(safe-area-inset-top)} }
+@media@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)} }
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
@@ -5685,12 +5688,6 @@ function Styles() {
   margin:0;color:#fff;letter-spacing:-.01em;text-shadow:0 2px 16px rgba(0,0,0,.3)}
 .ws-tide-place{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
   color:#bfeef0;margin-top:5px;text-shadow:0 1px 8px rgba(0,0,0,.3)}
-.ws-hero-btns{display:flex;flex-wrap:nowrap;flex-shrink:0;gap:4px;justify-content:flex-end}
-.ws-hero-btn{width:30px;height:30px;flex-shrink:0;border-radius:9px;border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.12);color:#eafafb;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:.15s;backdrop-filter:blur(3px)}
-.ws-hero-btn:active{transform:scale(.92)}
-.ws-hero-btn.on{background:var(--sun);border-color:var(--sun);color:#fff}
 .ws-tide-band{}
 .ws-tide-pct{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:#fff;
   line-height:1;text-shadow:0 2px 14px rgba(0,0,0,.25)}
@@ -6054,7 +6051,8 @@ function Styles() {
 .ws-dict-entry-acts button.on{color:var(--sun-deep);border-color:var(--sun-deep)}
 
 /* topbar */
-.ws-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.ws-topbar{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.ws-topbar-center{flex:1;display:flex;align-items:center;gap:10px;min-width:0}
 .ws-topbar h2{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--ink)}
 
 /* setup */
@@ -6135,7 +6133,6 @@ function Styles() {
 .ws-sttdbg-raw{font-weight:600}
 .ws-sttdbg-arr{color:#5a9b97}
 .ws-sttdbg-dist{margin-left:auto;display:inline-flex;align-items:center;gap:3px;flex-shrink:0}
-.ws-session-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
 .ws-vk{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;
   border:1px solid var(--sand-deep);background:var(--foam);color:var(--ink-soft);cursor:pointer;flex:0 0 auto}
 .ws-vk.on{background:var(--tide);border-color:var(--tide);color:#fff}
@@ -6152,7 +6149,6 @@ function Styles() {
 .ws-voice-state{font-size:14px;color:var(--ink-soft);text-align:center}
 .ws-voice-heard{font-size:18px;font-weight:600;color:var(--ink);margin-top:4px}
 .ws-voice-acts{display:flex;gap:10px}
-.ws-vk-fixed{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(12px,calc(50vw - 228px));z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .ws-icon-btn.vk-on{background:var(--tide);border-color:var(--tide);color:#fff}
 .ws-voice.compact{padding:4px 0 12px;gap:9px}
 .ws-voice.compact .ws-voice-orb{width:62px;height:62px}
