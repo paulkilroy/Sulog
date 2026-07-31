@@ -5047,19 +5047,22 @@ function StressLabView({ ctx }) {
   const recRef = useRef(null);
   const liveCanvas = useRef(null);
   const envCanvas = useRef(null);
-  // playback element held in a ref — an inline `new Audio(url).play()` can be garbage-collected
-  // mid-play on iOS (sound never starts) and a rejected play() fails silently
-  const myAudioRef = useRef(null);
-  const playMine = (url) => {
+  // Play the recording via WEB AUDIO (decode → buffer source), not an <audio> element —
+  // WebKit silently fails to play MediaRecorder mp4 blobs through HTMLAudioElement on iOS.
+  // Any remaining failure is surfaced visibly so we can see the on-device error.
+  const myAudioRef = useRef(null);   // reusable AudioContext for playback
+  const playMine = async (url) => {
     try {
-      if (!myAudioRef.current || myAudioRef.current._src !== url) {
-        myAudioRef.current = new Audio(url);
-        myAudioRef.current._src = url;
-        myAudioRef.current.playsInline = true;
-      }
-      myAudioRef.current.currentTime = 0;
-      myAudioRef.current.play().catch(() => {});
-    } catch (e) {}
+      const buf = await (await fetch(url)).arrayBuffer();
+      if (!buf.byteLength) throw new Error("empty recording");
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!myAudioRef.current || myAudioRef.current.state === "closed") myAudioRef.current = new AC();
+      const ac = myAudioRef.current;
+      if (ac.state === "suspended") await ac.resume();
+      const decoded = await new Promise((res, rej) => ac.decodeAudioData(buf, res, rej)); // callback form — iOS
+      const src = ac.createBufferSource();
+      src.buffer = decoded; src.connect(ac.destination); src.start();
+    } catch (e) { alert("Playback failed: " + ((e && (e.name || e.message)) || e)); }
   };
   const card = pool[idx % (pool.length || 1)];
   const syls = card ? card.pronunciation.split("-") : [];
