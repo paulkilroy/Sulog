@@ -2462,7 +2462,7 @@ function AppDrawer({ ctx }) {
             <div className="ws-menu-acct">
               <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("account"); }}>
                 <span className="ws-menu-ic"><Cloud size={18} /></span>
-                <span className="ws-menu-tt"><b>Account &amp; sync</b><i>{ctx.user ? `${ctx.user.email} · ${syncWord(ctx.syncState)}` : "Sign in to sync across devices"}</i></span>
+                <span className="ws-menu-tt"><b>Account &amp; Sync</b><i>{ctx.user ? `${ctx.user.email} · ${syncWord(ctx.syncState)}` : "Sign in to sync across devices"}</i></span>
                 <ChevronRight size={16} className="ws-menu-chev" />
               </button>
               <div className="ws-menu-pills">
@@ -2485,16 +2485,17 @@ function AppDrawer({ ctx }) {
 
             <MenuRow icon={<Settings size={18} />} title="Settings" subtitle="dialect · sound &amp; speech" chevron onClick={() => { setMenuOpen(false); setView("settings"); }} />
 
-            {(roleHas(ctx, "instructor") || ctx.admin) &&
+            {/* strictly role-gated — being admin does NOT imply instructor/reviewer */}
+            {roleHas(ctx, "instructor") &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
-            {(roleHas(ctx, "reviewer") || ctx.admin) &&
-              <MenuRow icon={<Inbox size={18} />} title="Review queue" subtitle="missing answers · dictionary · dialect" badge="reviewer" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
+            {roleHas(ctx, "reviewer") &&
+              <MenuRow icon={<Inbox size={18} />} title="Review Queue" subtitle="missing answers · dictionary · dialect" badge="reviewer" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
 
             <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
             {ctx.admin &&
-              <MenuRow icon={<Wrench size={18} />} title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
+              <MenuRow icon={<Wrench size={18} />} title="Admin Console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
         </div>
       </div>
     </>
