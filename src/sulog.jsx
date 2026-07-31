@@ -2556,10 +2556,11 @@ function DictSheet({ ctx }) {
   const { cards } = ctx;
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
-  // Focus AFTER the sheet finishes sliding up (~0.28s). Focusing mid-animation makes iOS scroll the
-  // still-moving input to the wrong place (pushed above the screen) — the "first-open" glitch.
+  // Focus immediately (inside the tap gesture) so iOS raises the keyboard — a delayed focus doesn't.
+  // preventScroll stops iOS from scrolling the mid slide-up input off the top (the first-open glitch);
+  // the tall sheet already keeps it above the keyboard, so no scroll is needed.
   const searchRef = useRef(null);
-  useEffect(() => { const t = setTimeout(() => searchRef.current?.focus(), 380); return () => clearTimeout(t); }, []);
+  useEffect(() => { try { searchRef.current?.focus({ preventScroll: true }); } catch (e) { searchRef.current?.focus(); } }, []);
   // The full 25k lives in IndexedDB (mirrored in the background). Use it for OFFLINE search when it's
   // there; fall back to a live DB query while it's still syncing (or if IndexedDB is unavailable).
   const [idb, setIdb] = useState([]);
