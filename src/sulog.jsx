@@ -345,6 +345,10 @@ function isDue(st) { return !st || st.seen === 0 || now() >= (st.due || 0); }
 function masteryPct(st) { return st ? Math.min(1, st.box / 5) : 0; }
 // --- reading coverage (mirrors tools/reading-coverage.mjs: exact + morphological
 // containment, so inflected forms of a known root count as known) ---
+// Strip accents for DISPLAY only (ids/lookups keep the original). Waray is written without
+// accents — stress lives in the pronunciation guide — but the book's example/drill SENTENCES
+// carry accents, so we deaccent them at render. Case-preserving (unlike the matching folds).
+const deaccent = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "");
 function storyToks(text) {
   return (text || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
     .replace(/[’`]/g, "'").split(/[^a-z'\-]+/).map((t) => t.replace(/^['\-]+|['\-]+$/g, "")).filter((t) => t.length >= 2);
@@ -377,7 +381,7 @@ function _deinflect(t) {
   for (const b of [t, ...c.slice()]) { const y = b.replace(/(han|hon|nan|an|on|i|a)$/, ""); add(y); add(_fold(y)); }
   return c;
 }
-const glossFor = (word) => {
+const definitionFor = (word) => {
   const direct = DEFINITIONS[word] || (VARIANTS[word] && DEFINITIONS[VARIANTS[word]]) || DEFINITIONS[_fold(word)];
   if (direct) return direct;
   for (const cand of _deinflect(word)) if (DEFINITIONS[cand]) return `${DEFINITIONS[cand]}  (from ${cand})`; // inflected → root's gloss
@@ -1318,14 +1322,14 @@ function DbItem({ it, dir, choices }) {
     </div>
   );
 }
-function DbBlock({ block, guides, pool, deck }) {
+function DbBlock({ block, guides, pool, topic }) {
   const c = BLK_COLOR[block.type] || "#8a9499";
   const items = block.items || [];
   const isMC = block.type === "drill" && block.drill_kind === "recognition" && block.drill_modality === "mc";
   // this drill's own items are the section — wrong answers come from here first
-  const section = items.map((it) => ({ id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", deck }));
+  const section = items.map((it) => ({ id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", topic }));
   const mcChoices = (it) => {
-    const card = { id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", deck };
+    const card = { id: it.waray, waray: it.waray, english: it.meaning || it.translation || "", topic };
     return [{ t: card.english, ans: true }, ...pickDistractors(pool || [], card, "wte", section).map((x) => ({ t: x, ans: false }))];
   };
   const renderItem = (it, i) => <DbItem key={i} it={it} dir={dbItemDir(block, items, i, it)} choices={isMC ? mcChoices(it) : null} />;
@@ -1746,7 +1750,7 @@ function AdminView({ ctx }) {
           {!forms && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
           {forms && forms.map((fm) => (
             <div key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "5px 2px", borderBottom: "1px dotted #24454b", opacity: fm.active ? 1 : 0.45 }}>
-              <span style={{ flex: 1 }}><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span>
+              <span style={{ flex: 1 }}><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.definition})</span>
                 {fm.verified && <span style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓ native-verified</span>}
                 {!fm.active && <span style={{ color: "var(--coral)", fontSize: 11.5 }}> · dropped</span>}</span>
               {fm.active && !fm.verified && <button onClick={() => mark(fm.k, { verified: true })}
@@ -1938,7 +1942,7 @@ function LanguageView({ ctx }) {
                   {catalog.map((fm) => (
                     <label key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "4px 2px", cursor: "pointer", color: forms[fm.k] ? "var(--ink)" : "var(--ink-soft)" }}>
                       <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
-                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.gloss})</span>
+                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.definition})</span>
                         {fm.verified && <span title="native-speaker verified" style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓</span>}</span>
                     </label>
                   ))}
@@ -2014,7 +2018,7 @@ function LanguageView({ ctx }) {
                             return (
                               <div key={l.id} style={{ margin: "10px 0" }}>
                                 <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
-                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} deck={u.id} />)}
+                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} topic={u.id} />)}
                               </div>
                             );
                           })}
@@ -2045,7 +2049,7 @@ function LanguageView({ ctx }) {
 function DbReviewRow({ entry, onConfirmed }) {
   const cand = CONFIRM_CANDIDATES[entry.waray] || {};
   const options = [];
-  if (entry.meaning) options.push({ key: "current", label: cand.origin || "course deck", text: entry.meaning });
+  if (entry.meaning) options.push({ key: "current", label: cand.origin || "course vocab", text: entry.meaning });
   if (cand.tramp?.gloss && cand.tramp.gloss.toLowerCase() !== (entry.meaning || "").toLowerCase())
     options.push({ key: "tramp", label: `Tramp dictionary${cand.tramp.page ? ` · p.${cand.tramp.page}` : ""}`, text: cand.tramp.gloss });
   const [pick, setPick] = useState(options[0]?.key || "other");
@@ -2573,7 +2577,7 @@ function DictSheet({ ctx }) {
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
         <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
-          <div className="ws-dict-hit-main"><b>{c.waray}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
+          <div className="ws-dict-hit-main"><b>{deaccent(c.waray)}</b>{c.pronunciation && <span className="ws-dict-hit-say">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
           <div className="ws-dict-hit-eng">{c.english}</div>
         </button>
       ))}
@@ -2585,15 +2589,15 @@ function DictSheet({ ctx }) {
 function DictEntry({ card, st, ctx, onBack }) {
   const { playCard, togglePin } = ctx;
   const p = masteryPct(st);
-  const deck = TOPICS[card.topic];
+  const topicMeta = TOPICS[card.topic];
   return (
     <div className="ws-dict-entry">
       <button className="ws-sheet-back" onClick={onBack}><ChevronLeft size={15} /> results</button>
-      <div className="ws-dict-hw">{card.waray}</div>
+      <div className="ws-dict-hw">{deaccent(card.waray)}</div>
       {card.pronunciation && <div className="ws-dict-hw-say">/ {card.pronunciation} /</div>}
       <div className="ws-dict-hw-eng">{card.english}</div>
       <div className="ws-dict-entry-meta">
-        {deck && <span className="ws-dict-tag">{deck.short}</span>}
+        {topicMeta && <span className="ws-dict-tag">{topicMeta.short}</span>}
         <span className="ws-dict-tag">{st?.seen ? `${p}% mastered` : "not started"}</span>
       </div>
       {TAUGHT_IN[card.id]
@@ -2775,8 +2779,8 @@ function SessionView({ ctx }) {
     if (step.scored) { // only the first encounter feeds the SRS + daily activity + grade
       recordCard(card.id, correct, mode);
       bumpStreak(correct);   // records the day's { n, r, m } rollup (attempts/correct/mastered)
-      const prompt = cardDir === "wte" ? card.waray : card.english;
-      const answer = cardDir === "wte" ? card.english : card.waray;
+      const prompt = deaccent(cardDir === "wte" ? card.waray : card.english);
+      const answer = deaccent(cardDir === "wte" ? card.english : card.waray);
       setTally((t) => ({ right: t.right + (correct ? 1 : 0), wrong: t.wrong + (correct ? 0 : 1) }));
       setResults((r) => [...r, { id: card.id, prompt, answer, given: given || "", correct }]);
     }
@@ -3056,7 +3060,7 @@ function SttTestView({ ctx }) {
 
       <div className={`ws-stt-card ${phase}`}>
         <div className="ws-stt-prompt">{card ? card.waray : "—"}</div>
-        <div className="ws-stt-gloss">{card ? card.english : ""}</div>
+        <div className="ws-stt-def">{card ? card.english : ""}</div>
         {card && card.pronunciation && <div className="ws-stt-say">{card.pronunciation}</div>}
 
         {phase === "listening" && (
@@ -3123,8 +3127,8 @@ function CardReview({ card, dir, mode, distractors, ctx, onResult, onSkip }) {
   const { playCard, settings } = ctx;
   const promptField = dir === "wte" ? "waray" : "english";
   const answerField = dir === "wte" ? "english" : "waray";
-  const prompt = card[promptField];
-  const answer = card[answerField];
+  const prompt = deaccent(card[promptField]);
+  const answer = deaccent(card[answerField]);
   const promptIsWaray = promptField === "waray";
 
   const [revealed, setRevealed] = useState(false);
@@ -3393,6 +3397,7 @@ function PromptBlock({ text, isWaray, pronunciation, onPlay }) {
 
 // render a Waray phrase with its focus word highlighted (first, case-insensitive match)
 function FocusPhrase({ war, focus }) {
+  war = deaccent(war); focus = focus ? deaccent(focus) : focus;
   if (!focus) return war;
   const i = war.toLowerCase().indexOf(focus.toLowerCase());
   if (i < 0) return war;
@@ -4258,7 +4263,7 @@ function StoryView({ ctx }) {
 function ReadView({ ctx }) {
   const { cards, prog, setView, playCard } = ctx;
   const [open, setOpen] = useState(null);   // selected story
-  const [sel, setSel] = useState(null);     // tapped {word, gloss}
+  const [sel, setSel] = useState(null);     // tapped {word, definition}
   const [answers, setAnswers] = useState({}); // comprehension-quiz picks {qIdx: optIdx}
   const openStory = (s) => { setOpen(s); setSel(null); setAnswers({}); };
   const [readSet, setReadSet] = useState(() => {
@@ -4283,12 +4288,12 @@ function ReadView({ ctx }) {
     const cov = storyCoverage(open, known, roots);
     const tap = (core) => {
       const n = storyToks(core)[0] || "";
-      let g = glossFor(n);
+      let g = definitionFor(n);
       if (g && VARIANTS[n] && !DEFINITIONS[n]) g = `${g}  (form of ${VARIANTS[n]})`;
-      setSel({ word: core, gloss: g });
+      setSel({ word: core, definition: g });
       playCard({ waray: core, pronunciation: "" });
     };
-    const tapChunk = (text, gloss) => { setSel({ word: text, gloss }); playCard({ waray: text, pronunciation: "" }); };
+    const tapChunk = (text, definition) => { setSel({ word: text, definition }); playCard({ waray: text, pronunciation: "" }); };
     // render a paragraph word-by-word, but match registered multi-word chunks LONGEST-FIRST
     const renderPara = (p, pi) => {
       const parts = p.split(/(\s+)/); // alternating words & whitespace
@@ -4306,11 +4311,11 @@ function ReadView({ ctx }) {
             const wn = storyToks(parts[j])[0]; if (!wn) { words.length = 0; break; }
             words.push(wn); j++;
           }
-          if (words.length === len && CHUNKS[words.join(" ")]) chunk = { end: j, gloss: CHUNKS[words.join(" ")] };
+          if (words.length === len && CHUNKS[words.join(" ")]) chunk = { end: j, definition: CHUNKS[words.join(" ")] };
         }
         if (chunk) {
           const text = parts.slice(i, chunk.end).join("");
-          out.push(<span key={i} className="ws-rw chunk" onClick={() => tapChunk(text, chunk.gloss)}>{text}</span>);
+          out.push(<span key={i} className="ws-rw chunk" onClick={() => tapChunk(text, chunk.definition)}>{text}</span>);
           i = chunk.end; continue;
         }
         const n = storyToks(part)[0] || "";
@@ -4359,10 +4364,10 @@ function ReadView({ ctx }) {
             : <>From <b>Bible for Children</b> — free to copy, not for sale. Used with attribution.</>}
         </div>
         {sel && (
-          <div className="ws-gloss-bar" onClick={() => playCard({ waray: sel.word, pronunciation: "" })}>
+          <div className="ws-def-bar" onClick={() => playCard({ waray: sel.word, pronunciation: "" })}>
             <Volume2 size={16} />
             <b>{sel.word}</b>
-            <span>{sel.gloss || "not in the glossary — likely a name, or a rare/inflected word (tap to hear it)"}</span>
+            <span>{sel.definition || "not in the dictionary — likely a name, or a rare/inflected word (tap to hear it)"}</span>
             <button className="ws-skip" onClick={(e) => { e.stopPropagation(); setSel(null); }}>✕</button>
           </div>
         )}
@@ -5782,12 +5787,12 @@ function Styles() {
 .ws-quiz-opt:disabled{cursor:default}
 .ws-quiz-opt.correct{border-color:var(--jade);background:#e0f3ea;color:#2f7a57;font-weight:600}
 .ws-quiz-opt.incorrect{border-color:var(--coral);background:#fae3de;color:var(--coral)}
-.ws-gloss-bar{position:fixed;left:12px;right:12px;bottom:14px;max-width:600px;margin:0 auto;z-index:40;
+.ws-def-bar{position:fixed;left:12px;right:12px;bottom:14px;max-width:600px;margin:0 auto;z-index:40;
   display:flex;align-items:center;gap:10px;background:var(--sea-ink);color:#fff;border-radius:14px;
   padding:12px 15px;box-shadow:0 6px 24px rgba(0,0,0,.25);cursor:pointer}
-.ws-gloss-bar b{font-size:16px;flex:0 0 auto}
-.ws-gloss-bar span{flex:1;font-size:13.5px;opacity:.9}
-.ws-gloss-bar .ws-skip{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:4px 9px}
+.ws-def-bar b{font-size:16px;flex:0 0 auto}
+.ws-def-bar span{flex:1;font-size:13.5px;opacity:.9}
+.ws-def-bar .ws-skip{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:4px 9px}
 .ws-cta-t{font-weight:600;font-size:15.5px}
 .ws-cta-d{font-size:12.5px;opacity:.78;margin-top:1px}
 .ws-cta-sub{font-size:11.5px;opacity:.6;margin-top:1px}
@@ -6268,7 +6273,7 @@ function Styles() {
 .ws-stt-card.hit{border-color:#2faa63;background:rgba(47,170,99,.12)}
 .ws-stt-card.miss{border-color:#d8745c;background:rgba(216,116,92,.12)}
 .ws-stt-prompt{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
-.ws-stt-gloss{font-size:14.5px;color:var(--ink-soft);margin-top:5px}
+.ws-stt-def{font-size:14.5px;color:var(--ink-soft);margin-top:5px}
 .ws-stt-say{font-size:12.5px;color:var(--tide);margin-top:6px;font-style:italic}
 .ws-stt-live{margin-top:16px;font-size:13px;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:6px}
 .ws-stt-dot{width:11px;height:11px;border-radius:50%;background:#c0432b;display:inline-block;margin-right:6px;

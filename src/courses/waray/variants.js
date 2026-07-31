@@ -1,9 +1,9 @@
 /* Variant + multi-word-expression map for Waray.
    - VARIANTS: single-word spelling/dialect variants → the canonical (taught) form.
-     Used for the reader's tap-gloss, for "new word" highlighting, AND for coverage
+     Used for the reader's tap-to-define, for "new word" highlighting, AND for coverage
      credit (knowing the canonical lights up its variants).
-   - CHUNKS: multi-word expressions → an idiomatic English gloss. The reader does a
-     LONGEST-MATCH (maximal munch) so "may ada" is glossed as one unit ("there is / has")
+   - CHUNKS: multi-word expressions → an idiomatic English definition. The reader does a
+     LONGEST-MATCH (maximal munch) so "may ada" is defined as one unit ("there is / has")
      instead of word-by-word.
 
    STARTER SET — every entry here is a hypothesis to be verified with a native speaker (Ella).
@@ -17,7 +17,7 @@ export const VARIANTS = {
   sa:    "ha",      // dialectal locative marker
   wara:  "waray",   // dialectal "none / nothing" (CHED notes this variant)
   gihap: "gihapon", // common clipping of "also / still"
-  // dialect/clitic variants that fold to a standard form we already gloss (verify w/ Ella)
+  // dialect/clitic variants that fold to a standard form we already define (verify w/ Ella)
   ka:    "ikaw",    // short 2nd-person form
   sin:   "hin",     // dialectal indefinite marker
   siya:  "hiya",    // dialectal "he / she"
@@ -98,18 +98,18 @@ export const CHUNKS = {
 // "standard" preset checks none).
 // rel + canon render as prose ("di — short for *diri* (not)"); no arrow shorthand in the UI
 export const DIALECT_FORMS = [
-  { k: "di",    rel: "short for", canon: "diri",    gloss: "not" },
-  { k: "wara",  rel: "for",       canon: "waray",   gloss: "none / did not" },
-  { k: "sin",   rel: "for",       canon: "hin",     gloss: "a/some, object marker" },
-  { k: "san",   rel: "for",       canon: "han",     gloss: "of/the, object marker" },
-  { k: "sa",    rel: "for",       canon: "ha",      gloss: "to/at/in" },
-  { k: "gihap", rel: "short for", canon: "gihapon", gloss: "also/still" },
-  { k: "mayda", rel: "fused",     canon: "may ada", gloss: "there is / has" },
-  { k: "siya",  rel: "for",       canon: "hiya",    gloss: "he/she" },
-  { k: "sino",  rel: "for",       canon: "hin-o",   gloss: "who" },
-  { k: "digto", rel: "for",       canon: "didto",   gloss: "there, far" },
-  { k: "kon",   rel: "for",       canon: "kun",     gloss: "if/when" },
-  { k: "ak",    rel: "clipped",   canon: "akon",    gloss: "my" },
+  { k: "di",    rel: "short for", canon: "diri",    definition: "not" },
+  { k: "wara",  rel: "for",       canon: "waray",   definition: "none / did not" },
+  { k: "sin",   rel: "for",       canon: "hin",     definition: "a/some, object marker" },
+  { k: "san",   rel: "for",       canon: "han",     definition: "of/the, object marker" },
+  { k: "sa",    rel: "for",       canon: "ha",      definition: "to/at/in" },
+  { k: "gihap", rel: "short for", canon: "gihapon", definition: "also/still" },
+  { k: "mayda", rel: "fused",     canon: "may ada", definition: "there is / has" },
+  { k: "siya",  rel: "for",       canon: "hiya",    definition: "he/she" },
+  { k: "sino",  rel: "for",       canon: "hin-o",   definition: "who" },
+  { k: "digto", rel: "for",       canon: "didto",   definition: "there, far" },
+  { k: "kon",   rel: "for",       canon: "kun",     definition: "if/when" },
+  { k: "ak",    rel: "clipped",   canon: "akon",    definition: "my" },
 ];
 export const DIALECT_PRESETS = {
   standard: { label: "Standard · Tacloban", forms: [] },
