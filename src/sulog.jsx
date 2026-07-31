@@ -5047,6 +5047,20 @@ function StressLabView({ ctx }) {
   const recRef = useRef(null);
   const liveCanvas = useRef(null);
   const envCanvas = useRef(null);
+  // playback element held in a ref — an inline `new Audio(url).play()` can be garbage-collected
+  // mid-play on iOS (sound never starts) and a rejected play() fails silently
+  const myAudioRef = useRef(null);
+  const playMine = (url) => {
+    try {
+      if (!myAudioRef.current || myAudioRef.current._src !== url) {
+        myAudioRef.current = new Audio(url);
+        myAudioRef.current._src = url;
+        myAudioRef.current.playsInline = true;
+      }
+      myAudioRef.current.currentTime = 0;
+      myAudioRef.current.play().catch(() => {});
+    } catch (e) {}
+  };
   const card = pool[idx % (pool.length || 1)];
   const syls = card ? card.pronunciation.split("-") : [];
   const wordSyls = card ? syllabifyWaray(card.waray) : [];
