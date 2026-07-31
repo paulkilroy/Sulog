@@ -12,7 +12,7 @@ import {
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
   Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
-  GraduationCap, Menu as MenuIcon, Settings, Hand,
+  GraduationCap, Menu as MenuIcon, Settings, Hand, Inbox,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -2497,6 +2497,9 @@ function HomeView({ ctx }) {
             {(roleHas(ctx, "instructor") || ctx.admin) &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
+            {(roleHas(ctx, "reviewer") || ctx.admin) &&
+              <MenuRow icon={<Inbox size={18} />} title="Review queue" subtitle="missing answers · dictionary · dialect" badge="reviewer" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
+
             <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
             {ctx.admin &&
@@ -4759,7 +4762,11 @@ function analyzeStress(frames, nSyl, expected) {
     // — aircon, running water — is FLAT (peak barely above floor), and too quiet overall means
     // nothing was really said. Either way it isn't a word; reject so noise isn't graded/heard.
     const dyn = peak / Math.max(floor, 1e-4);
-    const noSpeech = peak < 0.03 || dyn < 2.6;
+    // dyn (peak÷floor) is the real discriminator: flat noise (aircon, water) has a LOW ratio,
+    // real speech is peaky (loud vowels over quiet gaps). Keep that primary. The absolute floor
+    // is just to reject true near-silence — kept low so soft speech in a QUIET room still registers
+    // (0.03 was over-rejecting "heard nothing"). dyn still rejects steady noise on its own.
+    const noSpeech = peak < 0.012 || dyn < 2.2;
     let lo = sm.findIndex((v) => v > th); let hi = sm.length - 1;
     while (hi > lo && sm[hi] <= th) hi--;
     if (noSpeech || lo < 0 || hi - lo < 4) return { segs: [], sm, detected: -1, scores: [], countOk: false, ok: false, pct: 0, verdicts: Array(nSyl).fill("unsure"), th, floor, peakV: peak, nFrames: sm.length, nRaw: 0, noSpeech: true, dyn };
