@@ -12,7 +12,7 @@ import {
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
   Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
-  GraduationCap, Menu as MenuIcon,
+  GraduationCap, Menu as MenuIcon, Settings, Hand,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -2469,7 +2469,7 @@ function HomeView({ ctx }) {
             {/* Account & sync — always first, with the three role pills */}
             <div className="ws-menu-acct">
               <button className="ws-menu-row" onClick={() => { setMenuOpen(false); setView("account"); }}>
-                <span className="ws-menu-ic">☁️</span>
+                <span className="ws-menu-ic"><Cloud size={18} /></span>
                 <span className="ws-menu-tt"><b>Account &amp; sync</b><i>{ctx.user ? `${ctx.user.email} · ${syncWord(ctx.syncState)}` : "Sign in to sync across devices"}</i></span>
                 <ChevronRight size={16} className="ws-menu-chev" />
               </button>
@@ -2492,18 +2492,15 @@ function HomeView({ ctx }) {
               </div>
             </div>
 
-            <MenuRow icon="⚙️" title="Settings" subtitle="language · course · my dialect · sound" chevron onClick={() => { setMenuOpen(false); setView("settings"); }} />
+            <MenuRow icon={<Settings size={18} />} title="Settings" subtitle="dialect · sound &amp; speech" chevron onClick={() => { setMenuOpen(false); setView("settings"); }} />
 
             {(roleHas(ctx, "instructor") || ctx.admin) &&
-              <MenuRow icon="🎓" title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
+              <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
-            {(roleHas(ctx, "reviewer") || roleHas(ctx, "instructor") || ctx.admin) &&
-              <MenuRow icon="👩" title="Review queue" subtitle="missing answers · dictionary · dialect" badge="rev·admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
-
-            <MenuRow icon="✋" title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
+            <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
             {ctx.admin &&
-              <MenuRow icon="🔧" title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
+              <MenuRow icon={<Wrench size={18} />} title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
         </div>
       </div>
     </div>
