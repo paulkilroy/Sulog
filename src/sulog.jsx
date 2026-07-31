@@ -1807,7 +1807,7 @@ function AdminView({ ctx }) {
           ) : <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
           <div style={{ display: "flex", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
             <a href="verify/" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Course-vs-book review site →</a>
-            <a href="verify/ella-todo.html" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Ella printable todo →</a>
+            <button onClick={() => setView("language")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 12.5, color: "var(--tide)" }}>Course preview →</button>
           </div>
 
           <SectionLabel icon={<span style={{ fontSize: 13 }}>🧬</span>} text="Change history — traceability" />
@@ -5660,8 +5660,7 @@ function Styles() {
 /* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
    AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
-@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)}
-  .ws-page.ws-session{padding-top:calc(env(safe-area-inset-top) - 28px)} }  /* drill: match every other screen; .ws-session's 16px was clobbering the inset */
+@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)} }
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
@@ -5948,7 +5947,7 @@ function Styles() {
 /* ☰ side drawer — slides in from the right, X sits where the hamburger is */
 .ws-drawer-scrim{position:fixed;inset:0;background:rgba(3,14,17,.5);z-index:40;opacity:0;pointer-events:none;transition:opacity .26s ease}
 .ws-drawer-scrim.open{opacity:1;pointer-events:auto}
-.ws-drawer{position:fixed;top:0;right:0;height:100%;width:min(86vw,340px);z-index:41;
+.ws-drawer{position:fixed;top:0;right:max(0px,calc(50vw - 240px));height:100%;width:min(86vw,340px);z-index:41;
   background:rgba(9,24,28,.99);backdrop-filter:blur(10px);border-left:1px solid var(--sand-deep);box-shadow:-16px 0 44px rgba(0,0,0,.5);
   transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow:hidden}
 .ws-drawer.open{transform:translateX(0)}
@@ -6102,7 +6101,8 @@ function Styles() {
 .ws-full{width:100%;justify-content:center;margin-bottom:16px}
 
 /* session */
-.ws-session{padding-top:16px}
+/* .ws-session inherits .ws-page's top padding (incl. the standalone safe-area inset) so the drill's
+   close-X lines up with every other screen's top control — no separate override. */
 .ws-remedy{margin:-10px 0 16px;padding:9px 13px;border-radius:11px;background:color-mix(in srgb,var(--sun) 15%,var(--foam));border:1px solid var(--sun);
   color:var(--sun-deep);font-size:12.5px;font-weight:600;text-align:center}
 .ws-auto-bar{height:3px;border-radius:3px;background:currentColor;opacity:.35;margin-top:11px;
@@ -6150,7 +6150,7 @@ function Styles() {
 .ws-voice-state{font-size:14px;color:var(--ink-soft);text-align:center}
 .ws-voice-heard{font-size:18px;font-weight:600;color:var(--ink);margin-top:4px}
 .ws-voice-acts{display:flex;gap:10px}
-.ws-vk-fixed{position:fixed;top:max(10px,env(safe-area-inset-top));right:12px;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.ws-vk-fixed{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(12px,calc(50vw - 228px));z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .ws-icon-btn.vk-on{background:var(--tide);border-color:var(--tide);color:#fff}
 .ws-voice.compact{padding:4px 0 12px;gap:9px}
 .ws-voice.compact .ws-voice-orb{width:62px;height:62px}
