@@ -54,6 +54,21 @@ export const searchDictionary = async (q) => {
   return data || [];
 };
 
+// Fetch ONLY specific dictionary words (the ones a course references) so the course load doesn't
+// pull all 25k. Chunked `in` queries (short URLs), run in parallel.
+async function fetchDictByWaray(warays) {
+  const uniq = [...new Set(warays)].filter(Boolean);
+  if (!uniq.length) return [];
+  const chunk = 150;
+  const reqs = [];
+  for (let i = 0; i < uniq.length; i += chunk)
+    reqs.push(supabase.from("dictionary").select("*").in("waray", uniq.slice(i, i + chunk)));
+  const results = await Promise.all(reqs);
+  const out = [];
+  for (const r of results) { if (r.error) throw new Error(r.error.message); out.push(...(r.data || [])); }
+  return out;
+}
+
 // Ella's queue: everything a native speaker still needs to confirm.
 export const fetchReviewList = () =>
   fetchAll(() => supabase.from("dictionary").select("waray,kind,meaning,pronunciation,loan").eq("confirmed", false).order("kind", { ascending: false }).order("waray")); // words (drilled in lessons) before lexicon-only phrases; paginated defensively
@@ -62,11 +77,11 @@ export const fetchCourses = () => rows(supabase.from("courses").select("*"));
 
 // Assemble one course into course › phases › units › lessons › blocks (+ resolved items).
 export async function fetchCourse(courseId) {
-  const [phases, dict, exprs] = await Promise.all([
+  const [phases, exprs] = await Promise.all([
     rows(supabase.from("phases").select("*").eq("course_id", courseId).order("ord")),
-    fetchDictionary(),
     fetchAll(() => supabase.from("expressions").select("*").order("id")), // stable page order (see fetchDictionary)
   ]);
+  // NB: we do NOT fetch the full 25k dictionary here — only the words this course references (below).
   const phaseIds = phases.map((p) => p.id);
   const units = await rows(supabase.from("units").select("*").in("phase_id", phaseIds).order("ord"));
   const unitIds = units.map((u) => u.id);
@@ -76,6 +91,9 @@ export async function fetchCourse(courseId) {
   const blockIds = blocks.map((b) => b.id);
   const items = blockIds.length ? await fetchAll(() => supabase.from("block_items").select("*").in("block_id", blockIds).order("block_id").order("ord")) : [];
 
+  // Fetch ONLY the dictionary words this course references (~600), not the full 25k — the big fetch
+  // was what made Safari's initial load slow. The rest of the dictionary is searched live.
+  const dict = await fetchDictByWaray(items.filter((it) => it.dict_waray).map((it) => it.dict_waray));
   const dByW = new Map(dict.map((d) => [d.waray, d]));
   const eById = new Map(exprs.map((e) => [e.id, e]));
   const itemsByBlock = new Map();
@@ -98,10 +116,7 @@ export async function fetchCourse(courseId) {
   // cache write failed → the app got stuck on "fetching…". So the CACHED bundle carries only the
   // course's OWN words (curated/confirmed, or referenced by a lesson) — ~600 rows, ~60KB. The full
   // 25k is searched LIVE from the DB (searchDictionary) when online. (Offline-25k would want IndexedDB.)
-  const referenced = new Set(items.filter((it) => it.dict_waray).map((it) => it.dict_waray));
-  const dictionary = dict
-    .filter((d) => d.confirmed || referenced.has(d.waray))
-    .map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed }));
+  const dictionary = dict.map((d) => ({ waray: d.waray, meaning: d.meaning, pronunciation: d.pronunciation || "", pos: d.pos || "", confirmed: !!d.confirmed }));
   return { id: courseId, phases: phases.map((p) => ({ ...p, units: unitsByPhase.get(p.id) || [] })), dictionary };
 }
 
