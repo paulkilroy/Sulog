@@ -82,7 +82,7 @@ export function dbCourseToBundled(db, name) {
   for (const ph of db.phases || []) {
     const units = [];
     for (const u of ph.units || []) {
-      const topic = u.id;                  // one topic per unit; DECKS labels it from the unit name
+      const topic = u.id;                  // one topic per unit; TOPICS labels it from the unit name
       const lessons = [], gates = [];     // gates = end-of-lesson tests, attached to the lesson they follow
       for (const l of u.lessons || []) {
         const items = [], seen = new Set();          // flat list (home counts / card resolution)

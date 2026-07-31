@@ -136,13 +136,13 @@ const TOPIC_META = {
   ch12: { name: "Time & Simple Tasks", short: "Tasks", hint: "Daily times and chores" },
 };
 
-// deck metadata for the ACTIVE course only — built from its cards, with a safe
-// fallback so an unknown deck can never crash a card tag (the Challenger blank page)
+// topic metadata for the ACTIVE course only — built from its cards, with a safe
+// fallback so an unknown topic can never crash a card tag (the Challenger blank page)
 const TOPICS = (() => {
-  // A deck's label comes from TOPIC_META if curated there (the Frequency/Classic
-  // thematic decks, which span units); otherwise it's derived from the curriculum
-  // unit that teaches the deck's cards (unit-aligned courses like Challenger never
-  // need hardcoded labels); otherwise the raw deck id.
+  // A topic's label comes from TOPIC_META if curated there (the Frequency/Classic
+  // thematic topics, which span units); otherwise it's derived from the curriculum
+  // unit that teaches the topic's cards (unit-aligned courses like Challenger never
+  // need hardcoded labels); otherwise the raw topic id.
   const topicByWord = {}; for (const r of CARDS) topicByWord[r[1]] = r[0];
   const fromCurriculum = {};
   for (const sec of (ACTIVE.curriculum || []))
@@ -2042,7 +2042,7 @@ function LanguageView({ ctx }) {
    Lists dictionary rows with confirmed=false (Ella's queue). Editing meaning/pronunciation +
    Confirm writes to Supabase (RLS allows the admin only). Row drops off on confirm. */
 // One unconfirmed dictionary word — SAME cited multiple-choice pattern as the missing-answer
-// cards: every candidate gloss says WHO asserts it (how the word entered the app, vs what the
+// cards: every candidate definition says WHO asserts it (how the word entered the app, vs what the
 // Tramp dictionary prints), plus a free-text "my own". Candidates are baked at build time by
 // tools/gen-confirm-candidates.mjs. Pronunciation is verified alongside (prefilled from the
 // row or from Tramp's accented headword) and saves with the meaning.
@@ -3794,7 +3794,7 @@ function LearnView({ ctx }) {
 // where the marker sits INSIDE the phrase ("lapis ni Bebing", "mulayan han mga bata") — findMarker
 // locates it wherever it falls rather than assuming it leads.
 const CASE_MARKERS = ["an mga", "han mga", "hira", "nira", "kan", "han", "hin", "hi", "ha", "ni", "an"];
-const MARKER_GLOSS = {
+const MARKER_DEFINITIONS = {
   an: "a common noun", "an mga": "plural common nouns", hi: "one person by name",
   hira: "several people by name", han: "of a common noun", "han mga": "of plural common nouns",
   hin: "a / some (object)", ha: "to / at / in", ni: "of a person by name",
@@ -3842,7 +3842,7 @@ function ClozeView({ ctx }) {
       <div style={{ textAlign: "center", padding: "40px 20px" }}>
         <div style={{ fontSize: 40 }}>{right === items.length ? "🌊" : "👍"}</div>
         <h2>{right}/{items.length}</h2>
-        <p style={{ color: "var(--ink-soft)" }}>{options.map((m) => `${m} — ${MARKER_GLOSS[m] || "marker"}`).join(" · ")}</p>
+        <p style={{ color: "var(--ink-soft)" }}>{options.map((m) => `${m} — ${MARKER_DEFINITIONS[m] || "marker"}`).join(" · ")}</p>
         <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("lesson")}>Back to the lesson</button>
       </div>
     </div>

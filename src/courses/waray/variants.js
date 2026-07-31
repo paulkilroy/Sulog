@@ -31,7 +31,7 @@ export const VARIANTS = {
   karuayag: "karuyag", // scanning-error spelling of "karuyag" (want / like)
 };
 
-// curated glosses that WIN over Tramp/lexicon — for function words Tramp glosses badly,
+// curated definitions that WIN over Tramp/lexicon — for function words Tramp glosses badly,
 // and a few common words a 1991 dictionary lacks. (Applied in build-stories.) Verify w/ Ella.
 export const DEFINITION_FIX = {
   la:    "just / only",
