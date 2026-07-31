@@ -2315,7 +2315,7 @@ function HomeView({ ctx }) {
           <p style={{ color: "var(--ink-soft)" }}>Fetching the Peace Corps course…</p>
           {/* time-estimated bar (~9s to match the measured first-load); the app reloads on cache */}
           <div className="ws-loadbar"><div className="ws-loadbar-fill" /></div>
-          <p style={{ color: "var(--ink-soft)", fontSize: 11.5, marginTop: 8 }}>first load only — it's saved after this</p>
+          <p style={{ color: "var(--ink-soft)", fontSize: 11.5, marginTop: 8 }}>Loading Waray Dictionary and Lessons</p>
         </div>
       </div>
     );
