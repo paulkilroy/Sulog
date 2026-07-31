@@ -1255,7 +1255,6 @@ export default function App() {
       {view === "session" && <SessionView key={JSON.stringify(session)} ctx={ctx} />}
       {view === "needswork" && <NeedsWorkView ctx={ctx} />}
       {view === "read" && <ReadView ctx={ctx} />}
-      {view === "pronounce" && <PronounceView ctx={ctx} />}
       {view === "stresslab" && <StressLabView ctx={ctx} />}
       {view === "accentduel" && <AccentDuelView ctx={ctx} />}
       {view === "stttest" && <SttTestView ctx={ctx} />}
@@ -4603,30 +4602,19 @@ function RequestView({ ctx }) {
 
 /* ============================ SETTINGS — language / sound hub ============================ */
 function SettingsView({ ctx }) {
-  const { setView, settings, saveSettings } = ctx;
+  const { settings, saveSettings } = ctx;
   return (
     <div className="ws-page">
       <TopBar title="Settings" onBack={ctx.backToMenu} />
-      <SectionLabel icon={<Globe size={14} />} text="Language &amp; course" />
-      <button className="ws-backup-row" onClick={() => setView("language")}>
-        <div className="ws-backup-ic"><Globe size={18} /></div>
-        <div className="ws-backup-txt"><b>Language &amp; course</b><i>Pick a language, switch course, preview &amp; dialect</i></div>
-        <ChevronRight size={18} className="ws-cta-arrow" />
-      </button>
-
-      <SectionLabel icon={<Ear size={14} />} text="Sound &amp; speech" />
-      <button className="ws-backup-row" onClick={() => setView("pronounce")}>
-        <div className="ws-backup-ic"><Ear size={18} /></div>
-        <div className="ws-backup-txt"><b>Pronunciation &amp; sounds</b><i>How Waray sounds · TTS voice &amp; speed</i></div>
-        <ChevronRight size={18} className="ws-cta-arrow" />
-      </button>
+      <DialectSettings ctx={ctx} />
       {SpeechRec && (
-        <button className="ws-backup-row" onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
+        <button className="ws-backup-row" style={{ marginBottom: 6 }} onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
           <div className="ws-backup-ic"><Mic size={18} /></div>
           <div className="ws-backup-txt"><b>Answer by voice</b><i>{settings.voiceMode ? "On — speak your answers" : "Off — type your answers"}</i></div>
           <span style={{ fontSize: 12.5, fontWeight: 700, color: settings.voiceMode ? "var(--jade)" : "var(--ink-dim)" }}>{settings.voiceMode ? "On" : "Off"}</span>
         </button>
       )}
+      <SoundSettings ctx={ctx} />
     </div>
   );
 }
@@ -4920,7 +4908,7 @@ function AccentDuelView({ ctx }) {
           const g = cv.getContext("2d"); const fr = frames.slice(-160), pk = Math.max(...fr, 0.05);
           g.clearRect(0, 0, W, H); g.beginPath(); g.strokeStyle = "#f0a05a"; g.lineWidth = 2 * dpr;
           fr.forEach((v, i) => { const x = i / 160 * W, y = H - (v / pk) * (H - 4 * dpr) - 2 * dpr; i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); }
-        if (rms > 0.04) { lastLoud = Date.now(); everLoud = true; }   // speech floor (above room noise)
+        if (rms > 0.022) { lastLoud = Date.now(); everLoud = true; }  // speech floor — reverted from the aircon-era 0.04 (was forcing loud, robotic speech)
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
@@ -5131,7 +5119,7 @@ function StressLabView({ ctx }) {
         const rms = Math.sqrt(sum / buf.length);
         frames.push(rms);
         drawEnv(liveCanvas.current, frames.slice(-160), [], -1);         // live scrolling wave
-        if (rms > 0.04) { lastLoud = Date.now(); everLoud = true; }   // speech floor (above room noise)
+        if (rms > 0.022) { lastLoud = Date.now(); everLoud = true; }  // speech floor — reverted from the aircon-era 0.04 (was forcing loud, robotic speech)
         const t = Date.now() - recRef.current.t0;
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
@@ -5382,8 +5370,35 @@ function TtsCompare({ onClose, rate, voiceLabel, admin }) {
   );
 }
 
-function PronounceView({ ctx }) {
-  const { setView, settings, saveSettings } = ctx;
+// Dialect toggles, inline in Settings — only the s↔h regional forms (sin→hin, sa→ha…); no presets.
+function DialectSettings({ ctx }) {
+  const { settings, saveSettings } = ctx;
+  const catalog = (ctx.dialectCatalog || []).filter((f) => f.k && f.k[0] === "s" && (f.canon || "")[0] === "h");
+  const forms = settings.dialectForms ?? {};
+  const setForm = (k, on) => {
+    const nf = { ...forms, [k]: on };
+    saveSettings({ ...settings, dialectForms: nf, dialectFormsUpdated: Date.now() });
+    if (ctx.user) saveUserSettings(ctx.user.id, Object.keys(nf).filter((x) => nf[x])).catch(() => {});
+  };
+  if (!catalog.length) return null;
+  return (
+    <>
+      <SectionLabel icon={<Globe size={14} />} text="My dialect — s ↔ h forms" />
+      <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "6px 14px", marginBottom: 14 }}>
+        {catalog.map((f) => (
+          <label key={f.k} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", cursor: "pointer", fontSize: 13.5 }}>
+            <input type="checkbox" checked={!!forms[f.k]} onChange={(e) => setForm(f.k, e.target.checked)} style={{ accentColor: "var(--tide)", width: 17, height: 17, flex: "none" }} />
+            <span><b>{f.k}</b> — {f.rel || "for"} <i>{f.canon}</i>{f.gloss ? <span style={{ color: "var(--ink-soft)" }}> ({f.gloss})</span> : null}</span>
+          </label>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// Sound & speech controls, embedded inline in Settings (was the standalone PronounceView screen).
+function SoundSettings({ ctx }) {
+  const { settings, saveSettings } = ctx;
   const SPEEDS = [
     { k: "slow", label: "Slow", rate: 0.78 },
     { k: "normal", label: "Normal", rate: 0.95 },
@@ -5442,15 +5457,8 @@ function PronounceView({ ctx }) {
     ["Diri ako maaram", "DEE-ree ah-KAW mah-AH-ram", "I don't know"],
   ];
   return (
-    <div className="ws-page">
-      <TopBar title="How Waray sounds" onBack={() => setView("home")} />
+    <>
       {showCompare && <TtsCompare onClose={() => setShowCompare(false)} rate={settings.rate} voiceLabel={activeVoice ? activeVoice.name : "browser default"} admin={ctx.admin} />}
-      <div className="ws-pron-intro">
-        Browsers don't speak Waray. A Filipino/Tagalog voice reads it most accurately (Tagalog spelling sounds
-        almost like Waray); without one it falls back to an English voice reading a rough respelling. Best of all,
-        record your teacher or yourself on any card — that becomes the voice you'll hear from then on.
-      </div>
-
       <SectionLabel icon={<Volume2 size={14} />} text="Playback speed" />
       <div className="ws-speed">
         <div className="ws-speed-seg">
@@ -5539,34 +5547,7 @@ function PronounceView({ ctx }) {
         </>
       )}
 
-      <SectionLabel text="Practice" />
-      {stressLabBtn}
-
-      <SectionLabel text="The rules that matter" />
-      <div className="ws-rules">
-        {rules.map(([t, d], i) => (
-          <div key={i} className="ws-rule">
-            <div className="ws-rule-t">{t}</div>
-            <div className="ws-rule-d">{d}</div>
-          </div>
-        ))}
-      </div>
-      <SectionLabel text="Hear the pattern" />
-      <div className="ws-pron-ex">
-        {examples.map(([w, s, e], i) => (
-          <button key={i} className="ws-pron-row" onClick={() => speak({ waray: w, pronunciation: s })}>
-            <Volume2 size={16} />
-            <div>
-              <div className="ws-pron-w">{w}</div>
-              <div className="ws-pron-s">/ {s} /  ·  {e}</div>
-            </div>
-          </button>
-        ))}
-      </div>
-      <div className="ws-pron-note">
-        Source: Waray phonology (3-vowel system, 16 consonants, stress-based) and the Wikivoyage Waray phrasebook respelling style.
-      </div>
-    </div>
+    </>
   );
 }
 
