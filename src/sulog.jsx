@@ -5281,7 +5281,7 @@ function StressLabView({ ctx }) {
             <StressDebug res={res} card={card} syls={syls} expected={expected} />
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 12, flexWrap: "wrap" }}>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playCard(card)}>🔊 coach</button>
-              {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => new Audio(res.audio).play()}>▶ my recording</button>}
+              {res.audio && <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => playMine(res.audio)}>▶ my recording</button>}
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={() => { setRes(null); setState("idle"); }}>try again</button>
               <button className="ws-opt" style={{ padding: "9px 14px" }} onClick={next}>next →</button>
             </div>
