@@ -5660,7 +5660,9 @@ function Styles() {
 /* Installed PWA (no browser chrome): clear the notch on the home/page top. (Drawer overrides live
    AFTER the .ws-drawer base rules below — a media block here would be overridden by those later
    same-specificity rules.) The browser keeps the plain 18px top (its chrome offsets the status bar). */
-@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)} }
+@media(display-mode:standalone){ .ws-page{padding-top:calc(env(safe-area-inset-top) - 28px)}
+  /* the drill has no title bar — its corner-X needs the FULL inset to clear the status bar/island */
+  .ws-page.ws-session{padding-top:calc(env(safe-area-inset-top) + 2px)} }
 
 /* header */
 .ws-icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--sand-deep);
@@ -5949,7 +5951,7 @@ function Styles() {
 .ws-drawer-scrim.open{opacity:1;pointer-events:auto}
 .ws-drawer{position:fixed;top:0;right:max(0px,calc(50vw - 240px));height:100%;width:min(86vw,340px);z-index:41;
   background:rgba(9,24,28,.99);backdrop-filter:blur(10px);border-left:1px solid var(--sand-deep);box-shadow:-16px 0 44px rgba(0,0,0,.5);
-  transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+  transform:translateX(calc(100% + max(0px, 50vw - 220px)));transition:transform .28s cubic-bezier(.2,.8,.2,1);overflow:hidden}
 .ws-drawer.open{transform:translateX(0)}
 @media(prefers-reduced-motion:reduce){.ws-drawer,.ws-drawer-scrim{transition:none}}
 .ws-drawer[aria-hidden="true"]{pointer-events:none}
