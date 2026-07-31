@@ -809,6 +809,7 @@ export default function App() {
   const [roleReqs, setRoleReqs] = useState([]); // this user's role requests
   const [enrolledN, setEnrolledN] = useState(0); // classes this user has joined (drives the "student" pill)
   const [menuOpen, setMenuOpen] = useState(false); // the ☰ menu — App-level so "back" from a sub-page can reopen it
+  const [sheet, setSheet] = useState(null);        // bottom-bar slide-ups (dict/pron/history) — App-level so they persist across every view, including lessons
   const [report, setReport] = useState(null);   // {targetType,targetRef,context} — open report sheet
 
   // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
@@ -1231,7 +1232,7 @@ export default function App() {
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
     requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
     openReport: (t) => setReport(t),
-    enrolledN, menuOpen, setMenuOpen,
+    enrolledN, menuOpen, setMenuOpen, sheet, setSheet,
     // "back" from a menu sub-page returns to the ☰ menu, not straight home
     backToMenu: () => { setMenuOpen(true); setView("home"); },
   };
@@ -1268,6 +1269,7 @@ export default function App() {
       {view === "queue" && <QueueView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
+      {CARDS.length > 0 && <BottomBar ctx={ctx} />}
     </div>
   );
 }
@@ -2296,7 +2298,6 @@ function EllaView({ ctx }) {
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
   const { menuOpen, setMenuOpen } = ctx;       // ☰ menu lives at App level so "back" can reopen it
-  const [sheet, setSheet] = useState(null);   // null | "dict" | "history" — bottom-bar slide-ups
   useEffect(() => {                            // Escape slides the drawer back
     if (!menuOpen) return;
     const onKey = (e) => { if (e.key === "Escape") setMenuOpen(false); };
@@ -2505,13 +2506,6 @@ function HomeView({ ctx }) {
               <MenuRow icon="🔧" title="Admin console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
         </div>
       </div>
-      <div className="ws-bottombar">
-        <button className={`ws-bb ${sheet === "dict" ? "active" : ""}`} onClick={() => setSheet("dict")}><List size={18} /><span>Dictionary</span></button>
-        <button className={`ws-bb ${sheet === "history" ? "active" : ""}`} onClick={() => setSheet("history")}><Trophy size={18} /><span>Progress</span></button>
-      </div>
-
-      {sheet === "dict" && <SlideSheet title="Dictionary" tall onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
-      {sheet === "history" && <SlideSheet title="Progress" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
     </div>
   );
 }
@@ -5569,6 +5563,67 @@ function PronounceView({ ctx }) {
         Source: Waray phonology (3-vowel system, 16 consonants, stress-based) and the Wikivoyage Waray phrasebook respelling style.
       </div>
     </div>
+  );
+}
+
+/* ---- persistent bottom bar (Dictionary · Sounds · Progress) — on every screen, incl. lessons ---- */
+const PRON_RULES = [
+  ["Three vowels", "Waray has just a, i, u. In writing, o is the same sound as u, and e is the same as i — so luto and lutu, or babaye and babayi, are the same word."],
+  ["a → “ah”", "Always the open ah of “father.” Never the flat a of “cat.”  ako = ah-KAW."],
+  ["i → “eh / ee”", "Slides between the e of “bet” and the ee of “see.”  diri = DEE-ree."],
+  ["u → “oh / oo”", "Slides between oh and oo.  kulop = KOO-lop, oo = AW-aw."],
+  ["The hyphen is a stop", "A hyphen marks a glottal stop — a clean catch in the throat, like the middle of “uh-oh.”  gab-i = gahb·EE."],
+  ["-ay → “igh”", "The ending -ay sounds like the y in “sky.”  maupay = mah-OO-pigh, balay = bah-LIGH."],
+  ["-aw → “ow”", "The ending -aw sounds like “now.”  ikaw = ee-KOW, sayaw = sah-YOW."],
+  ["ng is one sound", "ng is a single nasal, like the end of “sing” — even at the start of a word.  hangin = HAH-ngin."],
+  ["d ↔ r", "Between vowels, d often softens toward r. You'll hear both; don't worry about it."],
+  ["Stress moves", "Stress isn't fixed and it can change meaning. Lean on the CAPS in each card's pronunciation guide, and on the reference audio."],
+];
+const PRON_EXAMPLES = [
+  ["Maupay nga aga", "mah-OO-pigh ngah AH-gah", "Good morning"],
+  ["Kumusta ka?", "koo-moos-TAH kah", "How are you?"],
+  ["Salamat", "sah-LAH-mat", "Thank you"],
+  ["gab-i", "gahb-EE", "evening / night"],
+  ["Diri ako maaram", "DEE-ree ah-KAW mah-AH-ram", "I don't know"],
+];
+function PronGuideSheet() {
+  return (
+    <>
+      <div className="ws-pron-intro">How Waray sounds — a quick reference. Tap an example to hear it.</div>
+      <SectionLabel text="The rules that matter" />
+      <div className="ws-rules">
+        {PRON_RULES.map(([t, d], i) => (
+          <div key={i} className="ws-rule"><div className="ws-rule-t">{t}</div><div className="ws-rule-d">{d}</div></div>
+        ))}
+      </div>
+      <SectionLabel text="Hear the pattern" />
+      <div className="ws-pron-ex">
+        {PRON_EXAMPLES.map(([w, s, e], i) => (
+          <button key={i} className="ws-pron-row" onClick={() => speak({ waray: w, pronunciation: s })}>
+            <Volume2 size={16} />
+            <div><div className="ws-pron-w">{w}</div><div className="ws-pron-s">/ {s} /  ·  {e}</div></div>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+function BottomBar({ ctx }) {
+  const { sheet, setSheet } = ctx;
+  const tab = (id, Icon, label) => (
+    <button className={`ws-bb ${sheet === id ? "active" : ""}`} onClick={() => setSheet(sheet === id ? null : id)}><Icon size={18} /><span>{label}</span></button>
+  );
+  return (
+    <>
+      <div className="ws-bottombar">
+        {tab("dict", List, "Dictionary")}
+        {tab("pron", Volume2, "Sounds")}
+        {tab("history", Trophy, "Progress")}
+      </div>
+      {sheet === "dict" && <SlideSheet title="Dictionary" tall onClose={() => setSheet(null)}><DictSheet ctx={ctx} /></SlideSheet>}
+      {sheet === "pron" && <SlideSheet title="How Waray sounds" tall onClose={() => setSheet(null)}><PronGuideSheet /></SlideSheet>}
+      {sheet === "history" && <SlideSheet title="Progress" onClose={() => setSheet(null)}><HistoryView ctx={ctx} embedded /></SlideSheet>}
+    </>
   );
 }
 
