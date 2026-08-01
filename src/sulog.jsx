@@ -1254,8 +1254,8 @@ export default function App() {
       {view === "account" && <AccountView ctx={ctx} />}
       {view === "settings" && <SettingsView ctx={ctx} />}
       {view === "request" && <RequestView ctx={ctx} />}
-      {view === "ella" && <EllaView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
+      {view === "coursebook" && <CourseBookView ctx={ctx} />}
       {view === "class" && <ClassView ctx={ctx} />}
       {view === "queue" && <QueueView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
@@ -1493,9 +1493,21 @@ function QueueView({ ctx }) {
     } catch (e) { setErr(e.message); }
   };
   const editable = (f) => f.target_type === "word" || f.target_type === "card";
+  // —— native-review sections (merged from the retired standalone Ella page) ——
+  const [answers, setAnswers] = useState({});          // question id -> Ella's saved answer
+  const [dict, setDict] = useState({ loading: true }); // unconfirmed dictionary entries (admin)
+  useEffect(() => { let alive = true; fetchEllaAnswers().then((m) => alive && setAnswers(m)).catch(() => {}); return () => { alive = false; }; }, []);
+  useEffect(() => {
+    if (!admin) return; let alive = true;
+    fetchReviewList().then((list) => alive && setDict({ list })).catch((e) => alive && setDict({ error: e.message }));
+    return () => { alive = false; };
+  }, [admin]);
+  const missing = ACTIVE.review.filter((q) => q.id.startsWith("synth-"));
+  const dialectQ = ACTIVE.review.filter((q) => !q.id.startsWith("synth-"));
+  const qCard = (q) => <EllaQuestionCard key={q.id} q={q} admin={admin} answer={answers[q.id]} onSaved={(a) => setAnswers((m) => ({ ...m, [q.id]: a }))} />;
   return (
     <div className="ws-page">
-      <TopBar title="Review queue" onBack={ctx.backToMenu} />
+      <TopBar title="Review Queue" onBack={ctx.backToMenu} />
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
         Everything learners and reviewers flag lands here. {admin ? "You decide each one." : "Your class's flags."}
       </p>
@@ -1532,6 +1544,22 @@ function QueueView({ ctx }) {
           )}
         </div>
       ))}
+
+      {missing.length > 0 && (<>
+        <SectionLabel text={`Missing answers · ${missing.filter((q) => answers[q.id]).length}/${missing.length} answered`} />
+        {missing.map(qCard)}
+      </>)}
+      {dialectQ.length > 0 && (<>
+        <SectionLabel text={`Dialect questions · ${dialectQ.length}`} />
+        {dialectQ.map(qCard)}
+      </>)}
+      {admin && (<>
+        <SectionLabel text={`Dictionary confirmations${dict.list ? ` · ${dict.list.length} to review` : ""}`} />
+        {dict.loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+        {dict.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {dict.error}</p>}
+        {dict.list && dict.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={(w) => setDict((x) => ({ list: (x.list || []).filter((y) => y.waray !== w) }))} />)}
+        {dict.list && dict.list.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 All confirmed!</p>}
+      </>)}
     </div>
   );
 }
@@ -1685,17 +1713,13 @@ function ClassView({ ctx }) {
 function AdminView({ ctx }) {
   const { setView } = ctx;
   const [forms, setForms] = useState(null);
-  const [stats, setStats] = useState(null);
   const [reqs, setReqs] = useState([]);      // pending role requests to approve/decline
   const [changes, setChanges] = useState([]); // dictionary change history (traceability chain)
   const [err, setErr] = useState("");
   const loadAll = useCallback(async () => {
     try {
-      const [fl, dict, rq, ch] = await Promise.all([fetchAllDialectForms(), fetchDictionary(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => [])]);
+      const [fl, rq, ch] = await Promise.all([fetchAllDialectForms(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => [])]);
       setForms(fl); setReqs(rq || []); setChanges(ch || []);
-      const by = {}; let queue = 0;
-      for (const d of dict) { if (!d.confirmed) queue++; else { const k = d.confirmed_by || "unstamped"; by[k] = (by[k] || 0) + 1; } }
-      setStats({ total: dict.length, by, queue });
     } catch (e) { setErr(e.message || String(e)); }
   }, []);
   const decide = async (req, approve) => {
@@ -1754,22 +1778,7 @@ function AdminView({ ctx }) {
           </div>
         </div>
 
-        <SectionLabel icon={<Database size={14} />} text="Data provenance" />
         <div style={box}>
-          {stats ? (
-            <div style={{ fontSize: 13, lineHeight: 1.7 }}>
-              <b>{stats.total}</b> dictionary entries · confirmed by:{" "}
-              {Object.entries(stats.by).map(([k, n]) => `${k} ${n}`).join(" · ")} · <b style={{ color: stats.queue ? "var(--sun)" : "var(--jade)" }}>{stats.queue} in the queue</b>
-              <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 4 }}>
-                Every confirmed definition cites its verifier (Tramp print · book print · Ella). <code>npm run check</code> proves the DB rebuilds from committed sources.
-              </div>
-            </div>
-          ) : <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
-          <div style={{ display: "flex", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
-            <a href="verify/" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Course-vs-book review site →</a>
-            <button onClick={() => setView("ella")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 12.5, color: "var(--tide)" }}>Ella review queue →</button>
-          </div>
-
           <SectionLabel icon={<span style={{ fontSize: 13 }}>🧬</span>} text="Change history — traceability" />
           {changes.length === 0
             ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 4px" }}>No dictionary changes recorded yet. When a flag is fixed from the Review queue, the full chain — who suggested, who approved, before → after — is logged here.</p>
@@ -1793,6 +1802,16 @@ function AdminView({ ctx }) {
 
         <CoursePreview ctx={ctx} />
       </div>
+    </div>
+  );
+}
+
+/* Course-vs-book inside the app shell (standard header + back) instead of a bare browser tab. */
+function CourseBookView({ ctx }) {
+  return (
+    <div className="ws-page" style={{ paddingBottom: 8 }}>
+      <TopBar title="Course vs. book" onBack={() => ctx.setView("admin")} />
+      <iframe src="/verify/" title="Course vs. book" style={{ width: "100%", height: "calc(100vh - 150px)", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "#fff" }} />
     </div>
   );
 }
@@ -1823,11 +1842,11 @@ function CoursePreview({ ctx }) {
   return (
     <>
       <SectionLabel icon={<BookOpen size={14} />} text="Course preview" />
-      <a href="/verify/" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none" }}>
+      <button className="ws-backup-row" onClick={() => ctx.setView("coursebook")}>
         <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
         <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF pages</i></div>
         <ChevronRight size={18} className="ws-cta-arrow" />
-      </a>
+      </button>
       {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading course from the database…</p>}
       {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
       {st.course && units.map((u) => {
@@ -2028,69 +2047,6 @@ function EllaQuestionCard({ q, admin, answer, onSaved }) {
    1. Missing answers — course items removed by the synth audit; each needs her Waray
    2. Dialect questions — the open usage/dialect judgment calls
    3. Dictionary — unconfirmed entries (admin-only: confirm writes to the DB live)  */
-function EllaView({ ctx }) {
-  const { setView, admin } = ctx;
-  const [st, setSt] = useState({ loading: true });
-  const [done, setDone] = useState(0);
-  const [answers, setAnswers] = useState({});  // question id -> Ella's saved answer (world-readable)
-  useEffect(() => { let alive = true; fetchEllaAnswers().then((m) => alive && setAnswers(m)).catch(() => {}); return () => { alive = false; }; }, []);
-  useEffect(() => {
-    if (!admin) return;
-    let alive = true;
-    fetchReviewList().then((list) => alive && setSt({ list })).catch((e) => alive && setSt({ error: e.message }));
-    return () => { alive = false; };
-  }, [admin]);
-  const onConfirmed = (waray) => { setSt((s) => ({ list: (s.list || []).filter((e) => e.waray !== waray) })); setDone((d) => d + 1); };
-  const missing = ACTIVE.review.filter((q) => q.id.startsWith("synth-"));
-  const dialect = ACTIVE.review.filter((q) => !q.id.startsWith("synth-"));
-  const jump = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const chip = (id, label, n) => (
-    <button key={id} onClick={() => jump(id)} style={{ border: "1px solid var(--sand-deep)", background: "var(--foam)", color: "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
-      {label} <span style={{ color: "var(--sea)" }}>{n}</span>
-    </button>
-  );
-  const secHead = (id, emoji, title, sub) => (
-    <div id={id} style={{ scrollMarginTop: 12, margin: "26px 0 6px" }}>
-      <div style={{ fontSize: 15, fontWeight: 800 }}>{emoji} {title}</div>
-      <div style={{ fontSize: 12.5, color: "var(--ink-soft)", lineHeight: 1.45 }}>{sub}</div>
-    </div>
-  );
-  const qCard = (q) => <EllaQuestionCard key={q.id} q={q} admin={admin} answer={answers[q.id]} onSaved={(a) => setAnswers((p) => ({ ...p, [q.id]: a }))} />;
-  return (
-    <div className="ws-page">
-      <TopBar title="👩 Ella · review queue" onBack={() => setView("home")} />
-      <div style={{ padding: "4px 16px 40px", maxWidth: 680, margin: "0 auto" }}>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "2px 0 4px" }}>
-          {missing.length > 0 && chip("ella-missing", "Missing answers", `${missing.filter((q) => answers[q.id]).length}/${missing.length}`)}
-          {dialect.length > 0 && chip("ella-dialect", "Dialect questions", dialect.length)}
-          {admin && chip("ella-dict", "Dictionary", st.list ? st.list.length : "…")}
-        </div>
-        {missing.length > 0 && (
-          <>
-            {secHead("ella-missing", "✍️", "Missing answers", "Exercise items removed from the course because the AI-written Waray was wrong. Give the natural Waray for each English prompt and the item returns to its lesson.")}
-            {missing.map(qCard)}
-          </>
-        )}
-        {dialect.length > 0 && (
-          <>
-            {secHead("ella-dialect", "🗣️", "Dialect questions", "Open usage / Daram-dialect judgment calls. Answers feed back into the courses and dialect notes.")}
-            {dialect.map(qCard)}
-          </>
-        )}
-        {admin && (
-          <>
-            {secHead("ella-dict", "📖", "Dictionary confirmations", `Unconfirmed entries — fix the meaning/pronunciation if needed, then Confirm; it saves straight to the database.${done > 0 ? ` ${done} confirmed this session.` : ""}`)}
-            {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
-            {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
-            {st.list && st.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={onConfirmed} />)}
-            {st.list && st.list.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 All confirmed!</p>}
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
 /* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
