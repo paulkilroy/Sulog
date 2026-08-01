@@ -61,8 +61,25 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
   stories. Admin queue + resolve flow existed already. Remaining: exercise it in the round-trip test.
 - [ ] **Instructor dashboard + student detail** — headline metric = unit-test average (graded
   gates, pass = 80%); mastery% + reports secondary.
-- [ ] **Reviewer flow + `apply_feedback()` mutation.** Reviewers PROPOSE, admins DECIDE — one admin
-  queue, nothing auto-applies.
+- [x] **Reviewer flow (v1, 2026-08-01).** Locked semantics: a reviewer reviews LESSONS (flags
+  inline; every flag auto-stamped with their role); the queue is the ADMIN's desk (menu entry
+  admin-only). Reviewer flags sort to the top of the queue with a filled REVIEWER badge.
+  applyFix() = the approval-gated dictionary mutation + content_changes audit trail.
+- [ ] **Unified review workflow — multiple input queues, one pipeline.** Two intakes feed the SAME
+  propose→decide→apply flow: (1) USER-submitted (⚑ flags — done) and (2) BUILD-submitted (the
+  pipeline's known issues: fabricated/missing exercise answers, AI-drafted answers needing native
+  confirm, unconfirmed dictionary entries, dialect questions — today these are JSON files + bolt-on
+  queue sections, not queue rows). Steps: `source` column ('user'|'build') on feedback → build
+  emits its issues as idempotent queue rows (stable key; resolved rows never resurrect) → retire
+  the bolt-on sections → per-target apply actions (dictionary ✅ exists · dialect: wire to
+  dialect_forms · lesson/answer content: ⚠ no live apply yet — the manual harvest+rebuild path
+  covers it until lesson content is DB-mutable under approval, post-launch).
+- [ ] **applyFix should bump courses.version** — an approved dictionary fix reaches live search
+  immediately but cached course bundles keep the stale definition until the next manual bump.
+  One line in applyFix.
+- [ ] **Senior Reviewer role (future).** Between reviewer and admin: can BROWSE + triage the full
+  queue and propose fixes, but admins keep the final decide/apply. Needs: role in user_roles,
+  fb_senior_read RLS policy on feedback, queue UI showing propose-only actions. Not for Aug 17.
 - [ ] **Dictionary auto-mutation for Aug 17** (Paul's call, approval-gated, exactly 3 ops on
   `meanings`, never clobber): "add meaning" → new row (source `native`, pending); "primary/rare" →
   change `ord`; "wrong" → `disputed` flag (hide/deprioritize, never delete). If it grows past 3
