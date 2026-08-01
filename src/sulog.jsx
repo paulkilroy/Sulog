@@ -1256,6 +1256,7 @@ export default function App() {
       {view === "request" && <RequestView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
       {view === "coursebook" && <CourseBookView ctx={ctx} />}
+      {view === "top1000" && <Top1000View ctx={ctx} />}
       {view === "class" && <ClassView ctx={ctx} />}
       {view === "queue" && <QueueView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
@@ -1806,12 +1807,20 @@ function AdminView({ ctx }) {
   );
 }
 
-/* Course-vs-book inside the app shell (standard header + back) instead of a bare browser tab. */
+/* Course-vs-book + Top-1000 coverage inside the app shell (standard header + back). */
 function CourseBookView({ ctx }) {
   return (
     <div className="ws-page" style={{ paddingBottom: 8 }}>
       <TopBar title="Course vs. book" onBack={() => ctx.setView("admin")} />
       <iframe src="/verify/" title="Course vs. book" style={{ width: "100%", height: "calc(100vh - 150px)", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "#fff" }} />
+    </div>
+  );
+}
+function Top1000View({ ctx }) {
+  return (
+    <div className="ws-page" style={{ paddingBottom: 8 }}>
+      <TopBar title="Top-1000 coverage" onBack={() => ctx.setView("admin")} />
+      <iframe src="/verify/coverage.html" title="Top-1000 coverage" style={{ width: "100%", height: "calc(100vh - 150px)", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "#fff" }} />
     </div>
   );
 }
@@ -1842,6 +1851,11 @@ function CoursePreview({ ctx }) {
   return (
     <>
       <SectionLabel icon={<BookOpen size={14} />} text="Course preview" />
+      <button className="ws-backup-row" onClick={() => ctx.setView("top1000")}>
+        <div className="ws-backup-ic ws-ic-jade"><Database size={18} /></div>
+        <div className="ws-backup-txt"><b>Top-1000 coverage</b><i>How much of the 1,000 most common Waray words the course drills</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </button>
       <button className="ws-backup-row" onClick={() => ctx.setView("coursebook")}>
         <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
         <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF pages</i></div>

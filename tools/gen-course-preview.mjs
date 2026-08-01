@@ -576,7 +576,7 @@ let t1kSection = "", t1kStats = null;
     return [...by.entries()].map(([k, rs]) => `<div class="wgrp"><b style="width:86px">${k === "unattested" ? "rare*" : "#" + k}</b>${rs.map(cell).join("")}</div>`).join(""); };
   t1kStats = stats1k;
   t1kSection = `<div id="top1000" style="padding:6px 20px 60px;scroll-margin-top:20px">
-    <h2 style="font-size:17px;margin:26px 0 4px"><a href="#top" style="float:right;font-size:12px;font-weight:400">&#8593; back to top</a>&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
+    <h2 style="font-size:17px;margin:26px 0 4px">&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
     <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Sorted by frequency (approximate — counted over our corpus, ~49k tokens; official ranks pending). Hover a word for its rank, count, gloss and status. Amber = appears inside PC sentences but never taught directly; *rare = zero corpus hits.</p>
     ${groups(rows)}
     <p style="margin-top:22px;font-size:11.5px;color:var(--ink-soft);line-height:1.5">Waray vocabulary data sourced from <i>First 1000 Commonly Used Words in Waray</i> (2013) by Voltaire Q. Oyzon, John Mark Fullmer, and Evelyn C. Cruzada via <a href="https://corporaproject.org" target="_blank" rel="noopener">corporaproject.org</a></p>
@@ -603,9 +603,15 @@ fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8">
 <header id="top">
   <h1>Peace Corps Waray — Course vs. Book</h1>
   <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
-  <div class="nav"><a href="#top1000">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
+  <div class="nav"><a href="coverage.html">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
 </header>
-<div class="grid">${cardsHtml}</div>${t1kSection}`);
+<div class="grid">${cardsHtml}</div>`);
+fs.writeFileSync(`${OUT_DIR}/coverage.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Top-1000 coverage — Peace Corps Waray</title><style>${CSS}</style>
+<header>
+  <h1>&#128202; Top-1000 coverage</h1>
+  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
+</header>
+${t1kSection}`);
 
 
 
