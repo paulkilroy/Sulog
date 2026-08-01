@@ -1475,7 +1475,13 @@ function QueueView({ ctx }) {
   const [editId, setEditId] = useState(null);   // feedback id whose definition we're fixing
   const [editText, setEditText] = useState("");
   const load = useCallback(async () => {
-    try { setItems(await fetchFeedback("open")); } catch (e) { setErr(e.message); setItems([]); }
+    try {
+      const list = await fetchFeedback("open");
+      // reviewer flags carry more weight — float them to the top (then instructor, then student; newest first within each)
+      const rank = { reviewer: 0, instructor: 1, student: 2 };
+      list.sort((a, b) => ((rank[a.author_role] ?? 3) - (rank[b.author_role] ?? 3)) || (b.id - a.id));
+      setItems(list);
+    } catch (e) { setErr(e.message); setItems([]); }
   }, []);
   useEffect(() => { load(); }, [load]);
   const KIND_LABEL = { flag_grade: "marked wrong", flag_confusing: "confusing", flag_wrong: "looks wrong", typo: "typo", propose_add: "add meaning", propose_reorder: "reorder", propose_disputed: "flag wrong", validate: "validated" };
@@ -1510,7 +1516,7 @@ function QueueView({ ctx }) {
     <div className="ws-page">
       <TopBar title="Review Queue" onBack={ctx.backToMenu} />
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
-        Everything learners and reviewers flag lands here. {admin ? "You decide each one." : "Your class's flags."}
+        Everything learners and reviewers flag lands here — reviewer flags float to the top. {admin ? "You decide each one." : "Your class's flags."}
       </p>
       {err && <div className="ws-backup-msg err" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>{err}</span></div>}
       {items === null && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
@@ -1520,7 +1526,11 @@ function QueueView({ ctx }) {
           <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
             <b style={{ fontFamily: "Georgia,serif", fontSize: 16 }}>{f.target_ref}</b>
             <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--coral)", color: "var(--coral)" }}>{KIND_LABEL[f.kind] || f.kind}</span>
-            <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--ink-dim)" }}>{f.author_role}</span>
+            <span style={{ marginLeft: "auto", fontSize: 10.5, fontWeight: 800, letterSpacing: ".04em", padding: "2px 9px", borderRadius: 999,
+              ...(f.author_role === "reviewer" ? { background: "var(--jade)", color: "#fff" }
+                : f.author_role === "instructor" ? { border: "1px solid var(--tide)", color: "var(--tide)" }
+                : { border: "1px solid var(--sand-deep)", color: "var(--ink-dim)" }) }}>
+              {(f.author_role || "student").toUpperCase()}</span>
           </div>
           {f.comment && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5 }}>“{f.comment}”</div>}
           {f.context && Object.keys(f.context).length > 0 && (
@@ -2261,8 +2271,9 @@ function AppDrawer({ ctx }) {
             {roleHas(ctx, "instructor") &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
-            {roleHas(ctx, "reviewer") &&
-              <MenuRow icon={<Inbox size={18} />} title="Review Queue" subtitle="missing answers · dictionary · dialect" badge="reviewer" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
+            {/* the queue is the admin's desk — reviewers review LESSONS (and flag inline), they don't work the queue */}
+            {ctx.admin &&
+              <MenuRow icon={<Inbox size={18} />} title="Review Queue" subtitle="flags · native review · dictionary" badge="admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
 
             <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
