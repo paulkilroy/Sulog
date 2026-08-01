@@ -118,7 +118,7 @@ const inBook = (w) => { const n = normO(w); return n.length >= 3 && ocrN.include
 const isSent = (w) => /\s/.test((w || "").trim());
 
 // Removed sentences (confirmed fabrications from the synth audit) — shown on lesson pages as
-// "missing translation" stubs and compiled into the generated Ella-todo page (ella-todo.html).
+// "missing translation" stubs (flagged inline as "needs native review").
 // Canonical source: docs/sources/peace-corps/rejected-sentences.json (also drives seed rejection).
 const REJECTED = JSON.parse(fs.readFileSync(`${SRC}/rejected-sentences.json`, "utf8"));
 const slug = (w) => w.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
@@ -334,7 +334,7 @@ function renderMd(md) {
 const dirBadge = (d) => d === "wte" ? `<span class="dir wte">WAR&rarr;ENG</span>` : d === "etw" ? `<span class="dir etw">ENG&rarr;WAR</span>` : "";
 const verd = (v) => v === true ? `<span class="v ok" title="Verbatim in the book">&#10003; in book</span>` : v === false ? `<span class="v syn" title="Not verbatim — a substitution rendering or possible hallucination; check the scan">&#9998; synth</span>` : "";
 function itemHtml(i) {
-  if (i.missing) return `<div class="it miss"><span class="en q">&ldquo;${esc(i.en)}&rdquo;</span><span class="mbadge">MISSING</span><span class="was" title="${esc(i.reason)}">was: <s>${esc(i.waray)}</s></span><a class="todo" href="ella-todo.html#${slug(i.waray)}" title="${esc(i.reason)}">Ella todo &rarr;</a></div>`;
+  if (i.missing) return `<div class="it miss"><span class="en q">&ldquo;${esc(i.en)}&rdquo;</span><span class="mbadge">MISSING</span><span class="was" title="${esc(i.reason)}">was: <s>${esc(i.waray)}</s></span><span class="todo" title="${esc(i.reason)}">needs native review</span></div>`;
   if (i.choices) { const opts = [{ t: i.en, ans: true }, ...i.choices.map((cl) => ({ t: cl, ans: false }))]; return `<div class="it mc">${dirBadge(i.dir)}<span class="war">${esc(i.waray)}</span><div class="choices">${opts.map((o) => `<span class="ch${o.ans ? " ans" : ""}">${esc(o.t)}</span>`).join("")}</div></div>`; }
   return `<div class="it${i.verbatim === false ? " flag" : ""}">${dirBadge(i.dir)}<span class="war">${esc(i.waray)}</span><span class="dash">&mdash;</span><span class="en">${esc(i.en)}</span>${verd(i.verbatim)}</div>`;
 }
@@ -576,7 +576,7 @@ let t1kSection = "", t1kStats = null;
     return [...by.entries()].map(([k, rs]) => `<div class="wgrp"><b style="width:86px">${k === "unattested" ? "rare*" : "#" + k}</b>${rs.map(cell).join("")}</div>`).join(""); };
   t1kStats = stats1k;
   t1kSection = `<div id="top1000" style="padding:6px 20px 60px;scroll-margin-top:20px">
-    <h2 style="font-size:17px;margin:26px 0 4px">&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
+    <h2 style="font-size:17px;margin:26px 0 4px"><a href="#top" style="float:right;font-size:12px;font-weight:400">&#8593; back to top</a>&#128202; Top-1000 coverage <span style="color:var(--ink-soft);font-weight:400;font-size:13px">· Oyzon/CHED word list</span></h2>
     <p class="sub">Of the ${stats1k.total} most common Waray words: <b style="color:#7fe0b0">${stats1k.pc} drilled by Peace Corps</b> · <b style="color:var(--sea)">${stats1k.any} drilled by any course</b> (incl. Frequency/Challenger decks) · <b style="color:#ff9c8a">${stats1k.missingAll} in no course at all</b>. Sorted by frequency (approximate — counted over our corpus, ~49k tokens; official ranks pending). Hover a word for its rank, count, gloss and status. Amber = appears inside PC sentences but never taught directly; *rare = zero corpus hits.</p>
     ${groups(rows)}
     <p style="margin-top:22px;font-size:11.5px;color:var(--ink-soft);line-height:1.5">Waray vocabulary data sourced from <i>First 1000 Commonly Used Words in Waray</i> (2013) by Voltaire Q. Oyzon, John Mark Fullmer, and Evelyn C. Cruzada via <a href="https://corporaproject.org" target="_blank" rel="noopener">corporaproject.org</a></p>
@@ -600,38 +600,13 @@ const cardsHtml = nums.map((n) => {
   return head + `<a class="card" href="lesson-${n}.html"><div class="n">Lesson ${n}${hasGate ? " · &#128274; gated" : ""}</div><div class="t">${esc(titles)}</div><div class="m">${allItems.length} items · <span class="ok">${sents.length - synthN} &#10003; in book</span> · <span class="syn">${synthN} &#9998; synth</span></div></a>`;
 }).join("");
 fs.writeFileSync(`${OUT_DIR}/index.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course vs. Book — Peace Corps Waray</title><style>${CSS}</style>
-<header>
+<header id="top">
   <h1>Peace Corps Waray — Course vs. Book</h1>
   <p class="sub">One page per lesson: the scanned book with <b>provenance overlays</b> (each colored section traced to the course block it became) beside the app's course preview — every drill item's <b>direction</b>, full <b>multiple-choice options</b>, and a <b>&#10003; in book / &#9998; synth</b> source check per sentence.</p>
-  <div class="nav"><a href="ella-todo.html">&#128105; Ella todo (${REJECTED.length})</a><a href="#top1000">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
+  <div class="nav"><a href="#top1000">&#128202; Top-1000 coverage</a><span class="sp">${stats.sentTotal - stats.synth} verbatim · ${stats.synth} synth of ${stats.sentTotal} sentences · ${stats.mc} MC items</span></div>
 </header>
 <div class="grid">${cardsHtml}</div>${t1kSection}`);
 
-// ---- the Ella todo page: one entry per removed sentence, anchor-linkable from lesson stubs ----
-{
-  const groups = {};
-  for (const r of REJECTED) { const n = +(/pc-l(\d+)/.exec(r.lesson) || [])[1]; (groups[n] = groups[n] || []).push(r); }
-  const body = Object.keys(groups).map(Number).sort((a, b) => a - b).map((n) => `
-    <h2 style="font-size:15px;margin:22px 0 4px;color:var(--sun)">Lesson ${n} <a href="lesson-${n}.html" style="font-size:11px;font-weight:600">view lesson &rarr;</a></h2>` +
-    groups[n].map((r) => `
-    <div class="todo-entry" id="${slug(r.waray)}">
-      <div class="meta">${esc(r.lesson)} · ${esc(r.where)}${r.where === "exam" ? " (graded)" : ""}</div>
-      <div class="prompt">&ldquo;${esc(r.en)}&rdquo;</div>
-      <div class="bad">Gemini &middot; book extraction (removed): <s>${esc(r.waray)}</s></div>
-      ${r.suggest ? `<div class="bad" style="color:var(--sea)">Claude &middot; suggested fix (verify!): <b>${esc(r.suggest)}</b></div>` : ""}
-      <div class="why">${esc(r.reason)}</div>
-      <div class="ans">${r.ella ? `&#10003; Ella&rsquo;s Waray: <b style="color:var(--jade)">${esc(r.ella)}</b> (restored to the lesson)`
-        : r.ai ? `&#9998; Claude&rsquo;s Waray (in the lesson, <b>needs Ella confirm</b>): <b style="color:var(--sea)">${esc(r.ai)}</b>`
-        : "Ella&rsquo;s Waray: ______________________________________"}</div>
-    </div>`).join("")).join("");
-  fs.writeFileSync(`${OUT_DIR}/ella-todo.html`, `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ella todo — removed sentences</title><style>${CSS}</style>
-<header>
-  <h1>&#128105; Ella todo — ${REJECTED.filter((r) => !r.ella && !r.ai).length} still missing, ${REJECTED.filter((r) => r.ai).length} AI-filled (confirm) of ${REJECTED.length}</h1>
-  <p class="sub">These exercise answers were invented by the AI extraction and confirmed defective against the book + dictionary, so they were removed from the course. Each needs a NATIVE-authored Waray answer for the book&rsquo;s English prompt; once written, they return to their lessons (marked confirmed). The strikethrough shows what the AI wrote and why it was wrong.</p>
-  <div class="nav"><a href="index.html">&#8962; All lessons</a></div>
-</header>
-<div style="padding:6px 20px 60px;max-width:860px">${body}</div>`);
-}
 
 
 fs.writeFileSync(`${OUT_DIR}/top1000.html`, `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=index.html#top1000"><a href="index.html#top1000">moved &rarr; index#top1000</a>`);

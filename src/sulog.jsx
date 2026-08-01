@@ -1992,7 +1992,7 @@ function EllaQuestionCard({ q, admin, answer, onSaved }) {
       })}
       {answered ? (
         <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: "var(--jade)" }}>✓ ELLA</span>
+          <span style={{ fontSize: 11, fontWeight: 800, color: "var(--jade)" }}>✓ NATIVE</span>
           {!q.items && <span style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600 }}>{answer}</span>}
           {admin && <button onClick={() => { if (!q.items) { setPick("other"); setOther(answer); } setEditing(true); }} style={{ marginLeft: "auto", fontSize: 11.5, background: "transparent", border: "1px solid var(--sand-deep)", color: "var(--ink-soft)", borderRadius: 8, padding: "2px 9px", cursor: "pointer" }}>edit</button>}
         </div>
@@ -2036,13 +2036,13 @@ function EllaQuestionCard({ q, admin, answer, onSaved }) {
           </div>
         </div>
       ) : (
-        <div style={{ marginTop: 8, fontSize: 11.5, color: "var(--ink-soft)", fontStyle: "italic" }}>awaiting Ella's answer</div>
+        <div style={{ marginTop: 8, fontSize: 11.5, color: "var(--ink-soft)", fontStyle: "italic" }}>awaiting a native reviewer's answer</div>
       )}
     </div>
   );
 }
 
-/* ===================== ELLA · REVIEW QUEUE (one native-review door) =====================
+/* ===================== NATIVE REVIEW cards (missing answers / dialect questions) =====================
    Everything a native speaker reviews, in one screen with jumpable sections:
    1. Missing answers — course items removed by the synth audit; each needs her Waray
    2. Dialect questions — the open usage/dialect judgment calls
