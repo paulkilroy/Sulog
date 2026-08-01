@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { dictMeta, putDict, allDict } from "./data/dictdb.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchReviewList, confirmEntry, fetchCourseBundled, fetchCourseVersion, fetchEllaAnswers, saveEllaAnswer, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
 import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1259,6 +1259,7 @@ export default function App() {
       {view === "top1000" && <Top1000View ctx={ctx} />}
       {view === "class" && <ClassView ctx={ctx} />}
       {view === "queue" && <QueueView ctx={ctx} />}
+      {view === "nativereview" && <NativeReviewView ctx={ctx} />}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
       <AppDrawer ctx={ctx} />
@@ -1468,6 +1469,63 @@ function ReportSheet({ target, ctx, onClose }) {
 }
 
 /* ============================ REVIEW QUEUE (admin / instructor) ============================ */
+/* ============ NATIVE REVIEW — the reviewer's worklist (NOT the decide-queue) ============
+   Build-detected questions (source='build', status='open'): missing/unconfirmed answers with
+   cited a/b candidates. The reviewer picks a, b, or writes their own → the row moves to
+   'answered' and lands on the admin's Review Queue for the final decision. RLS keeps reviewers
+   scoped to build rows — they never see user flags and never decide. */
+function NativeReviewView({ ctx }) {
+  const [items, setItems] = useState(null);
+  const [err, setErr] = useState("");
+  const [pick, setPick] = useState({});     // id -> candidate key | "other"
+  const [other, setOther] = useState({});   // id -> free text
+  useEffect(() => { fetchBuildOpen().then(setItems).catch((e) => { setErr(e.message); setItems([]); }); }, []);
+  const save = async (f) => {
+    const choice = pick[f.id];
+    const text = choice === "other" ? (other[f.id] || "").trim()
+      : (f.payload?.candidates || []).find((cd) => cd.key === choice)?.text || "";
+    if (!choice || !text) { setErr("Pick a candidate or write your own first."); return; }
+    try { await answerBuildItem(f.id, choice, text); setItems((xs) => xs.filter((x) => x.id !== f.id)); setErr(""); }
+    catch (e) { setErr(e.message); }
+  };
+  const KIND_TXT = { missing_answer: "answer missing", needs_native_confirm: "confirm the draft", dict_unconfirmed: "confirm the definition", dialect_question: "your judgment" };
+  return (
+    <div className="ws-page">
+      <TopBar title="Native Review" onBack={ctx.backToMenu} />
+      <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
+        The course build flagged these — pick the right answer (or write your own). An admin approves each one after you.
+      </p>
+      {err && <div className="ws-backup-msg err" style={{ marginBottom: 10 }}><AlertCircle size={16} /><span>{err}</span></div>}
+      {items === null && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+      {items && items.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 Nothing to review — all caught up.</p>}
+      {items && items.map((f) => (
+        <div key={f.id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+            <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5 }}>{f.payload?.en || f.payload?.q || f.target_ref}</b>
+            <span style={{ marginLeft: "auto", fontSize: 10.5, fontWeight: 700, color: "var(--ink-dim)" }}>{KIND_TXT[f.kind] || f.kind} · {f.target_ref}</span>
+          </div>
+          {f.payload?.removed_waray && <div style={{ fontSize: 12.5, color: "var(--ink-dim)", marginTop: 4 }}>removed: <s>{f.payload.removed_waray}</s> — {f.payload.reason}</div>}
+          {f.payload?.detail && <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4 }}>{f.payload.detail}</div>}
+          <div style={{ marginTop: 8 }}>
+            {(f.payload?.candidates || []).map((cd) => (
+              <label key={cd.key} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "5px 0", cursor: "pointer", fontSize: 13.5 }}>
+                <input type="radio" name={"bi-" + f.id} checked={pick[f.id] === cd.key} onChange={() => setPick((m) => ({ ...m, [f.id]: cd.key }))} style={{ accentColor: "var(--jade)", marginTop: 3 }} />
+                <span><b>{cd.text}</b> <span style={{ color: "var(--ink-dim)", fontSize: 11.5 }}>— {cd.source}</span></span>
+              </label>
+            ))}
+            <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 0", cursor: "pointer", fontSize: 13.5 }}>
+              <input type="radio" name={"bi-" + f.id} checked={pick[f.id] === "other"} onChange={() => setPick((m) => ({ ...m, [f.id]: "other" }))} style={{ accentColor: "var(--jade)" }} />
+              <input value={other[f.id] || ""} onChange={(e) => { setOther((m) => ({ ...m, [f.id]: e.target.value })); setPick((m) => ({ ...m, [f.id]: "other" })); }}
+                placeholder="my own answer…" style={{ flex: 1, fontSize: 13.5, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "7px 10px", fontFamily: "inherit" }} />
+            </label>
+          </div>
+          <button onClick={() => save(f)} style={{ marginTop: 8, fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "7px 16px", borderRadius: 999, border: 0, background: "var(--jade)", color: "#fff", cursor: "pointer" }}>Save answer</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function QueueView({ ctx }) {
   const { setView, admin } = ctx;
   const [items, setItems] = useState(null);
@@ -1476,9 +1534,9 @@ function QueueView({ ctx }) {
   const [editText, setEditText] = useState("");
   const load = useCallback(async () => {
     try {
-      const list = await fetchFeedback("open");
+      const list = await fetchQueue();   // open USER flags + ANSWERED build items
       // reviewer flags carry more weight — float them to the top (then instructor, then student; newest first within each)
-      const rank = { reviewer: 0, instructor: 1, student: 2 };
+      const rank = { reviewer: 0, instructor: 1, student: 2, build: 3 };
       list.sort((a, b) => ((rank[a.author_role] ?? 3) - (rank[b.author_role] ?? 3)) || (b.id - a.id));
       setItems(list);
     } catch (e) { setErr(e.message); setItems([]); }
@@ -1500,18 +1558,15 @@ function QueueView({ ctx }) {
     } catch (e) { setErr(e.message); }
   };
   const editable = (f) => f.target_type === "word" || f.target_type === "card";
-  // —— native-review sections (merged from the retired standalone Ella page) ——
-  const [answers, setAnswers] = useState({});          // question id -> Ella's saved answer
-  const [dict, setDict] = useState({ loading: true }); // unconfirmed dictionary entries (admin)
-  useEffect(() => { let alive = true; fetchEllaAnswers().then((m) => alive && setAnswers(m)).catch(() => {}); return () => { alive = false; }; }, []);
-  useEffect(() => {
-    if (!admin) return; let alive = true;
-    fetchReviewList().then((list) => alive && setDict({ list })).catch((e) => alive && setDict({ error: e.message }));
-    return () => { alive = false; };
-  }, [admin]);
-  const missing = ACTIVE.review.filter((q) => q.id.startsWith("synth-"));
-  const dialectQ = ACTIVE.review.filter((q) => !q.id.startsWith("synth-"));
-  const qCard = (q) => <EllaQuestionCard key={q.id} q={q} admin={admin} answer={answers[q.id]} onSaved={(a) => setAnswers((m) => ({ ...m, [q.id]: a }))} />;
+  // approve an ANSWERED build item: dictionary items mutate the dictionary (applyFix);
+  // everything else records the audit row that the next rebuild folds in (applyAnswer)
+  const approveBuild = async (f) => {
+    try {
+      if (f.kind === "dict_unconfirmed") await applyFix({ feedback: f, meaning: f.resolution?.text });
+      else await applyAnswer(f);
+      setItems((xs) => xs.filter((x) => x.id !== f.id)); setErr("");
+    } catch (e) { setErr(e.message); }
+  };
   return (
     <div className="ws-page">
       <TopBar title="Review Queue" onBack={ctx.backToMenu} />
@@ -1527,10 +1582,11 @@ function QueueView({ ctx }) {
             <b style={{ fontFamily: "Georgia,serif", fontSize: 16 }}>{f.target_ref}</b>
             <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--coral)", color: "var(--coral)" }}>{KIND_LABEL[f.kind] || f.kind}</span>
             <span style={{ marginLeft: "auto", fontSize: 10.5, fontWeight: 800, letterSpacing: ".04em", padding: "2px 9px", borderRadius: 999,
-              ...(f.author_role === "reviewer" ? { background: "var(--jade)", color: "#fff" }
+              ...(f.source === "build" ? { background: "var(--sun)", color: "#fff" }
+                : f.author_role === "reviewer" ? { background: "var(--jade)", color: "#fff" }
                 : f.author_role === "instructor" ? { border: "1px solid var(--tide)", color: "var(--tide)" }
                 : { border: "1px solid var(--sand-deep)", color: "var(--ink-dim)" }) }}>
-              {(f.author_role || "student").toUpperCase()}</span>
+              {(f.source === "build" ? "build · answered" : f.author_role || "student").toUpperCase()}</span>
           </div>
           {f.comment && <div style={{ fontSize: 13.5, color: "var(--ink-soft)", marginTop: 5 }}>“{f.comment}”</div>}
           {f.context && Object.keys(f.context).length > 0 && (
@@ -1538,7 +1594,19 @@ function QueueView({ ctx }) {
               {[f.context.english && `= ${f.context.english}`, f.context.direction, f.context.mode, f.context.lesson].filter(Boolean).join(" · ")}
             </div>
           )}
-          {admin && editId === f.id ? (
+          {f.source === "build" && (
+            <div style={{ fontSize: 13.5, marginTop: 6 }}>
+              {(f.payload?.en || f.payload?.q) && <div style={{ color: "var(--ink-soft)" }}>“{f.payload.en || f.payload.q}”</div>}
+              <div style={{ marginTop: 3 }}>answer: <b style={{ color: "var(--jade)" }}>{f.resolution?.text}</b>
+                <span style={{ color: "var(--ink-dim)", fontSize: 11.5 }}> — chose {f.resolution?.choice === "other" ? "their own" : ("candidate " + (f.resolution?.choice || "?"))}</span></div>
+            </div>
+          )}
+          {admin && f.source === "build" ? (
+            <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
+              <button onClick={() => approveBuild(f)} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "6px 14px", borderRadius: 999, border: 0, background: "var(--jade)", color: "#fff", cursor: "pointer" }}>Approve</button>
+              <button onClick={() => resolve(f.id, "rejected")} style={{ fontFamily: "inherit", fontSize: 12.5, padding: "6px 14px", borderRadius: 999, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Reject</button>
+            </div>
+          ) : admin && editId === f.id ? (
             <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
               <input autoFocus value={editText} onChange={(e) => setEditText(e.target.value)} placeholder={`corrected definition for “${f.target_ref}”`}
                 onKeyDown={(e) => e.key === "Enter" && applyEdit(f)}
@@ -1556,21 +1624,6 @@ function QueueView({ ctx }) {
         </div>
       ))}
 
-      {missing.length > 0 && (<>
-        <SectionLabel text={`Missing answers · ${missing.filter((q) => answers[q.id]).length}/${missing.length} answered`} />
-        {missing.map(qCard)}
-      </>)}
-      {dialectQ.length > 0 && (<>
-        <SectionLabel text={`Dialect questions · ${dialectQ.length}`} />
-        {dialectQ.map(qCard)}
-      </>)}
-      {admin && (<>
-        <SectionLabel text={`Dictionary confirmations${dict.list ? ` · ${dict.list.length} to review` : ""}`} />
-        {dict.loading && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
-        {dict.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {dict.error}</p>}
-        {dict.list && dict.list.map((e) => <DbReviewRow key={e.waray} entry={e} onConfirmed={(w) => setDict((x) => ({ list: (x.list || []).filter((y) => y.waray !== w) }))} />)}
-        {dict.list && dict.list.length === 0 && <p style={{ color: "var(--jade)" }}>🎉 All confirmed!</p>}
-      </>)}
     </div>
   );
 }
@@ -1904,174 +1957,7 @@ function CoursePreview({ ctx }) {
   );
 }
 
-/* ============ ADMIN REVIEW QUEUE — confirm/fix the flagged dictionary entries ============
-   Lists dictionary rows with confirmed=false (Ella's queue). Editing meaning/pronunciation +
-   Confirm writes to Supabase (RLS allows the admin only). Row drops off on confirm. */
-// One unconfirmed dictionary word — SAME cited multiple-choice pattern as the missing-answer
-// cards: every candidate definition says WHO asserts it (how the word entered the app, vs what the
-// Tramp dictionary prints), plus a free-text "my own". Candidates are baked at build time by
-// tools/gen-confirm-candidates.mjs. Pronunciation is verified alongside (prefilled from the
-// row or from Tramp's accented headword) and saves with the meaning.
-function DbReviewRow({ entry, onConfirmed }) {
-  const cand = CONFIRM_CANDIDATES[entry.waray] || {};
-  const options = [];
-  if (entry.meaning) options.push({ key: "current", label: cand.origin || "course vocab", text: entry.meaning });
-  if (cand.tramp?.gloss && cand.tramp.gloss.toLowerCase() !== (entry.meaning || "").toLowerCase())
-    options.push({ key: "tramp", label: `Tramp dictionary${cand.tramp.page ? ` · p.${cand.tramp.page}` : ""}`, text: cand.tramp.gloss });
-  const [pick, setPick] = useState(options[0]?.key || "other");
-  const [other, setOther] = useState("");
-  const [pron, setPron] = useState(entry.pronunciation || cand.pron || "");
-  const [saving, setSaving] = useState(false);
-  const [err, setErr] = useState("");
-  const chosen = pick === "other" ? other.trim() : options.find((o) => o.key === pick)?.text || "";
-  const confirm = async () => {
-    if (!chosen) return;
-    setSaving(true); setErr("");
-    try { await confirmEntry(entry.waray, { confirmed: true, meaning: chosen, pronunciation: pron || null }); onConfirmed(entry.waray); }
-    catch (e) { setErr(e.message || "save failed"); setSaving(false); }
-  };
-  const optionRow = (key, label, text) => (
-    <label key={key} style={{ display: "flex", gap: 9, alignItems: "baseline", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === key ? "var(--jade)" : "var(--sand-deep)"), background: pick === key ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
-      <input type="radio" name={"dict-" + entry.waray} checked={pick === key} onChange={() => setPick(key)} style={{ accentColor: "var(--jade)", marginTop: 2 }} />
-      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>{label}</span>
-      <span style={{ fontFamily: "Georgia,serif", fontSize: 15.5, fontWeight: 600, lineHeight: 1.35 }}>{text}</span>
-    </label>
-  );
-  return (
-    <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
-      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700 }}>{entry.kind}{entry.loan ? ` · ${entry.loan} loan` : ""}</div>
-      <b style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600, cursor: "pointer", display: "inline-block", marginTop: 2 }} onClick={() => speak({ waray: entry.waray, pronunciation: pron, english: chosen || entry.meaning })} title="Tap to hear">{entry.waray} 🔊</b>
-      {options.map((o) => optionRow(o.key, o.label, o.text))}
-      <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
-        <input type="radio" name={"dict-" + entry.waray} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
-        <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>✎ my own</span>
-        <input value={other} onChange={(e) => { setOther(e.target.value); setPick("other"); }} placeholder="type the meaning…"
-          style={{ flex: 1, fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
-      </label>
-      <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <input value={pron} onChange={(e) => setPron(e.target.value)} placeholder="pronunciation (mah-OO-pigh)"
-          style={{ flex: "1 1 150px", fontSize: 12.5, fontFamily: "ui-monospace,monospace", color: "var(--sea)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "7px 10px" }} />
-        <button onClick={confirm} disabled={saving || !chosen}
-          style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: saving || !chosen ? 0.5 : 1 }}>
-          {saving ? "Saving…" : "Confirm"}
-        </button>
-      </div>
-      {err && <div style={{ color: "var(--coral)", fontSize: 12, marginTop: 5 }}>{err}</div>}
-    </div>
-  );
-}
-// One review-queue question: shows the ask; the admin gets an answer box (prefilled with the AI's
-// draft for missing-answer items) + Confirm, mirroring the dictionary flow. Saved answers render
-// green for everyone; harvest-ella folds them back into the course on the next content build.
-function EllaQuestionCard({ q, admin, answer, onSaved }) {
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
-  const [editing, setEditing] = useState(false);
-  // choice state: "suggest" | "draft" | "other" (missing-answer cards); free text held separately
-  const [pick, setPick] = useState(q.suggest ? "suggest" : "other");
-  const [other, setOther] = useState("");
-  // per-item yes/no state (multi-item dialect cards)
-  const [marks, setMarks] = useState({});
-  const chosen = q.items ? (q.items.every((it) => marks[it.k]) ? q.items.map((it) => `${it.k}=${marks[it.k]}`).join("; ") : "")
-    : pick === "suggest" ? q.suggest : pick === "draft" ? q.draft : other.trim();
-  const save = async () => {
-    if (!chosen) return;
-    setBusy(true); setErr("");
-    try { await saveEllaAnswer(q.id, chosen); onSaved(chosen); setEditing(false); }
-    catch (e) { setErr(e.message || String(e)); }
-    setBusy(false);
-  };
-  const answered = !!answer && !editing;
-  const savedMarks = {}; if (q.items && answer) for (const part of answer.split(/;\s*/)) { const [k, v] = part.split("="); if (k) savedMarks[k.trim()] = (v || "").trim(); }
-  const optionRow = (key, label, text) => (
-    <label key={key} style={{ display: "flex", gap: 9, alignItems: "baseline", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === key ? "var(--jade)" : "var(--sand-deep)"), background: pick === key ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
-      <input type="radio" name={q.id} checked={pick === key} onChange={() => setPick(key)} style={{ accentColor: "var(--jade)", marginTop: 2 }} />
-      <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>{label}</span>
-      <span style={{ fontFamily: "Georgia,serif", fontSize: 15.5, fontWeight: 600, lineHeight: 1.35 }}>{text}</span>
-    </label>
-  );
-  return (
-    <div style={{ background: "var(--foam)", border: "1px solid " + (answered ? "rgba(31,184,159,.45)" : "var(--sand-deep)"), borderRadius: 12, padding: "12px 14px", margin: "10px 0" }}>
-      <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: ".04em", color: "#b79ae8", fontWeight: 700, marginBottom: 4 }}>{q.topic}</div>
-      <div style={{ fontSize: 15.5, fontWeight: 600, color: "var(--ink)", lineHeight: 1.35 }}>{q.q}</div>
-      {q.detail && <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4, lineHeight: 1.45 }}>{q.detail}</div>}
-      {q.items && q.items.map((it) => {
-        const mark = answered ? savedMarks[it.k] : marks[it.k];
-        const canMark = admin && !answered;
-        return (
-          <div key={it.k} style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 0", borderBottom: "1px dotted #24454b" }}>
-            <span style={{ flex: 1, fontSize: 14 }}>{it.label}</span>
-            {["yes", "no"].map((v) => (
-              <button key={v} disabled={!canMark} onClick={() => canMark && setMarks((m) => ({ ...m, [it.k]: v }))}
-                style={{ fontSize: 12, fontWeight: 800, borderRadius: 8, padding: "4px 12px", cursor: canMark ? "pointer" : "default",
-                  opacity: !canMark && mark !== v ? 0.35 : 1,
-                  border: "1px solid " + (mark === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"),
-                  background: mark === v ? (v === "yes" ? "rgba(31,184,159,.18)" : "rgba(240,122,102,.15)") : "transparent",
-                  color: mark === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--ink-soft)" }}>
-                {v === "yes" ? "✓ yes" : "✗ no"}
-              </button>
-            ))}
-          </div>
-        );
-      })}
-      {answered ? (
-        <div style={{ marginTop: 9, display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap" }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: "var(--jade)" }}>✓ NATIVE</span>
-          {!q.items && <span style={{ fontFamily: "Georgia,serif", fontSize: 16, fontWeight: 600 }}>{answer}</span>}
-          {admin && <button onClick={() => { if (!q.items) { setPick("other"); setOther(answer); } setEditing(true); }} style={{ marginLeft: "auto", fontSize: 11.5, background: "transparent", border: "1px solid var(--sand-deep)", color: "var(--ink-soft)", borderRadius: 8, padding: "2px 9px", cursor: "pointer" }}>edit</button>}
-        </div>
-      ) : admin ? (
-        <div style={{ marginTop: 6 }}>
-          {q.items ? (
-            // per-item confirm/reject (list itself renders for everyone below)
-            null && q.items.map((it) => (
-              <div key={it.k} style={{ display: "flex", gap: 8, alignItems: "center", padding: "6px 0", borderBottom: "1px dotted #24454b" }}>
-                <span style={{ flex: 1, fontSize: 14 }}>{it.label}</span>
-                {["yes", "no"].map((v) => (
-                  <button key={v} onClick={() => setMarks((m) => ({ ...m, [it.k]: v }))}
-                    style={{ fontSize: 12, fontWeight: 800, borderRadius: 8, padding: "4px 12px", cursor: "pointer",
-                      border: "1px solid " + (marks[it.k] === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--sand-deep)"),
-                      background: marks[it.k] === v ? (v === "yes" ? "rgba(31,184,159,.18)" : "rgba(240,122,102,.15)") : "transparent",
-                      color: marks[it.k] === v ? (v === "yes" ? "var(--jade)" : "var(--coral)") : "var(--ink-soft)" }}>
-                    {v === "yes" ? "✓ yes" : "✗ no"}
-                  </button>
-                ))}
-              </div>
-            ))
-          ) : (
-            <>
-              {q.suggest && optionRow("suggest", "Claude · suggested fix", q.suggest)}
-              {q.draft && optionRow("draft", "Gemini · book extraction (removed)", q.draft)}
-              <label style={{ display: "flex", gap: 9, alignItems: "center", padding: "7px 10px", borderRadius: 10, cursor: "pointer", border: "1px solid " + (pick === "other" ? "var(--jade)" : "var(--sand-deep)"), background: pick === "other" ? "rgba(31,184,159,.08)" : "transparent", marginTop: 6 }}>
-                <input type="radio" name={q.id} checked={pick === "other"} onChange={() => setPick("other")} style={{ accentColor: "var(--jade)" }} />
-                <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: ".04em", color: "var(--ink-soft)", textTransform: "uppercase", whiteSpace: "nowrap" }}>✎ my own</span>
-                <input value={other} onChange={(e) => { setOther(e.target.value); setPick("other"); }} placeholder="type the natural Waray…"
-                  style={{ flex: 1, fontSize: 15, fontFamily: "Georgia,serif", fontWeight: 600, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 8, padding: "6px 10px" }} />
-              </label>
-            </>
-          )}
-          <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
-            <button onClick={save} disabled={busy || !chosen}
-              style={{ background: "var(--jade)", color: "#0b1f23", fontWeight: 800, fontSize: 12.5, border: 0, borderRadius: 9, padding: "6px 16px", cursor: "pointer", opacity: busy || !chosen ? 0.5 : 1 }}>
-              {busy ? "Saving…" : "Confirm"}
-            </button>
-            {q.items && !chosen && <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>mark every item to confirm</span>}
-            {err && <span style={{ fontSize: 11.5, color: "var(--coral)" }}>{err}</span>}
-          </div>
-        </div>
-      ) : (
-        <div style={{ marginTop: 8, fontSize: 11.5, color: "var(--ink-soft)", fontStyle: "italic" }}>awaiting a native reviewer's answer</div>
-      )}
-    </div>
-  );
-}
 
-/* ===================== NATIVE REVIEW cards (missing answers / dialect questions) =====================
-   Everything a native speaker reviews, in one screen with jumpable sections:
-   1. Missing answers — course items removed by the synth audit; each needs her Waray
-   2. Dialect questions — the open usage/dialect judgment calls
-   3. Dictionary — unconfirmed entries (admin-only: confirm writes to the DB live)  */
-/* ============================ HOME ============================ */
 function HomeView({ ctx }) {
   const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
   const curLesson = nextLesson(lessons);
@@ -2270,6 +2156,9 @@ function AppDrawer({ ctx }) {
             {/* strictly role-gated — being admin does NOT imply instructor/reviewer */}
             {roleHas(ctx, "instructor") &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
+
+            {(roleHas(ctx, "reviewer") || ctx.admin) &&
+              <MenuRow icon={<Inbox size={18} />} title="Native Review" subtitle="answer the build's questions — a, b, or your own" badge="reviewer" onClick={() => { setMenuOpen(false); setView("nativereview"); }} />}
 
             {/* the queue is the admin's desk — reviewers review LESSONS (and flag inline), they don't work the queue */}
             {ctx.admin &&

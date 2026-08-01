@@ -299,6 +299,41 @@ export const submitFeedback = async ({ kind, targetType, targetRef, comment = ""
 export const fetchFeedback = (status = "open") =>
   fetchAll(() => supabase.from("feedback").select("*").eq("status", status).order("id", { ascending: false }));
 
+/* ---- the unified two-intake queue ---- */
+// the ADMIN's decision list: open user flags + build items a reviewer has ANSWERED
+export const fetchQueue = () =>
+  fetchAll(() => supabase.from("feedback").select("*")
+    .or("and(source.eq.user,status.eq.open),and(source.eq.build,status.eq.answered)")
+    .order("id", { ascending: false }));
+// the REVIEWER's worklist (Native Review): build-detected questions awaiting an answer.
+// RLS scopes reviewers to source='build' rows only.
+export const fetchBuildOpen = () =>
+  fetchAll(() => supabase.from("feedback").select("*").eq("source", "build").eq("status", "open").order("id"));
+// a reviewer records their a/b/other pick — the row moves to 'answered' (the admin decides later)
+export const answerBuildItem = async (id, choice, text) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  const r = await rows(supabase.from("feedback").update({
+    status: "answered",
+    resolution: { choice, text, by: user?.id || null, at: new Date().toISOString() },
+  }).eq("id", id).select());
+  if (!r.length) throw new Error("not saved — reviewer/admin only");
+  return r[0];
+};
+// admin approves an ANSWERED build item that isn't a dictionary fix (exercise answer / judgment):
+// record the append-only audit row (harvest reads these to fold answers into the next rebuild)
+// and resolve. Dictionary items go through applyFix instead.
+export const applyAnswer = async (feedback) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  await supabase.from("content_changes").insert({
+    target_type: feedback.target_type, target_ref: feedback.target_ref,
+    before_val: { waray: feedback.payload?.removed_waray || null },
+    after_val: { waray: feedback.resolution?.text || null, choice: feedback.resolution?.choice || null },
+    feedback_id: feedback.id, reviewed_by: feedback.resolution?.by || null, approved_by: user?.id || null,
+  });
+  await resolveFeedback(feedback.id, "applied");
+  return true;
+};
+
 // an admin resolves an item (applying a proposal to the dictionary comes in a later step)
 export const resolveFeedback = async (id, decision) => {
   const { data: { user } } = await supabase.auth.getUser();
