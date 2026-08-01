@@ -55,8 +55,10 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
 
 Built in TG2 but needs finishing + the human round-trip test above. From the meeting decisions:
 - [ ] Finish/verify **classes & enrollment** (join-by-code self-signup; `join_class` exists).
-- [ ] **Feedback capture + admin queue** — ⚑ report on *every* content surface (grammar, vocab,
-  drills, verdicts), auto-capturing context (item·lesson·block·direction·answer·role·timestamp).
+- [x] **Feedback capture + admin queue** — DONE via the unified header (2026-08-01): the ⚑ is on
+  every content surface with auto-captured context — home (general), drill cards (card·direction·
+  mode·lesson, visible through the verdict), marker/cloze exercises, lesson steps, grammar guides,
+  stories. Admin queue + resolve flow existed already. Remaining: exercise it in the round-trip test.
 - [ ] **Instructor dashboard + student detail** — headline metric = unit-test average (graded
   gates, pass = 80%); mastery% + reports secondary.
 - [ ] **Reviewer flow + `apply_feedback()` mutation.** Reviewers PROPOSE, admins DECIDE — one admin

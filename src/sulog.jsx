@@ -1251,12 +1251,10 @@ export default function App() {
       {view === "read" && <ReadView ctx={ctx} />}
       {view === "stresslab" && <StressLabView ctx={ctx} />}
       {view === "accentduel" && <AccentDuelView ctx={ctx} />}
-      {view === "stttest" && <SttTestView ctx={ctx} />}
       {view === "account" && <AccountView ctx={ctx} />}
       {view === "settings" && <SettingsView ctx={ctx} />}
       {view === "request" && <RequestView ctx={ctx} />}
       {view === "ella" && <EllaView ctx={ctx} />}
-      {view === "language" && <LanguageView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
       {view === "class" && <ClassView ctx={ctx} />}
       {view === "queue" && <QueueView ctx={ctx} />}
@@ -1382,40 +1380,6 @@ function DbBlock({ block, guides, pool, topic }) {
         <div key={k} style={{ fontSize: 11, color: "var(--ink-soft)", marginTop: 3 }}>* {ln}</div>
       ))}
     </div>
-  );
-}
-// bundled-course overview: sections › units › lessons (the DB block model isn't available for these)
-function BundledOverview({ course, open, setOpen }) {
-  const secs = course.curriculum || [];
-  const nU = secs.flatMap((s) => s.units).length;
-  return (
-    <>
-      <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>{nU} unit{nU === 1 ? "" : "s"} · bundled course.</p>
-      {secs.flatMap((s) => s.units).map((u) => {
-        const isOpen = open[u.id];
-        return (
-          <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
-            <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-              style={{ width: "100%", textAlign: "left", background: "var(--sand)", color: "var(--ink)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
-              <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
-              <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
-              <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
-            </button>
-            {isOpen && (
-              <div style={{ padding: "6px 14px 12px" }}>
-                {u.can_do && <div style={{ fontSize: 12, color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
-                {(u.lessons || []).map((l) => (
-                  <div key={l.id} style={{ display: "flex", alignItems: "baseline", gap: 6, margin: "5px 0", borderBottom: "1px dotted #efe7d9", paddingBottom: 4 }}>
-                    <span style={{ fontSize: 12.5, fontWeight: 700, color: "var(--sun-deep)", flex: 1 }}>{l.title || l.name}</span>
-                    <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(l.items || []).length} items · {l.kind === "apply" ? "phrases" : "words"}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </>
   );
 }
 
@@ -1803,7 +1767,7 @@ function AdminView({ ctx }) {
           ) : <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
           <div style={{ display: "flex", gap: 10, marginTop: 8, flexWrap: "wrap" }}>
             <a href="verify/" target="_blank" rel="noreferrer" style={{ fontSize: 12.5, color: "var(--tide)" }}>Course-vs-book review site →</a>
-            <button onClick={() => setView("language")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 12.5, color: "var(--tide)" }}>Course preview →</button>
+            <button onClick={() => setView("ella")} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", fontSize: 12.5, color: "var(--tide)" }}>Ella review queue →</button>
           </div>
 
           <SectionLabel icon={<span style={{ fontSize: 13 }}>🧬</span>} text="Change history — traceability" />
@@ -1826,59 +1790,26 @@ function AdminView({ ctx }) {
                 </div>
               ))}
         </div>
+
+        <CoursePreview ctx={ctx} />
       </div>
     </div>
   );
 }
 
-function LanguageView({ ctx }) {
-  const { setView, settings, saveSettings, admin } = ctx;
-  const [dbCourses, setDbCourses] = useState([]);        // courses that live only in Supabase
-  const [selected, setSelected] = useState(COURSE_ID);   // previewed course (defaults to active)
-  const [st, setSt] = useState({ loading: false });      // DB-course overview fetch
+/* Course preview — the DB block model rendered lesson-by-lesson, exactly as the app plays it.
+   Admin tooling, embedded at the BOTTOM of the Admin console (no sub-page). Replaces the retired
+   Language & course screen (language pills / course switcher / old dialect presets all vestigial). */
+function CoursePreview({ ctx }) {
+  const [st, setSt] = useState({ loading: true });
   const [open, setOpen] = useState({});
-  const [switching, setSwitching] = useState(false);
-  const [err, setErr] = useState("");
-
   useEffect(() => {
-    fetchCourses()
-      .then((cs) => setDbCourses((cs || []).filter((c) => !COURSES.some((b) => b.id === c.id))))
-      .catch(() => {});
-  }, []);
-
-  const isDb = !COURSES.some((c) => c.id === selected);
-  // fetch the DB block model to preview a DB course (bundled courses render from their curriculum)
-  useEffect(() => {
-    if (!isDb) { setSt({ loading: false }); setOpen({}); return; }
-    let alive = true; setSt({ loading: true }); setOpen({});
-    fetchCourse(selected).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
+    let alive = true;
+    fetchCourse(COURSE_ID).then((course) => alive && setSt({ course })).catch((e) => alive && setSt({ error: e.message || String(e) }));
     return () => { alive = false; };
-  }, [selected, isDb]);
-
-  const switchTo = async (id) => {
-    if (id === COURSE_ID) return;
-    if (COURSES.some((c) => c.id === id)) { try { localStorage.setItem("sulog:course", id); } catch (e) {} location.reload(); return; }
-    setSwitching(true); setErr("");
-    try {
-      const meta = dbCourses.find((c) => c.id === id);
-      const [bundled, version] = await Promise.all([fetchCourseBundled(id, meta?.name || id), fetchCourseVersion(id).catch(() => 0)]);
-      if (!bundled.curriculum.length) throw new Error("that course has no drillable lessons yet.");
-      // if the cache write fails (storage full), do NOT flip the course + reload — boot would find no
-      // cache and silently fall back to the default course, not the one the user tapped
-      if (!cacheDbCourse(bundled, version)) throw new Error("couldn't save the course on this device (storage full?). Free some space and retry.");
-      try { localStorage.setItem("sulog:course", id); } catch (e) {}
-      location.reload();
-    } catch (e) { setSwitching(false); setErr("Couldn't load that course: " + (e.message || e)); }
-  };
-
-  const all = [
-    ...COURSES.map((c) => ({ id: c.id, name: c.name })),
-    ...dbCourses.map((c) => ({ id: c.id, name: c.name })),
-  ];
-  if (!all.some((c) => c.id === COURSE_ID)) all.push({ id: COURSE_ID, name: ACTIVE.name }); // active DB course before the list lands
+  }, []);
   const units = st.course ? st.course.phases.flatMap((p) => p.units.map((u) => ({ ...u, phase: p.name }))) : [];
-  // flat card pool for the preview's multiple-choice distractors (deck = unit id) — scoped to the
-  // PREVIEWED course, not the active deck, so options come from the right vocabulary
+  // flat card pool for the preview's multiple-choice distractors (topic = unit id)
   const previewPool = React.useMemo(() => {
     if (!st.course) return [];
     const out = [], seen = new Set();
@@ -1889,173 +1820,44 @@ function LanguageView({ ctx }) {
     }
     return out;
   }, [st.course]);
-
-  const langPill = (label, on, soon) => (
-    <span style={{ fontSize: 12.5, border: "1px " + (soon ? "dashed" : "solid") + " " + (on ? "var(--tide)" : "var(--sand-deep)"),
-      background: on ? "var(--tide)" : "transparent", color: on ? "#fff" : soon ? "var(--ink-soft)" : "var(--ink)",
-      borderRadius: 999, padding: "5px 12px" }}>{label}</span>
-  );
-  const selName = (all.find((c) => c.id === selected) || {}).name || "";
-
   return (
-    <div className="ws-page">
-      <TopBar title="Language & course" onBack={() => setView("home")} />
-      <div style={{ padding: "4px 14px 40px", maxWidth: 720, margin: "0 auto" }}>
-
-        <SectionLabel icon={<Globe size={14} />} text="Language" />
-        <div className="ws-course-switch">
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {langPill("🌊 Waray (Winaray)", true, false)}
-            {langPill("Cebuano — soon", false, true)}
-            {langPill("Tagalog — soon", false, true)}
-          </div>
-          <p className="ws-course-note" style={{ marginTop: 8 }}>More languages are on the way — your account &amp; progress carry across all of them.</p>
-        </div>
-
-        <SectionLabel icon={<Layers size={14} />} text="Course" />
-        <div style={{ display: "flex", gap: 6, margin: "2px 0 12px", flexWrap: "wrap" }}>
-          {all.map((c) => (
-            <button key={c.id} onClick={() => setSelected(c.id)}
-              style={{ border: "1px solid " + (c.id === selected ? "var(--tide)" : "var(--sand-deep)"), background: c.id === selected ? "var(--tide)" : "var(--foam)", color: c.id === selected ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
-              {c.name}{c.id === COURSE_ID ? " ·  active" : ""}
+    <>
+      <SectionLabel icon={<BookOpen size={14} />} text="Course preview" />
+      <a href="/verify/" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none" }}>
+        <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
+        <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF pages</i></div>
+        <ChevronRight size={18} className="ws-cta-arrow" />
+      </a>
+      {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading course from the database…</p>}
+      {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
+      {st.course && units.map((u) => {
+        const isOpen = open[u.id];
+        return (
+          <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", marginBottom: 8, overflow: "hidden" }}>
+            <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
+              style={{ width: "100%", textAlign: "left", background: "var(--sand)", color: "var(--ink)", border: 0, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+              <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
+              <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
+              <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
             </button>
-          ))}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "0 0 4px" }}>
-          {selected === COURSE_ID
-            ? <span style={{ fontSize: 12.5, color: "var(--jade)", fontWeight: 600 }}>✓ Your active course</span>
-            : <button onClick={() => switchTo(selected)} disabled={switching}
-                style={{ background: "var(--tide)", color: "#fff", border: 0, borderRadius: 999, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: switching ? "default" : "pointer", opacity: switching ? 0.7 : 1 }}>
-                {switching ? "Loading…" : "Switch to this course"}
-              </button>}
-        </div>
-        {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
-
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect — accepted regional forms" />
-        <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 14px", marginBottom: 14 }}>
-          {(() => {
-            // catalog comes from the dialect_forms table (global config, no deploy to change);
-            // the checked SELECTION is yours — saved locally and synced to your account
-            const catalog = ctx.dialectCatalog || [];
-            const presetIds = [...new Set(catalog.flatMap((f) => f.presets || []))];
-            const presets = [{ id: "standard", label: "Standard · Tacloban", forms: [] },
-              ...presetIds.map((id) => ({ id, label: id === "daram" ? "Daram · rural Samar" : id, forms: catalog.filter((f) => (f.presets || []).includes(id)).map((f) => f.k) }))];
-            const forms = settings.dialectForms ?? (settings.dialect === "daram" ? Object.fromEntries(catalog.filter((f) => (f.presets || []).includes("daram")).map((f) => [f.k, true])) : {});
-            const setForms = (nf) => {
-              saveSettings({ ...settings, dialectForms: nf, dialectFormsUpdated: Date.now() });
-              if (ctx.user) saveUserSettings(ctx.user.id, Object.keys(nf).filter((k) => nf[k])).catch(() => {});
-            };
-            const onCount = catalog.filter((f) => forms[f.k]).length;
-            return (
-              <>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
-                  {presets.map((p) => {
-                    const active = p.forms.length === onCount && p.forms.every((k) => forms[k]);
-                    return (
-                      <button key={p.id} onClick={() => setForms(Object.fromEntries(p.forms.map((k) => [k, true])))}
-                        style={{ border: "1px solid " + (active ? "var(--tide)" : "var(--sand-deep)"), background: active ? "var(--tide)" : "var(--foam)", color: active ? "#fff" : "var(--ink)", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>
-                        {p.label}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))", gap: 2 }}>
-                  {catalog.map((fm) => (
-                    <label key={fm.k} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, padding: "4px 2px", cursor: "pointer", color: forms[fm.k] ? "var(--ink)" : "var(--ink-soft)" }}>
-                      <input type="checkbox" checked={!!forms[fm.k]} onChange={(e) => setForms({ ...forms, [fm.k]: e.target.checked })} style={{ accentColor: "var(--tide)" }} />
-                      <span><b>{fm.k}</b> — {fm.rel} <i>{fm.canon}</i> <span style={{ color: "var(--ink-soft)" }}>({fm.definition})</span>
-                        {fm.verified && <span title="native-speaker verified" style={{ color: "var(--jade)", fontSize: 11.5 }}> ✓</span>}</span>
-                    </label>
-                  ))}
-                </div>
-                <div style={{ fontSize: 11.5, color: "var(--ink-soft)", marginTop: 7, lineHeight: 1.45 }}>
-                  Checked forms are ACCEPTED when you answer ({onCount} on){ctx.user ? " — synced to your account" : ""}. ✓ = native-speaker verified. Presets preselect; adjust freely. Courses still teach the standard forms.
-                </div>
-              </>
-            );
-          })()}
-        </div>
-
-        <SectionLabel icon={<Volume2 size={14} />} text="Sound & speech" />
-        <button className="ws-backup-row" onClick={() => setView("pronounce")}>
-          <div className="ws-backup-ic"><Ear size={18} /></div>
-          <div className="ws-backup-txt"><b>Pronunciation guide</b><i>How Waray sounds · voice &amp; speed</i></div>
-          <ChevronRight size={18} className="ws-cta-arrow" />
-        </button>
-        {SpeechRec && (
-          <button className="ws-backup-row" onClick={() => saveSettings({ ...settings, voiceMode: !settings.voiceMode })}>
-            <div className="ws-backup-ic ws-ic-tide"><Mic size={18} /></div>
-            <div className="ws-backup-txt"><b>Answer by voice</b><i>{settings.voiceMode ? "On — speak your answers" : "Off — type your answers"}</i></div>
-            <span style={{ width: 36, height: 21, borderRadius: 21, background: settings.voiceMode ? "var(--tide)" : "var(--sand-deep)", position: "relative", flex: "none" }}>
-              <span style={{ position: "absolute", top: 2, left: settings.voiceMode ? 17 : 2, width: 17, height: 17, borderRadius: "50%", background: "var(--foam)", transition: "left .15s" }} />
-            </span>
-          </button>
-        )}
-        {SpeechRec && (
-          <button className="ws-backup-row" onClick={() => setView("stttest")}>
-            <div className="ws-backup-ic"><Mic size={18} /></div>
-            <div className="ws-backup-txt"><b>Test speech recognition</b><i>Check if your device can hear Waray</i></div>
-            <ChevronRight size={18} className="ws-cta-arrow" />
-          </button>
-        )}
-
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>👩</span>} text="Native speaker" />
-        <button className="ws-backup-row" onClick={() => setView("ella")}>
-          <div className="ws-backup-ic ws-ic-coral"><span style={{ fontSize: 16 }}>👩</span></div>
-          <div className="ws-backup-txt"><b>Ella · review queue</b><i>Missing answers, dialect questions{admin ? " & dictionary confirmations" : ""}</i></div>
-          <ChevronRight size={18} className="ws-cta-arrow" />
-        </button>
-
-        <SectionLabel icon={<BookOpen size={14} />} text={"Preview" + (selName ? " · " + selName : "")} />
-        {isDb && (
-          <a href="/verify/" target="_blank" rel="noopener" className="ws-backup-row" style={{ textDecoration: "none", color: "inherit" }}>
-            <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
-            <div className="ws-backup-txt"><b>Course vs. book</b><i>Every lesson side-by-side with the scanned PDF — directions, choices &amp; source checks</i></div>
-            <ChevronRight size={18} className="ws-cta-arrow" />
-          </a>
-        )}
-        {isDb ? (
-          <>
-            {st.loading && <p style={{ color: "var(--ink-soft)" }}>Loading course from the database…</p>}
-            {st.error && <p style={{ color: "var(--coral)" }}>Couldn't load: {st.error}</p>}
-            {st.course && (
-              <>
-                <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 0 12px" }}>From the database — {units.length} unit{units.length === 1 ? "" : "s"}, full block model (guides, footnotes, gates &amp; stories). Tap any word to hear it.</p>
-                {units.map((u) => {
-                  const isOpen = open[u.id];
+            {isOpen && (
+              <div style={{ padding: "6px 14px 12px" }}>
+                {u.can_do && <div style={{ fontSize: 12, color: "var(--ink-soft)", fontStyle: "italic", margin: "6px 0" }}>{u.can_do}</div>}
+                {(u.lessons || []).map((l) => {
+                  const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type));
                   return (
-                    <div key={u.id} style={{ border: "1px solid #e3dccd", borderRadius: 12, background: "var(--foam)", margin: "8px 0", overflow: "hidden" }}>
-                      <button onClick={() => setOpen((o) => ({ ...o, [u.id]: !o[u.id] }))}
-                        style={{ width: "100%", textAlign: "left", background: "var(--sand)", color: "var(--ink)", border: 0, padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
-                        <b style={{ fontFamily: "Georgia,serif", fontSize: 15.5, flex: 1 }}>{u.name}</b>
-                        <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{(u.lessons || []).length} lessons</span>
-                        <ChevronRight size={16} style={{ transform: isOpen ? "rotate(90deg)" : "none", color: "var(--ink-soft)" }} />
-                      </button>
-                      {isOpen && (
-                        <div style={{ padding: "6px 14px 12px" }}>
-                          {u.can_do && <div style={{ fontSize: 12, color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 6 }}>“{u.can_do}”</div>}
-                          {(u.lessons || []).map((l) => {
-                            const guides = (l.blocks || []).filter((b) => ["grammar", "examples", "note", "vocab"].includes(b.type)).map((b) => b.type);
-                            return (
-                              <div key={l.id} style={{ margin: "10px 0" }}>
-                                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
-                                {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} topic={u.id} />)}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
+                    <div key={l.id} style={{ margin: "10px 0" }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
+                      {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} topic={u.id} />)}
                     </div>
                   );
                 })}
-              </>
+              </div>
             )}
-          </>
-        ) : (
-          <BundledOverview course={getCourse(selected)} open={open} setOpen={setOpen} />
-        )}
-      </div>
-    </div>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -2986,144 +2788,6 @@ function SttDebug({ heard, alts, answer, waray, lang }) {
   );
 }
 
-/* Rapid-fire Waray speech-to-text tester. Walks every card; you say the Waray
-   word, and on a correct match it auto-advances and auto-listens for the next —
-   hands-free until a miss, where it stops and shows the speech debug so you can
-   tune the matching logic. Reached from the mic icon in the home header. */
-function SttTestView({ ctx }) {
-  const { cards, settings, setView } = ctx;
-  const lang = settings.sttLang || "fil-PH";
-  const pool = useRef(cards.filter((c) => c.waray)).current;
-  const [i, setI] = useState(0);
-  const [phase, setPhase] = useState("ready"); // ready|listening|hit|miss|done
-  const [heard, setHeard] = useState([]);
-  const [finalAlts, setFinalAlts] = useState(null);
-  const [stats, setStats] = useState({ hit: 0, miss: 0 });
-  const recRef = useRef(null);
-  const tokRef = useRef(0); // bumped on every (re)start so stale callbacks are ignored
-  const card = pool[i];
-
-  const stopRec = () => {
-    tokRef.current++;
-    try { recRef.current && recRef.current.abort(); } catch (e) {}
-    recRef.current = null;
-  };
-  useEffect(() => () => stopRec(), []); // cleanup on unmount
-
-  const evaluate = (idx, alts) => {
-    setFinalAlts(alts);
-    const ok = alts.length > 0 && speechMatches(alts, pool[idx].waray, true);
-    if (ok) {
-      setPhase("hit");
-      setStats((s) => ({ ...s, hit: s.hit + 1 }));
-      setTimeout(() => advance(idx), 600); // auto-advance + auto-listen
-    } else {
-      setPhase("miss");
-      setStats((s) => ({ ...s, miss: s.miss + 1 }));
-    }
-  };
-
-  const listenFor = (idx) => {
-    const c = pool[idx];
-    if (!SpeechRec || !c) return;
-    stopRec();
-    const tok = tokRef.current;
-    setHeard([]); setFinalAlts(null); setPhase("listening");
-    const rec = new SpeechRec();
-    rec.lang = lang; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
-    let settled = false;
-    rec.onresult = (e) => {
-      if (tok !== tokRef.current) return;
-      const res = e.results[e.results.length - 1];
-      const a = Array.from(res).map((x) => x.transcript.trim()).filter(Boolean);
-      if (res.isFinal) { settled = true; evaluate(idx, a); }
-      else setHeard((h) => [...h, a[0] || ""].filter(Boolean).slice(-6));
-    };
-    rec.onerror = () => { if (tok === tokRef.current && !settled) { settled = true; evaluate(idx, []); } };
-    rec.onend = () => { if (tok === tokRef.current && !settled) { settled = true; evaluate(idx, []); } };
-    recRef.current = rec;
-    try { rec.start(); } catch (e) {}
-  };
-
-  const advance = (fromIdx) => {
-    const ni = fromIdx + 1;
-    stopRec();
-    if (ni >= pool.length) { setI(ni - 1); setPhase("done"); return; }
-    setI(ni);
-    listenFor(ni);
-  };
-
-  const start = () => listenFor(i);
-  const retry = () => listenFor(i);
-  const skip = () => advance(i);
-  const pause = () => { stopRec(); setPhase("ready"); };
-  const restart = () => { stopRec(); setStats({ hit: 0, miss: 0 }); setI(0); setPhase("ready"); setHeard([]); setFinalAlts(null); };
-
-  if (!SpeechRec) {
-    return (
-      <div className="ws-page">
-        <TopBar title="Waray STT test" onBack={() => setView("home")} />
-        <div className="ws-pron-intro">Speech recognition isn't available in this browser. Try Chrome or Edge.</div>
-      </div>
-    );
-  }
-
-  const done = stats.hit + stats.miss;
-  const pct = done ? Math.round((stats.hit / done) * 100) : 0;
-  return (
-    <div className="ws-page">
-      <TopBar title="Waray STT test" onBack={() => { stopRec(); setView("home"); }} />
-
-      <div className="ws-stt-meter">
-        <span><b>{i + 1}</b> / {pool.length}</span>
-        <span className="ws-stt-hit"><Check size={13} /> {stats.hit}</span>
-        <span className="ws-stt-mis"><X size={13} /> {stats.miss}</span>
-        {done > 0 && <span className="ws-stt-pct">{pct}% match</span>}
-      </div>
-
-      <div className={`ws-stt-card ${phase}`}>
-        <div className="ws-stt-prompt">{card ? card.waray : "—"}</div>
-        <div className="ws-stt-def">{card ? card.english : ""}</div>
-        {card && card.pronunciation && <div className="ws-stt-pron">{card.pronunciation}</div>}
-
-        {phase === "listening" && (
-          <div className="ws-stt-live">
-            <span className="ws-stt-dot" /> listening…
-            {heard.length > 0 && <div className="ws-stt-heard">{heard[heard.length - 1]}</div>}
-          </div>
-        )}
-        {phase === "hit" && <div className="ws-stt-verdict ok"><Check size={18} /> matched</div>}
-        {phase === "miss" && <div className="ws-stt-verdict no"><X size={18} /> no match</div>}
-      </div>
-
-      {phase === "miss" && finalAlts && (
-        <SttDebug heard={heard} alts={finalAlts} answer={card.waray} waray={true} lang={lang} />
-      )}
-
-      <div className="ws-stt-controls">
-        {(phase === "ready" || phase === "done") && (
-          <button className="ws-stt-btn primary" onClick={start}><Mic size={18} /> {phase === "done" ? "Done — restart?" : "Start"}</button>
-        )}
-        {phase === "listening" && (
-          <button className="ws-stt-btn" onClick={pause}>Pause</button>
-        )}
-        {phase === "miss" && (
-          <>
-            <button className="ws-stt-btn primary" onClick={retry}><RotateCcw size={16} /> Retry</button>
-            <button className="ws-stt-btn" onClick={skip}><ChevronRight size={16} /> Skip</button>
-          </>
-        )}
-        {phase !== "ready" && <button className="ws-stt-btn ghost" onClick={restart}>Restart from 1</button>}
-      </div>
-
-      <div className="ws-pron-intro" style={{ marginTop: 16 }}>
-        Say the Waray word shown. On a correct match it auto-advances and listens for
-        the next — hands-free until a miss. Listening in <b>{lang}</b> (no Waray locale
-        exists), o/u and e/i folded. Misses show the speech debug to tune the matcher.
-      </div>
-    </div>
-  );
-}
 
 // the shared voice-input control (same circle everywhere — type, mc, listen)
 function VoiceOrb({ vmState, heard, onTap, onRepeat, onSkip, compact }) {
@@ -5707,8 +5371,8 @@ function Styles() {
   min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
 .ws-root *::selection{background:var(--tide);color:#fff}
 /* the Ella review queue gets desktop room (everything else stays phone-shaped) */
-@media(min-width:900px){.ws-root[data-view="ella"],.ws-root[data-view="dbreview"]{max-width:860px}
-  .ws-root[data-view="ella"] .ws-bottombar,.ws-root[data-view="dbreview"] .ws-bottombar{max-width:860px}}
+@media(min-width:900px){.ws-root[data-view="ella"]{max-width:860px}
+  .ws-root[data-view="ella"] .ws-bottombar{max-width:860px}}
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}
