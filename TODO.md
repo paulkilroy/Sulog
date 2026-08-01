@@ -65,7 +65,16 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
   inline; every flag auto-stamped with their role); the queue is the ADMIN's desk (menu entry
   admin-only). Reviewer flags sort to the top of the queue with a filled REVIEWER badge.
   applyFix() = the approval-gated dictionary mutation + content_changes audit trail.
-- [ ] **Unified review workflow — multiple input queues, one pipeline.** Two intakes feed the SAME
+- [x] **Unified review workflow — SHIPPED 2026-08-02.** Two intakes, one pipeline: user ⚑ flags
+  (open→resolved) + build-emitted issues with cited a/b/other candidates (open→answered→resolved).
+  tools/emit-build-issues.mjs (58 rows live: 43 missing_answer, 10 needs_native_confirm, 4
+  dict_unconfirmed, 1 dialect_question) · Native Review door for reviewers · merged admin queue
+  with Approve/Reject · applyFix (dictionary, live) / applyAnswer (audit record for rebuild).
+  FOLLOW-UPS: (a) harvest must now read approved content_changes rows (target_type exercise)
+  instead of the retired ella_answers path when folding answers into a rebuild; (b) chain
+  emit-build-issues.mjs into reload-pc.mjs so every rebuild refreshes the queue; (c) OLD unified-
+  workflow plan below kept for reference:
+  ~~**Unified review workflow — multiple input queues, one pipeline.**~~ Two intakes feed the SAME
   propose→decide→apply flow: (1) USER-submitted (⚑ flags — done) and (2) BUILD-submitted (the
   pipeline's known issues: fabricated/missing exercise answers, AI-drafted answers needing native
   confirm, unconfirmed dictionary entries, dialect questions — today these are JSON files + bolt-on
