@@ -323,6 +323,9 @@ export const applyFix = async ({ feedback, meaning }) => {
     feedback_id: feedback.id, reviewed_by: user?.id || null, approved_by: user?.id || null,
   });
   await resolveFeedback(feedback.id, "edited");
+  // bump the course version so cached bundles refetch and see the fix (live search sees it
+  // immediately either way). Admin-gated RPC; non-fatal if it fails.
+  try { await supabase.rpc("bump_course_version", { cid: "pc" }); } catch (e) {}
   return true;
 };
 
