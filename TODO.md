@@ -83,9 +83,8 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
   the bolt-on sections → per-target apply actions (dictionary ✅ exists · dialect: wire to
   dialect_forms · lesson/answer content: ⚠ no live apply yet — the manual harvest+rebuild path
   covers it until lesson content is DB-mutable under approval, post-launch).
-- [ ] **applyFix should bump courses.version** — an approved dictionary fix reaches live search
-  immediately but cached course bundles keep the stale definition until the next manual bump.
-  One line in applyFix.
+- [x] **applyFix bumps courses.version** (2026-08-02) — approved dictionary fixes now reach cached
+  bundles automatically (bump_course_version RPC, admin-gated).
 - [ ] **Senior Reviewer role (future).** Between reviewer and admin: can BROWSE + triage the full
   queue and propose fixes, but admins keep the final decide/apply. Needs: role in user_roles,
   fb_senior_read RLS policy on feedback, queue UI showing propose-only actions. Not for Aug 17.
