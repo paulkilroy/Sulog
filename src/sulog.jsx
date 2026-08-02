@@ -810,6 +810,32 @@ export default function App() {
   const [enrolledN, setEnrolledN] = useState(0); // classes this user has joined (drives the "student" pill)
   const [menuOpen, setMenuOpen] = useState(false); // the ☰ menu — App-level so "back" from a sub-page can reopen it
   const [sheet, setSheet] = useState(null);        // bottom-bar slide-ups (dict/pron/history) — App-level so they persist across every view, including lessons
+
+  // ---- browser/OS back = the in-app back ----
+  // Every view change pushes a history entry, so the browser back button (and the iOS swipe-back
+  // gesture) walks the app's own trail instead of leaving the site. An open sheet or drawer is
+  // closed FIRST (back = dismiss), staying on the current view. Only backing past home exits.
+  const histRef = useRef({ fromPop: false });
+  const uiRef = useRef({});
+  uiRef.current = { sheet, menuOpen, view };
+  useEffect(() => { try { history.replaceState({ v: view }, ""); } catch (e) {} }, []);   // seed the base entry
+  useEffect(() => {
+    if (histRef.current.fromPop) { histRef.current.fromPop = false; return; }             // a pop set this view — don't re-push
+    try { if (!history.state || history.state.v !== view) history.pushState({ v: view }, ""); } catch (e) {}
+  }, [view]);
+  useEffect(() => {                                                                       // an OPEN overlay gets its own history entry…
+    if (sheet || menuOpen) { try { history.pushState({ v: uiRef.current.view, overlay: true }, ""); } catch (e) {} }
+  }, [!!sheet, menuOpen]);
+  useEffect(() => {
+    const onPop = (ev) => {
+      const cur = uiRef.current;
+      if (cur.sheet || cur.menuOpen) { setSheet(null); setMenuOpen(false); return; }      // …so back consumes it: dismiss, stay on the view
+      histRef.current.fromPop = true;
+      setView((ev.state && ev.state.v) || "home");
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   const [report, setReport] = useState(null);   // {targetType,targetRef,context} — open report sheet
 
   // Google sign-in state (Supabase). Content is world-readable; admin (Paul) can edit.
