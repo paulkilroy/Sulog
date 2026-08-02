@@ -29,20 +29,15 @@
   (definition · POS · pronunciation · register · dialect · example · certainty) so an approved
   validation loads straight in. *(= Voltz's 80k-dictionary tagging pipeline — the class IS the
   dictionary's data source.)*
-- [ ] **Course-content mutation (was "dictionary auto-mutation")** — approvals must be able to fix
-  what's actually TAUGHT. Two halves:
-  (a) WORD senses → the 3 approval-gated ops on `meanings`, never clobber: add-meaning (pending
-  row) · primary/rare (`ord`) · wrong (`disputed`, never delete);
-  (b) SENTENCE cards → DONE 2026-08-02: Edit-&-apply now branches — dictionary row exists → the
-  3-op-precursor definition fix; else expression-backed → live-updates the sentence, audits it,
-  and harvest folds it into sentence-corrections.json so rebuilds keep it. Paul's 4 flags are now
-  fixable in the queue. Guardrail stands for (a): capture-only if it sprawls.
+- [ ] **Word-sense mutation (3 ops)** — the remaining half of course-content mutation: approval-
+  gated ops on `meanings`, never clobber — add-meaning (pending row) · primary/rare (`ord`) ·
+  wrong (`disputed`, never delete). Guardrail: capture-only if it sprawls pre-launch. (The
+  sentence half shipped 2026-08-02 — see Recently shipped.)
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
 
 ## 🐛 Bugs / small fixes
 
-- [ ] Gate-retry grade inflation — "Review missed" can pass a failed gate.
 - [ ] `checkAnswer` edge cases (slash-in-phrase, fully-parenthesized targets).
 - [ ] `npm run check` flakiness — pooler cancels heavy reads (57014); add a retry wrapper.
 - [ ] `build-stories.mjs` broken (imports never-committed `gloss-extra.js`) — blocks regenerating
@@ -86,7 +81,10 @@
 
 ## ✅ Recently shipped
 
-- **2026-08-02** — Instructor dashboard verified done + **student detail drill-in** built (tap a
+- **2026-08-02** — **Sentence-card fixes end-to-end**: Edit-&-apply branches word (definition) vs
+  sentence (live expression update + audit + harvest→sentence-corrections.json→rebuild) — Paul's 4
+  real flags now fixable · gate-retry inflation confirmed already fixed (4df6d3e) · Instructor
+  dashboard verified done + **student detail drill-in** built (tap a
   roster row → test avg · streak · answers · mastered · per-unit tests · their flags) · Unified
   review pipeline end-to-end (user flags + build-emitted a/b/other
   questions → Native Speaker Review → Admin Review → apply/harvest, chained into the rebuild;
