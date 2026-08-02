@@ -34,7 +34,6 @@
   grows past 3 ops pre-launch, cut back to capture-only.
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
-- [ ] Delete dead `SetupView`.
 
 ## 🐛 Bugs / small fixes
 
