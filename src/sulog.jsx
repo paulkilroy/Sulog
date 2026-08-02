@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { dictMeta, putDict, allDict } from "./data/dictdb.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchAdminUsers, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
 import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1778,12 +1778,13 @@ function AdminView({ ctx }) {
   const { setView } = ctx;
   const [forms, setForms] = useState(null);
   const [reqs, setReqs] = useState([]);      // pending role requests to approve/decline
-  const [changes, setChanges] = useState([]); // dictionary change history (traceability chain)
+  const [changes, setChanges] = useState([]);
+  const [users, setUsers] = useState([]); // dictionary change history (traceability chain)
   const [err, setErr] = useState("");
   const loadAll = useCallback(async () => {
     try {
-      const [fl, rq, ch] = await Promise.all([fetchAllDialectForms(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => [])]);
-      setForms(fl); setReqs(rq || []); setChanges(ch || []);
+      const [fl, rq, ch, us] = await Promise.all([fetchAllDialectForms(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => []), fetchAdminUsers().catch(() => [])]);
+      setForms(fl); setReqs(rq || []); setChanges(ch || []); setUsers(us || []);
     } catch (e) { setErr(e.message || String(e)); }
   }, []);
   const decide = async (req, approve) => {
@@ -1798,6 +1799,31 @@ function AdminView({ ctx }) {
   return (
     <div className="ws-page">
       <TopBar title="Admin — global levers" onBack={ctx.backToMenu} />
+
+        <SectionLabel icon={<Cloud size={14} />} text={`Users · ${users.length} registered`} />
+        {users.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading… (anonymous users are invisible until they sign in)</p>}
+        {users.map((u) => {
+          const days = Math.floor((Date.now() - new Date(u.last_seen).getTime()) / 86400000);
+          return (
+            <div key={u.user_id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "10px 14px", marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+                <b style={{ fontSize: 14.5 }}>{u.display_name || u.email}</b>
+                <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{u.email}</span>
+                <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 999, background: u.provider === "google" ? "var(--tide)" : "var(--sun)", color: "#fff" }}>{u.provider.toUpperCase()}</span>
+                {(u.roles || []).map((r) => <span key={r} style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--jade)", color: "var(--jade)" }}>{r}</span>)}
+                <span style={{ marginLeft: "auto", fontSize: 11, color: days > 6 ? "var(--coral)" : "var(--ink-dim)" }}>{days <= 0 ? "today" : days === 1 ? "yesterday" : `${days}d ago`}</span>
+              </div>
+              <div style={{ display: "flex", gap: 14, marginTop: 6, fontSize: 12, color: "var(--ink-soft)", flexWrap: "wrap" }}>
+                <span><Flame size={12} style={{ verticalAlign: "-2px", color: "var(--sun)" }} /> <b style={{ color: "var(--ink)" }}>{u.streak}</b> streak</span>
+                <span><b style={{ color: "var(--ink)" }}>{u.answers}</b> answers</span>
+                <span><b style={{ color: "var(--ink)" }}>{u.mastered}</b>/{u.words} mastered</span>
+                <span><b style={{ color: "var(--ink)" }}>{u.lessons}</b> lessons</span>
+                <span><b style={{ color: "var(--ink)" }}>{u.units_passed}</b> units passed</span>
+                <span>{u.active_days} active days · joined {u.joined}</span>
+              </div>
+            </div>
+          );
+        })}
       <div style={{ padding: "0 4px" }}>
         <p style={{ fontSize: 12.5, color: "var(--ink-soft)", margin: "4px 0 14px" }}>
           Everything on this screen changes the app for EVERYONE. Your personal settings live under 🌐 Language &amp; course.

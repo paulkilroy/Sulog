@@ -364,6 +364,14 @@ export const applyFix = async ({ feedback, meaning }) => {
   return true;
 };
 
+// Admin users board: registered users + provider + roles + usage stats (security-definer RPC;
+// anonymous users leave no server trace, so they can't appear until they sign in)
+export const fetchAdminUsers = async () => {
+  const { data, error } = await supabase.rpc("admin_list_users");
+  if (error) throw new Error(error.message);
+  return data || [];
+};
+
 // the change history with the full chain resolved to names: suggested (from feedback) → reviewed → approved
 export const fetchChangeLog = async (limit = 60) => {
   const ch = await fetchAll(() => supabase.from("content_changes").select("*").order("id", { ascending: false }).limit(limit));
