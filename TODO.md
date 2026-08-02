@@ -22,7 +22,9 @@
 
 ## 🎓 Aug 17 — remaining build work
 
-- [ ] **Instructor dashboard + student detail** — headline = unit-test average (graded gates, pass 80%).
+- [ ] **Student detail screen** — the dashboard half is DONE (class card + join code, class
+  unit-test average headline, per-student rows w/ mastered·units·test-avg, flags list). Missing:
+  tap a student → their drill-in (per-unit test scores, streak/activity, mastered, their flags).
 - [ ] **Stressed-vowel coaching** *(Voltz critical path)* — show per-syllable duration (ms) + coach
   "lengthen the stressed vowel" (Waray stress *is* vowel length; guides already mark the syllable).
 - [ ] **Schema-shaped word capture** — the word report panel collects real `meanings` fields
