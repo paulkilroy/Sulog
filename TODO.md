@@ -7,17 +7,14 @@ Last updated 2026-07-29. Checked items move to "Recently shipped" at the bottom.
 
 ## 🔴 Bugs / blockers
 
-- [ ] **Cross-device progress NOT syncing (REOPENED 2026-07-30).** The iPhone shows only progress
-  done on that device — the DB pull isn't landing. Data is fine (one account, 208 rows). Root is
-  almost certainly that **the iPhone isn't holding the Supabase session** (client stores it in
-  localStorage; iOS/ITP evicts it) → app runs anonymous → `syncPull` bails (no user) → localStorage
-  only. It fails silently. Earlier "reload-race" fix was moot if the pull never runs.
-  - Added 2026-07-30 (diagnostics + more-live, NOT a claimed fix): the Account sync line now shows
-    "Synced · N cards from cloud", and the app **re-pulls on every foreground/focus** (throttled).
-  - **Evidence to gather on the iPhone:** open Account — does it say "Signed in as …"? After a pull,
-    does it say "N cards from cloud" (expect ~208) or 0? That tells us signed-out vs pull-returns-0.
-  - **Real fix (next):** persist the Supabase session in **durable storage (IndexedDB)** so iOS
-    can't evict it — same work as Offline Phase 2. Consider DB-authoritative pull-on-open too.
+- [ ] **Cross-device progress sync — FIX SHIPPED, PENDING VERIFICATION (2026-08-02).**
+  Suspected root (iOS evicting the localStorage Supabase session → app silently anonymous →
+  syncPull bails) is addressed: the session is now mirrored to IndexedDB and auto-restored if
+  localStorage is evicted (src/data/authstore.js), plus foreground re-pull + pull retries + the
+  Account "Synced · N cards from cloud" diagnostic. Root cause was never caught in the act, so
+  this stays open until proven by time: **verify by leaving the iPhone untouched ~1 week, then
+  opening Account — still signed in + cards from cloud without re-auth = fixed; signed-out again
+  = hypothesis wrong, dig deeper** (alt suspects: home-screen-app storage partitioning).
 - [ ] **Test the classroom view end-to-end.** It's built but unverified with real sign-ins (RLS
   only truly exercises when authenticated). Walk every role: student join-by-code, flag a page,
   instructor dashboard + student-detail, reviewer propose, admin approve → dictionary mutation.
