@@ -24,7 +24,7 @@
 
 - [ ] **Stressed-vowel coaching** *(Voltz critical path)* — show per-syllable duration (ms) + coach
   "lengthen the stressed vowel" (Waray stress *is* vowel length; guides already mark the syllable).
-- [ ] **Schema-shaped word capture** — the word report panel collects real `meanings` fields
+- [ ] **Detailed / schema Flag capture** — the word report panel collects real `meanings` fields
   (definition · POS · pronunciation · register · dialect · example · certainty) so an approved
   validation loads straight in. *(= Voltz's 80k-dictionary tagging pipeline — the class IS the
   dictionary's data source.)*
