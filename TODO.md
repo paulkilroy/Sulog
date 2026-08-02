@@ -75,6 +75,13 @@
   existing practice tools first.
 - [ ] **Malay-vs-Waray mispronunciation scan** — rule-based diff of Malay letter-to-sound vs our
   stress guides → ranked `spoken`-override queue (Apple/Malay fallback only).
+- [ ] **Fuzzy / intent answer matching** — accept an answer that's worded differently but means
+  the same thing (today's checkAnswer is only mechanically lenient: edit distance, dialect
+  variants, o/u·e/i folding — not meaning). Ideas: per-card accepted-alternatives list baked at
+  build (LLM proposes, native confirms — same loop as everything else); harvest real student
+  answers from "Marked me wrong" flags as the seed data; embedding/LLM similarity as an online
+  fallback; UX = "close enough" credit with the canonical answer shown. Watch live class data
+  first — the flag_grade queue tells us exactly which right-in-spirit answers get rejected.
 - [ ] Possible frequency-first + CEFR curriculum retool (keep the lesson/unit engine).
 
 ---
