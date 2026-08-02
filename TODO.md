@@ -22,8 +22,6 @@
 
 ## 🎓 Aug 17 — remaining build work
 
-- [ ] **Stressed-vowel coaching** *(Voltz critical path)* — show per-syllable duration (ms) + coach
-  "lengthen the stressed vowel" (Waray stress *is* vowel length; guides already mark the syllable).
 - [ ] **Detailed / schema Flag capture** — the word report panel collects real `meanings` fields
   (definition · POS · pronunciation · register · dialect · example · certainty) so an approved
   validation loads straight in. *(= Voltz's 80k-dictionary tagging pipeline — the class IS the
@@ -71,7 +69,9 @@
   dictionaries (80k ↔ Tramp/Zorc ↔ live), corpus ranks (corporaproject login still pending).
 - [ ] **Grammar book → codified rules → NLP** — blocked on the PDF; Voltz said "wait" on NLP.
 - [ ] **Pronunciation engine** — stress = length + PITCH: add F0, calibrate weights on native
-  reference recordings (the cheap ms-coaching slice is on the Aug-17 list above).
+  reference recordings. Includes the cheap slice (per-syllable ms + "lengthen the stressed vowel"
+  coaching) — moved OFF the Aug-17 path 2026-08-02: see how live students + reviewers use the
+  existing practice tools first.
 - [ ] **Malay-vs-Waray mispronunciation scan** — rule-based diff of Malay letter-to-sound vs our
   stress guides → ranked `spoken`-override queue (Apple/Malay fallback only).
 - [ ] Possible frequency-first + CEFR curriculum retool (keep the lesson/unit engine).
