@@ -22,9 +22,6 @@
 
 ## 🎓 Aug 17 — remaining build work
 
-- [x] **Instructor dashboard + student detail** — DONE 2026-08-02: dashboard (class card + join
-  code, class test-average headline, per-student rows, flags) + tap-a-student drill-in (test avg ·
-  streak · answers · mastered · lessons · active days · per-unit tests · their flags).
 - [ ] **Stressed-vowel coaching** *(Voltz critical path)* — show per-syllable duration (ms) + coach
   "lengthen the stressed vowel" (Waray stress *is* vowel length; guides already mark the syllable).
 - [ ] **Schema-shaped word capture** — the word report panel collects real `meanings` fields
@@ -83,7 +80,9 @@
 
 ## ✅ Recently shipped
 
-- **2026-08-02** — Unified review pipeline end-to-end (user flags + build-emitted a/b/other
+- **2026-08-02** — Instructor dashboard verified done + **student detail drill-in** built (tap a
+  roster row → test avg · streak · answers · mastered · per-unit tests · their flags) · Unified
+  review pipeline end-to-end (user flags + build-emitted a/b/other
   questions → Native Speaker Review → Admin Review → apply/harvest, chained into the rebuild;
   58 questions live) · Admin **Users table** (provider/roles/streak/answers/mastered, security-definer
   RPC) · applyFix bumps course version · queue renames + emoji sweep finished.
