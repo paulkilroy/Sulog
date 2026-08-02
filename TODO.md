@@ -19,6 +19,9 @@
 - [ ] **Offline service worker** — test with `sulog:offline=on` incl. Google OAuth on iOS, then
   flip the default ON.
 - [ ] **Windows / Android TTS** (Bakhaw) — the Malay-tuned overrides won't hold on other fallbacks.
+- [ ] **TG3 pilot dry-run** — Voltz + 2–3 REAL students, ~week of Aug 10. Runs AFTER the full
+  role walkthrough above passes (walkthrough = our own accounts shake out every role; TG3 = the
+  live pilot).
 
 ## 🎓 Aug 17 — remaining build work
 
@@ -32,7 +35,6 @@
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
 - [ ] Delete dead `SetupView`.
-- [ ] **TG3 pilot dry-run** — Voltz + 2–3 students, ~week of Aug 10.
 
 ## 🐛 Bugs / small fixes
 
