@@ -9,22 +9,22 @@
 - [ ] **Cross-device sync** (durable session shipped) — time test: leave the iPhone ~1 week →
   Account still signed in + "cards from cloud" without re-auth = fixed. Signed out = dig deeper
   (alt suspect: home-screen storage partitioning).
-- [ ] **Classroom end-to-end** — real accounts in every role: student joins by class code → flags a
-  lesson → instructor sees the class → reviewer answers → admin approves. (Voltz asked to register
-  as instructor — this is that test.)
-- [ ] **Review loop round-trip** — Native Speaker Review: answer an a/b/other question → Admin
-  Review: approve → Change history shows the chain → next rebuild harvests it into the lesson.
-  58 questions live in the queue now.
-- [ ] **applyFix version bump** — approve a dictionary fix → other devices pick it up (courses.version).
+- [ ] **Full role walkthrough** (one session; = the pre-TG3 shakeout, Voltz registering as
+  instructor kicks it off):
+  student joins by code → flags a lesson → instructor sees class + student detail →
+  reviewer answers an a/b/other question in Native Speaker Review → admin approves in Admin
+  Review (dictionary fix AND an exercise answer) → Change history shows the chain → other
+  devices pick up the dictionary fix (version bump) → next rebuild harvests the exercise answer.
+  58 build questions are live in the queue for this.
 - [ ] **Offline service worker** — test with `sulog:offline=on` incl. Google OAuth on iOS, then
   flip the default ON.
 - [ ] **Windows / Android TTS** (Bakhaw) — the Malay-tuned overrides won't hold on other fallbacks.
 
 ## 🎓 Aug 17 — remaining build work
 
-- [ ] **Student detail screen** — the dashboard half is DONE (class card + join code, class
-  unit-test average headline, per-student rows w/ mastered·units·test-avg, flags list). Missing:
-  tap a student → their drill-in (per-unit test scores, streak/activity, mastered, their flags).
+- [x] **Instructor dashboard + student detail** — DONE 2026-08-02: dashboard (class card + join
+  code, class test-average headline, per-student rows, flags) + tap-a-student drill-in (test avg ·
+  streak · answers · mastered · lessons · active days · per-unit tests · their flags).
 - [ ] **Stressed-vowel coaching** *(Voltz critical path)* — show per-syllable duration (ms) + coach
   "lengthen the stressed vowel" (Waray stress *is* vowel length; guides already mark the syllable).
 - [ ] **Schema-shaped word capture** — the word report panel collects real `meanings` fields
