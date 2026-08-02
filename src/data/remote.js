@@ -461,6 +461,24 @@ export const decideRoleRequest = async (req, approve) => {
 
 // instructor dashboard: SRS boxes + unit-test rows for a set of students. RLS returns only the
 // students enrolled in a class the caller teaches (teaches_student), so this is safe to call broad.
+// one student's full picture for the instructor drill-in (RLS: teaches_student gates each table)
+export const fetchStudentDetail = async (studentId) => {
+  const [prog, units, lessons, streak] = await Promise.all([
+    fetchAll(() => supabase.from("progress").select("waray, box, seen").eq("user_id", studentId)),
+    fetchAll(() => supabase.from("unit_progress").select("unit_id, best, passed, at").eq("user_id", studentId)),
+    fetchAll(() => supabase.from("lesson_progress").select("lesson_id, parts").eq("user_id", studentId)),
+    supabase.from("user_streak").select("count, last, days").eq("user_id", studentId).maybeSingle(),
+  ]);
+  const days = (streak.data && streak.data.days) || {};
+  const answers = Object.values(days).reduce((t, v) => t + (typeof v === "number" ? v : (v && v.n) || 0), 0);
+  return {
+    words: prog.length, mastered: prog.filter((p) => p.box >= 4).length,
+    units, lessons: lessons.filter((l) => l.parts > 0).length,
+    streak: streak.data?.count || 0, lastDay: streak.data?.last || null,
+    activeDays: Object.keys(days).length, answers,
+  };
+};
+
 export const fetchClassProgress = async (studentIds) => {
   if (!studentIds || !studentIds.length) return { prog: [], units: [] };
   const [prog, units] = await Promise.all([

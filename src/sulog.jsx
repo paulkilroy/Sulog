@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { dictMeta, putDict, allDict } from "./data/dictdb.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchAdminUsers, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchStudentDetail, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchAdminUsers, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
 import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1636,6 +1636,9 @@ function ClassView({ ctx }) {
   const [roster, setRoster] = useState([]);
   const [byStudent, setByStudent] = useState({}); // student_id -> {mastered, seen, testAvg, passed}
   const [flags, setFlags] = useState([]);
+  const [sel, setSel] = useState(null);   // roster row being drilled into
+  const [det, setDet] = useState(null);   // that student's detail stats
+  const openStudent = (r) => { setSel(r); setDet(null); fetchStudentDetail(r.student_id).then(setDet).catch(() => setDet({ error: true })); };
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null);
@@ -1684,6 +1687,53 @@ function ClassView({ ctx }) {
       </button>
     </div>
   );
+
+  if (sel) {
+    const uname = (() => { const m = {}; for (const sec of CURRICULUM) for (const u of (sec.units || [])) m[u.id] = u.name; return m; })();
+    const myFlags = flags.filter((f) => f.author_id === sel.student_id);
+    const tests = (det && det.units && det.units.filter((u) => u.best != null)) || [];
+    const avg = tests.length ? Math.round(tests.reduce((t, u) => t + u.best, 0) / tests.length) : null;
+    const stat = (v, l) => <div className="ws-dash-stat"><b>{v}</b><span>{l}</span></div>;
+    return (
+      <div className="ws-page">
+        <TopBar title={sel.display_name || sel.email || "Student"} onBack={() => setSel(null)} />
+        {!det && <p style={{ color: "var(--ink-soft)" }}>Loading…</p>}
+        {det && det.error && <p style={{ color: "var(--coral)" }}>Couldn't load this student.</p>}
+        {det && !det.error && (
+          <>
+            <div className="ws-dash-stats" style={{ flexWrap: "wrap" }}>
+              {stat(avg != null ? avg + "%" : "—", "test avg")}
+              {stat(det.streak, "streak")}
+              {stat(det.answers, "answers")}
+              {stat(det.mastered + "/" + det.words, "mastered")}
+              {stat(det.lessons, "lessons")}
+              {stat(det.activeDays, "active days")}
+            </div>
+            {det.lastDay && <p style={{ fontSize: 12, color: "var(--ink-soft)", margin: "4px 2px 10px" }}>last practiced {det.lastDay}</p>}
+
+            <SectionLabel icon={<Trophy size={14} />} text="Unit tests" />
+            {det.units.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>No unit tests taken yet.</p>}
+            {det.units.map((u) => (
+              <div key={u.unit_id} className="ws-dash-row">
+                <div className="ws-dash-name"><b>{uname[u.unit_id] || u.unit_id}</b><i>{u.at ? String(u.at).slice(0, 10) : ""}</i></div>
+                <span style={{ fontSize: 11, fontWeight: 700, color: u.passed ? "var(--jade)" : "var(--coral)" }}>{u.passed ? "PASSED" : "not passed"}</span>
+                <div className="ws-dash-score">{u.best != null ? u.best + "%" : "—"}</div>
+              </div>
+            ))}
+
+            <SectionLabel icon={<Flag size={14} />} text={"Their flags · " + myFlags.length} />
+            {myFlags.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Nothing flagged.</p>}
+            {myFlags.map((f) => (
+              <button key={f.id} className="ws-backup-row" onClick={() => setView("queue")}>
+                <div className="ws-backup-txt"><b>{f.target_ref}</b><i>{f.comment || f.kind}</i></div>
+                <ChevronRight size={16} className="ws-cta-arrow" />
+              </button>
+            ))}
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="ws-page">
@@ -1736,7 +1786,7 @@ function ClassView({ ctx }) {
                 {roster.length === 0
                   ? <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>No students yet — share the code above.</p>
                   : students.map((r) => (
-                      <div key={r.student_id} className="ws-dash-row">
+                      <div key={r.student_id} className="ws-dash-row" style={{ cursor: "pointer" }} onClick={() => openStudent(r)}>
                         <div className="ws-dash-name">
                           <b>{r.display_name || r.email || "student"}</b>
                           <i>{r.s.mastered} mastered · {r.s.passed} unit{r.s.passed === 1 ? "" : "s"} passed</i>
