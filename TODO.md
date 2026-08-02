@@ -88,6 +88,17 @@ Built in TG2 but needs finishing + the human round-trip test above. From the mee
 - [ ] **Senior Reviewer role (future).** Between reviewer and admin: can BROWSE + triage the full
   queue and propose fixes, but admins keep the final decide/apply. Needs: role in user_roles,
   fb_senior_read RLS policy on feedback, queue UI showing propose-only actions. Not for Aug 17.
+- [ ] **Split admin into Course Admin vs Super Admin (future, Paul 2026-08-02).** Today "admin"
+  is one role doing two jobs. Split:
+  - **Course Admin** — owns COURSE CONTENT: works Admin Review (approve/reject edits, apply
+    dictionary fixes, approve native answers), course preview/quality tools. Cannot grant roles
+    or touch app-wide config.
+  - **Super Admin (Paul)** — administrates the APPLICATION: role approvals, dialect catalog /
+    global config, courses/version ops, everything a Course Admin can do.
+  Fits the existing machinery: new role in user_roles; RLS splits — fb_admin + applyFix/
+  applyAnswer paths gate on course_admin-or-super, role_requests/dialect_forms/bump_course_version
+  stay super-only; Admin console splits into Course tools vs App tools accordingly. Role ladder
+  becomes: student → reviewer → senior reviewer → course admin → super admin. Not for Aug 17.
 - [ ] **Dictionary auto-mutation for Aug 17** (Paul's call, approval-gated, exactly 3 ops on
   `meanings`, never clobber): "add meaning" → new row (source `native`, pending); "primary/rare" →
   change `ord`; "wrong" → `disputed` flag (hide/deprioritize, never delete). If it grows past 3
