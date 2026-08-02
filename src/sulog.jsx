@@ -1608,7 +1608,7 @@ function QueueView({ ctx }) {
             </div>
           ) : admin && editId === f.id ? (
             <div style={{ display: "flex", gap: 7, marginTop: 10 }}>
-              <input autoFocus value={editText} onChange={(e) => setEditText(e.target.value)} placeholder={`corrected definition for “${f.target_ref}”`}
+              <input autoFocus value={editText} onChange={(e) => setEditText(e.target.value)} placeholder={`corrected definition / sentence for “${f.target_ref}”`}
                 onKeyDown={(e) => e.key === "Enter" && applyEdit(f)}
                 style={{ flex: 1, fontSize: 13.5, color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "8px 11px" }} />
               <button onClick={() => applyEdit(f)} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "0 14px", borderRadius: 9, border: 0, background: "var(--tide)", color: "#052024", cursor: "pointer" }}>Apply</button>

@@ -33,10 +33,10 @@
   what's actually TAUGHT. Two halves:
   (a) WORD senses → the 3 approval-gated ops on `meanings`, never clobber: add-meaning (pending
   row) · primary/rare (`ord`) · wrong (`disputed`, never delete);
-  (b) SENTENCE cards → an expressions fix path. ⚠ BUG exposed by Paul's 4 live flags (all target
-  sentence cards): today's Edit-&-apply only writes to `dictionary`, so it FAILS on every one of
-  them (no dictionary row named "Habubo ini."). Guardrail stands: if this sprawls pre-launch,
-  ship capture-only.
+  (b) SENTENCE cards → DONE 2026-08-02: Edit-&-apply now branches — dictionary row exists → the
+  3-op-precursor definition fix; else expression-backed → live-updates the sentence, audits it,
+  and harvest folds it into sentence-corrections.json so rebuilds keep it. Paul's 4 flags are now
+  fixable in the queue. Guardrail stands for (a): capture-only if it sprawls.
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
 

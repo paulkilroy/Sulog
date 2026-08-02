@@ -26,6 +26,11 @@ const expr = new Map();          // sentence -> id
 let eid = 20000, bid = 20000;
 const blocks = [], items = [];
 const exprRows = [];
+// queue-approved sentence corrections (harvest-approvals writes this from content_changes):
+// original expression text -> admin-approved replacement. Applied at creation so every rebuild
+// keeps fixes that were made live in the app.
+let SENT_FIX = {};
+try { SENT_FIX = JSON.parse(fs.readFileSync("docs/sources/peace-corps/sentence-corrections.json", "utf8")); } catch (e) {}
 // Gemini hallucinations to reject: sentences it invented that are NOT in the book OCR AND are
 // linguistically wrong. "Madig-on hiya" applies madig-on — glossed "strong (things)" — to a PERSON
 // pronoun. The ten "hin duró …" sentences are the L16 review of L15: the book gives ONLY English
@@ -145,7 +150,7 @@ function repairExpr(war, en) {
 const putExpr = (war0, en0) => { let [war, en] = repairExpr(war0, en0);
   const fix = ELLA_FIX.get(rkey(war)) || AI_FIX.get(rkey(war));   // native, else AI (confirmed=false)
   if (fix) war = fix;                                       // the correct Waray replaces the fabrication
-  const w = norm(war), e = norm(en); if (!w || !e || isFabricated(w)) return null; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
+  let w = norm(war); const e = norm(en); if (!w || !e || isFabricated(w)) return null; if (SENT_FIX[w]) w = SENT_FIX[w]; if (expr.has(w)) return expr.get(w); const id = ++eid; expr.set(w, id); exprRows.push({ id, war: w, en: e }); return id; };   // both sides required (translation is NOT NULL)
 const addBlock = (lid, ord, type, cols = {}) => { const id = ++bid; blocks.push({ id, lid, ord, type, ...cols }); return id; };
 const teach = (bl, w, i, arr) => { arr.push(w); items.push({ b: bl, ord: i + 1, dict: w, role: "teach" }); };
 

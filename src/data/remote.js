@@ -351,12 +351,27 @@ export const applyFix = async ({ feedback, meaning }) => {
   const { data: { user } } = await supabase.auth.getUser();
   const waray = feedback.target_ref;
   const before = (await rows(supabase.from("dictionary").select("meaning, pronunciation, confirmed_by").eq("waray", waray)))[0] || null;
-  await confirmEntry(waray, { confirmed: true, meaning }, "reviewer");        // provenance: a vetted queue fix
-  await supabase.from("content_changes").insert({
-    target_type: "dictionary", target_ref: waray,
-    before_val: before, after_val: { meaning, confirmed_by: "reviewer" },
-    feedback_id: feedback.id, reviewed_by: user?.id || null, approved_by: user?.id || null,
-  });
+  if (before) {
+    // WORD (dictionary-backed): the edit text is the corrected DEFINITION
+    await confirmEntry(waray, { confirmed: true, meaning }, "reviewer");      // provenance: a vetted queue fix
+    await supabase.from("content_changes").insert({
+      target_type: "dictionary", target_ref: waray,
+      before_val: before, after_val: { meaning, confirmed_by: "reviewer" },
+      feedback_id: feedback.id, reviewed_by: user?.id || null, approved_by: user?.id || null,
+    });
+  } else {
+    // SENTENCE card (expression-backed — e.g. "Habubo ini."): the edit text is the corrected
+    // WARAY sentence. Live-update the expression; the audit row doubles as the durable record
+    // harvest-approvals folds into sentence-corrections.json so rebuilds keep the fix.
+    const expr = (await rows(supabase.from("expressions").select("id, waray, translation").eq("waray", waray)))[0];
+    if (!expr) throw new Error("no dictionary entry or course sentence matches this target");
+    await rows(supabase.from("expressions").update({ waray: meaning }).eq("id", expr.id).select());
+    await supabase.from("content_changes").insert({
+      target_type: "sentence", target_ref: waray,
+      before_val: { waray: expr.waray, translation: expr.translation }, after_val: { waray: meaning },
+      feedback_id: feedback.id, reviewed_by: user?.id || null, approved_by: user?.id || null,
+    });
+  }
   await resolveFeedback(feedback.id, "edited");
   // bump the course version so cached bundles refetch and see the fix (live search sees it
   // immediately either way). Admin-gated RPC; non-fatal if it fails.

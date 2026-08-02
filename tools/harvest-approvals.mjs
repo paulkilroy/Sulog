@@ -19,6 +19,23 @@ const REJECTED = JSON.parse(fs.readFileSync(FILE, "utf8"));
 
 const c = new pg.Client({ connectionString: process.env.SUPABASE_DB_URL, ssl: { rejectUnauthorized: false } });
 await c.connect();
+// approved SENTENCE corrections (user flags on expression-backed cards) → a from→to map that
+// gen-pc-course applies at build time, so live expression edits survive every rebuild
+const sent = (await c.query(`
+  select cc.target_ref, cc.after_val
+  from content_changes cc join feedback f on f.id = cc.feedback_id
+  where cc.target_type = 'sentence' and f.decision = 'edited'
+  order by cc.id`)).rows;
+const SFILE = "docs/sources/peace-corps/sentence-corrections.json";
+let smap = {}; try { smap = JSON.parse(fs.readFileSync(SFILE, "utf8")); } catch (e) {}
+let schanged = 0;
+for (const x of sent) {
+  const to = x.after_val?.waray;
+  if (to && smap[x.target_ref] !== to) { smap[x.target_ref] = to; schanged++; }
+}
+if (schanged) fs.writeFileSync(SFILE, JSON.stringify(smap, null, 1) + "\n");
+console.log(`harvest: ${sent.length} sentence corrections · changed ${schanged}`);
+
 const approvals = (await c.query(`
   select f.stable_key, cc.after_val, cc.approved_at
   from content_changes cc join feedback f on f.id = cc.feedback_id
