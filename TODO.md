@@ -29,9 +29,14 @@
   (definition · POS · pronunciation · register · dialect · example · certainty) so an approved
   validation loads straight in. *(= Voltz's 80k-dictionary tagging pipeline — the class IS the
   dictionary's data source.)*
-- [ ] **Dictionary auto-mutation** — exactly 3 approval-gated ops on `meanings`, never clobber:
-  add-meaning (pending row) · primary/rare (`ord`) · wrong (`disputed` flag, never delete). If it
-  grows past 3 ops pre-launch, cut back to capture-only.
+- [ ] **Course-content mutation (was "dictionary auto-mutation")** — approvals must be able to fix
+  what's actually TAUGHT. Two halves:
+  (a) WORD senses → the 3 approval-gated ops on `meanings`, never clobber: add-meaning (pending
+  row) · primary/rare (`ord`) · wrong (`disputed`, never delete);
+  (b) SENTENCE cards → an expressions fix path. ⚠ BUG exposed by Paul's 4 live flags (all target
+  sentence cards): today's Edit-&-apply only writes to `dictionary`, so it FAILS on every one of
+  them (no dictionary row named "Habubo ini."). Guardrail stands: if this sprawls pre-launch,
+  ship capture-only.
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
 
