@@ -33,7 +33,11 @@ begin
     coalesce(l.n, 0)::int, coalesce(un.n, 0)::int
   from auth.users u
   left join profiles p on p.user_id = u.id
-  left join lateral (select array_agg(ur.role) rr from user_roles ur where ur.user_id = u.id) r on true
+  left join lateral (
+    select array_agg(x) rr from (
+      select ur.role x from user_roles ur where ur.user_id = u.id
+      union select 'admin' where u.email = 'paulkilroy@gmail.com'   -- super-admin is by email, not a role row
+    ) t) r on true
   left join lateral (
     select max(us.count) streak, max(us.last) last_day,
            count(distinct d.key) active_days,
