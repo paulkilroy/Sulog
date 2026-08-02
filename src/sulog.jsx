@@ -1802,28 +1802,39 @@ function AdminView({ ctx }) {
 
         <SectionLabel icon={<Cloud size={14} />} text={`Users · ${users.length} registered`} />
         {users.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading… (anonymous users are invisible until they sign in)</p>}
-        {users.map((u) => {
-          const days = Math.floor((Date.now() - new Date(u.last_seen).getTime()) / 86400000);
-          return (
-            <div key={u.user_id} style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "10px 14px", marginBottom: 8 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-                <b style={{ fontSize: 14.5 }}>{u.display_name || u.email}</b>
-                <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>{u.email}</span>
-                <span style={{ fontSize: 10, fontWeight: 800, padding: "2px 8px", borderRadius: 999, background: u.provider === "google" ? "var(--tide)" : "var(--sun)", color: "#fff" }}>{u.provider.toUpperCase()}</span>
-                {(u.roles || []).map((r) => <span key={r} style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--jade)", color: "var(--jade)" }}>{r}</span>)}
-                <span style={{ marginLeft: "auto", fontSize: 11, color: days > 6 ? "var(--coral)" : "var(--ink-dim)" }}>{days <= 0 ? "today" : days === 1 ? "yesterday" : `${days}d ago`}</span>
-              </div>
-              <div style={{ display: "flex", gap: 14, marginTop: 6, fontSize: 12, color: "var(--ink-soft)", flexWrap: "wrap" }}>
-                <span><Flame size={12} style={{ verticalAlign: "-2px", color: "var(--sun)" }} /> <b style={{ color: "var(--ink)" }}>{u.streak}</b> streak</span>
-                <span><b style={{ color: "var(--ink)" }}>{u.answers}</b> answers</span>
-                <span><b style={{ color: "var(--ink)" }}>{u.mastered}</b>/{u.words} mastered</span>
-                <span><b style={{ color: "var(--ink)" }}>{u.lessons}</b> lessons</span>
-                <span><b style={{ color: "var(--ink)" }}>{u.units_passed}</b> units passed</span>
-                <span>{u.active_days} active days · joined {u.joined}</span>
-              </div>
-            </div>
-          );
-        })}
+        {users.length > 0 && (
+          <div style={{ overflowX: "auto", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "var(--foam)", marginBottom: 14 }}>
+            <table style={{ borderCollapse: "collapse", fontSize: 12, whiteSpace: "nowrap", minWidth: "100%" }}>
+              <thead>
+                <tr style={{ color: "var(--ink-soft)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".05em", textAlign: "left" }}>
+                  {["User", "Via", "Roles", "Streak", "Answers", "Mastered", "Lessons", "Units", "Days", "Joined", "Seen"].map((h) => (
+                    <th key={h} style={{ padding: "8px 10px", borderBottom: "1px solid var(--sand-deep)", fontWeight: 700 }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody style={{ fontVariantNumeric: "tabular-nums" }}>
+                {users.map((u) => {
+                  const days = Math.floor((Date.now() - new Date(u.last_seen).getTime()) / 86400000);
+                  return (
+                    <tr key={u.user_id} style={{ borderBottom: "1px solid var(--sand)" }}>
+                      <td style={{ padding: "7px 10px" }} title={u.email}><b>{u.display_name || u.email.split("@")[0]}</b></td>
+                      <td style={{ padding: "7px 10px" }}><span style={{ fontSize: 9.5, fontWeight: 800, padding: "2px 7px", borderRadius: 999, background: u.provider === "google" ? "var(--tide)" : "var(--sun)", color: "#fff" }}>{u.provider === "google" ? "G" : "@"}</span></td>
+                      <td style={{ padding: "7px 10px", color: "var(--jade)", fontWeight: 600 }}>{(u.roles || []).join(", ") || "—"}</td>
+                      <td style={{ padding: "7px 10px" }}><Flame size={11} style={{ verticalAlign: "-1px", color: "var(--sun)" }} /> {u.streak}</td>
+                      <td style={{ padding: "7px 10px" }}>{u.answers}</td>
+                      <td style={{ padding: "7px 10px" }}>{u.mastered}/{u.words}</td>
+                      <td style={{ padding: "7px 10px" }}>{u.lessons}</td>
+                      <td style={{ padding: "7px 10px" }}>{u.units_passed}</td>
+                      <td style={{ padding: "7px 10px" }}>{u.active_days}</td>
+                      <td style={{ padding: "7px 10px", color: "var(--ink-dim)" }}>{u.joined}</td>
+                      <td style={{ padding: "7px 10px", color: days > 6 ? "var(--coral)" : "var(--ink-dim)", fontWeight: days > 6 ? 700 : 400 }}>{days <= 0 ? "today" : days + "d"}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       <div style={{ padding: "0 4px" }}>
         <p style={{ fontSize: 12.5, color: "var(--ink-soft)", margin: "4px 0 14px" }}>
           Everything on this screen changes the app for EVERYONE. Your personal settings live under 🌐 Language &amp; course.
