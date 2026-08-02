@@ -1491,7 +1491,7 @@ function NativeReviewView({ ctx }) {
   const KIND_TXT = { missing_answer: "answer missing", needs_native_confirm: "confirm the draft", dict_unconfirmed: "confirm the definition", dialect_question: "your judgment" };
   return (
     <div className="ws-page">
-      <TopBar title="Native Review" onBack={ctx.backToMenu} />
+      <TopBar title="Native Speaker Review" onBack={ctx.backToMenu} />
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
         The course build flagged these — pick the right answer (or write your own). An admin approves each one after you.
       </p>
@@ -1569,7 +1569,7 @@ function QueueView({ ctx }) {
   };
   return (
     <div className="ws-page">
-      <TopBar title="Review Queue" onBack={ctx.backToMenu} />
+      <TopBar title="Admin Review" onBack={ctx.backToMenu} />
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, margin: "0 0 12px" }}>
         Everything learners and reviewers flag lands here — reviewer flags float to the top. {admin ? "You decide each one." : "Your class's flags."}
       </p>
@@ -1804,7 +1804,7 @@ function AdminView({ ctx }) {
         </p>
         {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
 
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>✋</span>} text={`Role requests${reqs.length ? ` (${reqs.length})` : ""}`} />
+        <SectionLabel icon={<Hand size={14} />} text={`Role requests${reqs.length ? ` (${reqs.length})` : ""}`} />
         {reqs.length === 0
           ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 4px 14px" }}>No pending requests. When someone asks to be an instructor or reviewer, it lands here to approve.</p>
           : reqs.map((r) => (
@@ -1818,7 +1818,7 @@ function AdminView({ ctx }) {
               </div>
             ))}
 
-        <SectionLabel icon={<span style={{ fontSize: 13 }}>🗺️</span>} text="Dialect catalog (global config)" />
+        <SectionLabel icon={<Globe size={14} />} text="Dialect catalog (global config)" />
         <div style={box}>
           {!forms && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
           {forms && forms.map((fm) => (
@@ -1843,7 +1843,7 @@ function AdminView({ ctx }) {
         </div>
 
         <div style={box}>
-          <SectionLabel icon={<span style={{ fontSize: 13 }}>🧬</span>} text="Change history — traceability" />
+          <SectionLabel icon={<Database size={14} />} text="Change history — traceability" />
           {changes.length === 0
             ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 4px" }}>No dictionary changes recorded yet. When a flag is fixed from the Review queue, the full chain — who suggested, who approved, before → after — is logged here.</p>
             : changes.map((c) => (
@@ -2158,11 +2158,11 @@ function AppDrawer({ ctx }) {
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
             {(roleHas(ctx, "reviewer") || ctx.admin) &&
-              <MenuRow icon={<Inbox size={18} />} title="Native Review" subtitle="answer the build's questions — a, b, or your own" badge="reviewer" onClick={() => { setMenuOpen(false); setView("nativereview"); }} />}
+              <MenuRow icon={<Inbox size={18} />} title="Native Speaker Review" subtitle="answer the build's questions — a, b, or your own" badge="reviewer" onClick={() => { setMenuOpen(false); setView("nativereview"); }} />}
 
             {/* the queue is the admin's desk — reviewers review LESSONS (and flag inline), they don't work the queue */}
             {ctx.admin &&
-              <MenuRow icon={<Inbox size={18} />} title="Review Queue" subtitle="flags · native review · dictionary" badge="admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
+              <MenuRow icon={<Inbox size={18} />} title="Admin Review" subtitle="flags · native review · dictionary" badge="admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
 
             <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
 
@@ -2281,7 +2281,7 @@ function DictSheet({ ctx }) {
       {q.trim() && results.length === 0 && <p className="ws-dict-hint">No matches for “{q.trim()}”.</p>}
       {results.map((c) => (
         <button key={c.id} className="ws-dict-hit" onClick={() => setSel(c)}>
-          <div className="ws-dict-hit-main"><b>{deaccent(c.waray)}</b>{c.pronunciation && <span className="ws-dict-hit-pron">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">📚 taught</span>}</div>
+          <div className="ws-dict-hit-main"><b>{deaccent(c.waray)}</b>{c.pronunciation && <span className="ws-dict-hit-pron">/ {c.pronunciation} /</span>}{TAUGHT_IN[c.id] && <span className="ws-dict-hit-taught">taught</span>}</div>
           <div className="ws-dict-hit-eng">{c.english}</div>
         </button>
       ))}
@@ -2305,7 +2305,7 @@ function DictEntry({ card, st, ctx, onBack }) {
         <span className="ws-dict-tag">{st?.seen ? `${p}% mastered` : "not started"}</span>
       </div>
       {TAUGHT_IN[card.id]
-        ? <div className="ws-dict-taught">📚 Taught in {TAUGHT_IN[card.id].unit} · {TAUGHT_IN[card.id].lesson}</div>
+        ? <div className="ws-dict-taught"><GraduationCap size={12} style={{ verticalAlign: "-2px", marginRight: 4 }} />Taught in {TAUGHT_IN[card.id].unit} · {TAUGHT_IN[card.id].lesson}</div>
         : <div className="ws-dict-taught ws-dict-taught-off">Not taught in the course — dictionary reference</div>}
       <div className="ws-dict-entry-acts">
         <button onClick={() => playCard(card)}><Volume2 size={16} /> Hear it</button>
@@ -4095,7 +4095,7 @@ function RequestView({ ctx }) {
             </div>
           ))}
 
-      <SectionLabel icon={<span style={{ fontSize: 13 }}>✋</span>} text="Ask for a role" />
+      <SectionLabel icon={<Hand size={14} />} text="Ask for a role" />
       {[["instructor", "Instructor", "Teach a class — create one and get a join code"], ["reviewer", "Reviewer", "I speak Waray natively — help review & correct content"]].map(([r, label, desc]) => {
         const held = (roles || []).includes(r);
         const pending = (roleReqs || []).some((q) => q.role === r && q.status === "pending");
