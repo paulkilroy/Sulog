@@ -55,7 +55,9 @@
 - [ ] **Offline Phases 2–4** — course/progress cache → IndexedDB + `storage.persist()`; offline
   write outbox + reconnect flush; "needs connection" states for online-only screens.
 - [ ] **Progress tab motivation** — milestone celebrations (band/streak/mastery landmarks),
-  band-climb viz ("12 words to A1"), streak nudges. Tasteful, honest, no slot-machine.
+  band-climb viz ("12 words to A1"), streak nudges, and a **day/week leaderboard** once there are
+  real users (opt-in, display-name aware, class-scoped first — instructor sees it too). Tasteful,
+  honest, no slot-machine.
 - [ ] **AI wrong-answer explanations** — on a miss, an LLM breaks down word-by-word what was right
   and wrong, how to fix it, and crucially "here's how your answer sounded to a native speaker"
   (Paul's Gemini test of exactly this was outstanding feedback). Online-only (API call) — offline
@@ -71,8 +73,7 @@
   (3) surface "you keep missing X — drill it?" with a generated concept session; (4) AI layer:
   LLM reads recent misses + given answers, NAMES the pattern in plain words, builds the session.
   Pairs with AI wrong-answer explanations below (same data, same model call).
-- [ ] **Leaderboard (day / week)** in Progress — once there are real users; opt-in/display-name
-  aware, class-scoped first (instructor sees it too).
+
 - [ ] **Pre-rendered audio** (or per-language override variants) for consistent TTS everywhere;
   Whisper API as the Waray STT fallback.
 - [ ] **BFC stories** — 7 dialectal stories still dropped, pending native correction.
