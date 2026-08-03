@@ -12,7 +12,7 @@ import {
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
   Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
-  GraduationCap, Menu as MenuIcon, Settings, Hand, Inbox,
+  GraduationCap, Menu as MenuIcon, Settings, Hand, Inbox, Info,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1279,6 +1279,7 @@ export default function App() {
       {view === "accentduel" && <AccentDuelView ctx={ctx} />}
       {view === "account" && <AccountView ctx={ctx} />}
       {view === "settings" && <SettingsView ctx={ctx} />}
+      {view === "about" && <AboutView ctx={ctx} />}
       {view === "request" && <RequestView ctx={ctx} />}
       {view === "admin" && <AdminView ctx={ctx} />}
       {view === "coursebook" && <CourseBookView ctx={ctx} />}
@@ -2278,6 +2279,8 @@ function AppDrawer({ ctx }) {
               <MenuRow icon={<Inbox size={18} />} title="Admin Review" subtitle="flags · native review · dictionary" badge="admin" onClick={() => { setMenuOpen(false); setView("queue"); }} />}
 
             <MenuRow icon={<Hand size={18} />} title="Request" subtitle="join a class · request access" chevron onClick={() => { setMenuOpen(false); setView("request"); }} />
+
+            <MenuRow icon={<Info size={18} />} title="About" subtitle="the name · LNU partnership · contact" chevron onClick={() => { setMenuOpen(false); setView("about"); }} />
 
             {ctx.admin &&
               <MenuRow icon={<Wrench size={18} />} title="Admin Console" subtitle="approvals · dialect catalog · quality · provenance" onClick={() => { setMenuOpen(false); setView("admin"); }} />}
@@ -4230,6 +4233,61 @@ function RequestView({ ctx }) {
 }
 
 /* ============================ SETTINGS — language / sound hub ============================ */
+/* ============================ ABOUT ============================ */
+function AboutView({ ctx }) {
+  const { user } = ctx;
+  const [msg, setMsg] = useState("");
+  const [sent, setSent] = useState(false);
+  const [err, setErr] = useState("");
+  const send = async () => {
+    if (!msg.trim()) return;
+    try {
+      await submitFeedback({ kind: "contact", targetType: "app", targetRef: "contact", comment: msg.trim(), context: { screen: "about" } });
+      setSent(true); setErr("");
+    } catch (e) { setErr(e.message); }
+  };
+  return (
+    <div className="ws-page">
+      <TopBar title="About Sulog" onBack={ctx.backToMenu} />
+
+      <div className="ws-about-hero">🌊</div>
+      <p className="ws-about-p"><b>Sulog</b> is the Waray word for the <i>current</i> — the steady pull of
+        a river or the sea. That's how a language is learned: not in a flood, but a little every day,
+        always moving.</p>
+      <p className="ws-about-p">Sulog teaches <b>Waray-Waray</b>, the language of Eastern Visayas in the
+        Philippines, spoken by millions in Samar and Leyte.</p>
+
+      <SectionLabel icon={<GraduationCap size={14} />} text="Partnership" />
+      <p className="ws-about-p">Built in partnership with <b>Leyte Normal University (LNU)</b>, Tacloban —
+        with <b>Dr.&nbsp;Voltaire Q. Oyzon</b>, whose research (including the <i>First 1,000 Words in
+        Waray</i>) shapes the course, and with native-speaker reviewers who verify every correction that
+        enters the app.</p>
+
+      <SectionLabel icon={<BookOpen size={14} />} text="Sources" />
+      <p className="ws-about-p">The course is built on the public-domain <b>US Peace Corps Waray
+        course</b>; the dictionary on <b>Tramp &amp; Zorc's Waray-English Dictionary</b> (1991); reading
+        stories from the <b>Bloom Library</b> (Creative Commons). Every definition tracks who verified it.</p>
+
+      <SectionLabel icon={<Info size={14} />} text="Contact" />
+      {sent ? (
+        <p className="ws-about-p" style={{ color: "var(--jade)", fontWeight: 600 }}>Salamat! Your message is in — we read every one.</p>
+      ) : (
+        <>
+          <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={4}
+            placeholder="Questions, ideas, corrections — anything."
+            style={{ width: "100%", fontSize: 14, fontFamily: "inherit", color: "var(--ink)", background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "11px 13px", resize: "vertical" }} />
+          {err && <p style={{ color: "var(--coral)", fontSize: 12.5 }}>{err}</p>}
+          {user
+            ? <button className="ws-cta ws-cta-primary" style={{ marginTop: 8 }} onClick={send} disabled={!msg.trim()}>Send</button>
+            : <a className="ws-cta ws-cta-primary" style={{ marginTop: 8, textDecoration: "none", display: "inline-flex" }}
+                href={"mailto:paulkilroy@gmail.com?subject=Sulog&body=" + encodeURIComponent(msg)}>Send by email</a>}
+        </>
+      )}
+      <p style={{ fontSize: 11.5, color: "var(--ink-dim)", marginTop: 18 }}>Sulog · {typeof __BUILD__ !== "undefined" ? __BUILD__.split("|")[1] : ""}</p>
+    </div>
+  );
+}
+
 function SettingsView({ ctx }) {
   const { settings, saveSettings } = ctx;
   return (
@@ -5685,9 +5743,11 @@ function Styles() {
   color:var(--ink);font-family:inherit;padding:11px 12px;border-radius:11px;cursor:pointer}
 .ws-menu-row:hover{background:var(--sand)}
 .ws-menu-ic{font-size:19px;width:26px;text-align:center;flex:none}
+.ws-about-hero{font-size:44px;text-align:center;margin:6px 0 2px}
+.ws-about-p{font-size:14.5px;line-height:1.65;color:var(--ink);margin:6px 2px 14px}
 .ws-menu-tt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.ws-menu-tt b{font-size:14px;font-weight:600}
-.ws-menu-tt i{font-size:11.5px;color:var(--ink-soft);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ws-menu-tt b{font-size:16px;font-weight:600}
+.ws-menu-tt i{font-size:12.5px;color:var(--ink-soft);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ws-menu-badge{font-size:10px;font-weight:700;letter-spacing:.02em;color:var(--tide);background:var(--sand);border:1px solid var(--sand-deep);border-radius:20px;padding:2px 8px;flex:none}
 .ws-menu-chev{color:var(--ink-dim);flex:none}
 .ws-menu-acct .ws-menu-row{padding-bottom:5px}

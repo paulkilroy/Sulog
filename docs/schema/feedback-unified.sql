@@ -17,7 +17,7 @@ alter table feedback add  constraint feedback_author_role_check check (author_ro
 alter table feedback drop constraint if exists feedback_kind_check;
 alter table feedback add  constraint feedback_kind_check check (kind in
   ('flag_wrong','flag_confusing','flag_grade','typo','propose_add','propose_reorder','propose_disputed','validate',
-   'missing_answer','needs_native_confirm','dict_unconfirmed','dialect_question'));
+   'missing_answer','needs_native_confirm','dict_unconfirmed','dialect_question','contact'));
 alter table feedback drop constraint if exists feedback_status_check;
 alter table feedback add  constraint feedback_status_check check (status in ('open','answered','resolved'));
 
@@ -47,3 +47,7 @@ begin
   update courses set version = version + 1 where id = cid returning version into v;
   return v;
 end $$;
+
+-- contact-form rows target the app itself
+alter table feedback drop constraint if exists feedback_target_type_check;
+alter table feedback add constraint feedback_target_type_check check (target_type in ('word','card','lesson','exercise','sentence','app'));

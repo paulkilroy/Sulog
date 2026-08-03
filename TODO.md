@@ -56,6 +56,13 @@
   write outbox + reconnect flush; "needs connection" states for online-only screens.
 - [ ] **Progress tab motivation** — milestone celebrations (band/streak/mastery landmarks),
   band-climb viz ("12 words to A1"), streak nudges. Tasteful, honest, no slot-machine.
+- [ ] **AI wrong-answer explanations** — on a miss, an LLM breaks down word-by-word what was right
+  and wrong, how to fix it, and crucially "here's how your answer sounded to a native speaker"
+  (Paul's Gemini test of exactly this was outstanding feedback). Online-only (API call) — offline
+  falls back to today's static verdict; cache explanations per (card, given-answer) so repeat
+  misses are free. Cost/latency: only on tap ("explain this"), not every miss.
+- [ ] **Leaderboard (day / week)** in Progress — once there are real users; opt-in/display-name
+  aware, class-scoped first (instructor sees it too).
 - [ ] **Pre-rendered audio** (or per-language override variants) for consistent TTS everywhere;
   Whisper API as the Waray STT fallback.
 - [ ] **BFC stories** — 7 dialectal stories still dropped, pending native correction.
@@ -88,6 +95,10 @@
 
 ## ✅ Recently shipped
 
+- **2026-08-03** — **About page** (the name, LNU partnership, sources, contact form → feedback
+  kind 'contact'; mailto fallback signed-out) · **pinch-to-zoom enabled** (dropped maximum-scale=1)
+  + bigger drawer menu text · **browser/OS back = in-app back** (history integration, overlays
+  dismiss first).
 - **2026-08-02** — **Sentence-card fixes end-to-end**: Edit-&-apply branches word (definition) vs
   sentence (live expression update + audit + harvest→sentence-corrections.json→rebuild) — Paul's 4
   real flags now fixable · gate-retry inflation confirmed already fixed (4df6d3e) · Instructor

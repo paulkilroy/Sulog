@@ -39,7 +39,7 @@ echo "→ assembling $OUT"
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#0a2e34" />
 <title>Sulog · Waray review</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230a2e34'/><path d='M8 60 C28 48 40 70 58 60 C72 52 84 66 92 60 L92 96 L8 96 Z' fill='%2316a3ab'/><circle cx='74' cy='30' r='12' fill='%23f4a53a'/></svg>" />
