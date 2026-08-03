@@ -52,8 +52,14 @@
   student → reviewer → senior reviewer → course admin → super admin.
 - [ ] **Live lesson-content mutation** — approvals apply to lessons immediately (retires
   harvest-at-rebuild).
-- [ ] **Offline Phases 2–4** — course/progress cache → IndexedDB + `storage.persist()`; offline
-  write outbox + reconnect flush; "needs connection" states for online-only screens.
+- [ ] **Offline remainder** — cloud sync is DONE (all progress in Supabase; signed-in users lose
+  NOTHING to storage eviction — worst case is a slow re-pull). Left, in size order:
+  (a) two one-liners: `navigator.storage.persist()` + an 'online'-event push (offline practice
+  ships on reconnect without waiting for the next answer);
+  (b) "needs connection" states for the online-only admin/reviewer screens (learner screens
+  already work offline);
+  (c) local working copies → IndexedDB — only really protects ANONYMOUS users' progress and
+  skips the post-eviction re-download; low stakes for a signed-in class.
 - [ ] **Progress tab motivation** — milestone celebrations (band/streak/mastery landmarks),
   band-climb viz ("12 words to A1"), streak nudges, and a **day/week leaderboard** once there are
   real users (opt-in, display-name aware, class-scoped first — instructor sees it too). Tasteful,
