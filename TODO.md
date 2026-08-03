@@ -61,6 +61,16 @@
   (Paul's Gemini test of exactly this was outstanding feedback). Online-only (API call) — offline
   falls back to today's static verdict; cache explanations per (card, given-answer) so repeat
   misses are free. Cost/latency: only on tap ("explain this"), not every miss.
+- [ ] **Adaptive learning — an AI "Needs work" for CONCEPTS, not cards.** Today's Needs work is
+  per-card (Leitner box + pinned). The gap: misses that CLUSTER on a pattern across different
+  cards — markers (an vs nga vs han), pronoun sets, linkers — never surface as "you have a marker
+  problem" (Gemini spotted Paul's an/nga/han confusion from a few pasted misses and offered a
+  targeted drill; that's the experience). Path: (1) tag drill items with concepts (markers/
+  pronouns/linkers — grammar-block types + topics get partway); (2) aggregate miss rates per
+  concept from data we already record (per-card wrong counts + given answers in flag context);
+  (3) surface "you keep missing X — drill it?" with a generated concept session; (4) AI layer:
+  LLM reads recent misses + given answers, NAMES the pattern in plain words, builds the session.
+  Pairs with AI wrong-answer explanations below (same data, same model call).
 - [ ] **Leaderboard (day / week)** in Progress — once there are real users; opt-in/display-name
   aware, class-scoped first (instructor sees it too).
 - [ ] **Pre-rendered audio** (or per-language override variants) for consistent TTS everywhere;
