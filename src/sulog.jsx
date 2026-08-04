@@ -12,7 +12,7 @@ import {
   Trophy, Square, Play, Sparkles, AlertCircle, Target, Layers,
   Cloud, Download, Upload, FolderOpen, Keyboard,
   Eye, EyeOff, Copy, AlertTriangle, User, LogOut, Database, Globe, Lock, Wrench, Flag,
-  GraduationCap, Menu as MenuIcon, Settings, Hand, Inbox, Info,
+  GraduationCap, Menu as MenuIcon, Settings, Hand, Inbox, Info, CloudOff,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
@@ -1167,6 +1167,27 @@ export default function App() {
     }
   }, []);
 
+  // ---- offline remainder (a): durability + reconnect flush ----
+  // Ask the browser to never evict our storage (course cache, progress, IndexedDB). One call,
+  // silently ignored where unsupported; granted automatically for installed PWAs on most platforms.
+  useEffect(() => { try { navigator.storage?.persist?.().catch(() => {}); } catch (e) {} }, []);
+  // Reconnect flush: practice done offline ships the moment the network returns — without this it
+  // waited for the NEXT answer to trigger a push. Pull first (merge newer cloud state), then push.
+  const [isOnline, setIsOnline] = useState(typeof navigator === "undefined" ? true : navigator.onLine !== false);
+  useEffect(() => {
+    const up = async () => {
+      setIsOnline(true);
+      if (!stateRef.current.user) return;
+      try { await syncPull(); } catch (e) {}
+      // push only if the initial pull ever succeeded (same arm as auto-push — a never-pulled
+      // device must not upsert stale/empty state over the cloud), and after state settles
+      setTimeout(() => { if (didInitialPull.current) syncPush(); }, 1200);
+    };
+    const down = () => setIsOnline(false);
+    window.addEventListener("online", up); window.addEventListener("offline", down);
+    return () => { window.removeEventListener("online", up); window.removeEventListener("offline", down); };
+  }, [syncPull, syncPush]);
+
   // pull once when signed in; auto-push unblocks INSIDE syncPull's success path — a FAILED pull
   // (offline, 5xx) must keep push disarmed, else this device upserts stale/empty state (incl. a
   // zeroed streak row) over the cloud. A later manual Pull retries and unblocks. Re-arm on sign-out.
@@ -1258,7 +1279,7 @@ export default function App() {
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
     requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
     openReport: (t) => setReport(t),
-    enrolledN, menuOpen, setMenuOpen, sheet, setSheet,
+    enrolledN, menuOpen, setMenuOpen, sheet, setSheet, isOnline,
     // "back" from a menu sub-page returns to the ☰ menu, not straight home
     backToMenu: () => { setMenuOpen(true); setView("home"); },
   };
@@ -1281,12 +1302,12 @@ export default function App() {
       {view === "settings" && <SettingsView ctx={ctx} />}
       {view === "about" && <AboutView ctx={ctx} />}
       {view === "request" && <RequestView ctx={ctx} />}
-      {view === "admin" && <AdminView ctx={ctx} />}
+      {view === "admin" && (isOnline ? <AdminView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="Admin — global levers" />)}
       {view === "coursebook" && <CourseBookView ctx={ctx} />}
       {view === "top1000" && <Top1000View ctx={ctx} />}
-      {view === "class" && <ClassView ctx={ctx} />}
-      {view === "queue" && <QueueView ctx={ctx} />}
-      {view === "nativereview" && <NativeReviewView ctx={ctx} />}
+      {view === "class" && (isOnline ? <ClassView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="My class" />)}
+      {view === "queue" && (isOnline ? <QueueView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="Admin Review" />)}
+      {view === "nativereview" && (isOnline ? <NativeReviewView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="Native Speaker Review" />)}
       {report && <ReportSheet target={report} ctx={ctx} onClose={() => setReport(null)} />}
       {view === "cloze" && <ClozeView ctx={ctx} />}
       <AppDrawer ctx={ctx} />
@@ -5384,6 +5405,20 @@ function TopBar({ title, onBack, backIcon, onReport, center }) {
       {setMenuOpen && (
         <button className={`ws-icon-btn ${menuOpen ? "vk-on" : ""}`} onClick={() => setMenuOpen((o) => !o)} title="Menu"><MenuIcon size={18} /></button>
       )}
+    </div>
+  );
+}
+/* the online-only screens (admin / reviewer / class tooling) show this instead of erroring
+   offline — learner screens all work offline and never use it */
+function NeedsConnection({ ctx, title }) {
+  return (
+    <div className="ws-page">
+      <TopBar title={title} onBack={ctx.backToMenu} />
+      <div style={{ textAlign: "center", padding: "60px 20px", color: "var(--ink-soft)" }}>
+        <CloudOff size={34} style={{ opacity: .6 }} />
+        <p style={{ fontSize: 15, marginTop: 12 }}><b>This page needs a connection.</b></p>
+        <p style={{ fontSize: 13 }}>Lessons, drills, the dictionary and stories all keep working offline — your progress syncs when you're back online.</p>
+      </div>
     </div>
   );
 }

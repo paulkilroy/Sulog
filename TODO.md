@@ -52,14 +52,10 @@
   student → reviewer → senior reviewer → course admin → super admin.
 - [ ] **Live lesson-content mutation** — approvals apply to lessons immediately (retires
   harvest-at-rebuild).
-- [ ] **Offline remainder** — cloud sync is DONE (all progress in Supabase; signed-in users lose
-  NOTHING to storage eviction — worst case is a slow re-pull). Left, in size order:
-  (a) two one-liners: `navigator.storage.persist()` + an 'online'-event push (offline practice
-  ships on reconnect without waiting for the next answer);
-  (b) "needs connection" states for the online-only admin/reviewer screens (learner screens
-  already work offline);
-  (c) local working copies → IndexedDB — only really protects ANONYMOUS users' progress and
-  skips the post-eviction re-download; low stakes for a signed-in class.
+- [ ] **Offline remainder (c only)** — local working copies → IndexedDB: only protects ANONYMOUS
+  users' progress + skips the post-eviction re-download; low stakes for a signed-in class, and it
+  touches the synchronous boot path — do deliberately, not casually. ((a) persist()+reconnect
+  flush and (b) offline states shipped 2026-08-04.)
 - [ ] **Progress tab motivation** — milestone celebrations (band/streak/mastery landmarks),
   band-climb viz ("12 words to A1"), streak nudges, and a **day/week leaderboard** once there are
   real users (opt-in, display-name aware, class-scoped first — instructor sees it too). Tasteful,
@@ -112,6 +108,10 @@
 
 ## ✅ Recently shipped
 
+- **2026-08-04** — Offline (a)+(b): `storage.persist()` · reconnect flush (offline practice
+  pushes on the 'online' event, gated on the initial-pull arm) · "needs connection" pages for
+  Admin Review / Native Speaker Review / My Class / Admin console (router-gated; learner screens
+  unaffected — offline dictionary search verified).
 - **2026-08-03** — **About page** (the name, LNU partnership, sources, contact form → feedback
   kind 'contact'; mailto fallback signed-out) · **pinch-to-zoom enabled** (dropped maximum-scale=1)
   + bigger drawer menu text · **browser/OS back = in-app back** (history integration, overlays
