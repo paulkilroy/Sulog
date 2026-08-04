@@ -29,6 +29,7 @@ export const VARIANTS = {
   sigi:  "sige",    // e→i spelling variant of "sige" (okay / go ahead)
   storya: "istorya",// clipped "story" (BFC boilerplate form)
   karuayag: "karuyag", // scanning-error spelling of "karuyag" (want / like)
+  maalsom: "maaslom",  // PC OCR metathesis (als↔asl); root aslom (Zorc: áslom "sour") — ma- kept
 };
 
 // curated definitions that WIN over Tramp/lexicon — for function words Tramp glosses badly,
@@ -53,6 +54,19 @@ export const DEFINITION_FIX = {
   bilding: "building",
   residente: "resident",
   singko: "five (number)",
+  // PC taught vocab absent from BOTH Zorc (1991) and Oyzon's corpus dict — loanwords + derived
+  // terms (gap analysis 2026-07-31, approved; meanings from the PC card English; verify w/ native)
+  tinidor: "fork (Sp. tenedor)",
+  museo: "museum (Sp.)",
+  agosto: "August (Sp.)",
+  sekretarya: "secretary (Sp. secretaria)",
+  sorbetes: "ice cream (Sp. sorbete)",
+  kostums: "customs (Eng.)",
+  pumpboat: "pump boat (Eng.)",
+  isnak: "snack (Eng.)",
+  "diyos-diyos": "idol; false god (Diyos = God, doubled)",
+  kristohanon: "Christian (Kristo + -hanon)",
+  maaslom: "sour-tasting (ma- + aslom)",
 
   // English words set inside a Waray story (code-switching) — flag as English so the
   // learner reads them as-is and they don't show up as "missing Waray vocabulary".

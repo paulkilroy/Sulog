@@ -2,7 +2,7 @@
    its real story sentence(s) (so GPT has context), and GPT is constrained to four verdicts:
    scanning-error / Waray definition / other-language definition / unknown. The reply is a
    JSON array we ingest with tools/ingest-meaning.mjs. Run: node tools/make-meaning-request.mjs
-   Output: docs/word-bank/missing-gloss-request.md  (paste into ChatGPT). */
+   Output: docs/word-bank/missing-definition-request.md  (paste into ChatGPT). */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -73,5 +73,5 @@ Leave unused fields as empty strings. Keep \`def\` short (a few words).
 ${items}
 `;
 
-fs.writeFileSync(path.join(root, "docs/word-bank/missing-gloss-request.md"), out);
-console.log(`wrote docs/word-bank/missing-gloss-request.md — ${missing.length} words`);
+fs.writeFileSync(path.join(root, "docs/word-bank/missing-definition-request.md"), out);
+console.log(`wrote docs/word-bank/missing-definition-request.md — ${missing.length} words`);

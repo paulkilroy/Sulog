@@ -5,7 +5,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { DEFINITION_FIX } from "../src/courses/waray/variants.js";
-import { DEFINITION_EXTRA } from "../src/courses/waray/gloss-extra.js";
+let DEFINITION_EXTRA = {};   // optional first-pass definitions — the file never made it into git
+try { DEFINITION_EXTRA = (await import("../src/courses/waray/gloss-extra.js")).DEFINITION_EXTRA || {}; } catch (e) {}
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(root, p), "utf8");

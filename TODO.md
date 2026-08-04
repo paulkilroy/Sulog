@@ -36,14 +36,6 @@
 - [ ] **Quality-by-module board** — green/amber/red per module from unresolved flags + native
   coverage + rejections + pass-rates.
 
-## 🐛 Bugs / small fixes
-
-- [ ] `checkAnswer` edge cases (slash-in-phrase, fully-parenthesized targets).
-- [ ] `npm run check` flakiness — pooler cancels heavy reads (57014); add a retry wrapper.
-- [ ] `build-stories.mjs` broken (imports never-committed `gloss-extra.js`) — blocks regenerating
-  the reader's DEFINITIONS map (and the prepared loanword definitions).
-- [ ] `maalsom` → `maaslom` spelling (PC OCR metathesis; keep the `ma-`; DB edit).
-
 ## 🚀 Post-launch / future
 
 - [ ] **Senior Reviewer role** — browse + triage the queue, propose-only; admin still decides.
@@ -80,8 +72,8 @@
   Whisper API as the Waray STT fallback.
 - [ ] **BFC stories** — 7 dialectal stories still dropped, pending native correction.
 - [ ] Data-model debt: card↔dictionary normalization (pronunciation stored twice) · `topic` is a
-  weak first-touch tag · internal rename leftovers (tramp `gloss` key, legacy word-bank filenames) ·
-  repo-size hygiene (committed index.html history).
+  weak first-touch tag · repo-size hygiene (committed index.html history — destructive rewrite,
+  needs explicit go). (tramp.json's `gloss` data key stays by decision — boundary field.)
 
 ## 🔬 Research track (never gates the class)
 
@@ -108,7 +100,13 @@
 
 ## ✅ Recently shipped
 
-- **2026-08-04** — Offline (a)+(b): `storage.persist()` · reconnect flush (offline practice
+- **2026-08-04** — **Deterministic sweep**: checkAnswer fixed (word-level slashes "his/her book"
+  now expand; fully-parenthesized targets no longer unanswerable — unit-tested) · rebuild-check
+  retries pooler cancels (57014) · build-stories un-broken (optional extra-defs import) + reader
+  definitions REGENERATED with the 11 approved loanword defs (tinidor "fork (Sp. tenedor)" etc.) ·
+  `maalsom→maaslom` fixed in source + live DB (footprint was 1 dictionary + 1 meanings row; not
+  drilled — no progress impact) + VARIANTS fold · legacy word-bank files renamed
+  (gloss-reply→definition-reply) · Offline (a)+(b): `storage.persist()` · reconnect flush (offline practice
   pushes on the 'online' event, gated on the initial-pull arm) · "needs connection" pages for
   Admin Review / Native Speaker Review / My Class / Admin console (router-gated; learner screens
   unaffected — offline dictionary search verified).

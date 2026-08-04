@@ -60,7 +60,11 @@ const STEPS = ["load-lexicon-extras.mjs", "build-meanings.mjs --apply", "sync-me
   "confirm-from-book.mjs --apply", "replay-confirmations.mjs"];
 for (const s of STEPS) {
   process.stdout.write(`  ${s.split(" ")[0]}… `);
-  execSync(`node tools/${s}`, { stdio: ["ignore", "ignore", "inherit"], env: { ...process.env, SULOG_SEARCH_PATH: "scratch" } });
+  // the pooler sometimes cancels heavy scratch reads (57014) — transient; retry once
+  for (let attempt = 1; ; attempt++) {
+    try { execSync(`node tools/${s}`, { stdio: ["ignore", "ignore", "inherit"], env: { ...process.env, SULOG_SEARCH_PATH: "scratch" } }); break; }
+    catch (e) { if (attempt >= 2) throw e; process.stdout.write("retry… "); }
+  }
   console.log("✓");
 }
 

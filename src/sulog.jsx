@@ -484,7 +484,26 @@ function norm(s) {
     .trim();
 }
 function alts(s) {
-  return s.split("/").map((x) => norm(x)).filter(Boolean);
+  // " / " with spaces separates whole alternative phrases; a slash INSIDE a word pair
+  // ("his/her book") expands in place — "his book" AND "her book" both accepted (the old
+  // blind split produced "his" + "her book", so typing "his book" was wrongly rejected).
+  const out = [];
+  for (const part of s.split(" / ")) {
+    let variants = [part];
+    while (variants.some((v) => /\S\/\S/.test(v)) && variants.length <= 16) {
+      variants = variants.flatMap((v) => {
+        const m = v.match(/(\S+)\/(\S+)/);
+        return m ? [v.replace(m[0], m[1]), v.replace(m[0], m[2])] : [v];
+      });
+    }
+    out.push(...variants);
+  }
+  const normed = [...new Set(out.map((x) => norm(x)).filter(Boolean))];
+  if (normed.length) return normed;
+  // a FULLY parenthesized target ("(polite particle)") norm-strips to nothing and was
+  // unanswerable — keep the inner text as the accepted answer
+  const bare = norm(s.replace(/[()]/g, ""));
+  return bare ? [bare] : [];
 }
 function lev(a, b) {
   const m = a.length, n = b.length;
