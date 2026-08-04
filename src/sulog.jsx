@@ -2094,8 +2094,13 @@ function CoursePreview({ ctx }) {
 
 
 function HomeView({ ctx }) {
-  const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, settings, saveSettings, user, syncState, syncPull } = ctx;
+  const { cards, prog, streak, setView, setSession, lessons, units, setLearnTarget, setLearnSection, startUnitReview, settings, saveSettings, user, syncState, syncPull } = ctx;
   const curLesson = nextLesson(lessons);
+  // a finished unit whose graded review isn't passed OUTRANKS moving on — Continue points there
+  let pendingReview = null;
+  outer: for (const sec of CURRICULUM) for (const u of (sec.units || [])) {
+    if (u.lessons.length && u.lessons.every((l2) => lessonDone(lessons, l2.id)) && unitHasReview(u) && !units[u.id]?.passed) { pendingReview = u; break outer; }
+  }
   // first boot: the course is fetched from the DB — until the auto-refresh caches it,
   // ACTIVE is an empty shell (no lessons) and the full home would crash. Show a splash.
   if (!curLesson) {
@@ -2152,12 +2157,12 @@ function HomeView({ ctx }) {
       )}
 
       <div className="ws-cta-grid">
-        <button className="ws-cta ws-cta-primary" onClick={() => openSection(curLesson.section.id, curLesson.id)}>
+        <button className="ws-cta ws-cta-primary" onClick={() => pendingReview ? startUnitReview(pendingReview) : openSection(curLesson.section.id ?? 0, curLesson.id)}>
           <div className="ws-cta-ic"><BookOpen size={20} /></div>
           <div>
-            <div className="ws-cta-t">Continue learning</div>
-            <div className="ws-cta-d">{curLesson.unit.name === curLesson.section.name ? curLesson.section.name : `${curLesson.section.name} · ${curLesson.unit.name}`}</div>
-            <div className="ws-cta-sub">{curLesson.title}</div>
+            <div className="ws-cta-t">{pendingReview ? "Unit review — pass it to move on" : "Continue learning"}</div>
+            <div className="ws-cta-d">{pendingReview ? pendingReview.name : curLesson.unit.name === curLesson.section.name ? curLesson.section.name : `${curLesson.section.name} · ${curLesson.unit.name}`}</div>
+            <div className="ws-cta-sub">{pendingReview ? "Type the phrases · 80% to pass" : curLesson.title}</div>
           </div>
           <ChevronRight size={18} className="ws-cta-arrow" />
         </button>
@@ -2215,9 +2220,12 @@ function HomeView({ ctx }) {
           const pct = lessonsTot ? Math.round((lessonsDone / lessonsTot) * 100) : 0;
           const mUnits = s.units.filter((u) => units[u.id]?.passed).length;
           // a phase unlocks once the phase before it is finished (first is always open)
-          const locked = i > 0 && !CURRICULUM[i - 1].units.flatMap((u) => u.lessons).every((l2) => lessonDone(lessons, l2.id));
+          const prev = i > 0 ? CURRICULUM[i - 1] : null;
+          const locked = !!prev && !(
+            prev.units.flatMap((u) => u.lessons).every((l2) => lessonDone(lessons, l2.id)) &&
+            prev.units.every((u) => !unitHasReview(u) || units[u.id]?.passed));
           return (
-            <button key={s.id} className={`ws-unit-tile ${locked ? "locked" : ""}`} disabled={locked} onClick={() => !locked && openSection(s.id)}>
+            <button key={s.id} className={`ws-unit-tile ${locked ? "locked" : ""}`} disabled={locked} onClick={() => !locked && openSection(s.id ?? i)}>
               <div className="ws-unit-tile-top">
                 <span className="ws-unit-tile-name">{s.name}</span>
                 <span className="ws-unit-tile-meta">
@@ -3260,8 +3268,12 @@ function SessionDone({ ctx, tally, total, results = [] }) {
         }
       }
     }
+  } else if (isReview && passed && session.unitReview) {
+    // a passed UNIT review returns to the unit overview — see where you are, then choose
+    const si = CURRICULUM.findIndex((sx) => (sx.units || []).some((u) => u.id === session.unitReview.id));
+    nextAction = { label: "Back to unit overview", go: () => { setLearnSection(si >= 0 ? (CURRICULUM[si].id ?? si) : null); setView("learn"); } };
   } else if (isReview && passed) {
-    // after passing the review, continue forward to the next unfinished lesson
+    // a passed lesson TEST continues forward to the next unfinished lesson
     const nl = nextLesson(lessons);
     if (nl) nextAction = { label: `Next lesson: ${nl.title}`, go: () => { setLessonId(nl.id); setLearnSection(nl.section.id); setView("lesson"); } };
   }
@@ -3282,6 +3294,7 @@ function SessionDone({ ctx, tally, total, results = [] }) {
   return (
     <div className="ws-page ws-done">
       <div className="ws-done-card">
+        {isReview && passed && <Fireworks big={!isGate} />}
         <div className={`ws-done-ring ${isReview && !passed ? "fail" : ""}`} style={{ "--p": acc }}>
           <span>{acc}<i>%</i></span>
         </div>
@@ -3343,7 +3356,10 @@ function SessionDone({ ctx, tally, total, results = [] }) {
 function LearnView({ ctx }) {
   const { cards, lessons, units, startUnitReview, startGate, setView, setLessonId, setLearnSection, learnTarget, learnSection, setStoryUnit } = ctx;
   const cur = nextLesson(lessons);
-  const s = CURRICULUM.find((x) => x.id === learnSection) || cur.section;
+  const s = CURRICULUM.find((x) => x.id != null && x.id === learnSection)
+    || (typeof learnSection === "number" ? CURRICULUM[learnSection] : null)
+    || CURRICULUM.find((x) => x.name === learnSection)
+    || cur.section;
   // scroll to the lesson the user came in on (else the current lesson, if here)
   useEffect(() => {
     const id = learnTarget || cur.id;
@@ -5379,6 +5395,21 @@ function BottomBar({ ctx }) {
   );
 }
 
+/* celebration burst on a passed test — small for a lesson gate, bigger for a unit review.
+   Pure CSS particles in brand colors; honors prefers-reduced-motion. */
+function Fireworks({ big }) {
+  const n = big ? 26 : 12;
+  return (
+    <div className={"ws-fx" + (big ? " big" : "")} aria-hidden>
+      {Array.from({ length: n }, (_, i) => {
+        const a = Math.round((i / n) * 360), d = 58 + ((i * 37) % 44) + (big ? 34 : 0);
+        const c = ["var(--tide)", "var(--sun)", "var(--jade)", "var(--coral)"][i % 4];
+        return <span key={i} style={{ "--a": a + "deg", "--d": d + "px", background: c, animationDelay: (i % 5) * 70 + "ms" }} />;
+      })}
+    </div>
+  );
+}
+
 /* ============================ shared bits ============================ */
 /* THE header — one component, every screen. Layout is always:
      [back/X]  title · center(optional)  [Flag?] [Mic/Keyboard] [☰]
@@ -5452,6 +5483,12 @@ function Styles() {
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
 .ws-page{padding:18px 16px 90px}
+.ws-done-card{position:relative}
+.ws-fx{position:absolute;left:50%;top:60px;width:0;height:0;pointer-events:none}
+.ws-fx span{position:absolute;width:7px;height:7px;border-radius:50%;opacity:0;transform:rotate(var(--a)) translateY(0);animation:fxpop 1.15s ease-out forwards}
+.ws-fx.big span{animation-duration:1.55s;width:8px;height:8px}
+@keyframes fxpop{0%{opacity:0;transform:rotate(var(--a)) translateY(0) scale(.4)}12%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(-1 * var(--d))) scale(1)}}
+@media(prefers-reduced-motion:reduce){.ws-fx span{animation:none;opacity:0}}
 .ws-loadbar{width:200px;height:5px;background:var(--sand-deep);border-radius:3px;overflow:hidden;margin:16px auto 0}
 .ws-loadbar-fill{height:100%;background:var(--tide);border-radius:3px;width:0;animation:loadfill 9s cubic-bezier(.12,.7,.2,1) forwards}
 @keyframes loadfill{from{width:0}to{width:92%}}

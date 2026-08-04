@@ -209,7 +209,7 @@ export function dbCourseToBundled(db, name) {
       }
       if (lessons.length) units.push({ id: u.id, name: u.name, hint: "", can_do: u.can_do || "", lessons, gates });
     }
-    if (units.length) sections.push({ name: ph.name, hint: "", units });
+    if (units.length) sections.push({ id: ph.id, name: ph.name, hint: "", units });   // id: LearnView selects sections by it
   }
   return { id: db.id, name, cards: [...cards.values()], forgotten: [], curriculum: sections, dictionary: db.dictionary || [] };
 }
