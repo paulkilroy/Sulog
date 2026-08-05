@@ -4699,6 +4699,7 @@ function AccentDuelView({ ctx }) {
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
       recRef.current = { stream, ac, iv, frames, sr, heardAlts, t0: Date.now() };
+      beep();                                        // same "go" cue as the drills + stress check
       setState("rec");
     } catch (e) { setState("error"); }
   };
