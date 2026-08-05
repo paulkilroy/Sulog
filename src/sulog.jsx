@@ -4245,7 +4245,6 @@ function AccountView({ ctx }) {
         <ChevronRight size={18} className="ws-cta-arrow" />
       </button>
       <input ref={fileRef} type="file" accept="application/json,.json" onChange={onPick} style={{ display: "none" }} />
-      {msg && <div className={`ws-backup-msg ${msg.kind}`}>{msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}<span>{msg.text}</span></div>}
     </div>
   );
 }
@@ -4254,6 +4253,7 @@ function AccountView({ ctx }) {
 function RequestView({ ctx }) {
   const { setView, user, roles, roleReqs, requestRole, joinClass } = ctx;
   const [joinCode, setJoinCode] = useState("");
+  const [joining, setJoining] = useState(false);
   const [enrolled, setEnrolled] = useState([]);
   const [msg, setMsg] = useState(null);
   const loadEnrolled = useCallback(() => { if (user) fetchMyEnrolledClasses().then(setEnrolled).catch(() => {}); }, [user]);
@@ -4261,6 +4261,7 @@ function RequestView({ ctx }) {
   if (!user) return (
     <div className="ws-page">
       <TopBar title="Request access" onBack={ctx.backToMenu} />
+      {msg && <div className={`ws-backup-msg ${msg.kind}`} style={{ margin: "0 0 12px" }}>{msg.kind === "ok" ? <Check size={16} /> : <AlertCircle size={16} />}<span>{msg.text}</span></div>}
       <div className="ws-empty"><Lock size={26} /><p>Sign in first — then you can join a class or ask for a role.</p>
         <button className="ws-cta ws-cta-primary" style={{ margin: "14px auto" }} onClick={() => setView("account")}>Go to Account</button></div>
     </div>
@@ -4275,7 +4276,14 @@ function RequestView({ ctx }) {
         <input value={joinCode} onChange={(e) => setJoinCode(e.target.value.toUpperCase())} placeholder="WARAY-XXXXX"
           style={{ flex: 1, fontFamily: "ui-monospace,monospace", fontSize: 14, letterSpacing: ".08em", color: "var(--ink)", background: "var(--shell)", border: "1px solid var(--sand-deep)", borderRadius: 9, padding: "10px 12px" }} />
         <button style={{ flex: "none", fontFamily: "inherit", fontSize: 13.5, fontWeight: 600, padding: "0 18px", borderRadius: 9, border: "1px solid var(--tide)", background: "transparent", color: "var(--sea)", cursor: "pointer" }}
-          onClick={async () => { try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — it's listed below." }); setJoinCode(""); loadEnrolled(); } catch (e) { setMsg({ kind: "err", text: e.message }); } }}>Join</button>
+          disabled={joining || !joinCode.trim()}
+          onClick={async () => {
+            if (joining) return;
+            setJoining(true); setMsg(null);
+            try { await joinClass(joinCode); setMsg({ kind: "ok", text: "Joined — it's listed below." }); setJoinCode(""); await loadEnrolled(); }
+            catch (e) { setMsg({ kind: "err", text: e.message }); }
+            finally { setJoining(false); }
+          }}>{joining ? "Joining…" : "Join"}</button>
       </div>
       {enrolled.length === 0
         ? <p style={{ color: "var(--ink-soft)", fontSize: 13, margin: "2px 2px 4px" }}>You haven't joined a class yet.</p>
