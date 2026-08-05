@@ -26,7 +26,7 @@ begin
     coalesce(u.raw_app_meta_data->>'provider', 'email'),
     u.created_at::date,
     greatest(coalesce(u.last_sign_in_at, u.created_at),
-             coalesce(s.last_day::timestamptz, u.created_at)),
+             coalesce(nullif(s.last_day, '')::timestamptz, u.created_at)),
     coalesce(r.rr, '{}'),
     coalesce(s.streak, 0)::int, coalesce(s.active_days, 0)::int, coalesce(s.answers, 0)::bigint,
     coalesce(pr.mastered, 0)::int, coalesce(pr.words, 0)::int,

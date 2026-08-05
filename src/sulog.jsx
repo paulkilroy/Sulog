@@ -1905,12 +1905,12 @@ function AdminView({ ctx }) {
   const [forms, setForms] = useState(null);
   const [reqs, setReqs] = useState([]);      // pending role requests to approve/decline
   const [changes, setChanges] = useState([]);
-  const [users, setUsers] = useState([]); // dictionary change history (traceability chain)
+  const [users, setUsers] = useState(null);   // null = loading · [] = none · {error} via usersErr // dictionary change history (traceability chain)
   const [err, setErr] = useState("");
   const loadAll = useCallback(async () => {
     try {
-      const [fl, rq, ch, us] = await Promise.all([fetchAllDialectForms(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => []), fetchAdminUsers().catch(() => [])]);
-      setForms(fl); setReqs(rq || []); setChanges(ch || []); setUsers(us || []);
+      const [fl, rq, ch, us] = await Promise.all([fetchAllDialectForms(), fetchPendingRoleRequests().catch(() => []), fetchChangeLog().catch(() => []), fetchAdminUsers().catch((e) => ({ _err: e.message }))]);
+      setForms(fl); setReqs(rq || []); setChanges(ch || []); setUsers(Array.isArray(us) ? us : { error: us?._err || "couldn't load" });
     } catch (e) { setErr(e.message || String(e)); }
   }, []);
   const decide = async (req, approve) => {
@@ -1926,9 +1926,11 @@ function AdminView({ ctx }) {
     <div className="ws-page">
       <TopBar title="Admin — global levers" onBack={ctx.backToMenu} />
 
-        <SectionLabel icon={<Cloud size={14} />} text={`Users · ${users.length} registered`} />
-        {users.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading… (anonymous users are invisible until they sign in)</p>}
-        {users.length > 0 && (
+        <SectionLabel icon={<Cloud size={14} />} text={`Users${Array.isArray(users) ? ` · ${users.length} registered` : ""}`} />
+        {users === null && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>Loading…</p>}
+        {users && users.error && <p style={{ color: "var(--coral)", fontSize: 13 }}>Couldn't load users: {users.error}</p>}
+        {Array.isArray(users) && users.length === 0 && <p style={{ color: "var(--ink-soft)", fontSize: 13 }}>No registered users yet (anonymous users are invisible until they sign in).</p>}
+        {Array.isArray(users) && users.length > 0 && (
           <div style={{ overflowX: "auto", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "var(--foam)", marginBottom: 14 }}>
             <table style={{ borderCollapse: "collapse", fontSize: 12, whiteSpace: "nowrap", minWidth: "100%" }}>
               <thead>
