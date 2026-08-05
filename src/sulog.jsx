@@ -1812,6 +1812,12 @@ function ClassView({ ctx }) {
       {/* --- instructor: the class you teach --- */}
       {!loading && isInstructor && (
         <>
+          <button className="ws-backup-row" onClick={() => setView("coursepreview")}>
+            <div className="ws-backup-ic ws-ic-tide"><BookOpen size={18} /></div>
+            <div className="ws-backup-txt"><b>Course Preview</b><i>every lesson's blocks, as the app plays them</i></div>
+            <ChevronRight size={18} className="ws-cta-arrow" />
+          </button>
+
           <SectionLabel icon={<Layers size={14} />} text="Class you teach" />
           {taught ? (
             <div style={{ background: "var(--foam)", border: "1px solid var(--sand-deep)", borderRadius: 12, padding: "14px 16px", marginBottom: 14 }}>
@@ -2029,7 +2035,7 @@ function AdminView({ ctx }) {
 function CoursePreviewView({ ctx }) {
   return (
     <div className="ws-page">
-      <TopBar title="Course Preview" onBack={ctx.backToMenu} />
+      <TopBar title="Course Preview" onBack={() => ctx.setView("class")} />
       <CoursePreview ctx={ctx} />
     </div>
   );
@@ -2329,8 +2335,6 @@ function AppDrawer({ ctx }) {
             {roleHas(ctx, "instructor") &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
 
-            {(roleHas(ctx, "instructor") || ctx.admin) &&
-              <MenuRow icon={<BookOpen size={18} />} title="Course Preview" subtitle="every lesson's blocks, as the app plays them" badge="instructor" onClick={() => { setMenuOpen(false); setView("coursepreview"); }} />}
 
             {(roleHas(ctx, "reviewer") || ctx.admin) &&
               <MenuRow icon={<Inbox size={18} />} title="Native Speaker Review" subtitle="answer the build's questions — a, b, or your own" badge="reviewer" onClick={() => { setMenuOpen(false); setView("nativereview"); }} />}
