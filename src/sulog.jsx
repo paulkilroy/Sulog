@@ -1297,6 +1297,8 @@ export default function App() {
     user, signIn: signInWithGoogle, signInEmail: signInWithEmail, signOut: sbSignOut,
     admin: isAdmin(user) || roles.includes("admin"), roles, roleReqs,
     requestRole: async (r, note) => { await requestRole(r, note); setRoleReqs(await fetchMyRequests()); },
+    // join by class code — was MISSING from ctx (RequestView destructured undefined → "i is not a function")
+    joinClass: async (code) => { const res = await joinClass(code); try { setEnrolledN(((await fetchMyEnrolledClasses()) || []).length); } catch (e) {} return res; },
     openReport: (t) => setReport(t),
     enrolledN, menuOpen, setMenuOpen, sheet, setSheet, isOnline,
     // "back" from a menu sub-page returns to the ☰ menu, not straight home
