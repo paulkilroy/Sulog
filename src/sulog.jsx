@@ -1323,6 +1323,7 @@ export default function App() {
       {view === "request" && <RequestView ctx={ctx} />}
       {view === "admin" && (isOnline ? <AdminView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="Admin — global levers" />)}
       {view === "coursebook" && <CourseBookView ctx={ctx} />}
+      {view === "coursepreview" && <CoursePreviewView ctx={ctx} />}
       {view === "top1000" && <Top1000View ctx={ctx} />}
       {view === "class" && (isOnline ? <ClassView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="My class" />)}
       {view === "queue" && (isOnline ? <QueueView ctx={ctx} /> : <NeedsConnection ctx={ctx} title="Admin Review" />)}
@@ -2025,10 +2026,19 @@ function AdminView({ ctx }) {
 }
 
 /* Course-vs-book + Top-1000 coverage inside the app shell (standard header + back). */
+function CoursePreviewView({ ctx }) {
+  return (
+    <div className="ws-page">
+      <TopBar title="Course Preview" onBack={ctx.backToMenu} />
+      <CoursePreview ctx={ctx} />
+    </div>
+  );
+}
+
 function CourseBookView({ ctx }) {
   return (
     <div className="ws-page" style={{ paddingBottom: 8 }}>
-      <TopBar title="Course vs. book" onBack={() => ctx.setView("admin")} />
+      <TopBar title="Course vs. book" onBack={ctx.backToMenu} />
       <iframe src="/verify/" title="Course vs. book" style={{ width: "100%", height: "calc(100vh - 150px)", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "#fff" }} />
     </div>
   );
@@ -2036,7 +2046,7 @@ function CourseBookView({ ctx }) {
 function Top1000View({ ctx }) {
   return (
     <div className="ws-page" style={{ paddingBottom: 8 }}>
-      <TopBar title="Top-1000 coverage" onBack={() => ctx.setView("admin")} />
+      <TopBar title="Top-1000 coverage" onBack={ctx.backToMenu} />
       <iframe src="/verify/coverage.html" title="Top-1000 coverage" style={{ width: "100%", height: "calc(100vh - 150px)", border: "1px solid var(--sand-deep)", borderRadius: 12, background: "#fff" }} />
     </div>
   );
@@ -2318,6 +2328,9 @@ function AppDrawer({ ctx }) {
             {/* strictly role-gated — being admin does NOT imply instructor/reviewer */}
             {roleHas(ctx, "instructor") &&
               <MenuRow icon={<GraduationCap size={18} />} title="My Class" subtitle="your class · roster · flags" badge="instructor" onClick={() => { setMenuOpen(false); setView("class"); }} />}
+
+            {(roleHas(ctx, "instructor") || ctx.admin) &&
+              <MenuRow icon={<BookOpen size={18} />} title="Course Preview" subtitle="every lesson's blocks, as the app plays them" badge="instructor" onClick={() => { setMenuOpen(false); setView("coursepreview"); }} />}
 
             {(roleHas(ctx, "reviewer") || ctx.admin) &&
               <MenuRow icon={<Inbox size={18} />} title="Native Speaker Review" subtitle="answer the build's questions — a, b, or your own" badge="reviewer" onClick={() => { setMenuOpen(false); setView("nativereview"); }} />}
