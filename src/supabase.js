@@ -41,11 +41,18 @@ export const isAdmin = (user) => !!user && user.email === ADMIN_EMAIL;
 
 // pull this user's state for one course, shaped like the app's in-memory bundle
 export async function pullProgress(courseId) {
+  // HARD-SCOPE to the signed-in user. RLS alone is NOT "my rows only": classroom policies let
+  // instructors/admins READ students' rows (for dashboards) — an unscoped pull here merged a
+  // student's progress into the instructor's local state, and auto-push wrote it back under the
+  // instructor's uid (real cross-account contamination, found 2026-08-06).
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("not signed in");
+  const mine = (t) => supabase.from(t).select("*").eq("course_id", courseId).eq("user_id", user.id);
   const [p, l, u, s] = await Promise.all([
-    supabase.from("progress").select("*").eq("course_id", courseId),
-    supabase.from("lesson_progress").select("*").eq("course_id", courseId),
-    supabase.from("unit_progress").select("*").eq("course_id", courseId),
-    supabase.from("user_streak").select("*").eq("course_id", courseId).maybeSingle(),
+    mine("progress"),
+    mine("lesson_progress"),
+    mine("unit_progress"),
+    mine("user_streak").maybeSingle(),
   ]);
   const err = [p, l, u, s].find((r) => r.error && r.status !== 406); // 406 = maybeSingle no-row
   if (err) throw new Error(err.error.message);
