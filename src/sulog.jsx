@@ -4918,8 +4918,12 @@ function StressLabView({ ctx }) {
       // So also record raw PCM here and build a WAV at stop if the recorder came up empty.
       const pcm = [];
       const proc = ac.createScriptProcessor(4096, 1, 1);
-      const mute = ac.createGain(); mute.gain.value = 0;              // keep the graph alive without mic feedback
-      src.connect(proc); proc.connect(mute); mute.connect(ac.destination);
+      // drain into a MediaStream sink, NOT ac.destination — connecting the mic graph to the
+      // speakers (even muted) flips iOS into play-and-record: output ducks/re-routes, the go-beep
+      // and coach TTS go quiet, and playback bleeds toward the analyser. A stream sink keeps the
+      // processor pumping with zero effect on the output route.
+      const sink = ac.createMediaStreamDestination();
+      src.connect(proc); proc.connect(sink);
       proc.onaudioprocess = (ev) => { pcm.push(new Float32Array(ev.inputBuffer.getChannelData(0))); };
       // parallel word-identity check: the Filipino recognizer is rough on Waray, but it
       // reliably tells "dada" from "blah blah" — collect every alternative it offers
@@ -4941,6 +4945,7 @@ function StressLabView({ ctx }) {
         if ((everLoud && Date.now() - lastLoud > 700) || t > 3500) stop();
       }, 20);
       recRef.current = { stream, ac, iv, frames, mr, chunks, pcm, sampleRate: ac.sampleRate, sr, heardAlts, t0: Date.now() };
+      beep();                                        // precise "go" — speak after the beep
       setState("rec");
     } catch (e) { setState("error"); }
   };
