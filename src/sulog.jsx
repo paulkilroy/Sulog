@@ -2116,7 +2116,7 @@ function CoursePreview({ ctx }) {
                   return (
                     <div key={l.id} style={{ margin: "10px 0" }}>
                       <div style={{ fontSize: 12, fontWeight: 700, color: "var(--sun-deep)", marginBottom: 2 }}>{l.title}</div>
-                      {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides)] : []} pool={previewPool} topic={u.id} />)}
+                      {(l.blocks || []).map((b) => <DbBlock key={b.id} block={b} guides={b.type === "drill" ? [...new Set(guides.map((g) => g.title || g.type))] : []} pool={previewPool} topic={u.id} />)}
                     </div>
                   );
                 })}
@@ -5516,7 +5516,8 @@ function Styles() {
   min-height:100%;max-width:480px;margin:0 auto;position:relative;line-height:1.45}
 .ws-root *::selection{background:var(--tide);color:#fff}
 /* the Ella review queue gets desktop room (everything else stays phone-shaped) */
-@media(min-width:900px){.ws-root[data-view="ella"]{max-width:860px}
+@media(min-width:900px){.ws-root[data-view="coursebook"],.ws-root[data-view="top1000"]{max-width:96vw}
+  .ws-root[data-view="ella"]{max-width:860px}
   .ws-root[data-view="ella"] .ws-bottombar{max-width:860px}}
 .ws-load{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:14px;min-height:60vh;color:var(--sea)}
