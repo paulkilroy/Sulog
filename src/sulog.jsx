@@ -2,7 +2,7 @@ import { getCourse, COURSES, DEFAULT_COURSE_ID, cacheDbCourse, cachedDbVersion }
 import { dictMeta, putDict, allDict } from "./data/dictdb.js";
 import { CONFIRM_CANDIDATES } from "./courses/waray/confirm-candidates.js";
 import { signInWithGoogle, signInWithEmail, signOut as sbSignOut, onAuth, getUser, isAdmin, pullProgress, pushProgress } from "./supabase.js";
-import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchStudentDetail, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchAdminUsers, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
+import { fetchCourse, fetchCourses, fetchCourseBundled, fetchCourseVersion, fetchDialectForms, fetchAllDialectForms, setDialectForm, loadUserSettings, saveUserSettings, fetchDictionary, searchDictionary, upsertProfile, fetchMyRoles, fetchMyRequests, requestRole, fetchMyTaughtClass, fetchMyEnrolledClasses, createClass, joinClass, fetchRoster, fetchClassProgress, fetchStudentDetail, fetchClassFlags, fetchPendingRoleRequests, decideRoleRequest, applyFix, fetchChangeLog, fetchAdminUsers, fetchResetFlag, fetchTtsOverrides, saveTtsOverride, submitFeedback, fetchFeedback, fetchQueue, fetchBuildOpen, answerBuildItem, applyAnswer, resolveFeedback } from "./data/remote.js";
 import { DEFINITIONS } from "./courses/waray/stories.js";
 import { VARIANTS, CHUNKS, DIALECT_FORMS, DIALECT_PRESETS } from "./courses/waray/variants.js";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
@@ -1153,9 +1153,27 @@ export default function App() {
     setReadsVersion((v) => v + 1);      // nudge a re-render so LearnView reflects newly-read stories
   }, []);
 
+  // one-time server-driven reset: local state on this device is untrusted — wipe it and let the
+  // cloud become truth (runs BEFORE the pull/merge so poisoned data can never re-push)
+  const applyResetIfFlagged = useCallback(async () => {
+    try {
+      const flag = await fetchResetFlag();
+      if (!flag) return;
+      const uid = stateRef.current.user?.id; if (!uid) return;
+      const key = "sulog:resetAt:" + uid;
+      if (localStorage.getItem(key) === String(flag)) return;    // this device already honored it
+      const fresh = { count: 0, last: "", days: {} };
+      setProg({}); setStreak(fresh); setLessons({}); setUnits({});
+      for (const k of [PK.prog, PK.streak, PK.lessons, PK.units, PK.read, PK.stories]) { try { localStorage.removeItem(k); } catch (e) {} }
+      localStorage.setItem(key, String(flag));
+      console.log("[sync] server-directed local reset honored (" + String(flag) + ")");
+    } catch (e) {}
+  }, []);
+
   const syncPull = useCallback(async () => {
     if (!stateRef.current.user) return;
     setSyncState({ status: "syncing", at: "", error: "" });
+    await applyResetIfFlagged();
     // retry a few times — a fresh sign-in on cell can pull before the session's token is fully
     // attached (RLS then returns 0 rows) or drop a request; a transient miss must not leave a
     // signed-in device looking empty. Backoff between tries.
@@ -1172,7 +1190,7 @@ export default function App() {
       } catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 700 * (attempt + 1))); }
     }
     setSyncState({ status: "error", at: "", error: lastErr?.message || "couldn't reach the server" });
-  }, [applyCloud]);
+  }, [applyCloud, applyResetIfFlagged]);
 
   const syncPush = useCallback(async () => {
     const cur = stateRef.current;

@@ -379,6 +379,15 @@ export const applyFix = async ({ feedback, meaning }) => {
   return true;
 };
 
+// Server-driven one-time local reset: if this timestamp is newer than the device's marker,
+// the app wipes local progress and takes the cloud as truth (support tool for poisoned devices).
+export const fetchResetFlag = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data } = await supabase.from("profiles").select("reset_local_before").eq("user_id", user.id).maybeSingle();
+  return data?.reset_local_before || null;
+};
+
 // Admin users board: registered users + provider + roles + usage stats (security-definer RPC;
 // anonymous users leave no server trace, so they can't appear until they sign in)
 export const fetchAdminUsers = async () => {
