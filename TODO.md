@@ -25,6 +25,12 @@
 
 ## 🎓 Aug 17 — remaining build work
 
+- [ ] **Transitivity-first Chapter 6 rewrite** *(Aug 5 meeting — Voltz)*: Waray is SCALAR
+  transitivity (speaker frames natural / accidental / intentional), not binary — teach the
+  concept as the foundation. AI drafts via the course export (tools/export-course.mjs),
+  Voltz reviews. Ties into the L5 ma-/-inm- paradigm decision.
+- [ ] **About page: partnership text** — Voltz to send his preferred wording; one-line edit.
+
 - [ ] **Detailed / schema Flag capture** — the word report panel collects real `meanings` fields
   (definition · POS · pronunciation · register · dialect · example · certainty) so an approved
   validation loads straight in. *(= Voltz's 80k-dictionary tagging pipeline — the class IS the
@@ -68,8 +74,10 @@
   LLM reads recent misses + given answers, NAMES the pattern in plain words, builds the session.
   Pairs with AI wrong-answer explanations below (same data, same model call).
 
-- [ ] **Pre-rendered audio** (or per-language override variants) for consistent TTS everywhere;
-  Whisper API as the Waray STT fallback.
+- [ ] **Native-recorded audio database** *(Aug 5 meeting decision — supersedes "pre-rendered
+  TTS audio")*: record native speakers per word, worklist generated from the pronunciation
+  guides (phonetic spelling + stress). Replaces machine pronunciation where a recording exists;
+  Whisper API stays the Waray STT fallback idea.
 - [ ] **BFC stories** — 7 dialectal stories still dropped, pending native correction.
 - [ ] Data-model debt: card↔dictionary normalization (pronunciation stored twice) · `topic` is a
   weak first-touch tag · repo-size hygiene (committed index.html history — destructive rewrite,
@@ -87,7 +95,8 @@
   existing practice tools first.
 - [ ] **Malay-vs-Waray mispronunciation scan** — rule-based diff of Malay letter-to-sound vs our
   stress guides → ranked `spoken`-override queue (Apple/Malay fallback only).
-- [ ] **Fuzzy / intent answer matching** — accept an answer that's worded differently but means
+- [ ] **Fuzzy / intent answer matching** *(Voltz aligned, Aug 5 meeting — partner ask, not just
+  research)* — accept an answer that's worded differently but means
   the same thing (today's checkAnswer is only mechanically lenient: edit distance, dialect
   variants, o/u·e/i folding — not meaning). Ideas: per-card accepted-alternatives list baked at
   build (LLM proposes, native confirms — same loop as everything else); harvest real student
