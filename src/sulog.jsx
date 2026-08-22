@@ -2663,10 +2663,48 @@ function SessionView({ ctx }) {
   const [i, setI] = useState(0);
   const [tally, setTally] = useState({ right: 0, wrong: 0 });
   const [results, setResults] = useState([]); // first-attempt results only {id, prompt, answer, given, correct}
+  // ---- mid-session resume (lesson parts only — graded runs need one clean pass) ----
+  // Every answer snapshots {order, position, tally, results} to localStorage; leaving mid-way
+  // keeps it. Re-entering the SAME part offers Continue-from-N / Start-over. Completing clears it.
+  const RESUME_KEY = "sulog:" + COURSE_ID + ":resume";
+  const resumable = !session.gate && !session.unitReview;
+  const sessionSig = JSON.stringify({ l: session.lesson || null, only: session.only || null, dir: session.dir, m: session.mode, n: session.limit });
+  const [offer, setOffer] = useState(() => {
+    if (!resumable) return null;
+    try {
+      const r = JSON.parse(localStorage.getItem(RESUME_KEY) || "null");
+      if (r && r.sig === sessionSig && r.i > 0 && Date.now() - r.savedAt < 86400000) return r;   // < 24h old
+    } catch (e) {}
+    return null;
+  });
+  const byId = useRef(new Map(cards.map((c) => [c.id, c]))).current;
+  const restore = () => {
+    const rSteps = offer.steps.map((x) => { const c = byId.get(x.id); return c ? { card: c, mode: x.mode, scored: x.scored, remedial: x.remedial } : null; }).filter(Boolean);
+    if (rSteps.length && offer.i < rSteps.length) {
+      setSteps(rSteps); setI(offer.i); setTally(offer.tally); setResults(offer.results || []);
+      if (offer.drillMode) setDrillMode(offer.drillMode);
+    }
+    setOffer(null);
+  };
+  const startOver = () => { try { localStorage.removeItem(RESUME_KEY); } catch (e) {} setOffer(null); };
   const [done, setDone] = useState(base.length === 0);
   // "Needs work" drill only: a sticky MC↔type/say switch the learner controls for
   // the whole session (other sessions keep the mode their step prescribes).
   const [drillMode, setDrillMode] = useState(session.mode);
+
+  useEffect(() => {
+    if (!resumable) return;
+    if (done) { try { localStorage.removeItem(RESUME_KEY); } catch (e) {} return; }
+    if (i === 0 && results.length === 0) return;                       // nothing worth resuming yet
+    if (offer) setOffer(null);                                         // they answered past the banner — drop the stale offer
+    try {
+      localStorage.setItem(RESUME_KEY, JSON.stringify({
+        sig: sessionSig, i, tally, results, drillMode,
+        steps: steps.map((x) => ({ id: x.card.id, mode: x.mode, scored: x.scored, remedial: !!x.remedial })),
+        savedAt: Date.now(),
+      }));
+    } catch (e) {}
+  }, [i, steps, tally, results, done, drillMode]);
 
   const step = steps[i];
   const card = step?.card;
@@ -2720,6 +2758,14 @@ function SessionView({ ctx }) {
         </>}
         onReport={() => ctx.openReport({ targetType: "card", targetRef: card.waray,
           context: { direction: cardDir, mode, lesson: session.lesson?.id || null, english: card.english } })} />
+
+      {offer && (
+        <div style={{ background: "var(--foam)", border: "1px solid var(--tide)", borderRadius: 12, padding: "12px 14px", marginBottom: 14, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <span style={{ flex: 1, fontSize: 13.5 }}>You left at question <b>{offer.i + 1}/{offer.steps.length}</b> — pick up where you were?</span>
+          <button onClick={restore} style={{ fontFamily: "inherit", fontSize: 12.5, fontWeight: 700, padding: "7px 15px", borderRadius: 999, border: 0, background: "var(--tide)", color: "#fff", cursor: "pointer" }}>Continue</button>
+          <button onClick={startOver} style={{ fontFamily: "inherit", fontSize: 12.5, padding: "7px 14px", borderRadius: 999, border: "1px solid var(--sand-deep)", background: "transparent", color: "var(--ink-soft)", cursor: "pointer" }}>Start over</button>
+        </div>
+      )}
 
       {session.drill && (
         <div className="ws-drillmode">
