@@ -15,8 +15,8 @@ paradigms) are not copyrightable and are free to use.
 | file | HathiTrust id | pages |
 |---|---|---|
 | beginning-waray-waray-v1.pdf | mdp.39015008206511 | 507 |
-| beginning-waray-waray-v2.pdf | mdp.39015008206578 | — |
-| beginning-waray-waray-v3-4.pdf | mdp.39015008206560 | — |
+| beginning-waray-waray-v2.pdf | mdp.39015008206578 | 543 |
+| beginning-waray-waray-v3-4.pdf | mdp.39015008206560 | 879 |
 
 Catalog record: https://catalog.hathitrust.org/Record/001359855
 (babel.hathitrust.org/cgi/pt?id=<id> → Download → Whole item PDF)
