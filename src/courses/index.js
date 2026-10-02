@@ -28,4 +28,11 @@ export const cachedDbVersion = (id) => { try { return Number(JSON.parse(localSto
 // first-boot shell: renders an empty home for a beat while the auto-refresh pulls the course
 const SHELL = () => ({ id: "pc", name: "Peace Corps Waray", lang: "war", cards: [], forgotten: new Set(), curriculum: [], stories: STORIES, review: reviewFor("pc") });
 
-export const getCourse = (id) => readDbCourse(id) || readDbCourse(DEFAULT_COURSE_ID) || SHELL();
+// An uncached NON-default id gets a shell with THAT id (not a silent fall-back to pc):
+// COURSE_ID must be the requested course so the version auto-refresh fetches it — same
+// first-boot flow as pc (empty shell → fetch → cache → reload).
+export const getCourse = (id) =>
+  readDbCourse(id) ||
+  (id && id !== DEFAULT_COURSE_ID
+    ? { ...SHELL(), id, name: "Loading course…" }
+    : readDbCourse(DEFAULT_COURSE_ID) || SHELL());

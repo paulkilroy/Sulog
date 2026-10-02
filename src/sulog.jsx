@@ -41,7 +41,13 @@ function buildLabel() {
    The selected course is read from localStorage at module load; switching
    courses persists the choice and reloads. Progress is namespaced per course. */
 function _readCourseId() {
-  try { const v = localStorage.getItem("sulog:course");
+  try {
+    // URL override (?course=wolff): persists the choice, then the normal auto-refresh
+    // fetches + caches that course. ?course=pc switches back. Dev/admin entry point —
+    // there is deliberately no course-picker UI yet.
+    const q = new URLSearchParams(window.location.search).get("course");
+    if (q && /^[a-z0-9-]{1,32}$/.test(q)) { localStorage.setItem("sulog:course", q); return q; }
+    const v = localStorage.getItem("sulog:course");
     return (v === "pc" || (v && localStorage.getItem("sulog:dbcourse:" + v))) ? v : DEFAULT_COURSE_ID; } // legacy bundled ids → pc
   catch (e) { return DEFAULT_COURSE_ID; }
 }
