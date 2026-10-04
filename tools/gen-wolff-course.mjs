@@ -124,10 +124,11 @@ const seen = new Set();
 const uniq = (arr) => arr.filter((x) => { const k = fold(x.waray); if (seen.has(k) || !k) return false; seen.add(k); return true; });
 const vocabU = uniq(vocab), sentU = uniq(sentences);
 
-const prose = (s) => s.lines.map((l) => l.t).join(" ").replace(/\s+/g, " ").trim();
+const prose = (s) => s.lines.filter((l) => l.y > 0.06 && !/google|michigan|original from/i.test(l.t))
+  .map((l) => l.t).join(" ").replace(/\s+/g, " ").trim();
 const teach = [];
-const comm = sec("commentary");
-if (comm.lines.length > 5) teach.push({ title: "About this dialogue", body: prose(comm).slice(0, 1500) });
+// commentary deliberately EXCLUDED from teach: it is numbered cross-reference notes
+// (meaningless without the numbered sentences) and our segmentation bleeds dialogue into it
 for (const t of topics) {
   const body = prose(t);
   if (body.length > 60) teach.push({ title: t.title || t.name.replace("topic ", "§"), body: body.slice(0, 2000) });
