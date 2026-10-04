@@ -129,9 +129,12 @@ const prose = (s) => s.lines.filter((l) => l.y > 0.06 && !/google|michigan|origi
 const teach = [];
 // commentary deliberately EXCLUDED from teach: it is numbered cross-reference notes
 // (meaningless without the numbered sentences) and our segmentation bleeds dialogue into it
+const FIXES = JSON.parse(fs.readFileSync("docs/sources/wolff/guide-fixes.json", "utf8"));
 for (const t of topics) {
-  const body = prose(t);
-  if (body.length > 60) teach.push({ title: t.title || t.name.replace("topic ", "§"), body: body.slice(0, 2000) });
+  const title = (t.title || t.name.replace("topic ", "§")).trim();
+  const fixed = FIXES[title];                    // hand-transcribed from the scans (tables, typos)
+  const body = fixed || prose(t).slice(0, 2000);
+  if (body.length > 60) teach.push({ title, body });
 }
 
 console.log(`vocab: ${vocabU.length} · dialogue lines: ${sentU.length} · teach parts: ${teach.length}`);
